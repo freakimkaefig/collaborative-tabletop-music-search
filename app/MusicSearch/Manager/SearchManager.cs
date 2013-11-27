@@ -31,7 +31,8 @@ namespace MusicSearch.Manager
 
             //Response response = JsonConvert.DeserializeObject<Response>(mResponse);
             Console.WriteLine("Hallo Michi");
-            Console.WriteLine("Hallo Skywalker");            
+            Console.WriteLine("I'm your father");
+            Console.WriteLine("Hallo Skywalker");        
         }
     }
 }
