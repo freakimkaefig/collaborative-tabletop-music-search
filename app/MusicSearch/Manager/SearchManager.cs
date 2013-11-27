@@ -30,6 +30,7 @@ namespace MusicSearch.Manager
             //Escapes in string making problems?
 
             //Response response = JsonConvert.DeserializeObject<Response>(mResponse);
+            Console.WriteLine("Hallo Michi");
             
         }
     }
