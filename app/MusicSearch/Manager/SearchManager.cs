@@ -32,7 +32,7 @@ namespace MusicSearch.Manager
             //Response response = JsonConvert.DeserializeObject<Response>(mResponse);
             Console.WriteLine("Git Source Control Provider Test!");
 
-            Console.WriteLine("Git Plugin Second Test");
+            Console.WriteLine("GitExtensions Test");
         }
     }
 }
