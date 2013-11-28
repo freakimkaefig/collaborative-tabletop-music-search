@@ -35,7 +35,7 @@ namespace MusicSearch.Manager
             Console.WriteLine("GitExtensions Test");
             Console.WriteLine("GitExtensions TestMichi2");
 
-            Console.WriteLine("Provoke merge conflict");
+            Console.WriteLine("Provoke merge conflict2");
         }
     }
 }
