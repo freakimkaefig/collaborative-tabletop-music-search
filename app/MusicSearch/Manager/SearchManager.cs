@@ -33,7 +33,7 @@ namespace MusicSearch.Manager
             Console.WriteLine("Git Source Control Provider Test!");
 
             Console.WriteLine("GitExtensions Test");
-            Console.WriteLine("GitExtensions TestMichi");
+            Console.WriteLine("GitExtensions TestMichi2");
 
             Console.WriteLine("Provoke merge conflict");
         }
