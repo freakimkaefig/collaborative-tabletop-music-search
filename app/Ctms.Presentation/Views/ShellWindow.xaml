@@ -17,7 +17,7 @@
     xmlns:dd="clr-namespace:Ctms.Presentation.DesignData"
     xmlns:c="clr-namespace:Ctms.Presentation.Converters"-->
 
-    <!--<Window.Background>
+    <Window.Background>
         <RadialGradientBrush
             GradientOrigin="0.5,0.5"
             Center="0.5,0.5" 
@@ -27,7 +27,7 @@
                 <GradientStop Color="#002" Offset="1.0" />
             </RadialGradientBrush.GradientStops>
         </RadialGradientBrush>
-    </Window.Background>-->
+    </Window.Background>
 
 
     <Grid Margin="0,0,0,0">
@@ -41,7 +41,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         
-        
+        <Label Content="Ist dieser Satz sichtbar?" Margin="30" Foreground="#fff"></Label>
 
 
         <ContentControl Content="{Binding ShellService.SearchView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
