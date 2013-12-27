@@ -17,7 +17,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -73,10 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Manager\SearchManager.cs" />
-    <Compile Include="ResponseObjects\album.cs" />
-    <Compile Include="ResponseObjects\artist.cs" />
-    <Compile Include="ResponseObjects\response.cs" />
-    <Compile Include="ResponseObjects\song.cs" />
+    <Compile Include="ResponseObjects\ResponseContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
