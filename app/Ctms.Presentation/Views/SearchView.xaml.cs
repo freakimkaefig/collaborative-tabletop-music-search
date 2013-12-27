@@ -17,16 +17,8 @@ using Ctms.Applications.Views;
 namespace Ctms.Presentation.Views
 {
     /// <summary>
-    /// Interaktionslogik für Search.xaml
+    /// Interaktionslogik für search.xaml
     /// </summary>
-    //public partial class SearchView : UserControl
-    //{
-    //    public SearchView()
-    //    {
-    //        InitializeComponent();
-    //    }
-    //}
-
     [Export(typeof(ISearchView))]
     public partial class SearchView : UserControl, ISearchView
     {
