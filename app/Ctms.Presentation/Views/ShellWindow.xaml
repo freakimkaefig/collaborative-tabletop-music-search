@@ -23,13 +23,33 @@
             Center="0.5,0.5" 
             RadiusX="0.5" RadiusY="0.5">
             <RadialGradientBrush.GradientStops>
-                <GradientStop Color="#246" Offset="0" />
-                <GradientStop Color="#002" Offset="1.0" />
+                <GradientStop Color="#046" Offset="0" />
+                <GradientStop Color="#003" Offset="1.0" />
             </RadialGradientBrush.GradientStops>
         </RadialGradientBrush>
     </Window.Background>
 
-
+    <Window.Resources>
+        <Style x:Key="CommonStyle" TargetType="FrameworkElement">
+            <Setter Property="Margin" Value="2" />
+        </Style>
+        <Style TargetType="StackPanel" BasedOn="{StaticResource CommonStyle}">
+        </Style>
+        <Style TargetType="Grid" BasedOn="{StaticResource CommonStyle}">
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource CommonStyle}">
+            <Setter Property="Foreground" Value="#fff" />
+        </Style>
+        <Style TargetType="Label" BasedOn="{StaticResource CommonStyle}">
+            <Setter Property="Foreground" Value="#fff" />
+        </Style>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource CommonStyle}">
+            <Setter Property="Foreground" Value="#fff" />
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource CommonStyle}">
+            <Setter Property="Foreground" Value="#fff" />
+        </Style>
+    </Window.Resources>
     <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -41,8 +61,6 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         
-        <Label Content="Ist dieser Satz sichtbar?" Margin="30" Foreground="#fff"></Label>
-
 
         <ContentControl Content="{Binding ShellService.SearchView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
         <ContentControl Content="{Binding ShellService.ResultView}" Margin="0,0,0,0" Grid.Column="1" Grid.Row="0"/>
