@@ -107,6 +107,10 @@
       <Project>{A9590CA2-85B5-4433-B421-A09F38C2D664}</Project>
       <Name>MusicSearch</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MusicStream\MusicStream.csproj">
+      <Project>{5CC0095A-E78C-43AA-9E62-A3D69CC05C21}</Project>
+      <Name>MusicStream</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

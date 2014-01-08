@@ -15,6 +15,7 @@ using System.Data.EntityClient;
 using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
+using MusicStream;
 
 
 namespace Ctms.Applications.Controllers
@@ -34,7 +35,7 @@ namespace Ctms.Applications.Controllers
         //ViewModels
         private PlaylistViewModel playlistViewModel;
         //Commands
-        private readonly DelegateCommand selectCommand;
+        private readonly DelegateCommand playCommand;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
@@ -49,7 +50,7 @@ namespace Ctms.Applications.Controllers
             //ViewModels
             this.playlistViewModel = playlistViewModel;
             //Commands
-            //this.chooseCommand      = new DelegateCommand(choosePlaylist, CanSelectPlaylist);
+            this.playCommand = new DelegateCommand(Play, CanPlay);
         }
 
         public void Initialize()
@@ -58,10 +59,20 @@ namespace Ctms.Applications.Controllers
 
             IPlaylistView playlistView = container.GetExportedValue<IPlaylistView>();
             playlistViewModel = new PlaylistViewModel(playlistView);
-            playlistViewModel.SelectCommand = selectCommand;
+            playlistViewModel.PlayCommand = playCommand;
             AddWeakEventListener(playlistViewModel, PlaylistViewModelPropertyChanged);
 
             shellService.PlaylistView = playlistViewModel.View;
+        }
+
+
+        private bool CanPlay() { return playlistViewModel.IsValid; }
+
+        private void Play()
+        {
+            //do stuff
+            var musicStreamManager = new MusicStreamManager();
+            musicStreamManager.Play();
         }
 
         private void UpdateCommands()

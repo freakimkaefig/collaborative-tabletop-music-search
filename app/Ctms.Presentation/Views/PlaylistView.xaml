@@ -22,5 +22,6 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Label Content="PlaylistView" Grid.Column="0" Grid.Row="0"/>
+        <Button Content="Play" Grid.Column="1" Grid.Row="0" Command="{Binding PlayCommand}"/>
     </Grid>
 </UserControl>

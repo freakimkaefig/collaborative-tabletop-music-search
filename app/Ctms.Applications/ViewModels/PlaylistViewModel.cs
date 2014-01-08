@@ -15,7 +15,7 @@ namespace Ctms.Applications.ViewModels
     {
         private bool isValid = true;
         private Playlist playlist;
-        private ICommand selectCommand;
+        private ICommand playCommand;
 
 
         [ImportingConstructor]
@@ -53,15 +53,15 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ICommand SelectCommand
+        public ICommand PlayCommand
         {
-            get { return selectCommand; }
+            get { return playCommand; }
             set
             {
-                if (selectCommand != value)
+                if (playCommand != value)
                 {
-                    selectCommand = value;
-                    RaisePropertyChanged("SelectCommand");
+                    playCommand = value;
+                    RaisePropertyChanged("PlayCommand");
                 }
             }
         }
