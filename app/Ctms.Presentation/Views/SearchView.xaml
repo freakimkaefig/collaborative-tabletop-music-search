@@ -156,6 +156,9 @@
             </ps:PieMenuItem>
         </ps:PieMenu>
 
+        
+        
+
         <ps:PieMenu x:Name="Menu5"  Grid.Column="0" Grid.Row="4"
                    Canvas.Left="100"
                    Canvas.Top="100"
@@ -263,36 +266,16 @@
             </ps:PieMenuItem>
         </ps:PieMenu>
 
-        <ps:PieMenu x:Name="Menu9"  Grid.Column="1" Grid.Row="3"
-                   Canvas.Left="100"
-                   Canvas.Top="100"
-                   Background="#039"
-                   SelectedBackground="#ccf"
-                   Foreground="White"
-                   BorderBrush="#039"
-                   SectorGap="10"
-                   Gap="10"
-                   Radius="80"
-                   InnerRadius="0"
-                   RotateText="True"
-                   Rotation="180"
-                   MenuSector="180">
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
-                <ps:PieMenuItem Header="Item 1.1" />
-                <ps:PieMenuItem Header="Item 1.2" />
-                <ps:PieMenuItem Header="Item 1.3" />
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-                <ps:PieMenuItem Header="Item 2.1" />
-                <ps:PieMenuItem Header="Item 2.2" />
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-                <ps:PieMenuItem Header="Item 3.1" />
-                <ps:PieMenuItem Header="Item 3.2" />
-                <ps:PieMenuItem Header="Item 3.3" />
-                <ps:PieMenuItem Header="Item 3.4" />
-            </ps:PieMenuItem>
-        </ps:PieMenu>
+
+        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="90" Height="90"  Grid.Column="1" Grid.Row="3" Margin="0, -160,0,0"
+                        Stroke="Black" StrokeThickness="1" Fill="Blue"/>
+
+        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="70" Height="70"  Grid.Column="1" Grid.Row="3"
+                        Stroke="Black" StrokeThickness="1" Fill="Red"/>
+
+        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="80" Height="80"  Grid.Column="1" Grid.Row="3" Margin="0, 160,0,0"
+                        Stroke="Black" StrokeThickness="1" Fill="Green"/>
+
 
 
     </Grid>
