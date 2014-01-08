@@ -75,28 +75,7 @@
             </ps:PieMenuItem>
         </ps:PieMenu>
 
-        <ps:PieMenu x:Name="Menu12"  Grid.Column="0" Grid.Row="1"
-                   Canvas.Left="0"
-                   Canvas.Top="0"
-                   Background="#039"
-                   SelectedBackground="#ccf"
-                   Foreground="White"
-                   BorderBrush="#039"
-                   SectorGap="3"
-                   Gap="3"
-                   Radius="70"
-                   InnerRadius="0"
-                   RotateText="True"
-                   Rotation="360"
-                   MenuSector="180"
->
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
-        </ps:PieMenu>
+        
         
         <ps:PieMenu x:Name="Menu3"  Grid.Column="0" Grid.Row="2"
                    Canvas.Left="100"
@@ -221,6 +200,7 @@
             </ps:PieMenuItem>
         </ps:PieMenu>
 
+
         <ps:PieMenu x:Name="Menu7"  Grid.Column="1" Grid.Row="1"
                    Canvas.Left="100"
                    Canvas.Top="100"
@@ -265,6 +245,7 @@
             <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
             </ps:PieMenuItem>
         </ps:PieMenu>
+
 
 
         <Ellipse Canvas.Left="10" Canvas.Top="10" Width="66" Height="66"  Grid.Column="1" Grid.Row="3" Margin="0, -160,0,0"
