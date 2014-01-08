@@ -58,7 +58,7 @@
                    Background="#039"
                    SelectedBackground="#ccf"
                    Foreground="White"
-                   BorderBrush="Blue"
+                   BorderBrush="#039"
                    SectorGap="3"
                    Gap="3"
                    Radius="70"
@@ -71,17 +71,40 @@
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Times New Roman" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
             </ps:PieMenuItem>
         </ps:PieMenu>
 
+        <ps:PieMenu x:Name="Menu12"  Grid.Column="0" Grid.Row="1"
+                   Canvas.Left="0"
+                   Canvas.Top="0"
+                   Background="#039"
+                   SelectedBackground="#ccf"
+                   Foreground="White"
+                   BorderBrush="#039"
+                   SectorGap="3"
+                   Gap="3"
+                   Radius="70"
+                   InnerRadius="0"
+                   RotateText="True"
+                   Rotation="360"
+                   MenuSector="180"
+>
+            <ps:PieMenuItem Header="Item 1" BorderThickness="1">
+            </ps:PieMenuItem>
+            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc">
+            </ps:PieMenuItem>
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            </ps:PieMenuItem>
+        </ps:PieMenu>
+        
         <ps:PieMenu x:Name="Menu3"  Grid.Column="0" Grid.Row="2"
                    Canvas.Left="100"
                    Canvas.Top="100"
                    Background="#039"
                    SelectedBackground="#ccf"
                    Foreground="White"
-                   BorderBrush="Blue"
+                   BorderBrush="#039"
                    SectorGap="0"
                    Gap="0"
                    Radius="80"
@@ -95,13 +118,13 @@
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Times New Roman" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 4" BorderThickness="1" >
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 5" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 6" FontFamily="Times New Roman" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            <ps:PieMenuItem Header="Item 6" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
             </ps:PieMenuItem>
         </ps:PieMenu>
 
@@ -111,7 +134,7 @@
                    Background="#039"
                    SelectedBackground="#ccf"
                    Foreground="White"
-                   BorderBrush="Blue"
+                   BorderBrush="#039"
                    SectorGap="0"
                    Gap="0"
                    Radius="80"
@@ -123,13 +146,13 @@
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Times New Roman" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 4" BorderThickness="1" >
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 5" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 6" FontFamily="Times New Roman" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            <ps:PieMenuItem Header="Item 6" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
             </ps:PieMenuItem>
         </ps:PieMenu>
 
@@ -139,7 +162,7 @@
                    Background="#039"
                    SelectedBackground="#ccf"
                    Foreground="White"
-                   BorderBrush="Blue"
+                   BorderBrush="#039"
                    SectorGap="10"
                    Gap="10"
                    Radius="80"
@@ -156,7 +179,7 @@
                 <ps:PieMenuItem Header="Item 2.1" />
                 <ps:PieMenuItem Header="Item 2.2" />
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Times New Roman" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
                 <ps:PieMenuItem Header="Item 3.1" />
                 <ps:PieMenuItem Header="Item 3.2" />
                 <ps:PieMenuItem Header="Item 3.3" />
@@ -170,7 +193,7 @@
                    Background="#039"
                    SelectedBackground="#ccf"
                    Foreground="White"
-                   BorderBrush="Blue"
+                   BorderBrush="#039"
                    SectorGap="10"
                    Gap="10"
                    Radius="80"
@@ -187,7 +210,7 @@
                 <ps:PieMenuItem Header="Item 2.1" />
                 <ps:PieMenuItem Header="Item 2.2" />
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Times New Roman" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
                 <ps:PieMenuItem Header="Item 3.1" />
                 <ps:PieMenuItem Header="Item 3.2" />
                 <ps:PieMenuItem Header="Item 3.3" />
@@ -201,19 +224,20 @@
                    Background="#039"
                    SelectedBackground="#ccf"
                    Foreground="White"
-                   BorderBrush="Blue"
+                   BorderBrush="#039"
                    SectorGap="10"
                    Gap="10"
                    Radius="80"
                    InnerRadius="0"
                    RotateText="True"
                    Rotation="180"
-                   MenuSector="180">
+                   MenuSector="180"
+                   RotateTextAngle="270.0">
             <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Times New Roman" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
             </ps:PieMenuItem>
         </ps:PieMenu>
 
@@ -223,7 +247,7 @@
                    Background="#039"
                    SelectedBackground="#ccf"
                    Foreground="White"
-                   BorderBrush="Blue"
+                   BorderBrush="#039"
                    SectorGap="10"
                    Gap="10"
                    Radius="80"
@@ -235,7 +259,7 @@
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Times New Roman" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
             </ps:PieMenuItem>
         </ps:PieMenu>
 
@@ -245,7 +269,7 @@
                    Background="#039"
                    SelectedBackground="#ccf"
                    Foreground="White"
-                   BorderBrush="Blue"
+                   BorderBrush="#039"
                    SectorGap="10"
                    Gap="10"
                    Radius="80"
@@ -262,7 +286,7 @@
                 <ps:PieMenuItem Header="Item 2.1" />
                 <ps:PieMenuItem Header="Item 2.2" />
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Times New Roman" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
                 <ps:PieMenuItem Header="Item 3.1" />
                 <ps:PieMenuItem Header="Item 3.2" />
                 <ps:PieMenuItem Header="Item 3.3" />
