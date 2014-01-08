@@ -33,14 +33,15 @@ namespace Ctms.Applications.Controllers
         private readonly IEntityService entityService;
         //ViewModels
         private MenuViewModel menuViewModel;
+        private ShellViewModel shellViewModel;
         //Commands
-        private readonly DelegateCommand selectCommand;
+        private readonly DelegateCommand exitAppCommand;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public MenuController(CompositionContainer container, IShellService shellService, IEntityService entityService,
-            MenuViewModel menuViewModel)
+            MenuViewModel menuViewModel, ShellViewModel shellViewModel)
         {
             this.container = container;
             //Services
@@ -48,17 +49,19 @@ namespace Ctms.Applications.Controllers
             this.entityService = entityService;
             //ViewModels
             this.menuViewModel = menuViewModel;
+            this.shellViewModel = shellViewModel;
             //Commands
-            //this.chooseCommand      = new DelegateCommand(choosePlaylist, CanSelectPlaylist);
+            this.exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
         }
 
         public void Initialize()
         {
             AddWeakEventListener(menuViewModel, MenuViewModelPropertyChanged);
+            //AddWeakEventListener(shellViewModel, ShellViewModelPropertyChanged);
 
             IMenuView menuView = container.GetExportedValue<IMenuView>();
             menuViewModel = new MenuViewModel(menuView);
-            menuViewModel.SelectCommand = selectCommand;
+            menuViewModel.ExitAppCommand = exitAppCommand;
             AddWeakEventListener(menuViewModel, MenuViewModelPropertyChanged);
 
             shellService.MenuView = menuViewModel.View;
@@ -69,6 +72,14 @@ namespace Ctms.Applications.Controllers
 
         }
 
+        private void ExitApp()
+        {
+            //!!Best option?
+            shellViewModel.ExitCommand.Execute(null);
+        }
+
+        private bool CanExitApp() { return shellViewModel.IsValid; }
+
         private void MenuViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedSong")//SelectedSong is just an example
@@ -77,5 +88,15 @@ namespace Ctms.Applications.Controllers
                 UpdateCommands();
             }
         }
+        /*
+        private void ShellViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedSong")//SelectedSong is just an example
+            {
+                //...
+                UpdateCommands();
+            }
+        }
+        */ 
     }
 }

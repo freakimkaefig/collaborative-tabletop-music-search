@@ -137,8 +137,8 @@
                    BorderBrush="#039"
                    SectorGap="0"
                    Gap="0"
-                   Radius="80"
-                   InnerRadius="0"
+                   Radius="120"
+                   InnerRadius="33"
                    RotateText="True"
                    Rotation="360"
                    MenuSector="360">
@@ -253,7 +253,7 @@
                    BorderBrush="#039"
                    SectorGap="10"
                    Gap="10"
-                   Radius="80"
+                   Radius="66"
                    InnerRadius="0"
                    RotateText="True"
                    Rotation="180"
@@ -267,14 +267,8 @@
         </ps:PieMenu>
 
 
-        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="90" Height="90"  Grid.Column="1" Grid.Row="3" Margin="0, -160,0,0"
-                        Stroke="Black" StrokeThickness="1" Fill="Blue"/>
-
-        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="70" Height="70"  Grid.Column="1" Grid.Row="3"
-                        Stroke="Black" StrokeThickness="1" Fill="Red"/>
-
-        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="80" Height="80"  Grid.Column="1" Grid.Row="3" Margin="0, 160,0,0"
-                        Stroke="Black" StrokeThickness="1" Fill="Green"/>
+        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="66" Height="66"  Grid.Column="1" Grid.Row="3" Margin="0, -160,0,0"
+                        Stroke="Black" StrokeThickness="1" Fill="Gray"/>
 
 
 
