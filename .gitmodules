@@ -1,0 +1,3 @@
+[submodule "app/libs/libSpotifyAPI"]
+	path = app/libs/libSpotifyAPI
+	url = git://github.com/devurandom-development/libSpotifyAPI.git
