@@ -1,5 +1,5 @@
 ﻿using System;
-using SpotifyAPI;
+using SpotifySharp;
 
 namespace MusicStream
 {
@@ -35,97 +35,7 @@ namespace MusicStream
         /* Method for testing connection to SpotifyAPI */
         public void Play()
         {
-            /* 
-             * Just libspotify.net (libspotifydotnet.dll)
-             * Not working
-             */
- 
-            /*libspotify.sp_session_config config = new libspotify.sp_session_config();
-            config.api_version = libspotify.SPOTIFY_API_VERSION;
-            config.cache_location = "";
-            config.settings_location = config.cache_location;
-            config.application_key = "";
-            config.user_agent = "Samsung SUR40 PixelSense ASE-CTMS";
-            config.callbacks = "";
-            config.userdata = "";
-            config.compress_playlists = true;
-            config.dont_save_metadata_for_playlists = true;
-            config.initially_unload_playlists = true;
-            libspotify.sp_session_create(config, )*/
-
-
-
-            /* 
-             * spotify.net with libSpotifyAPI (SpotifyAPI.dll & libspotifydotnet.dll)
-             *      - SpotifyAPI compiled from https://github.com/devurandom-development/libSpotifyAPI
-             *      - Source-Code for SpotifyAPI in app/libs/libSpotifyAPI/SpotifyAPI.sln
-             * 
-             * -Status: Getting AccessViolationException after creating SpotifySession
-             *      System.AccessViolationException wurde nicht behandelt.
-                      HResult=-2147467261
-                      Message=Es wurde versucht, im geschützten Speicher zu lesen oder zu schreiben. Dies ist häufig ein Hinweis darauf, dass anderer Speicher beschädigt ist.
-                      Source=libspotifydotnet
-                      StackTrace:
-                           bei libspotifydotnet.libspotify.sp_session_create(sp_session_config& config, IntPtr& sessionPtr)
-                           bei SpotifyAPI.SpotifySession..ctor(String Username, String Password, SpotifySessionConfig Configuration)
-                           bei MusicStream.MusicStreamManager.Play() in C:\Users\Lukas\Workspace\ASE\CTMS\app\MusicStream\MusicStreamManager.cs:Zeile 50.
-                           bei Ctms.Applications.Controllers.PlaylistController.Play() in C:\Users\Lukas\Workspace\ASE\CTMS\app\Ctms.Applications\Controllers\PlaylistController.cs:Zeile 75.
-                           bei System.Waf.Applications.DelegateCommand.<>c__DisplayClass4.<.ctor>b__0(Object p) in C:\Users\Lukas\Workspace\ASE\CTMS\app\libs\WpfApplicationFramework\Applications\DelegateCommand.cs:Zeile 38.
-                           bei System.Waf.Applications.DelegateCommand.Execute(Object parameter) in C:\Users\Lukas\Workspace\ASE\CTMS\app\libs\WpfApplicationFramework\Applications\DelegateCommand.cs:Zeile 113.
-                           bei MS.Internal.Commands.CommandHelpers.CriticalExecuteCommandSource(ICommandSource commandSource, Boolean userInitiated)
-                           bei System.Windows.Controls.Primitives.ButtonBase.OnClick()
-                           bei System.Windows.Controls.Button.OnClick()
-                           bei System.Windows.Controls.Primitives.ButtonBase.OnMouseLeftButtonUp(MouseButtonEventArgs e)
-                           bei System.Windows.UIElement.OnMouseLeftButtonUpThunk(Object sender, MouseButtonEventArgs e)
-                           bei System.Windows.Input.MouseButtonEventArgs.InvokeEventHandler(Delegate genericHandler, Object genericTarget)
-                           bei System.Windows.RoutedEventArgs.InvokeHandler(Delegate handler, Object target)
-                           bei System.Windows.RoutedEventHandlerInfo.InvokeHandler(Object target, RoutedEventArgs routedEventArgs)
-                           bei System.Windows.EventRoute.InvokeHandlersImpl(Object source, RoutedEventArgs args, Boolean reRaised)
-                           bei System.Windows.UIElement.ReRaiseEventAs(DependencyObject sender, RoutedEventArgs args, RoutedEvent newEvent)
-                           bei System.Windows.UIElement.OnMouseUpThunk(Object sender, MouseButtonEventArgs e)
-                           bei System.Windows.Input.MouseButtonEventArgs.InvokeEventHandler(Delegate genericHandler, Object genericTarget)
-                           bei System.Windows.RoutedEventArgs.InvokeHandler(Delegate handler, Object target)
-                           bei System.Windows.RoutedEventHandlerInfo.InvokeHandler(Object target, RoutedEventArgs routedEventArgs)
-                           bei System.Windows.EventRoute.InvokeHandlersImpl(Object source, RoutedEventArgs args, Boolean reRaised)
-                           bei System.Windows.UIElement.RaiseEventImpl(DependencyObject sender, RoutedEventArgs args)
-                           bei System.Windows.UIElement.RaiseTrustedEvent(RoutedEventArgs args)
-                           bei System.Windows.UIElement.RaiseEvent(RoutedEventArgs args, Boolean trusted)
-                           bei System.Windows.Input.InputManager.ProcessStagingArea()
-                           bei System.Windows.Input.InputManager.ProcessInput(InputEventArgs input)
-                           bei System.Windows.Input.InputProviderSite.ReportInput(InputReport inputReport)
-                           bei System.Windows.Interop.HwndMouseInputProvider.ReportInput(IntPtr hwnd, InputMode mode, Int32 timestamp, RawMouseActions actions, Int32 x, Int32 y, Int32 wheel)
-                           bei System.Windows.Interop.HwndMouseInputProvider.FilterMessage(IntPtr hwnd, WindowMessage msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
-                           bei System.Windows.Interop.HwndSource.InputFilterMessage(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
-                           bei MS.Win32.HwndWrapper.WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean& handled)
-                           bei MS.Win32.HwndSubclass.DispatcherCallbackOperation(Object o)
-                           bei System.Windows.Threading.ExceptionWrapper.InternalRealCall(Delegate callback, Object args, Int32 numArgs)
-                           bei MS.Internal.Threading.ExceptionFilterHelper.TryCatchWhen(Object source, Delegate method, Object args, Int32 numArgs, Delegate catchHandler)
-                           bei System.Windows.Threading.Dispatcher.LegacyInvokeImpl(DispatcherPriority priority, TimeSpan timeout, Delegate method, Object args, Int32 numArgs)
-                           bei MS.Win32.HwndSubclass.SubclassWndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam)
-                           bei MS.Win32.UnsafeNativeMethods.DispatchMessage(MSG& msg)
-                           bei System.Windows.Threading.Dispatcher.PushFrameImpl(DispatcherFrame frame)
-                           bei System.Windows.Threading.Dispatcher.PushFrame(DispatcherFrame frame)
-                           bei System.Windows.Threading.Dispatcher.Run()
-                           bei System.Windows.Application.RunDispatcher(Object ignore)
-                           bei System.Windows.Application.RunInternal(Window window)
-                           bei System.Windows.Application.Run(Window window)
-                           bei System.Windows.Application.Run()
-                           bei Ctms.Presentation.App.Main() in C:\Users\Lukas\Workspace\ASE\CTMS\app\Ctms.Presentation\obj\x86\Debug\App.g.cs:Zeile 50.
-                           bei System.AppDomain._nExecuteAssembly(RuntimeAssembly assembly, String[] args)
-                           bei System.AppDomain.ExecuteAssembly(String assemblyFile, Evidence assemblySecurity, String[] args)
-                           bei Microsoft.VisualStudio.HostingProcess.HostProc.RunUsersAssembly()
-                           bei System.Threading.ThreadHelper.ThreadStart_Context(Object state)
-                           bei System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-                           bei System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-                           bei System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
-                           bei System.Threading.ThreadHelper.ThreadStart()
-                      InnerException: 
-             */
-
-            //SpotifySessionConfig spotifySessionConfig = new SpotifySessionConfig(spotifyApiKey);
-            //SpotifySession spotifySession = new SpotifySession(spotifyUsername, spotifyPassword, spotifySessionConfig);
-
-
+            
         }
     }
 }
