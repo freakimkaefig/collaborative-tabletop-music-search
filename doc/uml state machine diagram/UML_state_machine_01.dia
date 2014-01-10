@@ -738,7 +738,7 @@
         <dia:point val="10.9769,8.93328"/>
       </dia:attribute>
       <dia:attribute name="guard_text_pos">
-        <dia:point val="7.04239,9.07241"/>
+        <dia:point val="7.04237,9.07241"/>
       </dia:attribute>
       <dia:attribute name="direction_inverted">
         <dia:boolean val="false"/>
