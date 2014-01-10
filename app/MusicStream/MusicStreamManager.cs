@@ -1,5 +1,8 @@
 ﻿using System;
 using SpotifySharp;
+using System.Threading;
+using System.IO;
+using System.Collections.Concurrent;
 
 namespace MusicStream
 {
@@ -31,6 +34,84 @@ namespace MusicStream
 	        0xC6, 0x28, 0xFF, 0x1B, 0x06, 0x89, 0xC4, 0xE5, 0xAC, 0x05, 0x06, 0xC6, 0x99, 0xD8, 0x1F, 0x9A,
 	        0x9A,
         };
+
+        class Listener : SpotifySessionListener
+        {
+            MusicStreamManager musicStreamManager;
+
+            public Listener(MusicStreamManager musicStreamManager)
+            {
+                this.musicStreamManager = musicStreamManager;
+            }
+
+            public override void NotifyMainThread(SpotifySession session)
+            {
+                base.NotifyMainThread(session);
+            }
+
+            public override void LoggedIn(SpotifySession session, SpotifyError error)
+            {
+                //base.LoggedIn(session, error);
+                System.Diagnostics.Debug.Write("Logged In");
+            }
+
+            public override void ConnectionError(SpotifySession session, SpotifyError error)
+            {
+                base.ConnectionError(session, error);
+                Console.WriteLine("ConnectionError: {0}\n", error);
+            }
+
+            public override void LogMessage(SpotifySession session, string data)
+            {
+                base.LogMessage(session, data);
+            }
+        }
+
+        SynchronizationContext syncContext;
+        SpotifySession session;
+        System.Threading.Timer timer;
+        ConcurrentQueue<string> logMessages;
+
+        public MusicStreamManager()
+        {
+            //InitializeComponent();
+            //syncContext = SynchronizationContext.Current;
+            //logMessages = new ConcurrentQueue<string>();
+            var config = new SpotifySessionConfig();
+            config.ApiVersion = 12;
+            config.CacheLocation = "spotifydata";
+            config.SettingsLocation = "spotifydata";
+            config.ApplicationKey = File.ReadAllBytes("spotify_appkey.key");
+            config.UserAgent = "Samsung SUR40 Tabletop Collaborative Tabletop Music Search";
+            config.Listener = new Listener(this);
+            //timer = new System.Threading.Timer(obj => InvokeProcessEvents(session), null, Timeout.Infinite, Timeout.Infinite);
+            session = SpotifySession.Create(config);
+            session.Login("mybleton", "ctms", false, null);
+        }
+
+        void InvokeProcessEvents(SpotifySession session)
+        {
+            //syncContext.Post(obj => InvokeProcessEvents(session), null);
+        }
+
+        void ProcessEvents(SpotifySession session)
+        {
+            this.session = session;
+            int timeout = 0;
+            string message;
+
+            while (logMessages.TryDequeue(out message))
+            {
+                Console.WriteLine(message + "\n");
+            }
+
+            while (timeout == 0)
+            {
+                session.ProcessEvents(ref timeout);
+            }
+
+            timer.Change(timeout, Timeout.Infinite);
+        }
 
         /* Method for testing connection to SpotifyAPI */
         public void Play()
