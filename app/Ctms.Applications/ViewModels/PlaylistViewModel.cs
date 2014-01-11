@@ -15,7 +15,8 @@ namespace Ctms.Applications.ViewModels
     {
         private bool isValid = true;
         private Playlist playlist;
-        private ICommand playCommand;
+        private ICommand loginCommand;
+        private string logMessage;
 
 
         [ImportingConstructor]
@@ -53,15 +54,28 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ICommand PlayCommand
+        public string LogMessage
         {
-            get { return playCommand; }
+            get { return logMessage; }
             set
             {
-                if (playCommand != value)
+                if (logMessage != value)
                 {
-                    playCommand = value;
-                    RaisePropertyChanged("PlayCommand");
+                    logMessage = value;
+                    RaisePropertyChanged("LogMessage");
+                }
+            }
+        }
+
+        public ICommand LoginCommand
+        {
+            get { return loginCommand; }
+            set
+            {
+                if (loginCommand != value)
+                {
+                    loginCommand = value;
+                    RaisePropertyChanged("LoginCommand");
                 }
             }
         }

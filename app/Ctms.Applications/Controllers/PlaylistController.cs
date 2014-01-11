@@ -35,9 +35,10 @@ namespace Ctms.Applications.Controllers
         //ViewModels
         private PlaylistViewModel playlistViewModel;
         //Commands
-        private readonly DelegateCommand playCommand;
+        private readonly DelegateCommand loginCommand;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
+        private MusicStreamManager musicStreamManager;
 
         [ImportingConstructor]
         public PlaylistController(CompositionContainer container, IShellService shellService, IEntityService entityService,
@@ -50,7 +51,7 @@ namespace Ctms.Applications.Controllers
             //ViewModels
             this.playlistViewModel = playlistViewModel;
             //Commands
-            this.playCommand = new DelegateCommand(Play, CanPlay);
+            this.loginCommand = new DelegateCommand(Login, CanLogin);
         }
 
         public void Initialize()
@@ -59,20 +60,26 @@ namespace Ctms.Applications.Controllers
 
             IPlaylistView playlistView = container.GetExportedValue<IPlaylistView>();
             playlistViewModel = new PlaylistViewModel(playlistView);
-            playlistViewModel.PlayCommand = playCommand;
+            playlistViewModel.LoginCommand = loginCommand;
             AddWeakEventListener(playlistViewModel, PlaylistViewModelPropertyChanged);
 
             shellService.PlaylistView = playlistViewModel.View;
         }
 
 
-        private bool CanPlay() { return playlistViewModel.IsValid; }
+        private bool CanLogin() { return playlistViewModel.IsValid; }
 
-        private void Play()
+        private void Login()
         {
             //do stuff
-            var musicStreamManager = new MusicStreamManager();
-            musicStreamManager.Play();
+            musicStreamManager = new MusicStreamManager();
+            musicStreamManager.receiveLogMessage = ReceiveLogMessage;
+            musicStreamManager.Login();
+        }
+
+        public void ReceiveLogMessage(string logMessage)
+        {
+            playlistViewModel.LogMessage += "\n" + logMessage;
         }
 
         private void UpdateCommands()

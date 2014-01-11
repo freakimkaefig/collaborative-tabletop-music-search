@@ -84,8 +84,13 @@
     <Compile Include="Views\ISearchView.cs" />
     <Compile Include="Views\IResultView.cs" />
     <Compile Include="Views\IPlaylistView.cs" />
+    <Compile Include="Workers\PlaylistWorker.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ohLibSpotify, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\OhLibSpotify\ohLibSpotify.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
