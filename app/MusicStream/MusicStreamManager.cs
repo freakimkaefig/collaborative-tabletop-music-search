@@ -63,9 +63,10 @@ namespace MusicStream
         }
 
 
-        private void SpotifySearch()
+        public void SpotifySearch()
         {
-            search = Search.Create(session, "tag:new", 0, 0, 0, 250, 0, 0, 0, 0, SearchType.Standard, null, null);
+            search = Search.Create(session, "artist:Katy Perry", 0, 0, 0, 250, 0, 0, 0, 0, SearchType.Standard, MusicStreamListener.SearchComplete, null);
+            logMessages.Enqueue("MusicStreamManager.SpotifySearch");
         }
 
         public void Login()
@@ -73,7 +74,6 @@ namespace MusicStream
             session.Login(spotifyUsername, spotifyPassword, false, null);
         }
 
-        /* Method for testing connection to SpotifyAPI */
         public void Play()
         {
             

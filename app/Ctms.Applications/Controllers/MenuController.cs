@@ -15,6 +15,8 @@ using System.Data.EntityClient;
 using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
+using MusicStream;
+using Ctms.Applications.Workers;
 
 
 namespace Ctms.Applications.Controllers
@@ -27,44 +29,48 @@ namespace Ctms.Applications.Controllers
     [Export]
     internal class MenuController : Controller
     {
-        private readonly CompositionContainer container;
+        private readonly CompositionContainer _container;
         //Services
-        private readonly IShellService shellService;
-        private readonly IEntityService entityService;
+        private readonly IShellService _shellService;
+        private readonly IEntityService _entityService;
         //ViewModels
-        private MenuViewModel menuViewModel;
-        private ShellViewModel shellViewModel;
+        private MenuViewModel _menuViewModel;
+        private ShellViewModel _shellViewModel;
+        //Worker
+        private MusicStreamAccountWorker _musicStreamAccountWorker;
         //Commands
-        private readonly DelegateCommand exitAppCommand;
+        private readonly DelegateCommand _exitAppCommand;
+        private readonly DelegateCommand _loginCommand;
         //Further vars
+        
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public MenuController(CompositionContainer container, IShellService shellService, IEntityService entityService,
-            MenuViewModel menuViewModel, ShellViewModel shellViewModel)
+            MenuViewModel menuViewModel, ShellViewModel shellViewModel, MusicStreamAccountWorker musicStreamAccountWorker)
         {
-            this.container = container;
+            this._container = container;
             //Services
-            this.shellService = shellService;
-            this.entityService = entityService;
+            this._shellService = shellService;
+            this._entityService = entityService;
             //ViewModels
-            this.menuViewModel = menuViewModel;
-            this.shellViewModel = shellViewModel;
+            this._menuViewModel = menuViewModel;
+            this._shellViewModel = shellViewModel;
+            //Worker
+            _musicStreamAccountWorker = musicStreamAccountWorker;
             //Commands
-            this.exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
+            this._exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
+            this._loginCommand = new DelegateCommand(_musicStreamAccountWorker.Login, _musicStreamAccountWorker.CanLogin);
         }
 
         public void Initialize()
         {
-            AddWeakEventListener(menuViewModel, MenuViewModelPropertyChanged);
-            //AddWeakEventListener(shellViewModel, ShellViewModelPropertyChanged);
+            IMenuView menuView = _container.GetExportedValue<IMenuView>();
+            _menuViewModel.ExitAppCommand = _exitAppCommand;
+            _menuViewModel.LoginCommand = _loginCommand;
+            AddWeakEventListener(_menuViewModel, MenuViewModelPropertyChanged);
 
-            IMenuView menuView = container.GetExportedValue<IMenuView>();
-            menuViewModel = new MenuViewModel(menuView);
-            menuViewModel.ExitAppCommand = exitAppCommand;
-            AddWeakEventListener(menuViewModel, MenuViewModelPropertyChanged);
-
-            shellService.MenuView = menuViewModel.View;
+            _shellService.MenuView = _menuViewModel.View;
         }
 
         private void UpdateCommands()
@@ -75,19 +81,19 @@ namespace Ctms.Applications.Controllers
         private void ExitApp()
         {
             //!!Best option?
-            shellViewModel.ExitCommand.Execute(null);
+            _shellViewModel.ExitCommand.Execute(null);
         }
 
-        private bool CanExitApp() { return shellViewModel.IsValid; }
+        private bool CanExitApp() { return _shellViewModel.IsValid; }
 
         private void MenuViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SelectedSong")//SelectedSong is just an example
+            if (e.PropertyName == "IsLoggedIn")
             {
-                //...
-                UpdateCommands();
+                _musicStreamAccountWorker.TestSearch();
             }
         }
+
         /*
         private void ShellViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

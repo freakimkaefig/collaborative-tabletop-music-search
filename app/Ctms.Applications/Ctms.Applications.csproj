@@ -84,6 +84,7 @@
     <Compile Include="Views\ISearchView.cs" />
     <Compile Include="Views\IResultView.cs" />
     <Compile Include="Views\IPlaylistView.cs" />
+    <Compile Include="Workers\MusicStreamAccountWorker.cs" />
     <Compile Include="Workers\PlaylistWorker.cs" />
   </ItemGroup>
   <ItemGroup>

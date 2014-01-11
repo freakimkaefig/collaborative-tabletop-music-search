@@ -16,6 +16,9 @@ namespace Ctms.Applications.ViewModels
         private bool isValid = true;
         private Playlist playlist;
         private ICommand exitAppCommand;
+        private ICommand loginCommand;
+        private string loginLogMessage;
+        private bool _isLoggedIn = false;
 
 
         [ImportingConstructor]
@@ -48,6 +51,45 @@ namespace Ctms.Applications.ViewModels
                 {
                     exitAppCommand = value;
                     RaisePropertyChanged("ExitAppCommand");
+                }
+            }
+        }
+
+        public ICommand LoginCommand
+        {
+            get { return loginCommand; }
+            set
+            {
+                if (loginCommand != value)
+                {
+                    loginCommand = value;
+                    RaisePropertyChanged("LoginCommand");
+                }
+            }
+        }
+
+        public string LoginLogMessage
+        {
+            get { return loginLogMessage; }
+            set
+            {
+                if (loginLogMessage != value)
+                {
+                    loginLogMessage = value;
+                    RaisePropertyChanged("LoginLogMessage");
+                }
+            }
+        }
+
+        public bool IsLoggedIn
+        {
+            get { return _isLoggedIn; }
+            set
+            {
+                if (_isLoggedIn != value)
+                {
+                    _isLoggedIn = value;
+                    RaisePropertyChanged("IsLoggedIn");
                 }
             }
         }

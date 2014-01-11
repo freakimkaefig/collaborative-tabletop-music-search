@@ -34,6 +34,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\libs\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="ohLibSpotify">
       <HintPath>..\libs\OhLibSpotify\ohLibSpotify.dll</HintPath>
     </Reference>

@@ -35,10 +35,9 @@ namespace Ctms.Applications.Controllers
         //ViewModels
         private PlaylistViewModel playlistViewModel;
         //Commands
-        private readonly DelegateCommand loginCommand;
+
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
-        private MusicStreamManager musicStreamManager;
 
         [ImportingConstructor]
         public PlaylistController(CompositionContainer container, IShellService shellService, IEntityService entityService,
@@ -51,35 +50,15 @@ namespace Ctms.Applications.Controllers
             //ViewModels
             this.playlistViewModel = playlistViewModel;
             //Commands
-            this.loginCommand = new DelegateCommand(Login, CanLogin);
         }
 
         public void Initialize()
         {
-            AddWeakEventListener(playlistViewModel, PlaylistViewModelPropertyChanged);
-
             IPlaylistView playlistView = container.GetExportedValue<IPlaylistView>();
             playlistViewModel = new PlaylistViewModel(playlistView);
-            playlistViewModel.LoginCommand = loginCommand;
             AddWeakEventListener(playlistViewModel, PlaylistViewModelPropertyChanged);
 
             shellService.PlaylistView = playlistViewModel.View;
-        }
-
-
-        private bool CanLogin() { return playlistViewModel.IsValid; }
-
-        private void Login()
-        {
-            //do stuff
-            musicStreamManager = new MusicStreamManager();
-            musicStreamManager.receiveLogMessage = ReceiveLogMessage;
-            musicStreamManager.Login();
-        }
-
-        public void ReceiveLogMessage(string logMessage)
-        {
-            playlistViewModel.LogMessage += "\n" + logMessage;
         }
 
         private void UpdateCommands()

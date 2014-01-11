@@ -15,9 +15,6 @@ namespace Ctms.Applications.ViewModels
     {
         private bool isValid = true;
         private Playlist playlist;
-        private ICommand loginCommand;
-        private string logMessage;
-
 
         [ImportingConstructor]
         public PlaylistViewModel(IPlaylistView view)
@@ -50,32 +47,6 @@ namespace Ctms.Applications.ViewModels
                 {
                     playlist = value;
                     RaisePropertyChanged("Playlist");
-                }
-            }
-        }
-
-        public string LogMessage
-        {
-            get { return logMessage; }
-            set
-            {
-                if (logMessage != value)
-                {
-                    logMessage = value;
-                    RaisePropertyChanged("LogMessage");
-                }
-            }
-        }
-
-        public ICommand LoginCommand
-        {
-            get { return loginCommand; }
-            set
-            {
-                if (loginCommand != value)
-                {
-                    loginCommand = value;
-                    RaisePropertyChanged("LoginCommand");
                 }
             }
         }
