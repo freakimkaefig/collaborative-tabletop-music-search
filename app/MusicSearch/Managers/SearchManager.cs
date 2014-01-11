@@ -6,8 +6,9 @@ using Helpers;
 using Newtonsoft.Json;
 using MusicSearch.ResponseObjects;
 using Newtonsoft.Json.Linq;
+using System.ComponentModel;
 
-namespace MusicSearch.Manager
+namespace MusicSearch.Managers
 {
     public class SearchManager
     {
@@ -16,7 +17,12 @@ namespace MusicSearch.Manager
         public ResponseContainer ResponseContainer;
         private bool mIsTest = false;
 
-        public void Start()
+        public void Start(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        public void StartSearch()
         {
             RequestOffline();
             StartRequest();

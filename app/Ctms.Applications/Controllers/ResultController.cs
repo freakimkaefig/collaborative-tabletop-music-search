@@ -34,7 +34,7 @@ namespace Ctms.Applications.Controllers
         //ViewModels
         private ResultViewModel resultViewModel;
         //Commands
-        private readonly DelegateCommand selectCommand;
+        //private readonly DelegateCommand selectOptionCommand;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
@@ -49,14 +49,14 @@ namespace Ctms.Applications.Controllers
             //ViewModels
             this.resultViewModel = resultViewModel;
             //Commands
-            //this.chooseCommand      = new DelegateCommand(chooseResult, CanSelectResult);
+            //this.selectOptionCommand = new DelegateCommand(chooseResult, CanSelectResult);
         }
 
         public void Initialize()
         {
             AddWeakEventListener(resultViewModel, ResultViewModelPropertyChanged);
 
-            resultViewModel.SelectCommand = selectCommand;
+            //resultViewModel.SelectCommand = selectCommand;
             AddWeakEventListener(resultViewModel, ResultViewModelPropertyChanged);
 
             shellService.ResultView = resultViewModel.View;

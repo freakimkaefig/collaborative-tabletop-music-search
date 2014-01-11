@@ -52,7 +52,7 @@
             </ps:PieMenuItem>
         </ps:PieMenu>
         -->
-        <ps:PieMenu x:Name="Menu2"  Grid.Column="0" Grid.Row="1"
+        <ps:PieMenu x:Name="TopPart"  Grid.Column="0" Grid.Row="1"
                    Canvas.Left="0"
                    Canvas.Top="0"
                    Background="#039"
@@ -65,8 +65,31 @@
                    InnerRadius="0"
                    RotateText="True"
                    Rotation="180"
-                   MenuSector="180"
->
+                   MenuSector="180">
+            <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
+            </ps:PieMenuItem>
+            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
+            </ps:PieMenuItem>
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            </ps:PieMenuItem>
+            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
+            </ps:PieMenuItem>            
+        </ps:PieMenu>
+
+        <ps:PieMenu x:Name="BottomPart"  Grid.Column="0" Grid.Row="1"
+                   Canvas.Left="0"
+                   Canvas.Top="0"
+                   Background="#039"
+                   SelectedBackground="#ccf"
+                   Foreground="White"
+                   BorderBrush="#039"
+                   SectorGap="3"
+                   Gap="3"
+                   Radius="70"
+                   InnerRadius="0"
+                   RotateText="True"                   
+                   Rotation="0"
+                   MenuSector="180">
             <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
@@ -75,8 +98,6 @@
             </ps:PieMenuItem>
         </ps:PieMenu>
 
-        
-        
         <ps:PieMenu x:Name="Menu3"  Grid.Column="0" Grid.Row="2"
                    Canvas.Left="100"
                    Canvas.Top="100"
@@ -249,7 +270,10 @@
 
 
         <Ellipse Canvas.Left="10" Canvas.Top="10" Width="66" Height="66"  Grid.Column="1" Grid.Row="3" Margin="0, -160,0,0"
-                        Stroke="Black" StrokeThickness="1" Fill="Gray"/>
+                        Stroke="Black" StrokeThickness="1" Fill="Gray">
+            
+            
+        </Ellipse>
 
 
 

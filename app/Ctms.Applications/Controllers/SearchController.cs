@@ -15,7 +15,7 @@ using System.Data.EntityClient;
 using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
-using MusicSearch.Manager;
+using MusicSearch.Managers;
 using Ctms.Applications.DataFactories;
 using MusicSearch.ResponseObjects;
 using Ctms.Domain.Objects;
@@ -39,7 +39,8 @@ namespace Ctms.Applications.Controllers
         private SearchViewModel searchViewModel;
         private ResultViewModel resultViewModel;
         //Commands
-        private readonly DelegateCommand startSearchCommand;
+        private readonly DelegateCommand startSearchCmd;
+        private readonly DelegateCommand setSelectionCmd;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
@@ -55,14 +56,15 @@ namespace Ctms.Applications.Controllers
             this.searchViewModel = searchViewModel;
             this.resultViewModel = resultViewModel;
             //Commands
-            this.startSearchCommand = new DelegateCommand(StartSearch, CanStartSearch);
+            this.startSearchCmd = new DelegateCommand(StartSearch, CanStartSearch);
+            this.setSelectionCmd = new DelegateCommand(StartSearch, CanStartSearch);
         }
 
         public void Initialize()
         {
             AddWeakEventListener(searchViewModel, SearchViewModelPropertyChanged);
 
-            searchViewModel.StartSearchCommand = startSearchCommand;
+            searchViewModel.StartSearchCommand = startSearchCmd;
             AddWeakEventListener(searchViewModel, SearchViewModelPropertyChanged);
 
             shellService.SearchView = searchViewModel.View;
@@ -72,9 +74,9 @@ namespace Ctms.Applications.Controllers
 
         private void StartSearch()
         {
-            var searchManager = new SearchManager();
-            searchManager.Start();
-            RefreshResults(searchManager.ResponseContainer);
+            var searchController = new SearchManager();
+            searchController.StartSearch();
+            RefreshResults(searchController.ResponseContainer);
         }
 
         private void RefreshResults(ResponseContainer responseContainer)
