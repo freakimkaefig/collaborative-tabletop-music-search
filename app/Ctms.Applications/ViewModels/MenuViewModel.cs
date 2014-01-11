@@ -15,7 +15,7 @@ namespace Ctms.Applications.ViewModels
     {
         private bool isValid = true;
         private Playlist playlist;
-        private ICommand selectCommand;
+        private ICommand exitAppCommand;
 
 
         [ImportingConstructor]
@@ -23,7 +23,6 @@ namespace Ctms.Applications.ViewModels
             : base(view)
         {
         }
-
 
         public bool IsEnabled { get { return true; } }//!! Has to be adjusted
 
@@ -40,16 +39,15 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-
-        public ICommand SelectCommand
+        public ICommand ExitAppCommand
         {
-            get { return selectCommand; }
+            get { return exitAppCommand; }
             set
             {
-                if (selectCommand != value)
+                if (exitAppCommand != value)
                 {
-                    selectCommand = value;
-                    RaisePropertyChanged("SelectCommand");
+                    exitAppCommand = value;
+                    RaisePropertyChanged("ExitAppCommand");
                 }
             }
         }
