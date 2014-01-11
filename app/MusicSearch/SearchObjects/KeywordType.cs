@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MusicSearch.SearchObjects
 {
-    public class KeywordType : SelectOption
+    public class KeywordType : SearchOption
     {
         public enum Types
         {

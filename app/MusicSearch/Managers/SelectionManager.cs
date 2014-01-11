@@ -8,8 +8,8 @@ namespace MusicSearch.Managers
 {
     public class SelectionManager
     {
-        public List<SelectOption> NextOptions { get; set; }
-        public List<List<SelectOption>> LastOptions { get; set; }
+        public List<SearchOption> NextOptions { get; set; }
+        public List<List<SearchOption>> LastOptions { get; set; }
 
         public KeywordContainer SelectOptions;
         private KeywordType.Types mSelectOption;
@@ -56,7 +56,7 @@ namespace MusicSearch.Managers
             mSelectOption = selectOption;
         }
 
-        public List<SelectOption> LoadNextOptions()
+        public List<SearchOption> LoadNextOptions()
         {
             //Clear all old options from the last selection
             NextOptions.Clear();
@@ -65,7 +65,7 @@ namespace MusicSearch.Managers
             var optionContainer = SelectOptions.Container[mSelectOption];
             foreach (var entry in optionContainer)
             {
-                SelectOption newOption = new SelectOption();
+                SearchOption newOption = new SearchOption();
                 if (entry.Type == KeywordType.Types.Artist)
                 {
                     newOption = new Keyword.Artist(entry.Name);
@@ -86,7 +86,7 @@ namespace MusicSearch.Managers
 
         }
 
-        public List<SelectOption> ReadBreadcrumb()
+        public List<SearchOption> ReadBreadcrumb()
         {
             throw new NotImplementedException();
         }
@@ -98,8 +98,8 @@ namespace MusicSearch.Managers
 
         public void Reset()
         {
-            NextOptions = new List<SelectOption>();
-            LastOptions = new List<List<SelectOption>>();
+            NextOptions = new List<SearchOption>();
+            LastOptions = new List<List<SearchOption>>();
         }
     }
 }

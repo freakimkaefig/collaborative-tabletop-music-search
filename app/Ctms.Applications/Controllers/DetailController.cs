@@ -61,7 +61,6 @@ namespace Ctms.Applications.Controllers
             detailViewModel = new DetailViewModel(detailView);
 
             detailViewModel.SelectCommand = selectCommand;
-            AddWeakEventListener(detailViewModel, DetailViewModelPropertyChanged);
             shellService.DetailView = detailViewModel.View;
         }
 

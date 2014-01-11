@@ -88,6 +88,7 @@
     <Compile Include="Views\ISearchView.cs" />
     <Compile Include="Views\IResultView.cs" />
     <Compile Include="Views\IPlaylistView.cs" />
+    <Compile Include="Workers\SearchOptionWorker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />

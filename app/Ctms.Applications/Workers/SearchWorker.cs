@@ -6,48 +6,48 @@ using Helpers;
 using MusicSearch.Managers;
 using System.ComponentModel;
 using MusicSearch.SearchObjects;
+using Ctms.Applications.ViewModels;
+using System.ComponentModel.Composition;
 
-namespace Ctms.Applications.Managers
+namespace Ctms.Applications.Workers
 {
+    [Export]
     public class SearchWorker
     {
-        private BackgroundWorkHelper mBackgroundWorker;
-        private SearchManager mSearchManager;
-        private SelectionManager mSelectionManager;
+        private BackgroundWorkHelper _backgroundWorker;
+        private SearchManager _searchManager;
+        private ResultWorker _resultWorker;
+        private SearchViewModel _searchViewModel;
 
-        public SearchWorker()
+        [ImportingConstructor]
+        public SearchWorker(SearchViewModel searchViewModel, ResultWorker resultWorker)
         {
-
+            //ViewModels
+            _searchViewModel = searchViewModel;
+            //Workers
+            _resultWorker = resultWorker;
+            //Managers
+            _searchManager = new SearchManager();
         }
 
-        public void SelectOption(KeywordType.Types selectOption)
-        {
-            mSelectionManager.SetSelection(selectOption);
-        }
-
-        public void SetSelectionOptions()
-        {
-
-        }
+        public bool CanStartSearch() { return _searchViewModel.IsValid; }
 
         public void StartSearch()
         {
             var searchManager = new SearchManager();
+            searchManager.StartSearch();
+            _resultWorker.RefreshResults(searchManager.ResponseContainer);
+
             //RefreshResults(searchManager.ResponseContainer);
 
-            mBackgroundWorker = new BackgroundWorkHelper();
+            _backgroundWorker = new BackgroundWorkHelper();
             //Tell which method to execute in background in what to do after completion
-            mBackgroundWorker.DoInBackground(searchManager.Start, SearchCompleted);
+            _backgroundWorker.DoInBackground(searchManager.Start, SearchCompleted);
         }
 
         private void SearchCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
 
-        }
-
-        public void SearchCompleted()
-        {
-        
         }
     }
 }

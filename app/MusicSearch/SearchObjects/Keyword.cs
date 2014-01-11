@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MusicSearch.SearchObjects
 {
-    public class Keyword : SelectOption
+    public class Keyword : SearchOption
     {
         public double Weighting { get; set; }
         public KeywordType.Types Type { get; set; }        

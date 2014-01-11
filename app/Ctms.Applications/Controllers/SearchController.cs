@@ -19,6 +19,8 @@ using MusicSearch.Managers;
 using Ctms.Applications.DataFactories;
 using MusicSearch.ResponseObjects;
 using Ctms.Domain.Objects;
+using Ctms.Applications.Workers;
+using MusicSearch.SearchObjects;
 
 
 namespace Ctms.Applications.Controllers
@@ -31,63 +33,54 @@ namespace Ctms.Applications.Controllers
     [Export]
     internal class SearchController : Controller
     {
-        private readonly CompositionContainer container;
+        private readonly CompositionContainer _container;
         //Services
-        private readonly IShellService shellService;
-        private readonly IEntityService entityService;
+        private readonly IShellService _shellService;
+        private readonly IEntityService _entityService;
         //ViewModels
-        private SearchViewModel searchViewModel;
-        private ResultViewModel resultViewModel;
+        private SearchViewModel _searchViewModel;
+        private ResultViewModel _resultViewModel;
+        //Workers
+        private SearchWorker _searchWorker;
+        private SearchOptionWorker _searchOptionWorker;
+        private ResultWorker _resultWorker;
         //Commands
-        private readonly DelegateCommand startSearchCmd;
-        private readonly DelegateCommand setSelectionCmd;
+        private readonly DelegateCommand _startSearchCmd;
+        private readonly DelegateCommand _setSelectionCmd;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public SearchController(CompositionContainer container, IShellService shellService, IEntityService entityService,
-            SearchViewModel searchViewModel, ResultViewModel resultViewModel)
+            SearchViewModel searchViewModel, ResultViewModel resultViewModel,
+            SearchWorker searchWorker, ResultWorker resultWorker, SearchOptionWorker searchOptionWorker)
         {
-            this.container = container;
+            _searchWorker = searchWorker;
+            _resultWorker = resultWorker;
+            _searchOptionWorker = searchOptionWorker;
+
+            _container = container;
             //Services
-            this.shellService = shellService;
-            this.entityService = entityService;
+            _shellService = shellService;
+            _entityService = entityService;
             //ViewModels
-            this.searchViewModel = searchViewModel;
-            this.resultViewModel = resultViewModel;
+            _searchViewModel = searchViewModel;
+            _resultViewModel = resultViewModel;
             //Commands
-            this.startSearchCmd = new DelegateCommand(StartSearch, CanStartSearch);
-            this.setSelectionCmd = new DelegateCommand(StartSearch, CanStartSearch);
+            _startSearchCmd = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
+            //_setSelectionCmd = new DelegateCommand(_searchOptionWorker.SelectOption, _searchOptionWorker.CanSelectOption);
+            _setSelectionCmd = new DelegateCommand(t =>_searchOptionWorker.SelectOption((KeywordType.Types)t));
+           // new DelegateCommand(p => LendTo((Book)p));
         }
 
         public void Initialize()
         {
-            AddWeakEventListener(searchViewModel, SearchViewModelPropertyChanged);
-
-            searchViewModel.StartSearchCommand = startSearchCmd;
-            AddWeakEventListener(searchViewModel, SearchViewModelPropertyChanged);
-
-            shellService.SearchView = searchViewModel.View;
-        }
-
-        private bool CanStartSearch() { return searchViewModel.IsValid; }
-
-        private void StartSearch()
-        {
-            var searchController = new SearchManager();
-            searchController.StartSearch();
-            RefreshResults(searchController.ResponseContainer);
-        }
-
-        private void RefreshResults(ResponseContainer responseContainer)
-        {
-            //Example of how to read a resulting song and assign it to viewmodel
-            SongFactory factory = new SongFactory();
-            var result = new Result();
-            Random rnd = new Random();
-            int index = rnd.Next(0, responseContainer.response.songs.Count);
-            result.Song = factory.Create(responseContainer.response.songs[index]);
-            resultViewModel.Result = result;
+            //Commands
+            _searchViewModel.StartSearchCommand = _startSearchCmd;
+            //Views
+            _shellService.SearchView = _searchViewModel.View;
+            //Listeners
+            AddWeakEventListener(_searchViewModel, SearchViewModelPropertyChanged);
         }
 
         private void UpdateCommands()

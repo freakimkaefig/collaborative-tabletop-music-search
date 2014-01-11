@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MusicSearch.SearchObjects
 {
-    public class SelectOption
+    public class SearchOption
     {
     }
 }

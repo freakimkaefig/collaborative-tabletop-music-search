@@ -54,12 +54,12 @@ namespace Ctms.Applications.Controllers
 
         public void Initialize()
         {
-            AddWeakEventListener(resultViewModel, ResultViewModelPropertyChanged);
-
+            //Commands
             //resultViewModel.SelectCommand = selectCommand;
-            AddWeakEventListener(resultViewModel, ResultViewModelPropertyChanged);
-
+            //Views
             shellService.ResultView = resultViewModel.View;
+            //Listeners
+            AddWeakEventListener(resultViewModel, ResultViewModelPropertyChanged);
         }
 
         private void UpdateCommands()
