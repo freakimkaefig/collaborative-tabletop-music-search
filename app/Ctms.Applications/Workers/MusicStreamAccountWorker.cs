@@ -14,7 +14,7 @@ namespace Ctms.Applications.Workers
     [Export]
     public class MusicStreamAccountWorker
     {
-        private MusicStreamManager _musicStreamManager;
+        private MusicStreamSessionManager _sessionManager;
         private MenuViewModel _menuViewModel;
 
         [ImportingConstructor]
@@ -28,15 +28,16 @@ namespace Ctms.Applications.Workers
         public void Login()
         {
             //do stuff
-            _musicStreamManager = new MusicStreamManager();
-            _musicStreamManager.receiveLogMessage = ReceiveLogMessage;
-            _musicStreamManager.MusicStreamListener.SpotifyLoggedIn = SpotifyLoggedIn;
-            _musicStreamManager.Login();
+            _sessionManager = new MusicStreamSessionManager();
+            _sessionManager.receiveLogMessage = ReceiveLogMessage;
+            _sessionManager.SessionListener.SpotifyLoggedIn = SpotifyLoggedIn;
+            _sessionManager.Login();
         }
 
         public void TestSearch()
         {
-            _musicStreamManager.SpotifySearch();
+            _sessionManager.SpotifySearch();
+            _sessionManager.Play();
         }
 
         private void ReceiveLogMessage(string logMessage)

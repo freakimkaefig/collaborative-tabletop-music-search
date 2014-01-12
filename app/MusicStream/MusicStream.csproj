@@ -51,8 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MusicStreamListener.cs" />
-    <Compile Include="MusicStreamManager.cs" />
+    <Compile Include="MusicStreamPlaylistContainerListener.cs" />
+    <Compile Include="MusicStreamPlaylistContainerManager.cs" />
+    <Compile Include="MusicStreamSessionListener.cs" />
+    <Compile Include="MusicStreamSessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

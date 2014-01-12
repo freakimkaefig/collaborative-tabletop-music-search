@@ -25,6 +25,6 @@
         <Button Grid.Row="0" Grid.Column="1"                
             Command="{Binding ExitAppCommand}">Exit</Button>
         <Button Content="Login" Grid.Column="1" Grid.Row="1" Command="{Binding LoginCommand}"/>
-        <TextBox Text="{Binding LoginLogMessage}" Grid.Column="1" Grid.Row="2" Height="300" Width="400" VerticalScrollBarVisibility="Auto" Foreground="Black" TextWrapping="Wrap" />
+        <TextBox Text="{Binding LoginLogMessage}" Grid.Column="1" Grid.Row="2" Height="300" Width="400" VerticalScrollBarVisibility="Auto" Foreground="Black" TextWrapping="Wrap" IsReadOnly="True" />
     </Grid>
 </UserControl>
