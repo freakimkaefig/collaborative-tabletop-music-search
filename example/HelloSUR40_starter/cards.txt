@@ -1,0 +1,10 @@
+cards.Add(0, new VCard(0, "Christian Wolff", "3.0.60"));
+cards.Add(1, new VCard(1, "Ingrid Boehm", "3.0.60E",));
+cards.Add(2, new VCard(2, "Florian Echtler", "3.0.44"));
+cards.Add(3, new VCard(3, "Ingrid Stitz", "3.0.41"));
+cards.Add(4, new VCard(4, "Raphael Wimmer", "3.0.32"));
+cards.Add(5, new VCard(5, "Patricia Boehm", "3.0.31"));
+cards.Add(6, new VCard(6, "Victoria Boehm", "3.0.31"));
+cards.Add(7, new VCard(7, "Manuel Burghard", "3.0.30"));
+cards.Add(8, new VCard(8, "Tim Schneidermeier", "3.0.30"));
+cards.Add(9, new VCard(9, "Martin Brockelmann", "3.0.14"));
