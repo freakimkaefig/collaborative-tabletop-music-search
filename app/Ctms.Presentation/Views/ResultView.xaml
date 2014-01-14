@@ -11,13 +11,16 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
-    <Grid Margin="0,0,0,0">
+    <Grid Margin="0,0,0,0" Height="150">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
+            
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -28,6 +31,12 @@
         
         <Label Content="Artist:" Grid.Column="0" Grid.Row="2" BorderThickness="1" BorderBrush="Black"/>
         <Label Content="{Binding Result.Song.Artist}" Grid.Column="1" Grid.Row="2" BorderThickness="1" BorderBrush="Black"/>
+        
+        <Label Content="Title:" Grid.Column="0" Grid.Row="3" BorderThickness="1" BorderBrush="Black"/>
+        <Label Content="{Binding Result.Song.Title}" Grid.Column="1" Grid.Row="3" BorderThickness="1" BorderBrush="Black"/>
+        
+        
+        
       
     </Grid>
     
