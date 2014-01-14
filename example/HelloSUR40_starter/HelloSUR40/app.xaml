@@ -1,0 +1,17 @@
+﻿<Application x:Class="ShowRoomApplication.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clr="SurLaRoute"
+    xmlns:local="assembly=SurLaRoute"
+    StartupUri="SurLaRoute.xaml"
+    >
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Microsoft.Surface.Presentation.Generic;v2.0.0.0;31bf3856ad364e35;component/themes\styles.xaml"/>
+                <ResourceDictionary Source="Resources/StringResourcesEN.xaml" />
+                <ResourceDictionary Source="Resources/ImageResources.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
