@@ -72,6 +72,7 @@ namespace Ctms.Applications.Controllers
 
             _tagVisualitationService = new TagVisualizationService();
             _tagVisualitationService.InitTangibleDefinitions();
+
             entityController.Initialize();
             searchController.Initialize();
             resultController.Initialize();

@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
+using Microsoft.Surface.Presentation.Controls;
 
 namespace Ctms.Presentation.Views
 {
@@ -25,6 +26,7 @@ namespace Ctms.Presentation.Views
         public ShellWindow()
         {
             InitializeComponent();
+            InitTangibleDefinitions();
         }
 
 
@@ -42,6 +44,29 @@ namespace Ctms.Presentation.Views
                     WindowState = WindowState.Normal;
                 }
             }
+        }
+
+
+        private TagVisualizer _tagVisualizer;
+
+        public void InitTangibleDefinitions()
+        {
+
+            for (int i = 0; i < 12; i++)
+            {
+                TagVisualizationDefinition tagDefinition = new TagVisualizationDefinition();
+                tagDefinition.Value = i;
+                tagDefinition.Source = new Uri("../../Views/TagVisualizationControl.xaml", UriKind.Relative);
+                tagDefinition.MaxCount = 1;
+                tagDefinition.LostTagTimeout = 2000.0;
+                tagDefinition.OrientationOffsetFromTag = 0;
+                tagDefinition.PhysicalCenterOffsetFromTag = new Vector(0, 0);
+                tagDefinition.TagRemovedBehavior = TagRemovedBehavior.Fade;
+                tagDefinition.UsesTagOrientation = true;
+                //_tagVisualizer = new TagVisualizer();
+                TagVisualizer.Definitions.Add(tagDefinition);
+            }
+
         }
     }
 }
