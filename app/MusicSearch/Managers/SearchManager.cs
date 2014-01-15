@@ -6,8 +6,9 @@ using Helpers;
 using Newtonsoft.Json;
 using MusicSearch.ResponseObjects;
 using Newtonsoft.Json.Linq;
+using System.ComponentModel;
 
-namespace MusicSearch.Manager
+namespace MusicSearch.Managers
 {
     public class SearchManager
     {
@@ -17,15 +18,20 @@ namespace MusicSearch.Manager
         public ResponseContainer ResponseContainer;
         private bool mIsTest = false;
 
-        public void Start()
+        public void Start(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        public void StartSearch()
         {
             RequestOffline();   //build query
             StartRequest();     //send query
             ParseResponse();    //parse received JSON-Data
 
-            var firstSong = ResponseContainer.response.songs.First();
-            Console.WriteLine(firstSong.title);
-            Console.WriteLine(firstSong.artist_name);
+            var firstSong = ResponseContainer.Response.Songs.First();
+            Console.WriteLine(firstSong.Title);
+            Console.WriteLine(firstSong.Artist_Name);
         }
 
         private void StartRequest()
