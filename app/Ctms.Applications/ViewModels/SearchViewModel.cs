@@ -18,6 +18,7 @@ namespace Ctms.Applications.ViewModels
         private string _keywordType;
         private ICommand _startSearchCommand;
         private ICommand selectOptionCmd;
+        private string _inputValue;
 
 
         [ImportingConstructor]
@@ -64,6 +65,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _keywordType = value;
                     RaisePropertyChanged("KeywordType");
+                }
+            }
+        }
+
+        public string InputValue 
+        {
+            get { return _inputValue; }
+            set
+            {
+                if (_inputValue != value)
+                {
+                    _inputValue = value;
+                    RaisePropertyChanged("InputValue");
                 }
             }
         }
