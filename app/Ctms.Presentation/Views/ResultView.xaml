@@ -11,12 +11,12 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
-    <Grid MinHeight="100" MinWidth="150" Margin="0,50,0,0" HorizontalAlignment="Center"> 
+    <Grid MinHeight="100" MinWidth="150" Margin="0,20,0,0" HorizontalAlignment="Center"> 
                
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
@@ -25,6 +25,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            
         </Grid.RowDefinitions>
         
        <!-- <TextBlock
@@ -33,29 +34,29 @@
             Foreground="White">Title:
         </TextBlock>  -->
         
-        <TextBlock 
+        <TextBlock
             Margin="0,0,0,0"
             Background="#528B8B"
             TextAlignment="Center"
-            Grid.Column="1" 
-            Grid.Row="1"
+            Grid.Column="0" 
+            Grid.Row="0"
             Foreground="White"
             Text="{Binding Result.Song.Title}">
         </TextBlock>
 
-       <!--<TextBlock 
+      <!--<TextBlock 
             Grid.Column="0" 
-            Grid.Row="2" 
-            Foreground="White">Artist:
+            Grid.Row="1" 
+            Foreground="Black">Artist:
         </TextBlock> -->
         
-        <TextBlock 
-            Padding="0,0,0,10"
-            Margin="0,0,0,0"
+        <TextBlock
+            Padding="0,2,0,5"
+            Margin="0"
             Background="#528B8B"
             TextAlignment="Center"
-            Grid.Column="1"
-            Grid.Row="2"
+            Grid.Column="0"
+            Grid.Row="1"
             Foreground="White"
             Text="{Binding Result.Song.Artist}">
         </TextBlock>
@@ -69,13 +70,27 @@
                 <RotateTransform Angle="180"/>
             </TextBlock.RenderTransform>
         </TextBlock> -->
+       
+        <UniformGrid Grid.Row="2" Rows="1" Columns="3">         <!--columns and Viewboxes to be filled dynamically later-->
+            <Viewbox Stretch="Fill">
+                <Rectangle Fill="Blue" MinHeight="15" MinWidth="0.5"></Rectangle>
+            </Viewbox>
+            <Viewbox Stretch="UniformToFill">
+                <Rectangle Fill="Red" MinHeight="15" MinWidth="0.5"></Rectangle>
+            </Viewbox>
+            <Viewbox Stretch="UniformToFill">
+                <Rectangle Fill="Yellow" MinHeight="15" MinWidth="0.5" ></Rectangle>
+            </Viewbox>
+        </UniformGrid>
+
+
 
         <TextBlock 
-            Padding="0,0,0,10"
+            Padding="0,2,0,5"
             Margin="0,0,0,0"
             Background="#79CDCD"
             TextAlignment="Center"
-            Grid.Column="1" 
+            Grid.Column="0" 
             Grid.Row="3" 
             Foreground="White"
             RenderTransformOrigin="0.5, 0.5" 
@@ -100,7 +115,7 @@
             Background="#79CDCD"
             TextAlignment="Center"
             RenderTransformOrigin="0.5, 0.5"
-            Grid.Column="1" 
+            Grid.Column="0" 
             Grid.Row="4" 
             Foreground="White"
             Text="{Binding Result.Song.Title}">
@@ -108,9 +123,7 @@
                     <RotateTransform Angle="180"/>
                 </TextBlock.RenderTransform>
         </TextBlock>
-        
-        
-        
+               
     </Grid>
 
    
