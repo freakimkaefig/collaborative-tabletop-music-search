@@ -15,10 +15,11 @@ namespace Ctms.Applications.DataFactories
         {
         }
         
-        public Song Create(ResponseContainer.Response.Song song)
+        public Song Create(ResponseContainer.ResponseObj.Song song)
         {
             Song newSong  = new Song();
-            newSong.Title = song.title;
+            newSong.Title = song.Title;
+            newSong.Artist = song.Artist_Name;
 
             return newSong;
         }

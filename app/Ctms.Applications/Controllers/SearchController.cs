@@ -46,7 +46,7 @@ namespace Ctms.Applications.Controllers
         private ResultWorker _resultWorker;
         //Commands
         private readonly DelegateCommand _startSearchCmd;
-        private readonly DelegateCommand _setSelectionCmd;
+        private readonly DelegateCommand _selectOptionCmd;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
@@ -68,9 +68,8 @@ namespace Ctms.Applications.Controllers
             _resultViewModel = resultViewModel;
             //Commands
             _startSearchCmd = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
-            //_setSelectionCmd = new DelegateCommand(_searchOptionWorker.SelectOption, _searchOptionWorker.CanSelectOption);
-            _setSelectionCmd = new DelegateCommand(t =>_searchOptionWorker.SelectOption((KeywordType.Types)t));
-           // new DelegateCommand(p => LendTo((Book)p));
+            //_selectOptionCmd = new DelegateCommand(t => _searchOptionWorker.SelectOption((KeywordType.Types)t));
+            _selectOptionCmd = new DelegateCommand(t => _searchOptionWorker.SelectOption((string)t));
         }
 
         public void Initialize()

@@ -28,9 +28,9 @@ namespace MusicSearch.Managers
             StartRequest();
             ParseResponse();
 
-            var firstSong = ResponseContainer.response.songs.First();
-            Console.WriteLine(firstSong.title);
-            Console.WriteLine(firstSong.artist_name);
+            var firstSong = ResponseContainer.Response.Songs.First();
+            Console.WriteLine(firstSong.Title);
+            Console.WriteLine(firstSong.Artist_Name);
         }
 
         private void StartRequest()

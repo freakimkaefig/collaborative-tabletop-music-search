@@ -28,9 +28,11 @@ namespace Ctms.Applications.Workers
 
         public bool CanSelectOption() { return _searchViewModel.IsValid; }
 
-        public void SelectOption(KeywordType.Types selectOption)
+        //public void SelectOption(KeywordType.Types selectOption)
+        public void SelectOption(string selectOption)
         {
-            _selectionManager.SetSelection(selectOption);
+
+            //_selectionManager.SetSelection(selectOption);
         }
 
         public void LoadNextOptions()

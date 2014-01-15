@@ -33,25 +33,6 @@
 
         <Button Content="Search/Refresh" Command="{Binding StartSearchCommand}" Grid.Column="0" Grid.Row="0" Height="50"/>
 
-        <!--
-        <ps:PieMenu x:Name="Menu1" >
-            <ps:PieMenuItem Header="Item 1">
-                <ps:PieMenuItem Header="Item 1.1"/>
-                <ps:PieMenuItem Header="Item 1.2" Command="NotACommand"/>
-                <ps:PieMenuItem Header="Item 1.3" />
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2">
-                <ps:PieMenuItem Header="Item 2.1" />
-                <ps:PieMenuItem Header="Item 2.2" />
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3">
-                <ps:PieMenuItem Header="Item 3.1" />
-                <ps:PieMenuItem Header="Item 3.2" />
-                <ps:PieMenuItem Header="Item 3.3" />
-                <ps:PieMenuItem Header="Item 3.4" />
-            </ps:PieMenuItem>
-        </ps:PieMenu>
-        -->
         <ps:PieMenu x:Name="TopPart"  Grid.Column="0" Grid.Row="1"
                    Canvas.Left="0"
                    Canvas.Top="0"
@@ -66,9 +47,9 @@
                    RotateText="True"
                    Rotation="180"
                    MenuSector="180">
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
+            <ps:PieMenuItem Header="Item 1" BorderThickness="1" Command="{Binding SelectOptionCmd}">
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
+            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" Command="{Binding SelectOption}">
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
             </ps:PieMenuItem>
