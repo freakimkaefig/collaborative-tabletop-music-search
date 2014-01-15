@@ -52,13 +52,14 @@ namespace MusicSearch.Managers
             //_request = BuildString();
         }
 
-        private void BuildString()
+        private String BuildString()
         {
-            //_defaultURL + 
+            String query = _defaultURL;
             //angesprochener API Teil +
             //Methodenaufruf + 
             //String apiKey = GetAPIKey() +
             //Parameter 
+            return query;
         }
 
         private void GetAPIKey()
