@@ -3,8 +3,12 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ImageResources.xaml"/>
-        <ResourceDictionary Source="ControlResources.xaml"/>
-        <!--<ResourceDictionary Source="DataResources.xaml"/>-->
+        <ResourceDictionary Source="CommonStyleResources.xaml"/>
+        <ResourceDictionary Source="DetailStyleResources.xaml"/>
+        <ResourceDictionary Source="MenuStyleResources.xaml"/>
+        <ResourceDictionary Source="PlaylistStyleResources.xaml"/>
+        <ResourceDictionary Source="ResultStyleResources.xaml"/>
+        <ResourceDictionary Source="SearchStyleResources.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

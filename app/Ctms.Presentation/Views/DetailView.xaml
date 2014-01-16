@@ -21,6 +21,6 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Label Content="DetailView" Grid.Column="0" Grid.Row="0"/>
-        <Button Command="{Binding DoTestCommand}">Test</Button>
+        <Button Command="{Binding DoTestCommand}">Button Example</Button>
     </Grid>
 </UserControl>

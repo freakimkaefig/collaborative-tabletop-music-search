@@ -2,9 +2,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
-    <BitmapSource x:Key="BookLibraryImageSource">Images/BookLibrary.ico</BitmapSource>
+    <BitmapSource x:Key="BookLibraryImageSource">Images/ctms_icon.ico</BitmapSource>
     
-    <Image x:Key="SaveImage" x:Shared="False" Source="Images/Save.png" Height="16" Width="16"/>
+    <!--<Image x:Key="SaveImage" x:Shared="False" Source="Images/Save.png" Height="16" Width="16"/>
     
     <Image x:Key="UndoImage" x:Shared="False" Source="Images/Undo.png" Height="16" Width="16"/>
     <Image x:Key="RedoImage" x:Shared="False" Source="Images/Redo.png" Height="16" Width="16"/>
@@ -13,6 +13,6 @@
     <Image x:Key="PasteImage" x:Shared="False" Source="Images/Paste.png" Height="16" Width="16"/>
     <Image x:Key="DeleteImage" x:Shared="False" Source="Images/Delete.png" Height="16" Width="16"/>
     
-    <Image x:Key="EmailImage" x:Shared="False" Source="Images/Email.png" Height="16" Width="16"/>
+    <Image x:Key="EmailImage" x:Shared="False" Source="Images/Email.png" Height="16" Width="16"/>-->
     
 </ResourceDictionary>
