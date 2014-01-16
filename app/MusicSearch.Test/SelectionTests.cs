@@ -32,89 +32,113 @@ namespace MusicSearch.Test
     [TestClass]
     public class QueryTests
     {
-        private string _request;
-        private string _response;
+       
         public ResponseContainer ResponseContainer;
         private string _defaultURL = "http://developer.echonest.com/api/v4/";
         //API Key aus DB holen
-        private string _apiKey = "L5WMCPOK4F2LA9H5X&";
+        private string _apiKey = "L5WMCPOK4F2LA9H5X&"; //ends with "&" !
 
 
         [TestMethod]
-        public void SongsByArtistQuery()
+        public void BuildQuery(/*Liste*/)
         {
-            BuildString(1, "Radiohead");
-        }
-
-
-        /*public void RequestOffline()
-        {
-            _request = "http://developer.echonest.com/api/v4/song/search?api_key=L5WMCPOK4F2LA9H5X&style=rock&min_danceability=0.65&min_tempo=140&results=5";
-            //_request = BuildString();
-        }*/
-
-        //TODO
-        /* bei aufruf übergebene Liste traversieren nach API-Teilen
-         * 1) Einzelfälle (suche nach interpret/titel) herauspicken -> einzelne suchanfrage
-         * 2) Spezialfälle herauspicken (Genres,Parameter,...)
-         * 2.1) Mögliche Kombinationen aus Objekten (graphen/Netzwerk) abfragen
-         *      
-         * 
-         * 
-         * 
+            //TODO
+        /* 1)   bei aufruf übergebene Liste traversieren nach API-Teilen
+         * 2)   Einzelfälle (suche nach interpret/titel) herauspicken -> einzelne suchanfrage
+         * 3)   Spezialfälle herauspicken (Genres,Parameter,...)
+         * 3.1) Mögliche Kombinationen aus Objekten (graphen/Netzwerk) abfragen
+         * 4)   Übergabe der auslösenden Information/Tangibles, um Rückschlüsse zu ermöglichen
          */
-        public void BuildString(int i, String name)
-        {
-            if (i == 1) //API-Teil = Artist
-            {
-
-                //Leerzeichen aus String durch '+' ersetzten!
-
-                //'artist/' from var!
-                //'songs?' from var!
-                //'name=' from var!
-
-                _request = _defaultURL + "song/search?" + "api_key=" + _apiKey + "format=json&bucket=tracks&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&" + "artist=" + name;
-                Debug.WriteLine(_request);
-
-
-                
-                LoadOnlineResponse(_request);
-                //Assert.IsNull(_request);
-            }
-            //String _request = _defaultURL;
-            //angesprochener API Teil +
-            //Methodenaufruf + 
-            //String apiKey = GetAPIKey() +
-            //Parameter 
-            //LoadOnlineResponse(_request);
+            //Bsp-Query
+            SongsByArtistQuery("Katy Perry");
+            SongsByTitleQuery("wrecking ball");
         }
+
+
+        public void SongsByGenreQuery()
+        {
+            //get artists by genre(s)
+            //bsp:
+            //http://developer.echonest.com/api/v4/playlist/static?api_key=L5WMCPOK4F2LA9H5X&format=json&distribution=wandering&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=song_hotttnesss&bucket=audio_summary&type=genre-radio&genre=house&genre=rock
+
+
+            //find similiar songs (or artists and then songs...) by those artists
+            //bsp:
+            //
+        }
+
+
+                //############
+                //# WORKS    #
+                //# not used #
+                //############
+        public void SongsByTitleQuery(String title)
+        {
+            if (title.Contains(" "))
+            {
+                title = title.Replace(" ", "+");
+            }
+
+            //'api_key' via GetAPIKey()
+
+            String request = _defaultURL + "song/search?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "title=" + title;
+            
+            //LoadOnlineResponse(request); //Send Query
+
+        }
+
+                //############
+                //# WORKS    #
+                //# not used #
+                //############
+        public void SongsByArtistQuery(String artist)
+        {
+                //Leerzeichen aus String durch '+' ersetzten!
+            if (artist.Contains(" "))
+            {
+                artist = artist.Replace(" ", "+");
+                //Debug.WriteLine(artist);
+            }
+
+                //'api_key' via GetAPIKey()
+
+                String request = _defaultURL + "song/search?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "artist=" + artist;
+                
+                //LoadOnlineResponse(request); //Send Query
+
+
+                //Assert.IsNull(_request); //TEST
+        }
+
 
         public void GetAPIKey()
         {
             //get API-Key 
         }
 
-        public void LoadOnlineResponse(String request)
+        public void LoadOnlineResponse(String request) //Send Query
         {
             //JSON response delivered as string
-            _response = HttpRequester.StartRequest(request);
-            Debug.WriteLine("\n_response: " + _response);
+            String response = HttpRequester.StartRequest(request);
+            Debug.WriteLine("\n_response: " + response);
             //_response = _response.Replace("'", "&#39;");
 
-            ParseResponse();
+            ParseResponse(response);
         }
 
-        public void ParseResponse()
+        public void ParseResponse(String response)
         {
             //http://james.newtonking.com/json/help/index.html
             //Escapes in string making problems?
-            var cleared = @"" + _response.Replace("\"", "'");//Apostrophes are right now replaced by HTML unicode
+            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             ResponseContainer = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
 
             foreach (var Song in ResponseContainer.Response.Songs)
             {
                 //Debug.WriteLine("\n" + Song.Title);
+
+                //send results to Visualization
+                //ShowResult();
             }
         }
     }
