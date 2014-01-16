@@ -25,14 +25,12 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Label Content="SearchView" Grid.Column="0" Grid.Row="0"/>
-        <!--<Label Content="Json Query (for development)" Target="{Binding ElementName=jsonQueryBox}" Grid.Column="0" Grid.Row="1"/>
-        <TextBox x:Name="jsonQueryBox" Text="{Binding Search.JsonQuery, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=true, 
-                     ValidatesOnDataErrors=true, NotifyOnValidationError=true}" 
-                 MaxLength="30" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"/>-->
-
-        <Button Content="Search/Refresh" Command="{Binding StartSearchCommand}" Grid.Column="0" Grid.Row="0" Height="50"/>
+        <Label Content="SearchView" Grid.Column="0" Grid.Row="3"/>
+        <Button Content="Search/Refresh" Command="{Binding StartSearchCommand}" Grid.Column="0" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Left"/>
         <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding InputValue}"/>
+        <TextBlock Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Right" Style="{StaticResource SearchOptionsTextBlock}">
+            ControlResources Key Test
+        </TextBlock>
         <ps:PieMenu x:Name="TopPart"  Grid.Column="0" Grid.Row="1"
                    Canvas.Left="0"
                    Canvas.Top="0"

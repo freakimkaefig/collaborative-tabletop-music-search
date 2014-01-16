@@ -31,7 +31,7 @@
         </RadialGradientBrush>
     </Window.Background>
     
-    <Window.Resources>
+    <!--<Window.Resources>
         <Style x:Key="CommonStyle" TargetType="FrameworkElement">
             <Setter Property="Margin" Value="2" />
         </Style>
@@ -48,7 +48,7 @@
         <Style TargetType="TextBlock" BasedOn="{StaticResource CommonStyle}">
             <Setter Property="Foreground" Value="#fff" />
         </Style>
-    </Window.Resources>
+    </Window.Resources>-->
     <s:TagVisualizer x:Name="MyTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
                      VisualizationRemoved="OnVisualizationRemoved">
         <Grid Margin="0,0,0,0">
@@ -61,7 +61,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            
             <ContentControl Content="{Binding ShellService.SearchView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
             <ContentControl Content="{Binding ShellService.ResultView}" Margin="0,0,0,0" Grid.Column="1" Grid.Row="0"/>
             <ContentControl Content="{Binding ShellService.DetailView}" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
