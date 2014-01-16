@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:c="clr-namespace:Ctms.Presentation.Converters"
     mc:Ignorable="d"     
     MinWidth="1280"  MinHeight="700" 
         >
@@ -29,7 +30,7 @@
             </RadialGradientBrush.GradientStops>
         </RadialGradientBrush>
     </Window.Background>
-
+    
     <Window.Resources>
         <Style x:Key="CommonStyle" TargetType="FrameworkElement">
             <Setter Property="Margin" Value="2" />
@@ -47,12 +48,9 @@
         <Style TargetType="TextBlock" BasedOn="{StaticResource CommonStyle}">
             <Setter Property="Foreground" Value="#fff" />
         </Style>
-        <Style TargetType="TextBox" BasedOn="{StaticResource CommonStyle}">
-            <Setter Property="Foreground" Value="#fff" />
-        </Style>
     </Window.Resources>
     <s:TagVisualizer x:Name="MyTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
-                     VisualizationRemoved="OnVisualizationRemoved" Background="#222">
+                     VisualizationRemoved="OnVisualizationRemoved">
         <Grid Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -64,10 +62,10 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             
-            <!--<ContentControl Content="{Binding ShellService.SearchView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
+            <ContentControl Content="{Binding ShellService.SearchView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
             <ContentControl Content="{Binding ShellService.ResultView}" Margin="0,0,0,0" Grid.Column="1" Grid.Row="0"/>
             <ContentControl Content="{Binding ShellService.DetailView}" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
-            <ContentControl Content="{Binding ShellService.MenuView}" Margin="0,0,0,0" Grid.Column="3" Grid.Row="0"/>-->
+            <ContentControl Content="{Binding ShellService.MenuView}" Margin="0,0,0,0" Grid.Column="3" Grid.Row="0"/>
             
 
             <!--<ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0"/>-->

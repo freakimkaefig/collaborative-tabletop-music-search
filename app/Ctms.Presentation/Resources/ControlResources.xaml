@@ -10,6 +10,11 @@
     <Style TargetType="Label">
         <Setter Property="Foreground" Value="#fff"/>
     </Style>
+    
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#fff"/>
+        <Setter Property="Background" Value="#333"/>
+    </Style>
 
     <!--<Style TargetType="Button">
         <Setter Property="MinWidth" Value="75"/>
@@ -20,7 +25,8 @@
     </Style>-->
     
     <Style TargetType="TextBox">
-        <Setter Property="Foreground" Value="#000"/>
+        <Setter Property="Foreground" Value="#fff"/>
+        <Setter Property="Background" Value="#333"/>
     </Style>
 
     <!--Further examples for usage of this document-->

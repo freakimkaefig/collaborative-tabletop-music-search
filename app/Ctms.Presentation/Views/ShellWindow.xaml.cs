@@ -59,8 +59,8 @@ namespace Ctms.Presentation.Views
                 tagDefinition.MaxCount = 1;
                 tagDefinition.LostTagTimeout = 2000.0;
                 //tagDefinition.OrientationOffsetFromTag = 0;
-                tagDefinition.OrientationOffsetFromTag = 45;
-                tagDefinition.PhysicalCenterOffsetFromTag = new Vector(0.3, -0.4);
+                //tagDefinition.OrientationOffsetFromTag = 45;
+                //tagDefinition.PhysicalCenterOffsetFromTag = new Vector(0.3, -0.4);
                 tagDefinition.TagRemovedBehavior = TagRemovedBehavior.Fade;
                 tagDefinition.UsesTagOrientation = true;
                 //tagDefinition.
