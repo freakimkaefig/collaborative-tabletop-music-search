@@ -34,6 +34,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NAudio">
+      <HintPath>..\libs\NAudio\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.WindowsMediaFormat">
+      <HintPath>..\libs\NAudio\NAudio.WindowsMediaFormat.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\libs\Newtonsoft.Json\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -53,6 +59,8 @@
   <ItemGroup>
     <Compile Include="MusicStreamPlaylistContainerListener.cs" />
     <Compile Include="MusicStreamPlaylistContainerManager.cs" />
+    <Compile Include="MusicStreamPlaylistListener.cs" />
+    <Compile Include="MusicStreamPlaylistManager.cs" />
     <Compile Include="MusicStreamSessionListener.cs" />
     <Compile Include="MusicStreamSessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

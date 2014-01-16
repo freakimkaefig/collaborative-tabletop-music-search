@@ -34,12 +34,6 @@ namespace Ctms.Applications.Workers
             _sessionManager.Login();
         }
 
-        public void TestSearch()
-        {
-            _sessionManager.SpotifySearch();
-            _sessionManager.Play();
-        }
-
         private void ReceiveLogMessage(string logMessage)
         {
             _menuViewModel.LoginLogMessage += "\n" + logMessage;
@@ -47,9 +41,8 @@ namespace Ctms.Applications.Workers
 
         private void SpotifyLoggedIn()
         {
-            //TestSearch();
             _menuViewModel.IsLoggedIn = true;
-
+            _sessionManager.LoginCallback();
         }
     }
 }

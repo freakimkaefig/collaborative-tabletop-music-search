@@ -21,6 +21,12 @@ namespace MusicStream
             _playlistContainerListener = new MusicStreamPlaylistContainerListener(_sessionManager);
         }
 
+        public PlaylistContainer Container
+        {
+            set { this._container = value; }
+            get { return this._container; }
+        }
+
         public PlaylistContainer CreatePlaylistContainer()
         {
             _container = _session.Playlistcontainer();  //creates PlaylistContainer for SpotifySession

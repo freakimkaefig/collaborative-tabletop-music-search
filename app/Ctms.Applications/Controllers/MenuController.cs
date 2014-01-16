@@ -90,7 +90,7 @@ namespace Ctms.Applications.Controllers
         {
             if (e.PropertyName == "IsLoggedIn")
             {
-                _musicStreamAccountWorker.TestSearch();
+                //
             }
         }
 

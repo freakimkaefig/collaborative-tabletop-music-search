@@ -14,10 +14,12 @@ namespace Ctms.Applications.ViewModels
     public class MenuViewModel : ViewModel<IMenuView>
     {
         private bool isValid = true;
-        private Playlist playlist;
-        private ICommand exitAppCommand;
-        private ICommand loginCommand;
-        private string loginLogMessage;
+        private Playlist _playlist;
+        private ICommand _exitAppCommand;
+        private ICommand _loginCommand;
+        private ICommand _goCommand;
+        private string _loginLogMessage;
+        private string _goInput;
         private bool _isLoggedIn = false;
 
 
@@ -44,12 +46,12 @@ namespace Ctms.Applications.ViewModels
 
         public ICommand ExitAppCommand
         {
-            get { return exitAppCommand; }
+            get { return _exitAppCommand; }
             set
             {
-                if (exitAppCommand != value)
+                if (_exitAppCommand != value)
                 {
-                    exitAppCommand = value;
+                    _exitAppCommand = value;
                     RaisePropertyChanged("ExitAppCommand");
                 }
             }
@@ -57,12 +59,12 @@ namespace Ctms.Applications.ViewModels
 
         public ICommand LoginCommand
         {
-            get { return loginCommand; }
+            get { return _loginCommand; }
             set
             {
-                if (loginCommand != value)
+                if (_loginCommand != value)
                 {
-                    loginCommand = value;
+                    _loginCommand = value;
                     RaisePropertyChanged("LoginCommand");
                 }
             }
@@ -70,12 +72,12 @@ namespace Ctms.Applications.ViewModels
 
         public string LoginLogMessage
         {
-            get { return loginLogMessage; }
+            get { return _loginLogMessage; }
             set
             {
-                if (loginLogMessage != value)
+                if (_loginLogMessage != value)
                 {
-                    loginLogMessage = value;
+                    _loginLogMessage = value;
                     RaisePropertyChanged("LoginLogMessage");
                 }
             }
