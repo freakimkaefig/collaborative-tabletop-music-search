@@ -24,6 +24,7 @@ using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
 using Microsoft.Surface.Presentation.Controls;
 using System;
+using System.Diagnostics;
 
 namespace Ctms.Presentation.Views
 {
@@ -35,7 +36,12 @@ namespace Ctms.Presentation.Views
         public TagVisualizationControl()
         {
             InitializeComponent();
-            //InitTangibleDefinitions();
+            Trace.WriteLine("Hello","Cat");
+        }
+
+        public void SimpleVisualization_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

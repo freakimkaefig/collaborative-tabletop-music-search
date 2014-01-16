@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
 using Microsoft.Surface.Presentation.Controls;
+using Microsoft.Surface;
+using System.Diagnostics;
 
 namespace Ctms.Presentation.Views
 {
@@ -21,11 +23,12 @@ namespace Ctms.Presentation.Views
     /// Interaktionslogik für UserControl1.xaml
     /// </summary>
     [Export(typeof(IShellView))]
-    public partial class ShellWindow : Window, IShellView
+    public partial class ShellWindow : SurfaceWindow, IShellView
     {
         public ShellWindow()
         {
             InitializeComponent();
+            AddWindowAvailabilityHandlers();
             InitTangibleDefinitions();
         }
 
@@ -46,12 +49,8 @@ namespace Ctms.Presentation.Views
             }
         }
 
-
-        private TagVisualizer _tagVisualizer;
-
         public void InitTangibleDefinitions()
         {
-
             for (int i = 0; i < 12; i++)
             {
                 TagVisualizationDefinition tagDefinition = new TagVisualizationDefinition();
@@ -59,14 +58,58 @@ namespace Ctms.Presentation.Views
                 tagDefinition.Source = new Uri("../../Views/TagVisualizationControl.xaml", UriKind.Relative);
                 tagDefinition.MaxCount = 1;
                 tagDefinition.LostTagTimeout = 2000.0;
-                tagDefinition.OrientationOffsetFromTag = 0;
-                tagDefinition.PhysicalCenterOffsetFromTag = new Vector(0, 0);
+                //tagDefinition.OrientationOffsetFromTag = 0;
+                tagDefinition.OrientationOffsetFromTag = 45;
+                tagDefinition.PhysicalCenterOffsetFromTag = new Vector(0.3, -0.4);
                 tagDefinition.TagRemovedBehavior = TagRemovedBehavior.Fade;
                 tagDefinition.UsesTagOrientation = true;
-                //_tagVisualizer = new TagVisualizer();
-                TagVisualizer.Definitions.Add(tagDefinition);
+                //tagDefinition.
+                MyTagVisualizer.Definitions.Add(tagDefinition);
             }
 
+        }
+
+
+        private void AddWindowAvailabilityHandlers()
+        {
+            // Subscribe to surface window availability events
+            ApplicationServices.WindowInteractive += OnWindowInteractive;
+            ApplicationServices.WindowNoninteractive += OnWindowNoninteractive;
+            ApplicationServices.WindowUnavailable += OnWindowUnavailable;
+        }
+
+        private void RemoveWindowAvailabilityHandlers()
+        {
+            // Unsubscribe from surface window availability events
+            ApplicationServices.WindowInteractive -= OnWindowInteractive;
+            ApplicationServices.WindowNoninteractive -= OnWindowNoninteractive;
+            ApplicationServices.WindowUnavailable -= OnWindowUnavailable;
+        }
+
+        private void OnWindowInteractive(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OnWindowNoninteractive(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OnWindowUnavailable(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
+        {
+            //HandleTagAction(e);
+        }
+
+        private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
+        {
+            //HandleTagAction(e);
         }
     }
 }

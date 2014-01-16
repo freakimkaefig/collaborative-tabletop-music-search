@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    >
+    Loaded="SimpleVisualization_Loaded" >
     <!--Width="200" Height="200">-->
     <!--<Ellipse Height="100" Width="100" Name="MainCanvas" Fill="#57FF3ACB">
 
@@ -17,7 +17,7 @@
     </Rectangle>-->
 
     <Grid Height="150" Width="200"
-        Background="Transparent">
+        Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
