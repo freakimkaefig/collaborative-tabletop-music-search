@@ -31,24 +31,6 @@
         </RadialGradientBrush>
     </Window.Background>
     
-    <!--<Window.Resources>
-        <Style x:Key="CommonStyle" TargetType="FrameworkElement">
-            <Setter Property="Margin" Value="2" />
-        </Style>
-        <Style TargetType="StackPanel" BasedOn="{StaticResource CommonStyle}">
-        </Style>
-        <Style TargetType="Grid" BasedOn="{StaticResource CommonStyle}">
-        </Style>
-        <Style TargetType="Button" BasedOn="{StaticResource CommonStyle}">
-            <Setter Property="Foreground" Value="#fff" />
-        </Style>
-        <Style TargetType="Label" BasedOn="{StaticResource CommonStyle}">
-            <Setter Property="Foreground" Value="#fff" />
-        </Style>
-        <Style TargetType="TextBlock" BasedOn="{StaticResource CommonStyle}">
-            <Setter Property="Foreground" Value="#fff" />
-        </Style>
-    </Window.Resources>-->
     <s:TagVisualizer x:Name="MyTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
                      VisualizationRemoved="OnVisualizationRemoved">
         <Grid Margin="0,0,0,0">

@@ -137,6 +137,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DefaultStringConverter.cs" />
     <Compile Include="DesignData\MockShellService.cs" />
     <Compile Include="DesignData\SampleShellViewModel.cs" />

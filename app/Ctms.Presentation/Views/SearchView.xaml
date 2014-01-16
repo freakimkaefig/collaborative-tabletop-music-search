@@ -28,9 +28,8 @@
         <Label Content="SearchView" Grid.Column="0" Grid.Row="3"/>
         <Button Content="Search/Refresh" Command="{Binding StartSearchCommand}" Grid.Column="0" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Left"/>
         <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding InputValue}"/>
-        <TextBlock Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Right" Style="{StaticResource SearchOptionsTextBlock}">
-            ControlResources Key Test
-        </TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Right" Style="{StaticResource SearchOptionsTextBlock}"
+            Text="ControlResources Key Example"/>
         <ps:PieMenu x:Name="TopPart"  Grid.Column="0" Grid.Row="1"
                    Canvas.Left="0"
                    Canvas.Top="0"
