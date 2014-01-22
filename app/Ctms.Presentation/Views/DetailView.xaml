@@ -28,6 +28,7 @@
         <Label Content="DetailView" Grid.Column="0" Grid.Row="0"/>
         <Button Command="{Binding DoTestCommand}">Button Example</Button>
 
+
         <TextBlock
             Margin="0,0,0,0"
             TextAlignment="Center"
