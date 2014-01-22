@@ -57,6 +57,12 @@
     <Compile Include="DataFactories\SongFactory.cs" />
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Handlers\TagHandler.cs" />
+    <Compile Include="ViewModels\SearchTagViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\ISearchTagView.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Workers\DetailWorker.cs" />
     <Compile Include="Workers\ResultWorker.cs" />
     <Compile Include="Workers\SearchWorker.cs" />
@@ -77,10 +83,8 @@
     <Compile Include="Services\IPresentationService.cs" />
     <Compile Include="Services\IShellService.cs" />
     <Compile Include="Services\ShellService.cs" />
-    <Compile Include="ViewModels\TagVisualizationViewModel.cs" />
     <Compile Include="ViewModels\DetailViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
-    <Compile Include="Views\ITagVisualizationView.cs" />
     <Compile Include="Views\IDetailView.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\ResultViewModel.cs" />

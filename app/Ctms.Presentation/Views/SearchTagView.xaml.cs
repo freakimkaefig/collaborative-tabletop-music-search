@@ -9,12 +9,18 @@ namespace Ctms.Presentation.Views
     /// <summary>
     /// Interaktionslogik für UserControl1.xaml
     /// </summary>
-    public partial class TagVisualizationControl
+    [Export(typeof(ISearchTagView))]
+    public partial class SearchTagView : ISearchTagView
     {
-        public TagVisualizationControl()
+        public SearchTagView()
         {
             InitializeComponent();
             Trace.WriteLine("Hello","Cat");
+        }
+
+        public void DoSth()
+        {
+
         }
 
         public void SimpleVisualization_Loaded(object sender, RoutedEventArgs e)

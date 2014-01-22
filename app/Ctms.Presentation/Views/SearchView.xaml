@@ -7,6 +7,7 @@
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
     MinWidth="450" MinHeight="550" IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
@@ -25,8 +26,9 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+
         <Label Content="SearchView" Grid.Column="0" Grid.Row="3"/>
-        <Button Content="Search/Refresh" Command="{Binding StartSearchCommand}" Grid.Column="0" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Left"/>
+        <Button Content="Search/Refresh" Command="{Binding StartSearchCmd}" Grid.Column="0" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Left"/>
         <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding InputValue}"/>
         <TextBlock Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Right" Style="{StaticResource SearchOptionsTextBlock}"
             Text="ControlResources Key Example"/>

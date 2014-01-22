@@ -70,9 +70,6 @@ namespace Ctms.Applications.Controllers
         {
             shellViewModel.ExitCommand = exitCommand;
 
-            _tagVisualitationService = new TagVisualizationService();
-            _tagVisualitationService.InitTangibleDefinitions();
-
             entityController.Initialize();
             searchController.Initialize();
             resultController.Initialize();

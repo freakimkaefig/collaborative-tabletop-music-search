@@ -37,9 +37,11 @@ namespace Ctms.Applications.Controllers
         //Services
         private readonly IShellService _shellService;
         private readonly IEntityService _entityService;
+        private readonly TagVisualizationService _tagVisualizationService;
         //ViewModels
-        private SearchViewModel _searchViewModel;
-        private ResultViewModel _resultViewModel;
+        private SearchViewModel _searchVm;
+        private SearchTagViewModel _searchTagVm;
+        private ResultViewModel _resultVm;
         //Workers
         private SearchWorker _searchWorker;
         private SearchOptionWorker _searchOptionWorker;
@@ -52,7 +54,7 @@ namespace Ctms.Applications.Controllers
 
         [ImportingConstructor]
         public SearchController(CompositionContainer container, IShellService shellService, IEntityService entityService,
-            SearchViewModel searchViewModel, ResultViewModel resultViewModel,
+            SearchViewModel searchVm, SearchTagViewModel searchTagVm, ResultViewModel resultVm,
             SearchWorker searchWorker, ResultWorker resultWorker, SearchOptionWorker searchOptionWorker)
         {
             _searchWorker = searchWorker;
@@ -63,24 +65,32 @@ namespace Ctms.Applications.Controllers
             //Services
             _shellService = shellService;
             _entityService = entityService;
+            _tagVisualizationService = new TagVisualizationService(searchTagVm);
             //ViewModels
-            _searchViewModel = searchViewModel;
-            _resultViewModel = resultViewModel;
+            _searchVm = searchVm;
+            _searchTagVm = searchTagVm;
+            _resultVm = resultVm;
             //Commands
             _startSearchCmd = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
-            //_selectOptionCmd = new DelegateCommand(t => _searchOptionWorker.SelectOption((KeywordType.Types)t));
-            _selectOptionCmd = new DelegateCommand(t => _searchOptionWorker.SelectOption((string)t));
+            //_selectOptionCmd = new DelegateCommand(t => _searchOptionWorker.SelectOption((string)t));
+            _selectOptionCmd = new DelegateCommand(_searchOptionWorker.SelectOption);
         }
 
         public void Initialize()
         {
             //Commands
-            _searchViewModel.StartSearchCommand = _startSearchCmd;
+            _searchVm.StartSearchCmd = _startSearchCmd;
             //Views
-            _shellService.SearchView = _searchViewModel.View;
+            _shellService.SearchView = _searchVm.View;
+            _shellService.SearchTagView = _searchTagVm.View;
             //Listeners
-            AddWeakEventListener(_searchViewModel, SearchViewModelPropertyChanged);
+            AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
+
+            //_tagVisualizationService.InitTangibleDefinitions();
+            _searchTagVm.SelectCommand = _selectOptionCmd;
         }
+
+
 
         private void UpdateCommands()
         {

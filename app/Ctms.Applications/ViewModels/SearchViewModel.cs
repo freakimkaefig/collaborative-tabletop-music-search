@@ -69,7 +69,7 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public string InputValue 
+        public string InputValue
         {
             get { return _inputValue; }
             set
@@ -82,7 +82,7 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ICommand StartSearchCommand
+        public ICommand StartSearchCmd
         {
             get { return _startSearchCommand; }
             set
@@ -90,7 +90,7 @@ namespace Ctms.Applications.ViewModels
                 if (_startSearchCommand != value)
                 {
                     _startSearchCommand = value;
-                    RaisePropertyChanged("StartSearchCommand");
+                    RaisePropertyChanged("StartSearchCmd");
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace Ctms.Applications.ViewModels
                 if (selectOptionCmd != value)
                 {
                     selectOptionCmd = value;
-                    
+
                     RaisePropertyChanged("SelectOptionCmd");
                 }
             }

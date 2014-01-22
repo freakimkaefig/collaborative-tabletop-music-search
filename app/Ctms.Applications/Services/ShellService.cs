@@ -15,6 +15,7 @@ namespace Ctms.Applications.Services
         private object menuView;
         private bool isReportingEnabled;
         private Lazy<object> lazyReportingView;
+        private object searchTagView;
 
 
         public object ShellView
@@ -78,6 +79,19 @@ namespace Ctms.Applications.Services
                 {
                     searchView = value;
                     RaisePropertyChanged("SearchView");
+                }
+            }
+        }
+
+        public object SearchTagView
+        {
+            get { return searchTagView; }
+            set
+            {
+                if (searchTagView != value)
+                {
+                    searchTagView = value;
+                    RaisePropertyChanged("SearchTagView");
                 }
             }
         }

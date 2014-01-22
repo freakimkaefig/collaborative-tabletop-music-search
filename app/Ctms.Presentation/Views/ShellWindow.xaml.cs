@@ -32,7 +32,6 @@ namespace Ctms.Presentation.Views
             InitTangibleDefinitions();
         }
 
-
         public bool IsMaximized
         {
             get { return WindowState == WindowState.Maximized; }
@@ -55,21 +54,23 @@ namespace Ctms.Presentation.Views
             {
                 TagVisualizationDefinition tagDefinition = new TagVisualizationDefinition();
                 tagDefinition.Value = i;
-                tagDefinition.Source = new Uri("../../Views/TagVisualizationControl.xaml", UriKind.Relative);
+                tagDefinition.Source = new Uri("../../Views/SearchTagView.xaml", UriKind.Relative);
                 tagDefinition.MaxCount = 1;
-                tagDefinition.LostTagTimeout = 2000.0;
+                tagDefinition.LostTagTimeout = 5000.0;
                 //tagDefinition.OrientationOffsetFromTag = 0;
                 //tagDefinition.OrientationOffsetFromTag = 45;
                 //tagDefinition.PhysicalCenterOffsetFromTag = new Vector(0.3, -0.4);
                 tagDefinition.TagRemovedBehavior = TagRemovedBehavior.Fade;
-                tagDefinition.UsesTagOrientation = true;
-                //tagDefinition.
-                MyTagVisualizer.Definitions.Add(tagDefinition);
+                tagDefinition.UsesTagOrientation = false;
+                //MyTagVisualizer.Definitions.Add(tagDefinition);
+                AddTagVisualization(tagDefinition);
             }
-
         }
 
-
+        public void AddTagVisualization(TagVisualizationDefinition tagDefinition)
+        {
+            MyTagVisualizer.Definitions.Add(tagDefinition);
+        }
         private void AddWindowAvailabilityHandlers()
         {
             // Subscribe to surface window availability events
