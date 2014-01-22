@@ -6,26 +6,119 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
+    xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     MinWidth="250" MinHeight="400" IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}" waf:ValidationHelper.IsEnabled="true" -->
     <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
+        
         <Grid.RowDefinitions>
-          
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+        
         <Label Content="DetailView" Grid.Column="0" Grid.Row="0"/>
         <Button Command="{Binding DoTestCommand}">Button Example</Button>
-        
-        
-        
+
+        <TextBlock
+            Margin="0,0,0,0"
+            TextAlignment="Center"
+            Grid.Column="0" 
+            Grid.Row="1"
+            Foreground="White"
+            Text="Title: ">
+        </TextBlock>
+
+        <TextBlock
+            Margin="0,0,0,0"
+            TextAlignment="Center"
+            Grid.Column="1" 
+            Grid.Row="1"
+            Foreground="White"
+            Text="{Binding Result.Song.Title}"> <!--{Binding Result/Detail }  ?? -->
+        </TextBlock>
+
+        <TextBlock
+            Margin="0,0,0,0"
+            TextAlignment="Center"
+            Grid.Column="0" 
+            Grid.Row="2"
+            Foreground="White"
+            Text="Artist: ">
+        </TextBlock>
+
+        <TextBlock
+            Margin="0,0,0,0"
+            TextAlignment="Center"
+            Grid.Column="1" 
+            Grid.Row="2"
+            Foreground="White"
+            Text="Test234">
+        </TextBlock>
+
+        <TextBlock
+            Margin="0,0,0,0"
+            TextAlignment="Center"
+            Grid.Column="0" 
+            Grid.Row="3"
+            Foreground="White"
+            Text="Album: ">
+        </TextBlock>
+
+        <TextBlock
+            Margin="0,0,0,0"
+            TextAlignment="Center"
+            Grid.Column="1" 
+            Grid.Row="3"
+            Foreground="White"
+            Text="Test345">
+        </TextBlock>
+
+        <TextBlock
+            Margin="0,0,0,0"
+            TextAlignment="Center"
+            Grid.Column="0" 
+            Grid.Row="4"
+            Foreground="White"
+            Text="Genre: ">
+        </TextBlock>
+
+        <TextBlock
+            Margin="0,0,0,0"
+            TextAlignment="Center"
+            Grid.Column="1" 
+            Grid.Row="4"
+            Foreground="White"
+            Text="Test456">
+        </TextBlock>
+
+        <TextBlock
+            Margin="0,0,0,0"
+            TextAlignment="Center"
+            Grid.Column="0" 
+            Grid.Row="5"
+            Foreground="White"
+            Text="Biography:">
+        </TextBlock>
+
+        <TextBlock
+            
+            Margin="0,0,0,0"
+            TextAlignment="Center"
+            Grid.Column="1" 
+            Grid.Row="5"
+            Foreground="White"
+            Text="ersteZeile&#xa;zweiteZeile">
+        </TextBlock>
+
 
     </Grid>
 </UserControl>
