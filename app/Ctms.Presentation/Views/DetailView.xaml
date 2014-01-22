@@ -16,11 +16,16 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+          
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Label Content="DetailView" Grid.Column="0" Grid.Row="0"/>
         <Button Command="{Binding DoTestCommand}">Button Example</Button>
+        
+        
+        
+
     </Grid>
 </UserControl>
