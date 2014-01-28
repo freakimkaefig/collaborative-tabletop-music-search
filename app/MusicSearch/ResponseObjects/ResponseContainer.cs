@@ -16,6 +16,7 @@ namespace MusicSearch.ResponseObjects
         {
             public StatusObj Status { get; set; }
             public IList<Song> Songs { get; set; }
+            public IList<Term> Terms { get; set; }
 
             public class StatusObj
             {
@@ -30,6 +31,13 @@ namespace MusicSearch.ResponseObjects
                 public string Id { get; set; }
                 public string Artist_Name { get; set; }
                 public string Title { get; set; }
+            }
+
+            public class Term
+            {
+                public double Frequency { get; set; }
+                public string Name { get; set; }
+                public double Weight { get; set; }
             }
         }
     }

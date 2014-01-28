@@ -28,38 +28,59 @@ namespace MusicSearch.Test
     }
 
 
-    // Test-Enviroment for Queries to EchoNest, Parsing the resonses and logging them
+    // Test-Enviroment for Queries to EchoNest, Parsing the responses and logging them
     [TestClass]
     public class QueryTests
     {
-       
+
         public ResponseContainer ResponseContainer;
         private string _defaultURL = "http://developer.echonest.com/api/v4/";
         //API Key aus DB holen
         private string _apiKey = "L5WMCPOK4F2LA9H5X&"; //ends with "&" !
+        private Boolean _getGenre = false;
 
 
         [TestMethod]
         public void BuildQuery(/*Liste*/)
         {
             //TODO
-        /* 1)   bei aufruf übergebene Liste traversieren nach API-Teilen
-         * 2)   Einzelfälle (suche nach interpret/titel) herauspicken -> einzelne suchanfrage
-         * 3)   Spezialfälle herauspicken (Genres,Parameter,...)
-         * 3.1) Mögliche Kombinationen aus Objekten (graphen/Netzwerk) abfragen
-         * 4)   Übergabe der auslösenden Information/Tangibles, um Rückschlüsse zu ermöglichen
-         */
+            /* 1)   bei aufruf übergebene Liste traversieren nach API-Teilen
+             * 2)   Einzelfälle (suche nach interpret/titel) herauspicken -> einzelne suchanfrage
+             * 3)   Spezialfälle herauspicken (Genres,Parameter,...)
+             * 3.1) Mögliche Kombinationen aus Objekten (graphen/Netzwerk) abfragen
+             * 4)   Übergabe der auslösenden Information/Tangibles, um Rückschlüsse zu ermöglichen
+             */
             //Bsp-Query
             SongsByArtistQuery("Katy Perry");
             SongsByTitleQuery("wrecking ball");
+
+            //Bsp-genre-Array
+            String[] test = {"Hip Hop","Rock"};
+            SongsByGenreQuery(test);
         }
 
 
-        public void SongsByGenreQuery()
+        public void SongsByGenreQuery(String[] genres)
         {
-            //get artists by genre(s)
-            //bsp:
-            //http://developer.echonest.com/api/v4/playlist/static?api_key=L5WMCPOK4F2LA9H5X&format=json&distribution=wandering&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=song_hotttnesss&bucket=audio_summary&type=genre-radio&genre=house&genre=rock
+            String fixedGenre;
+            String queryGenres = "";
+            foreach (String genre in genres)
+            {
+                fixedGenre = genre;
+                if (genre.Contains(" "))
+                {
+                    fixedGenre = genre.Replace(" ", "+");
+                }
+                queryGenres += "&genre="+fixedGenre;
+            }
+            queryGenres = queryGenres.ToLower();
+            
+            String request = _defaultURL + "playlist/static?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&type=genre-radio"+queryGenres+"&results=4";
+
+            Debug.WriteLine("request URL = " + request);
+
+            _getGenre = true;
+            LoadOnlineResponse(request); //Send Query
 
 
             //find similiar songs (or artists and then songs...) by those artists
@@ -68,10 +89,10 @@ namespace MusicSearch.Test
         }
 
 
-                //############
-                //# WORKS    #
-                //# not used #
-                //############
+        //############
+        //# WORKS    #
+        //# not used #
+        //############
         public void SongsByTitleQuery(String title)
         {
             if (title.Contains(" "))
@@ -79,35 +100,43 @@ namespace MusicSearch.Test
                 title = title.Replace(" ", "+");
             }
 
+            title = title.ToLower();
+
             //'api_key' via GetAPIKey()
+            // check for further parameters like "hotttnesss"
 
             String request = _defaultURL + "song/search?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "title=" + title;
-            
-            //LoadOnlineResponse(request); //Send Query
 
+            //############
+            //LoadOnlineResponse(request); //Send Query
+            //############
         }
 
-                //############
-                //# WORKS    #
-                //# not used #
-                //############
+        //############
+        //# WORKS    #
+        //# not used #
+        //############
         public void SongsByArtistQuery(String artist)
         {
-                //Leerzeichen aus String durch '+' ersetzten!
+            //Leerzeichen aus String durch '+' ersetzten!
             if (artist.Contains(" "))
             {
                 artist = artist.Replace(" ", "+");
                 //Debug.WriteLine(artist);
             }
 
-                //'api_key' via GetAPIKey()
+            artist = artist.ToLower();
 
-                String request = _defaultURL + "song/search?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "artist=" + artist;
-                
-                //LoadOnlineResponse(request); //Send Query
+            //'api_key' via GetAPIKey()
+            // check for further parameters like "hotttnesss"
 
+            String request = _defaultURL + "song/search?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "artist=" + artist;
 
-                //Assert.IsNull(_request); //TEST
+            //############
+            //LoadOnlineResponse(request); //Send Query
+            //############
+
+            //Assert.IsNull(_request); //TEST
         }
 
 
@@ -120,8 +149,10 @@ namespace MusicSearch.Test
         {
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
+            //transform "\'" to unicode equivalent
+            response = response.Replace("'", "&#39;");
+
             Debug.WriteLine("\n_response: " + response);
-            //_response = _response.Replace("'", "&#39;");
 
             ParseResponse(response);
         }
@@ -133,13 +164,42 @@ namespace MusicSearch.Test
             var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             ResponseContainer = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
 
-            foreach (var Song in ResponseContainer.Response.Songs)
+            if (_getGenre == true)
             {
-                //Debug.WriteLine("\n" + Song.Title);
+                _getGenre = false;
+                foreach (var Song in ResponseContainer.Response.Songs)
+                {
+                    //Debug.WriteLine("\nsong id: " + Song.Artist_Id);
+                    //http://developer.echonest.com/api/v4/artist/terms?api_key=L5WMCPOK4F2LA9H5X&format=json&sort=weight&id=ID_HERE
 
-                //send results to Visualization
-                //ShowResult();
+                    String requestGenre = _defaultURL+"artist/terms?api_key="+_apiKey+"format=json&sort=weight&id="+Song.Artist_Id;
+                    //JSON response delivered as string
+                    String responseGenre = HttpRequester.StartRequest(requestGenre);
+                    //transform "\'" to unicode equivalent
+                    responseGenre = responseGenre.Replace("'", "&#39;");
+                    var clearedGenre = @"" + responseGenre.Replace("\"", "'");
+                    ResponseContainer = JsonConvert.DeserializeObject<ResponseContainer>(clearedGenre);
+
+                    //NUR DEN ERSTEN TERM
+
+                    Debug.WriteLine("song id: " + Song.Artist_Id);
+                    Debug.WriteLine("Artist: " + Song.Artist_Name);
+                    Debug.WriteLine("Titel: " + Song.Title);
+
+                }
+
+                //test-schleife; reihenfolge der songs gleich reihenfolge der gesuchten genres?
+                foreach (var Term in ResponseContainer.Response.Terms)
+                {
+                    Debug.WriteLine("Genre: " + Term.Name);
+                }
             }
+            
+
+            //############
+            //send results to Visualization
+            //ToDo: implement ShowResult() or similiar
+            //############
         }
     }
 }
