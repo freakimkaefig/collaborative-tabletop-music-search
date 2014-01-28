@@ -21,25 +21,25 @@ namespace MusicStream
         public override void PlaylistAdded(PlaylistContainer pc, Playlist playlist, int position, object userdata)
         {
             base.PlaylistAdded(pc, playlist, position, userdata);
-            _sessionManager.logMessages.Enqueue("Spotify: PLAYLIST ADDED - " + playlist.IsLoaded());
+            //_sessionManager.logMessages.Enqueue("Spotify: PLAYLIST ADDED - " + playlist.IsLoaded());
         }
 
         public override void PlaylistRemoved(PlaylistContainer pc, Playlist playlist, int position, object userdata)
         {
             base.PlaylistRemoved(pc, playlist, position, userdata);
-            _sessionManager.logMessages.Enqueue("Spotify: PLAYLIST REMOVED - " + playlist.Name());
+            //_sessionManager.logMessages.Enqueue("Spotify: PLAYLIST REMOVED - " + playlist.Name());
         }
 
         public override void PlaylistMoved(PlaylistContainer pc, Playlist playlist, int position, int new_position, object userdata)
         {
             base.PlaylistMoved(pc, playlist, position, new_position, userdata);
-            _sessionManager.logMessages.Enqueue("Spotify: PLAYLIST MOVED - " + playlist.Name());
+            //_sessionManager.logMessages.Enqueue("Spotify: PLAYLIST MOVED - " + playlist.Name());
         }
 
         public override void ContainerLoaded(PlaylistContainer pc, object userdata)
         {
             base.ContainerLoaded(pc, userdata);
-            _sessionManager.logMessages.Enqueue("Spotify: CONTAINER LOADED");
+            //_sessionManager.logMessages.Enqueue("Spotify: CONTAINER LOADED");
             _sessionManager.PlaylistContainerLoadedCallback();
         }
     }

@@ -60,15 +60,19 @@ namespace MusicStream
 
         public override int MusicDelivery(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
         {
-            _sessionManager.logMessages.Enqueue("MusicDelivery");
+            //format.channels = 2, format.samplerate = 44100, format.sample_type = Int16NativeEndian
+            //frames = ?
+            //num_frames = 2048
+            _sessionManager.logMessages.Enqueue("MusicDelivery | " + num_frames);
             _sessionManager.MusicDeliveryCallback(session, format, frames, num_frames);
-            return base.MusicDelivery(session, format, frames, num_frames);
+            return 0; //base.MusicDelivery(session, format, frames, num_frames);
         }
 
         public override void GetAudioBufferStats(SpotifySession session, out AudioBufferStats stats)
         {
             base.GetAudioBufferStats(session, out stats);
-            //_sessionManager.logMessages.Enqueue("GetAudioBufferStats: " + stats);
+            stats.samples = 2048 / 2;   //???
+            stats.stutter = 0;          //???
         }
 
         public override void StreamingError(SpotifySession session, SpotifyError error)

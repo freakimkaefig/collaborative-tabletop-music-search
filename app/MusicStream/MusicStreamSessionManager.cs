@@ -7,6 +7,8 @@ using System.Collections;
 using NAudio;
 using NAudio.Wave;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using NAudio.Utils;
 
 namespace MusicStream
 {
@@ -27,6 +29,9 @@ namespace MusicStream
 
         //File file;
         FileStream fileStream;
+        private Queue<IntPtr> _frames_list;
+        public BufferedWaveProvider bufferedWaveProvider;
+        private bool _waveOutDeviceInitialized = false;
         
 
         public MusicStreamSessionManager()
@@ -89,22 +94,28 @@ namespace MusicStream
         {
             _playlistContainerManager = new MusicStreamPlaylistContainerManager(this, session);
             _playlistcontainer = _playlistContainerManager.CreatePlaylistContainer();
+            //Play(Track.GetPlayable(session, Link.CreateFromString("spotify:track:6oDPg7fXW3Ug3KmbafrXzA").AsTrack()));
         }
 
         public void PlaylistContainerLoadedCallback()
         {
+            //Playlist playlist = _playlistContainerManager.AddNewPlaylist("Test Playlist");
 
-            Playlist playlist = _playlistContainerManager.AddNewPlaylist("Test Playlist");
-            _playlistManager = new MusicStreamPlaylistManager(this, playlist);
+            Playlist playlist = _playlistcontainer.Playlist(0);
+            var test1 = playlist.Name();
+            var test2 = playlist.Track(0);
+            var test3 = test2.Artist(0);
+            var test4 = test3.Name();
 
-            _playlistManager.AddTracksToPlaylist(session, playlist, GetTestTracks());
+            //_playlistManager = new MusicStreamPlaylistManager(this, playlist);
 
-            //_playlistContainerManager.Container.MovePlaylist(0, 0, true); //Move playlist to folder
+            //_playlistManager.AddTracksToPlaylist(session, playlist, GetTestTracks());
+            Play(test2);
         }
 
         public void PlaylistTracksAddedCallback(Playlist playlist)
         {
-            logMessages.Enqueue("PlaylistTracksAddedCallback: " + _playlistManager.GetPlaylistMetadata(playlist));
+            //logMessages.Enqueue("PlaylistTracksAddedCallback: " + _playlistManager.GetPlaylistMetadata(playlist));
             Play(playlist.Track(0));
         }
 
@@ -112,9 +123,9 @@ namespace MusicStream
         {
             Track katy = Track.GetPlayable(session, Link.CreateFromString("spotify:track:4lCv7b86sLynZbXhfScfm2").AsTrack());
             Track miley = Track.GetPlayable(session, Link.CreateFromString("spotify:track:6oDPg7fXW3Ug3KmbafrXzA").AsTrack());
-            Track[] tracks = new Track[2];
+            Track[] tracks = new Track[1];
             tracks[0] = katy;
-            tracks[1] = miley;
+            //tracks[1] = miley;
 
             return tracks;
         }
@@ -127,68 +138,25 @@ namespace MusicStream
 
         public void MusicDeliveryCallback(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
         {
-            /*  //Writing Spotify Data in .pcm File
-            if (num_frames != 0)
+            //http://stackoverflow.com/questions/21307520/playing-ohlibspotify-pcm-data-stream-in-c-sharp-with-naudio
+            //format.channels = 2, format.samplerate = 44100, format.sample_type = Int16NativeEndian
+            //frames = ?
+            //num_frames = 2048
+
+            byte[] frames_copy = new byte[num_frames];
+            Marshal.Copy(frames, frames_copy, 0, num_frames);
+
+            bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat(format.sample_rate, format.channels));
+            bufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(40);            
+            bufferedWaveProvider.AddSamples(frames_copy, 0, num_frames);
+            bufferedWaveProvider.Read(frames_copy, 0, num_frames);
+
+            if (_waveOutDeviceInitialized == false)
             {
-                var numBytesToWrite = (num_frames) * format.channels * sizeof(short);
-                if (numBytesToWrite > 0)
-                {
-                    fileStream = new FileStream("test.pcm", FileMode.OpenOrCreate);
-                    //file = File.Create("test/file.pcm");
-
-                    Int32 numsamples = num_frames * format.channels;
-                    //fileStream = new FileStream(frames, FileAccess.ReadWrite);
-                    //fileStream.Write(
-                    //fwrite(frames, sizeof(short), numSamplesToWrite, pFile);
-
-                    //fileStream = new FileStream(frames, FileAccess.ReadWrite, false, numsamples);
-
-                    var wavm = new Int16[numsamples];
-                    Marshal.Copy(frames, wavm, 0, numsamples);
-                    // and do something with wavm
-
-                    //or
-                    var wavbytes = new Byte[numsamples * 2];
-                    Marshal.Copy(frames, wavbytes, 0, numsamples * 2);
-                    fileStream.Write(wavbytes, 0, numsamples * 2);
-                    fileStream.Close();
-                }
-            }
-            */
-
-            /*  http://stackoverflow.com/questions/11452236/how-to-play-a-spotify-music-stream
-            IWavePlayer waveOutDevice = new WaveOut();
-
-            using (var pcmStream = new FileStream("test.pcm", FileMode.OpenOrCreate))
-            {
-                //int songDuration = 3000;
-                int sampleRate = format.sample_rate;
-                int channels = format.channels;
-                var waveFormat = WaveFormat.CreateCustomFormat(WaveFormatEncoding.Pcm, sampleRate * channels, 1, sampleRate * 2 * channels, channels, 16);
-                var waveStream = new RawSourceWaveStream(pcmStream, waveFormat);
-
-                waveOutDevice.Init(waveStream);
+                IWavePlayer waveOutDevice = new WaveOut();
+                waveOutDevice.Init(bufferedWaveProvider);
                 waveOutDevice.Play();
-                Thread.Sleep(songDuration);
-                waveOutDevice.Stop();
-                waveStream.Close();
-                waveOutDevice.Dispose();
-            }*/
-
-            //  http://stackoverflow.com/questions/2488426/how-to-play-a-mp3-file-using-naudio
-            //Playing test.mp3 in app\Ctms.Presentation\bin\Debug
-            using (var ms = File.OpenRead("test.pcm"))
-            using (var rdr = new Mp3FileReader(ms))
-            using (var wavStream = WaveFormatConversionStream.CreatePcmStream(rdr))
-            using (var baStream = new BlockAlignReductionStream(wavStream))
-            using (var waveOut = new WaveOut(WaveCallbackInfo.FunctionCallback()))
-            {
-                waveOut.Init(baStream);
-                waveOut.Play();
-                while (waveOut.PlaybackState == PlaybackState.Playing)
-                {
-                    Thread.Sleep(100);
-                }
+                _waveOutDeviceInitialized = true;
             }
         }
     }

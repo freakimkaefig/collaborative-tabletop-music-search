@@ -18,14 +18,14 @@ namespace MusicStream
         public override void TracksAdded(Playlist pl, Track[] tracks, int position, object userdata)
         {
             base.TracksAdded(pl, tracks, position, userdata);
-            _sessionManager.logMessages.Enqueue("Spotify: TRACKS ADDED");
+            //_sessionManager.logMessages.Enqueue("Spotify: TRACKS ADDED");
             _sessionManager.PlaylistTracksAddedCallback(pl);
         }
 
         public override void PlaylistUpdateInProgress(Playlist pl, bool done, object userdata)
         {
             base.PlaylistUpdateInProgress(pl, done, userdata);
-            _sessionManager.logMessages.Enqueue("Spotify: PLAYLIST UPDATE IN PROGRESS - Done? " + done);
+            //_sessionManager.logMessages.Enqueue("Spotify: PLAYLIST UPDATE IN PROGRESS - Done? " + done);
         }
     }
 }
