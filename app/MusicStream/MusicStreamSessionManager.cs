@@ -52,6 +52,7 @@ namespace MusicStream
 
             timer = new System.Threading.Timer(obj => InvokeProcessEvents(session), null, Timeout.Infinite, Timeout.Infinite);
 
+            //Creating new SpotifySession
             session = SpotifySession.Create(config);
 
                      
@@ -87,40 +88,55 @@ namespace MusicStream
 
         public void Login()
         {
+            /* Login to Spotify by clicking Login button in interface
+             * (called from Ctms.Applications/Workers/MusicStreamAccountWorker.cs - Login() :34)
+             */
             session.Login(spotifyUsername, spotifyPassword, false, null);
         }
 
         public void LoginCallback()
         {
+            /* Callback, when successfully logged in to Spotify
+             * (called from Ctms.Applications/Workers/MusicStreamAccountWorker.cs - SpotifyLoggedIn() :45)
+             * 
+             * creating new PlaylistContainerManager
+             * creating new PlaylistContainer
+             */
             _playlistContainerManager = new MusicStreamPlaylistContainerManager(this, session);
             _playlistcontainer = _playlistContainerManager.CreatePlaylistContainer();
-            //Play(Track.GetPlayable(session, Link.CreateFromString("spotify:track:6oDPg7fXW3Ug3KmbafrXzA").AsTrack()));
         }
 
         public void PlaylistContainerLoadedCallback()
         {
-            //Playlist playlist = _playlistContainerManager.AddNewPlaylist("Test Playlist");
+            /* Callback, when PlaylistContainer is loaded
+             * (called from MusicStream/MusicStreamPlaylistContainerListener.cs - ContainerLoaded() :43)
+             */
+            Playlist playlist = _playlistcontainer.Playlist(0);     //Getting Playlist (CTMS Test)
+            var test1 = playlist.Name();                            //Getting Name of Playlist
+            var test2 = playlist.Track(0);                          //Getting first Track of Playlist
+            var test3 = test2.Artist(0);                            //Getting first Artist of Track
+            var test4 = test3.Name();                               //Getting Name of Artist
 
-            Playlist playlist = _playlistcontainer.Playlist(0);
-            var test1 = playlist.Name();
-            var test2 = playlist.Track(0);
-            var test3 = test2.Artist(0);
-            var test4 = test3.Name();
+            Play(test2);    //Play Track
 
-            //_playlistManager = new MusicStreamPlaylistManager(this, playlist);
-
-            //_playlistManager.AddTracksToPlaylist(session, playlist, GetTestTracks());
-            Play(test2);
+            
+            //_playlistManager = new MusicStreamPlaylistManager(this, playlist);    //Creating new PlaylistManager
+            //_playlistManager.AddTracksToPlaylist(session, playlist, GetTestTracks()); //Adding Tracks to playlist
+            
         }
 
         public void PlaylistTracksAddedCallback(Playlist playlist)
         {
+            //currently not used
+
             //logMessages.Enqueue("PlaylistTracksAddedCallback: " + _playlistManager.GetPlaylistMetadata(playlist));
-            Play(playlist.Track(0));
+            //Play(playlist.Track(0));
         }
 
         private Track[] GetTestTracks()
         {
+            //currently not used
+
             Track katy = Track.GetPlayable(session, Link.CreateFromString("spotify:track:4lCv7b86sLynZbXhfScfm2").AsTrack());
             Track miley = Track.GetPlayable(session, Link.CreateFromString("spotify:track:6oDPg7fXW3Ug3KmbafrXzA").AsTrack());
             Track[] tracks = new Track[1];
@@ -132,8 +148,12 @@ namespace MusicStream
 
         public void Play(Track track)
         {
-            session.PlayerLoad(track);
-            session.PlayerPlay(true);
+            /* Play Track
+             * (called from MusicStream/MusicStreamSessionManager.cs - PlaylistContainerLoadedCallback() :120)
+             */
+
+            session.PlayerLoad(track);  //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gac73bf2c569a43d824439b557d5e4b293
+            session.PlayerPlay(true);   //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gab66c5915967e4f90db945b118e620624
         }
 
         public void MusicDeliveryCallback(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
@@ -144,11 +164,11 @@ namespace MusicStream
             //num_frames = 2048
 
             byte[] frames_copy = new byte[num_frames];
-            Marshal.Copy(frames, frames_copy, 0, num_frames);
+            Marshal.Copy(frames, frames_copy, 0, num_frames);   //Copy Pointer Bytes to frames_copy
 
             bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat(format.sample_rate, format.channels));
-            bufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(40);            
-            bufferedWaveProvider.AddSamples(frames_copy, 0, num_frames);
+            bufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(40);
+            bufferedWaveProvider.AddSamples(frames_copy, 0, num_frames);    //adding bytes from frames_copy as samples
             bufferedWaveProvider.Read(frames_copy, 0, num_frames);
 
             if (_waveOutDeviceInitialized == false)
