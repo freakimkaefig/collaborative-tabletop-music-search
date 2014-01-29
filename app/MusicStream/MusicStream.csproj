@@ -58,12 +58,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MusicStreamPlaylistContainerListener.cs" />
-    <Compile Include="MusicStreamPlaylistContainerManager.cs" />
     <Compile Include="MusicStreamPlaylistListener.cs" />
     <Compile Include="MusicStreamPlaylistManager.cs" />
     <Compile Include="MusicStreamSessionListener.cs" />
     <Compile Include="MusicStreamSessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

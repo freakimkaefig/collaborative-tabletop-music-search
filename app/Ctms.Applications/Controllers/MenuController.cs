@@ -92,6 +92,11 @@ namespace Ctms.Applications.Controllers
             {
                 //
             }
+
+            if (e.PropertyName == "PlaylistContainerLoaded")
+            {
+                //
+            }
         }
 
         /*

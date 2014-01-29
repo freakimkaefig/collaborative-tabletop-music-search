@@ -14,23 +14,24 @@ namespace MusicStream
 {
     public class MusicStreamSessionManager
     {
-        public ConcurrentQueue<string> logMessages;
+        private SpotifySession _session;
         public MusicStreamSessionListener SessionListener;
-        public Action<string> receiveLogMessage;
-        private string spotifyUsername = "mybleton";
-        private string spotifyPassword = "ctms";
-        private MusicStreamPlaylistContainerManager _playlistContainerManager;
-        private PlaylistContainer _playlistcontainer;
+        private PlaylistContainer _playlistContainer;
+        private MusicStreamPlaylistContainerListener _playlistContainerListener;
         private MusicStreamPlaylistManager _playlistManager;
-        SpotifySession session;
-        Search search;
+
+        public Action<string> receiveLogMessage;
+        public Action SpotifyLoggedIn;
+        public Action PlaylistContainerLoaded;
+        private string _spotifyUsername = "mybleton";
+        private string _spotifyPassword = "ctms";
+        private string _credentialsBlob = null;
+
+        public ConcurrentQueue<string> logMessages;
         SynchronizationContext syncContext;
         System.Threading.Timer timer;
 
-        //File file;
-        FileStream fileStream;
-        private Queue<IntPtr> _frames_list;
-        public BufferedWaveProvider bufferedWaveProvider;
+        private BufferedWaveProvider bufferedWaveProvider;
         private bool _waveOutDeviceInitialized = false;
         
 
@@ -50,13 +51,33 @@ namespace MusicStream
             SessionListener = new MusicStreamSessionListener(this);
             config.Listener = SessionListener;
 
-            timer = new System.Threading.Timer(obj => InvokeProcessEvents(session), null, Timeout.Infinite, Timeout.Infinite);
+            timer = new System.Threading.Timer(obj => InvokeProcessEvents(_session), null, Timeout.Infinite, Timeout.Infinite);
 
             //Creating new SpotifySession
-            session = SpotifySession.Create(config);
+            _session = SpotifySession.Create(config);
 
                      
         }
+
+        /* SETTER & GETTER */
+        public string CredentialsBlob
+        {
+            set { this._credentialsBlob = value; }
+            get { return this._credentialsBlob; }
+        }
+
+        public string SpotifyUsername
+        {
+            set { this._spotifyUsername = value; }
+            get { return this._spotifyUsername; }
+        }
+
+        public string SpotifyPassword
+        {
+            set { this._spotifyPassword = value; }
+            get { return this._spotifyPassword; }
+        }
+
 
         public void InvokeProcessEvents(SpotifySession session)
         {
@@ -65,7 +86,7 @@ namespace MusicStream
 
         void ProcessEvents(SpotifySession session)
         {
-            this.session = session;
+            this._session = session;
             int timeout = 0;
             string message;
             while (logMessages.TryDequeue(out message))
@@ -79,22 +100,17 @@ namespace MusicStream
             timer.Change(timeout, Timeout.Infinite);
         }
 
-        /*
-        public void SpotifySearch()
-        {
-            search = Search.Create(session, "artist:Katy Perry", 0, 0, 0, 250, 0, 0, 0, 0, SearchType.Standard, SessionListener.SearchComplete, null);
-        }
-        */
+
 
         public void Login()
         {
             /* Login to Spotify by clicking Login button in interface
              * (called from Ctms.Applications/Workers/MusicStreamAccountWorker.cs - Login() :34)
              */
-            session.Login(spotifyUsername, spotifyPassword, false, null);
+            _session.Login(_spotifyUsername, _spotifyPassword, true, CredentialsBlob);
         }
 
-        public void LoginCallback()
+        public void LoggedInCallback()
         {
             /* Callback, when successfully logged in to Spotify
              * (called from Ctms.Applications/Workers/MusicStreamAccountWorker.cs - SpotifyLoggedIn() :45)
@@ -102,8 +118,11 @@ namespace MusicStream
              * creating new PlaylistContainerManager
              * creating new PlaylistContainer
              */
-            _playlistContainerManager = new MusicStreamPlaylistContainerManager(this, session);
-            _playlistcontainer = _playlistContainerManager.CreatePlaylistContainer();
+            SpotifyLoggedIn();  //Notify MenuController
+
+            _playlistContainer = _session.Playlistcontainer();
+            _playlistContainerListener = new MusicStreamPlaylistContainerListener(this);
+            _playlistContainer.AddCallbacks(_playlistContainerListener, null);
         }
 
         public void PlaylistContainerLoadedCallback()
@@ -111,39 +130,15 @@ namespace MusicStream
             /* Callback, when PlaylistContainer is loaded
              * (called from MusicStream/MusicStreamPlaylistContainerListener.cs - ContainerLoaded() :43)
              */
-            Playlist playlist = _playlistcontainer.Playlist(0);     //Getting Playlist (CTMS Test)
+            PlaylistContainerLoaded();
+
+            Playlist playlist = _playlistContainer.Playlist(0);     //Getting Playlist (CTMS Test)
             var test1 = playlist.Name();                            //Getting Name of Playlist
             var test2 = playlist.Track(0);                          //Getting first Track of Playlist
             var test3 = test2.Artist(0);                            //Getting first Artist of Track
             var test4 = test3.Name();                               //Getting Name of Artist
 
             Play(test2);    //Play Track
-
-            
-            //_playlistManager = new MusicStreamPlaylistManager(this, playlist);    //Creating new PlaylistManager
-            //_playlistManager.AddTracksToPlaylist(session, playlist, GetTestTracks()); //Adding Tracks to playlist
-            
-        }
-
-        public void PlaylistTracksAddedCallback(Playlist playlist)
-        {
-            //currently not used
-
-            //logMessages.Enqueue("PlaylistTracksAddedCallback: " + _playlistManager.GetPlaylistMetadata(playlist));
-            //Play(playlist.Track(0));
-        }
-
-        private Track[] GetTestTracks()
-        {
-            //currently not used
-
-            Track katy = Track.GetPlayable(session, Link.CreateFromString("spotify:track:4lCv7b86sLynZbXhfScfm2").AsTrack());
-            Track miley = Track.GetPlayable(session, Link.CreateFromString("spotify:track:6oDPg7fXW3Ug3KmbafrXzA").AsTrack());
-            Track[] tracks = new Track[1];
-            tracks[0] = katy;
-            //tracks[1] = miley;
-
-            return tracks;
         }
 
         public void Play(Track track)
@@ -151,9 +146,8 @@ namespace MusicStream
             /* Play Track
              * (called from MusicStream/MusicStreamSessionManager.cs - PlaylistContainerLoadedCallback() :120)
              */
-
-            session.PlayerLoad(track);  //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gac73bf2c569a43d824439b557d5e4b293
-            session.PlayerPlay(true);   //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gab66c5915967e4f90db945b118e620624
+            _session.PlayerLoad(track);  //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gac73bf2c569a43d824439b557d5e4b293
+            _session.PlayerPlay(true);   //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gab66c5915967e4f90db945b118e620624
         }
 
         public void MusicDeliveryCallback(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
@@ -166,10 +160,12 @@ namespace MusicStream
             byte[] frames_copy = new byte[num_frames];
             Marshal.Copy(frames, frames_copy, 0, num_frames);   //Copy Pointer Bytes to frames_copy
 
-            bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat(format.sample_rate, format.channels));
+            ByteArrayToFile("test.pcm", frames_copy);
+
+            bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat());
             bufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(40);
             bufferedWaveProvider.AddSamples(frames_copy, 0, num_frames);    //adding bytes from frames_copy as samples
-            bufferedWaveProvider.Read(frames_copy, 0, num_frames);
+            //bufferedWaveProvider.Read(frames_copy, 0, num_frames);
 
             if (_waveOutDeviceInitialized == false)
             {
@@ -178,6 +174,34 @@ namespace MusicStream
                 waveOutDevice.Play();
                 _waveOutDeviceInitialized = true;
             }
+        }
+
+        public bool ByteArrayToFile(string _FileName, byte[] _ByteArray)
+        {
+            try
+            {
+                // Open file for reading
+                System.IO.FileStream _FileStream =
+                   new System.IO.FileStream(_FileName, System.IO.FileMode.Create,
+                                            System.IO.FileAccess.Write);
+                // Writes a block of bytes to this stream using data from
+                // a byte array.
+                _FileStream.Write(_ByteArray, 0, _ByteArray.Length);
+
+                // close file stream
+                _FileStream.Close();
+
+                return true;
+            }
+            catch (Exception _Exception)
+            {
+                // Error
+                Console.WriteLine("Exception caught in process: {0}",
+                                  _Exception.ToString());
+            }
+
+            // error occured, return false
+            return false;
         }
     }
 }

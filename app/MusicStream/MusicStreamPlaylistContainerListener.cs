@@ -38,7 +38,7 @@ namespace MusicStream
 
         public override void ContainerLoaded(PlaylistContainer pc, object userdata)
         {
-            base.ContainerLoaded(pc, userdata);
+            //base.ContainerLoaded(pc, userdata);
             //_sessionManager.logMessages.Enqueue("Spotify: CONTAINER LOADED");
             _sessionManager.PlaylistContainerLoadedCallback();
         }

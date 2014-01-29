@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
 using MusicStream;
+using Helpers;
 using Ctms.Applications.ViewModels;
+
 
 namespace Ctms.Applications.Workers
 {
@@ -30,19 +32,24 @@ namespace Ctms.Applications.Workers
             //do stuff
             _sessionManager = new MusicStreamSessionManager();
             _sessionManager.receiveLogMessage = ReceiveLogMessage;
-            _sessionManager.SessionListener.SpotifyLoggedIn = SpotifyLoggedIn;
+            _sessionManager.SpotifyLoggedIn = SpotifyLoggedIn;
+            _sessionManager.PlaylistContainerLoaded = PlaylistContainerLoaded;
             _sessionManager.Login();
         }
 
         private void ReceiveLogMessage(string logMessage)
         {
-            _menuViewModel.LoginLogMessage += "\n" + logMessage;
+            _menuViewModel.LoginLogMessage += "\n" + CodeHelpers.GetTimeStamp() + "\n" +logMessage + "\n";
         }
 
         private void SpotifyLoggedIn()
         {
             _menuViewModel.IsLoggedIn = true;
-            _sessionManager.LoginCallback();
+        }
+
+        private void PlaylistContainerLoaded()
+        {
+            _menuViewModel.PlaylistContainerLoaded = true;
         }
     }
 }

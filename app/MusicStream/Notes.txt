@@ -1,0 +1,20 @@
+﻿/* ---------- Search Spotify ---------- */
+public void SpotifySearch()
+{
+	search = Search.Create(session, "artist:Katy Perry", 0, 0, 0, 250, 0, 0, 0, 0, SearchType.Standard, SessionListener.SearchComplete, null);
+}
+
+
+/* ---------- Get Track by ID ---------- */
+Track track = Track.GetPlayable(_session, Link.CreateFromString("spotify:track:4lCv7b86sLynZbXhfScfm2").AsTrack());
+
+
+/* ---------- Adding Songs to Playlist ---------- */
+_playlistManager = new MusicStreamPlaylistManager(this, playlist);    //Creating new PlaylistManager
+Track track = Track.GetPlayable(_session, Link.CreateFromString("spotify:track:4lCv7b86sLynZbXhfScfm2").AsTrack());
+Track[] tracks = new Track[1];
+tracks[0] = track
+_playlistManager.AddTracksToPlaylist(session, playlist, GetTestTracks()); //Adding Tracks to playlist
+
+
+/* */

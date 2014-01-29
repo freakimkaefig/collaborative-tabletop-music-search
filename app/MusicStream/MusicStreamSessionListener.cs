@@ -13,7 +13,7 @@ namespace MusicStream
     public class MusicStreamSessionListener : SpotifySessionListener
     {
         private MusicStreamSessionManager _sessionManager;
-        public Action SpotifyLoggedIn;
+        
 
         public MusicStreamSessionListener(MusicStreamSessionManager sessionManager)
         {
@@ -26,11 +26,17 @@ namespace MusicStream
             _sessionManager.InvokeProcessEvents(session);
         }
 
+        public override void CredentialsBlobUpdated(SpotifySession session, string blob)
+        {
+            base.CredentialsBlobUpdated(session, blob);
+            _sessionManager.CredentialsBlob = blob;
+        }
+
         public override void LoggedIn(SpotifySession session, SpotifyError error)
         {
             base.LoggedIn(session, error);
             _sessionManager.logMessages.Enqueue("Spotify: LOGGED IN");    //Logging LoginMessage to TextBox
-            SpotifyLoggedIn();  //Trigger Action SpotifyLoggedIn
+            _sessionManager.LoggedInCallback();
         }
 
         public override void LoggedOut(SpotifySession session)

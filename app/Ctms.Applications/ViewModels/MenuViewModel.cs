@@ -21,6 +21,7 @@ namespace Ctms.Applications.ViewModels
         private string _loginLogMessage;
         private string _goInput;
         private bool _isLoggedIn = false;
+        private bool _playlistContainerLoaded = false;
 
 
         [ImportingConstructor]
@@ -92,6 +93,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _isLoggedIn = value;
                     RaisePropertyChanged("IsLoggedIn");
+                }
+            }
+        }
+
+        public bool PlaylistContainerLoaded
+        {
+            get { return _playlistContainerLoaded; }
+            set
+            {
+                if (_playlistContainerLoaded != value)
+                {
+                    _playlistContainerLoaded = value;
+                    RaisePropertyChanged("PlaylistContainerLoaded");
                 }
             }
         }

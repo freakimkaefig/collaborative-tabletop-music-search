@@ -105,6 +105,10 @@
       <Project>{FA5E9B9F-D676-4189-AC91-B2246ADB975A}</Project>
       <Name>Ctms.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{D529C6B5-B1B8-4837-918E-FBF777B36F11}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\libs\WpfApplicationFramework\WpfApplicationFramework.csproj">
       <Project>{27B67DFE-0BF1-4435-B036-E4C083EAEA03}</Project>
       <Name>WpfApplicationFramework</Name>

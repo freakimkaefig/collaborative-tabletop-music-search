@@ -54,6 +54,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeHelpers.cs" />
     <Compile Include="HttpRequester.cs" />
   </ItemGroup>
   <ItemGroup>

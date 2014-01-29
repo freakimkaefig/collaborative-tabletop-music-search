@@ -19,7 +19,6 @@ namespace MusicStream
         {
             base.TracksAdded(pl, tracks, position, userdata);
             //_sessionManager.logMessages.Enqueue("Spotify: TRACKS ADDED");
-            _sessionManager.PlaylistTracksAddedCallback(pl);
         }
 
         public override void PlaylistUpdateInProgress(Playlist pl, bool done, object userdata)
