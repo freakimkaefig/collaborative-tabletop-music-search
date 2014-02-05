@@ -31,8 +31,8 @@ namespace MusicStream
         SynchronizationContext syncContext;
         System.Threading.Timer timer;
 
-        private BufferedWaveProvider bufferedWaveProvider;
-        private bool _waveOutDeviceInitialized = false;
+        private BufferedWaveProvider _bufferedWaveProvider;
+        private byte[] _copiedFrames;
         
 
         public MusicStreamSessionManager()
@@ -146,62 +146,29 @@ namespace MusicStream
             /* Play Track
              * (called from MusicStream/MusicStreamSessionManager.cs - PlaylistContainerLoadedCallback() :120)
              */
+            _bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat());
+            _bufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(120);
+
             _session.PlayerLoad(track);  //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gac73bf2c569a43d824439b557d5e4b293
             _session.PlayerPlay(true);   //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gab66c5915967e4f90db945b118e620624
+
+            IWavePlayer waveOutDevice = new WaveOut();
+            waveOutDevice.Init(_bufferedWaveProvider);
+            waveOutDevice.Play();
         }
 
         public void MusicDeliveryCallback(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
         {
             //http://stackoverflow.com/questions/21307520/playing-ohlibspotify-pcm-data-stream-in-c-sharp-with-naudio
+            //http://forum.openhome.org/showthread.php?tid=1202&pid=2223#pid2223
             //format.channels = 2, format.samplerate = 44100, format.sample_type = Int16NativeEndian
             //frames = ?
             //num_frames = 2048
 
-            byte[] frames_copy = new byte[num_frames];
-            Marshal.Copy(frames, frames_copy, 0, num_frames);   //Copy Pointer Bytes to frames_copy
-
-            ByteArrayToFile("test.pcm", frames_copy);
-
-            bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat());
-            bufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(40);
-            bufferedWaveProvider.AddSamples(frames_copy, 0, num_frames);    //adding bytes from frames_copy as samples
-            //bufferedWaveProvider.Read(frames_copy, 0, num_frames);
-
-            if (_waveOutDeviceInitialized == false)
-            {
-                IWavePlayer waveOutDevice = new WaveOut();
-                waveOutDevice.Init(bufferedWaveProvider);
-                waveOutDevice.Play();
-                _waveOutDeviceInitialized = true;
-            }
-        }
-
-        public bool ByteArrayToFile(string _FileName, byte[] _ByteArray)
-        {
-            try
-            {
-                // Open file for reading
-                System.IO.FileStream _FileStream =
-                   new System.IO.FileStream(_FileName, System.IO.FileMode.Create,
-                                            System.IO.FileAccess.Write);
-                // Writes a block of bytes to this stream using data from
-                // a byte array.
-                _FileStream.Write(_ByteArray, 0, _ByteArray.Length);
-
-                // close file stream
-                _FileStream.Close();
-
-                return true;
-            }
-            catch (Exception _Exception)
-            {
-                // Error
-                Console.WriteLine("Exception caught in process: {0}",
-                                  _Exception.ToString());
-            }
-
-            // error occured, return false
-            return false;
+            var size = num_frames * format.channels * 4;
+            _copiedFrames = new byte[size];
+            Marshal.Copy(frames, _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
+            _bufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
         }
     }
 }
