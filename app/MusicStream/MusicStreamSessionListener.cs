@@ -71,14 +71,16 @@ namespace MusicStream
             //num_frames = 2048
             _sessionManager.logMessages.Enqueue("MusicDelivery | " + num_frames);
             _sessionManager.MusicDeliveryCallback(session, format, frames, num_frames);
-            return 0; //base.MusicDelivery(session, format, frames, num_frames);
+            //base.MusicDelivery(session, format, frames, num_frames);
+            return num_frames;
         }
 
         public override void GetAudioBufferStats(SpotifySession session, out AudioBufferStats stats)
         {
             base.GetAudioBufferStats(session, out stats);
-            stats.samples = 2048 / 2;   //???
-            stats.stutter = 0;          //???
+            //AudioBufferStats currentStats = _sessionManager.GetCurrentAudioBufferStats();
+            //stats.samples = currentStats.samples;
+            //stats.stutter = currentStats.stutter;
         }
 
         public override void StreamingError(SpotifySession session, SpotifyError error)
@@ -88,7 +90,7 @@ namespace MusicStream
 
         public override void StartPlayback(SpotifySession session)
         {
-            base.StartPlayback(session);
+            //base.StartPlayback(session);
             _sessionManager.logMessages.Enqueue("StartPlayback");
         }
 

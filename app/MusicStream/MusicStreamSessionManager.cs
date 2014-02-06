@@ -32,6 +32,7 @@ namespace MusicStream
         System.Threading.Timer timer;
 
         private BufferedWaveProvider _bufferedWaveProvider;
+        private AudioBufferStats _audioBufferStats;
         private byte[] _copiedFrames;
         
 
@@ -148,6 +149,7 @@ namespace MusicStream
              */
             _bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat());
             _bufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(120);
+            _audioBufferStats = new AudioBufferStats();
 
             _session.PlayerLoad(track);  //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gac73bf2c569a43d824439b557d5e4b293
             _session.PlayerPlay(true);   //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gab66c5915967e4f90db945b118e620624
@@ -165,10 +167,23 @@ namespace MusicStream
             //frames = ?
             //num_frames = 2048
 
-            var size = num_frames * format.channels * 4;
+            var size = num_frames * format.channels * 2;
             _copiedFrames = new byte[size];
             Marshal.Copy(frames, _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
             _bufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
+            SetCurrentAudioBufferStats(_bufferedWaveProvider.BufferedBytes / 2, 0);
+        }
+
+        private void SetCurrentAudioBufferStats(int samples, int stutter)
+        {
+            _audioBufferStats.samples = samples;
+            _audioBufferStats.stutter = stutter;
+            SessionListener.GetAudioBufferStats(_session, out _audioBufferStats);
+        }
+
+        public AudioBufferStats GetCurrentAudioBufferStats()
+        {
+            return _audioBufferStats;
         }
     }
 }
