@@ -66,6 +66,7 @@ namespace Ctms.Applications.Controllers
         public void Initialize()
         {
             IMenuView menuView = _container.GetExportedValue<IMenuView>();
+            //Commands
             _menuViewModel.ExitAppCommand = _exitAppCommand;
             _menuViewModel.LoginCommand = _loginCommand;
             AddWeakEventListener(_menuViewModel, MenuViewModelPropertyChanged);
@@ -88,6 +89,8 @@ namespace Ctms.Applications.Controllers
 
         private void MenuViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+      
+
             if (e.PropertyName == "IsLoggedIn")
             {
                 //

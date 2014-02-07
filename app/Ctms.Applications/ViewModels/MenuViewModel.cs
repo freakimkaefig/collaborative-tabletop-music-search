@@ -14,6 +14,7 @@ namespace Ctms.Applications.ViewModels
     public class MenuViewModel : ViewModel<IMenuView>
     {
         private bool isValid = true;
+        private bool _canLogin = false;
         private Playlist _playlist;
         private ICommand _exitAppCommand;
         private ICommand _loginCommand;
@@ -41,6 +42,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     isValid = value;
                     RaisePropertyChanged("IsValid");
+                }
+            }
+        }
+
+        public bool CanLogin
+        {
+            get { return _canLogin; }
+            set
+            {
+                if (_canLogin != value)
+                {
+                    _canLogin = value;
+                    RaisePropertyChanged("CanLogin");
                 }
             }
         }

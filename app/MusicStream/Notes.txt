@@ -4,6 +4,22 @@ public void SpotifySearch()
 	search = Search.Create(session, "artist:Katy Perry", 0, 0, 0, 250, 0, 0, 0, 0, SearchType.Standard, SessionListener.SearchComplete, null);
 }
 
+	public void SearchComplete(Search result, object nativeUserdata)
+        {
+            var album = result.Album(0);
+            var albumName = album.Name();
+            
+            var artist = album.Artist().Name();
+
+            var numTracks = result.NumTracks();
+
+            var query = result.Query();
+
+            //_musicStreamManager.logMessages.Enqueue("\tQUERY: " + query);
+            //_musicStreamManager.logMessages.Enqueue("\tINTERPRET: " + artist);
+            //_musicStreamManager.logMessages.Enqueue("\tALBUM: " + albumName);
+        }
+
 
 /* ---------- Get Track by ID ---------- */
 Track track = Track.GetPlayable(_session, Link.CreateFromString("spotify:track:4lCv7b86sLynZbXhfScfm2").AsTrack());
@@ -43,4 +59,56 @@ public bool ByteArrayToFile(string _FileName, byte[] _ByteArray)
 	
 	// error occured, return false
     return false;
+}
+
+/* --------- GetTrackInfo -------- */
+var test1 = playlist.Name();	//Getting Name of Playlist
+var test2 = playlist.Track(0);	//Getting first Track of Playlist
+var test3 = test2.Artist(0);	//Getting first Artist of Track
+var test4 = test3.Name();		//Getting Name of Artist
+
+
+/* ---------- PlaylistManager ---------- */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using SpotifySharp;
+
+namespace MusicStream
+{
+    class MusicStreamPlaylistManager
+    {
+        private MusicStreamSessionManager _sessionManager;
+        private MusicStreamPlaylistListener _playlistListener;
+
+        public MusicStreamPlaylistManager(MusicStreamSessionManager sessionManager, Playlist playlist)
+        {
+            // TODO: Complete member initialization
+            this._sessionManager = sessionManager;
+
+            _playlistListener = new MusicStreamPlaylistListener(_sessionManager);
+            playlist.AddCallbacks(_playlistListener, null);
+        }
+
+        public void AddTracksToPlaylist(SpotifySession session, Playlist playlist, Track[] tracks)
+        {
+            playlist.AddTracks(tracks, playlist.NumTracks(), session);
+        }
+
+        public void RemoveTracksFromPlaylist(Playlist playlist, int[] tracks)
+        {
+            playlist.RemoveTracks(tracks);
+        }
+
+        public String GetPlaylistMetadata(Playlist playlist)
+        {
+            //Metadata in String packen und zurückgeben
+            String name = playlist.Name();
+            int numTracks = playlist.NumTracks();
+            String description = playlist.GetDescription();
+
+            return "Name: " + name + " | Description: " + description + " | Tracks: " + numTracks;
+        }
+    }
 }

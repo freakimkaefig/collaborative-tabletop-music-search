@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="MusicStreamPlaylistContainerListener.cs" />
     <Compile Include="MusicStreamPlaylistListener.cs" />
-    <Compile Include="MusicStreamPlaylistManager.cs" />
     <Compile Include="MusicStreamSessionListener.cs" />
     <Compile Include="MusicStreamSessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

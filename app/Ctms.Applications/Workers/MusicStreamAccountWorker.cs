@@ -19,18 +19,23 @@ namespace Ctms.Applications.Workers
         private MusicStreamSessionManager _sessionManager;
         private MenuViewModel _menuViewModel;
 
+        public Action<MusicStreamSessionManager> SessionManagerCreated;
+
         [ImportingConstructor]
         public MusicStreamAccountWorker(MenuViewModel menuViewModel)
         {
             _menuViewModel = menuViewModel;
+            _menuViewModel.CanLogin = true;
         }
 
-        public bool CanLogin() { return _menuViewModel.IsValid; }
+        //Getter
+        public bool CanLogin() { return _menuViewModel.CanLogin; }
 
         public void Login()
         {
             //do stuff
             _sessionManager = new MusicStreamSessionManager();
+            SessionManagerCreated(_sessionManager);
             _sessionManager.receiveLogMessage = ReceiveLogMessage;
             _sessionManager.SpotifyLoggedIn = SpotifyLoggedIn;
             _sessionManager.PlaylistContainerLoaded = PlaylistContainerLoaded;

@@ -45,6 +45,12 @@ namespace MusicStream
             _sessionManager.logMessages.Enqueue("Spotify: LOGGED OUT");  //Logging LogoutMessage to TextBox
         }
 
+        public override void UserinfoUpdated(SpotifySession session)
+        {
+            base.UserinfoUpdated(session);
+            _sessionManager.Userdata = session.UserData;
+        }
+
         public override void ConnectionstateUpdated(SpotifySession session)
         {
             base.ConnectionstateUpdated(session);
@@ -60,7 +66,7 @@ namespace MusicStream
         public override void LogMessage(SpotifySession session, string data)
         {
             base.LogMessage(session, data);
-            _sessionManager.logMessages.Enqueue("LOG MESSAGE: " + data);    //Logging LogMessages
+            //_sessionManager.logMessages.Enqueue("LOG MESSAGE: " + data);    //Logging LogMessages
             NotifyMainThread(session);
         }
 
@@ -69,7 +75,7 @@ namespace MusicStream
             //format.channels = 2, format.samplerate = 44100, format.sample_type = Int16NativeEndian
             //frames = ?
             //num_frames = 2048
-            _sessionManager.logMessages.Enqueue("MusicDelivery | " + num_frames);
+            //_sessionManager.logMessages.Enqueue("MusicDelivery | " + num_frames);
             _sessionManager.MusicDeliveryCallback(session, format, frames, num_frames);
             //base.MusicDelivery(session, format, frames, num_frames);
             return num_frames;
@@ -77,7 +83,9 @@ namespace MusicStream
 
         public override void GetAudioBufferStats(SpotifySession session, out AudioBufferStats stats)
         {
-            base.GetAudioBufferStats(session, out stats);
+            stats = _sessionManager.GetCurrentAudioBufferStats();
+            //_sessionManager.logMessages.Enqueue("AudioBufferStats | " + stats.samples);
+            //base.GetAudioBufferStats(session, out stats);
             //AudioBufferStats currentStats = _sessionManager.GetCurrentAudioBufferStats();
             //stats.samples = currentStats.samples;
             //stats.stutter = currentStats.stutter;
@@ -91,23 +99,18 @@ namespace MusicStream
         public override void StartPlayback(SpotifySession session)
         {
             //base.StartPlayback(session);
-            _sessionManager.logMessages.Enqueue("StartPlayback");
+            _sessionManager.logMessages.Enqueue("Playback started");
         }
 
-        public void SearchComplete(Search result, object nativeUserdata)
+        public override void StopPlayback(SpotifySession session)
         {
-            var album = result.Album(0);
-            var albumName = album.Name();
-            
-            var artist = album.Artist().Name();
+            base.StopPlayback(session);
+        }
 
-            var numTracks = result.NumTracks();
-
-            var query = result.Query();
-
-            //_musicStreamManager.logMessages.Enqueue("\tQUERY: " + query);
-            //_musicStreamManager.logMessages.Enqueue("\tINTERPRET: " + artist);
-            //_musicStreamManager.logMessages.Enqueue("\tALBUM: " + albumName);
+        public override void EndOfTrack(SpotifySession session)
+        {
+            _sessionManager.EndOfTrack(session);
+            base.EndOfTrack(session);
         }
     }
 }
