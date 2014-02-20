@@ -6,6 +6,8 @@ using System.ComponentModel.Composition;
 using MusicStream;
 using Ctms.Applications.ViewModels;
 using SpotifySharp;
+using Helpers;
+using System.ComponentModel;
 
 namespace Ctms.Applications.Workers
 {
@@ -15,6 +17,7 @@ namespace Ctms.Applications.Workers
     [Export]
     class PlaylistWorker
     {
+        private BackgroundWorkHelper _backgroundWorkHelper;
         private PlaylistViewModel _playlistViewModel;
         private MusicStreamAccountWorker _accountWorker;
         private MusicStreamSessionManager _sessionManager;
@@ -37,7 +40,7 @@ namespace Ctms.Applications.Workers
             this._sessionManager = sessionManager;
 
             _sessionManager.TrackLoaded = TrackLoaded;
-            _sessionManager.PlaybackStarted = PlaybackStarted;
+            //_sessionManager.PlaybackStarted = PlaybackStarted;
             _sessionManager.PlaybackPaused = PlaybackPaused;
             _sessionManager.PlaybackStopped = PlaybackStopped;
             _sessionManager.PlaybackEndOfTrack = EndOfTrack;
@@ -50,7 +53,7 @@ namespace Ctms.Applications.Workers
             NotifyModel(true, false, false);
         }
 
-        private void PlaybackStarted()
+        private void PlaybackStarted(object sender, RunWorkerCompletedEventArgs e)
         {
             NotifyModel(false, true, false);
         }
@@ -79,7 +82,8 @@ namespace Ctms.Applications.Workers
         }
         public void PlayCurrentTrack()
         {
-            _sessionManager.PlayTrack(_playlistViewModel.CurrentTrack);
+            //_sessionManager.PlayTrack(_playlistViewModel.CurrentTrack);
+            _backgroundWorkHelper.DoInBackground(_sessionManager.PlayTrack, PlaybackStarted);
         }
 
         public void PauseCurrentTrack()

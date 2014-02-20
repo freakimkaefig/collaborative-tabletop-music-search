@@ -9,11 +9,14 @@ using NAudio.Wave;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using NAudio.Utils;
+using Helpers;
+using System.ComponentModel;
 
 namespace MusicStream
 {
     public class MusicStreamSessionManager
     {
+        private BackgroundWorkHelper _backgroundWorkHelper;
         private SpotifySession _session;
         public MusicStreamSessionListener SessionListener;
         private PlaylistContainer _playlistContainer;
@@ -213,12 +216,19 @@ namespace MusicStream
             TrackLoaded(track);
         }
 
+        public void PlayTrack(object sender, DoWorkEventArgs e)
+        {
+            _session.PlayerPlay(true);   //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gab66c5915967e4f90db945b118e620624
+            _waveOutDevice.Play();
+            //PlaybackStarted();
+        }
+        /*
         public void PlayTrack(Track track)
         {
             _session.PlayerPlay(true);   //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gab66c5915967e4f90db945b118e620624
             _waveOutDevice.Play();
             PlaybackStarted();
-        }
+        }*/
 
         public void PauseTrack()
         {

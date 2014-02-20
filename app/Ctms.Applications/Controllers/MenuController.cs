@@ -17,6 +17,7 @@ using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
 using MusicStream;
 using Ctms.Applications.Workers;
+using Helpers;
 
 
 namespace Ctms.Applications.Controllers
