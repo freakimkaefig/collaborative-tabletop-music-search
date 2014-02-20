@@ -44,6 +44,7 @@ namespace MusicSearch.Test
         public void BuildQuery(/*Liste*/)
         {
             //TODO
+            //Übergebene Liste enthält Objecte {id, definition(genre/artist/title)}
             /* 1)   bei aufruf übergebene Liste traversieren nach API-Teilen
              * 2)   Einzelfälle (suche nach interpret/titel) herauspicken -> einzelne suchanfrage
              * 3)   Spezialfälle herauspicken (Genres,Parameter,...)
@@ -55,7 +56,7 @@ namespace MusicSearch.Test
             SongsByTitleQuery("wrecking ball");
 
             //Bsp-genre-Array
-            String[] test = {"Hip Hop","Rock"};
+            String[] test = { "Hip Hop", "Rock" };
             SongsByGenreQuery(test);
         }
 
@@ -71,11 +72,11 @@ namespace MusicSearch.Test
                 {
                     fixedGenre = genre.Replace(" ", "+");
                 }
-                queryGenres += "&genre="+fixedGenre;
+                queryGenres += "&genre=" + fixedGenre;
             }
             queryGenres = queryGenres.ToLower();
-            
-            String request = _defaultURL + "playlist/static?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&type=genre-radio"+queryGenres+"&results=4";
+
+            String request = _defaultURL + "playlist/static?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&type=genre-radio" + queryGenres + "&results=4";
 
             Debug.WriteLine("request URL = " + request);
 
@@ -152,7 +153,7 @@ namespace MusicSearch.Test
             //transform "\'" to unicode equivalent
             response = response.Replace("'", "&#39;");
 
-            Debug.WriteLine("\n_response: " + response);
+            //Debug.WriteLine("\n_response: " + response);
 
             ParseResponse(response);
         }
@@ -166,39 +167,71 @@ namespace MusicSearch.Test
 
             if (_getGenre == true)
             {
+
+                char[] delimiterChar = { '}' };
+                String cuttedResponseString;
+                String finalGenreResponse = "";
                 _getGenre = false;
+                int loopIndex = 0;
                 foreach (var Song in ResponseContainer.Response.Songs)
                 {
+                    loopIndex++;
                     //Debug.WriteLine("\nsong id: " + Song.Artist_Id);
                     //http://developer.echonest.com/api/v4/artist/terms?api_key=L5WMCPOK4F2LA9H5X&format=json&sort=weight&id=ID_HERE
 
-                    String requestGenre = _defaultURL+"artist/terms?api_key="+_apiKey+"format=json&sort=weight&id="+Song.Artist_Id;
+                    String requestGenre = _defaultURL + "artist/terms?api_key=" + _apiKey + "format=json&sort=weight&id=" + Song.Artist_Id;
                     //JSON response delivered as string
                     String responseGenre = HttpRequester.StartRequest(requestGenre);
                     //transform "\'" to unicode equivalent
                     responseGenre = responseGenre.Replace("'", "&#39;");
-                    var clearedGenre = @"" + responseGenre.Replace("\"", "'");
-                    ResponseContainer = JsonConvert.DeserializeObject<ResponseContainer>(clearedGenre);
 
-                    //NUR DEN ERSTEN TERM
+                    // string[] words = text.Split(delimiterChars);
+                    string[] cuttedResponse = responseGenre.Split(delimiterChar);
+                    //Debug.WriteLine("gekappte Terms: " + cuttedResponse[0] + cuttedResponse[1] +"}]}}}");
 
-                    Debug.WriteLine("song id: " + Song.Artist_Id);
-                    Debug.WriteLine("Artist: " + Song.Artist_Name);
-                    Debug.WriteLine("Titel: " + Song.Title);
+                    //falls erster durchlauf
+                    if (loopIndex == 1)
+                    {
+                        cuttedResponseString = cuttedResponse[0] + "}" + cuttedResponse[1];
+                        finalGenreResponse += @"" + cuttedResponseString.Replace("\"", "'");
+                    }
+                    if (loopIndex > 1)
+                    {
+                        Debug.WriteLine("index of: "+cuttedResponse[1].IndexOf('[') + 1);
+                        cuttedResponseString = "}" + cuttedResponse[1].Substring(cuttedResponse[1].IndexOf('[') + 1, cuttedResponse[1].Length);
+                        finalGenreResponse += @"" + cuttedResponseString.Replace("\"", "'");
+                    }
+                    if (loopIndex == ResponseContainer.Response.Songs.Count)
+                    {
+                        cuttedResponseString = "}" + cuttedResponse[1].Substring(cuttedResponse[1].IndexOf('[') + 1, cuttedResponse[1].Length) + "}]}}";
+                        finalGenreResponse += @"" + cuttedResponseString.Replace("\"", "'");
+                    }
+
+
+
+
+                    //Debug.WriteLine("artist id: " + Song.Artist_Id);
+                    //Debug.WriteLine("Artist: " + Song.Artist_Name);
+                    //Debug.WriteLine("Titel: " + Song.Title);
 
                 }
+                Debug.WriteLine("finalgenreresponse: " + finalGenreResponse);
+                ResponseContainer = JsonConvert.DeserializeObject<ResponseContainer>(finalGenreResponse);
 
                 //test-schleife; reihenfolge der songs gleich reihenfolge der gesuchten genres?
                 foreach (var Term in ResponseContainer.Response.Terms)
                 {
                     Debug.WriteLine("Genre: " + Term.Name);
                 }
+
+                //ResponseGenre zu Ergebniss-Objekt mit übereinstimmender Artist_id (SongObj = anfrage-ID) packen
             }
-            
+
 
             //############
             //send results to Visualization
-            //ToDo: implement ShowResult() or similiar
+            //ToDo: implement ShowResult(Object) or similiar
+            //{Tangible-id, Tangible-definition(genre/artist/title), ergebnisse}
             //############
         }
     }
