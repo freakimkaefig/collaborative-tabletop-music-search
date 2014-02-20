@@ -47,7 +47,7 @@
             <ContentControl Content="{Binding ShellService.ResultView}" Margin="0,0,0,0" Grid.Column="1" Grid.Row="0"/>
             <ContentControl Content="{Binding ShellService.DetailView}" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
             <ContentControl Content="{Binding ShellService.MenuView}" Margin="0,0,0,0" Grid.Column="3" Grid.Row="0"/>
+            <ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Row="1" Grid.Column="3" Margin="0,0,0,0"/>
         </Grid>  
-        <!--<ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0"/>-->
     </s:TagVisualizer>
 </s:SurfaceWindow>
