@@ -15,7 +15,7 @@ namespace Helpers
         /// </summary>
         /// <param name="workerMethod"> 
         ///     The method that has to be executed in background. Must use the schema:
-        ///     public static void [MethodName] (object sender, DoWorkEventArgs e)
+        ///     public void [MethodName] (object sender, DoWorkEventArgs e)
         /// </param>
         /// <param name="completedHandler">
         ///     The method that's called when work is completed.  Must use the schema:
