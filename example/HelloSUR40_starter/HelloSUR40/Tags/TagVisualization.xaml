@@ -5,7 +5,9 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     Loaded="SimpleVisualization_Loaded">
     <Grid>
-        <Label Content="Name" Height="40" HorizontalAlignment="Left" Margin="0,-40,0,0" Name="VCard_Name" VerticalAlignment="Top" Width="100" FontSize="16" />
+        
+        <Label Content="Tag-Visualisierung!" Height="40" HorizontalAlignment="Left" Margin="0,-40,0,0" Name="VCard_Name" VerticalAlignment="Top" Width="156" FontSize="16" />
+        
         <Rectangle Height="120" Width="200" Name="MainCanvas" Fill="#57FF3ACB" VerticalAlignment="Center" HorizontalAlignment="Center">
 
         </Rectangle>

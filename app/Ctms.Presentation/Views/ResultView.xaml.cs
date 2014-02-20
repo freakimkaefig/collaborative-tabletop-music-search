@@ -23,5 +23,10 @@ namespace Ctms.Presentation.Views
         {
             InitializeComponent();
         }
+
+        private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+        }
     }
 }

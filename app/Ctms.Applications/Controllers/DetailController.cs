@@ -35,7 +35,7 @@ namespace Ctms.Applications.Controllers
         //ViewModels
         private DetailViewModel detailViewModel;
         //Commands
-        private readonly DelegateCommand selectCommand;
+        private readonly DelegateCommand doTestCommand;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
@@ -50,7 +50,7 @@ namespace Ctms.Applications.Controllers
             //ViewModels
             this.detailViewModel    = detailViewModel;
             //Commands
-            this.selectCommand      = new DelegateCommand(SelectDetail, CanSelectDetail);
+            this.doTestCommand      = new DelegateCommand(SelectDetail, CanSelectDetail);
         }
 
         public void Initialize()
@@ -60,8 +60,7 @@ namespace Ctms.Applications.Controllers
             IDetailView detailView = container.GetExportedValue<IDetailView>();
             detailViewModel = new DetailViewModel(detailView);
 
-            detailViewModel.SelectCommand = selectCommand;
-            AddWeakEventListener(detailViewModel, DetailViewModelPropertyChanged);
+            detailViewModel.DoTestCommand = doTestCommand;
             shellService.DetailView = detailViewModel.View;
         }
 

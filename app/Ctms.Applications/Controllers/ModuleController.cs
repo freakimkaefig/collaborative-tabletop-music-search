@@ -38,6 +38,7 @@ namespace Ctms.Applications.Controllers
         //Commands
         private readonly DelegateCommand    exitCommand;
         //Furthers vars
+        private TagVisualizationService _tagVisualitationService;
 
         [ImportingConstructor]
         public ModuleController(IMessageService messageService, IPresentationService presentationService,
@@ -64,7 +65,6 @@ namespace Ctms.Applications.Controllers
             this.shellViewModel.Closing += ShellViewModelClosing;
             this.exitCommand = new DelegateCommand(Close);
         }
-
 
         public void Initialize()
         {

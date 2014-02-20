@@ -9,8 +9,9 @@ namespace PieInTheSky
     public class PieMenuItem : HeaderedItemsControl
     {
         public event RoutedEventHandler Click;
-            
+
         public static readonly DependencyProperty SubMenuSectorProperty;
+        public static readonly DependencyProperty SectorRadiusProperty;
         public static readonly DependencyProperty CommandProperty;
 
         [Bindable(true)]
@@ -23,6 +24,19 @@ namespace PieInTheSky
             set
             {
                 base.SetValue(PieMenuItem.SubMenuSectorProperty, value);
+            }
+        }
+
+        [Bindable(true)]
+        public double SectorRadius
+        {
+            get
+            {
+                return (double)base.GetValue(PieMenuItem.SectorRadiusProperty);
+            }
+            set
+            {
+                base.SetValue(PieMenuItem.SectorRadiusProperty, value);
             }
         }
 

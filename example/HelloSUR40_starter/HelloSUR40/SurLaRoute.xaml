@@ -4,10 +4,10 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:clr="clr-namespace:System;assembly=mscorlib"             
     xmlns:system="clr-namespace:System;assembly=mscorlib"
-    WindowStyle="None" WindowState="Maximized"
+    WindowStyle="None" WindowState="Normal"
     WindowStartupLocation="CenterScreen"
-                 Width="1920"
-                 Height="1080"
+                 Width="960"
+                 Height="540"
     Name="ApplicationWindow"
     Left="0" Top="0"
     Title="MapWindow" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
@@ -15,7 +15,7 @@
     <s:TagVisualizer x:Name="TagVisualizer" VisualizationAdded="OnVisualizationAdded" Width="Auto" Height="Auto" VisualizationRemoved="OnVisualizationRemoved">
         
         <Canvas Name="ApplicationCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-            <Button Canvas.Left="1880" Canvas.Top="0" Content="X" Height="20" Name="Button_ExitApplication" Click="CloseApplicationItemClicked" Width="20" Background="Red" AllowDrop="True" BorderBrush="#00000000" Foreground="White" BorderThickness="0" />
+            <Button Canvas.Left="920" Canvas.Top="0" Content="X" Height="20" Name="Button_ExitApplication" Click="CloseApplicationItemClicked" Width="20" Background="Red" AllowDrop="True" BorderBrush="#00000000" Foreground="White" BorderThickness="5" />
         </Canvas>
 
         

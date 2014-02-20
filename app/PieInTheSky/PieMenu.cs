@@ -524,7 +524,7 @@ namespace PieInTheSky
 
                 // Get header of menu item as string and make a formatted text based on properties of menu item
                 String header = (String)menu_item.Header;
-
+                if (header == null) { header = "Item 1 (Pie Menu.cs)"; };
                 FormattedText text = new FormattedText(header,
                                 CultureInfo.CurrentCulture,
                                 FlowDirection.LeftToRight,

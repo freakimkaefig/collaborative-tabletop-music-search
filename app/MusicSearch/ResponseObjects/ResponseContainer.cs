@@ -5,28 +5,39 @@ using System.Text;
 
 namespace MusicSearch.ResponseObjects
 {
+    /// <summary>
+    /// This class is used for 
+    /// </summary>
     public class ResponseContainer
     {
-        public Response response { get; set; }
+        public ResponseObj Response { get; set; }
 
-        public class Response
+        public class ResponseObj
         {
-            public Status status { get; set; }
-            public IList<Song> songs { get; set; }
+            public StatusObj Status { get; set; }
+            public IList<Song> Songs { get; set; }
+            public IList<Term> Terms { get; set; }
 
-            public class Status
+            public class StatusObj
             {
-                public string version { get; set; }
-                public int code { get; set; }
-                public string message { get; set; }
+                public string Version { get; set; }
+                public int Code { get; set; }
+                public string Message { get; set; }
             }
 
             public class Song
             {
-                public string artist_id { get; set; }
-                public string id { get; set; }
-                public string artist_name { get; set; }
-                public string title { get; set; }
+                public string Artist_Id { get; set; }
+                public string Id { get; set; }
+                public string Artist_Name { get; set; }
+                public string Title { get; set; }
+            }
+
+            public class Term
+            {
+                public double Frequency { get; set; }
+                public string Name { get; set; }
+                public double Weight { get; set; }
             }
         }
     }

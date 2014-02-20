@@ -40,12 +40,12 @@ namespace SurLaRoute
 
         private void initWindow()
         {
-            InitializeComponent();
-            AddWindowAvailabilityHandlers();
-            setBackgroundImage("Resources/Images/background.png");
+            //InitializeComponent();
+            //AddWindowAvailabilityHandlers();
+            //setBackgroundImage("Resources/Images/background.png");
 
-            initFloorPlan();
-            initVCards();
+            //initFloorPlan();
+            //sinitVCards();
         }
 
         private void intiTangibleDefinitions()
@@ -67,7 +67,7 @@ namespace SurLaRoute
             
         }
 
-        private void initFloorPlan()
+       /* private void initFloorPlan()
         {
             rooms.Add("3.0.60", new Room(290, 50, 100, 100, ApplicationCanvas));
             rooms.Add("3.0.60E", new Room(50, 160, 100, 100, ApplicationCanvas));
@@ -110,7 +110,7 @@ namespace SurLaRoute
                     new Uri(BaseUriHelper.GetBaseUri(this), ressourceString)));
             ApplicationCanvas.Background = image_brush  ;
         }
-
+        */
 
         private void CloseApplicationItemClicked(object sender, RoutedEventArgs e)
         {
@@ -156,15 +156,15 @@ namespace SurLaRoute
 
         private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
         {
-            SimpleVisualization visualization = (SimpleVisualization)e.TagVisualization;
+            //SimpleVisualization visualization = (SimpleVisualization)e.TagVisualization;
 
-            visualization.VCard_Name.Content = cards[(int)e.TagVisualization.VisualizedTag.Value].Name;
-            rooms[cards[(int)e.TagVisualization.VisualizedTag.Value].Room].setActive();            
+            //visualization.VCard_Name.Content = cards[(int)e.TagVisualization.VisualizedTag.Value].Name;
+            //s rooms[cards[(int)e.TagVisualization.VisualizedTag.Value].Room].setActive();            
         }
 
         private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
         {
-            rooms[cards[(int)e.TagVisualization.VisualizedTag.Value].Room].setPassive();
+            //rooms[cards[(int)e.TagVisualization.VisualizedTag.Value].Room].setPassive();
         }
 
        

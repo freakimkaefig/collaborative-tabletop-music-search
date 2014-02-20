@@ -13,10 +13,12 @@ namespace Ctms.Applications.ViewModels
     [Export]
     public class SearchViewModel : ViewModel<ISearchView>
     {
-        private bool isValid = true;
-        private Search search;
-        private string keywordType;
-        private ICommand startSearchCommand;
+        private bool _isValid = true;
+        private Search _search;
+        private string _keywordType;
+        private ICommand _startSearchCommand;
+        private ICommand selectOptionCmd;
+        private string _inputValue;
 
 
         [ImportingConstructor]
@@ -30,12 +32,12 @@ namespace Ctms.Applications.ViewModels
 
         public bool IsValid
         {
-            get { return isValid; }
+            get { return _isValid; }
             set
             {
-                if (isValid != value)
+                if (_isValid != value)
                 {
-                    isValid = value;
+                    _isValid = value;
                     RaisePropertyChanged("IsValid");
                 }
             }
@@ -43,12 +45,12 @@ namespace Ctms.Applications.ViewModels
 
         public Search Search
         {
-            get { return search; }
+            get { return _search; }
             set
             {
-                if (search != value)
+                if (_search != value)
                 {
-                    search = value;
+                    _search = value;
                     RaisePropertyChanged("Search");
                 }
             }
@@ -56,26 +58,53 @@ namespace Ctms.Applications.ViewModels
 
         public string KeywordType
         {
-            get { return keywordType; }
+            get { return _keywordType; }
             set
             {
-                if (keywordType != value)
+                if (_keywordType != value)
                 {
-                    keywordType = value;
+                    _keywordType = value;
                     RaisePropertyChanged("KeywordType");
                 }
             }
         }
 
-        public ICommand StartSearchCommand
+        public string InputValue
         {
-            get { return startSearchCommand; }
+            get { return _inputValue; }
             set
             {
-                if (startSearchCommand != value)
+                if (_inputValue != value)
                 {
-                    startSearchCommand = value;
-                    RaisePropertyChanged("StartSearchCommand");
+                    _inputValue = value;
+                    RaisePropertyChanged("InputValue");
+                }
+            }
+        }
+
+        public ICommand StartSearchCmd
+        {
+            get { return _startSearchCommand; }
+            set
+            {
+                if (_startSearchCommand != value)
+                {
+                    _startSearchCommand = value;
+                    RaisePropertyChanged("StartSearchCmd");
+                }
+            }
+        }
+
+        public ICommand SelectOptionCmd
+        {
+            get { return selectOptionCmd; }
+            set
+            {
+                if (selectOptionCmd != value)
+                {
+                    selectOptionCmd = value;
+
+                    RaisePropertyChanged("SelectOptionCmd");
                 }
             }
         }

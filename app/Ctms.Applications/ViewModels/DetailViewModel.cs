@@ -15,7 +15,7 @@ namespace Ctms.Applications.ViewModels
     {
         private bool isValid = true;
         private Detail detail;
-        private ICommand selectCommand;
+        private ICommand doTestCommand;
 
         
         [ImportingConstructor]
@@ -54,15 +54,15 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ICommand SelectCommand
+        public ICommand DoTestCommand
         {
-            get { return selectCommand; }
+            get { return doTestCommand; }
             set
             {
-                if (selectCommand != value)
+                if (doTestCommand != value)
                 {
-                    selectCommand = value;
-                    RaisePropertyChanged("SelectCommand");
+                    doTestCommand = value;
+                    RaisePropertyChanged("DoTestCommand");
                 }
             }
         }

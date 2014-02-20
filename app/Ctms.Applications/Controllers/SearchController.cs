@@ -15,10 +15,12 @@ using System.Data.EntityClient;
 using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
-using MusicSearch.Manager;
+using MusicSearch.Managers;
 using Ctms.Applications.DataFactories;
 using MusicSearch.ResponseObjects;
 using Ctms.Domain.Objects;
+using Ctms.Applications.Workers;
+using MusicSearch.SearchObjects;
 
 
 namespace Ctms.Applications.Controllers
@@ -31,62 +33,64 @@ namespace Ctms.Applications.Controllers
     [Export]
     internal class SearchController : Controller
     {
-        private readonly CompositionContainer container;
+        private readonly CompositionContainer _container;
         //Services
-        private readonly IShellService shellService;
-        private readonly IEntityService entityService;
+        private readonly IShellService _shellService;
+        private readonly IEntityService _entityService;
+        private readonly TagVisualizationService _tagVisualizationService;
         //ViewModels
-        private SearchViewModel searchViewModel;
-        private ResultViewModel resultViewModel;
+        private SearchViewModel _searchVm;
+        private SearchTagViewModel _searchTagVm;
+        private ResultViewModel _resultVm;
+        //Workers
+        private SearchWorker _searchWorker;
+        private SearchOptionWorker _searchOptionWorker;
+        private ResultWorker _resultWorker;
         //Commands
-        private readonly DelegateCommand startSearchCommand;
+        private readonly DelegateCommand _startSearchCmd;
+        private readonly DelegateCommand _selectOptionCmd;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public SearchController(CompositionContainer container, IShellService shellService, IEntityService entityService,
-            SearchViewModel searchViewModel, ResultViewModel resultViewModel)
+            SearchViewModel searchVm, SearchTagViewModel searchTagVm, ResultViewModel resultVm,
+            SearchWorker searchWorker, ResultWorker resultWorker, SearchOptionWorker searchOptionWorker)
         {
-            this.container = container;
+            _searchWorker = searchWorker;
+            _resultWorker = resultWorker;
+            _searchOptionWorker = searchOptionWorker;
+
+            _container = container;
             //Services
-            this.shellService = shellService;
-            this.entityService = entityService;
+            _shellService = shellService;
+            _entityService = entityService;
+            _tagVisualizationService = new TagVisualizationService(searchTagVm);
             //ViewModels
-            this.searchViewModel = searchViewModel;
-            this.resultViewModel = resultViewModel;
+            _searchVm = searchVm;
+            _searchTagVm = searchTagVm;
+            _resultVm = resultVm;
             //Commands
-            this.startSearchCommand = new DelegateCommand(StartSearch, CanStartSearch);
+            _startSearchCmd = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
+            //_selectOptionCmd = new DelegateCommand(t => _searchOptionWorker.SelectOption((string)t));
+            _selectOptionCmd = new DelegateCommand(_searchOptionWorker.SelectOption);
         }
 
         public void Initialize()
         {
-            AddWeakEventListener(searchViewModel, SearchViewModelPropertyChanged);
+            //Commands
+            _searchVm.StartSearchCmd = _startSearchCmd;
+            //Views
+            _shellService.SearchView = _searchVm.View;
+            _shellService.SearchTagView = _searchTagVm.View;
+            //Listeners
+            AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
-            searchViewModel.StartSearchCommand = startSearchCommand;
-            AddWeakEventListener(searchViewModel, SearchViewModelPropertyChanged);
-
-            shellService.SearchView = searchViewModel.View;
+            //_tagVisualizationService.InitTangibleDefinitions();
+            _searchTagVm.SelectCommand = _selectOptionCmd;
         }
 
-        private bool CanStartSearch() { return searchViewModel.IsValid; }
 
-        private void StartSearch()
-        {
-            var searchManager = new SearchManager();
-            searchManager.Start();
-            RefreshResults(searchManager.ResponseContainer);
-        }
-
-        private void RefreshResults(ResponseContainer responseContainer)
-        {
-            //Example of how to read a resulting song and assign it to viewmodel
-            SongFactory factory = new SongFactory();
-            var result = new Result();
-            Random rnd = new Random();
-            int index = rnd.Next(0, responseContainer.response.songs.Count);
-            result.Song = factory.Create(responseContainer.response.songs[index]);
-            resultViewModel.Result = result;
-        }
 
         private void UpdateCommands()
         {
@@ -95,7 +99,7 @@ namespace Ctms.Applications.Controllers
 
         private void SearchViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SelectedSong")//SelectedSong is just an example
+            if (e.PropertyName == "InputValue")//SelectedSong is just an example
             {
                 //...
                 UpdateCommands();
