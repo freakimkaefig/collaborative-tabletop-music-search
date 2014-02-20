@@ -15,15 +15,19 @@ namespace Helpers
         /// </summary>
         /// <param name="workerMethod"> 
         ///     The method that has to be executed in background. Must use the schema:
-        ///     public void [MethodName] (object sender, DoWorkEventArgs e)
+        ///         public void [MethodName] (object sender, DoWorkEventArgs e)
+        ///     The workerMethod can use the optional arguments like that: 
+        ///         var argument = ([TypeOfArgument]) e.Argument;
+        ///     And set the result for the completedHandler like that: 
+        ///         e.Result = [AnyObjectORValue];
         /// </param>
         /// <param name="completedHandler">
         ///     The method that's called when work is completed.  Must use the schema:
-        ///     private void [MethodName] object sender, RunWorkerCompletedEventArgs e)
+        ///         private void [MethodName] (object sender, RunWorkerCompletedEventArgs e)
         ///     Usage of arguments:
         ///         e.Cancelled -> true/false
         ///         e.Error -> true/false
-        ///         Argument: ([TypeOfArgument]) e.Argument;
+        ///         Argument: var result = ([AnyObjectORValue]) e.Result;
         /// </param>
         public void DoInBackground(DoWorkEventHandler workerMethod, RunWorkerCompletedEventHandler completedHandler, object arguments = null)
         {
