@@ -36,7 +36,7 @@ namespace Ctms.Applications.Workers
 
         public void SelectOption()
         {
-            _searchTagViewModel.Item1Header = "Funzt! (Selection Option)";
+            //_searchTagViewModel.Item1Header = "Funzt! (Selection Option)";
             MessageServiceExtensions.ShowMessage(_messageService, "Selected");
         }
 

@@ -40,11 +40,11 @@ namespace Ctms.Applications.ViewModels
         }
 
         public string Breadcrumb { get {return "Breadcrumb";}  }
-
+        /*
         public string Item1Header
         {
             get {
-                if (item1Header == null) return "Item 1";
+                if (item1Header == null) return "My dynamic song";
                 else { return item1Header; };
             }
             set
@@ -56,7 +56,7 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-
+        */
         public ICommand SelectCommand
         {
             get { return selectCommand; }

@@ -27,10 +27,9 @@
             <ps:PieMenu x:Name="Menu4"  Grid.Column="0" Grid.Row="0"
                    Canvas.Left="100"
                    Canvas.Top="100"
-                   Background="#fff"
-                   SelectedBackground="#ccf"
+                   SelectedBackground="#7399"
                    Foreground="White"
-                   BorderBrush="#039"
+                   BorderBrush="#000"
                    SectorGap="0"
                    Gap="0"
                    Radius="120"
@@ -38,17 +37,39 @@
                    RotateText="True"
                    RotateTextAngle="0"
                    Rotation="150"
-                   MenuSector="240">
-                <ps:PieMenuItem Header="Item 1" BorderThickness="1" Command="{Binding SelectCommand}">
+                   MenuSector="240"
+                    Background="Transparent">
+                <ps:PieMenuItem Header="Audioslave" SubHeader="Show Me How To Live" BorderThickness="0" 
+                                Command="{Binding SelectCommand}" Background="#0555">
                 </ps:PieMenuItem>
-                <ps:PieMenuItem Header="Item 2" BorderThickness="1">
+            <ps:PieMenuItem Header="Madeon" SubHeader="Icarus" BorderThickness="0"  Background="#5555">
                 </ps:PieMenuItem>
-                <ps:PieMenuItem Header="Item 3" BorderThickness="1">
+            <ps:PieMenuItem Header="Arvmin van Buuren" SubHeader="This is what it feels like" BorderThickness="0" Background="#0555">
                 </ps:PieMenuItem>
-                <ps:PieMenuItem Header="Item 4" BorderThickness="1" >
+            <ps:PieMenuItem Header="Spectrum" SubHeader="Zedd" BorderThickness="0"  Background="#5555">
                 </ps:PieMenuItem>
-                <ps:PieMenuItem Header="Item 5" BorderThickness="1" >
+            <ps:PieMenuItem  Header="Audioslave" SubHeader="Cochise" BorderThickness="0"  Background="#0555">
                 </ps:PieMenuItem>
+        </ps:PieMenu>
+        <ps:PieMenu x:Name="Menu5"  Grid.Column="0" Grid.Row="0"
+                   Canvas.Left="100"
+                   Canvas.Top="100"
+                   Background="Transparent"
+                   SelectedBackground="#7399"
+                   Foreground="White"
+                   BorderBrush="#000"
+                   SectorGap="0"
+                   Gap="0"
+                   Radius="120"
+                   InnerRadius="33"
+                   RotateText="True"
+                   RotateTextAngle="-90"
+                   Rotation="30"
+                   MenuSector="120">
+            <ps:PieMenuItem Header="Plan B" SubHeader="Stay Too Long wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"  
+                            BorderThickness="0" FontSize="16"
+                    CenterText="true" Command="{Binding SelectCommand}" Background="#5555">
+            </ps:PieMenuItem>
         </ps:PieMenu>
     </Grid>
 </s:TagVisualization>

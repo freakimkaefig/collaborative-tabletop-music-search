@@ -19,6 +19,8 @@ namespace Ctms.Applications.ViewModels
         private ICommand _startSearchCommand;
         private ICommand selectOptionCmd;
         private string _inputValue;
+        private string item1Header;
+        private string item2Header;
 
 
         [ImportingConstructor]
@@ -106,6 +108,40 @@ namespace Ctms.Applications.ViewModels
 
                     RaisePropertyChanged("SelectOptionCmd");
                 }
+            }
+        }
+
+        public string Item1Header
+        {
+            get
+            {
+                if (item1Header == null) return "My dynamic song";
+                else { return item1Header; };
+            }
+            set
+            {
+                if (item1Header != value)
+                {
+                    item1Header = value;
+                    RaisePropertyChanged("Item1Header");
+                }
+            }
+        }
+
+        public string Item2Header
+        {
+            get
+            {
+                if (item2Header == null) return "My dynamic song2";
+                else { return item2Header; };
+            }
+            set
+            {
+                if (item2Header != value)
+                {
+                    item2Header = value;
+                    RaisePropertyChanged("Item2Header");
+                 }
             }
         }
     }

@@ -16,6 +16,8 @@ namespace PieInTheSky
         public static readonly DependencyProperty SubMenuSectorProperty;
         public static readonly DependencyProperty SectorRadiusProperty;
         public static readonly DependencyProperty CommandProperty;
+        public static readonly DependencyProperty CenterTextProperty;
+        public static readonly DependencyProperty SubHeaderProperty;
 
 
         #region Properties
@@ -59,6 +61,33 @@ namespace PieInTheSky
             }
         }
 
+        [Bindable(true)]
+        public bool CenterText
+        {
+            get
+            {
+                return (bool)base.GetValue(PieMenuItem.CenterTextProperty);
+            }
+            set
+            {
+                base.SetValue(PieMenuItem.CenterTextProperty, value);
+            }
+        }
+
+        [Bindable(true)]
+        public string SubHeader
+        {
+            get
+            {
+                return (string)base.GetValue(PieMenuItem.SubHeaderProperty);
+            }
+            set
+            {
+                base.SetValue(PieMenuItem.SubHeaderProperty, value);
+            }
+        }
+
+
         #endregion Properties
 
 
@@ -66,6 +95,8 @@ namespace PieInTheSky
         {
             PieMenuItem.SubMenuSectorProperty = DependencyProperty.Register("SubMenuSector", typeof(double), typeof(PieMenuItem), new FrameworkPropertyMetadata(120.0));
             PieMenuItem.CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(PieMenuItem), new FrameworkPropertyMetadata(null));
+            PieMenuItem.CenterTextProperty = DependencyProperty.Register("CenterText", typeof(bool), typeof(PieMenuItem), new FrameworkPropertyMetadata(false));
+            PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem), new FrameworkPropertyMetadata(""));
         }
 
         public double CalculateSize(double s, double d)
