@@ -60,7 +60,7 @@
                    Rotation="150"
                    MenuSector="240"
                     Background="Transparent">
-                <ps:PieMenuItem Header="{Binding Item2Header}" SubHeader="Show Me How To Live" BorderThickness="0" 
+                <ps:PieMenuItem Header="Plan B" SubHeader="Show Me How To Live" BorderThickness="0" 
                                 Command="{Binding SelectCommand}" Background="#0555">
                 </ps:PieMenuItem>
                 <ps:PieMenuItem Header="Madeon" SubHeader="Icarus" BorderThickness="0"  Background="#5555">
@@ -87,7 +87,7 @@
                    RotateTextAngle="-90"
                    Rotation="30"
                    MenuSector="120">
-                <ps:PieMenuItem Header="{Binding Item1Header}" SubHeader="Stay Too Long"  
+                <ps:PieMenuItem Header="Plan B" SubHeader="Stay Too Long"  
                             BorderThickness="0" FontSize="16"
                     CenterText="true" Command="{Binding SelectCommand}" Background="#5555">
                 </ps:PieMenuItem>
