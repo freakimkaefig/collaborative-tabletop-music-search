@@ -12,24 +12,22 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
     Loaded="SimpleVisualization_Loaded" >
 
-    <Grid Height="240" Width="240"
-        Background="Transparent">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="C:/Git/Uni/CTMS/ASE/app/Ctms.Presentation/Resources/Images/Search/record.png" Opacity="1.0"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="6*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-       
-        <!--Selection state-->
-        <ps:PieMenu x:Name="Menu4"  Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3"
+
+            <!--Selection state-->
+            <ps:PieMenu x:Name="Menu4"  Grid.Column="0" Grid.Row="0"
                    Canvas.Left="100"
                    Canvas.Top="100"
-                   Background="#039"
+                   Background="#fff"
                    SelectedBackground="#ccf"
                    Foreground="White"
                    BorderBrush="#039"
@@ -38,58 +36,19 @@
                    Radius="120"
                    InnerRadius="33"
                    RotateText="True"
-                   Rotation="360"
-                   MenuSector="360">
-            <ps:PieMenuItem Header="{Binding Item1Header}" BorderThickness="1" SubMenuSector="90" Command="{Binding SelectCommand}">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 4" BorderThickness="1" >
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 5" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 6" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
+                   RotateTextAngle="0"
+                   Rotation="150"
+                   MenuSector="240">
+                <ps:PieMenuItem Header="Item 1" BorderThickness="1" Command="{Binding SelectCommand}">
+                </ps:PieMenuItem>
+                <ps:PieMenuItem Header="Item 2" BorderThickness="1">
+                </ps:PieMenuItem>
+                <ps:PieMenuItem Header="Item 3" BorderThickness="1">
+                </ps:PieMenuItem>
+                <ps:PieMenuItem Header="Item 4" BorderThickness="1" >
+                </ps:PieMenuItem>
+                <ps:PieMenuItem Header="Item 5" BorderThickness="1" >
+                </ps:PieMenuItem>
         </ps:PieMenu>
-
-
-        <!--Selected state-->
-        <!--<TextBlock Text="{Binding Breadcrumb}"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            Grid.Row="0"
-            Grid.ColumnSpan="3">
-            <TextBlock.LayoutTransform>
-                    <RotateTransform Angle="180"/>    
-            </TextBlock.LayoutTransform>
-        </TextBlock>
-        <Ellipse Width="70" Height="70" Fill="#046" Stroke="#09f" StrokeThickness="4"  
-            Grid.Row="1"
-            Grid.Column="1"
-            Grid.ColumnSpan="1"/>
-        <TextBlock Text="50%"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            Grid.Row="1"
-            Grid.Column="2"
-            Grid.ColumnSpan="1"/>
-        <TextBlock Text="50%"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="1">
-            <TextBlock.LayoutTransform>
-                <RotateTransform Angle="180"/>
-            </TextBlock.LayoutTransform>
-        </TextBlock>
-        <TextBlock Text="Keyword"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            Grid.Row="2"
-            Grid.ColumnSpan="3"/>-->
-
     </Grid>
 </s:TagVisualization>

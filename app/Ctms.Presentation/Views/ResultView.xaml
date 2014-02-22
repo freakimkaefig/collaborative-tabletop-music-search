@@ -11,7 +11,7 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
-    <Grid MinHeight="100" MinWidth="150" Margin="0,20,0,0" HorizontalAlignment="Center"> 
+    <Grid MinHeight="100" MinWidth="150" Margin="0,20,0,0" HorizontalAlignment="Center" MouseLeftButtonDown="Grid_MouseLeftButtonDown"> 
                
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>

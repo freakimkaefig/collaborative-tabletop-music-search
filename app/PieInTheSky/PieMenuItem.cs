@@ -10,9 +10,15 @@ namespace PieInTheSky
     {
         public event RoutedEventHandler Click;
 
+        double _size;
+
+        // Dependency properties.  Are set in xaml pie menu element.
         public static readonly DependencyProperty SubMenuSectorProperty;
         public static readonly DependencyProperty SectorRadiusProperty;
         public static readonly DependencyProperty CommandProperty;
+
+
+        #region Properties
 
         [Bindable(true)]
         public double SubMenuSector
@@ -53,7 +59,8 @@ namespace PieInTheSky
             }
         }
 
-        double _size;
+        #endregion Properties
+
 
         static PieMenuItem()
         {

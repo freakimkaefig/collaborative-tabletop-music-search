@@ -28,5 +28,10 @@ namespace Ctms.Presentation.Views
         {
 
         }
+
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

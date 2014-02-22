@@ -32,86 +32,23 @@
         <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding InputValue}"/>
         <TextBlock Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Right" Style="{StaticResource SearchOptionsTextBlock}"
             Text="ControlResources Key Example"/>
-        <ps:PieMenu x:Name="TopPart"  Grid.Column="0" Grid.Row="1"
-                   Canvas.Left="0"
-                   Canvas.Top="0"
-                   Background="#039"
-                   SelectedBackground="#ccf"
-                   Foreground="White"
-                   BorderBrush="#039"
-                   SectorGap="3"
-                   Gap="3"
-                   Radius="70"
-                   InnerRadius="0"
-                   RotateText="True"
-                   Rotation="180"
-                   MenuSector="180">
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1" Command="{Binding SelectOptionCmd}">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" Command="{Binding SelectOption}">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>            
-        </ps:PieMenu>
 
-        <ps:PieMenu x:Name="BottomPart"  Grid.Column="0" Grid.Row="1"
-                   Canvas.Left="0"
-                   Canvas.Top="0"
-                   Background="#039"
-                   SelectedBackground="#ccf"
-                   Foreground="White"
-                   BorderBrush="#039"
-                   SectorGap="3"
-                   Gap="3"
-                   Radius="70"
-                   InnerRadius="0"
-                   RotateText="True"                   
-                   Rotation="0"
-                   MenuSector="180">
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
-        </ps:PieMenu>
+        <Grid Grid.Row="4">
+            <Grid.Background>
+                <ImageBrush ImageSource="C:/Git/Uni/CTMS/ASE/app/Ctms.Presentation/Resources/Images/Search/record.png" Opacity="1.0"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
 
-        <ps:PieMenu x:Name="Menu3"  Grid.Column="0" Grid.Row="2"
+            <!--Selection state-->
+            <ps:PieMenu x:Name="Menu4"  Grid.Column="0" Grid.Row="0"
                    Canvas.Left="100"
                    Canvas.Top="100"
-                   Background="#039"
-                   SelectedBackground="#ccf"
-                   Foreground="White"
-                   BorderBrush="#039"
-                   SectorGap="0"
-                   Gap="0"
-                   Radius="80"
-                   InnerRadius="0"
-                   RotateText="True"
-                   Rotation="360"
-                   MenuSector="360"
-                    RotateTextAngle="0.0"
-                    >
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 4" BorderThickness="1" >
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 5" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 6" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
-        </ps:PieMenu>
-
-        <ps:PieMenu x:Name="Menu4"  Grid.Column="0" Grid.Row="3"
-                   Canvas.Left="100"
-                   Canvas.Top="100"
-                   Background="#039"
+                   Background="#fff"
                    SelectedBackground="#ccf"
                    Foreground="White"
                    BorderBrush="#039"
@@ -120,141 +57,24 @@
                    Radius="120"
                    InnerRadius="33"
                    RotateText="True"
-                   Rotation="360"
-                   MenuSector="360">
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 4" BorderThickness="1" >
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 5" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 6" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
-        </ps:PieMenu>
+                   RotateTextAngle="0"
+                   Rotation="150"
+                   MenuSector="240">
+                <ps:PieMenuItem Header="Item 1" BorderThickness="1" Command="{Binding SelectCommand}">
+                </ps:PieMenuItem>
+                <ps:PieMenuItem Header="Item 2" BorderThickness="1">
+                </ps:PieMenuItem>
+                <ps:PieMenuItem Header="Item 3" BorderThickness="1">
+                </ps:PieMenuItem>
+                <ps:PieMenuItem Header="Item 4" BorderThickness="1" >
+                </ps:PieMenuItem>
+                <ps:PieMenuItem Header="Item 5" BorderThickness="1">
+                </ps:PieMenuItem>
+                <ps:PieMenuItem Header="Item 6" BorderThickness="1" >
+                </ps:PieMenuItem>
+            </ps:PieMenu>
 
-        
-        
-
-        <ps:PieMenu x:Name="Menu5"  Grid.Column="0" Grid.Row="4"
-                   Canvas.Left="100"
-                   Canvas.Top="100"
-                   Background="#039"
-                   SelectedBackground="#ccf"
-                   Foreground="White"
-                   BorderBrush="#039"
-                   SectorGap="10"
-                   Gap="10"
-                   Radius="80"
-                   InnerRadius="0"
-                   RotateText="True"
-                   Rotation="180"
-                   MenuSector="180">
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
-                <ps:PieMenuItem Header="Item 1.1" />
-                <ps:PieMenuItem Header="Item 1.2" />
-                <ps:PieMenuItem Header="Item 1.3" />
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-                <ps:PieMenuItem Header="Item 2.1" />
-                <ps:PieMenuItem Header="Item 2.2" />
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-                <ps:PieMenuItem Header="Item 3.1" />
-                <ps:PieMenuItem Header="Item 3.2" />
-                <ps:PieMenuItem Header="Item 3.3" />
-                <ps:PieMenuItem Header="Item 3.4" />
-            </ps:PieMenuItem>
-        </ps:PieMenu>
-
-        <ps:PieMenu x:Name="Menu6"  Grid.Column="0" Grid.Row="5"
-                   Canvas.Left="100"
-                   Canvas.Top="100"
-                   Background="#039"
-                   SelectedBackground="#ccf"
-                   Foreground="White"
-                   BorderBrush="#039"
-                   SectorGap="10"
-                   Gap="10"
-                   Radius="80"
-                   InnerRadius="0"
-                   RotateText="True"
-                   Rotation="180"
-                   MenuSector="180">
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
-                <ps:PieMenuItem Header="Item 1.1" />
-                <ps:PieMenuItem Header="Item 1.2" />
-                <ps:PieMenuItem Header="Item 1.3" />
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-                <ps:PieMenuItem Header="Item 2.1" />
-                <ps:PieMenuItem Header="Item 2.2" />
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-                <ps:PieMenuItem Header="Item 3.1" />
-                <ps:PieMenuItem Header="Item 3.2" />
-                <ps:PieMenuItem Header="Item 3.3" />
-                <ps:PieMenuItem Header="Item 3.4" />
-            </ps:PieMenuItem>
-        </ps:PieMenu>
-
-
-        <ps:PieMenu x:Name="Menu7"  Grid.Column="1" Grid.Row="1"
-                   Canvas.Left="100"
-                   Canvas.Top="100"
-                   Background="#039"
-                   SelectedBackground="#ccf"
-                   Foreground="White"
-                   BorderBrush="#039"
-                   SectorGap="10"
-                   Gap="10"
-                   Radius="80"
-                   InnerRadius="0"
-                   RotateText="True"
-                   Rotation="180"
-                   MenuSector="180"
-                   RotateTextAngle="270.0">
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
-        </ps:PieMenu>
-
-        <ps:PieMenu x:Name="Menu8"  Grid.Column="1" Grid.Row="2"
-                   Canvas.Left="100"
-                   Canvas.Top="100"
-                   Background="#039"
-                   SelectedBackground="#ccf"
-                   Foreground="White"
-                   BorderBrush="#039"
-                   SectorGap="10"
-                   Gap="10"
-                   Radius="66"
-                   InnerRadius="0"
-                   RotateText="True"
-                   Rotation="180"
-                   MenuSector="180">
-            <ps:PieMenuItem Header="Item 1" BorderThickness="1" SubMenuSector="90">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 2" BorderThickness="2" BorderBrush="#cfc" SubMenuSector="60">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Item 3" FontFamily="Arial" FontStyle="Italic" FontSize="14" Background="#9a9" Foreground="#fff" >
-            </ps:PieMenuItem>
-        </ps:PieMenu>
-
-
-
-        <Ellipse Canvas.Left="10" Canvas.Top="10" Width="66" Height="66"  Grid.Column="1" Grid.Row="3" Margin="0, -160,0,0"
-                        Stroke="Black" StrokeThickness="1" Fill="Gray">
-            
-            
-        </Ellipse>
-
+        </Grid>
 
 
     </Grid>
