@@ -3,6 +3,9 @@ using System.Diagnostics;
 using System.Windows.Controls;
 using Ctms.Applications.Views;
 using System.ComponentModel.Composition;
+using Ctms.Applications.ViewModels;
+using System.Waf.Applications;
+using System;
 
 namespace Ctms.Presentation.Views
 {
@@ -12,10 +15,12 @@ namespace Ctms.Presentation.Views
     [Export(typeof(ISearchTagView))]
     public partial class SearchTagView : ISearchTagView
     {
+        private readonly Lazy<SearchTagViewModel> viewModel;
+
         public SearchTagView()
         {
             InitializeComponent();
-            Trace.WriteLine("Hello","Cat");
+            viewModel = new Lazy<SearchTagViewModel>(() => ViewHelper.GetViewModel<SearchTagViewModel>(this));
         }
 
         public void DoSth()

@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
 using Microsoft.Surface.Presentation.Controls;
+using Ctms.Applications.ViewModels;
+using System.Waf.Applications;
 
 namespace Ctms.Presentation.Views
 {
@@ -23,9 +25,12 @@ namespace Ctms.Presentation.Views
     [Export(typeof(ISearchView))]
     public partial class SearchView : UserControl, ISearchView
     {
+        private readonly Lazy<SearchViewModel> viewModel;
+
         public SearchView()
         {
             InitializeComponent();
+            viewModel = new Lazy<SearchViewModel>(() => ViewHelper.GetViewModel<SearchViewModel>(this));
         }
 
         public TagVisualizer TagVisualizer { get { return SearchTagVisualizer; } set {} }
@@ -34,6 +39,8 @@ namespace Ctms.Presentation.Views
         private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
         {
             //HandleTagAction(e);
+            //KeywordType
+
         }
 
         private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)

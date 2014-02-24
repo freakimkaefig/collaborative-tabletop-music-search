@@ -13,15 +13,20 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
+using Ctms.Applications.ViewModels;
+using System.Waf.Applications;
 
 namespace Ctms.Presentation.Views
 {
     [Export(typeof(IResultView))]
     public partial class ResultView : UserControl, IResultView
     {
+        private readonly Lazy<ResultViewModel> viewModel;
+
         public ResultView()
         {
             InitializeComponent();
+            viewModel = new Lazy<ResultViewModel>(() => ViewHelper.GetViewModel<ResultViewModel>(this));
         }
 
         private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)

@@ -13,15 +13,20 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
+using Ctms.Applications.ViewModels;
+using System.Waf.Applications;
 
 namespace Ctms.Presentation.Views
 {
     [Export(typeof(IDetailView))]
     public partial class DetailView : UserControl, IDetailView
     {
+        private readonly Lazy<DetailViewModel> viewModel;
+
         public DetailView()
         {
             InitializeComponent();
+            viewModel = new Lazy<DetailViewModel>(() => ViewHelper.GetViewModel<DetailViewModel>(this));
         }
     }
 }
