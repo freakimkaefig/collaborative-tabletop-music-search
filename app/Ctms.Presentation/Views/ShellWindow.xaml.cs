@@ -17,6 +17,7 @@ using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface;
 using System.Diagnostics;
 using System.Waf.Applications;
+using Ctms.Applications.ViewModels;
 
 namespace Ctms.Presentation.Views
 {
@@ -26,9 +27,12 @@ namespace Ctms.Presentation.Views
     [Export(typeof(IShellView))]
     public partial class ShellWindow : SurfaceWindow, IShellView
     {
+        private readonly Lazy<ShellViewModel> viewModel;
+
         public ShellWindow()
         {
             InitializeComponent();
+            viewModel = new Lazy<ShellViewModel>(() => ViewHelper.GetViewModel<ShellViewModel>(this));
             AddWindowAvailabilityHandlers();
             //InitTangibleDefinitions();
         }
