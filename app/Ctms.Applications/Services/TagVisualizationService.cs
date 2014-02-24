@@ -6,37 +6,40 @@ using Microsoft.Surface.Presentation.Controls;
 using System.Windows;
 using System.ComponentModel.Composition;
 using Ctms.Applications.ViewModels;
+using Ctms.Applications.Views;
+using Ctms.Applications.Common;
 
 namespace Ctms.Applications.Services
 {
-    [Export(typeof(TagVisualizationService)), Export]
     class TagVisualizationService
     {
-        private SearchTagViewModel _searchTagVm;
+        private SearchViewModel _searchVm;
+        private TagVisualizer _tagVisualizer;
 
-        public TagVisualizationService(SearchTagViewModel searchTagVm)
+        public TagVisualizationService(SearchViewModel searchVm)
         {
-            _searchTagVm = searchTagVm;
+            _searchVm = searchVm;
+            _tagVisualizer = ((ISearchView)_searchVm.View).TagVisualizer;
         }
 
         public void InitTangibleDefinitions()
         {
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < CommonVal.MaxTagNumber; i++)
             {
                 TagVisualizationDefinition tagDefinition = new TagVisualizationDefinition();
                 tagDefinition.Value = i;
                 tagDefinition.Source = new Uri("../../Views/SearchTagView.xaml", UriKind.Relative);
                 tagDefinition.MaxCount = 1;
-                tagDefinition.LostTagTimeout = 2000.0;
-                //tagDefinition.OrientationOffsetFromTag = 0;
-                //tagDefinition.OrientationOffsetFromTag = 45;
-                //tagDefinition.PhysicalCenterOffsetFromTag = new Vector(0.3, -0.4);
+                tagDefinition.LostTagTimeout = 5000.0;
                 tagDefinition.TagRemovedBehavior = TagRemovedBehavior.Fade;
-                tagDefinition.UsesTagOrientation = true;
-                //shellVm.
-                //MyTagVisualizer.Definitions.Add(tagDefinition);
+                tagDefinition.UsesTagOrientation = false;
+                AddTagVisualization(tagDefinition);
             }
+        }
 
+        private void AddTagVisualization(TagVisualizationDefinition tagDefinition)
+        {
+            _tagVisualizer.Definitions.Add(tagDefinition);
         }
 
     }

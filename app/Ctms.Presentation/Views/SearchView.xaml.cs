@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
+using Microsoft.Surface.Presentation.Controls;
 
 namespace Ctms.Presentation.Views
 {
@@ -25,6 +26,19 @@ namespace Ctms.Presentation.Views
         public SearchView()
         {
             InitializeComponent();
+        }
+
+        public TagVisualizer TagVisualizer { get { return SearchTagVisualizer; } set {} }
+        
+        
+        private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
+        {
+            //HandleTagAction(e);
+        }
+
+        private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
+        {
+            //HandleTagAction(e);
         }
     }
 }

@@ -34,10 +34,14 @@ namespace Ctms.Applications.Workers
 
         public bool CanSelectOption() { return _searchViewModel.IsValid; }
 
-        public void SelectOption()
+        public void SelectOption(int id)
         {
             //_searchTagViewModel.Item1Header = "Funzt! (Selection Option)";
-            MessageServiceExtensions.ShowMessage(_messageService, "Selected");
+            MessageServiceExtensions.ShowMessage(_messageService, "Selected: " + id);
+
+            // check selection
+            // load next options / set keyword 
+            
         }
 
 

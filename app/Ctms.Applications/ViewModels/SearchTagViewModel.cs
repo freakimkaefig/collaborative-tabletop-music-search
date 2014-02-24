@@ -15,7 +15,7 @@ namespace Ctms.Applications.ViewModels
     {
         private bool isValid = true;
         private Detail detail;
-        private ICommand selectCommand;
+        private ICommand selectOptionCmd;
         private string item1Header;
         
         [ImportingConstructor]
@@ -40,6 +40,7 @@ namespace Ctms.Applications.ViewModels
         }
 
         public string Breadcrumb { get {return "Breadcrumb";}  }
+
         /*
         public string Item1Header
         {
@@ -57,15 +58,16 @@ namespace Ctms.Applications.ViewModels
             }
         }
         */
-        public ICommand SelectCommand
+
+        public ICommand SelectOptionCmd
         {
-            get { return selectCommand; }
+            get { return selectOptionCmd; }
             set
             {
-                if (selectCommand != value)
+                if (selectOptionCmd != value)
                 {
-                    selectCommand = value;
-                    RaisePropertyChanged("SelectCommand");
+                    selectOptionCmd = value;
+                    RaisePropertyChanged("SelectOptionCmd");
                 }
             }
         }

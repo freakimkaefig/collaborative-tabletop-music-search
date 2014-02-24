@@ -18,6 +18,7 @@ namespace PieInTheSky
         public static readonly DependencyProperty CommandProperty;
         public static readonly DependencyProperty CenterTextProperty;
         public static readonly DependencyProperty SubHeaderProperty;
+        public static readonly DependencyProperty IdProperty;
 
 
         #region Properties
@@ -87,6 +88,19 @@ namespace PieInTheSky
             }
         }
 
+        [Bindable(true)]
+        public int Id
+        {
+            get
+            {
+                return (int)base.GetValue(PieMenuItem.IdProperty);
+            }
+            set
+            {
+                base.SetValue(PieMenuItem.IdProperty, value);
+            }
+        }
+
 
         #endregion Properties
 
@@ -97,6 +111,7 @@ namespace PieInTheSky
             PieMenuItem.CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(PieMenuItem), new FrameworkPropertyMetadata(null));
             PieMenuItem.CenterTextProperty = DependencyProperty.Register("CenterText", typeof(bool), typeof(PieMenuItem), new FrameworkPropertyMetadata(false));
             PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem), new FrameworkPropertyMetadata(""));
+            PieMenuItem.IdProperty = DependencyProperty.Register("Id", typeof(int), typeof(PieMenuItem), new FrameworkPropertyMetadata(0));
         }
 
         public double CalculateSize(double s, double d)
@@ -133,7 +148,8 @@ namespace PieInTheSky
         {
             if (Command != null && Command.CanExecute(null))
             {
-                Command.Execute(Header);
+                //Command.Execute(Header);
+                Command.Execute(Id);
             }
 
             if (Click != null)

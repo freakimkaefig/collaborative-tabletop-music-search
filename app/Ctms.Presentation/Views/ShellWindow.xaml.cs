@@ -16,6 +16,7 @@ using Ctms.Applications.Views;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface;
 using System.Diagnostics;
+using System.Waf.Applications;
 
 namespace Ctms.Presentation.Views
 {
@@ -29,7 +30,7 @@ namespace Ctms.Presentation.Views
         {
             InitializeComponent();
             AddWindowAvailabilityHandlers();
-            InitTangibleDefinitions();
+            //InitTangibleDefinitions();
         }
 
         public bool IsMaximized
@@ -47,7 +48,7 @@ namespace Ctms.Presentation.Views
                 }
             }
         }
-
+        /*
         public void InitTangibleDefinitions()
         {
             for (int i = 0; i < 12; i++)
@@ -71,6 +72,9 @@ namespace Ctms.Presentation.Views
         {
             MyTagVisualizer.Definitions.Add(tagDefinition);
         }
+
+        public TagVisualizer TagVisualizer { get { return MyTagVisualizer; } set {} }
+        */
         private void AddWindowAvailabilityHandlers()
         {
             // Subscribe to surface window availability events
