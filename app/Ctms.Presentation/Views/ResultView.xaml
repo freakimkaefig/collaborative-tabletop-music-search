@@ -7,10 +7,12 @@
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"         
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
+    <s:ScatterView Name="MainScatterView">
     <Grid MinHeight="100" MinWidth="150" Margin="0,20,0,0" HorizontalAlignment="Center" MouseLeftButtonDown="Grid_MouseLeftButtonDown"> 
                
         <Grid.ColumnDefinitions>
@@ -43,7 +45,7 @@
             Foreground="White"
             Text="{Binding Result.Song.Title}">
         </TextBlock>
-
+    
       <!--<TextBlock 
             Grid.Column="0" 
             Grid.Row="1" 
@@ -125,7 +127,7 @@
         </TextBlock>
                
     </Grid>
-
+</s:ScatterView>
    
 
 </UserControl>

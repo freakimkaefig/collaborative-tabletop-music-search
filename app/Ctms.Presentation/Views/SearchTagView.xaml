@@ -8,13 +8,14 @@
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
+    
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
     Loaded="SimpleVisualization_Loaded" >
 
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/../../Resources/Images/Search/record.png" Opacity="1.0"/>
+            <ImageBrush ImageSource="../../Resources/Images/Search/record.png" Opacity="1.0"/>
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
