@@ -15,8 +15,8 @@ namespace MusicSearch.ResponseObjects
         public class ResponseObj
         {
             public StatusObj Status { get; set; }
-            public IList<Song> Songs { get; set; }
-            public IList<Term> Terms { get; set; }
+            public List<Song> Songs { get; set; }
+            public List<Term> Terms { get; set; }
 
             public class StatusObj
             {
@@ -28,9 +28,24 @@ namespace MusicSearch.ResponseObjects
             public class Song
             {
                 public string Artist_Id { get; set; }
-                public string Id { get; set; }
                 public string Artist_Name { get; set; }
                 public string Title { get; set; }
+                public List<Object> tracks { get; set; }
+                public int tangibleId { get; set; }
+                public double song_hotttnesss { get; set; }
+
+                public Object audio_summary { get; set; }
+               /* {
+                    public double energy { get; set; }
+                    public double liveness { get; set; }
+                    public double tempo { get; set; }
+                    public double speechiness { get; set; }
+                    public double duration { get; set; }
+                    public double acousticness { get; set; }
+                    public double danceability { get; set; }
+                    public double loudness { get; set; }
+                }*/
+             
             }
 
             public class Term
