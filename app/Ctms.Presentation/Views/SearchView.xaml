@@ -33,7 +33,7 @@
             </Grid.RowDefinitions>
 
             <Label Content="SearchView" Grid.Column="0" Grid.Row="0"/>
-            <Button Content="Search/Refresh" Command="{Binding StartSearchCmd}" Grid.Column="0" Grid.Row="1" Width="100" Height="50" HorizontalAlignment="Left"/>
+            <s:SurfaceButton Content="Search/Refresh" Command="{Binding StartSearchCmd}" Grid.Column="0" Grid.Row="1" Width="100" Height="50" HorizontalAlignment="Left"/>
             <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding InputValue}" Width="140"/>
             <TextBlock Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Left" Style="{StaticResource SearchOptionsTextBlock}"
                 Text="ControlResources Key Example"/>

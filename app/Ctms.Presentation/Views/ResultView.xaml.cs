@@ -21,22 +21,25 @@ namespace Ctms.Presentation.Views
     [Export(typeof(IResultView))]
     public partial class ResultView : UserControl, IResultView
     {
-        private readonly Lazy<ResultViewModel> viewModel;
+        private readonly Lazy<ResultViewModel> _lazyVm;
 
         public ResultView()
         {
             InitializeComponent();
-            viewModel = new Lazy<ResultViewModel>(() => ViewHelper.GetViewModel<ResultViewModel>(this));
+            _lazyVm = new Lazy<ResultViewModel>(() => ViewHelper.GetViewModel<ResultViewModel>(this));
         }
+
+        private ResultViewModel _viewModel { get { return _lazyVm.Value; } }
 
         private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)
         {
 
         }
 
-        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void ScatterViewItem_TouchDown(object sender, TouchEventArgs e)
         {
-
+            object id = "spotify:track:4lCv7b86sLynZbXhfScfm2";
+            _viewModel.PrelistenCommand.Execute(id);
         }
     }
 }

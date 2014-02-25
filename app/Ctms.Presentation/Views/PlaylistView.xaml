@@ -23,8 +23,8 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Label Content="PlaylistView" Grid.Column="0" Grid.Row="0"/>
-        <Button Content="Play" Width="100" Height="40" HorizontalAlignment="Left" Grid.Row="1" Command="{Binding PlayCommand}" Grid.ColumnSpan="2" Margin="12,6,0,191" />
-        <Button Content="Pause" Grid.Column="1" Width="100" Height="40" HorizontalAlignment="Center" Grid.Row="1" Command="{Binding PauseCommand}" Margin="79,6,149,191" />
-        <Button Content="Stop" Grid.Column="1" Width="100" Height="40" HorizontalAlignment="Right" Grid.Row="1" Command="{Binding StopCommand}" Margin="0,6,12,191" />
+        <s:SurfaceButton Content="Play" Width="100" Height="40" HorizontalAlignment="Left" Grid.Row="1" Command="{Binding PlayCommand}" Grid.ColumnSpan="2" Margin="12,6,0,191" />
+        <s:SurfaceButton Content="Pause" Grid.Column="1" Width="100" Height="40" HorizontalAlignment="Center" Grid.Row="1" Command="{Binding PauseCommand}" Margin="79,6,149,191" />
+        <s:SurfaceButton Content="Stop" Grid.Column="1" Width="100" Height="40" HorizontalAlignment="Right" Grid.Row="1" Command="{Binding StopCommand}" Margin="0,6,12,191" />
     </Grid>
 </UserControl>
