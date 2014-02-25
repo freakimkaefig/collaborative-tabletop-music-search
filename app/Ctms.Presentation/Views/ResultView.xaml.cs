@@ -38,7 +38,7 @@ namespace Ctms.Presentation.Views
 
         private void ScatterViewItem_TouchDown(object sender, TouchEventArgs e)
         {
-            object id = "spotify:track:4lCv7b86sLynZbXhfScfm2";
+            object id = "spotify:track:4lCv7b86sLynZbXhfScfm2"; //Pass spotify-track-id from echonest
             _viewModel.PrelistenCommand.Execute(id);
         }
     }

@@ -86,10 +86,10 @@ namespace Ctms.Applications.Workers
         }
 
         //PUBLIC METHODS
-        public void Prelisten()
+        public void Prelisten(string id)
         {
             //Called when Button "Prelisten" from ResultView clicked
-            _sessionManager.StartPrelisteningTrack(_testtrack);
+            _sessionManager.StartPrelisteningTrack(id);
         }
     }
 }

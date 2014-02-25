@@ -7,24 +7,21 @@
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:s="http://schemas.microsoft.com/surface/2008"         
-    MinWidth="250" MinHeight="400" IsEnabled="{Binding IsEnabled}"
+    IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
-    <Grid Margin="0,0,0,0">
+    <Grid Margin="0,0,0,0" Width="1920" Height="1080">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1920"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <Label Content="PlaylistView" Grid.Column="0" Grid.Row="0"/>
-        <s:SurfaceButton Content="Play" Width="100" Height="40" HorizontalAlignment="Left" Grid.Row="1" Command="{Binding PlayCommand}" Grid.ColumnSpan="2" Margin="12,6,0,191" />
-        <s:SurfaceButton Content="Pause" Grid.Column="1" Width="100" Height="40" HorizontalAlignment="Center" Grid.Row="1" Command="{Binding PauseCommand}" Margin="79,6,149,191" />
-        <s:SurfaceButton Content="Stop" Grid.Column="1" Width="100" Height="40" HorizontalAlignment="Right" Grid.Row="1" Command="{Binding StopCommand}" Margin="0,6,12,191" />
+        
+        <s:SurfaceButton Content="Play" Width="100" Height="40" HorizontalAlignment="Left" Command="{Binding PlayCommand}" Margin="1700,996,0,44" />
+        <s:SurfaceButton Content="Stop" Width="100" Height="40" HorizontalAlignment="Right" Command="{Binding StopCommand}" Margin="0,996,0,44" />
+        <s:SurfaceListBox Name="PlaylistAddDropTarget" Height="400"
+             AllowDrop="True" ItemsSource="{Binding Path=TargetItems}"
+            s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter" s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave" s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop" Margin="1700,590,0,90" />
+        <Label Content="PlaylistView" Height="38" Margin="1700,1042,0,0" />
+        
     </Grid>
 </UserControl>

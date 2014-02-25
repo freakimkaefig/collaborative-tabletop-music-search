@@ -28,5 +28,20 @@ namespace Ctms.Presentation.Views
             InitializeComponent();
             viewModel = new Lazy<PlaylistViewModel>(() => ViewHelper.GetViewModel<PlaylistViewModel>(this));
         }
+
+        private void PlaylistAddDropTarget_DragEnter(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
+        {
+
+        }
+
+        private void PlaylistAddDropTarget_DragLeave(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
+        {
+
+        }
+
+        private void PlaylistAddDropTarget_Drop(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
+        {
+
+        }
     }
 }

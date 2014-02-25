@@ -12,7 +12,7 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
 
     <s:ScatterView Name="MainScatterView">
-        <s:ScatterViewItem TouchDown="ScatterViewItem_TouchDown">
+        <s:ScatterViewItem PreviewTouchDown="ScatterViewItem_TouchDown">
             <Grid MinHeight="100" MinWidth="150" Margin="0,20,0,0" HorizontalAlignment="Center"> 
                
                 <Grid.ColumnDefinitions>

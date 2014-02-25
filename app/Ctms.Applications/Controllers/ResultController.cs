@@ -55,7 +55,7 @@ namespace Ctms.Applications.Controllers
             //Workers
             this._streamingWorker = streamingWorker;
             //Commands
-            this._prelistenCommand = new DelegateCommand(_streamingWorker.Prelisten);   //Pass spotify:track:id
+            this._prelistenCommand = new DelegateCommand((id) => _streamingWorker.Prelisten((string)id));
             //this.selectOptionCommand = new DelegateCommand(chooseResult, CanSelectResult);
         }
 
