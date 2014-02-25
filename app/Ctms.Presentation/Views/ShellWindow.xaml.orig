@@ -30,55 +30,9 @@
             </RadialGradientBrush.GradientStops>
         </RadialGradientBrush>
     </Window.Background>
-<<<<<<< HEAD
-
-    <Window.Resources>
-        <Style x:Key="CommonStyle" TargetType="FrameworkElement">
-            <Setter Property="Margin" Value="2" />
-        </Style>
-        <Style TargetType="StackPanel" BasedOn="{StaticResource CommonStyle}">
-        </Style>
-        <Style TargetType="Grid" BasedOn="{StaticResource CommonStyle}">
-        </Style>
-        <Style TargetType="Button" BasedOn="{StaticResource CommonStyle}">
-            <Setter Property="Foreground" Value="#fff" />
-        </Style>
-        <Style TargetType="Label" BasedOn="{StaticResource CommonStyle}">
-            <Setter Property="Foreground" Value="#fff" />
-        </Style>
-        <Style TargetType="TextBlock" BasedOn="{StaticResource CommonStyle}">
-            <Setter Property="Foreground" Value="#fff" />
-        </Style>
-        <Style TargetType="TextBox" BasedOn="{StaticResource CommonStyle}">
-            <Setter Property="Foreground" Value="#fff" />
-        </Style>
-    </Window.Resources>
-    <Grid Margin="0,0,0,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        
-
-        <ContentControl Content="{Binding ShellService.SearchView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
-        <ContentControl Content="{Binding ShellService.ResultView}" Margin="0,0,0,0" Grid.Column="1" Grid.Row="0"/>
-        <ContentControl Content="{Binding ShellService.DetailView}" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
-        <ContentControl Content="{Binding ShellService.MenuView}" Margin="0,0,0,0" Grid.Column="3" Grid.Row="0"/>
-
-
-        <ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Row="1" Grid.Column="3" Margin="0,0,0,0"/>    
-    </Grid>
-</Window>
-=======
     
-    <s:TagVisualizer x:Name="MyTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
-                     VisualizationRemoved="OnVisualizationRemoved">
+    <!--<s:TagVisualizer x:Name="MyTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
+                     VisualizationRemoved="OnVisualizationRemoved">-->
         <Grid Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -89,12 +43,16 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <ContentControl Content="{Binding ShellService.SearchView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>            
+            <ContentControl Content="{Binding ShellService.SearchView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>            
             <ContentControl Content="{Binding ShellService.ResultView}" Margin="0,0,0,0" Grid.Column="1" Grid.Row="0"/>
             <ContentControl Content="{Binding ShellService.DetailView}" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
             <ContentControl Content="{Binding ShellService.MenuView}" Margin="0,0,0,0" Grid.Column="3" Grid.Row="0"/>
+            <ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Row="1" Grid.Column="3" Margin="0,0,0,0"/>
         </Grid>  
-        <!--<ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0"/>-->
+<<<<<<< HEAD
     </s:TagVisualizer>
-</s:SurfaceWindow>
+=======
+        <!--<ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0"/>-->
+    <!--</s:TagVisualizer>-->
 >>>>>>> origin/dev
+</s:SurfaceWindow>
