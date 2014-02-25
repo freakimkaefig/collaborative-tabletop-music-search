@@ -12,13 +12,22 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
-    <s:ScatterView Name="MainScatterView">
-    <Grid MinHeight="100" MinWidth="150" Margin="0,20,0,0" HorizontalAlignment="Center" MouseLeftButtonDown="Grid_MouseLeftButtonDown"> 
-               
+    
+<s:ScatterView Name="MainScatterView">
+        <!--<s:ScatterView.ItemContainerStyle>
+            <Style TargetType="{x:Type s:ScatterViewItem}">
+                <Setter Property="BorderBrush" Value="White"/>
+                <Setter Property="BorderThickness" Value="3"/>
+                <Setter Property="Margin" Value="0"/>
+            </Style>
+        </s:ScatterView.ItemContainerStyle>  -->
+        <s:ScatterViewItem Name="result1" Background="Transparent">
+
+            <Grid MinHeight="100" MinWidth="150" HorizontalAlignment="Center"> 
+             
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
-            
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
@@ -27,17 +36,10 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            
         </Grid.RowDefinitions>
         
-       <!-- <TextBlock
-            Grid.Column="0" 
-            Grid.Row="1" 
-            Foreground="White">Title:
-        </TextBlock>  -->
-        
         <TextBlock
-            Margin="0,0,0,0"
+            Margin="0"
             Background="#528B8B"
             TextAlignment="Center"
             Grid.Column="0" 
@@ -45,12 +47,6 @@
             Foreground="White"
             Text="{Binding Result.Song.Title}">
         </TextBlock>
-    
-      <!--<TextBlock 
-            Grid.Column="0" 
-            Grid.Row="1" 
-            Foreground="Black">Artist:
-        </TextBlock> -->
         
         <TextBlock
             Padding="0,2,0,5"
@@ -62,16 +58,6 @@
             Foreground="White"
             Text="{Binding Result.Song.Artist}">
         </TextBlock>
-       
-        <!--<TextBlock 
-            Grid.Column="2" 
-            Grid.Row="3" 
-            Foreground="White"
-            RenderTransformOrigin="0.5, 0.5">Artist:
-            <TextBlock.RenderTransform>
-                <RotateTransform Angle="180"/>
-            </TextBlock.RenderTransform>
-        </TextBlock> -->
        
         <UniformGrid Grid.Row="2" Rows="1" Columns="3">         <!--columns and Viewboxes to be filled dynamically later-->
             <Viewbox Stretch="Fill">
@@ -85,11 +71,9 @@
             </Viewbox>
         </UniformGrid>
 
-
-
         <TextBlock 
             Padding="0,2,0,5"
-            Margin="0,0,0,0"
+            Margin="0"
             Background="#79CDCD"
             TextAlignment="Center"
             Grid.Column="0" 
@@ -102,18 +86,8 @@
                 </TextBlock.RenderTransform>
         </TextBlock>
 
-       <!-- <TextBlock 
-            Grid.Column="2" 
-            Grid.Row="4" 
-            Foreground="White"
-            RenderTransformOrigin="0.5, 0.5">Title:
-            <TextBlock.RenderTransform>
-                <RotateTransform Angle="180"/>
-            </TextBlock.RenderTransform>
-        </TextBlock>  -->
-
         <TextBlock
-            Margin="0,0,0,0"
+            Margin="0"
             Background="#79CDCD"
             TextAlignment="Center"
             RenderTransformOrigin="0.5, 0.5"
@@ -124,10 +98,10 @@
                 <TextBlock.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </TextBlock.RenderTransform>
-        </TextBlock>
-               
-    </Grid>
+        </TextBlock>    
+         </Grid>
+</s:ScatterViewItem>
+           
 </s:ScatterView>
-   
 
 </UserControl>
