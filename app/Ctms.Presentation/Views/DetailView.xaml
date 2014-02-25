@@ -7,10 +7,13 @@
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
-    MinWidth="250" MinHeight="400" IsEnabled="{Binding IsEnabled}"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}" waf:ValidationHelper.IsEnabled="true" -->
-    <Grid Margin="0,0,0,0">
+    <s:ScatterView Name="MainScatterView">
+        <s:ScatterViewItem Background="Transparent">
+            <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
@@ -28,8 +31,7 @@
         <Label Content="DetailView" Grid.Column="0" Grid.Row="0"/>
         <Button Command="{Binding DoTestCommand}">Button Example</Button>
 
-
-        <TextBlock
+            <TextBlock
             Margin="0,0,0,0"
             TextAlignment="Center"
             Grid.Column="0" 
@@ -44,7 +46,7 @@
             Grid.Column="1" 
             Grid.Row="1"
             Foreground="White"
-            Text="{Binding Result.Song.Title}"> <!--{Binding Result/Detail }  ?? -->
+            Text="Test123"> <!--{Binding Result/Detail }  getDetails? ? -->
         </TextBlock>
 
         <TextBlock
@@ -119,7 +121,9 @@
             Foreground="White"
             Text="ersteZeile&#xa;zweiteZeile">
         </TextBlock>
-
-
+            
     </Grid>
+        </s:ScatterViewItem>
+    </s:ScatterView>
+
 </UserControl>

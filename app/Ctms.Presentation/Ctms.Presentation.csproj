@@ -222,8 +222,8 @@
   <ItemGroup>
     <Resource Include="Resources\Images\ctms_icon.ico" />
     <Resource Include="Resources\Images\Search\basic-texture.png" />
-    <Content Include="Resources\Images\Search\record.png" />
-    <Content Include="Resources\Images\Search\tweed.png" />
+    <Resource Include="Resources\Images\Search\record.png" />
+    <Resource Include="Resources\Images\Search\tweed.png" />
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>
