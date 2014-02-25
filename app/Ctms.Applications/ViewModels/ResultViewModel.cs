@@ -17,6 +17,7 @@ namespace Ctms.Applications.ViewModels
         private Result result;
         private string title;
         private ICommand selectCommand;
+        private ICommand prelistenCommand;
 
 
         [ImportingConstructor]
@@ -63,6 +64,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     selectCommand = value;
                     RaisePropertyChanged("SelectCommand");
+                }
+            }
+        }
+
+        public ICommand PrelistenCommand
+        {
+            get { return prelistenCommand; }
+            set
+            {
+                if (prelistenCommand != value)
+                {
+                    prelistenCommand = value;
+                    RaisePropertyChanged("PrelistenCommand");
                 }
             }
         }

@@ -112,3 +112,15 @@ namespace MusicStream
         }
     }
 }
+
+/* ---------------- Open Playlist -------------*/
+public void OpenPlaylist(Playlist playlist)
+        {
+            logMessages.Enqueue("Opening Playlist: '" + playlist.Name() + "'.");
+            _currentPlaylist = playlist;
+            _playlistListener = new MusicStreamPlaylistListener(this);
+            _currentPlaylist.AddCallbacks(_playlistListener, _userdata);
+
+            //LoadTrack(playlist.Track(0));
+            _currentTrackIndex = 0;
+        }

@@ -36,7 +36,7 @@ namespace Ctms.Applications.Controllers
         //ViewModels
         private PlaylistViewModel _playlistViewModel;
         //Worker
-        private PlaylistWorker _playlistWorker;
+        private StreamingWorker _streamingWorker;
         //Commands
         private readonly DelegateCommand _playCommand;
         private readonly DelegateCommand _pauseCommand;
@@ -47,26 +47,26 @@ namespace Ctms.Applications.Controllers
 
         [ImportingConstructor]
         public PlaylistController(CompositionContainer container, IShellService shellService, IEntityService entityService,
-            PlaylistViewModel playlistViewModel, PlaylistWorker playlistWorker)
+            PlaylistViewModel playlistViewModel, StreamingWorker streamingWorker)
         {
             this.container = container;
             //Services
             this.shellService = shellService;
             this.entityService = entityService;
             //ViewModels
-            this._playlistViewModel = playlistViewModel;
+            _playlistViewModel = playlistViewModel;
             //Worker
-            _playlistWorker = playlistWorker;
+            _streamingWorker = streamingWorker;
             //Commands
-            this._playCommand = new DelegateCommand(_playlistWorker.PlayCurrentTrack, CanPlayTrack);
-            this._pauseCommand = new DelegateCommand(_playlistWorker.PauseCurrentTrack, CanPauseTrack);
-            this._stopCommand = new DelegateCommand(_playlistWorker.StopPlayback, CanStopPlayback);
+            this._playCommand = new DelegateCommand(_streamingWorker.PlayCurrentTrack, _streamingWorker.CanStream);
+            this._pauseCommand = new DelegateCommand(_streamingWorker.PauseCurrentTrack, _streamingWorker.Playing);
+            this._stopCommand = new DelegateCommand(_streamingWorker.StopPlayback, _streamingWorker.Playing);
         }
 
         public void Initialize()
         {
             IPlaylistView playlistView = container.GetExportedValue<IPlaylistView>();
-            _playlistViewModel = new PlaylistViewModel(playlistView);
+            //_playlistViewModel = new PlaylistViewModel(playlistView);
             //Commands
             _playlistViewModel.PlayCommand = _playCommand;
             _playlistViewModel.PauseCommand = _pauseCommand;
@@ -78,12 +78,10 @@ namespace Ctms.Applications.Controllers
 
         private void UpdateCommands()
         {
-
+            _playCommand.RaiseCanExecuteChanged();
+            _pauseCommand.RaiseCanExecuteChanged();
+            _stopCommand.RaiseCanExecuteChanged();
         }
-
-        public bool CanPlayTrack() { return _playlistViewModel.CanPlayTrack; }
-        public bool CanPauseTrack() { return _playlistViewModel.CanPauseTrack; }
-        public bool CanStopPlayback() { return _playlistViewModel.CanStopPlayback; }
 
         private void PlaylistViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -94,6 +92,12 @@ namespace Ctms.Applications.Controllers
             }
 
             if (e.PropertyName == "CurrentTrack")//SelectedSong is just an example
+            {
+                //...
+                UpdateCommands();
+            }
+
+            if (e.PropertyName == "ReadyForPlayback")
             {
                 //...
                 UpdateCommands();

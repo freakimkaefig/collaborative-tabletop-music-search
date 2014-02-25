@@ -15,9 +15,8 @@ namespace Ctms.Applications.ViewModels
     public class PlaylistViewModel : ViewModel<IPlaylistView>
     {
         private bool isValid = true;
-        private bool _canPlayTrack = true;
-        private bool _canPauseTrack = true;
-        private bool _canStopPlayback = true;
+        private bool _readyForPlayback = false;
+        private bool _playing = false;
 
         private Ctms.Domain.Objects.Playlist _playlist;
         private Track _currentTrack;
@@ -49,41 +48,28 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public bool CanPlayTrack
+        public bool ReadyForPlayback
         {
-            get { return _canPlayTrack; }
+            get { return _readyForPlayback; }
             set
             {
-                if (_canPlayTrack != value)
+                if (_readyForPlayback != value)
                 {
-                    _canPlayTrack = value;
-                    RaisePropertyChanged("CanPlayTrack");
+                    _readyForPlayback = value;
+                    RaisePropertyChanged("ReadyForPlayback");
                 }
             }
         }
 
-        public bool CanPauseTrack
+        public bool Playing
         {
-            get { return _canPauseTrack; }
+            get { return _playing; }
             set
             {
-                if (_canPauseTrack != value)
+                if (_playing != value)
                 {
-                    _canPauseTrack = value;
-                    RaisePropertyChanged("CanPauseTrack");
-                }
-            }
-        }
-
-        public bool CanStopPlayback
-        {
-            get { return _canStopPlayback; }
-            set
-            {
-                if (_canStopPlayback != value)
-                {
-                    _canStopPlayback = value;
-                    RaisePropertyChanged("CanStopPlayback");
+                    _playing = value;
+                    RaisePropertyChanged("Playing");
                 }
             }
         }

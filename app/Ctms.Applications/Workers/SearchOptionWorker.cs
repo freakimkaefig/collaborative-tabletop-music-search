@@ -27,7 +27,7 @@ namespace Ctms.Applications.Workers
             //Services
             _messageService = messageService;
             //Workers
-            //_resultWorker = resultWorker;
+            //_streamingWorker = resultWorker;
             //Managers
             _selectionManager = new SelectionManager();
         }

@@ -9,8 +9,8 @@
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
-    <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
-    waf:ValidationHelper.IsEnabled="true" -->
+
+    <Button Width="auto" Height="auto" Command="{Binding PrelistenCommand}">
     <Grid MinHeight="100" MinWidth="150" Margin="0,20,0,0" HorizontalAlignment="Center"> 
                
         <Grid.ColumnDefinitions>
@@ -20,6 +20,7 @@
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -71,7 +72,7 @@
             </TextBlock.RenderTransform>
         </TextBlock> -->
        
-        <UniformGrid Grid.Row="2" Rows="1" Columns="3">         <!--columns and Viewboxes to be filled dynamically later-->
+        <UniformGrid Grid.Row="2" Rows="1" Columns="3" DataContext="{Binding}">         <!--columns and Viewboxes to be filled dynamically later-->
             <Viewbox Stretch="Fill">
                 <Rectangle Fill="Blue" MinHeight="15" MinWidth="0.5"></Rectangle>
             </Viewbox>
@@ -123,9 +124,10 @@
                     <RotateTransform Angle="180"/>
                 </TextBlock.RenderTransform>
         </TextBlock>
-               
-    </Grid>
 
-   
+        <!--<Button Content="Prelisten" Grid.Column="0" Grid.Row="5" Command="{Binding PrelistenCommand}"/>-->
+
+    </Grid>
+    </Button>
 
 </UserControl>

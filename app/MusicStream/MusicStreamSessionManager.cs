@@ -27,15 +27,14 @@ namespace MusicStream
         //Actions
         public Action<string> receiveLogMessage;
         public Action SpotifyLoggedIn;
-        public Action PlaylistContainerLoaded;
-        public Action<Track> TrackLoaded;
+        public Action ReadyForPlayback;
+
+        //public Action<Track> GetLoadedTrackCompleted;
         public Action PlaybackStarted;
         public Action PlaybackPaused;
         public Action PlaybackStopped;
         public Action PlaybackEndOfTrack;
 
-        private string _spotifyUsername = "mybleton";
-        private string _spotifyPassword = "ctms";
         private string _credentialsBlob = null;
         private object _userdata;
 
@@ -43,8 +42,10 @@ namespace MusicStream
         SynchronizationContext syncContext;
         System.Threading.Timer timer;
 
-        private IWavePlayer _waveOutDevice;
-        private BufferedWaveProvider _bufferedWaveProvider;
+        //PlayerPlaylist
+        private IWavePlayer _prelistenWaveOutDevice;
+        private BufferedWaveProvider _prelistenBufferedWaveProvider;
+
         private AudioBufferStats _audioBufferStats;
         private byte[] _copiedFrames;
         private Track _currentTrack;
@@ -55,6 +56,8 @@ namespace MusicStream
         public MusicStreamSessionManager()
         {
             //InitializeComponent();
+
+            _backgroundWorkHelper = new BackgroundWorkHelper();
 
             syncContext = SynchronizationContext.Current;
             logMessages = new ConcurrentQueue<string>();
@@ -89,33 +92,59 @@ namespace MusicStream
             get { return this._userdata; }
         }
 
-        public string SpotifyUsername
-        {
-            set { this._spotifyUsername = value; }
-            get { return this._spotifyUsername; }
-        }
-
-        public string SpotifyPassword
-        {
-            set { this._spotifyPassword = value; }
-            get { return this._spotifyPassword; }
-        }
-
         public AudioBufferStats GetCurrentAudioBufferStats()
         {
-            _audioBufferStats.samples = _bufferedWaveProvider.BufferedBytes / 2;
+            _audioBufferStats.samples = _prelistenBufferedWaveProvider.BufferedBytes / 2;
             _audioBufferStats.stutter = 0;
             return _audioBufferStats;
         }
 
 
-        //CALLBACKS
+        /* ---------- PUBLIC METHODS ---------- */
+        public void Login(string username, string password)
+        {
+            Dictionary<string, object> credentials = new Dictionary<string, object>();
+            credentials.Add("username", username);
+            credentials.Add("password", password);
+            _backgroundWorkHelper.DoInBackground(LoginWorker, LoginCompleted, credentials);
+            //_session.Login(_spotifyUsername, _spotifyPassword, true, CredentialsBlob);
+        }
+
+        public void StartPrelisteningTrack(String spotifyTrackId)
+        {
+            _backgroundWorkHelper.DoInBackground(PrelistenWorker, PrelistenCompleted, spotifyTrackId);
+        }
+
+        
+
+        /*public void PlayTrack(Track track)
+        {
+            _session.PlayerPlay(true);   //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gab66c5915967e4f90db945b118e620624
+            _prelistenWaveOutDevice.Play();
+            PlaybackStarted();
+        }*/
+
+        public void PauseTrack()
+        {
+            _prelistenWaveOutDevice.Pause();
+        }
+
+        public void StopTrack()
+        {
+            _prelistenWaveOutDevice.Stop();
+            _session.PlayerUnload();
+        }
+
+        public void ProceedPlayingPlaylist()
+        {
+
+        }
+
+
+        /* ---------- CALLBACKS ---------- */
         public void LoggedInCallback()
         {
             /* Callback, when successfully logged in to Spotify
-             * (called from Ctms.Applications/Workers/MusicStreamAccountWorker.cs - SpotifyLoggedIn() :45)
-             * 
-             * creating new PlaylistContainerManager
              * creating new PlaylistContainer
              */
             SpotifyLoggedIn();  //Notify MenuController
@@ -127,27 +156,41 @@ namespace MusicStream
 
         public void PlaylistContainerLoadedCallback()
         {
-            /* Callback, when PlaylistContainer is loaded
-             * (called from MusicStream/MusicStreamPlaylistContainerListener.cs - ContainerLoaded() :43)
-             */
-            PlaylistContainerLoaded();
+            //Logging available Playlists
+            /*
             for (int i = 0; i < _playlistContainer.NumPlaylists(); i++)
             {
                 logMessages.Enqueue("Found Playlist: (" + i + ")" + _playlistContainer.Playlist(i).Name());
             }
+             * */
 
-            OpenPlaylist(_playlistContainer.Playlist(0));
+            //Create Buffer, Stats & AudioDevice
+            _prelistenBufferedWaveProvider = new BufferedWaveProvider(new WaveFormat()); //Create new Buffer
+            _prelistenBufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(240);
+            _audioBufferStats = new AudioBufferStats(); //Create stats for Spotify
+            _prelistenWaveOutDevice = new WaveOut(); //Create new AudioDevice
+            _prelistenWaveOutDevice.Init(_prelistenBufferedWaveProvider);
+
+            //Notify PlaylistWorker that Playback is ready to start!!!
+            logMessages.Enqueue("READY FOR PLAYBACK");
+            ReadyForPlayback();
         }
 
         public void MusicDeliveryCallback(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
         {
-            //http://stackoverflow.com/questions/21307520/playing-ohlibspotify-pcm-data-stream-in-c-sharp-with-naudio
-            //http://forum.openhome.org/showthread.php?tid=1202&pid=2223#pid2223
+            Dictionary<string, object> musicDelivery = new Dictionary<string, object>();
+            musicDelivery.Add("format.channels", format.channels);
+            musicDelivery.Add("frames", frames);
+            musicDelivery.Add("num_frames", num_frames);
 
+            _backgroundWorkHelper.DoInBackground(MusicDeliveryWorker, MusicDeliveryCompleted, musicDelivery);
+            /*
+            
             var size = num_frames * format.channels * 2;
             _copiedFrames = new byte[size];
             Marshal.Copy(frames, _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
-            _bufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
+            _prelistenBufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
+            */
         }
 
         public void EndOfTrack(SpotifySession session)
@@ -155,18 +198,62 @@ namespace MusicStream
             logMessages.Enqueue("Finished playing: '" + _currentTrack.Artist(0).Name() + " - " + _currentTrack.Name() + "'.");
 
             _currentTrackIndex++;
-            LoadTrack(_currentPlaylist.Track(_currentTrackIndex));
+            //GetLoadedTrackWorker(_currentPlaylist.Track(_currentTrackIndex));
 
             PlaybackEndOfTrack();
         }
 
 
-        //METHODS
+        /*---------- BACKGROUNDHELPERS ----------*/
+        //Login
+        public void LoginWorker(object sender, DoWorkEventArgs e)
+        {
+            _session.Login((string)((Dictionary<string, object>)e.Argument)["username"], (string)((Dictionary<string, object>)e.Argument)["password"], false, CredentialsBlob);
+        }
+        public void LoginCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+        //Prelisten
+        public void PrelistenWorker(object sender, DoWorkEventArgs e)
+        {
+            Track track = Track.GetPlayable(_session, Link.CreateFromString((String)e.Argument).AsTrack());
+            _session.PlayerLoad(track);
+            _session.PlayerPrefetch(track);
+            _session.PlayerSeek(200);
+            _session.PlayerPlay(true);
+            _prelistenWaveOutDevice.Play();
+            PlaybackStarted();
+        }
+        public void PrelistenCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            
+        }
+
+        //MusicDelivery
+        public void MusicDeliveryWorker(object sender, DoWorkEventArgs e)
+        {
+            var size = (int)((Dictionary<string, object>)e.Argument)["num_frames"] * (int)((Dictionary<string, object>)e.Argument)["format.channels"] * 2;
+            _copiedFrames = new byte[size];
+            if (size != 0)
+            {
+                Marshal.Copy((IntPtr)((Dictionary<string, object>)e.Argument)["frames"], _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
+                _prelistenBufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
+            }
+        }
+        public void MusicDeliveryCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+
+        /* ---------- HELPER METHODS ---------- */
+        //Message Logging
         public void InvokeProcessEvents(SpotifySession session)
         {
             syncContext.Post(obj => ProcessEvents(session), null);
         }
-
         void ProcessEvents(SpotifySession session)
         {
             this._session = session;
@@ -183,67 +270,6 @@ namespace MusicStream
             timer.Change(timeout, Timeout.Infinite);
         }
 
-        public void Login()
-        {
-            _session.Login(_spotifyUsername, _spotifyPassword, true, CredentialsBlob);
-        }
 
-        public void OpenPlaylist(Playlist playlist)
-        {
-            logMessages.Enqueue("Opening Playlist: '" + playlist.Name() + "'.");
-            _currentPlaylist = playlist;
-            _playlistListener = new MusicStreamPlaylistListener(this);
-            _currentPlaylist.AddCallbacks(_playlistListener, _userdata);
-
-            LoadTrack(playlist.Track(0));
-            _currentTrackIndex = 0;
-        }
-
-        public void LoadTrack(Track track)
-        {
-            logMessages.Enqueue("Loading Track: '" + track.Artist(0).Name() + " - " + track.Name() + "'.");
-            _currentTrack = track;
-
-            _bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat());
-            _bufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(240);
-            _audioBufferStats = new AudioBufferStats();
-
-            _session.PlayerLoad(track);  //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gac73bf2c569a43d824439b557d5e4b293
-            _session.PlayerPrefetch(track);
-
-            _waveOutDevice = new WaveOut();
-            _waveOutDevice.Init(_bufferedWaveProvider);
-            TrackLoaded(track);
-        }
-
-        public void PlayTrack(object sender, DoWorkEventArgs e)
-        {
-            _session.PlayerPlay(true);   //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gab66c5915967e4f90db945b118e620624
-            _waveOutDevice.Play();
-            //PlaybackStarted();
-        }
-        /*
-        public void PlayTrack(Track track)
-        {
-            _session.PlayerPlay(true);   //https://developer.spotify.com/docs/libspotify/12.1.45/group__session.html#gab66c5915967e4f90db945b118e620624
-            _waveOutDevice.Play();
-            PlaybackStarted();
-        }*/
-
-        public void PauseTrack()
-        {
-            _waveOutDevice.Pause();
-        }
-
-        public void StopTrack()
-        {
-            _waveOutDevice.Stop();
-            _session.PlayerUnload();
-        }
-
-        public void ProceedPlayingPlaylist()
-        {
-
-        }
     }
 }

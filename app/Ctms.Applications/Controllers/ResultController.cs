@@ -15,6 +15,7 @@ using System.Data.EntityClient;
 using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
+using Ctms.Applications.Workers;
 
 
 namespace Ctms.Applications.Controllers
@@ -32,34 +33,41 @@ namespace Ctms.Applications.Controllers
         private readonly IShellService shellService;
         private readonly IEntityService entityService;
         //ViewModels
-        private ResultViewModel resultViewModel;
+        private ResultViewModel _resultViewModel;
+        //Workers
+        private StreamingWorker _streamingWorker;
         //Commands
         //private readonly DelegateCommand selectOptionCommand;
+        private readonly DelegateCommand _prelistenCommand;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public ResultController(CompositionContainer container, IShellService shellService, IEntityService entityService,
-            ResultViewModel resultViewModel)
+            ResultViewModel resultViewModel, StreamingWorker streamingWorker)
         {
             this.container = container;
             //Services
             this.shellService = shellService;
             this.entityService = entityService;
             //ViewModels
-            this.resultViewModel = resultViewModel;
+            this._resultViewModel = resultViewModel;
+            //Workers
+            this._streamingWorker = streamingWorker;
             //Commands
+            this._prelistenCommand = new DelegateCommand(_streamingWorker.Prelisten);   //Pass spotify:track:id
             //this.selectOptionCommand = new DelegateCommand(chooseResult, CanSelectResult);
         }
 
         public void Initialize()
         {
             //Commands
-            //resultViewModel.SelectCommand = selectCommand;
+            //_resultViewModel.SelectCommand = selectCommand;
+            _resultViewModel.PrelistenCommand = _prelistenCommand;
             //Views
-            shellService.ResultView = resultViewModel.View;
+            shellService.ResultView = _resultViewModel.View;
             //Listeners
-            AddWeakEventListener(resultViewModel, ResultViewModelPropertyChanged);
+            AddWeakEventListener(_resultViewModel, ResultViewModelPropertyChanged);
         }
 
         private void UpdateCommands()

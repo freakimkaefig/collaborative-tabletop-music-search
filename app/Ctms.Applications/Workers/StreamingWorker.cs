@@ -15,15 +15,17 @@ namespace Ctms.Applications.Workers
     /// 
     /// </summary>
     [Export]
-    class PlaylistWorker
+    class StreamingWorker
     {
         private BackgroundWorkHelper _backgroundWorkHelper;
         private PlaylistViewModel _playlistViewModel;
         private MusicStreamAccountWorker _accountWorker;
         private MusicStreamSessionManager _sessionManager;
 
+        private string _testtrack = "spotify:track:4lCv7b86sLynZbXhfScfm2";
+
         [ImportingConstructor]
-        public PlaylistWorker(PlaylistViewModel playlistViewModel, MusicStreamAccountWorker musicStreamAccountWorker)
+        public StreamingWorker(PlaylistViewModel playlistViewModel, MusicStreamAccountWorker musicStreamAccountWorker)
         {
             this._playlistViewModel = playlistViewModel;
             this._accountWorker = musicStreamAccountWorker;
@@ -32,6 +34,8 @@ namespace Ctms.Applications.Workers
         }
 
         //SETTER & GETTER
+        public bool CanStream() { return _playlistViewModel.ReadyForPlayback; }
+        public bool Playing() { return _playlistViewModel.Playing; }
         
 
         //CALLBACKS
@@ -39,33 +43,26 @@ namespace Ctms.Applications.Workers
         {
             this._sessionManager = sessionManager;
 
-            _sessionManager.TrackLoaded = TrackLoaded;
-            //_sessionManager.PlaybackStarted = PlaybackStarted;
+            //_sessionManager.GetLoadedTrackCompleted = GetLoadedTrackCompleted;
+            _sessionManager.PlaybackStarted = PlaybackStarted;
             _sessionManager.PlaybackPaused = PlaybackPaused;
             _sessionManager.PlaybackStopped = PlaybackStopped;
             _sessionManager.PlaybackEndOfTrack = EndOfTrack;
         }
 
-        private void TrackLoaded(Track track)
+        private void PlaybackStarted()
         {
-            _sessionManager.logMessages.Enqueue("Track: '" + track.Artist(0).Name() + " - " + track.Name() + "' loaded.");
-            _playlistViewModel.CurrentTrack = track;
-            NotifyModel(true, false, false);
-        }
-
-        private void PlaybackStarted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            NotifyModel(false, true, false);
+            _playlistViewModel.Playing = true;
         }
 
         private void PlaybackPaused()
         {
-            NotifyModel(true, false, false);
+            
         }
 
         private void PlaybackStopped()
         {
-            NotifyModel(true, false, false);
+            
         }
 
         private void EndOfTrack()
@@ -73,27 +70,26 @@ namespace Ctms.Applications.Workers
 
         }
 
-        //METHODS
-        private void NotifyModel(bool canPlay, bool canPause, bool canStop)
-        {
-            _playlistViewModel.CanPlayTrack = canPlay;
-            _playlistViewModel.CanPauseTrack = canPause;
-            _playlistViewModel.CanStopPlayback = canStop;
-        }
         public void PlayCurrentTrack()
         {
-            //_sessionManager.PlayTrack(_playlistViewModel.CurrentTrack);
-            _backgroundWorkHelper.DoInBackground(_sessionManager.PlayTrack, PlaybackStarted);
+           //Called when Button "Play" from PlaylistView clicked
         }
 
         public void PauseCurrentTrack()
         {
-            _sessionManager.PauseTrack();
+            //Called when Button "Pause" from PlaylistView clicked
         }
 
         public void StopPlayback()
         {
-            _sessionManager.StopTrack();
+            //Called when Button "Stop" from PlaylistView clicked
+        }
+
+        //PUBLIC METHODS
+        public void Prelisten()
+        {
+            //Called when Button "Prelisten" from ResultView clicked
+            _sessionManager.StartPrelisteningTrack(_testtrack);
         }
     }
 }

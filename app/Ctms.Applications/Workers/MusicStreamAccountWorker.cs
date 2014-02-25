@@ -16,20 +16,37 @@ namespace Ctms.Applications.Workers
     [Export]
     public class MusicStreamAccountWorker
     {
+        private string _spotifyUsername = "mybleton";
+        private string _spotifyPassword = "ctms";
+
         private MusicStreamSessionManager _sessionManager;
         private MenuViewModel _menuViewModel;
+        private PlaylistViewModel _playlistViewModel;
 
         public Action<MusicStreamSessionManager> SessionManagerCreated;
 
         [ImportingConstructor]
-        public MusicStreamAccountWorker(MenuViewModel menuViewModel)
+        public MusicStreamAccountWorker(MenuViewModel menuViewModel, PlaylistViewModel playlistViewModel)
         {
             _menuViewModel = menuViewModel;
+            _playlistViewModel = playlistViewModel;
+
             _menuViewModel.CanLogin = true;
         }
 
         //Getter
         public bool CanLogin() { return _menuViewModel.CanLogin; }
+        public string SpotifyUsername
+        {
+            set { _spotifyUsername = value; }
+            get { return _spotifyUsername; }
+        }
+        public string SpotifyPassword
+        {
+            set { _spotifyPassword = value; }
+            get { return _spotifyPassword; }
+        }
+
 
         public void Login()
         {
@@ -38,8 +55,8 @@ namespace Ctms.Applications.Workers
             SessionManagerCreated(_sessionManager);
             _sessionManager.receiveLogMessage = ReceiveLogMessage;
             _sessionManager.SpotifyLoggedIn = SpotifyLoggedIn;
-            _sessionManager.PlaylistContainerLoaded = PlaylistContainerLoaded;
-            _sessionManager.Login();
+            _sessionManager.ReadyForPlayback = ReadyForPlayback;
+            _sessionManager.Login(_spotifyUsername, _spotifyPassword);
         }
 
         private void ReceiveLogMessage(string logMessage)
@@ -52,9 +69,9 @@ namespace Ctms.Applications.Workers
             _menuViewModel.IsLoggedIn = true;
         }
 
-        private void PlaylistContainerLoaded()
+        private void ReadyForPlayback()
         {
-            _menuViewModel.PlaylistContainerLoaded = true;
+            _playlistViewModel.ReadyForPlayback = true;
         }
     }
 }

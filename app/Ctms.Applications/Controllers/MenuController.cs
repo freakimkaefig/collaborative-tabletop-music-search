@@ -94,12 +94,14 @@ namespace Ctms.Applications.Controllers
 
             if (e.PropertyName == "IsLoggedIn")
             {
-                //
-            }
-
-            if (e.PropertyName == "PlaylistContainerLoaded")
-            {
-                //
+                if (_menuViewModel.IsLoggedIn == true)
+                {
+                    _menuViewModel.CanLogin = false;
+                }
+                else
+                {
+                    _menuViewModel.CanLogin = true;
+                }
             }
         }
 

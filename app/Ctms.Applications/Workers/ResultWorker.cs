@@ -33,5 +33,10 @@ namespace Ctms.Applications.Workers
             result.Song = factory.Create(responseContainer.Response.Songs[index]);
             _resultViewModel.Result = result;
         }
+
+        public void Prelisten()
+        {
+
+        }
     }
 }
