@@ -40,7 +40,7 @@
 
             <Grid Grid.Row="4">
                 <Grid.Background>
-                    <ImageBrush ImageSource="C:/Git/Uni/CTMS/ASE/app/Ctms.Presentation/Resources/Images/Search/record.png" Opacity="1.0"/>
+                    <ImageBrush ImageSource="../../Resources/Images/Search/record.png" Opacity="1.0"/>
                 </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
