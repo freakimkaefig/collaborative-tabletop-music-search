@@ -21,12 +21,15 @@ namespace Ctms.Presentation.Views
     [Export(typeof(IPlaylistView))]
     public partial class PlaylistView : UserControl, IPlaylistView
     {
-        private readonly Lazy<PlaylistViewModel> viewModel;
+        private readonly Lazy<PlaylistViewModel> _lazyVm;
 
         public PlaylistView()
         {
             InitializeComponent();
-            viewModel = new Lazy<PlaylistViewModel>(() => ViewHelper.GetViewModel<PlaylistViewModel>(this));
+            _lazyVm = new Lazy<PlaylistViewModel>(() => ViewHelper.GetViewModel<PlaylistViewModel>(this));
         }
+
+        // Provides this view's viewmodel
+        private PlaylistViewModel _viewModel { get { return _lazyVm.Value; } }
     }
 }

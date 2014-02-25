@@ -10,7 +10,7 @@ using Ctms.Applications.Properties;
 using Ctms.Applications.Services;
 using Ctms.Applications.ViewModels;
 using Ctms.Domain;
-using System.IO;
+//using System.IO;
 using System.Data.EntityClient;
 using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
@@ -21,6 +21,7 @@ using MusicSearch.ResponseObjects;
 using Ctms.Domain.Objects;
 using Ctms.Applications.Workers;
 using MusicSearch.SearchObjects;
+using System.Collections.Generic;
 
 
 namespace Ctms.Applications.Controllers
@@ -37,7 +38,7 @@ namespace Ctms.Applications.Controllers
         //Services
         private readonly IShellService _shellService;
         private readonly IEntityService _entityService;
-        private readonly TagVisualizationService _tagVisualizationService;
+        private readonly SearchTagVisualizationService _tagVisualizationService;
         //ViewModels
         private SearchViewModel _searchVm;
         private SearchTagViewModel _searchTagVm;
@@ -50,11 +51,12 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _startSearchCmd;
         private readonly DelegateCommand _selectOptionCmd;
         //Further vars
-        //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public SearchController(CompositionContainer container, IShellService shellService, IEntityService entityService,
-            SearchViewModel searchVm, SearchTagViewModel searchTagVm, ResultViewModel resultVm,
+            SearchViewModel searchVm, 
+            SearchTagViewModel searchTagVm, 
+            ResultViewModel resultVm,
             SearchWorker searchWorker, ResultWorker resultWorker, SearchOptionWorker searchOptionWorker)
         {
             _searchWorker = searchWorker;
@@ -65,7 +67,7 @@ namespace Ctms.Applications.Controllers
             //Services
             _shellService = shellService;
             _entityService = entityService;
-            _tagVisualizationService = new TagVisualizationService(searchVm);
+            _tagVisualizationService = new SearchTagVisualizationService(searchVm);//, searchTagVm);
             //ViewModels
             _searchVm = searchVm;
             _searchTagVm = searchTagVm;
@@ -86,11 +88,57 @@ namespace Ctms.Applications.Controllers
             //Listeners
             AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
-            //_tagVisualizationService.InitTangibleDefinitions();
             _searchTagVm.SelectOptionCmd = _selectOptionCmd;
-            _searchVm.SelectOptionCmd = _selectOptionCmd;
+            //_searchVm.SelectOptionCmd = _selectOptionCmd;
 
-            _tagVisualizationService.InitTangibleDefinitions();
+            InitiateTags();
+
+            _tagVisualizationService.InitTagDefinitions();
+        }
+
+        private void InitiateTags()
+        {
+            List<Tag> tags = new List<Tag>()
+            {
+                new Tag()
+                {
+                    Id = 0,
+                    SearchOptions = new List<SearchOption>()
+                    {
+                        new SearchOption()
+                        {
+                            Id = 1,
+                            Header = "Fireworks",
+                            SubHeader = "Katy Perry"
+                        },
+                        new SearchOption()
+                        {
+                            Id = 2,
+                            Header = "Fireworker",
+                            SubHeader = "ACDC"
+                        }
+                    }
+                },
+                new Tag()
+                {
+                    Id = 1,
+                    SearchOptions = new List<SearchOption>()
+                    {
+                        new SearchOption()
+                        {
+                            Id = 3,
+                            Header = "The Baseballs"
+                        },
+                        new SearchOption()
+                        {
+                            Id = 4,
+                            Header = "Baseball Fighters"
+                        }
+                    }
+                }
+            };
+
+            _searchVm.Tags = tags;
         }
 
         private void UpdateCommands()

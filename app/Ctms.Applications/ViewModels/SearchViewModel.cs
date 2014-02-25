@@ -7,6 +7,8 @@ using System.Waf.Applications;
 using System.Windows.Input;
 using Ctms.Applications.Views;
 using Ctms.Domain.Objects;
+using Microsoft.Surface.Presentation.Controls;
+using System.Collections.ObjectModel;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -14,7 +16,6 @@ namespace Ctms.Applications.ViewModels
     public class SearchViewModel : ViewModel<ISearchView>
     {
         private bool        _isValid = true;
-        private Search      _search;
         private string      _keywordType;
         private ICommand    _startSearchCommand;
         private ICommand    _selectOptionCmd;
@@ -22,6 +23,7 @@ namespace Ctms.Applications.ViewModels
         private string      _item1Header;
         private string      _item2Header;
         private int         _mainItemId;
+        //private readonly IEnumerable<SearchTagViewModel> _searchTags;
 
 
         [ImportingConstructor]
@@ -29,6 +31,7 @@ namespace Ctms.Applications.ViewModels
             : base(view)
         {
             _mainItemId = 666;
+            Tags = new List<Tag>();
         }
 
 
@@ -43,19 +46,6 @@ namespace Ctms.Applications.ViewModels
                 {
                     _isValid = value;
                     RaisePropertyChanged("IsValid");
-                }
-            }
-        }
-
-        public Search Search
-        {
-            get { return _search; }
-            set
-            {
-                if (_search != value)
-                {
-                    _search = value;
-                    RaisePropertyChanged("Search");
                 }
             }
         }
@@ -98,7 +88,7 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-
+        /*
         public ICommand SelectOptionCmd
         {
             get { return _selectOptionCmd; }
@@ -112,7 +102,7 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-
+        */
         public string Item1Header
         {
             get
@@ -159,5 +149,30 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
+
+        public List<Tag> Tags { get; set; }
+
+        public void OnVisualizationAdded(TagVisualization tagVisualization)
+        {
+            var tagValue    = tagVisualization.VisualizedTag.Value;
+            var tagVizual   = tagVisualization.VisualizedTag;
+            var simpleTag   = tagVisualization;
+        }
+        /*
+        public List<SearchTagViewModel> SearchTags
+        {
+            get { return _searchTags; }
+            set
+            {
+                if (_searchTags != value)
+                {
+                    _searchTags = value;
+                    RaisePropertyChanged("SearchTags");
+                }
+            }
+        }
+        */
+        //public IEnumerable<SearchTagViewModel> SearchTags { get { return _searchTags; } }
+
     }
 }

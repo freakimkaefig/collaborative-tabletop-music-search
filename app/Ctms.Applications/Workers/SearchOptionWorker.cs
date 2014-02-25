@@ -44,14 +44,6 @@ namespace Ctms.Applications.Workers
             
         }
 
-
-        //public void SelectOption(KeywordType.Types selectOption)
-        public void SelectOption(string selectOption)
-        {
-
-            //_selectionManager.SetSelection(selectOption);
-        }
-
         public void LoadNextOptions()
         {
 

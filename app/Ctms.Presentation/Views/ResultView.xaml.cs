@@ -21,13 +21,16 @@ namespace Ctms.Presentation.Views
     [Export(typeof(IResultView))]
     public partial class ResultView : UserControl, IResultView
     {
-        private readonly Lazy<ResultViewModel> viewModel;
+        private readonly Lazy<ResultViewModel> _lazyVm;
 
         public ResultView()
         {
             InitializeComponent();
-            viewModel = new Lazy<ResultViewModel>(() => ViewHelper.GetViewModel<ResultViewModel>(this));
+            _lazyVm = new Lazy<ResultViewModel>(() => ViewHelper.GetViewModel<ResultViewModel>(this));
         }
+
+        // Provides this view's viewmodel
+        private ResultViewModel _viewModel { get { return _lazyVm.Value; } }
 
         private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)
         {

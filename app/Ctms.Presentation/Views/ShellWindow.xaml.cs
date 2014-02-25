@@ -27,15 +27,17 @@ namespace Ctms.Presentation.Views
     [Export(typeof(IShellView))]
     public partial class ShellWindow : SurfaceWindow, IShellView
     {
-        private readonly Lazy<ShellViewModel> viewModel;
+        private readonly Lazy<ShellViewModel> _lazyVm;
 
         public ShellWindow()
         {
             InitializeComponent();
-            viewModel = new Lazy<ShellViewModel>(() => ViewHelper.GetViewModel<ShellViewModel>(this));
+            _lazyVm = new Lazy<ShellViewModel>(() => ViewHelper.GetViewModel<ShellViewModel>(this));
             AddWindowAvailabilityHandlers();
-            //InitTangibleDefinitions();
         }
+
+        // Provides this view's viewmodel
+        private ShellViewModel _viewModel { get { return _lazyVm.Value; } }
 
         public bool IsMaximized
         {
@@ -52,33 +54,7 @@ namespace Ctms.Presentation.Views
                 }
             }
         }
-        /*
-        public void InitTangibleDefinitions()
-        {
-            for (int i = 0; i < 12; i++)
-            {
-                TagVisualizationDefinition tagDefinition = new TagVisualizationDefinition();
-                tagDefinition.Value = i;
-                tagDefinition.Source = new Uri("../../Views/SearchTagView.xaml", UriKind.Relative);
-                tagDefinition.MaxCount = 1;
-                tagDefinition.LostTagTimeout = 5000.0;
-                //tagDefinition.OrientationOffsetFromTag = 0;
-                //tagDefinition.OrientationOffsetFromTag = 45;
-                //tagDefinition.PhysicalCenterOffsetFromTag = new Vector(0.3, -0.4);
-                tagDefinition.TagRemovedBehavior = TagRemovedBehavior.Fade;
-                tagDefinition.UsesTagOrientation = false;
-                //MyTagVisualizer.Definitions.Add(tagDefinition);
-                AddTagVisualization(tagDefinition);
-            }
-        }
 
-        public void AddTagVisualization(TagVisualizationDefinition tagDefinition)
-        {
-            MyTagVisualizer.Definitions.Add(tagDefinition);
-        }
-
-        public TagVisualizer TagVisualizer { get { return MyTagVisualizer; } set {} }
-        */
         private void AddWindowAvailabilityHandlers()
         {
             // Subscribe to surface window availability events
@@ -108,17 +84,6 @@ namespace Ctms.Presentation.Views
         private void OnWindowUnavailable(object sender, EventArgs e)
         {
 
-        }
-
-
-        private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
-        {
-            //HandleTagAction(e);
-        }
-
-        private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
-        {
-            //HandleTagAction(e);
         }
     }
 }

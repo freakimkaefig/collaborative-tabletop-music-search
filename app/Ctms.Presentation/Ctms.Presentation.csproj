@@ -204,6 +204,10 @@
       <Project>{27B67DFE-0BF1-4435-B036-E4C083EAEA03}</Project>
       <Name>WpfApplicationFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MusicSearch\MusicSearch.csproj">
+      <Project>{A9590CA2-85B5-4433-B421-A09F38C2D664}</Project>
+      <Name>MusicSearch</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PieInTheSky\PieInTheSky.csproj">
       <Project>{7D3ACC77-E27D-402D-AFE4-E8BB36A0956B}</Project>
       <Name>PieInTheSky</Name>

@@ -15,13 +15,16 @@ namespace Ctms.Presentation.Views
     [Export(typeof(ISearchTagView))]
     public partial class SearchTagView : ISearchTagView
     {
-        private readonly Lazy<SearchTagViewModel> viewModel;
+        private readonly Lazy<SearchTagViewModel> _lazyVm;
 
         public SearchTagView()
         {
             InitializeComponent();
-            viewModel = new Lazy<SearchTagViewModel>(() => ViewHelper.GetViewModel<SearchTagViewModel>(this));
+            _lazyVm = new Lazy<SearchTagViewModel>(() => ViewHelper.GetViewModel<SearchTagViewModel>(this));
         }
+
+        // Provides this view's viewmodel
+        private SearchTagViewModel _viewModel { get { return _lazyVm.Value; } }
 
         public void DoSth()
         {
@@ -30,7 +33,7 @@ namespace Ctms.Presentation.Views
 
         public void SimpleVisualization_Loaded(object sender, RoutedEventArgs e)
         {
-
+            //_viewModel.Id = e.TagVisualization.VisualizedTag.Value;
         }
     }
 }

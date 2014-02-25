@@ -78,7 +78,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\TagVisualizationService.cs" />
+    <Compile Include="Services\SearchTagVisualizationService.cs" />
     <Compile Include="Services\EntityService.cs" />
     <Compile Include="Services\IEntityService.cs" />
     <Compile Include="Services\IPresentationService.cs" />

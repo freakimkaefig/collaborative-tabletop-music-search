@@ -10,5 +10,7 @@ namespace Ctms.Applications.Views
     public interface ISearchView : IView
     {
         TagVisualizer TagVisualizer { get; set; }
+
+        //PieMenu
     }
 }

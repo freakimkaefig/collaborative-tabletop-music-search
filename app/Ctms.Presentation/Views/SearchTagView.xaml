@@ -23,8 +23,11 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
+        <Button Content="Home" Name="HomeButton" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Content="Reset" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+
         <!--Selection state-->
-        <ps:PieMenu x:Name="Menu4"  Grid.Column="0" Grid.Row="0"
+        <ps:PieMenu x:Name="PieMenu1"  Grid.Column="0" Grid.Row="0"
                        Canvas.Left="100"
                        Canvas.Top="100"
                        SelectedBackground="#7399"
@@ -51,7 +54,7 @@
             <ps:PieMenuItem  Header="Pink" SubHeader="Cochise" BorderThickness="0"  Background="#0555">
             </ps:PieMenuItem>
         </ps:PieMenu>
-        <ps:PieMenu x:Name="Menu5"  Grid.Column="0" Grid.Row="0"
+        <ps:PieMenu x:Name="PieMenu2"  Grid.Column="0" Grid.Row="0"
                        Canvas.Left="100"
                        Canvas.Top="100"
                        Background="Transparent"
@@ -67,9 +70,14 @@
                        Rotation="30"
                        MenuSector="120">
             <ps:PieMenuItem Header="Elvis" SubHeader="Cochise"  
-                                BorderThickness="0" FontSize="16"
-                        CenterText="true" Command="{Binding SelectOptionCmd}" Background="#5555">
+                    BorderThickness="0" FontSize="16"
+                    CenterText="true" Command="{Binding SelectOptionCmd}" Background="#5555"
+                    Id="{Binding Id}">
             </ps:PieMenuItem>
         </ps:PieMenu>
+        <TextBlock Text="Keyword" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                   Foreground="#acf" FontWeight="Bold" FontSize="18"/>
+
+        <Button Content="{Binding Breadcrumb}" VerticalAlignment="Top" HorizontalAlignment="Center" Width="60" Height="22"/>
     </Grid>
 </s:TagVisualization>

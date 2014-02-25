@@ -14,6 +14,7 @@
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
 
+
     <s:TagVisualizer x:Name="SearchTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
                      VisualizationRemoved="OnVisualizationRemoved">
 
