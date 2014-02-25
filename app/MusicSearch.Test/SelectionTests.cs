@@ -27,6 +27,15 @@ namespace MusicSearch.Test
         }
     }
 
+    [TestClass]
+    public class testObjects
+    {
+        public String artist { get; set; }
+        public String title { get; set; }
+        public String genre { get; set; }
+        public String spotifyId { get; set; }
+        public Array results { get; set; }
+    }
 
     // Test-Enviroment for Queries to EchoNest, Parsing the responses and logging them
     [TestClass]
@@ -39,10 +48,14 @@ namespace MusicSearch.Test
         private string _apiKey = "L5WMCPOK4F2LA9H5X&"; //ends with "&" !
         private Boolean _getGenre = false;
 
+        //TEST-LISTE
+        List<testObjects> testListe = new List<testObjects>();
+        
 
         [TestMethod]
         public void BuildQuery(/*Liste*/)
         {
+            
             //TODO
             //Übergebene Liste enthält Objecte {id, definition(genre/artist/title)}
             /* 1)   bei aufruf übergebene Liste traversieren nach API-Teilen
@@ -51,13 +64,40 @@ namespace MusicSearch.Test
              * 3.1) Mögliche Kombinationen aus Objekten (graphen/Netzwerk) abfragen
              * 4)   Übergabe der auslösenden Information/Tangibles, um Rückschlüsse zu ermöglichen
              */
+          
             //Bsp-Query
-            SongsByArtistQuery("Katy Perry");
-            SongsByTitleQuery("wrecking ball");
+            //SongsByArtistQuery("Katy Perry");
+            //SongsByTitleQuery("wrecking ball");
+
+
+            //Liste befüllen
+            testListe.Add(new testObjects
+            {
+               artist = "Katy Perry",
+               title = "wicker man",
+               genre = "rock"
+                
+            });
+
+            Debug.WriteLine("TESTLISTE[0].genre = "+testListe[0].genre);
+            Debug.WriteLine("testliste.länge = " + testListe.Count);
+            //Liste auslesen
+            for (int i = 0; i < testListe.Count; i++)
+            {
+                if (!String.IsNullOrEmpty(testListe[i].genre))
+                {
+                    //Debug.WriteLine("TESTLISTE[0].genre = " + testListe[0].genre+" -> IST NICHT NULL!!!");
+
+                    //##############################
+                    //#Entsprechende Query auslösen!
+                    //##############################
+                }
+                Console.WriteLine("Treffer in testListe = " + testListe[i]);
+            }
 
             //Bsp-genre-Array
-            String[] test = { "Hip Hop", "Rock" };
-            SongsByGenreQuery(test);
+            //String[] test = { "Hip Hop", "Rock" };
+            //SongsByGenreQuery(test);
         }
 
 
@@ -78,9 +118,13 @@ namespace MusicSearch.Test
 
             String request = _defaultURL + "playlist/static?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&type=genre-radio" + queryGenres + "&results=4";
 
+            //
+            //NUR 4 RESULTS ?????????????????????????
+            //
+
             Debug.WriteLine("request URL = " + request);
 
-            _getGenre = true;
+            //_getGenre = true;
             LoadOnlineResponse(request); //Send Query
 
 
@@ -165,7 +209,7 @@ namespace MusicSearch.Test
             var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             ResponseContainer = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
 
-            if (_getGenre == true)
+            /*if (_getGenre == true)
             {
 
                 char[] delimiterChar = { '}' };
@@ -198,6 +242,7 @@ namespace MusicSearch.Test
                     if (loopIndex > 1)
                     {
                         Debug.WriteLine("index of: "+cuttedResponse[1].IndexOf('[') + 1);
+                        Debug.WriteLine("cuttedResponse[1].length: " + cuttedResponse[1].Length);
                         cuttedResponseString = "}" + cuttedResponse[1].Substring(cuttedResponse[1].IndexOf('[') + 1, cuttedResponse[1].Length);
                         finalGenreResponse += @"" + cuttedResponseString.Replace("\"", "'");
                     }
@@ -225,7 +270,7 @@ namespace MusicSearch.Test
                 }
 
                 //ResponseGenre zu Ergebniss-Objekt mit übereinstimmender Artist_id (SongObj = anfrage-ID) packen
-            }
+            }*/
 
 
             //############
