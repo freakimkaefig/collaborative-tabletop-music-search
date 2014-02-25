@@ -12,7 +12,6 @@ namespace Ctms.Applications.Common
         public static void Init()
         {
             InitPaths();
-            //Init...();
         }
 
         //Initialize paths relatively
@@ -24,7 +23,7 @@ namespace Ctms.Applications.Common
             CommonVal.Path_DomainPath               = Path.GetFullPath(CommonVal.Path_AppPath + "/Ctms.Domain");
             CommonVal.Path_PresentationPath         = Path.GetFullPath(CommonVal.Path_AppPath + "/Ctms.Presentation");
             CommonVal.Path_ApplicationsFilesPath    = Path.GetFullPath(CommonVal.Path_ApplicationsPath + "/Files");
-
+            CommonVal.Path_ViewsPath                = Path.GetFullPath(CommonVal.Path_PresentationPath + "/Views");
         }
     }
 }

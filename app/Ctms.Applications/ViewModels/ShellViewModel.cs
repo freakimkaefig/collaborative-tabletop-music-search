@@ -108,14 +108,8 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-        
 
         public event CancelEventHandler Closing;
-
-        public void AddTagVisualization()
-        {
-            //ViewCore.A
-        }
 
         public void Show()
         {

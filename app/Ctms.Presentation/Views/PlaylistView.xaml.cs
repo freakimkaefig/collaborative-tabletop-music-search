@@ -13,15 +13,20 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
+using Ctms.Applications.ViewModels;
+using System.Waf.Applications;
 
 namespace Ctms.Presentation.Views
 {
     [Export(typeof(IPlaylistView))]
     public partial class PlaylistView : UserControl, IPlaylistView
     {
+        private readonly Lazy<PlaylistViewModel> viewModel;
+
         public PlaylistView()
         {
             InitializeComponent();
+            viewModel = new Lazy<PlaylistViewModel>(() => ViewHelper.GetViewModel<PlaylistViewModel>(this));
         }
     }
 }

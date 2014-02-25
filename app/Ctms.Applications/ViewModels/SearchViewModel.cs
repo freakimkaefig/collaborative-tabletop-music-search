@@ -13,18 +13,22 @@ namespace Ctms.Applications.ViewModels
     [Export]
     public class SearchViewModel : ViewModel<ISearchView>
     {
-        private bool _isValid = true;
-        private Search _search;
-        private string _keywordType;
-        private ICommand _startSearchCommand;
-        private ICommand selectOptionCmd;
-        private string _inputValue;
+        private bool        _isValid = true;
+        private Search      _search;
+        private string      _keywordType;
+        private ICommand    _startSearchCommand;
+        private ICommand    _selectOptionCmd;
+        private string      _inputValue;
+        private string      _item1Header;
+        private string      _item2Header;
+        private int         _mainItemId;
 
 
         [ImportingConstructor]
         public SearchViewModel(ISearchView view)
             : base(view)
         {
+            _mainItemId = 666;
         }
 
 
@@ -97,14 +101,61 @@ namespace Ctms.Applications.ViewModels
 
         public ICommand SelectOptionCmd
         {
-            get { return selectOptionCmd; }
+            get { return _selectOptionCmd; }
             set
             {
-                if (selectOptionCmd != value)
+                if (_selectOptionCmd != value)
                 {
-                    selectOptionCmd = value;
+                    _selectOptionCmd = value;
 
                     RaisePropertyChanged("SelectOptionCmd");
+                }
+            }
+        }
+
+        public string Item1Header
+        {
+            get
+            {
+                if (_item1Header == null) return "My dynamic song";
+                else { return _item1Header; };
+            }
+            set
+            {
+                if (_item1Header != value)
+                {
+                    _item1Header = value;
+                    RaisePropertyChanged("Item1Header");
+                }
+            }
+        }
+
+        public string Item2Header
+        {
+            get
+            {
+                if (_item2Header == null) return "My dynamic song2";
+                else { return _item2Header; };
+            }
+            set
+            {
+                if (_item2Header != value)
+                {
+                    _item2Header = value;
+                    RaisePropertyChanged("Item2Header");
+                 }
+            }
+        }
+
+        public int MainItemId
+        {
+            get { return _mainItemId; }
+            set
+            {
+                if (_mainItemId != value)
+                {
+                    _mainItemId = value;
+                    RaisePropertyChanged("MainItemId");
                 }
             }
         }

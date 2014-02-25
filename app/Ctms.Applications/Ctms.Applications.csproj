@@ -42,6 +42,7 @@
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\CommonStrings.cs" />
     <Compile Include="Common\CommonVal.cs" />
     <Compile Include="Common\Configurator.cs" />
     <Compile Include="Controllers\DetailController.cs" />

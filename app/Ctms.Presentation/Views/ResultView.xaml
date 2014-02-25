@@ -7,11 +7,13 @@
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"         
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
 
     <Button Width="auto" Height="auto" Command="{Binding PrelistenCommand}">
-    <Grid MinHeight="100" MinWidth="150" Margin="0,20,0,0" HorizontalAlignment="Center"> 
+    <s:ScatterView Name="MainScatterView">
+    <Grid MinHeight="100" MinWidth="150" Margin="0,20,0,0" HorizontalAlignment="Center" MouseLeftButtonDown="Grid_MouseLeftButtonDown"> 
                
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -20,7 +22,6 @@
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -44,7 +45,7 @@
             Foreground="White"
             Text="{Binding Result.Song.Title}">
         </TextBlock>
-
+    
       <!--<TextBlock 
             Grid.Column="0" 
             Grid.Row="1" 
@@ -72,7 +73,7 @@
             </TextBlock.RenderTransform>
         </TextBlock> -->
        
-        <UniformGrid Grid.Row="2" Rows="1" Columns="3" DataContext="{Binding}">         <!--columns and Viewboxes to be filled dynamically later-->
+        <UniformGrid Grid.Row="2" Rows="1" Columns="3">         <!--columns and Viewboxes to be filled dynamically later-->
             <Viewbox Stretch="Fill">
                 <Rectangle Fill="Blue" MinHeight="15" MinWidth="0.5"></Rectangle>
             </Viewbox>
@@ -124,10 +125,9 @@
                     <RotateTransform Angle="180"/>
                 </TextBlock.RenderTransform>
         </TextBlock>
-
-        <!--<Button Content="Prelisten" Grid.Column="0" Grid.Row="5" Command="{Binding PrelistenCommand}"/>-->
-
+               
     </Grid>
-    </Button>
+</s:ScatterView>
+   
 
 </UserControl>

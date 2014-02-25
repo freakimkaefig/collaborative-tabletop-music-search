@@ -59,7 +59,6 @@
     <Folder Include="Resources\Images\Detail\" />
     <Folder Include="Resources\Images\Menu\" />
     <Folder Include="Resources\Images\Result\" />
-    <Folder Include="Resources\Images\Search\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -217,7 +216,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Images\ctms_icon.ico" />
+    <Resource Include="Resources\Images\ctms_icon.ico" />
+    <Resource Include="Resources\Images\Search\basic-texture.png" />
+    <Resource Include="Resources\Images\Search\record.png" />
+    <Resource Include="Resources\Images\Search\tweed.png" />
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>

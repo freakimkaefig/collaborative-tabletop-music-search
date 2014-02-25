@@ -5,11 +5,16 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows.Media.Imaging;
 
 namespace PieInTheSky
 {
     public class PieMenu : ItemsControl
     {
+        #region DependencyProperties
+
+        // Dependency properties. Are set in xaml pie menu element.
         public static readonly DependencyProperty RadiusProperty;
         public static readonly DependencyProperty InnerRadiusProperty;
         public static readonly DependencyProperty SectorGapProperty;
@@ -18,8 +23,9 @@ namespace PieInTheSky
         public static readonly DependencyProperty SelectedBackgroundProperty;
         public static readonly DependencyProperty RotationProperty;
         public static readonly DependencyProperty RotateTextProperty;
-        //Additional angle property
-        public static readonly DependencyProperty RotateTextAngleProperty;        
+        public static readonly DependencyProperty RotateTextAngleProperty;
+
+        // Variables providing dependency property values
 
         [Bindable(true)]
         public double Radius
@@ -138,6 +144,11 @@ namespace PieInTheSky
             }
         }
 
+        #endregion DependencyProperties
+
+
+        #region fields
+
         private List<List<Tuple<double, double>>> _sectors;
         private Selection _selection = new Selection();
 
@@ -146,8 +157,14 @@ namespace PieInTheSky
         private bool _was_selected = false;
         private double _size;
 
+        #endregion fields
+
+
+        #region constructor
+
         static PieMenu()
         {
+            // Reference dependency properties with default values to class properties
             PieMenu.RadiusProperty = DependencyProperty.Register("Radius", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(50.0));
             PieMenu.InnerRadiusProperty = DependencyProperty.Register("InnerRadius", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(10.0));
             PieMenu.SectorGapProperty = DependencyProperty.Register("SectorGap", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(5.0));
@@ -157,8 +174,13 @@ namespace PieInTheSky
             PieMenu.RotationProperty = DependencyProperty.Register("Rotation", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(0.0));
             PieMenu.RotateTextProperty = DependencyProperty.Register("RotateText", typeof(bool), typeof(PieMenu), new FrameworkPropertyMetadata(true));
             PieMenu.RotateTextAngleProperty = DependencyProperty.Register("RotateTextAngle", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(90.0));
-            //PieMenu.RotateTextAngleProperty = 15.0;
+            //PieMenu.RotateTextAngleProperty = 15.0; 
         }
+
+        #endregion constructor
+
+
+        #region overriding properties
 
         protected override Size MeasureOverride(Size availablesize)
         {
@@ -190,6 +212,11 @@ namespace PieInTheSky
         {
             return finalsize;
         }
+
+        #endregion overriding properties
+
+
+        #region event methods
 
         protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -249,6 +276,27 @@ namespace PieInTheSky
             InvalidateVisual();
         }
 
+        protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
+        {
+            var maxRotation = 360.0;//!!auf 180.0?
+
+            // "normalize" rotation to avoid problems elsewhere
+            double rotation = this.Rotation;
+            while (rotation < 0.0) rotation += maxRotation;
+            while (rotation > maxRotation) rotation -= maxRotation;
+
+            // initialize data structure for remembering sectors at each level
+            _sectors = new List<List<Tuple<double, double>>>();
+
+            // Draw the menu (level 0)
+            DrawCirclePart(this, 0, rotation, this.MenuSector, drawingContext);
+            //DrawRectanglePart(this, 0, 200.0, 200.0, this.MenuSector, drawingContext);
+        }
+
+        #endregion event methods
+
+        #region Touch handling methods
+
         private void Down(Point point)
         {
             // find the menu item on which the point is
@@ -258,7 +306,7 @@ namespace PieInTheSky
 
             if (selection != -1)
             {
-                // remeber the selection
+                // remember the selection
                 _current_level = level;
                 _current_selection = selection;
 
@@ -419,24 +467,15 @@ namespace PieInTheSky
             return new Tuple<int, int>(level, selection);
         }
 
-        protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
+        #endregion Touch handling methods
+
+
+        #region Display methods
+
+        private void DrawCirclePart(ItemsControl items_control, int level, double angle, double sector, DrawingContext drawingContext)
         {
-            // "normalize" rotation to avoid problems elsewhere
-            double rotation = this.Rotation;
-            while (rotation < 0.0) rotation += 360.0;
-            while (rotation > 360.0) rotation -= 360.0;
-
-            // initialize data structure for remembering sectors at each level
-            _sectors = new List<List<Tuple<double, double>>>();
-
-            // Draw the menu (level 0)
-            DrawMenu(this, 0, rotation, this.MenuSector, drawingContext);
-        }
-
-        private void DrawMenu(ItemsControl items_control, int level, double angle, double sector, DrawingContext drawingContext)
-        {
-            // Make sure sector is no more than 360 degrees
-            double full_sector = Math.Min(sector, 360.0);
+            // Make sure sector is limited to available place
+            double full_sector = Math.Min(sector, 360.0);//!!Auch auf 180.0?
 
             // find number of menu items at current level
             // return if none
@@ -505,54 +544,198 @@ namespace PieInTheSky
 
                 // Get the menu item to extract properties
                 PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;
-
+                ///*
                 // find color for backgound and border 
                 Brush background_brush = menu_item.Background;
                 if (background_brush == null) background_brush = this.Background;
-                if (background_brush == null) background_brush = Brushes.White;
+                //if (background_brush == null) background_brush = Brushes.White;
                
                 if (_selection.GetSelection(level) == i) 
                 {
                     background_brush = this.SelectedBackground;
                 }
+                //*/
+                //var background_brush = Brushes.Transparent;
+                var border_brush = Brushes.Gray;
 
-                Brush border_brush = menu_item.BorderBrush;
-                if (border_brush == null) border_brush = this.BorderBrush;
+                //Brush border_brush = menu_item.BorderBrush;
+                //if (border_brush == null) border_brush = this.BorderBrush;
 
                 // Draw the geometry representing the menu item
                 drawingContext.DrawGeometry(background_brush, new Pen(border_brush, menu_item.BorderThickness.Left), geometry);
 
                 // Get header of menu item as string and make a formatted text based on properties of menu item
-                String header = (String)menu_item.Header;
-                if (header == null) { header = "Item 1 (Pie Menu.cs)"; };
-                FormattedText text = new FormattedText(header,
+                var header      = ((String) menu_item.Header);
+                var subHeader   = ((String) menu_item.SubHeader);
+
+                // add line break
+                var itemText = header + Environment.NewLine + subHeader;
+
+
+                FormattedText headerText = new FormattedText(header,
                                 CultureInfo.CurrentCulture,
                                 FlowDirection.LeftToRight,
                                 new Typeface(menu_item.FontFamily, menu_item.FontStyle, menu_item.FontWeight, menu_item.FontStretch),
                                 menu_item.FontSize,
                                 menu_item.Foreground);
 
-                // Calculate placement of text
-                Point text_point = new Point(center.X - text.Width / 2.0, center.Y - text.Height / 2.0);
+                FormattedText subHeaderText = new FormattedText(subHeader,
+                                CultureInfo.CurrentCulture,
+                                FlowDirection.LeftToRight,
+                                new Typeface(menu_item.FontFamily, menu_item.FontStyle, menu_item.FontWeight, menu_item.FontStretch),
+                                menu_item.FontSize,
+                                menu_item.Foreground);
+
+                
+                var boxLength = 0.0;
+                if (RotateTextAngle == -90.0 || RotateTextAngle == 270.0)
+                {   // text is displayed viewing away from the center
+                    //!! Länge aus Umfang berechnen?
+                    boxLength = 120.0;
+
+                }
+                else
+	            {
+                    boxLength = Radius - InnerRadius;
+	            }
+
+                // calculate maximum width for text and cut too long texts with "..."
+                headerText.MaxTextWidth = boxLength;
+                headerText.MaxTextHeight = menu_item.FontSize + 10;
+                headerText.Trimming = TextTrimming.CharacterEllipsis;
+                subHeaderText.MaxTextWidth = boxLength;
+                subHeaderText.MaxTextHeight = menu_item.FontSize + 10;
+                subHeaderText.Trimming = TextTrimming.CharacterEllipsis;
+
+                var bottomMargin = 0.0;
+
+                if (menu_item.CenterText == true)
+                {
+                    bottomMargin = 10.0;
+                }
+
+                var textDistance = 18.0;
+
+                // Calculate placement of text in  center
+                Point headerTextPoint = new Point(center.X - headerText.Width / 2.0, center.Y - headerText.Height / 2.0 + textDistance / 2.0 - bottomMargin);
+                Point subTextPoint = new Point(center.X - subHeaderText.Width / 2.0, center.Y - subHeaderText.Height / 2.0 - textDistance / 2.0 - bottomMargin);
 
                 // Draw the text as name of menu item
-                //Added rotation angle adjustment of text
+                // Added rotation angle adjustment of text
                 var defaultTextRotation = 90.0;
                 if (this.RotateTextAngle != 90.0) defaultTextRotation = this.RotateTextAngle;
 
                 if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + defaultTextRotation, center.X, center.Y));
-                drawingContext.DrawText(text, text_point);
+                drawingContext.DrawText(headerText, headerTextPoint);
+                drawingContext.DrawText(subHeaderText, subTextPoint);
                 if (this.RotateText) drawingContext.Pop();
 
+                /*
                 // if this menu item is selected, draw the next level
                 if (_selection.GetSelection(level) == i) 
                 {
                     // start angle of sub menu is center angle of menu item minus half the sector of the sub menu
                     double new_angle = (start_inner_angle + end_inner_angle) / 2.0 - menu_item.SubMenuSector / 2.0;
-                    DrawMenu(menu_item, level + 1, new_angle, menu_item.SubMenuSector, drawingContext);
+                    DrawCirclePart(menu_item, level + 1, new_angle, menu_item.SubMenuSector, drawingContext);
                 }
+                */ 
             }
         }
+
+        private void DrawRectanglePart(ItemsControl items_control, int level, double width, double height, double sector, DrawingContext drawingContext)
+        {
+            // Create a blue and a black Brush
+            SolidColorBrush backgrBrush = new SolidColorBrush();
+            backgrBrush.Color = Color.FromArgb(0, 255, 255, 255);
+            SolidColorBrush borderBrush = new SolidColorBrush();
+            borderBrush.Color = Colors.White;
+
+            var fontBrush = new SolidColorBrush();
+            fontBrush.Color = Colors.White;
+
+            //new ImageBrush(new Uri(@"Resources/Images/Searh/basic-texture.png", UriKind.Absolute));
+            /*
+            var imageBrush = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri(@"C:/Git/Uni/CTMS/ASE/app/Ctms.Presentation/Resources/Images/Search/record.png", UriKind.Absolute))
+            };
+            */
+            //var rect = new System.Windows.Rect();
+            var rect = new Rect();
+            rect.X = 0;
+            rect.Y = Radius;
+            rect.Width = Radius * 2;
+            rect.Height = Radius;
+
+            var cornerRadius = new CornerRadius(0, 0, 40, 40);
+
+            //double x = _size / 2.0;
+
+            // Coordinates of center of (full) menu
+            double x = _size / 2.0;
+            double y = _size / 2.0;
+
+            //Point center = new Point(20, 20);
+
+
+            //PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;
+            //String header = (String)menu_item.Header;
+            var mainTextContent    = "Smack My Bitch Up";
+            var subTextContent     = "Prodigy";
+
+            //String header = (String)menu_item.Header;
+            //if (mainText == null) { mainText = "Item 1 (Pie Menu.cs)"; };
+
+            var leftMargin = Radius;
+            var topMargin = InnerRadius + 25.0;
+            var fontSize = 12.0;
+            var subToMainDistance = fontSize + 5.0;
+
+            Point mainTextPoint = new Point(rect.X + leftMargin, rect.Y + topMargin);
+            Point subTextPoint  = new Point(rect.X + leftMargin, rect.Y + topMargin + subToMainDistance);
+
+            //var menu_item = new MenuItem();
+
+            var fontFamily = new FontFamily("Verdana");
+            var fontStyle = new FontStyle();
+            var fontWeight = new FontWeight();
+            var fontStretch = new FontStretch();
+
+            var typeFace = new Typeface(fontFamily, fontStyle, fontWeight, fontStretch);
+
+            FormattedText mainText = new FormattedText(mainTextContent,
+                                CultureInfo.CurrentCulture,
+                                FlowDirection.LeftToRight,
+                                typeFace,
+                                fontSize,
+                                fontBrush);
+
+            mainText.TextAlignment = TextAlignment.Center;
+
+            FormattedText subText = new FormattedText(subTextContent,
+                                CultureInfo.CurrentCulture,
+                                FlowDirection.LeftToRight,
+                                typeFace,
+                                fontSize,
+                                fontBrush);
+
+            subText.TextAlignment = TextAlignment.Center;
+
+            //if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + defaultTextRotation, center.X, center.Y));
+            drawingContext.DrawText(mainText, mainTextPoint);
+            drawingContext.DrawText(subText, subTextPoint);
+
+            //drawingContext.DrawRoundedRectangle(blueBrush, new Pen(blackBrush, 1), rect, 5, 20);
+
+            RoundedRectangle.DrawMyRoundedRectangle(drawingContext, backgrBrush, new Pen(borderBrush, 0), rect, cornerRadius);
+
+
+            // Draw the geometry representing the menu item
+            //drawingContext.DrawGeometry(blueBrush, new Pen(blackBrush, menu_item.BorderThickness.Left), geometry);
+            //drawingContext.DrawRectangle(blueBrush, new Pen(blackBrush, 1), rect);
+        }
+
+        
 
         private Point CalculatePoint(double centerX, double centerY, double angle, double radius)
         {
@@ -560,45 +743,9 @@ namespace PieInTheSky
             double y = centerY + Math.Sin((Math.PI / 180.0) * angle) * radius;
             return new Point(x, y);
         }
+
+        #endregion Display methods
     }
 
-    class Selection
-    {
-        private List<int> _selection = new List<int>();
-
-        public void SetSelection(int level, int selection)
-        {
-            // make sure internal list is long enough
-            while (_selection.Count < level + 1)
-            {
-                _selection.Add(-1);
-            }
-
-            // set selection or deselect if same item is already selected
-            if (_selection[level] == selection) _selection[level] = -1;
-            else _selection[level] = selection;
-
-            // deselect items at higher level
-            for (int i = level + 1; i < _selection.Count; i++)
-            {
-                _selection[i] = -1;
-            }
-        }
-
-        public int GetSelection(int level)
-        {
-            if (level >= _selection.Count) return -1;
-
-            return _selection[level];
-        }
-
-        public int GetLevel()
-        {
-            for (int i = _selection.Count - 1; i >= 0; i--)
-            {
-                if (_selection[i] != -1) return i;
-            }
-            return -1;
-        }
-    }
+    
 }

@@ -65,7 +65,7 @@ namespace Ctms.Applications.Controllers
             //Services
             _shellService = shellService;
             _entityService = entityService;
-            _tagVisualizationService = new TagVisualizationService(searchTagVm);
+            _tagVisualizationService = new TagVisualizationService(searchVm);
             //ViewModels
             _searchVm = searchVm;
             _searchTagVm = searchTagVm;
@@ -73,7 +73,7 @@ namespace Ctms.Applications.Controllers
             //Commands
             _startSearchCmd = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
             //_selectOptionCmd = new DelegateCommand(t => _searchOptionWorker.SelectOption((string)t));
-            _selectOptionCmd = new DelegateCommand(_searchOptionWorker.SelectOption);
+            _selectOptionCmd = new DelegateCommand((id) => _searchOptionWorker.SelectOption((int)id));
         }
 
         public void Initialize()
@@ -87,10 +87,11 @@ namespace Ctms.Applications.Controllers
             AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
             //_tagVisualizationService.InitTangibleDefinitions();
-            _searchTagVm.SelectCommand = _selectOptionCmd;
+            _searchTagVm.SelectOptionCmd = _selectOptionCmd;
+            _searchVm.SelectOptionCmd = _selectOptionCmd;
+
+            _tagVisualizationService.InitTangibleDefinitions();
         }
-
-
 
         private void UpdateCommands()
         {

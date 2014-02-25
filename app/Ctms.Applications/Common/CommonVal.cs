@@ -20,6 +20,9 @@ namespace Ctms.Applications.Common
             Playlist
         }
 
+        //Values
+        public const int MaxTagNumber = 12;
+
         /*
          * Path variables
         */
@@ -29,6 +32,7 @@ namespace Ctms.Applications.Common
         public static string Path_DomainPath            { get; set; }
         public static string Path_PresentationPath      { get; set; }
         public static string Path_ApplicationsFilesPath { get; set; }
+        public static string Path_ViewsPath             { get; set; }
 
         
 

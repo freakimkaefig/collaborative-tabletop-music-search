@@ -13,15 +13,20 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
+using Ctms.Applications.ViewModels;
+using System.Waf.Applications;
 
 namespace Ctms.Presentation.Views
 {
     [Export(typeof(IMenuView))]
     public partial class MenuView : UserControl, IMenuView
     {
+        private readonly Lazy<MenuViewModel> viewModel;
+
         public MenuView()
         {
             InitializeComponent();
+            viewModel = new Lazy<MenuViewModel>(() => ViewHelper.GetViewModel<MenuViewModel>(this));
         }
     }
 }

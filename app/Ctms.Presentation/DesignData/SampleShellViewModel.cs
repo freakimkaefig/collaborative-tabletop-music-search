@@ -6,6 +6,8 @@ using Ctms.Applications.ViewModels;
 using Ctms.Applications.Views;
 using System.ComponentModel;
 using Ctms.Presentation.Views;
+using System.Waf.Applications;
+using Microsoft.Surface.Presentation.Controls;
 
 namespace Ctms.Presentation.DesignData
 {

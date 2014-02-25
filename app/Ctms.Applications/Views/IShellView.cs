@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Waf.Applications;
 using System.ComponentModel;
+using Microsoft.Surface.Presentation.Controls;
 
 namespace Ctms.Applications.Views
 {
