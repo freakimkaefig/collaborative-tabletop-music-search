@@ -167,6 +167,7 @@ namespace MusicStream
             //Create Buffer, Stats & AudioDevice
             _prelistenBufferedWaveProvider = new BufferedWaveProvider(new WaveFormat()); //Create new Buffer
             _prelistenBufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(240);
+            _copiedFrames = new byte[5000];
             _audioBufferStats = new AudioBufferStats(); //Create stats for Spotify
             _prelistenWaveOutDevice = new WaveOut(); //Create new AudioDevice
             _prelistenWaveOutDevice.Init(_prelistenBufferedWaveProvider);
@@ -178,23 +179,28 @@ namespace MusicStream
 
         public void MusicDeliveryCallback(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
         {
+            /*
             Dictionary<string, object> musicDelivery = new Dictionary<string, object>();
             musicDelivery.Add("format.channels", format.channels);
             musicDelivery.Add("frames", frames);
             musicDelivery.Add("num_frames", num_frames);
-
             _backgroundWorkHelper.DoInBackground(MusicDeliveryWorker, MusicDeliveryCompleted, musicDelivery);
-            /*
+            */
+            
             
             var size = num_frames * format.channels * 2;
-            _copiedFrames = new byte[size];
-            Marshal.Copy(frames, _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
-            _prelistenBufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
-            */
+            if (size != 0)
+            {
+                _copiedFrames = new byte[size];
+                Marshal.Copy(frames, _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
+                _prelistenBufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
+            }
+            
         }
 
         public void EndOfTrack(SpotifySession session)
         {
+            //_currentTrack is null at this point
             logMessages.Enqueue("Finished playing: '" + _currentTrack.Artist(0).Name() + " - " + _currentTrack.Name() + "'.");
 
             _currentTrackIndex++;
@@ -235,11 +241,19 @@ namespace MusicStream
         public void MusicDeliveryWorker(object sender, DoWorkEventArgs e)
         {
             var size = (int)((Dictionary<string, object>)e.Argument)["num_frames"] * (int)((Dictionary<string, object>)e.Argument)["format.channels"] * 2;
-            _copiedFrames = new byte[size];
             if (size != 0)
             {
                 Marshal.Copy((IntPtr)((Dictionary<string, object>)e.Argument)["frames"], _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
                 _prelistenBufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
+
+                /*
+                unsafe
+                {
+                    var p = ((IntPtr)((Dictionary<string, object>)e.Argument)["frames"]).ToPointer();
+                    _prelistenBufferedWaveProvider.AddSamples(p, 0, size);
+                }
+                */
+                //_prelistenBufferedWaveProvider.AddSamples(BitConverter.GetBytes((Int16) ( (IntPtr) ( (Dictionary<string, object>) e.Argument)["frames"]) ), 0, size);
             }
         }
         public void MusicDeliveryCompleted(object sender, RunWorkerCompletedEventArgs e)
