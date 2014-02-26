@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+      *********    DIESE DATEI DARF NICHT GEÄNDERT WERDEN     *********
+      Diese Datei wurde von einem Designwerkzeug erstellt. Änderungen
+      dieser Datei können Fehler verursachen.
+-->
+<xs:schema xmlns:blend="http://schemas.microsoft.com/expression/blend/2008" xmlns:tns="Expression.Blend.DataStore.DataStore1" targetNamespace="Expression.Blend.DataStore.DataStore1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="DataStore1" type="tns:DataStore1" />
+  <xs:complexType name="DataStore1" />
+</xs:schema>

@@ -6,6 +6,8 @@ using System.ComponentModel.Composition;
 using MusicStream;
 using Helpers;
 using Ctms.Applications.ViewModels;
+using System.Waf.Applications.Services;
+using Microsoft.Surface.Presentation.Controls;
 
 
 namespace Ctms.Applications.Workers
@@ -25,11 +27,14 @@ namespace Ctms.Applications.Workers
 
         public Action<MusicStreamSessionManager> SessionManagerCreated;
 
+        private IMessageService _messageService;
+
         [ImportingConstructor]
-        public MusicStreamAccountWorker(MenuViewModel menuViewModel, PlaylistViewModel playlistViewModel)
+        public MusicStreamAccountWorker(MenuViewModel menuViewModel, PlaylistViewModel playlistViewModel, IMessageService messageService)
         {
             _menuViewModel = menuViewModel;
             _playlistViewModel = playlistViewModel;
+            _messageService = messageService;
 
             _menuViewModel.CanLogin = true;
         }
@@ -48,15 +53,20 @@ namespace Ctms.Applications.Workers
         }
 
 
-        public void Login()
+        public void Login(SurfacePasswordBox spotifyPasswordInput)
         {
-            //do stuff
+            //string spotifyUsername = _menuViewModel.SpotifyUsernameInput;
+            //MessageServiceExtensions.ShowMessage(_messageService, "Username: " + spotifyUsername + "\nPassword: " + spotifyPasswordInput.Password);
+            
             _sessionManager = new MusicStreamSessionManager();
             SessionManagerCreated(_sessionManager);
             _sessionManager.receiveLogMessage = ReceiveLogMessage;
             _sessionManager.SpotifyLoggedIn = SpotifyLoggedIn;
             _sessionManager.ReadyForPlayback = ReadyForPlayback;
-            _sessionManager.Login(_spotifyUsername, _spotifyPassword);
+            _sessionManager.Login(_menuViewModel.SpotifyUsernameInput, spotifyPasswordInput.Password);
+
+            //_menuViewModel.SpotifyLoginMenuItem = "Logout from Spotify";
+            _menuViewModel.CanLogin = false;
         }
 
         private void ReceiveLogMessage(string logMessage)

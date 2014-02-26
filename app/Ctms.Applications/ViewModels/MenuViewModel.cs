@@ -16,12 +16,17 @@ namespace Ctms.Applications.ViewModels
         private bool isValid = true;
         private bool _canLogin = false;
         private Playlist _playlist;
+        //Commands
         private ICommand _exitAppCommand;
         private ICommand _loginCommand;
         private ICommand _goCommand;
+        //
+        private string _spotifyLoginMenuItem = "Login to Spotify";
+        private string _spotifyUsernameInput = null;
         private string _loginLogMessage;
         private string _goInput;
         private bool _isLoggedIn = false;
+        private bool _menuIsVisible = false;
 
 
         [ImportingConstructor]
@@ -84,6 +89,32 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public string SpotifyLoginMenuItem
+        {
+            get { return _spotifyLoginMenuItem; }
+            set
+            {
+                if (_spotifyLoginMenuItem != value)
+                {
+                    _spotifyLoginMenuItem = value;
+                    RaisePropertyChanged("SpotifyLoginMenuItem");
+                }
+            }
+        }
+
+        public string SpotifyUsernameInput
+        {
+            get { return _spotifyUsernameInput; }
+            set
+            {
+                if (_spotifyUsernameInput != value)
+                {
+                    _spotifyUsernameInput = value;
+                    RaisePropertyChanged("SpotifyUsernameInput");
+                }
+            }
+        }
+
         public string LoginLogMessage
         {
             get { return _loginLogMessage; }
@@ -106,6 +137,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _isLoggedIn = value;
                     RaisePropertyChanged("IsLoggedIn");
+                }
+            }
+        }
+
+        public bool MenuIsVisible
+        {
+            get { return _menuIsVisible; }
+            set
+            {
+                if (_menuIsVisible != value)
+                {
+                    _menuIsVisible = value;
+                    RaisePropertyChanged("MenuIsVisible");
                 }
             }
         }

@@ -36,7 +36,7 @@ namespace MusicStream
         public Action PlaybackEndOfTrack;
 
         private string _credentialsBlob = null;
-        private object _userdata;
+        private object _userdata = null;
 
         public ConcurrentQueue<string> logMessages;
         SynchronizationContext syncContext;
@@ -151,7 +151,7 @@ namespace MusicStream
 
             _playlistContainer = _session.Playlistcontainer();
             _playlistContainerListener = new MusicStreamPlaylistContainerListener(this);
-            _playlistContainer.AddCallbacks(_playlistContainerListener, null);
+            _playlistContainer.AddCallbacks(_playlistContainerListener, Userdata);
         }
 
         public void PlaylistContainerLoadedCallback()

@@ -18,6 +18,7 @@ using Ctms.Applications.Views;
 using MusicStream;
 using Ctms.Applications.Workers;
 using Helpers;
+using Microsoft.Surface.Presentation.Controls;
 
 
 namespace Ctms.Applications.Controllers
@@ -61,7 +62,7 @@ namespace Ctms.Applications.Controllers
             _musicStreamAccountWorker = musicStreamAccountWorker;
             //Commands
             this._exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
-            this._loginCommand = new DelegateCommand(_musicStreamAccountWorker.Login, _musicStreamAccountWorker.CanLogin);
+            this._loginCommand = new DelegateCommand((password) => _musicStreamAccountWorker.Login((SurfacePasswordBox)password));//, _musicStreamAccountWorker.CanLogin);
         }
 
         public void Initialize()
@@ -77,7 +78,7 @@ namespace Ctms.Applications.Controllers
 
         private void UpdateCommands()
         {
-
+            _loginCommand.RaiseCanExecuteChanged();
         }
 
         private void ExitApp()
@@ -90,8 +91,6 @@ namespace Ctms.Applications.Controllers
 
         private void MenuViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-      
-
             if (e.PropertyName == "IsLoggedIn")
             {
                 if (_menuViewModel.IsLoggedIn == true)
@@ -102,6 +101,27 @@ namespace Ctms.Applications.Controllers
                 {
                     _menuViewModel.CanLogin = true;
                 }
+                UpdateCommands();
+            }
+
+            if (e.PropertyName == "MenuIsVisible")
+            {
+                //
+            }
+
+            if (e.PropertyName == "SpotifyLoginMenuItem")
+            {
+                //
+            }
+
+            if (e.PropertyName == "SpotifyUsernameInput")
+            {
+                //
+            }
+
+            if (e.PropertyName == "SpotifyPasswordInput")
+            {
+                //
             }
         }
 

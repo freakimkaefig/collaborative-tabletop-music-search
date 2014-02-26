@@ -41,5 +41,10 @@ namespace Ctms.Presentation.Views
             object id = "spotify:track:4lCv7b86sLynZbXhfScfm2"; //Pass spotify-track-id from echonest
             _viewModel.PrelistenCommand.Execute(id);
         }
+        private void ScatterViewItem_TouchDown(object sender, MouseButtonEventArgs e)
+        {
+            object id = "spotify:track:4lCv7b86sLynZbXhfScfm2";
+            _viewModel.PrelistenCommand.Execute(id);
+        }
     }
 }

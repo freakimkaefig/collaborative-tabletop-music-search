@@ -65,6 +65,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Workers\DetailWorker.cs" />
+    <Compile Include="Workers\PlaylistWorker.cs" />
     <Compile Include="Workers\ResultWorker.cs" />
     <Compile Include="Workers\SearchWorker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
