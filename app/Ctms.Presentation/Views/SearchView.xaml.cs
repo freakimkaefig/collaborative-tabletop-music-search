@@ -83,6 +83,11 @@ namespace Ctms.Presentation.Views
             }*/
         }
 
+        private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
+        {
+            _viewModel.OnVisualizationRemoved(e.TagVisualization);
+        }
+
         private void SetItemBinding(SearchTagView tagVisualization, int tagId, PieMenuItem item)
         {
             var binding = new Binding();
@@ -105,6 +110,7 @@ namespace Ctms.Presentation.Views
 
         private void UpdateTagValues(int tagId, ItemCollection pieMenuItems)
         {
+            /*
             var tag = _viewModel.Tags[tagId];
             var counter = 0;
             
@@ -128,11 +134,7 @@ namespace Ctms.Presentation.Views
                 item.Id = tagOption.Id;
                 counter++;
             }
-        }
-
-        private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
-        {
-            //HandleTagAction(e);
+            */ 
         }
     }
 }

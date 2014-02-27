@@ -57,6 +57,7 @@
     <Compile Include="DataFactories\PlaylistFactory.cs" />
     <Compile Include="DataFactories\SongFactory.cs" />
     <Compile Include="Data\Repository.cs" />
+    <Compile Include="Data\XmlProvider.cs" />
     <Compile Include="Handlers\TagHandler.cs" />
     <Compile Include="ViewModels\SearchTagViewModel.cs">
       <SubType>Code</SubType>
@@ -80,7 +81,6 @@
     </Compile>
     <Compile Include="Services\SearchTagVisualizationService.cs" />
     <Compile Include="Services\EntityService.cs" />
-    <Compile Include="Services\IEntityService.cs" />
     <Compile Include="Services\IPresentationService.cs" />
     <Compile Include="Services\IShellService.cs" />
     <Compile Include="Services\ShellService.cs" />

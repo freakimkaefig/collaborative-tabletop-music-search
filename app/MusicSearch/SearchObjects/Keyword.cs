@@ -8,7 +8,7 @@ namespace MusicSearch.SearchObjects
     public class Keyword
     {
         public int KeywordId            { get; set; }   
-        public KeywordType.Types Type   { get; set; }        
+        public KeywordType.Types Type   { get; protected set; }        
         public string Name              { get; set; }
         public double Weight            { get; set; }
 

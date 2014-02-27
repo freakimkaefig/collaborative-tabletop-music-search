@@ -9,6 +9,7 @@ using Ctms.Applications.Views;
 using Ctms.Domain.Objects;
 using Microsoft.Surface.Presentation.Controls;
 using System.Collections.ObjectModel;
+using MusicSearch.SearchObjects;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -24,6 +25,8 @@ namespace Ctms.Applications.ViewModels
         private string      _item2Header;
         private int         _mainItemId;
         private List<Entry> _entries;
+        private ObservableCollection<TagOption>   tagOptions;
+        private List<TagVisualization> _tagVisualizations;
         //private readonly IEnumerable<SearchTagViewModel> _searchTags;
 
 
@@ -31,7 +34,8 @@ namespace Ctms.Applications.ViewModels
         public SearchViewModel(ISearchView view)
             : base(view)
         {
-            Tags = new List<Tag>();
+            tagOptions = new ObservableCollection<TagOption>();
+            TagVisualizations = new List<TagVisualization>();
 
             _entries = new List<Entry>()
             {
@@ -172,14 +176,52 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public List<Tag> Tags { get; set; }
+        public List<TagVisualization> TagVisualizations
+        {
+            get { return _tagVisualizations; }
+            set
+            {
+                if (_tagVisualizations != value)
+                {
+                    _tagVisualizations = value;
+                    RaisePropertyChanged("TagVisualizations");
+                }
+            }
+        }
+
+        public ObservableCollection<TagOption> TagOptions
+        {
+            get { return tagOptions; }
+            set
+            {
+                if (tagOptions != value)
+                {
+                    tagOptions = value;
+                    RaisePropertyChanged("TagOptions");
+                }
+            }
+        }
 
         public void OnVisualizationAdded(TagVisualization tagVisualization)
         {
             //var tagValue    = tagVisualization.VisualizedTag.Value;
             //var tagVizual   = tagVisualization.VisualizedTag;
             //var simpleTag   = tagVisualization;
+
+            TagVisualizations.Add(tagVisualization);
+            /*
+            var tagVisualization    = (SearchTagView) e.TagVisualization;
+            var tagId               = (int) tagVisualization.VisualizedTag.Value;
+            /*
+            var pieMenu             = ((PieMenu) tagVisualization.PieMenu1);//!!
+            var pieMenuItems        = (ItemCollection) pieMenu.Items;*/
         }
+
+        public void OnVisualizationRemoved(TagVisualization tagVisualization)
+        {
+            TagVisualizations.Remove(tagVisualization);
+        }
+
         /*
         public List<SearchTagViewModel> SearchTags
         {
@@ -194,6 +236,7 @@ namespace Ctms.Applications.ViewModels
             }
         }
         */
+
         //public IEnumerable<SearchTagViewModel> SearchTags { get { return _searchTags; } }
 
     }

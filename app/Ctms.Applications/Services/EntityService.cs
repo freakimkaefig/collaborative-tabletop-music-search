@@ -3,18 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
+using System.Collections.ObjectModel;
+using MusicSearch.SearchObjects;
 
 namespace Ctms.Applications.Services
 {
-    [Export(typeof(IEntityService)), Export]
-    internal class EntityService : IEntityService
+    //Provides entities (data from database and files). Just getters, no setters, but add to/remove from list is possible.
+    [Export]
+    public class EntityService
     {
+        private ObservableCollection<Style> _styles;
+
+        public ObservableCollection<Style> Styles
+        {
+            get
+            {
+                if (_styles == null)
+                {   // read and set styles
+                    var styles = XmlProvider.ReadStyles();
+
+                    _styles = new ObservableCollection<Style>();                    
+                    foreach (var style in styles)
+                    {
+                        _styles.Add(style);
+                    }
+                }
+                return _styles;
+            }
+        }
+
+
         /*
-        private BookLibraryEntities entities;
-        private ObservableCollection<Book> books;
-        private ObservableCollection<Person> persons;
+        //WAF BookLibrary Examples:
 
-
+        //private BookLibraryEntities entities;
+        
         public BookLibraryEntities Entities
         {
             get { return entities; }

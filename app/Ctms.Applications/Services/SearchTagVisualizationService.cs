@@ -12,7 +12,7 @@ using Ctms.Domain.Objects;
 
 namespace Ctms.Applications.Services
 {
-    class SearchTagVisualizationService
+    public class SearchTagVisualizationService
     {
         private SearchViewModel _searchVm;
         //private SearchTagViewModel _searchTagVm;

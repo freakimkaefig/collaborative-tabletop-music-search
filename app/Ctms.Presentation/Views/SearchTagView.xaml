@@ -30,33 +30,22 @@
         <Button Content="Home" Name="HomeButton" HorizontalAlignment="Left" Grid.Row="0" Command="{Binding SelectOptionCmd}" CommandParameter="1"/>
         <Button Content="Breadcrumb" Command="{Binding SelectOptionCmd}" CommandParameter="1" Grid.Row="0" HorizontalAlignment="Right"/>
 
-        <!--<Button Content="{Binding Button1}" Height="40" Width ="100" Grid.Row="1"></Button>
-        <Button Content="{Binding Button2}" Height="40" Width ="100" Grid.Row="2"></Button>
-        <Button Content="{Binding Button3}" Height="40" Width ="100" Grid.Row="3"></Button>-->
-
-        <ListBox ItemsSource="{Binding Entries}" BorderBrush="Transparent" 
+        <!--Temporary approach to display tag data -->
+        <ListBox ItemsSource="{Binding TagOptions}" BorderBrush="Transparent" 
                  Background="Black"
              Grid.IsSharedSizeScope="True"
              HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Command="{Binding DataContext.SelectOptionCmd, RelativeSource={RelativeSource AncestorType=s:TagVisualization}}">
+                    <Button Command="{Binding DataContext.SelectOptionCmd, RelativeSource={RelativeSource AncestorType=s:TagVisualization}}" 
+                            CommandParameter="{Binding}">
                         <Button.Content>
                             <StackPanel>
-                                <Label Content="{Binding Header}" FontWeight="Bold" BorderThickness="0" />
-                                <Label Content="{Binding SubHeader}" BorderThickness="0" />
+                                <Label Content="{Binding Keyword.Name}" FontWeight="Bold" BorderThickness="0"/>
+                                <Label Content="{Binding Id}" BorderThickness="0" />
                             </StackPanel>
                         </Button.Content>
                     </Button>
-
-                    <!--<Grid Margin="4">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" SharedSizeGroup="Key" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBox Text="{Binding Header}" FontWeight="Bold"  />
-                        <TextBox Text="{Binding SubHeader}" Grid.Row="1" />
-                    </Grid>-->
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

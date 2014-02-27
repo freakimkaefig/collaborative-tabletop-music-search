@@ -7,46 +7,72 @@ using MusicSearch.Managers;
 using Ctms.Applications.ViewModels;
 using MusicSearch.SearchObjects;
 using System.Waf.Applications.Services;
+using Ctms.Applications.Data;
+using Ctms.Domain.Objects;
+using Helpers;
 
 namespace Ctms.Applications.Workers
 {
     [Export]
     public class SearchOptionWorker
     {
-        private SearchViewModel _searchViewModel;
-        private SearchTagViewModel _searchTagViewModel;
+        private SearchViewModel _searchVM;
+        private SearchTagViewModel _searchTagVM;
         private SelectionManager _selectionManager;
         private IMessageService _messageService;
+        private Repository _repository;
 
         [ImportingConstructor]
-        public SearchOptionWorker(SearchViewModel searchViewModel, SearchTagViewModel searchTagVm, IMessageService messageService)
+        public SearchOptionWorker(SearchViewModel searchVM, SearchTagViewModel searchTagVm, IMessageService messageService,
+            Repository repository)
         {
             //ViewModels
-            _searchViewModel = searchViewModel;
-            _searchTagViewModel = searchTagVm;
+            _searchVM = searchVM;
+            _searchTagVM = searchTagVm;
             //Services
             _messageService = messageService;
+            //Data
+            _repository = repository;
             //Workers
             //_resultWorker = resultWorker;
             //Managers
             _selectionManager = new SelectionManager();
         }
 
-        public bool CanSelectOption() { return _searchViewModel.IsValid; }
+        public bool CanSelectOption() { return _searchVM.IsValid; }
 
-        public void SelectOption(string id)
+
+        public void UpdateOptions(TagOption selectedTagOption = null)
         {
-            //_searchTagViewModel.Item1Header = "Funzt! (Selection Option)";
-            MessageServiceExtensions.ShowMessage(_messageService, "Selected: " + id);
+            var styles = _repository.GetAllStyles();
 
-            // check selection
-            // load next options / set keyword 
-            
+            var tagOptions = new List<TagOption>();
+            foreach (var style in styles)
+            {
+                tagOptions.Add(new SingleTextTagOption() { Id = 0, Keyword = style, Text = style.Name });
+            }
+            _searchVM.TagOptions = CollectionHelper.ToObservableCollection<TagOption>(tagOptions);
         }
 
-        public void LoadNextOptions()
+        public void SelectOption(TagOption selectedOption)
         {
+            //_searchTagViewModel.Item1Header = "Funzt! (Selection Option)";
+            MessageServiceExtensions.ShowMessage(_messageService, "Selected: " + selectedOption.Keyword);
 
+            // check selection
+            // ...
+
+            // load next options / set keyword 
+            CalcNextAction(selectedOption);
+        }
+
+        public void CalcNextAction(TagOption selectedOption)
+        {
+            //if searchtype / subgenre etc.. selected go on with next options
+            //UpdateOptions(selectedOption);
+
+            //if searchtype is keyword and there's no substructure set option 
+            //as selected keyword for this tangible
         }
     }
 }

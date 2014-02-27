@@ -30,7 +30,7 @@ namespace Ctms.Applications.Controllers
         private readonly CompositionContainer container;
         //Services
         private readonly IShellService shellService;
-        private readonly IEntityService entityService;
+        private readonly EntityService entityService;
         //ViewModels
         private ResultViewModel resultViewModel;
         //Commands
@@ -39,7 +39,7 @@ namespace Ctms.Applications.Controllers
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
-        public ResultController(CompositionContainer container, IShellService shellService, IEntityService entityService,
+        public ResultController(CompositionContainer container, IShellService shellService, EntityService entityService,
             ResultViewModel resultViewModel)
         {
             this.container = container;

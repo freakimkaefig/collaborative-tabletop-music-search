@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundWorkHelper.cs" />
+    <Compile Include="CollectionHelper.cs" />
     <Compile Include="HttpRequester.cs" />
   </ItemGroup>
   <ItemGroup>

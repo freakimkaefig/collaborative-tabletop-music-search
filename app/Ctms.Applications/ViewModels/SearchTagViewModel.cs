@@ -65,7 +65,7 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-
+        
         public ICommand SelectOptionCmd
         {
             get { return _selectOptionCmd; }

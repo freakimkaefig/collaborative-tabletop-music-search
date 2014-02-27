@@ -37,7 +37,7 @@ namespace Ctms.Applications.Controllers
         private readonly CompositionContainer _container;
         //Services
         private readonly IShellService _shellService;
-        private readonly IEntityService _entityService;
+        private readonly EntityService _entityService;
         private readonly SearchTagVisualizationService _tagVisualizationService;
         //ViewModels
         private SearchViewModel _searchVm;
@@ -53,7 +53,7 @@ namespace Ctms.Applications.Controllers
         //Further vars
 
         [ImportingConstructor]
-        public SearchController(CompositionContainer container, IShellService shellService, IEntityService entityService,
+        public SearchController(CompositionContainer container, IShellService shellService, EntityService entityService,
             SearchViewModel searchVm, 
             SearchTagViewModel searchTagVm, 
             ResultViewModel resultVm,
@@ -74,7 +74,7 @@ namespace Ctms.Applications.Controllers
             _resultVm                   = resultVm;
             //Commands
             _startSearchCmd             = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
-            _selectOptionCmd            = new DelegateCommand((id) => _searchOptionWorker.SelectOption((string)id));
+            _selectOptionCmd            = new DelegateCommand((id) => _searchOptionWorker.SelectOption((TagOption)id));
         }
 
         public void Initialize()
@@ -87,19 +87,21 @@ namespace Ctms.Applications.Controllers
             //Listeners
             AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
-            _searchTagVm.SelectOptionCmd = _selectOptionCmd;
+            //_searchTagVm.SelectOptionCmd = _selectOptionCmd;
             _searchVm.SelectOptionCmd = _selectOptionCmd;
 
             InitKeywords();
 
-            _tagVisualizationService.InitTagDefinitions();
             // set  default tag values
+            _tagVisualizationService.InitTagDefinitions();
+            _searchOptionWorker.UpdateOptions();
+
         }
 
         private void InitKeywords()
         {
             List<Tag> tags = new List<Tag>()
-            {
+            {/*
                 new Tag()
                 {
                     Id = 0,
@@ -119,7 +121,7 @@ namespace Ctms.Applications.Controllers
                         }
                     },
                     SelectedKeyword = new Artist("Korn")
-                },/*
+                },
                 new Tag()
                 {
                     Id = 1,
@@ -138,7 +140,7 @@ namespace Ctms.Applications.Controllers
                     }
                 }*/
             };
-            _searchVm.Tags = tags;
+            //_searchVm.Tags = tags;
         }
 
         private void UpdateCommands()
@@ -152,6 +154,10 @@ namespace Ctms.Applications.Controllers
             {
                 //...
                 UpdateCommands();
+            }
+            else if (e.PropertyName == "Tags")//SelectedSong is just an example
+            {
+
             }
         }
     }
