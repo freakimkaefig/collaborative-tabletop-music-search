@@ -16,13 +16,28 @@ namespace MusicSearch.ResponseObjects
         {
             public StatusObj Status { get; set; }
             public List<Song> Songs { get; set; }
-            public List<Term> Terms { get; set; }
+            public List<ArtistSuggestion> ArtistSuggestions { get; set; }
+            public List<TitleSuggestion> TitleSuggestions { get; set; }
 
             public class StatusObj
             {
                 public string Version { get; set; }
                 public int Code { get; set; }
                 public string Message { get; set; }
+            }
+
+            public class ArtistSuggestion
+            {
+                public String name { get; set; }
+                public String id { get; set; }
+                public int tangibleId { get; set; }
+            }
+
+            public class TitleSuggestion
+            {
+                public String title { get; set; }
+                public String id { get; set; }
+                public int tangibleId { get; set; }
             }
 
             public class Song
@@ -48,12 +63,7 @@ namespace MusicSearch.ResponseObjects
              
             }
 
-            public class Term
-            {
-                public double Frequency { get; set; }
-                public string Name { get; set; }
-                public double Weight { get; set; }
-            }
+            
         }
     }
 }
