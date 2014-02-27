@@ -12,7 +12,7 @@ namespace MusicSearch.Managers
 {
     public class SearchManager
     {
-        private String _request;
+        /*private String _request;
         private String _response;
         private String _defaultURL = "http://developer.echonest.com/api/v4/";
         public ResponseContainer ResponseContainer;
@@ -95,6 +95,6 @@ namespace MusicSearch.Managers
                     {'artist_id': 'ARS73SD1187B9971AF', 'id': 'SORXFOX1400C70B29F', 'artist_name': 'Home Grown', 'title': 'Cleopatras Dream'}, 
                     {'artist_id': 'ARS73SD1187B9971AF', 'id': 'SOXXCYS131343A079A', 'artist_name': 'Home Grown', 'title': 'Complicated'}]}}";
 
-        }
+        }*/
     }
 }
