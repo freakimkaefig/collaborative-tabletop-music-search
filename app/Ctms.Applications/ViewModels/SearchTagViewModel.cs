@@ -65,19 +65,19 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-        
-        //public ICommand SelectOptionCmd
-        //{
-        //    get { return _selectOptionCmd; }
-        //    set
-        //    {
-        //        if (_selectOptionCmd != value)
-        //        {
-        //            _selectOptionCmd = value;
-        //            RaisePropertyChanged("SelectOptionCmd");
-        //        }
-        //    }
-        //}
+
+        public ICommand SelectOptionCmd
+        {
+            get { return _selectOptionCmd; }
+            set
+            {
+                if (_selectOptionCmd != value)
+                {
+                    _selectOptionCmd = value;
+                    RaisePropertyChanged("SelectOptionCmd");
+                }
+            }
+        }
 
         public ISearchTagView MyView { get; set; }
 

@@ -87,7 +87,7 @@ namespace Ctms.Applications.Controllers
             //Listeners
             AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
-            //_searchTagVm.SelectOptionCmd = _selectOptionCmd;
+            _searchTagVm.SelectOptionCmd = _selectOptionCmd;
             _searchVm.SelectOptionCmd = _selectOptionCmd;
 
             InitKeywords();

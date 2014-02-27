@@ -40,7 +40,7 @@
              HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Button Command="{Binding SelectOptionCmd}">
+                    <Button Command="{Binding DataContext.SelectOptionCmd, RelativeSource={RelativeSource AncestorType=s:TagVisualization}}">
                         <Button.Content>
                             <StackPanel>
                                 <Label Content="{Binding Header}" FontWeight="Bold" BorderThickness="0" />
