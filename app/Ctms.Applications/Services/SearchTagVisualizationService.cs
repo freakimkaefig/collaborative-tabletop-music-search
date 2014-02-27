@@ -34,11 +34,12 @@ namespace Ctms.Applications.Services
             {
                 TagVisualizationDefinition tagDefinition = new TagVisualizationDefinition();
                 tagDefinition.Value = i;
-                tagDefinition.Source = new Uri("../../Views/SearchTagView.xaml", UriKind.Relative);                
+                tagDefinition.Source = new Uri("../../Views/SearchTagView.xaml", UriKind.Relative);
                 tagDefinition.MaxCount = 1;
                 tagDefinition.LostTagTimeout = 5000.0;
                 tagDefinition.TagRemovedBehavior = TagRemovedBehavior.Fade;
                 tagDefinition.UsesTagOrientation = false;
+
                 AddTagVisualization(tagDefinition);
             }
             _tagVisualizers = _tagVisualizer.Definitions;

@@ -11,6 +11,7 @@ using System.Waf.Applications;
 namespace Ctms.Applications.ViewModels
 {
     [Export]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public class SearchTagViewModel : ViewModel<ISearchTagView>
     {
         private bool _isValid = true;
@@ -26,7 +27,16 @@ namespace Ctms.Applications.ViewModels
             : base(view)
         {
             _tags = new List<Tag>();
+
+            var r = new Random(DateTime.Now.Millisecond);
+            testContent = r.NextDouble();
         }
+
+        public string Breadcrumb { get { return "STVM"; } }
+
+        private double testContent;
+
+        public double TestContent { get { return testContent; } }
 
         public bool IsEnabled { get { return true; } }//Detail != null;//!! Has to be adjusted
 
@@ -43,8 +53,6 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public string Breadcrumb { get { return "Breadcrumb2"; } }
-
         public int Id
         {
             get { return _id; }
@@ -57,37 +65,19 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-
-        /*
-        public string Item1Header
-        {
-            get {
-                if (item1Header == null) return "My dynamic song";
-                else { return item1Header; };
-            }
-            set
-            {
-                if (item1Header != value)
-                {
-                    item1Header = value;
-                    RaisePropertyChanged("Item1Header");
-                }
-            }
-        }
-        */
-
-        public ICommand SelectOptionCmd
-        {
-            get { return _selectOptionCmd; }
-            set
-            {
-                if (_selectOptionCmd != value)
-                {
-                    _selectOptionCmd = value;
-                    RaisePropertyChanged("SelectOptionCmd");
-                }
-            }
-        }
+        
+        //public ICommand SelectOptionCmd
+        //{
+        //    get { return _selectOptionCmd; }
+        //    set
+        //    {
+        //        if (_selectOptionCmd != value)
+        //        {
+        //            _selectOptionCmd = value;
+        //            RaisePropertyChanged("SelectOptionCmd");
+        //        }
+        //    }
+        //}
 
         public ISearchTagView MyView { get; set; }
 

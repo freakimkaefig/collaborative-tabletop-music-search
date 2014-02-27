@@ -23,6 +23,7 @@ namespace Ctms.Applications.ViewModels
         private string      _item1Header;
         private string      _item2Header;
         private int         _mainItemId;
+        private List<Entry> _entries;
         //private readonly IEnumerable<SearchTagViewModel> _searchTags;
 
 
@@ -30,10 +31,31 @@ namespace Ctms.Applications.ViewModels
         public SearchViewModel(ISearchView view)
             : base(view)
         {
-            _mainItemId = 666;
             Tags = new List<Tag>();
+
+            _entries = new List<Entry>()
+            {
+                new Entry { Id = 0, Header = "Hypocratics", SubHeader = "Audioslave" },
+                new Entry { Id = 1, Header = "Hypocratics", SubHeader = "Katy Perry" },
+                new Entry { Id = 2, Header = "Hypocratics", SubHeader = "Anyone" },
+                new Entry { Id = 3, Header = "Hypocratics", SubHeader = "John Wayne" },
+                new Entry { Id = 4, Header = "Hypocratics", SubHeader = "Justin Bieber" }
+            };
         }
 
+        public string Breadcrumb { get { return "SVM"; } }
+        public string Breadcrumb2 { get { return "SVM2"; } }
+
+        public List<Entry> Entries
+        {
+            get { return _entries; } 
+        }
+
+        public class Entry {
+            public int      Id { get; set; }
+            public string   Header { get; set; }
+            public string   SubHeader { get; set; }
+        }
 
         public bool IsEnabled { get { return true; } }
 
@@ -88,7 +110,7 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-        /*
+
         public ICommand SelectOptionCmd
         {
             get { return _selectOptionCmd; }
@@ -102,7 +124,7 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-        */
+        
         public string Item1Header
         {
             get
@@ -154,9 +176,9 @@ namespace Ctms.Applications.ViewModels
 
         public void OnVisualizationAdded(TagVisualization tagVisualization)
         {
-            var tagValue    = tagVisualization.VisualizedTag.Value;
-            var tagVizual   = tagVisualization.VisualizedTag;
-            var simpleTag   = tagVisualization;
+            //var tagValue    = tagVisualization.VisualizedTag.Value;
+            //var tagVizual   = tagVisualization.VisualizedTag;
+            //var simpleTag   = tagVisualization;
         }
         /*
         public List<SearchTagViewModel> SearchTags

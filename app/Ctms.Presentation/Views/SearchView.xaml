@@ -39,68 +39,19 @@
             <TextBlock Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Left" Style="{StaticResource SearchOptionsTextBlock}"
                 Text="ControlResources Key Example"/>
 
-            <Grid Grid.Row="4">
-                <Grid.Background>
-                    <ImageBrush ImageSource="../../Resources/Images/Search/record.png" Opacity="1.0"/>
-                </Grid.Background>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-
-                <!--Selection state-->
-                <ps:PieMenu x:Name="Menu4"  Grid.Column="0" Grid.Row="0"
-                       Canvas.Left="100"
-                       Canvas.Top="100"
-                       SelectedBackground="#7399"
-                       Foreground="White"
-                       BorderBrush="#000"
-                       SectorGap="0"
-                       Gap="0"
-                       Radius="120"
-                       InnerRadius="33"
-                       RotateText="True"
-                       RotateTextAngle="0"
-                       Rotation="150"
-                       MenuSector="240"
-                        Background="Transparent">
-                    <ps:PieMenuItem Header="Audioslave" SubHeader="Cochise" BorderThickness="0" 
-                                    Command="{Binding SelectOptionCommand}" Background="#0555">
-                    </ps:PieMenuItem>
-                    <ps:PieMenuItem Header="Katy Perry" SubHeader="Cochise" BorderThickness="0"  Background="#5555">
-                    </ps:PieMenuItem>
-                    <ps:PieMenuItem Header="Arvmin van Buuren" SubHeader="Cochise" BorderThickness="0" Background="#0555">
-                    </ps:PieMenuItem>
-                    <ps:PieMenuItem Header="Zedd" SubHeader="Cochise" BorderThickness="0"  Background="#5555">
-                    </ps:PieMenuItem>
-                    <ps:PieMenuItem  Header="Pink" SubHeader="Cochise" BorderThickness="0"  Background="#0555">
-                    </ps:PieMenuItem>
-                </ps:PieMenu>
-                <ps:PieMenu x:Name="Menu5"  Grid.Column="0" Grid.Row="0"
-                       Canvas.Left="100"
-                       Canvas.Top="100"
-                       Background="Transparent"
-                       SelectedBackground="#7399"
-                       Foreground="White"
-                       BorderBrush="#000"
-                       SectorGap="0"
-                       Gap="0"
-                       Radius="120"
-                       InnerRadius="33"
-                       RotateText="True"
-                       RotateTextAngle="-90"
-                       Rotation="30"
-                       MenuSector="120">
-                    <ps:PieMenuItem Header="Elvis" SubHeader="Cochise"  
-                                BorderThickness="0" FontSize="16"
-                                Id="{Binding MainItemId}"
-                                CenterText="true" Command="{Binding SelectOptionCmd}" Background="#5555">
-                    </ps:PieMenuItem>
-                </ps:PieMenu>
-            </Grid>
-
+<!--
+            <s:TagVisualization
+               Grid.Row="0" Grid.Column="0" Grid.RowSpan="6" Grid.ColumnSpan="3" >
+                <s:TagVisualizationDefinition
+                    Source="SearchTagView.xaml"
+                    MaxCount="1"
+                    LostTagTimeout="5000.0"
+                    TagRemovedBehavior="Fade"
+                    UsesTagOrientation="False"
+                    Value="50"                  
+                    ></s:TagVisualizationDefinition>
+            </s:TagVisualization>
+-->
         </Grid>
         
     </s:TagVisualizer>

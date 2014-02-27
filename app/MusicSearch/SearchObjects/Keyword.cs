@@ -5,48 +5,47 @@ using System.Text;
 
 namespace MusicSearch.SearchObjects
 {
-    public class Keyword : SearchOption
+    public class Keyword
     {
-        public double Weighting { get; set; }
-        public KeywordType.Types Type { get; set; }        
-        public String Name { get; set; }
+        public int KeywordId            { get; set; }   
+        public KeywordType.Types Type   { get; set; }        
+        public string Name              { get; set; }
+        public double Weight            { get; set; }
 
-        public class Style : Keyword
+        public Keyword(string name)
         {
-            public Style(String name)
-            {
-                Name = name;
-                Type = KeywordType.Types.Style;
-            }
-        }
-
-        public class Title : Keyword
-        {
-            public Title(String name)
-            {
-                Name = name;
-                Type = KeywordType.Types.Title;
-            }
-        }
-
-        public class Artist : Keyword
-        {
-            public Artist(String name)
-            {
-                Name = name;
-                Type = KeywordType.Types.Artist;
-            }
-        }
-
-        public class AcousticAttribute : Keyword
-        {
-            public AcousticAttribute(String name)
-            {
-                Name = name;
-                Type = KeywordType.Types.AcousticAttribute;
-            }
+            Name = name;
         }
     }
 
-    
+    public class Style : Keyword
+    {
+        public List<Style> SubStyles { get; set; }
+
+        public Style(string name) : base(name)
+        {
+            Type = KeywordType.Types.Style;
+        }
+    }
+
+    public class Title : Keyword
+    {
+        public string SpotifyId     { get; set; }
+        public List<Artist> Artists { get; set; }
+
+        public Title(string name) : base(name)
+        {
+            Type = KeywordType.Types.Title;
+        }
+    }
+
+    public class Artist : Keyword
+    {
+        public List<Title> Titles { get; set; }
+
+        public Artist(string name) : base(name)
+        {
+            Type = KeywordType.Types.Artist;
+        }
+    }
 }

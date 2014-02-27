@@ -13,14 +13,24 @@ namespace Ctms.Presentation.Views
     /// Interaktionslogik für UserControl1.xaml
     /// </summary>
     [Export(typeof(ISearchTagView))]
+    [PartCreationPolicy(CreationPolicy.NonShared)]
     public partial class SearchTagView : ISearchTagView
     {
         private readonly Lazy<SearchTagViewModel> _lazyVm;
+
+        private int count = 0;
 
         public SearchTagView()
         {
             InitializeComponent();
             _lazyVm = new Lazy<SearchTagViewModel>(() => ViewHelper.GetViewModel<SearchTagViewModel>(this));
+
+            count++;
+
+            //var r = new Random(DateTime.Now.Millisecond);
+
+            //testContent = _viewModel.TestContent;
+            //PieMenuItem1.SubHeader = "Header1";
         }
 
         // Provides this view's viewmodel
@@ -34,6 +44,11 @@ namespace Ctms.Presentation.Views
         public void SimpleVisualization_Loaded(object sender, RoutedEventArgs e)
         {
             //_viewModel.Id = e.TagVisualization.VisualizedTag.Value;
+            //Tag = e.TagVisualization.VisualizedTag;
+
+            //HomeButton.Content = _viewModel.TestContent;
+            //PieMenuItem1.SubHeader = "Header1";
+            //HomeButton.Content = "Dig";
         }
     }
 }

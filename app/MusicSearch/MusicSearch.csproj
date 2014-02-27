@@ -61,7 +61,6 @@
     <Compile Include="Managers\SelectionManager.cs" />
     <Compile Include="SearchObjects\KeywordContainer.cs" />
     <Compile Include="SearchObjects\KeywordType.cs" />
-    <Compile Include="SearchObjects\SearchOption.cs" />
     <Compile Include="Start.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>

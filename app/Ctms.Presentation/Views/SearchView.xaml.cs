@@ -35,7 +35,6 @@ namespace Ctms.Presentation.Views
             InitializeComponent();
             _lazyVm = new Lazy<SearchViewModel>(() => ViewHelper.GetViewModel<SearchViewModel>(this));
 
-            //Tags = new List<Tag>();
         }
 
         // Provides this view's viewmodel
@@ -44,36 +43,89 @@ namespace Ctms.Presentation.Views
         public TagVisualizer TagVisualizer { get { return SearchTagVisualizer; } set {} }
 
         //public List<Tag> Tags { get; set; }
-        
+
+        private void UpdateItem()
+        {
+            // .Header = "Header";
+        }
+
         private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
         {
-            //HandleTagAction(e);
-            //KeywordType
-            //viewModel.OnVisualizationAdded(sender);
+            // KeywordType
             _viewModel.OnVisualizationAdded(e.TagVisualization);
 
             var tagVisualization    = (SearchTagView) e.TagVisualization;
             var tagId               = (int) tagVisualization.VisualizedTag.Value;
-
+            /*
             var pieMenu             = ((PieMenu) tagVisualization.PieMenu1);//!!
             var pieMenuItems        = (ItemCollection) pieMenu.Items;
 
-            //pieMenuItems[0].
-
+            var counter = 0;
             foreach (var item in pieMenuItems)
             {
-                //((PieMe
+                var pieMenuItem = (PieMenuItem)item;
+                pieMenuItem.Header = "Tag" + tagId + "Dyn" + counter;
+                counter++;
             }
+            */
+            //var pieMenuItems = pieMenu.Items.Cast<PieMenuItem>().ToList();
 
-            var tag                 = _viewModel.Tags[tagId];
-            var counter             = 0;
+            //UpdateTagValues(tagId, pieMenuItems);
 
+            //SetBinding(tagVisualization, tagId);
+
+            //tagVisualization.PieMenuItem1.
+            /*
+            foreach (var item in pieMenuItems)
+            {
+                //item = (PieMenuItem)
+                SetItemBinding(tagVisualization, tagId, (PieMenuItem) item);
+            }*/
+        }
+
+        private void SetItemBinding(SearchTagView tagVisualization, int tagId, PieMenuItem item)
+        {
+            var binding = new Binding();
+            binding.Source = _viewModel.Entries[tagId];
+            //binding.Path = new PropertyPath("SomePropertyOfBindingSourceObject");
+            //item.Header.
+        }
+
+        private void SetBinding(SearchTagView tagVisualization, int tagId)
+        {
+            var binding = new Binding();
+            binding.Source = _viewModel.Entries[tagId];
+            //binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                
+                       //            Mode=TwoWay,
+                    //               UpdateSourceTrigger=PropertyChanged}"
+            //binding.Path = new PropertyPath("SomePropertyOfBindingSourceObject");
+            //tagVisualization.PieMenuItem1.SetBinding(PieMenuItem.SubHeaderProperty, binding);
+        }
+
+        private void UpdateTagValues(int tagId, ItemCollection pieMenuItems)
+        {
+            var tag = _viewModel.Tags[tagId];
+            var counter = 0;
+            
             foreach (PieMenuItem item in pieMenuItems)
             {
-                if (counter >= _viewModel.Tags.Count) break;
-                item.Header     = tag.SearchOptions[counter].Header;
-                item.SubHeader  = tag.SearchOptions[counter].SubHeader;
-                item.Id         = tag.SearchOptions[counter].Id;
+                if (counter >= _viewModel.Tags.Count) break;//!!
+
+                var tagOption = tag.TagOptions[counter];
+
+                if (tagOption is DoubleTextTagOption)
+                {
+                    var myTagOption = (DoubleTextTagOption)tagOption;
+                    item.Header = myTagOption.MainText;
+                    item.SubHeader = myTagOption.SubText;
+                }
+                else if (tagOption is SingleTextTagOption)
+                {
+                    var myTagOption = (SingleTextTagOption)tagOption;
+                    item.Header = myTagOption.Text;
+                }
+                item.Id = tagOption.Id;
                 counter++;
             }
         }

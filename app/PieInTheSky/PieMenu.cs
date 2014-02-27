@@ -24,6 +24,7 @@ namespace PieInTheSky
         public static readonly DependencyProperty RotationProperty;
         public static readonly DependencyProperty RotateTextProperty;
         public static readonly DependencyProperty RotateTextAngleProperty;
+        public static readonly DependencyProperty AdditionalTextProperty;
 
         // Variables providing dependency property values
 
@@ -144,6 +145,19 @@ namespace PieInTheSky
             }
         }
 
+        [Bindable(true)]
+        public string AdditionalText
+        {
+            get
+            {
+                return (string)base.GetValue(PieMenu.AdditionalTextProperty);
+            }
+            set
+            {
+                base.SetValue(PieMenu.AdditionalTextProperty, value);
+            }
+        }
+
         #endregion DependencyProperties
 
 
@@ -174,8 +188,11 @@ namespace PieInTheSky
             PieMenu.RotationProperty = DependencyProperty.Register("Rotation", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(0.0));
             PieMenu.RotateTextProperty = DependencyProperty.Register("RotateText", typeof(bool), typeof(PieMenu), new FrameworkPropertyMetadata(true));
             PieMenu.RotateTextAngleProperty = DependencyProperty.Register("RotateTextAngle", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(90.0));
+            PieMenu.AdditionalTextProperty = DependencyProperty.Register("AdditionalText", typeof(string), typeof(PieMenu), new FrameworkPropertyMetadata(""));
             //PieMenu.RotateTextAngleProperty = 15.0; 
         }
+
+        public string Breadcrumb { get { return "PieMenu"; } }
 
         #endregion constructor
 

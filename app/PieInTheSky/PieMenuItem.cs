@@ -80,6 +80,7 @@ namespace PieInTheSky
         {
             get
             {
+                var value = (string)base.GetValue(PieMenuItem.SubHeaderProperty);
                 return (string)base.GetValue(PieMenuItem.SubHeaderProperty);
             }
             set
@@ -110,9 +111,23 @@ namespace PieInTheSky
             PieMenuItem.SubMenuSectorProperty = DependencyProperty.Register("SubMenuSector", typeof(double), typeof(PieMenuItem), new FrameworkPropertyMetadata(120.0));
             PieMenuItem.CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(PieMenuItem), new FrameworkPropertyMetadata(null));
             PieMenuItem.CenterTextProperty = DependencyProperty.Register("CenterText", typeof(bool), typeof(PieMenuItem), new FrameworkPropertyMetadata(false));
-            PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem), new FrameworkPropertyMetadata(""));
             PieMenuItem.IdProperty = DependencyProperty.Register("Id", typeof(int), typeof(PieMenuItem), new FrameworkPropertyMetadata(0));
+
+            //PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem), new FrameworkPropertyMetadata(""));
+            PieMenuItem.SubHeaderProperty = DependencyProperty.Register(
+                "SubHeader",  typeof(string), typeof(PieMenuItem),  new FrameworkPropertyMetadata("", (FrameworkPropertyMetadataOptions.AffectsRender), new PropertyChangedCallback(DoSth)));
+        
         }
+
+        public static void DoSth(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var value = (string)e.NewValue;
+            var oldValue = (string)e.OldValue;
+            ((PieMenuItem)d).SetValue(SubHeaderProperty, value);
+            var val = ((PieMenuItem)d).ReadLocalValue(SubHeaderProperty);
+        }
+
+        public string Breadcrumb { get { return "PieMenuItem"; }}
 
         public double CalculateSize(double s, double d)
         {

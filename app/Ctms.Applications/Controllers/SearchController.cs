@@ -59,23 +59,22 @@ namespace Ctms.Applications.Controllers
             ResultViewModel resultVm,
             SearchWorker searchWorker, ResultWorker resultWorker, SearchOptionWorker searchOptionWorker)
         {
-            _searchWorker = searchWorker;
-            _resultWorker = resultWorker;
-            _searchOptionWorker = searchOptionWorker;
-
-            _container = container;
+            _container                  = container;
+            //Workers
+            _searchWorker               = searchWorker;
+            _resultWorker               = resultWorker;
+            _searchOptionWorker         = searchOptionWorker;
             //Services
-            _shellService = shellService;
-            _entityService = entityService;
-            _tagVisualizationService = new SearchTagVisualizationService(searchVm);//, searchTagVm);
+            _shellService               = shellService;
+            _entityService              = entityService;
+            _tagVisualizationService    = new SearchTagVisualizationService(searchVm);//, searchTagVm);
             //ViewModels
-            _searchVm = searchVm;
-            _searchTagVm = searchTagVm;
-            _resultVm = resultVm;
+            _searchVm                   = searchVm;
+            _searchTagVm                = searchTagVm;
+            _resultVm                   = resultVm;
             //Commands
-            _startSearchCmd = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
-            //_selectOptionCmd = new DelegateCommand(t => _searchOptionWorker.SelectOption((string)t));
-            _selectOptionCmd = new DelegateCommand((id) => _searchOptionWorker.SelectOption((int)id));
+            _startSearchCmd             = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
+            _selectOptionCmd            = new DelegateCommand((id) => _searchOptionWorker.SelectOption((string)id));
         }
 
         public void Initialize()
@@ -88,56 +87,57 @@ namespace Ctms.Applications.Controllers
             //Listeners
             AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
-            _searchTagVm.SelectOptionCmd = _selectOptionCmd;
-            //_searchVm.SelectOptionCmd = _selectOptionCmd;
+            //_searchTagVm.SelectOptionCmd = _selectOptionCmd;
+            _searchVm.SelectOptionCmd = _selectOptionCmd;
 
-            InitiateTags();
+            InitKeywords();
 
             _tagVisualizationService.InitTagDefinitions();
+            // set  default tag values
         }
 
-        private void InitiateTags()
+        private void InitKeywords()
         {
             List<Tag> tags = new List<Tag>()
             {
                 new Tag()
                 {
                     Id = 0,
-                    SearchOptions = new List<SearchOption>()
+                    TagOptions = new List<TagOption>()
                     {
-                        new SearchOption()
+                        new DoubleTextTagOption()
                         {
-                            Id = 1,
-                            Header = "Fireworks",
-                            SubHeader = "Katy Perry"
+                            Id          = 1,
+                            MainText    = "Fireworks",
+                            SubText     = "Katy Perry"
                         },
-                        new SearchOption()
+                        new DoubleTextTagOption()
                         {
-                            Id = 2,
-                            Header = "Fireworker",
-                            SubHeader = "ACDC"
+                            Id          = 2,
+                            MainText    = "Fireworker",
+                            SubText     = "ACDC"
                         }
-                    }
-                },
+                    },
+                    SelectedKeyword = new Artist("Korn")
+                },/*
                 new Tag()
                 {
                     Id = 1,
-                    SearchOptions = new List<SearchOption>()
+                    TagOptions = new List<TagOption>()
                     {
-                        new SearchOption()
+                        new SingleTextTagOption()
                         {
                             Id = 3,
-                            Header = "The Baseballs"
+                            Text = "The Baseballs"
                         },
-                        new SearchOption()
+                        new SingleTextTagOption()
                         {
                             Id = 4,
-                            Header = "Baseball Fighters"
+                            Text = "Baseball Fighters"
                         }
                     }
-                }
+                }*/
             };
-
             _searchVm.Tags = tags;
         }
 

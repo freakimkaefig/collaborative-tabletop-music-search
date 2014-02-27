@@ -8,7 +8,7 @@
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
-    
+    Name="MyTagVisualization"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
     Loaded="SimpleVisualization_Loaded" >
@@ -19,16 +19,50 @@
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <Button Content="Home" Name="HomeButton" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Button Content="Reset" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        <Button Content="Home" Name="HomeButton" HorizontalAlignment="Left" Grid.Row="0" Command="{Binding SelectOptionCmd}" CommandParameter="1"/>
+        <Button Content="Breadcrumb" Command="{Binding SelectOptionCmd}" CommandParameter="1" Grid.Row="0" HorizontalAlignment="Right"/>
+
+        <!--<Button Content="{Binding Button1}" Height="40" Width ="100" Grid.Row="1"></Button>
+        <Button Content="{Binding Button2}" Height="40" Width ="100" Grid.Row="2"></Button>
+        <Button Content="{Binding Button3}" Height="40" Width ="100" Grid.Row="3"></Button>-->
+
+        <ListBox ItemsSource="{Binding Entries}" BorderBrush="Transparent" 
+                 Background="Black"
+             Grid.IsSharedSizeScope="True"
+             HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button Command="{Binding SelectOptionCmd}">
+                        <Button.Content>
+                            <StackPanel>
+                                <Label Content="{Binding Header}" FontWeight="Bold" BorderThickness="0" />
+                                <Label Content="{Binding SubHeader}" BorderThickness="0" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+
+                    <!--<Grid Margin="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" SharedSizeGroup="Key" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBox Text="{Binding Header}" FontWeight="Bold"  />
+                        <TextBox Text="{Binding SubHeader}" Grid.Row="1" />
+                    </Grid>-->
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <!--Selection state-->
-        <ps:PieMenu x:Name="PieMenu1"  Grid.Column="0" Grid.Row="0"
+        <!--<ps:PieMenu x:Name="PieMenu1"  Grid.Column="0" Grid.Row="0"
                        Canvas.Left="100"
                        Canvas.Top="100"
                        SelectedBackground="#7399"
@@ -42,11 +76,11 @@
                        RotateTextAngle="0"
                        Rotation="150"
                        MenuSector="240"
-                        Background="Transparent">
-            <ps:PieMenuItem Header="Audioslave" SubHeader="Cochise" BorderThickness="0" 
+                        Background="Transparent"  DataContext="{Binding Parent}">
+            <ps:PieMenuItem Name="PieMenuItem1" Header="Audioslave" SubHeader="Cochise" BorderThickness="0" 
                                     Command="{Binding SelectOptionCmd}" Background="#0555">
             </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Katy Perry" SubHeader="Cochise" BorderThickness="0"  Background="#5555">
+            <ps:PieMenuItem Header="Katy Perry" SubHeader="{Binding Breadcrumb2}" BorderThickness="0"  Background="#5555">
             </ps:PieMenuItem>
             <ps:PieMenuItem Header="Arvmin van Buuren" SubHeader="Cochise" BorderThickness="0" Background="#0555">
             </ps:PieMenuItem>
@@ -75,10 +109,9 @@
                     CenterText="true" Command="{Binding SelectOptionCmd}" Background="#5555"
                     Id="{Binding Id}">
             </ps:PieMenuItem>
-        </ps:PieMenu>
-        <TextBlock Text="Keyword" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                   Foreground="#acf" FontWeight="Bold" FontSize="18"/>
+        </ps:PieMenu>-->
+        <!--<TextBlock Text="Keyword" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
+                   Foreground="#acf" FontWeight="Bold" FontSize="18"/>-->
 
-        <Button Content="{Binding Breadcrumb}" VerticalAlignment="Top" HorizontalAlignment="Center" Width="60" Height="22"/>
     </Grid>
 </s:TagVisualization>

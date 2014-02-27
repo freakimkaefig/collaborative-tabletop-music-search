@@ -8,12 +8,34 @@ namespace Ctms.Domain.Objects
 {
     public class Tag
     {
+        public int Id { get; set; }
+        public double Angle { get; set; }
+        //public string State { get; set; }
+        public List<TagOption> TagOptions { get; set; } // A tag provides multiple TagOptions
+        public Keyword SelectedKeyword { get; set; }
+
         public Tag()
         {
-            SearchOptions = new List<SearchOption>();
+            TagOptions = new List<TagOption>();
         }
+    }
 
-        public int Id { get; set; }
-        public List<SearchOption> SearchOptions { get; set; }
+    // Is provided by a Tag
+    public class TagOption
+    {
+        public int Id   { get; set; }
+    }
+
+    // TagOption with two text items
+    public class DoubleTextTagOption : TagOption
+    {
+        public string MainText  { get; set; }
+        public string SubText   { get; set; }
+    }
+
+    // TagOption with one text item
+    public class SingleTextTagOption : TagOption
+    {
+        public string Text { get; set; }
     }
 }
