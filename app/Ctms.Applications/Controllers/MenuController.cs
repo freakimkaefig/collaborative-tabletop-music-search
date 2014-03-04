@@ -64,7 +64,7 @@ namespace Ctms.Applications.Controllers
             //Commands
             this._exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
             this._loginCommand = new DelegateCommand((password) => _musicStreamAccountWorker.Login((SurfacePasswordBox)password));//, _musicStreamAccountWorker.CanLogin);
-            this._openPlaylistCommand = new DelegateCommand((playlistName) => _musicStreamAccountWorker.OpenPlaylist((string)playlistName));
+            this._openPlaylistCommand = new DelegateCommand(_musicStreamAccountWorker.OpenPlaylist);
         }
 
         public void Initialize()
@@ -124,6 +124,11 @@ namespace Ctms.Applications.Controllers
             }
 
             if (e.PropertyName == "SpotifyPasswordInput")
+            {
+                //
+            }
+
+            if (e.PropertyName == "Playlists")
             {
                 //
             }

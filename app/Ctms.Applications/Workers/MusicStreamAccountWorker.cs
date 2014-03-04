@@ -6,6 +6,7 @@ using Ctms.Applications.ViewModels;
 using Microsoft.Surface.Presentation.Controls;
 using SpotifySharp;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 
 namespace Ctms.Applications.Workers
@@ -18,7 +19,7 @@ namespace Ctms.Applications.Workers
     {
         private string _spotifyUsername = "mybleton";
         private string _spotifyPassword = "ctms";
-        private List<Playlist> _playlists;
+        private ObservableCollection<Playlist> _playlists;
 
         private MusicStreamSessionManager _sessionManager;
         private MenuViewModel _menuViewModel;
@@ -65,7 +66,7 @@ namespace Ctms.Applications.Workers
             _menuViewModel.CanLogin = false;
         }
 
-        public void OpenPlaylist(string playlistName)
+        public void OpenPlaylist()
         {
 
         }
@@ -80,11 +81,12 @@ namespace Ctms.Applications.Workers
             _menuViewModel.IsLoggedIn = true;
         }
 
-        private void ReadyForPlayback(List<Playlist> playlists)
+        private void ReadyForPlayback(ObservableCollection<Playlist> playlists)
         {
             _playlistViewModel.ReadyForPlayback = true;
             this._playlists = playlists;
-            _menuViewModel.PlaylistName = _playlists[0].Name();
+            _menuViewModel.Playlists = playlists;
+            _menuViewModel.PlaylistName = _menuViewModel.Playlists[0].Name();
         }
     }
 }

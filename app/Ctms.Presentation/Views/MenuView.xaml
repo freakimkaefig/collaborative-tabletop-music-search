@@ -201,6 +201,19 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
         	</s:SurfaceButton>
+            <DataGrid ItemsSource="{Binding Playlists}" AutoGenerateColumns="False" Margin="0,25.83,0,0" >
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="" Width="Auto" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <s:SurfaceButton Content="Name" Command="{Binding DataContext.OpenPlaylistCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+                                </s:SurfaceButton>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

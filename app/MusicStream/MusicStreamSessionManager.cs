@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using NAudio.Utils;
 using Helpers;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace MusicStream
 {
@@ -27,7 +28,7 @@ namespace MusicStream
         //Actions
         public Action<string> receiveLogMessage;
         public Action SpotifyLoggedIn;
-        public Action<List<Playlist>> ReadyForPlayback;
+        public Action<ObservableCollection<Playlist>> ReadyForPlayback;
 
         //public Action<Track> GetLoadedTrackCompleted;
         public Action PrelistenStarted;
@@ -39,7 +40,7 @@ namespace MusicStream
 
         private string _credentialsBlob = null;
         private object _userdata = null;
-        private List<Playlist> _playlists;
+        private ObservableCollection<Playlist> _playlists;
 
         public ConcurrentQueue<string> logMessages;
         SynchronizationContext syncContext;
@@ -162,7 +163,7 @@ namespace MusicStream
         public void PlaylistContainerLoadedCallback()
         {
             //Retrieving available user playlists
-            _playlists = new List<Playlist>();
+            _playlists = new ObservableCollection<Playlist>();
             for (int i = 0; i < _playlistContainer.NumPlaylists(); i++)
             {
                 _playlists.Add(_playlistContainer.Playlist(i));

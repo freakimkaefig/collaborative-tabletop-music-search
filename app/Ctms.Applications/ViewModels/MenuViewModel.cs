@@ -6,7 +6,8 @@ using System.ComponentModel.Composition;
 using System.Waf.Applications;
 using System.Windows.Input;
 using Ctms.Applications.Views;
-using Ctms.Domain.Objects;
+using System.Collections.ObjectModel;
+using SpotifySharp;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -15,7 +16,6 @@ namespace Ctms.Applications.ViewModels
     {
         private bool isValid = true;
         private bool _canLogin = false;
-        private Playlist _playlist;
         //Commands
         private ICommand _exitAppCommand;
         private ICommand _loginCommand;
@@ -29,12 +29,14 @@ namespace Ctms.Applications.ViewModels
         private string _goInput;
         private bool _isLoggedIn = false;
         private bool _menuIsVisible = false;
+        private ObservableCollection<Playlist> _playlists;
 
 
         [ImportingConstructor]
         public MenuViewModel(IMenuView view)
             : base(view)
         {
+            _playlists = new ObservableCollection<Playlist>();
         }
 
         public bool IsEnabled { get { return true; } }//!! Has to be adjusted
@@ -178,6 +180,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _menuIsVisible = value;
                     RaisePropertyChanged("MenuIsVisible");
+                }
+            }
+        }
+
+        public ObservableCollection<Playlist> Playlists
+        {
+            get { return _playlists; }
+            set
+            {
+                if (_playlists != value)
+                {
+                    _playlists = value;
+                    RaisePropertyChanged("Playlists");
                 }
             }
         }
