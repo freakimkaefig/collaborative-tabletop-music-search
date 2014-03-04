@@ -1,0 +1,96 @@
+-		SearchRC	Count = 1	System.Collections.Generic.List<MusicSearch.ResponseObjects.ResponseContainer.ResponseObj.Song>
+-		[0]	{MusicSearch.ResponseObjects.ResponseContainer.ResponseObj.Song}	MusicSearch.ResponseObjects.ResponseContainer.ResponseObj.Song
+		Artist_Id	"ARH6W4X1187B99274F"	string
+		Artist_Name	"Radiohead"	string
+-		audio_summary	{
+  "key": 7,
+  "analysis_url": "http://echonest-analysis.s3.amazonaws.com/TR/T16zrgAcvP5GUQ-f1hhirdTrl-_I3vCuP_jA2-QLMf98nWsQdQ3oH7W8YPz1L3ndgCDOFV5smrkigfYTw%3D/3/full.json?AWSAccessKeyId=AKIAJRDFEY23UEVW42BQ&Expires=1393930993&Signature=IgjY2pDpsAbsOmJnRdKu1uVOvH8%3D",
+  "energy": 0.342402,
+  "liveness": 0.114949,
+  "tempo": 92.776,
+  "speechiness": 0.034759,
+  "acousticness": 0.006143,
+  "mode": 1,
+  "time_signature": 4,
+  "duration": 235.66621,
+  "loudness": -13.107,
+  "audio_md5": "c1c54f75954e902f05663cd886e037d5",
+  "valence": 0.113294,
+  "danceability": 0.528606
+}	object {Newtonsoft.Json.Linq.JObject}
++		base	{
+  "key": 7,
+  "analysis_url": "http://echonest-analysis.s3.amazonaws.com/TR/T16zrgAcvP5GUQ-f1hhirdTrl-_I3vCuP_jA2-QLMf98nWsQdQ3oH7W8YPz1L3ndgCDOFV5smrkigfYTw%3D/3/full.json?AWSAccessKeyId=AKIAJRDFEY23UEVW42BQ&Expires=1393930993&Signature=IgjY2pDpsAbsOmJnRdKu1uVOvH8%3D",
+  "energy": 0.342402,
+  "liveness": 0.114949,
+  "tempo": 92.776,
+  "speechiness": 0.034759,
+  "acousticness": 0.006143,
+  "mode": 1,
+  "time_signature": 4,
+  "duration": 235.66621,
+  "loudness": -13.107,
+  "audio_md5": "c1c54f75954e902f05663cd886e037d5",
+  "valence": 0.113294,
+  "danceability": 0.528606
+}	Newtonsoft.Json.Linq.JContainer {Newtonsoft.Json.Linq.JObject}
+		Type	Object	Newtonsoft.Json.Linq.JTokenType
++		Nicht öffentliche Member		
++		Ergebnisansicht	Beim Erweitern der Ergebnisansicht wird IEnumerable aufgeführt.	
+		song_hotttnesss	0.709039	double
+		tangibleId	2	int
+		Title	"Creep"	string
+-		tracks	Count = 7	System.Collections.Generic.List<object>
+-		[0]	{
+  "foreign_release_id": "spotify-WW:release:3hWomTJKGucGKv6EPpiHK9",
+  "catalog": "spotify-WW",
+  "foreign_id": "spotify-WW:track:73gRo9JMISPBcmgrlUi1jl",
+  "id": "TRCPIZX1338645F3D2"
+}	object {Newtonsoft.Json.Linq.JObject}
++		base	{
+  "foreign_release_id": "spotify-WW:release:3hWomTJKGucGKv6EPpiHK9",
+  "catalog": "spotify-WW",
+  "foreign_id": "spotify-WW:track:73gRo9JMISPBcmgrlUi1jl",
+  "id": "TRCPIZX1338645F3D2"
+}	Newtonsoft.Json.Linq.JContainer {Newtonsoft.Json.Linq.JObject}
+		Type	Object	Newtonsoft.Json.Linq.JTokenType
++		Nicht öffentliche Member		
++		Ergebnisansicht	Beim Erweitern der Ergebnisansicht wird IEnumerable aufgeführt.	
++		[1]	{
+  "foreign_release_id": "spotify-WW:release:6AZv3m27uyRxi8KyJSfUxL",
+  "catalog": "spotify-WW",
+  "foreign_id": "spotify-WW:track:3HfB5hBU0dmBt8T0iCmH42",
+  "id": "TRZZQOS1338645078D"
+}	object {Newtonsoft.Json.Linq.JObject}
++		[2]	{
+  "foreign_release_id": "spotify-WW:release:4YYwK9eAIWEUCYdvf40Nnk",
+  "catalog": "spotify-WW",
+  "foreign_id": "spotify-WW:track:0fuLRqMU6IaRoNAFIUdjPx",
+  "id": "TRECIMP1338647C18E"
+}	object {Newtonsoft.Json.Linq.JObject}
++		[3]	{
+  "foreign_release_id": "spotify-WW:release:224c0ZvAaDTn3lNIM5Ppfy",
+  "catalog": "spotify-WW",
+  "foreign_id": "spotify-WW:track:2KG9FxmFEC6nkaJY1SWsJ2",
+  "id": "TRHCEDQ1357D707950"
+}	object {Newtonsoft.Json.Linq.JObject}
++		[4]	{
+  "foreign_release_id": "spotify-WW:release:5lEQ9RF9W2jBIKT369b6XA",
+  "catalog": "spotify-WW",
+  "foreign_id": "spotify-WW:track:2gNWbsABh1pTOfTpIcnqhn",
+  "id": "TRSQPYC1338646BF1E"
+}	object {Newtonsoft.Json.Linq.JObject}
++		[5]	{
+  "foreign_release_id": "spotify-WW:release:58ukFMtQgwjVD9vMlfnSi9",
+  "catalog": "spotify-WW",
+  "foreign_id": "spotify-WW:track:12zqDJAOxhzXEnowObt2FL",
+  "id": "TRDUHPW1338646CCD5"
+}	object {Newtonsoft.Json.Linq.JObject}
++		[6]	{
+  "foreign_release_id": "spotify-WW:release:4wciNwfgbL74SJG9BFlf2R",
+  "catalog": "spotify-WW",
+  "foreign_id": "spotify-WW:track:1ytTeSRAU6IRo2itVDwtPv",
+  "id": "TRQDIOK1338644D820"
+}	object {Newtonsoft.Json.Linq.JObject}
++		Rohdatenansicht		
++		Rohdatenansicht		

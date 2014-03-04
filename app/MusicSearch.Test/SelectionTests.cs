@@ -10,12 +10,14 @@ using MusicSearch.SearchObjects;
 using MusicSearch.ResponseObjects;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.IO;
+
 
 namespace MusicSearch.Test
 {
 
     [TestClass]
-    public class testObjects
+    public class searchObjects
     {
         public String artist_id { get; set; }
         public String title_id { get; set; }
@@ -40,7 +42,7 @@ namespace MusicSearch.Test
         List<ResponseContainer.ResponseObj.Song> PlaylistRC = new List<ResponseContainer.ResponseObj.Song>();
         
         //TEST-LISTE
-        List<testObjects> testListe = new List<testObjects>();
+        List<searchObjects> searchListe = new List<searchObjects>();
 
         //neue Instanz vom ResponseContainer für die Vorschläge zur Artisten-Suche
         List<ResponseContainer.ResponseObj.ArtistSuggestion> ArtistSuggestionsRC = new List<ResponseContainer.ResponseObj.ArtistSuggestion>();
@@ -52,9 +54,40 @@ namespace MusicSearch.Test
         [TestMethod]
         public void startTests()
         {
-            SuggestionQuery("title",1,"roar");
 
-            //SearchQuery(/*Testliste*/);
+
+            //##################################
+            //TEST-Liste befüllen
+            //##################################
+            /*testListe.Add(new testObjects
+            {
+               genre = "Rock",
+               tangibleId = 1
+                
+            });*/
+            searchListe.Add(new searchObjects
+            {
+                artist_id = "ARH6W4X1187B99274F",
+                tangibleId = 2
+
+            });
+            searchListe.Add(new searchObjects
+            {
+                title_id = "SOFJZMT12A6D4F883D",
+                tangibleId = 3
+
+            });
+            //##################################
+            //##################################
+            Debug.WriteLine("Reading List...");
+            Debug.WriteLine("testliste.länge = " + searchListe.Count);
+
+
+            //Vorschlag-Anfrage
+            SuggestionQuery("title",1,"stan");
+
+            //Such-Anfrage
+            //SearchQuery(searchListe);
         }
 
 
@@ -108,11 +141,10 @@ namespace MusicSearch.Test
             {
                 JsonConvert.PopulateObject(JSONTangibleId, temp.Response.TitleSuggestions[i]);
                 TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
-                //
-                //event auslösen, dass ein neues ergebniss da ist. event listener zeigt dieses sofort an.
-                //
-
             }
+            //
+            //event auslösen, dass ein neues ergebniss da ist. event listener zeigt dieses sofort an.
+            //via sendSuggestionResults();
 
         }
 
@@ -123,60 +155,28 @@ namespace MusicSearch.Test
             */
         }
         
-        public void SearchQuery(/*List testListe*/)
+        public void SearchQuery(List<searchObjects> searchList)
         {
          
-            
-            //##################################
-            //TEST-Liste befüllen
-            //##################################
-            /*testListe.Add(new testObjects
-            {
-               genre = "Rock",
-               tangibleId = 1
-                
-            });*/
-            testListe.Add(new testObjects
-            {
-                artist_id = "ARH6W4X1187B99274F",
-                tangibleId = 2
-
-            });
-            testListe.Add(new testObjects
-            {
-                title_id = "SOFJZMT12A6D4F883D",
-                tangibleId = 3
-
-            });
-            //##################################
-            //##################################
-
-            Debug.WriteLine("Reading List...");
-            Debug.WriteLine("testliste.länge = " + testListe.Count);
-            
-
-            //#############################
-            //#           START           #
-            //#############################
             //TEST-Liste auslesen
-            for (int i = 0; i < testListe.Count; i++)
+            for (int i = 0; i < searchListe.Count; i++)
             {
-                if (!String.IsNullOrEmpty(testListe[i].artist_id))
+                if (!String.IsNullOrEmpty(searchListe[i].artist_id))
                 {
-                    Debug.WriteLine("\nFOUND ARTIST IN TESTLISTE: " + testListe[i].artist_id + " at position: " + i);
-                    SongsByArtistIDQuery(testListe[i].artist_id, testListe[i].tangibleId);
+                    Debug.WriteLine("\nFOUND ARTIST IN TESTLISTE: " + searchListe[i].artist_id + " at position: " + i);
+                    SongsByArtistIDQuery(searchListe[i].artist_id, searchListe[i].tangibleId);
                     
                 }
-                if (!String.IsNullOrEmpty(testListe[i].title_id))
+                if (!String.IsNullOrEmpty(searchListe[i].title_id))
                 {
-                    Debug.WriteLine("\nFOUND TITLE IN TESTLISTE: " + testListe[i].title_id + " at position: " + i);
-                    SongsByTitleIDQuery(testListe[i].title_id, testListe[i].tangibleId);
+                    Debug.WriteLine("\nFOUND TITLE IN TESTLISTE: " + searchListe[i].title_id + " at position: " + i);
+                    SongsByTitleIDQuery(searchListe[i].title_id, searchListe[i].tangibleId);
                     
                 }
-                if (!String.IsNullOrEmpty(testListe[i].genre))
+                if (!String.IsNullOrEmpty(searchListe[i].genre))
                 {
-                    Debug.WriteLine("\nFOUND GENRE IN TESTLISTE: " + testListe[i].genre + " at position: " + i);
-                    SongsByGenreQuery(testListe[i].genre, testListe[i].tangibleId);
+                    Debug.WriteLine("\nFOUND GENRE IN TESTLISTE: " + searchListe[i].genre + " at position: " + i);
+                    SongsByGenreQuery(searchListe[i].genre, searchListe[i].tangibleId);
 
                 }
             }
@@ -208,11 +208,11 @@ namespace MusicSearch.Test
             LoadOnlineResponse(request, ID); //Send Query
 
 
+            //Genre-Suche vertiefen (nice to have):
             //find similiar songs (or artists and then songs...) by those artists
             //bsp:
             //
         }
-
 
 
         public void SongsByTitleIDQuery(String title_id, int ID)
@@ -302,6 +302,11 @@ namespace MusicSearch.Test
                 //
 
             }
+           // var tempArray = SearchRC.ToArray();
+            //Debug.Write(SearchRC);
+            //File.WriteAllLines(@"C:\foo.txt", SearchRC.ConvertAll(Convert.ToString));
+            //Debug.WriteLine(SearchRC);
+            //Debug.WriteLine("\n" + SearchRC.ToString());
         }
 
         public void sendSearchResults()
