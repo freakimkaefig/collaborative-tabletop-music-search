@@ -30,7 +30,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <!--Button with command. This RelativeSource defines that the command is contained in the same data source
-                            (PlaylistViewModel) as the DataGrid-->
+                            (PlaylistViewModel) as the UserControl-->
                             <Button Command="{Binding DataContext.SelectCmd, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                                 CommandParameter="{Binding}">
                                 <Button.Content>
