@@ -10,12 +10,14 @@ using MusicSearch.SearchObjects;
 using MusicSearch.ResponseObjects;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.IO;
+
 
 namespace MusicSearch.Test
 {
 
     [TestClass]
-    public class testObjects
+    public class searchObjects
     {
         public String artist_id { get; set; }
         public String title_id { get; set; }
@@ -40,7 +42,7 @@ namespace MusicSearch.Test
         List<ResponseContainer.ResponseObj.Song> PlaylistRC = new List<ResponseContainer.ResponseObj.Song>();
         
         //TEST-LISTE
-        List<testObjects> testListe = new List<testObjects>();
+        List<searchObjects> searchListe = new List<searchObjects>();
 
         //neue Instanz vom ResponseContainer für die Vorschläge zur Artisten-Suche
         List<ResponseContainer.ResponseObj.ArtistSuggestion> ArtistSuggestionsRC = new List<ResponseContainer.ResponseObj.ArtistSuggestion>();
@@ -52,9 +54,40 @@ namespace MusicSearch.Test
         [TestMethod]
         public void startTests()
         {
-            SuggestionQuery("title",1,"roar");
 
-            //SearchQuery(/*Testliste*/);
+
+            //##################################
+            //TEST-Liste befüllen
+            //##################################
+            /*testListe.Add(new testObjects
+            {
+               genre = "Rock",
+               tangibleId = 1
+                
+            });*/
+            searchListe.Add(new searchObjects
+            {
+                artist_id = "ARH6W4X1187B99274F",
+                tangibleId = 2
+
+            });
+            searchListe.Add(new searchObjects
+            {
+                title_id = "SOFJZMT12A6D4F883D",
+                tangibleId = 3
+
+            });
+            //##################################
+            //##################################
+            Debug.WriteLine("Reading List...");
+            Debug.WriteLine("testliste.länge = " + searchListe.Count);
+
+
+            //Vorschlag-Anfrage
+            SuggestionQuery("artist",1,"emine");
+
+            //Such-Anfrage
+            //SearchQuery(searchListe);
         }
 
 
@@ -77,7 +110,7 @@ namespace MusicSearch.Test
 
         public void getTitleSuggestions(int ID, String term)
         {
-            /*
+            /*Bsp URL:
              http://developer.echonest.com/api/v4/song/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=roar
             */
             if (term.Contains(" "))
@@ -108,75 +141,75 @@ namespace MusicSearch.Test
             {
                 JsonConvert.PopulateObject(JSONTangibleId, temp.Response.TitleSuggestions[i]);
                 TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
-                //
-                //event auslösen, dass ein neues ergebniss da ist. event listener zeigt dieses sofort an.
-                //
-
             }
+            //
+            //event auslösen, dass ein neues ergebniss da ist. event listener zeigt dieses sofort an.
+            //via sendSuggestionResults();
 
         }
 
         public void getArtistSuggestions(int ID, String term)
         {
-            /*
-             * http://developer.echonest.com/api/v4/song/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=du+hast
+            /*Bsp URL:
+             * http://developer.echonest.com/api/v4/artist/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=emin
             */
+            if (term.Contains(" "))
+            {
+                term = term.Replace(" ", "+");
+                Debug.WriteLine("fixed term-spacing to: " + term);
+            }
+
+            term = term.ToLower();
+
+            String request = _defaultURL + "artist/search?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=" + term;
+
+            //JSON response delivered as string
+            String response = HttpRequester.StartRequest(request);
+            //transform "\'" to unicode equivalent
+            response = response.Replace("'", "&#39;");
+
+            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            //'songs' durch 'TitleSuggestions' ersetzen
+            var regex = new Regex(Regex.Escape("artists"));
+            var newText = regex.Replace(cleared, "ArtistSuggestions", 1);
+
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
+            //ID einfügen, zwecks Rückschlüssen
+            String JSONTangibleId = "{\"tangibleId\": \"" + ID + "\"}";
+
+            for (int i = 0; i < temp.Response.ArtistSuggestions.Count; i++)
+            {
+                JsonConvert.PopulateObject(JSONTangibleId, temp.Response.ArtistSuggestions[i]);
+                ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
+            }
+            //
+            //event auslösen, dass ein neues ergebniss da ist. event listener zeigt dieses sofort an.
+            //via sendSuggestionResults();
+
         }
         
-        public void SearchQuery(/*List testListe*/)
+        public void SearchQuery(List<searchObjects> searchList)
         {
          
-            
-            //##################################
-            //TEST-Liste befüllen
-            //##################################
-            /*testListe.Add(new testObjects
-            {
-               genre = "Rock",
-               tangibleId = 1
-                
-            });*/
-            testListe.Add(new testObjects
-            {
-                artist_id = "ARH6W4X1187B99274F",
-                tangibleId = 2
-
-            });
-            testListe.Add(new testObjects
-            {
-                title_id = "SOFJZMT12A6D4F883D",
-                tangibleId = 3
-
-            });
-            //##################################
-            //##################################
-
-            Debug.WriteLine("Reading List...");
-            Debug.WriteLine("testliste.länge = " + testListe.Count);
-            
-
-            //#############################
-            //#           START           #
-            //#############################
             //TEST-Liste auslesen
-            for (int i = 0; i < testListe.Count; i++)
+            for (int i = 0; i < searchListe.Count; i++)
             {
-                if (!String.IsNullOrEmpty(testListe[i].artist_id))
+                if (!String.IsNullOrEmpty(searchListe[i].artist_id))
                 {
-                    Debug.WriteLine("\nFOUND ARTIST IN TESTLISTE: " + testListe[i].artist_id + " at position: " + i);
-                    SongsByArtistIDQuery(testListe[i].artist_id, testListe[i].tangibleId);
+                    Debug.WriteLine("\nFOUND ARTIST IN TESTLISTE: " + searchListe[i].artist_id + " at position: " + i);
+                    SongsByArtistIDQuery(searchListe[i].artist_id, searchListe[i].tangibleId);
                     
                 }
-                if (!String.IsNullOrEmpty(testListe[i].title_id))
+                if (!String.IsNullOrEmpty(searchListe[i].title_id))
                 {
-                    Debug.WriteLine("\nFOUND TITLE IN TESTLISTE: " + testListe[i].title_id + " at position: " + i);
-                    SongsByTitleIDQuery(testListe[i].title_id, testListe[i].tangibleId);
+                    Debug.WriteLine("\nFOUND TITLE IN TESTLISTE: " + searchListe[i].title_id + " at position: " + i);
+                    SongsByTitleIDQuery(searchListe[i].title_id, searchListe[i].tangibleId);
                     
                 }
-                if (!String.IsNullOrEmpty(testListe[i].genre))
+                if (!String.IsNullOrEmpty(searchListe[i].genre))
                 {
-                    Debug.WriteLine("\nFOUND GENRE IN TESTLISTE: " + testListe[i].genre + " at position: " + i);
-                    SongsByGenreQuery(testListe[i].genre, testListe[i].tangibleId);
+                    Debug.WriteLine("\nFOUND GENRE IN TESTLISTE: " + searchListe[i].genre + " at position: " + i);
+                    SongsByGenreQuery(searchListe[i].genre, searchListe[i].tangibleId);
 
                 }
             }
@@ -208,11 +241,11 @@ namespace MusicSearch.Test
             LoadOnlineResponse(request, ID); //Send Query
 
 
+            //Genre-Suche vertiefen (nice to have):
             //find similiar songs (or artists and then songs...) by those artists
             //bsp:
             //
         }
-
 
 
         public void SongsByTitleIDQuery(String title_id, int ID)
@@ -302,6 +335,11 @@ namespace MusicSearch.Test
                 //
 
             }
+           // var tempArray = SearchRC.ToArray();
+            //Debug.Write(SearchRC);
+            //File.WriteAllLines(@"C:\foo.txt", SearchRC.ConvertAll(Convert.ToString));
+            //Debug.WriteLine(SearchRC);
+            //Debug.WriteLine("\n" + SearchRC.ToString());
         }
 
         public void sendSearchResults()

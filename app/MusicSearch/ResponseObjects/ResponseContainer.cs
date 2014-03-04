@@ -38,6 +38,7 @@ namespace MusicSearch.ResponseObjects
                 public String title { get; set; }
                 public String id { get; set; }
                 public int tangibleId { get; set; }
+                public String artist_name { get; set; }
             }
 
             public class Song
