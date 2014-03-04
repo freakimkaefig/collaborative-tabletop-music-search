@@ -66,7 +66,7 @@ namespace Ctms.Applications.Workers
             _menuViewModel.CanLogin = false;
         }
 
-        public void OpenPlaylist()
+        public void OpenPlaylist(Playlist playlist)
         {
 
         }

@@ -19,6 +19,7 @@ using MusicStream;
 using Ctms.Applications.Workers;
 using Helpers;
 using Microsoft.Surface.Presentation.Controls;
+using SpotifySharp;
 
 
 namespace Ctms.Applications.Controllers
@@ -64,7 +65,7 @@ namespace Ctms.Applications.Controllers
             //Commands
             this._exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
             this._loginCommand = new DelegateCommand((password) => _musicStreamAccountWorker.Login((SurfacePasswordBox)password));//, _musicStreamAccountWorker.CanLogin);
-            this._openPlaylistCommand = new DelegateCommand(_musicStreamAccountWorker.OpenPlaylist);
+            this._openPlaylistCommand = new DelegateCommand((playlist) => _musicStreamAccountWorker.OpenPlaylist((Playlist)playlist));
         }
 
         public void Initialize()
