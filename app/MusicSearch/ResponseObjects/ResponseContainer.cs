@@ -18,6 +18,7 @@ namespace MusicSearch.ResponseObjects
             public List<Song> Songs { get; set; }
             public List<ArtistSuggestion> ArtistSuggestions { get; set; }
             public List<TitleSuggestion> TitleSuggestions { get; set; }
+            public List<ArtistInfo> ArtistInfos { get; set; }
 
             public class StatusObj
             {
@@ -39,6 +40,23 @@ namespace MusicSearch.ResponseObjects
                 public String id { get; set; }
                 public int tangibleId { get; set; }
                 public String artist_name { get; set; }
+            }
+
+            public class ArtistInfo
+            {
+                public List<Object> terms { get; set; }
+                public String name { get; set; }
+                public List<Object> foreign_ids { get; set; }
+                public List<Object> blogs { get; set; }
+                public String id { get; set; }
+                public List<Object> reviews { get; set; }
+                public List<Object> biographies { get; set; }
+                public List<Object> years_active { get; set; }
+                public List<Object> video { get; set; }
+                public Object urls { get; set; }
+                public List<Object> images { get; set; }
+                public List<Object> news { get; set; }
+                public Object artist_location { get; set; }
             }
 
             public class Song
