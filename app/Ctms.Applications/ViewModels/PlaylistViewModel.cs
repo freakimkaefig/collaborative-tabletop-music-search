@@ -7,21 +7,28 @@ using System.Waf.Applications;
 using System.Windows.Input;
 using Ctms.Applications.Views;
 using Ctms.Domain.Objects;
+using System.Collections.ObjectModel;
 
 namespace Ctms.Applications.ViewModels
 {
     [Export]
     public class PlaylistViewModel : ViewModel<IPlaylistView>
     {
-        private bool isValid = true;
-        private Playlist playlist;
-        private ICommand selectCommand;
+        private bool _isValid = true;
+        private Playlist _playlist;
+        private ICommand _selectCmd;
+        private ObservableCollection<Playlist> _playlists;
 
 
         [ImportingConstructor]
         public PlaylistViewModel(IPlaylistView view)
             : base(view)
         {
+            _playlists = new ObservableCollection<Playlist>()
+            {
+                new Playlist() { Id = 1, Name = "Playlist1" },
+                new Playlist() { Id = 2, Name = "Playlist2" },
+            };
         }
 
 
@@ -29,39 +36,52 @@ namespace Ctms.Applications.ViewModels
 
         public bool IsValid
         {
-            get { return isValid; }
+            get { return _isValid; }
             set
             {
-                if (isValid != value)
+                if (_isValid != value)
                 {
-                    isValid = value;
+                    _isValid = value;
                     RaisePropertyChanged("IsValid");
+                }
+            }
+        }
+
+        public ObservableCollection<Playlist> Playlists
+        {
+            get { return _playlists; }
+            set
+            {
+                if (_playlists != value)
+                {
+                    _playlists = value;
+                    RaisePropertyChanged("Playlists");
                 }
             }
         }
 
         public Playlist Playlist
         {
-            get { return playlist; }
+            get { return _playlist; }
             set
             {
-                if (playlist != value)
+                if (_playlist != value)
                 {
-                    playlist = value;
+                    _playlist = value;
                     RaisePropertyChanged("Playlist");
                 }
             }
         }
 
-        public ICommand SelectCommand
+        public ICommand SelectCmd
         {
-            get { return selectCommand; }
+            get { return _selectCmd; }
             set
             {
-                if (selectCommand != value)
+                if (_selectCmd != value)
                 {
-                    selectCommand = value;
-                    RaisePropertyChanged("SelectCommand");
+                    _selectCmd = value;
+                    RaisePropertyChanged("SelectCmd");
                 }
             }
         }

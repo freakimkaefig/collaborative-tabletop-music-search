@@ -15,6 +15,7 @@ using System.Data.EntityClient;
 using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
+using Ctms.Domain.Objects;
 
 
 namespace Ctms.Applications.Controllers
@@ -31,42 +32,46 @@ namespace Ctms.Applications.Controllers
         //Services
         private readonly IShellService shellService;
         private readonly EntityService entityService;
+        private readonly IMessageService _messageService;
         //ViewModels
-        private PlaylistViewModel playlistViewModel;
+        private PlaylistViewModel _playlistVm;
         //Commands
-        private readonly DelegateCommand selectCommand;
+        private readonly DelegateCommand _selectCmd;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public PlaylistController(CompositionContainer container, IShellService shellService, EntityService entityService,
-            PlaylistViewModel playlistViewModel)
+            PlaylistViewModel playlistVm, IMessageService messageService)
         {
             this.container = container;
             //Services
             this.shellService = shellService;
             this.entityService = entityService;
+            _messageService = messageService;
             //ViewModels
-            this.playlistViewModel = playlistViewModel;
+            _playlistVm = playlistVm;
             //Commands
-            //this.chooseCommand      = new DelegateCommand(choosePlaylist, CanSelectPlaylist);
+            _selectCmd = new DelegateCommand((playlist) => SelectPlaylist((Playlist)playlist));
         }
 
         public void Initialize()
         {
-            AddWeakEventListener(playlistViewModel, PlaylistViewModelPropertyChanged);
+            AddWeakEventListener(_playlistVm, PlaylistViewModelPropertyChanged);
 
-            IPlaylistView playlistView = container.GetExportedValue<IPlaylistView>();
-            playlistViewModel = new PlaylistViewModel(playlistView);
-            playlistViewModel.SelectCommand = selectCommand;
-            AddWeakEventListener(playlistViewModel, PlaylistViewModelPropertyChanged);
+            _playlistVm.SelectCmd = _selectCmd;
 
-            shellService.PlaylistView = playlistViewModel.View;
+            shellService.PlaylistView = _playlistVm.View;
         }
 
         private void UpdateCommands()
         {
 
+        }
+
+        public void SelectPlaylist(Playlist playlist)
+        {
+            MessageServiceExtensions.ShowMessage(_messageService, "Clicked " + playlist.Name);
         }
 
         private void PlaylistViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
