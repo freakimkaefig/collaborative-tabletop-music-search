@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Ctms.Applications.Views;
 using System.Collections.ObjectModel;
 using SpotifySharp;
+using Ctms.Domain.Objects;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -29,14 +30,14 @@ namespace Ctms.Applications.ViewModels
         private string _goInput;
         private bool _isLoggedIn = false;
         private bool _menuIsVisible = false;
-        private ObservableCollection<Playlist> _playlists;
+        private ObservableCollection<SpotifyPlaylist> _playlists;
 
 
         [ImportingConstructor]
         public MenuViewModel(IMenuView view)
             : base(view)
         {
-            _playlists = new ObservableCollection<Playlist>();
+            _playlists = new ObservableCollection<SpotifyPlaylist>();
         }
 
         public bool IsEnabled { get { return true; } }//!! Has to be adjusted
@@ -184,7 +185,7 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ObservableCollection<Playlist> Playlists
+        public ObservableCollection<SpotifyPlaylist> Playlists
         {
             get { return _playlists; }
             set

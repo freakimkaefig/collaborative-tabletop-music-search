@@ -19,7 +19,7 @@ namespace Ctms.Applications.ViewModels
         private bool _playing = false;
         private bool _prelistening = false;
 
-        private Ctms.Domain.Objects.Playlist _playlist;
+        private Ctms.Domain.Objects.SpotifyPlaylist _playlist;
         private Track _currentTrack;
 
         //Commands
@@ -88,7 +88,7 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public Ctms.Domain.Objects.Playlist Playlist
+        public Ctms.Domain.Objects.SpotifyPlaylist Playlist
         {
             get { return _playlist; }
             set

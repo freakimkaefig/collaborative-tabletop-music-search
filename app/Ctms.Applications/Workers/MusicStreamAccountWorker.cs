@@ -7,6 +7,7 @@ using Microsoft.Surface.Presentation.Controls;
 using SpotifySharp;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Ctms.Domain.Objects;
 
 
 namespace Ctms.Applications.Workers
@@ -66,7 +67,7 @@ namespace Ctms.Applications.Workers
             _menuViewModel.CanLogin = false;
         }
 
-        public void OpenPlaylist(Playlist playlist)
+        public void OpenPlaylist(SpotifyPlaylist spotifyPlaylist)
         {
 
         }
@@ -84,9 +85,13 @@ namespace Ctms.Applications.Workers
         private void ReadyForPlayback(ObservableCollection<Playlist> playlists)
         {
             _playlistViewModel.ReadyForPlayback = true;
-            this._playlists = playlists;
-            _menuViewModel.Playlists = playlists;
-            _menuViewModel.PlaylistName = _menuViewModel.Playlists[0].Name();
+            _playlists = playlists;
+
+            foreach (var playlist in playlists)
+            {
+                _menuViewModel.Playlists.Add(new SpotifyPlaylist() { Playlist = playlist });
+                _menuViewModel.PlaylistName = _menuViewModel.Playlists[0].Playlist.Name();
+            }
         }
     }
 }

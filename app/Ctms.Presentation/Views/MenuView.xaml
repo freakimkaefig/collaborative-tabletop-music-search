@@ -13,6 +13,7 @@
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true"-->
     <Grid Margin="0,0,0,0">
+        
     	<VisualStateManager.VisualStateGroups>
     		<VisualStateGroup x:Name="HideShowMenu">
     			<VisualStateGroup.Transitions>
@@ -206,7 +207,7 @@
                     <DataGridTemplateColumn Header="" Width="Auto" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <s:SurfaceButton Content="Name" Command="{Binding DataContext.OpenPlaylistCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+                                <s:SurfaceButton Content="Playlist.Name" Command="{Binding DataContext.OpenPlaylistCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
                                 </s:SurfaceButton>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

@@ -67,7 +67,7 @@
     <Compile Include="CtmsEntities.cs" />
     <Compile Include="Objects\Detail.cs" />
     <Compile Include="Objects\Result.cs" />
-    <Compile Include="Objects\Playlist.cs" />
+    <Compile Include="Objects\SpotifyPlaylist.cs" />
     <Compile Include="Objects\Search.cs" />
     <Compile Include="Objects\Song.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
