@@ -84,7 +84,7 @@ namespace MusicSearch.Test
 
 
             //Vorschlag-Anfrage
-            SuggestionQuery("title",1,"stan");
+            SuggestionQuery("artist",1,"emine");
 
             //Such-Anfrage
             //SearchQuery(searchListe);
@@ -110,7 +110,7 @@ namespace MusicSearch.Test
 
         public void getTitleSuggestions(int ID, String term)
         {
-            /*
+            /*Bsp URL:
              http://developer.echonest.com/api/v4/song/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=roar
             */
             if (term.Contains(" "))
@@ -150,9 +150,42 @@ namespace MusicSearch.Test
 
         public void getArtistSuggestions(int ID, String term)
         {
-            /*
-             * http://developer.echonest.com/api/v4/song/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=du+hast
+            /*Bsp URL:
+             * http://developer.echonest.com/api/v4/artist/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=emin
             */
+            if (term.Contains(" "))
+            {
+                term = term.Replace(" ", "+");
+                Debug.WriteLine("fixed term-spacing to: " + term);
+            }
+
+            term = term.ToLower();
+
+            String request = _defaultURL + "artist/search?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=" + term;
+
+            //JSON response delivered as string
+            String response = HttpRequester.StartRequest(request);
+            //transform "\'" to unicode equivalent
+            response = response.Replace("'", "&#39;");
+
+            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            //'songs' durch 'TitleSuggestions' ersetzen
+            var regex = new Regex(Regex.Escape("artists"));
+            var newText = regex.Replace(cleared, "ArtistSuggestions", 1);
+
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
+            //ID einfügen, zwecks Rückschlüssen
+            String JSONTangibleId = "{\"tangibleId\": \"" + ID + "\"}";
+
+            for (int i = 0; i < temp.Response.ArtistSuggestions.Count; i++)
+            {
+                JsonConvert.PopulateObject(JSONTangibleId, temp.Response.ArtistSuggestions[i]);
+                ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
+            }
+            //
+            //event auslösen, dass ein neues ergebniss da ist. event listener zeigt dieses sofort an.
+            //via sendSuggestionResults();
+
         }
         
         public void SearchQuery(List<searchObjects> searchList)
