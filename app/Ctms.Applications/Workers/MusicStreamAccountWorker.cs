@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel.Composition;
 using MusicStream;
 using Helpers;
 using Ctms.Applications.ViewModels;
-using System.Waf.Applications.Services;
 using Microsoft.Surface.Presentation.Controls;
+using SpotifySharp;
+using System.Collections.Generic;
 
 
 namespace Ctms.Applications.Workers
@@ -20,6 +18,7 @@ namespace Ctms.Applications.Workers
     {
         private string _spotifyUsername = "mybleton";
         private string _spotifyPassword = "ctms";
+        private List<Playlist> _playlists;
 
         private MusicStreamSessionManager _sessionManager;
         private MenuViewModel _menuViewModel;
@@ -27,14 +26,11 @@ namespace Ctms.Applications.Workers
 
         public Action<MusicStreamSessionManager> SessionManagerCreated;
 
-        private IMessageService _messageService;
-
         [ImportingConstructor]
-        public MusicStreamAccountWorker(MenuViewModel menuViewModel, PlaylistViewModel playlistViewModel, IMessageService messageService)
+        public MusicStreamAccountWorker(MenuViewModel menuViewModel, PlaylistViewModel playlistViewModel)
         {
             _menuViewModel = menuViewModel;
             _playlistViewModel = playlistViewModel;
-            _messageService = messageService;
 
             _menuViewModel.CanLogin = true;
         }
@@ -69,6 +65,11 @@ namespace Ctms.Applications.Workers
             _menuViewModel.CanLogin = false;
         }
 
+        public void OpenPlaylist(string playlistName)
+        {
+
+        }
+
         private void ReceiveLogMessage(string logMessage)
         {
             _menuViewModel.LoginLogMessage += "\n" + CodeHelpers.GetTimeStamp() + "\n" +logMessage + "\n";
@@ -79,9 +80,11 @@ namespace Ctms.Applications.Workers
             _menuViewModel.IsLoggedIn = true;
         }
 
-        private void ReadyForPlayback()
+        private void ReadyForPlayback(List<Playlist> playlists)
         {
             _playlistViewModel.ReadyForPlayback = true;
+            this._playlists = playlists;
+            _menuViewModel.PlaylistName = _playlists[0].Name();
         }
     }
 }

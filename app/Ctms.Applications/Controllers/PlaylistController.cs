@@ -91,6 +91,11 @@ namespace Ctms.Applications.Controllers
                 UpdateCommands();
             }
 
+            if (e.PropertyName == "Prelistening")
+            {
+                //
+            }
+
             if (e.PropertyName == "CurrentTrack")//SelectedSong is just an example
             {
                 //...

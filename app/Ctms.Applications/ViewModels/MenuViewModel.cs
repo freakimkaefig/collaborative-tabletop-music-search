@@ -19,11 +19,13 @@ namespace Ctms.Applications.ViewModels
         //Commands
         private ICommand _exitAppCommand;
         private ICommand _loginCommand;
+        private ICommand _openPlaylistCommand;
         private ICommand _goCommand;
         //
         private string _spotifyLoginMenuItem = "Login to Spotify";
         private string _spotifyUsernameInput = null;
         private string _loginLogMessage;
+        private string _playlistName = null;
         private string _goInput;
         private bool _isLoggedIn = false;
         private bool _menuIsVisible = false;
@@ -89,6 +91,19 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public ICommand OpenPlaylistCommand
+        {
+            get { return _openPlaylistCommand; }
+            set
+            {
+                if (_openPlaylistCommand != value)
+                {
+                    _openPlaylistCommand = value;
+                    RaisePropertyChanged("OpenPlaylistCommand");
+                }
+            }
+        }
+
         public string SpotifyLoginMenuItem
         {
             get { return _spotifyLoginMenuItem; }
@@ -111,6 +126,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _spotifyUsernameInput = value;
                     RaisePropertyChanged("SpotifyUsernameInput");
+                }
+            }
+        }
+
+        public string PlaylistName
+        {
+            get { return _playlistName; }
+            set
+            {
+                if (_playlistName != value)
+                {
+                    _playlistName = value;
+                    RaisePropertyChanged("PlaylistName");
                 }
             }
         }

@@ -27,9 +27,11 @@ namespace MusicStream
         //Actions
         public Action<string> receiveLogMessage;
         public Action SpotifyLoggedIn;
-        public Action ReadyForPlayback;
+        public Action<List<Playlist>> ReadyForPlayback;
 
         //public Action<Track> GetLoadedTrackCompleted;
+        public Action PrelistenStarted;
+        public Action PrelistenStopped;
         public Action PlaybackStarted;
         public Action PlaybackPaused;
         public Action PlaybackStopped;
@@ -37,6 +39,7 @@ namespace MusicStream
 
         private string _credentialsBlob = null;
         private object _userdata = null;
+        private List<Playlist> _playlists;
 
         public ConcurrentQueue<string> logMessages;
         SynchronizationContext syncContext;
@@ -74,9 +77,7 @@ namespace MusicStream
             timer = new System.Threading.Timer(obj => InvokeProcessEvents(_session), null, Timeout.Infinite, Timeout.Infinite);
 
             //Creating new SpotifySession
-            _session = SpotifySession.Create(config);
-
-                     
+            _session = SpotifySession.Create(config);       
         }
 
         //SETTER & GETTER
@@ -112,7 +113,11 @@ namespace MusicStream
 
         public void StartPrelisteningTrack(String spotifyTrackId)
         {
-            _backgroundWorkHelper.DoInBackground(PrelistenWorker, PrelistenCompleted, spotifyTrackId);
+            _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, spotifyTrackId);
+        }
+        public void StopPrelisteningTrack()
+        {
+            _backgroundWorkHelper.DoInBackground(PrelistenStopWorker, PrelistenStopCompleted);
         }
 
         
@@ -156,38 +161,29 @@ namespace MusicStream
 
         public void PlaylistContainerLoadedCallback()
         {
-            //Logging available Playlists
-            /*
+            //Retrieving available user playlists
+            _playlists = new List<Playlist>();
             for (int i = 0; i < _playlistContainer.NumPlaylists(); i++)
             {
-                logMessages.Enqueue("Found Playlist: (" + i + ")" + _playlistContainer.Playlist(i).Name());
+                _playlists.Add(_playlistContainer.Playlist(i));
+                //logMessages.Enqueue("Found Playlist: (" + i + ")" + _playlistContainer.Playlist(i).Name());
             }
-             * */
 
             //Create Buffer, Stats & AudioDevice
             _prelistenBufferedWaveProvider = new BufferedWaveProvider(new WaveFormat()); //Create new Buffer
             _prelistenBufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(240);
-            _copiedFrames = new byte[5000];
+            //_copiedFrames = new byte[5000];
             _audioBufferStats = new AudioBufferStats(); //Create stats for Spotify
             _prelistenWaveOutDevice = new WaveOut(); //Create new AudioDevice
             _prelistenWaveOutDevice.Init(_prelistenBufferedWaveProvider);
 
             //Notify PlaylistWorker that Playback is ready to start!!!
             logMessages.Enqueue("READY FOR PLAYBACK");
-            ReadyForPlayback();
+            ReadyForPlayback(_playlists);
         }
 
         public void MusicDeliveryCallback(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
         {
-            /*
-            Dictionary<string, object> musicDelivery = new Dictionary<string, object>();
-            musicDelivery.Add("format.channels", format.channels);
-            musicDelivery.Add("frames", frames);
-            musicDelivery.Add("num_frames", num_frames);
-            _backgroundWorkHelper.DoInBackground(MusicDeliveryWorker, MusicDeliveryCompleted, musicDelivery);
-            */
-            
-            
             var size = num_frames * format.channels * 2;
             if (size != 0)
             {
@@ -195,7 +191,6 @@ namespace MusicStream
                 Marshal.Copy(frames, _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
                 _prelistenBufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
             }
-            
         }
 
         public void EndOfTrack(SpotifySession session)
@@ -212,53 +207,41 @@ namespace MusicStream
 
         /*---------- BACKGROUNDHELPERS ----------*/
         //Login
-        public void LoginWorker(object sender, DoWorkEventArgs e)
+        private void LoginWorker(object sender, DoWorkEventArgs e)
         {
             _session.Login((string)((Dictionary<string, object>)e.Argument)["username"], (string)((Dictionary<string, object>)e.Argument)["password"], false, CredentialsBlob);
         }
-        public void LoginCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void LoginCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
 
         }
 
         //Prelisten
-        public void PrelistenWorker(object sender, DoWorkEventArgs e)
+        private void PrelistenPlayWorker(object sender, DoWorkEventArgs e)
         {
             Track track = Track.GetPlayable(_session, Link.CreateFromString((String)e.Argument).AsTrack());
             _session.PlayerLoad(track);
             _session.PlayerPrefetch(track);
-            _session.PlayerSeek(200);
+            var duration = track.Duration();
+            _session.PlayerSeek(track.Duration()/2);    //Seek to half of the song for prelistening
             _session.PlayerPlay(true);
             _prelistenWaveOutDevice.Play();
-            PlaybackStarted();
         }
-        public void PrelistenCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void PrelistenPlayCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            
+            //PlaybackStarted();
+            PrelistenStarted();
         }
 
-        //MusicDelivery
-        public void MusicDeliveryWorker(object sender, DoWorkEventArgs e)
+        private void PrelistenStopWorker(object sender, DoWorkEventArgs e)
         {
-            var size = (int)((Dictionary<string, object>)e.Argument)["num_frames"] * (int)((Dictionary<string, object>)e.Argument)["format.channels"] * 2;
-            if (size != 0)
-            {
-                Marshal.Copy((IntPtr)((Dictionary<string, object>)e.Argument)["frames"], _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
-                _prelistenBufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
-
-                /*
-                unsafe
-                {
-                    var p = ((IntPtr)((Dictionary<string, object>)e.Argument)["frames"]).ToPointer();
-                    _prelistenBufferedWaveProvider.AddSamples(p, 0, size);
-                }
-                */
-                //_prelistenBufferedWaveProvider.AddSamples(BitConverter.GetBytes((Int16) ( (IntPtr) ( (Dictionary<string, object>) e.Argument)["frames"]) ), 0, size);
-            }
+            _prelistenWaveOutDevice.Stop();
+            _session.PlayerPlay(false);
+            _session.PlayerUnload();
         }
-        public void MusicDeliveryCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void PrelistenStopCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-
+            PrelistenStopped();
         }
 
 

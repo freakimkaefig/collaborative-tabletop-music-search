@@ -44,10 +44,22 @@ namespace Ctms.Applications.Workers
             this._sessionManager = sessionManager;
 
             //_sessionManager.GetLoadedTrackCompleted = GetLoadedTrackCompleted;
+            _sessionManager.PrelistenStarted = PrelistenStarted;
+            _sessionManager.PrelistenStopped = PrelistenStopped;
             _sessionManager.PlaybackStarted = PlaybackStarted;
             _sessionManager.PlaybackPaused = PlaybackPaused;
             _sessionManager.PlaybackStopped = PlaybackStopped;
             _sessionManager.PlaybackEndOfTrack = EndOfTrack;
+        }
+
+        private void PrelistenStarted()
+        {
+            _playlistViewModel.Prelistening = true;
+        }
+
+        private void PrelistenStopped()
+        {
+            _playlistViewModel.Prelistening = false;
         }
 
         private void PlaybackStarted()
@@ -88,8 +100,15 @@ namespace Ctms.Applications.Workers
         //PUBLIC METHODS
         public void Prelisten(string id)
         {
-            //Called when Button "Prelisten" from ResultView clicked
-            _sessionManager.StartPrelisteningTrack(id);
+            if (_playlistViewModel.Prelistening || _playlistViewModel.Playing)
+            {
+                _sessionManager.StopPrelisteningTrack();
+                _sessionManager.StopTrack();
+            }
+            else
+            {
+                _sessionManager.StartPrelisteningTrack(id);
+            }
         }
     }
 }

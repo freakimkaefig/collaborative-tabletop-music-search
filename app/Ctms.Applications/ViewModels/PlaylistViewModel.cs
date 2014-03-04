@@ -17,6 +17,7 @@ namespace Ctms.Applications.ViewModels
         private bool isValid = true;
         private bool _readyForPlayback = false;
         private bool _playing = false;
+        private bool _prelistening = false;
 
         private Ctms.Domain.Objects.Playlist _playlist;
         private Track _currentTrack;
@@ -70,6 +71,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _playing = value;
                     RaisePropertyChanged("Playing");
+                }
+            }
+        }
+
+        public bool Prelistening
+        {
+            get { return _prelistening; }
+            set
+            {
+                if (_prelistening != value)
+                {
+                    _prelistening = value;
+                    RaisePropertyChanged("Prelistening");
                 }
             }
         }

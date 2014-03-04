@@ -43,6 +43,7 @@ namespace Ctms.Applications.Controllers
         //Commands
         private readonly DelegateCommand _exitAppCommand;
         private readonly DelegateCommand _loginCommand;
+        private readonly DelegateCommand _openPlaylistCommand;
         //Further vars
         
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
@@ -63,6 +64,7 @@ namespace Ctms.Applications.Controllers
             //Commands
             this._exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
             this._loginCommand = new DelegateCommand((password) => _musicStreamAccountWorker.Login((SurfacePasswordBox)password));//, _musicStreamAccountWorker.CanLogin);
+            this._openPlaylistCommand = new DelegateCommand((playlistName) => _musicStreamAccountWorker.OpenPlaylist((string)playlistName));
         }
 
         public void Initialize()
@@ -71,6 +73,8 @@ namespace Ctms.Applications.Controllers
             //Commands
             _menuViewModel.ExitAppCommand = _exitAppCommand;
             _menuViewModel.LoginCommand = _loginCommand;
+            _menuViewModel.OpenPlaylistCommand = _openPlaylistCommand;
+
             AddWeakEventListener(_menuViewModel, MenuViewModelPropertyChanged);
 
             _shellService.MenuView = _menuViewModel.View;
@@ -120,6 +124,11 @@ namespace Ctms.Applications.Controllers
             }
 
             if (e.PropertyName == "SpotifyPasswordInput")
+            {
+                //
+            }
+
+            if (e.PropertyName == "PlaylistName")
             {
                 //
             }
