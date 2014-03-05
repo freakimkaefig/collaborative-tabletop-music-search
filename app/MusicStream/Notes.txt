@@ -124,3 +124,26 @@ public void OpenPlaylist(Playlist playlist)
             //LoadTrack(playlist.Track(0));
             _currentTrackIndex = 0;
         }
+
+
+
+<!--<DataGrid ItemsSource="{Binding Playlists}" AutoGenerateColumns="False" Margin="0,25.83,0,0" >
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="" Width="Auto" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <s:SurfaceButton Content="{Binding Name}" Command="{Binding DataContext.OpenPlaylistCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewTouchDown">
+                                            <ei:GoToStateAction StateName="OpenPlaylistDialogInvisible"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Click">
+                                            <ei:GoToStateAction StateName="OpenPlaylistDialogInvisible"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </s:SurfaceButton>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>-->

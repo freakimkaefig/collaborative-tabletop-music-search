@@ -52,6 +52,7 @@ namespace MusicStream
         {
             base.LoggedOut(session);
             _sessionManager.logMessages.Enqueue("Spotify: LOGGED OUT");  //Logging LogoutMessage to TextBox
+            _sessionManager.LoggedOutCallback();
         }
 
         public override void UserinfoUpdated(SpotifySession session)

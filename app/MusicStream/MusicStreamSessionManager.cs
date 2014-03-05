@@ -23,14 +23,12 @@ namespace MusicStream
         private PlaylistContainer _playlistContainer;
         private MusicStreamPlaylistContainerListener _playlistContainerListener;
         private MusicStreamPlaylistListener _playlistListener;
-        //private MusicStreamPlaylistManager _playlistManager;
 
         //Actions
         public Action<string> receiveLogMessage;
         public Action SpotifyLoggedIn;
+        public Action SpotifyLoggedOut;
         public Action<ObservableCollection<Playlist>> ReadyForPlayback;
-
-        //public Action<Track> GetLoadedTrackCompleted;
         public Action PrelistenStarted;
         public Action PrelistenStopped;
         public Action PlaybackStarted;
@@ -112,6 +110,11 @@ namespace MusicStream
             //_session.Login(_spotifyUsername, _spotifyPassword, true, CredentialsBlob);
         }
 
+        public void Logout()
+        {
+
+        }
+
         public void StartPrelisteningTrack(String spotifyTrackId)
         {
             _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, spotifyTrackId);
@@ -119,6 +122,11 @@ namespace MusicStream
         public void StopPrelisteningTrack()
         {
             _backgroundWorkHelper.DoInBackground(PrelistenStopWorker, PrelistenStopCompleted);
+        }
+
+        public void OpenPlaylists(Playlist playlist)
+        {
+            _backgroundWorkHelper.DoInBackground(OpenPlaylistWorker, OpenPlaylistCompleted, playlist);
         }
 
         
@@ -158,6 +166,11 @@ namespace MusicStream
             _playlistContainer = _session.Playlistcontainer();
             _playlistContainerListener = new MusicStreamPlaylistContainerListener(this);
             _playlistContainer.AddCallbacks(_playlistContainerListener, Userdata);
+        }
+
+        public void LoggedOutCallback()
+        {
+            SpotifyLoggedOut();
         }
 
         public void PlaylistContainerLoadedCallback()
@@ -217,6 +230,15 @@ namespace MusicStream
 
         }
 
+        private void LogoutWorker(object sender, DoWorkEventArgs e)
+        {
+            _session.Logout();
+        }
+        private void LogoutCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
         //Prelisten
         private void PrelistenPlayWorker(object sender, DoWorkEventArgs e)
         {
@@ -243,6 +265,21 @@ namespace MusicStream
         private void PrelistenStopCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             PrelistenStopped();
+        }
+
+        private void OpenPlaylistWorker(object sender, DoWorkEventArgs e)
+        {
+            _playlistListener = new MusicStreamPlaylistListener(this);
+            ((Playlist)e.Argument).AddCallbacks(_playlistListener, Userdata);
+            e.Result = (Playlist)e.Argument;
+        }
+        private void OpenPlaylistCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            logMessages.Enqueue("Playlist '" + ((Playlist)e.Result).Name() + "' opened");
+            for (var i = 0; i < ((Playlist)e.Result).NumTracks(); i++)
+            {
+                logMessages.Enqueue("Track " + i + ": " + ((Playlist)e.Result).Track(i).Artist(0).Name() + " - " + ((Playlist)e.Result).Track(i).Name());
+            }
         }
 
 

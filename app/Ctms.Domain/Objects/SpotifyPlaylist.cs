@@ -10,5 +10,16 @@ namespace Ctms.Domain.Objects
     public class SpotifyPlaylist
     {
         public Playlist Playlist { get; set; }
+        public string Name
+        {
+            get
+            {
+                return Playlist.Name();
+            }
+            set
+            {
+                Playlist.Rename(value);
+            }
+        }
     }
 }

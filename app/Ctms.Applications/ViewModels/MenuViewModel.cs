@@ -16,14 +16,15 @@ namespace Ctms.Applications.ViewModels
     public class MenuViewModel : ViewModel<IMenuView>
     {
         private bool isValid = true;
-        private bool _canLogin = false;
+        private bool _canLogin = true;
+        private string _loginButtonContent = "Spotify Login";
         //Commands
         private ICommand _exitAppCommand;
         private ICommand _loginCommand;
+        private ICommand _logoutCommand;
         private ICommand _openPlaylistCommand;
         private ICommand _goCommand;
         //
-        private string _spotifyLoginMenuItem = "Login to Spotify";
         private string _spotifyUsernameInput = null;
         private string _loginLogMessage;
         private string _playlistName = null;
@@ -68,6 +69,19 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public string LoginButtonContent
+        {
+            get { return _loginButtonContent; }
+            set
+            {
+                if (_loginButtonContent != value)
+                {
+                    _loginButtonContent = value;
+                    RaisePropertyChanged("LoginButtonContent");
+                }
+            }
+        }
+
         public ICommand ExitAppCommand
         {
             get { return _exitAppCommand; }
@@ -94,6 +108,19 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public ICommand LogoutCommand
+        {
+            get { return _logoutCommand; }
+            set
+            {
+                if (_logoutCommand != value)
+                {
+                    _logoutCommand = value;
+                    RaisePropertyChanged("LogoutCommand");
+                }
+            }
+        }
+
         public ICommand OpenPlaylistCommand
         {
             get { return _openPlaylistCommand; }
@@ -103,19 +130,6 @@ namespace Ctms.Applications.ViewModels
                 {
                     _openPlaylistCommand = value;
                     RaisePropertyChanged("OpenPlaylistCommand");
-                }
-            }
-        }
-
-        public string SpotifyLoginMenuItem
-        {
-            get { return _spotifyLoginMenuItem; }
-            set
-            {
-                if (_spotifyLoginMenuItem != value)
-                {
-                    _spotifyLoginMenuItem = value;
-                    RaisePropertyChanged("SpotifyLoginMenuItem");
                 }
             }
         }

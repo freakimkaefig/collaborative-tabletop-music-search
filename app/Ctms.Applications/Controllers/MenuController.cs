@@ -28,7 +28,7 @@ namespace Ctms.Applications.Controllers
     //!!Note: The content of this class is just an example and has to be adjusted.
 
     /// <summary>
-    /// Responsible for the playlist management.
+    /// Responsible for the menu management.
     /// </summary>
     [Export]
     internal class MenuController : Controller
@@ -45,6 +45,7 @@ namespace Ctms.Applications.Controllers
         //Commands
         private readonly DelegateCommand _exitAppCommand;
         private readonly DelegateCommand _loginCommand;
+        private readonly DelegateCommand _logoutCommand;
         private readonly DelegateCommand _openPlaylistCommand;
         //Further vars
         
@@ -65,7 +66,8 @@ namespace Ctms.Applications.Controllers
             _musicStreamAccountWorker = musicStreamAccountWorker;
             //Commands
             this._exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
-            this._loginCommand = new DelegateCommand((password) => _musicStreamAccountWorker.Login((SurfacePasswordBox)password));//, _musicStreamAccountWorker.CanLogin);
+            this._loginCommand = new DelegateCommand((password) => _musicStreamAccountWorker.Login((SurfacePasswordBox)password));
+            this._logoutCommand = new DelegateCommand(_musicStreamAccountWorker.Logout);
             this._openPlaylistCommand = new DelegateCommand((playlist) => _musicStreamAccountWorker.OpenPlaylist((SpotifyPlaylist)playlist));
         }
 
@@ -75,6 +77,7 @@ namespace Ctms.Applications.Controllers
             //Commands
             _menuViewModel.ExitAppCommand = _exitAppCommand;
             _menuViewModel.LoginCommand = _loginCommand;
+            _menuViewModel.LogoutCommand = _logoutCommand;
             _menuViewModel.OpenPlaylistCommand = _openPlaylistCommand;
 
             AddWeakEventListener(_menuViewModel, MenuViewModelPropertyChanged);
@@ -85,6 +88,8 @@ namespace Ctms.Applications.Controllers
         private void UpdateCommands()
         {
             _loginCommand.RaiseCanExecuteChanged();
+            _logoutCommand.RaiseCanExecuteChanged();
+            _openPlaylistCommand.RaiseCanExecuteChanged();
         }
 
         private void ExitApp()
@@ -102,20 +107,22 @@ namespace Ctms.Applications.Controllers
                 if (_menuViewModel.IsLoggedIn == true)
                 {
                     _menuViewModel.CanLogin = false;
+                    _menuViewModel.LoginButtonContent = "Spotify Logout";
                 }
                 else
                 {
                     _menuViewModel.CanLogin = true;
+                    _menuViewModel.LoginButtonContent = "Spotify Logout";
                 }
                 UpdateCommands();
             }
 
-            if (e.PropertyName == "MenuIsVisible")
+            if (e.PropertyName == "CanLogin")
             {
-                //
+
             }
 
-            if (e.PropertyName == "SpotifyLoginMenuItem")
+            if (e.PropertyName == "MenuIsVisible")
             {
                 //
             }

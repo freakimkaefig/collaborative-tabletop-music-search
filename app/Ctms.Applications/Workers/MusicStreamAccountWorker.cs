@@ -33,8 +33,6 @@ namespace Ctms.Applications.Workers
         {
             _menuViewModel = menuViewModel;
             _playlistViewModel = playlistViewModel;
-
-            _menuViewModel.CanLogin = true;
         }
 
         //Getter
@@ -53,23 +51,23 @@ namespace Ctms.Applications.Workers
 
         public void Login(SurfacePasswordBox spotifyPasswordInput)
         {
-            //string spotifyUsername = _menuViewModel.SpotifyUsernameInput;
-            //MessageServiceExtensions.ShowMessage(_messageService, "Username: " + spotifyUsername + "\nPassword: " + spotifyPasswordInput.Password);
-            
             _sessionManager = new MusicStreamSessionManager();
             SessionManagerCreated(_sessionManager);
             _sessionManager.receiveLogMessage = ReceiveLogMessage;
             _sessionManager.SpotifyLoggedIn = SpotifyLoggedIn;
+            _sessionManager.SpotifyLoggedOut = SpotifyLoggedOut;
             _sessionManager.ReadyForPlayback = ReadyForPlayback;
             _sessionManager.Login(_menuViewModel.SpotifyUsernameInput, spotifyPasswordInput.Password);
+        }
 
-            //_menuViewModel.SpotifyLoginMenuItem = "Logout from Spotify";
-            _menuViewModel.CanLogin = false;
+        public void Logout()
+        {
+            _sessionManager.Logout();
         }
 
         public void OpenPlaylist(SpotifyPlaylist spotifyPlaylist)
         {
-
+            _sessionManager.OpenPlaylists(spotifyPlaylist.Playlist);
         }
 
         private void ReceiveLogMessage(string logMessage)
@@ -80,6 +78,11 @@ namespace Ctms.Applications.Workers
         private void SpotifyLoggedIn()
         {
             _menuViewModel.IsLoggedIn = true;
+        }
+
+        private void SpotifyLoggedOut()
+        {
+            _menuViewModel.IsLoggedIn = false;
         }
 
         private void ReadyForPlayback(ObservableCollection<Playlist> playlists)
