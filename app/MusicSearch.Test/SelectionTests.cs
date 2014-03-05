@@ -96,7 +96,7 @@ namespace MusicSearch.Test
             //SearchQuery(searchListe);
 
             //Detail-View Info's Anfrage
-            //getDetailInfo(null, "ARH6W4X1187B99274F");
+            getDetailInfo(null, "ARH6W4X1187B99274F", "123");
 
             //api key holen
             var temp = GetAPIKey();
@@ -104,7 +104,7 @@ namespace MusicSearch.Test
             
         }
 
-        public void getDetailInfo(String artist_name, String artist_id/*, String title*/)
+        public void getDetailInfo(String artist_name, String artist_id, String originID)
         {
             //check if artist-name or artist-id is available
             if (!String.IsNullOrEmpty(artist_id))
@@ -122,12 +122,12 @@ namespace MusicSearch.Test
                 String name = splitted[27].ToString();
 
                 //do a query by artist_name
-                getArtistInfo(name);
+                getArtistInfo(name, originID);
             }
             else if (!String.IsNullOrEmpty(artist_name))
             {
                 //do a query by artist_name
-                getArtistInfo(artist_name);
+                getArtistInfo(artist_name, originID);
             }
             //#################################
             //#################################
@@ -146,7 +146,7 @@ namespace MusicSearch.Test
             //#################################
         }
 
-        public void getArtistInfo(String artist/*,String ID*/)
+        public void getArtistInfo(String artist, String ID)
         {
             //###########################################
             //###########################################
@@ -182,7 +182,8 @@ namespace MusicSearch.Test
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             //ID einfügen, zwecks Rückschlüssen
-            //String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
+            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
+            JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistInfos[0]);
             ArtistInfosRC.Add(temp.Response.ArtistInfos[0]);
             
             /* Liste der Songs:
@@ -221,11 +222,6 @@ namespace MusicSearch.Test
                  * 
                  * */
 
-
-            //###########################################
-            //###########################################
-            //event auslösen, dass ein neues ergebniss da ist. event listener zeigt dieses sofort an.
-            //via sendSuggestionResults();
         }
 
         public void SuggestionQuery(String type, int ID, String term)
@@ -280,9 +276,6 @@ namespace MusicSearch.Test
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
                 TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
             }
-            //###########################################
-            //event auslösen, dass ein neues ergebniss da ist. event listener zeigt dieses sofort an.
-            //via sendSuggestionResults();
 
         }
 
@@ -325,10 +318,6 @@ namespace MusicSearch.Test
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistSuggestions[i]);
                 ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
             }
-            //###########################################
-            //event auslösen, dass ein neues ergebniss da ist. event listener zeigt dieses sofort an.
-            //via sendSuggestionResults();
-
         }
         
         public void SearchQuery(List<searchObjects> searchList)
@@ -356,8 +345,6 @@ namespace MusicSearch.Test
 
                 }
             }
-            //Ergebnisse darstellen
-            sendSearchResults();
         }
 
 
@@ -492,22 +479,6 @@ namespace MusicSearch.Test
             //File.WriteAllLines(@"C:\foo.txt", SearchRC.ConvertAll(Convert.ToString));
             //Debug.WriteLine(SearchRC);
             //Debug.WriteLine("\n" + SearchRC.ToString());
-        }
-
-        public void sendSearchResults()
-        {
-            //###########################################
-            //Unterscheidung welche ergebnisse da sind?
-            //(genre-/artist-/titel-suchergebnisse oder Infos für DetailView?)
-
-            //event auslösen, dass suchergebnisse komplett sind
-
-        }
-
-        public void sendSuggestionResults()
-        {
-            //event auslösen (MIT FlAG auf ID), dass suchvorschläge da sind
-
         }
     }
 }

@@ -58,6 +58,7 @@ namespace MusicSearch.ResponseObjects
                 public List<Object> images { get; set; }
                 public List<Object> news { get; set; }
                 public Object artist_location { get; set; }
+                public int originId { get; set; }
 
                 public List<ArtistInfo.ArtistSong> ArtistSongs { get; set; }
 

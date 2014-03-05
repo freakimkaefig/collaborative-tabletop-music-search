@@ -35,7 +35,7 @@ namespace MusicSearch.Managers
 
 
 
-        public void getDetailInfo(String artist_name, String artist_id/*, String title*/)
+        public void getDetailInfo(String artist_name, String artist_id, String originID)
         {
             //check if artist-name or artist-id is available
             if (!String.IsNullOrEmpty(artist_id))
@@ -53,12 +53,12 @@ namespace MusicSearch.Managers
                 String name = splitted[27].ToString();
 
                 //do a query by artist_name
-                getArtistInfo(name);
+                getArtistInfo(name, originID);
             }
             else if (!String.IsNullOrEmpty(artist_name))
             {
                 //do a query by artist_name
-                getArtistInfo(artist_name);
+                getArtistInfo(artist_name, originID);
             }
             //#################################
             //#################################
@@ -77,7 +77,7 @@ namespace MusicSearch.Managers
             //#################################
         }
 
-        public void getArtistInfo(String artist/*,String ID*/)
+        public void getArtistInfo(String artist,String ID)
         {
             //###########################################
             //###########################################
@@ -113,7 +113,8 @@ namespace MusicSearch.Managers
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             //ID einfügen, zwecks Rückschlüssen
-            //String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
+            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
+            JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistInfos[0]);
             ArtistInfosRC.Add(temp.Response.ArtistInfos[0]);
 
             /* Liste der Songs:
