@@ -22,7 +22,7 @@ namespace MusicSearch.Test
         public String artist_id { get; set; }
         public String title_id { get; set; }
         public String genre { get; set; }
-        public int tangibleId { get; set; }
+        public int originId { get; set; }
     }
 
     // Test-Enviroment for Queries to EchoNest, Parsing the responses and logging them
@@ -37,10 +37,7 @@ namespace MusicSearch.Test
         
         //neue Instanz vom ResponseContainer
         List<ResponseContainer.ResponseObj.Song> SearchRC = new List<ResponseContainer.ResponseObj.Song>();
-
-        //neue Instanz vom ResponseContainer für die Playliste (für Anfrage-Listen beim "playliste öffnen" um infos zu einer liste von spotify id's zu erhalten
-        //List<ResponseContainer.ResponseObj.Song> PlaylistRC = new List<ResponseContainer.ResponseObj.Song>();
-        
+                
         //TEST-LISTE
         List<searchObjects> searchListe = new List<searchObjects>();
 
@@ -69,19 +66,19 @@ namespace MusicSearch.Test
             /*testListe.Add(new testObjects
             {
                genre = "Rock",
-               tangibleId = 1
+               originId = 1
                 
             });*/
             searchListe.Add(new searchObjects
             {
                 artist_id = "ARH6W4X1187B99274F",
-                tangibleId = 2
+                originId = 2
 
             });
             searchListe.Add(new searchObjects
             {
                 title_id = "SOFJZMT12A6D4F883D",
-                tangibleId = 3
+                originId = 3
 
             });
             //##################################
@@ -178,7 +175,7 @@ namespace MusicSearch.Test
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             //ID einfügen, zwecks Rückschlüssen
-            //String JSONTangibleId = "{\"tangibleId\": \"" + ID + "\"}";
+            //String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
             ArtistInfosRC.Add(temp.Response.ArtistInfos[0]);
             
             /* Liste der Songs:
@@ -202,7 +199,7 @@ namespace MusicSearch.Test
 
             var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(newText3);
             //ID einfügen, zwecks Rückschlüssen
-            //String JSONTangibleId = "{\"tangibleId\": \"" + ID + "\"}";
+            //String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
             //Innere Liste initialisieren
             ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
 
@@ -269,11 +266,11 @@ namespace MusicSearch.Test
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             //ID einfügen, zwecks Rückschlüssen
-            String JSONTangibleId = "{\"tangibleId\": \"" + ID + "\"}";
+            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
 
             for (int i = 0; i < temp.Response.TitleSuggestions.Count; i++)
             {
-                JsonConvert.PopulateObject(JSONTangibleId, temp.Response.TitleSuggestions[i]);
+                JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
                 TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
             }
             //###########################################
@@ -314,11 +311,11 @@ namespace MusicSearch.Test
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             //ID einfügen, zwecks Rückschlüssen
-            String JSONTangibleId = "{\"tangibleId\": \"" + ID + "\"}";
+            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
 
             for (int i = 0; i < temp.Response.ArtistSuggestions.Count; i++)
             {
-                JsonConvert.PopulateObject(JSONTangibleId, temp.Response.ArtistSuggestions[i]);
+                JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistSuggestions[i]);
                 ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
             }
             //###########################################
@@ -336,19 +333,19 @@ namespace MusicSearch.Test
                 if (!String.IsNullOrEmpty(searchListe[i].artist_id))
                 {
                     Debug.WriteLine("\nFOUND ARTIST IN TESTLISTE: " + searchListe[i].artist_id + " at position: " + i);
-                    SongsByArtistIDQuery(searchListe[i].artist_id, searchListe[i].tangibleId);
+                    SongsByArtistIDQuery(searchListe[i].artist_id, searchListe[i].originId);
                     
                 }
                 if (!String.IsNullOrEmpty(searchListe[i].title_id))
                 {
                     Debug.WriteLine("\nFOUND TITLE IN TESTLISTE: " + searchListe[i].title_id + " at position: " + i);
-                    SongsByTitleIDQuery(searchListe[i].title_id, searchListe[i].tangibleId);
+                    SongsByTitleIDQuery(searchListe[i].title_id, searchListe[i].originId);
                     
                 }
                 if (!String.IsNullOrEmpty(searchListe[i].genre))
                 {
                     Debug.WriteLine("\nFOUND GENRE IN TESTLISTE: " + searchListe[i].genre + " at position: " + i);
-                    SongsByGenreQuery(searchListe[i].genre, searchListe[i].tangibleId);
+                    SongsByGenreQuery(searchListe[i].genre, searchListe[i].originId);
 
                 }
             }
@@ -462,12 +459,12 @@ namespace MusicSearch.Test
 
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
-            //tangibleId einfügen, zwecks Rückschlüssen
-            String JSONTangibleId = "{\"tangibleId\": \"" + ID + "\"}";
+            //originId einfügen, zwecks Rückschlüssen
+            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
             
             for(int i = 0; i < temp.Response.Songs.Count; i++)
             {
-                JsonConvert.PopulateObject(JSONTangibleId,temp.Response.Songs[i]);
+                JsonConvert.PopulateObject(JSONOriginId,temp.Response.Songs[i]);
                 SearchRC.Add(temp.Response.Songs[i]);
                 //
                 //event auslösen, dass ein neues ergebniss da ist. event listener zeigt dieses sofort an.

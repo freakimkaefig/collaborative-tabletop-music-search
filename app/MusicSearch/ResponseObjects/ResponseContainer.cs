@@ -32,14 +32,14 @@ namespace MusicSearch.ResponseObjects
             {
                 public String name { get; set; }
                 public String id { get; set; }
-                public int tangibleId { get; set; }
+                public int originId { get; set; }
             }
 
             public class TitleSuggestion
             {
                 public String title { get; set; }
                 public String id { get; set; }
-                public int tangibleId { get; set; }
+                public int originId { get; set; }
                 public String artist_name { get; set; }
             }
 
@@ -74,7 +74,7 @@ namespace MusicSearch.ResponseObjects
                 public string Artist_Name { get; set; }
                 public string Title { get; set; }
                 public List<Object> tracks { get; set; }
-                public int tangibleId { get; set; }
+                public int originId { get; set; }
                 public double song_hotttnesss { get; set; }
 
                 public Object audio_summary { get; set; }
