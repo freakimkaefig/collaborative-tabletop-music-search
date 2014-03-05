@@ -11,6 +11,9 @@ using MusicSearch.ResponseObjects;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Xml;
+using System.Xml.Linq;
+
 
 
 namespace MusicSearch.Test
@@ -32,8 +35,8 @@ namespace MusicSearch.Test
 
         public ResponseContainer ResponseContainer;
         private string _defaultURL = "http://developer.echonest.com/api/v4/";
-        //API Key aus DB holen
-        private string _apiKey = "L5WMCPOK4F2LA9H5X&"; //ends with "&" !
+
+        private String apiKey = null;
         
         //neue Instanz vom ResponseContainer
         List<ResponseContainer.ResponseObj.Song> SearchRC = new List<ResponseContainer.ResponseObj.Song>();
@@ -50,7 +53,6 @@ namespace MusicSearch.Test
         //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
         List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
 
-        
 
 
         [TestMethod]
@@ -83,8 +85,8 @@ namespace MusicSearch.Test
             });
             //##################################
             //##################################
-            Debug.WriteLine("Reading List...");
-            Debug.WriteLine("testliste.länge = " + searchListe.Count);
+            //Debug.WriteLine("Reading List...");
+            //Debug.WriteLine("testliste.länge = " + searchListe.Count);
 
 
             //Vorschlag-Anfrage
@@ -94,7 +96,12 @@ namespace MusicSearch.Test
             //SearchQuery(searchListe);
 
             //Detail-View Info's Anfrage
-            getDetailInfo(null, "ARH6W4X1187B99274F");
+            //getDetailInfo(null, "ARH6W4X1187B99274F");
+
+            //api key holen
+            var temp = GetAPIKey();
+            Debug.WriteLine(temp);
+            
         }
 
         public void getDetailInfo(String artist_name, String artist_id/*, String title*/)
@@ -106,7 +113,7 @@ namespace MusicSearch.Test
                 //find exact name 
                 //http://developer.echonest.com/api/v4/song/search?api_key=L5WMCPOK4F2LA9H5X&artist_id=ARH6W4X1187B99274F&results=1
                 
-                String request = _defaultURL + "song/search?" + "api_key=" + _apiKey + "format=json&artist_id=" + artist_id + "&results=1";
+                String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&artist_id=" + artist_id + "&results=1";
                 //JSON response delivered as string
                 String response = HttpRequester.StartRequest(request);
                 //Antwort in Array splitten
@@ -161,7 +168,7 @@ namespace MusicSearch.Test
 
             artist = artist.ToLower();
 
-            String request = _defaultURL + "artist/search?" + "api_key=" + _apiKey + "&format=json&bucket=terms&bucket=id:facebook&bucket=artist_location&bucket=biographies&bucket=years_active&bucket=video&bucket=urls&bucket=blogs&bucket=reviews&bucket=images&bucket=news&sort=hotttnesss-desc&results=1&name=" + artist;
+            String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=terms&bucket=id:facebook&bucket=artist_location&bucket=biographies&bucket=years_active&bucket=video&bucket=urls&bucket=blogs&bucket=reviews&bucket=images&bucket=news&sort=hotttnesss-desc&results=1&name=" + artist;
 
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
@@ -182,7 +189,7 @@ namespace MusicSearch.Test
              * http://developer.echonest.com/api/v4/artist/songs?api_key=L5WMCPOK4F2LA9H5X&format=json&results=100&name=katy+perry
              */
 
-            String request2 = _defaultURL + "artist/songs?" + "api_key=" + _apiKey + "&format=json&results=100&name=" + artist;
+            String request2 = _defaultURL + "artist/songs?" + "api_key=" + GetAPIKey() + "&format=json&results=100&name=" + artist;
 
             //JSON response delivered as string
             String response2 = HttpRequester.StartRequest(request2);
@@ -252,7 +259,7 @@ namespace MusicSearch.Test
 
             term = term.ToLower();
 
-            String request = _defaultURL + "song/search?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=" + term;
+            String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=" + term;
 
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
@@ -297,7 +304,7 @@ namespace MusicSearch.Test
 
             term = term.ToLower();
 
-            String request = _defaultURL + "artist/search?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=" + term;
+            String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=" + term;
 
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
@@ -365,7 +372,7 @@ namespace MusicSearch.Test
 
             genre = genre.ToLower();
 
-            String request = _defaultURL + "playlist/static?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&song_selection=song_hotttnesss-top&variety=1&type=genre-radio&genre=" + genre;
+            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&song_selection=song_hotttnesss-top&variety=1&type=genre-radio&genre=" + genre;
 
             //
             //WIEVIELE RESULTS ?????????????????????????
@@ -399,7 +406,7 @@ namespace MusicSearch.Test
             //'api_key' via GetAPIKey()
             // check for further parameters like "hotttnesss"*/
 
-            String request = _defaultURL + "song/profile?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&id=" + title_id;
+            String request = _defaultURL + "song/profile?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&id=" + title_id;
 
             Debug.WriteLine("sending title query...\n" + request);
             //############
@@ -423,7 +430,7 @@ namespace MusicSearch.Test
             //'api_key' via GetAPIKey()
             // check for further parameters like "hotttnesss" ?
 
-            String request = _defaultURL + "song/search?" + "api_key=" + _apiKey + "format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "artist_id=" + artist_id;
+            String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "artist_id=" + artist_id;
             
             Debug.WriteLine("sending artist query...\n"+request);
             //############
@@ -434,9 +441,18 @@ namespace MusicSearch.Test
         }
 
 
-        public void GetAPIKey()
+        private String GetAPIKey()
         {
-            //return API-Key
+            if(String.IsNullOrEmpty(apiKey))
+            {
+                //XML auslesen
+                XDocument doc = XDocument.Load(@"../../../MusicSearch/files/config.xml");
+                XElement el = doc.Element("apikey");
+                apiKey = (String)el;
+
+                //Debug.WriteLine("apiKey: " + apiKey);
+            }
+            return apiKey;
         }
 
         public void LoadOnlineResponse(String request, int ID) //Send Query
