@@ -53,10 +53,15 @@ namespace MusicSearch.Test
         //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
         List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
 
+        
+
+
         [TestMethod]
         public void startTests()
         {
             // Diese Methode kann später gelöscht werden. Dient hier nur als Startpunkt.
+
+            //ArtistInfosRC.Add(new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>());
 
             //##################################
             //TEST-Liste befüllen
@@ -180,7 +185,7 @@ namespace MusicSearch.Test
              * http://developer.echonest.com/api/v4/artist/songs?api_key=L5WMCPOK4F2LA9H5X&format=json&results=100&name=katy+perry
              */
 
-            /*String request2 = _defaultURL + "artist/songs?" + "api_key=" + _apiKey + "&format=json&results=100&name=" + artist;
+            String request2 = _defaultURL + "artist/songs?" + "api_key=" + _apiKey + "&format=json&results=100&name=" + artist;
 
             //JSON response delivered as string
             String response2 = HttpRequester.StartRequest(request2);
@@ -189,13 +194,24 @@ namespace MusicSearch.Test
 
             var cleared2 = @"" + response2.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //'songs' durch 'TitleSuggestions' ersetzen
-            //var regex2 = new Regex(Regex.Escape("artists"));
-            //var newText2 = regex2.Replace(cleared2, "ArtistInfos", 1);
+            var regex2 = new Regex(Regex.Escape("songs"));
+            var newText2 = regex2.Replace(cleared2, "ArtistInfos\': [{\'ArtistSongs", 1);
+            newText2 = newText2.Insert(newText2.LastIndexOf("}") - 1, "}]");
+            var regex3 = new Regex(Regex.Escape("id"));
+            var newText3 = regex3.Replace(newText2, "title_id", 100);
 
-            var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(cleared2);
+            var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(newText3);
             //ID einfügen, zwecks Rückschlüssen
             //String JSONTangibleId = "{\"tangibleId\": \"" + ID + "\"}";
-            ArtistInfosRC.Add(temp2.Response.Songs[0]);*/
+            //Innere Liste initialisieren
+            ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
+
+            for (int i = 0; i < temp2.Response.ArtistInfos[0].ArtistSongs.Count; i++)
+            {
+                ArtistInfosRC[0].ArtistSongs.Add(temp2.Response.ArtistInfos[0].ArtistSongs[i]);
+                //ArtistInfosRC.ArtistSongs.Add(temp2.Response.ArtistSongs[i]);
+            }
+
                  /* Ähnliche Artisten (unsortiert!)
                  * http://developer.echonest.com/api/v4/artist/similar?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=familiarity&name=katy+perry
                  * 

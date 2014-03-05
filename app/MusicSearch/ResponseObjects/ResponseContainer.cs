@@ -19,6 +19,7 @@ namespace MusicSearch.ResponseObjects
             public List<ArtistSuggestion> ArtistSuggestions { get; set; }
             public List<TitleSuggestion> TitleSuggestions { get; set; }
             public List<ArtistInfo> ArtistInfos { get; set; }
+            
 
             public class StatusObj
             {
@@ -57,6 +58,14 @@ namespace MusicSearch.ResponseObjects
                 public List<Object> images { get; set; }
                 public List<Object> news { get; set; }
                 public Object artist_location { get; set; }
+
+                public List<ArtistInfo.ArtistSong> ArtistSongs { get; set; }
+
+                public class ArtistSong
+                {
+                    public String title { get; set; }
+                    public String title_id { get; set; }
+                }
             }
 
             public class Song
