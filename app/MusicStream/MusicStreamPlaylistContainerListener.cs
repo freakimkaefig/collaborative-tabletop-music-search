@@ -21,6 +21,8 @@ namespace MusicStream
         public override void PlaylistAdded(PlaylistContainer pc, Playlist playlist, int position, object userdata)
         {
             base.PlaylistAdded(pc, playlist, position, userdata);
+            _sessionManager.PlaylistAddedCallback(playlist);
+            _sessionManager.Userdata = userdata;
             //_sessionManager.logMessages.Enqueue("Spotify: PLAYLIST ADDED - " + playlist.IsLoaded());
         }
 

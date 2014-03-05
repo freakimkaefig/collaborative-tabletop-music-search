@@ -8,5 +8,11 @@ namespace Ctms.Domain.Objects
     public class Result
     {
         public Song Song { get; set; }
+
+        public object DraggedElement
+        {
+            get;
+            set;
+        }
     }
 }

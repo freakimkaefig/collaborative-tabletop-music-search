@@ -18,9 +18,9 @@
         
         <s:SurfaceButton Content="Play" Width="100" Height="40" HorizontalAlignment="Left" Command="{Binding PlayCommand}" Margin="1700,996,0,44" />
         <s:SurfaceButton Content="Stop" Width="100" Height="40" HorizontalAlignment="Right" Command="{Binding StopCommand}" Margin="0,996,0,44" />
-        <s:SurfaceListBox Name="PlaylistAddDropTarget" Height="400"
-             AllowDrop="True" ItemsSource="{Binding Path=TargetItems}"
-            s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter" s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave" s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop" Margin="1700,590,0,90" />
+        <s:SurfaceListBox Name="PlaylistAddDropTarget" Height="400" AllowDrop="True" ItemsSource="{Binding ResultsForPlaylist}" ItemTemplate="{StaticResource SurfaceListBoxItemDataTemplate}"
+            s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter" s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave" s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop" Margin="1700,590,0,90">
+        </s:SurfaceListBox>
         <Label Content="PlaylistView" Height="38" Margin="1700,1042,0,0" />
         
     </Grid>

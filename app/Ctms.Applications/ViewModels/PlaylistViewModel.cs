@@ -7,6 +7,7 @@ using System.Waf.Applications;
 using System.Windows.Input;
 using Ctms.Applications.Views;
 using Ctms.Domain.Objects;
+using System.Collections.ObjectModel;
 using SpotifySharp;
 
 namespace Ctms.Applications.ViewModels
@@ -19,18 +20,19 @@ namespace Ctms.Applications.ViewModels
         private bool _playing = false;
         private bool _prelistening = false;
 
-        private Ctms.Domain.Objects.SpotifyPlaylist _playlist;
-        private Track _currentTrack;
-
         //Commands
         private ICommand _playCommand;
         private ICommand _pauseCommand;
         private ICommand _stopCommand;
+        private ICommand _addTrackCommand;
+        //
+        private ObservableCollection<Result> _resultsForPlaylist;
 
         [ImportingConstructor]
         public PlaylistViewModel(IPlaylistView view)
             : base(view)
         {
+            _resultsForPlaylist = new ObservableCollection<Result>();
         }
 
 
@@ -88,28 +90,15 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public Ctms.Domain.Objects.SpotifyPlaylist Playlist
+        public ObservableCollection<Result> ResultsForPlaylist
         {
-            get { return _playlist; }
+            get { return _resultsForPlaylist; }
             set
             {
-                if (_playlist != value)
+                if (_resultsForPlaylist != value)
                 {
-                    _playlist = value;
+                    _resultsForPlaylist = value;
                     RaisePropertyChanged("Playlist");
-                }
-            }
-        }
-
-        public Track CurrentTrack
-        {
-            get { return _currentTrack; }
-            set
-            {
-                if (_currentTrack != value)
-                {
-                    _currentTrack = value;
-                    RaisePropertyChanged("CurrentTrack");
                 }
             }
         }
@@ -149,6 +138,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _stopCommand = value;
                     RaisePropertyChanged("StopCommand");
+                }
+            }
+        }
+
+        public ICommand AddTrackCommand
+        {
+            get { return _addTrackCommand; }
+            set
+            {
+                if (_addTrackCommand != value)
+                {
+                    _addTrackCommand = value;
+                    RaisePropertyChanged("AddTrackCommand");
                 }
             }
         }

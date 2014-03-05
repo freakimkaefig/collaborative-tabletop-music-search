@@ -70,6 +70,11 @@ namespace Ctms.Applications.Workers
             _sessionManager.OpenPlaylists(spotifyPlaylist.Playlist);
         }
 
+        public void CreateNewPlaylist(SurfaceTextBox name)
+        {
+            _sessionManager.CreatePlaylist(name.Text);
+        }
+
         private void ReceiveLogMessage(string logMessage)
         {
             _menuViewModel.LoginLogMessage += "\n" + CodeHelpers.GetTimeStamp() + "\n" +logMessage + "\n";

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Waf.Applications;
 using System.Windows.Input;
 using Ctms.Applications.Views;
 using Ctms.Domain.Objects;
+using System.Collections.ObjectModel;
+using SpotifySharp;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -19,12 +17,40 @@ namespace Ctms.Applications.ViewModels
         private ICommand selectCommand;
         private ICommand prelistenCommand;
         private ICommand clickedResultCommand;
+        private ObservableCollection<Result> _results;
 
 
         [ImportingConstructor]
         public ResultViewModel(IResultView view)
             : base(view)
         {
+            _results = new ObservableCollection<Result>()
+            {
+                new Result() 
+                {
+                    Song =  new Song()
+                    {
+                        Title = "Fireworks",
+                        Artist = "Katy Perry"
+                    }
+                },
+                new Result() 
+                {
+                    Song =  new Song()
+                    {
+                        Title = "Achy Breaky Heart",
+                        Artist = "Billy Ray Cyrus"
+                    }
+                },
+                new Result() 
+                {
+                    Song =  new Song()
+                    {
+                        Title = "Watercolour",
+                        Artist = "Pendulum"
+                    }
+                }
+            };
         }
 
 
@@ -39,6 +65,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     isValid = value;
                     RaisePropertyChanged("IsValid");
+                }
+            }
+        }
+
+        public ObservableCollection<Result> Results
+        {
+            get { return _results; }
+            set
+            {
+                if (_results != value)
+                {
+                    _results = value;
+                    RaisePropertyChanged("Results");
                 }
             }
         }

@@ -112,7 +112,7 @@ namespace MusicStream
 
         public void Logout()
         {
-
+            _backgroundWorkHelper.DoInBackground(LogoutWorker, LogoutCompleted);
         }
 
         public void StartPrelisteningTrack(String spotifyTrackId)
@@ -127,6 +127,11 @@ namespace MusicStream
         public void OpenPlaylists(Playlist playlist)
         {
             _backgroundWorkHelper.DoInBackground(OpenPlaylistWorker, OpenPlaylistCompleted, playlist);
+        }
+
+        public void CreatePlaylist(string name)
+        {
+            _backgroundWorkHelper.DoInBackground(CreatePlaylistWorker, CreatePlaylistCompleted, name);
         }
 
         
@@ -196,6 +201,11 @@ namespace MusicStream
             ReadyForPlayback(_playlists);
         }
 
+        public void PlaylistAddedCallback(Playlist playlist)
+        {
+
+        }
+
         public void MusicDeliveryCallback(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
         {
             var size = num_frames * format.channels * 2;
@@ -209,12 +219,6 @@ namespace MusicStream
 
         public void EndOfTrack(SpotifySession session)
         {
-            //_currentTrack is null at this point
-            logMessages.Enqueue("Finished playing: '" + _currentTrack.Artist(0).Name() + " - " + _currentTrack.Name() + "'.");
-
-            _currentTrackIndex++;
-            //GetLoadedTrackWorker(_currentPlaylist.Track(_currentTrackIndex));
-
             PlaybackEndOfTrack();
         }
 
@@ -280,6 +284,15 @@ namespace MusicStream
             {
                 logMessages.Enqueue("Track " + i + ": " + ((Playlist)e.Result).Track(i).Artist(0).Name() + " - " + ((Playlist)e.Result).Track(i).Name());
             }
+        }
+
+        private void CreatePlaylistWorker(object sender, DoWorkEventArgs e)
+        {
+            e.Result = (Playlist)_playlistContainer.AddNewPlaylist((string)e.Argument);
+        }
+        private void CreatePlaylistCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Playlist playlist = (Playlist)e.Result;
         }
 
 

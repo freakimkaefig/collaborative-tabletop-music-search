@@ -8,7 +8,7 @@
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    MinWidth="450" MinHeight="550" IsEnabled="{Binding IsEnabled}"
+    Width="1920" MinHeight="1080" IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
@@ -30,10 +30,11 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="188*" />
             </Grid.RowDefinitions>
 
             <Label Content="SearchView" Grid.Column="0" Grid.Row="0"/>
-            <s:SurfaceButton Content="Search/Refresh" Command="{Binding StartSearchCmd}" Grid.Column="0" Grid.Row="1" Width="100" Height="50" HorizontalAlignment="Left"/>
+            <s:SurfaceButton Content="Search/Refresh" Command="{Binding StartSearchCmd}" Grid.Column="1" Grid.Row="6" Width="100" Height="50" HorizontalAlignment="Left" Margin="752,703,0,19" />
             <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding InputValue}" Width="140"/>
             <TextBlock Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Left" Style="{StaticResource SearchOptionsTextBlock}"
                 Text="ControlResources Key Example"/>

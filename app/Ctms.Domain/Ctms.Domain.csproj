@@ -70,6 +70,7 @@
     <Compile Include="Objects\SpotifyPlaylist.cs" />
     <Compile Include="Objects\Search.cs" />
     <Compile Include="Objects\Song.cs" />
+    <Compile Include="Objects\SpotifyTrack.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

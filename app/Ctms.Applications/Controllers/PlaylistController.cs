@@ -17,6 +17,7 @@ using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
 using MusicStream;
 using Ctms.Applications.Workers;
+using Ctms.Domain.Objects;
 
 
 namespace Ctms.Applications.Controllers
@@ -37,17 +38,19 @@ namespace Ctms.Applications.Controllers
         private PlaylistViewModel _playlistViewModel;
         //Worker
         private StreamingWorker _streamingWorker;
+        private PlaylistWorker _playlistWorker;
         //Commands
         private readonly DelegateCommand _playCommand;
         private readonly DelegateCommand _pauseCommand;
         private readonly DelegateCommand _stopCommand;
+        private readonly DelegateCommand _addTrackCommand;
 
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public PlaylistController(CompositionContainer container, IShellService shellService, IEntityService entityService,
-            PlaylistViewModel playlistViewModel, StreamingWorker streamingWorker)
+            PlaylistViewModel playlistViewModel, StreamingWorker streamingWorker, PlaylistWorker playlistWorker)
         {
             this.container = container;
             //Services
@@ -57,10 +60,12 @@ namespace Ctms.Applications.Controllers
             _playlistViewModel = playlistViewModel;
             //Worker
             _streamingWorker = streamingWorker;
+            _playlistWorker = playlistWorker;
             //Commands
             this._playCommand = new DelegateCommand(_streamingWorker.PlayCurrentTrack, _streamingWorker.CanStream);
             this._pauseCommand = new DelegateCommand(_streamingWorker.PauseCurrentTrack, _streamingWorker.Playing);
             this._stopCommand = new DelegateCommand(_streamingWorker.StopPlayback, _streamingWorker.Playing);
+            this._addTrackCommand = new DelegateCommand((result) => _playlistWorker.AddTrackToPlaylist((Result)result));
         }
 
         public void Initialize()
@@ -71,6 +76,7 @@ namespace Ctms.Applications.Controllers
             _playlistViewModel.PlayCommand = _playCommand;
             _playlistViewModel.PauseCommand = _pauseCommand;
             _playlistViewModel.StopCommand = _stopCommand;
+            _playlistViewModel.AddTrackCommand = _addTrackCommand;
             AddWeakEventListener(_playlistViewModel, PlaylistViewModelPropertyChanged);
 
             shellService.PlaylistView = _playlistViewModel.View;

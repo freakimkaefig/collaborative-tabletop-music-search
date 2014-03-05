@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel.Composition;
 using Ctms.Applications.ViewModels;
 using MusicStream;
+using Ctms.Domain.Objects;
 
 namespace Ctms.Applications.Workers
 {
@@ -32,14 +33,9 @@ namespace Ctms.Applications.Workers
             _sessionManager = sessionManager;
         }
 
-        public void CreatePlaylist()
+        public void AddTrackToPlaylist(Result result)
         {
-
-        }
-
-        public void AddTrackToPlaylist()
-        {
-
+            _playlistViewModel.ResultsForPlaylist.Add(result);
         }
     }
 }

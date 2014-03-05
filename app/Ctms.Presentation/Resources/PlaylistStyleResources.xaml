@@ -3,7 +3,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:c="clr-namespace:Ctms.Presentation.Converters">
-    
+
+    <DataTemplate x:Key="SurfaceListBoxItemDataTemplate">
+        <StackPanel Height="100" Width="200" Background="BlueViolet">
+            <Label Content="{Binding Song.Artist}"/>
+            <Label Content="{Binding Song.Title}"/>
+            <!--<Label Content="{Binding Duration}"/>-->
+        </StackPanel>
+    </DataTemplate>
     <!--
         This document is used for specific style definitions for the playlist view.
         Hints: 

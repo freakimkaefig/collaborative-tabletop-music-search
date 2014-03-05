@@ -23,6 +23,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _loginCommand;
         private ICommand _logoutCommand;
         private ICommand _openPlaylistCommand;
+        private ICommand _newPlaylistCommand;
         private ICommand _goCommand;
         //
         private string _spotifyUsernameInput = null;
@@ -130,6 +131,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _openPlaylistCommand = value;
                     RaisePropertyChanged("OpenPlaylistCommand");
+                }
+            }
+        }
+
+        public ICommand NewPlaylistCommand
+        {
+            get { return _newPlaylistCommand; }
+            set
+            {
+                if (_newPlaylistCommand != value)
+                {
+                    _newPlaylistCommand = value;
+                    RaisePropertyChanged("NewPlaylistCommand");
                 }
             }
         }
