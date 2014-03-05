@@ -149,9 +149,34 @@ namespace MusicSearch.Managers
             }
 
             /* Ähnliche Artisten (unsortiert!)
-            * http://developer.echonest.com/api/v4/artist/similar?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=familiarity&name=katy+perry
+            * http://developer.echonest.com/api/v4/artist/similar?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=familiarity&min_familiarity=0.7&name=katy+perry
             * 
             * */
+            String request3 = _defaultURL + "artist/similar?" + "api_key=" + GetAPIKey() + "&format=json&bucket=familiarity&min_familiarity=0.7&name=" + artist;
+
+            //JSON response delivered as string
+            String response3 = HttpRequester.StartRequest(request3);
+            //transform "\'" to unicode equivalent
+            response3 = response3.Replace("'", "&#39;");
+
+            var cleared3 = @"" + response3.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            //'artists' durch 'SimilarArtist' ersetzen
+            var regex4 = new Regex(Regex.Escape("artists"));
+            var newText4 = regex4.Replace(cleared3, "ArtistInfos\': [{\'SimilarArtists", 1);
+            newText4 = newText4.Insert(newText4.LastIndexOf("}") - 1, "}]");
+            var regex5 = new Regex(Regex.Escape("id"));
+            var newText5 = regex5.Replace(newText4, "artist_id", 100);
+
+            var temp3 = JsonConvert.DeserializeObject<ResponseContainer>(newText5);
+            //Innere Liste initialisieren
+            ArtistInfosRC[0].SimilarArtists = new List<ResponseContainer.ResponseObj.ArtistInfo.SimilarArtist>();
+
+            for (int i = 0; i < temp3.Response.ArtistInfos[0].SimilarArtists.Count; i++)
+            {
+                ArtistInfosRC[0].SimilarArtists.Add(temp3.Response.ArtistInfos[0].SimilarArtists[i]);
+                //ArtistInfosRC.ArtistSongs.Add(temp2.Response.ArtistSongs[i]);
+            }
+            ArtistInfosRC[0].SimilarArtists = ArtistInfosRC[0].SimilarArtists.OrderByDescending(a => a.familiarity).ToList();
         }
 
         public void SuggestionQuery(String type, int ID, String term)

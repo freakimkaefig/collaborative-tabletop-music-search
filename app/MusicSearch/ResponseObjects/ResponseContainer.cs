@@ -61,7 +61,14 @@ namespace MusicSearch.ResponseObjects
                 public int originId { get; set; }
 
                 public List<ArtistInfo.ArtistSong> ArtistSongs { get; set; }
+                public List<ArtistInfo.SimilarArtist> SimilarArtists { get; set; }
 
+                public class SimilarArtist
+                {
+                    public String name {get;set;}
+                    public double familiarity {get;set;}
+                    public String artist_id { get; set; }
+                }
                 public class ArtistSong
                 {
                     public String title { get; set; }
