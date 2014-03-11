@@ -25,12 +25,7 @@ namespace Ctms.Applications.ViewModels
         public ResultViewModel(IResultView view)
             : base(view)
         {
-            _results = new ObservableCollection<ResultDataModel>()
-            {
-                new ResultDataModel("spotify:track:4lCv7b86sLynZbXhfScfm2", "Firework", "Katy Perry"),
-                new ResultDataModel("spotify:track:1zi3f2VL4eSFHvm0WC506q", "Achy Breaky Heart", "Billy Ray Cyrus"),
-                new ResultDataModel("spotify:track:6HNGXmc7A14zeeWTj4gzz8", "Watercolour", "Pendulum")
-            };
+            _results = new ObservableCollection<ResultDataModel>();
         }
 
 

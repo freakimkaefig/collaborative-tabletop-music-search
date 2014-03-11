@@ -8,6 +8,7 @@ using System.ComponentModel;
 using MusicSearch.SearchObjects;
 using Ctms.Applications.ViewModels;
 using System.ComponentModel.Composition;
+using MusicSearch.ResponseObjects;
 
 namespace Ctms.Applications.Workers
 {
@@ -28,26 +29,25 @@ namespace Ctms.Applications.Workers
             _resultWorker = resultWorker;
             //Managers
             _searchManager = new SearchManager();
+            //Helpers
+            _backgroundWorker = new BackgroundWorkHelper();
         }
 
         public bool CanStartSearch() { return _searchViewModel.IsValid; }
 
         public void StartSearch()
         {
-            var searchManager = new SearchManager();
-            searchManager.StartSearch();
-            _resultWorker.RefreshResults(searchManager.ResponseContainer);
-
-            //RefreshResults(searchManager.ResponseContainer);
-
-            _backgroundWorker = new BackgroundWorkHelper();
-            //Tell which method to execute in background in what to do after completion
-            _backgroundWorker.DoInBackground(searchManager.Start, SearchCompleted);
+            //Starte Testsuche mit Testliste
+            _backgroundWorker.DoInBackground(StartSearchWorker, StartSearchCompleted);
         }
 
-        private void SearchCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void StartSearchWorker(object sender, DoWorkEventArgs e)
         {
-
+            e.Result = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList);
+        }
+        private void StartSearchCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            _resultWorker.RefreshResults((List<ResponseContainer.ResponseObj.Song>)e.Result);
         }
     }
 }

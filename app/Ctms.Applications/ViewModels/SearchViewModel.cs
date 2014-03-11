@@ -10,6 +10,7 @@ using Ctms.Domain.Objects;
 using Microsoft.Surface.Presentation.Controls;
 using System.Collections.ObjectModel;
 using MusicSearch.SearchObjects;
+using MusicSearch.Managers;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -27,6 +28,9 @@ namespace Ctms.Applications.ViewModels
         private List<Entry> _entries;
         private ObservableCollection<TagOption>   tagOptions;
         private List<TagVisualization> _tagVisualizations;
+
+        private List<searchObjects> _searchObjectsList; //Liste an SearchObjects (Michl, die musst du dann befüllen!)
+        
         //private readonly IEnumerable<SearchTagViewModel> _searchTags;
 
 
@@ -45,6 +49,30 @@ namespace Ctms.Applications.ViewModels
                 new Entry { Id = 3, Header = "Hypocratics", SubHeader = "John Wayne" },
                 new Entry { Id = 4, Header = "Hypocratics", SubHeader = "Justin Bieber" }
             };
+
+            //Testweise hinzufügen eines SearchObjects
+                //MICHL: befüllen durch Tangibles die auf dem Tisch stehen!
+                //       Einträge auch wieder löschen, wenn Tangible vom Tisch genommen wird (über originId)
+            _searchObjectsList = new List<searchObjects>();
+            _searchObjectsList.Add(new searchObjects
+            {
+                genre = "rock",
+                originId = 1
+
+            });
+        }
+
+        public List<searchObjects> SearchObjectsList
+        {
+            get { return _searchObjectsList; }
+            set
+            {
+                if (_searchObjectsList != value)
+                {
+                    _searchObjectsList = value;
+                    RaisePropertyChanged("SearchObjectsList");
+                }
+            }
         }
 
         public string Breadcrumb { get { return "SVM"; } }

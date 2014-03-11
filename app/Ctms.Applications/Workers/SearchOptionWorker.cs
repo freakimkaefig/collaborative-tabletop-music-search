@@ -18,7 +18,6 @@ namespace Ctms.Applications.Workers
     {
         private SearchViewModel _searchVM;
         private SearchTagViewModel _searchTagVM;
-        private SelectionManager _selectionManager;
         private IMessageService _messageService;
         private Repository _repository;
 
@@ -36,7 +35,6 @@ namespace Ctms.Applications.Workers
             //Workers
             //_streamingWorker = resultWorker;
             //Managers
-            _selectionManager = new SelectionManager();
         }
 
         public bool CanSelectOption() { return _searchVM.IsValid; }
