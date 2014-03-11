@@ -53,7 +53,7 @@ namespace Ctms.Applications.Controllers
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
-        public MenuController(CompositionContainer container, IShellService shellService, IEntityService entityService,
+        public MenuController(CompositionContainer container, IShellService shellService, EntityService entityService,
             MenuViewModel menuViewModel, ShellViewModel shellViewModel, MusicStreamAccountWorker musicStreamAccountWorker)
         {
             this._container = container;

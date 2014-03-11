@@ -39,7 +39,7 @@ namespace Ctms.Applications.Controllers
         //Commands
         private readonly DelegateCommand    exitCommand;
         //Furthers vars
-        private TagVisualizationService _tagVisualitationService;
+        private SearchTagVisualizationService _tagVisualitationService;
 
         [ImportingConstructor]
         public ModuleController(IMessageService messageService, IPresentationService presentationService,

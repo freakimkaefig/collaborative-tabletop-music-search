@@ -11,7 +11,9 @@
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}" waf:ValidationHelper.IsEnabled="true" -->
-    <Grid >
+    <s:ScatterView Name="MainScatterView">
+        <s:ScatterViewItem Background="Transparent">
+            <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
@@ -29,8 +31,6 @@
         <Label Content="DetailView" Grid.Column="0" Grid.Row="0"/>
         <Button Command="{Binding DoTestCommand}">Button Example</Button>
 
-        
-            
             <TextBlock
             Margin="0,0,0,0"
             TextAlignment="Center"
@@ -39,8 +39,6 @@
             Foreground="White"
             Text="Title: ">
         </TextBlock>
-            
-        
 
         <TextBlock
             Margin="0,0,0,0"
@@ -48,7 +46,7 @@
             Grid.Column="1" 
             Grid.Row="1"
             Foreground="White"
-            Text="{Binding Result.Song.Title}"> <!--{Binding Result/Detail }  ?? -->
+            Text="Test123"> <!--{Binding Result/Detail }  getDetails? ? -->
         </TextBlock>
 
         <TextBlock
@@ -125,5 +123,7 @@
         </TextBlock>
             
     </Grid>
-    
+        </s:ScatterViewItem>
+    </s:ScatterView>
+
 </UserControl>

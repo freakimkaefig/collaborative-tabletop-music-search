@@ -8,8 +8,8 @@ namespace MusicSearch.Managers
 {
     public class SelectionManager
     {
-        public List<SearchOption> NextOptions { get; set; }
-        public List<List<SearchOption>> LastOptions { get; set; }
+        //public List<SearchOption> NextOptions { get; set; }
+        //public List<List<SearchOption>> LastOptions { get; set; }
 
         public KeywordContainer SelectOptions;
         private KeywordType.Types mSelectOption;
@@ -29,22 +29,22 @@ namespace MusicSearch.Managers
                         KeywordType.Types.Artist, 
                         new List<Keyword>()
                         {
-                            new Keyword.Artist("Katy Perry"),
-                            new Keyword.Artist("Joss Stone"),
-                            new Keyword.Artist("Hansi Hinterseer"),
-                            new Keyword.Artist("Gregory Porter"),
-                            new Keyword.Artist("Rakede")
+                            new Artist("Katy Perry"),
+                            new Artist("Joss Stone"),
+                            new Artist("Hansi Hinterseer"),
+                            new Artist("Gregory Porter"),
+                            new Artist("Rakede")
                         }
                     },
                     {
                         KeywordType.Types.Title, 
                         new List<Keyword>()
                         {
-                            new Keyword.Title("Fireworks"),
-                            new Keyword.Title("Bangarang"),
-                            new Keyword.Title("Alle meine Entchen"),
-                            new Keyword.Title("Show me how to live"),
-                            new Keyword.Title("Angels")
+                            new Title("Fireworks"),
+                            new Title("Bangarang"),
+                            new Title("Alle meine Entchen"),
+                            new Title("Show me how to live"),
+                            new Title("Angels")
                         }
                     }
                 }
@@ -55,7 +55,7 @@ namespace MusicSearch.Managers
         {
             mSelectOption = selectOption;
         }
-
+        /*
         public List<SearchOption> LoadNextOptions()
         {
             //Clear all old options from the last selection
@@ -90,7 +90,7 @@ namespace MusicSearch.Managers
         {
             throw new NotImplementedException();
         }
-
+        */
         public void ReturnToLast()
         {
 
@@ -98,8 +98,8 @@ namespace MusicSearch.Managers
 
         public void Reset()
         {
-            NextOptions = new List<SearchOption>();
-            LastOptions = new List<List<SearchOption>>();
+            //NextOptions = new List<SearchOption>();
+            //LastOptions = new List<List<SearchOption>>();
         }
     }
 }

@@ -11,6 +11,7 @@ namespace MusicSearch
     {
         public static void Main(String[] args)
         {
+            /*
             var selectionManager = new SelectionManager();
             var type = new KeywordType();
             type.Type = KeywordType.Types.Artist;
@@ -20,7 +21,7 @@ namespace MusicSearch
 
             type.Type = KeywordType.Types.Title;
             selectionManager.SetSelection(type.Type);
-            options = selectionManager.LoadNextOptions();
+            options = selectionManager.LoadNextOptions();*/
         }
     }
 }

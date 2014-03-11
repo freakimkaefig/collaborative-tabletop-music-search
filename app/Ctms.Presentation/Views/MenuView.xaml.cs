@@ -21,12 +21,15 @@ namespace Ctms.Presentation.Views
     [Export(typeof(IMenuView))]
     public partial class MenuView : UserControl, IMenuView
     {
-        private readonly Lazy<MenuViewModel> viewModel;
+        private readonly Lazy<MenuViewModel> _lazyVm;
 
         public MenuView()
         {
             InitializeComponent();
-            viewModel = new Lazy<MenuViewModel>(() => ViewHelper.GetViewModel<MenuViewModel>(this));
+            _lazyVm = new Lazy<MenuViewModel>(() => ViewHelper.GetViewModel<MenuViewModel>(this));
         }
+
+        // Provides this view's viewmodel
+        private MenuViewModel _viewModel { get { return _lazyVm.Value; } }
     }
 }

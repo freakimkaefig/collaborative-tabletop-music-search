@@ -9,6 +9,8 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"         
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
+    
+    
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
     <Grid Margin="0,0,0,0" Width="1920" Height="1080">
@@ -23,5 +25,28 @@
         </s:SurfaceListBox>
         <Label Content="PlaylistView" Height="38" Margin="1700,1042,0,0" />
         
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="" Width="Auto" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <!--Button with command. This RelativeSource defines that the command is contained in the same data source
+                            (PlaylistViewModel) as the UserControl-->
+                            <Button Command="{Binding DataContext.SelectCmd, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                CommandParameter="{Binding}">
+                                <Button.Content>
+                                    <StackPanel>
+                                        <Label Content="{Binding Name}" BorderThickness="0"/>
+                                        <!--<Label Content="{Binding Id}" BorderThickness="0" />-->
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+            </DataGrid.Columns>
+        </DataGrid>
+
+
     </Grid>
 </UserControl>

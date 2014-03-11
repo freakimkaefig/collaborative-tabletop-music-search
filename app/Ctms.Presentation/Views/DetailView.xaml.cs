@@ -21,12 +21,15 @@ namespace Ctms.Presentation.Views
     [Export(typeof(IDetailView))]
     public partial class DetailView : UserControl, IDetailView
     {
-        private readonly Lazy<DetailViewModel> viewModel;
+        private readonly Lazy<DetailViewModel> _lazyVm;
 
         public DetailView()
         {
             InitializeComponent();
-            viewModel = new Lazy<DetailViewModel>(() => ViewHelper.GetViewModel<DetailViewModel>(this));
+            _lazyVm = new Lazy<DetailViewModel>(() => ViewHelper.GetViewModel<DetailViewModel>(this));
         }
+
+        // Provides this view's viewmodel
+        private DetailViewModel _viewModel { get { return _lazyVm.Value; } }
     }
 }

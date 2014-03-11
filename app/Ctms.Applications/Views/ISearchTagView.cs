@@ -10,5 +10,7 @@ namespace Ctms.Applications.Views
     public interface ISearchTagView : IView
     {
         void DoSth();
+
+        //VisualizedTag
     }
 }

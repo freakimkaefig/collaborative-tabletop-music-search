@@ -48,5 +48,8 @@ namespace Ctms.Presentation.Views
             object result = e.Cursor.Data as ResultDataModel;
             _viewModel.AddTrackCommand.Execute(result);
         }
+
+        // Provides this view's viewmodel
+        private PlaylistViewModel _viewModel { get { return _lazyVm.Value; } }
     }
 }

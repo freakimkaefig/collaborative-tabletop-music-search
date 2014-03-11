@@ -8,8 +8,9 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:c="clr-namespace:Ctms.Presentation.Converters"
     mc:Ignorable="d"     
-    MinWidth="1280"  MinHeight="700" 
-        >
+    MinWidth="1280"  MinHeight="700"
+    Width="1920" Height="1080"
+    WindowState="Maximized" WindowStyle="None">
 <!--d:DataContext="{d:DesignInstance dd:SampleShellViewModel, IsDesignTimeCreatable=True}"
     Title="{Binding Title}" Icon="{StaticResource BookLibraryImageSource}"
     waf:ValidationHelper.IsEnabled="true" waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"-->
@@ -36,10 +37,16 @@
         <Grid Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+<<<<<<< origin/fullscreen
+            
+            <ContentControl Content="{Binding ShellService.SearchView}" Grid.Column="0"/>            
+            <ContentControl Content="{Binding ShellService.ResultView}" Grid.Column="0"/>
+            <ContentControl Content="{Binding ShellService.DetailView}" Grid.Column="0"/>
+            <ContentControl Content="{Binding ShellService.MenuView}" Grid.Column="0"/>
+            <ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Column="0"/>
+        </Grid>  
+=======
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
@@ -47,12 +54,8 @@
             <ContentControl Content="{Binding ShellService.ResultView}" Margin="0,0,0,0" Grid.Column="1" Grid.Row="0"/>
             <ContentControl Content="{Binding ShellService.DetailView}" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
             <ContentControl Content="{Binding ShellService.MenuView}" Margin="0,0,0,0" Grid.Column="3" Grid.Row="0"/>
-            <ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Row="1" Grid.Column="3" Margin="0,0,0,0"/>
-        </Grid>  
-<<<<<<< HEAD
-    </s:TagVisualizer>
-=======
-        <!--<ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0"/>-->
+            <!--<ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0"/>-->
+    </Grid>  
+>>>>>>> local
     <!--</s:TagVisualizer>-->
->>>>>>> origin/dev
 </s:SurfaceWindow>

@@ -33,6 +33,9 @@ namespace Ctms.Presentation.Views
             _lazyVm = new Lazy<ResultViewModel>(() => ViewHelper.GetViewModel<ResultViewModel>(this));
         }
 
+        // Provides this view's viewmodel
+        private ResultViewModel _viewModel { get { return _lazyVm.Value; } }
+
         private ResultViewModel _viewModel { get { return _lazyVm.Value; } }
 
         private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)

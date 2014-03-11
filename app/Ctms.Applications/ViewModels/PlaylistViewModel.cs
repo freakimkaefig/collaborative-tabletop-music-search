@@ -16,7 +16,7 @@ namespace Ctms.Applications.ViewModels
     [Export]
     public class PlaylistViewModel : ViewModel<IPlaylistView>
     {
-        private bool isValid = true;
+        private bool _isValid = true;
         private bool _readyForPlayback = false;
         private bool _playing = false;
         private bool _prelistening = false;
@@ -35,6 +35,10 @@ namespace Ctms.Applications.ViewModels
             : base(view)
         {
             _playlistResults = new ObservableCollection<ResultDataModel>();
+            {
+                new Playlist() { Id = 1, Name = "Playlist1" },
+                new Playlist() { Id = 2, Name = "Playlist2" },
+            };
         }
 
 
@@ -42,18 +46,30 @@ namespace Ctms.Applications.ViewModels
 
         public bool IsValid
         {
-            get { return isValid; }
+            get { return _isValid; }
             set
             {
-                if (isValid != value)
+                if (_isValid != value)
                 {
-                    isValid = value;
+                    _isValid = value;
                     RaisePropertyChanged("IsValid");
                 }
             }
         }
 
-        public bool ReadyForPlayback
+        public ObservableCollection<Playlist> Playlists
+        {
+            get { return _playlists; }
+            set
+            {
+                if (_playlists != value)
+                {
+                    _playlists = value;
+                    RaisePropertyChanged("Playlists");
+                }
+            }
+        }
+
         {
             get { return _readyForPlayback; }
             set

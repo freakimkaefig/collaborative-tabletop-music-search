@@ -10,7 +10,7 @@ using Ctms.Applications.Properties;
 using Ctms.Applications.Services;
 using Ctms.Applications.ViewModels;
 using Ctms.Domain;
-using System.IO;
+//using System.IO;
 using System.Data.EntityClient;
 using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
@@ -21,6 +21,7 @@ using MusicSearch.ResponseObjects;
 using Ctms.Domain.Objects;
 using Ctms.Applications.Workers;
 using MusicSearch.SearchObjects;
+using System.Collections.Generic;
 
 
 namespace Ctms.Applications.Controllers
@@ -36,8 +37,8 @@ namespace Ctms.Applications.Controllers
         private readonly CompositionContainer _container;
         //Services
         private readonly IShellService _shellService;
-        private readonly IEntityService _entityService;
-        private readonly TagVisualizationService _tagVisualizationService;
+        private readonly EntityService _entityService;
+        private readonly SearchTagVisualizationService _tagVisualizationService;
         //ViewModels
         private SearchViewModel _searchVm;
         private SearchTagViewModel _searchTagVm;
@@ -50,30 +51,30 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _startSearchCmd;
         private readonly DelegateCommand _selectOptionCmd;
         //Further vars
-        //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
-        public SearchController(CompositionContainer container, IShellService shellService, IEntityService entityService,
-            SearchViewModel searchVm, SearchTagViewModel searchTagVm, ResultViewModel resultVm,
+        public SearchController(CompositionContainer container, IShellService shellService, EntityService entityService,
+            SearchViewModel searchVm, 
+            SearchTagViewModel searchTagVm, 
+            ResultViewModel resultVm,
             SearchWorker searchWorker, ResultWorker resultWorker, SearchOptionWorker searchOptionWorker)
         {
-            _searchWorker = searchWorker;
-            _resultWorker = resultWorker;
-            _searchOptionWorker = searchOptionWorker;
-
-            _container = container;
+            _container                  = container;
+            //Workers
+            _searchWorker               = searchWorker;
+            _resultWorker               = resultWorker;
+            _searchOptionWorker         = searchOptionWorker;
             //Services
-            _shellService = shellService;
-            _entityService = entityService;
-            _tagVisualizationService = new TagVisualizationService(searchVm);
+            _shellService               = shellService;
+            _entityService              = entityService;
+            _tagVisualizationService    = new SearchTagVisualizationService(searchVm);//, searchTagVm);
             //ViewModels
-            _searchVm = searchVm;
-            _searchTagVm = searchTagVm;
-            _resultVm = resultVm;
+            _searchVm                   = searchVm;
+            _searchTagVm                = searchTagVm;
+            _resultVm                   = resultVm;
             //Commands
-            _startSearchCmd = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
-            //_selectOptionCmd = new DelegateCommand(t => _searchOptionWorker.SelectOption((string)t));
-            _selectOptionCmd = new DelegateCommand((id) => _searchOptionWorker.SelectOption((int)id));
+            _startSearchCmd             = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
+            _selectOptionCmd            = new DelegateCommand((id) => _searchOptionWorker.SelectOption((TagOption)id));
         }
 
         public void Initialize()
@@ -86,11 +87,60 @@ namespace Ctms.Applications.Controllers
             //Listeners
             AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
-            //_tagVisualizationService.InitTangibleDefinitions();
-            _searchTagVm.SelectOptionCmd = _selectOptionCmd;
+            //_searchTagVm.SelectOptionCmd = _selectOptionCmd;
             _searchVm.SelectOptionCmd = _selectOptionCmd;
 
-            _tagVisualizationService.InitTangibleDefinitions();
+            InitKeywords();
+
+            // set  default tag values
+            _tagVisualizationService.InitTagDefinitions();
+            _searchOptionWorker.UpdateOptions();
+
+        }
+
+        private void InitKeywords()
+        {
+            List<Tag> tags = new List<Tag>()
+            {/*
+                new Tag()
+                {
+                    Id = 0,
+                    TagOptions = new List<TagOption>()
+                    {
+                        new DoubleTextTagOption()
+                        {
+                            Id          = 1,
+                            MainText    = "Fireworks",
+                            SubText     = "Katy Perry"
+                        },
+                        new DoubleTextTagOption()
+                        {
+                            Id          = 2,
+                            MainText    = "Fireworker",
+                            SubText     = "ACDC"
+                        }
+                    },
+                    SelectedKeyword = new Artist("Korn")
+                },
+                new Tag()
+                {
+                    Id = 1,
+                    TagOptions = new List<TagOption>()
+                    {
+                        new SingleTextTagOption()
+                        {
+                            Id = 3,
+                            Text = "The Baseballs"
+                        },
+                        new SingleTextTagOption()
+                        {
+                            Id = 4,
+                            Text = "Baseball Fighters"
+                        }
+                    }
+                }*/
+            };
+            //_searchVm.Tags = tags;
         }
 
         private void UpdateCommands()
@@ -104,6 +154,10 @@ namespace Ctms.Applications.Controllers
             {
                 //...
                 UpdateCommands();
+            }
+            else if (e.PropertyName == "Tags")//SelectedSong is just an example
+            {
+
             }
         }
     }

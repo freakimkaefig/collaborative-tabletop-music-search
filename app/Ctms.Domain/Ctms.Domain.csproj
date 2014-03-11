@@ -44,6 +44,10 @@
       <Project>{27B67DFE-0BF1-4435-B036-E4C083EAEA03}</Project>
       <Name>WpfApplicationFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MusicSearch\MusicSearch.csproj">
+      <Project>{A9590CA2-85B5-4433-B421-A09F38C2D664}</Project>
+      <Name>MusicSearch</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ohLibSpotify">
@@ -71,6 +75,7 @@
     <Compile Include="Objects\Search.cs" />
     <Compile Include="Objects\Song.cs" />
     <Compile Include="Objects\SpotifyTrack.cs" />
+    <Compile Include="Objects\Tag.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

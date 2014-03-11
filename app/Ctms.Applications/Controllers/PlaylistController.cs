@@ -16,6 +16,7 @@ using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
 using MusicStream;
+using Ctms.Domain.Objects;
 using Ctms.Applications.Workers;
 using Ctms.Domain.Objects;
 using Ctms.Applications.DataModels;
@@ -34,7 +35,8 @@ namespace Ctms.Applications.Controllers
         private readonly CompositionContainer container;
         //Services
         private readonly IShellService shellService;
-        private readonly IEntityService entityService;
+        private readonly EntityService entityService;
+        private readonly IMessageService _messageService;
         //ViewModels
         private PlaylistViewModel _playlistViewModel;
         //Worker
@@ -57,6 +59,7 @@ namespace Ctms.Applications.Controllers
             //Services
             this.shellService = shellService;
             this.entityService = entityService;
+            _messageService = messageService;
             //ViewModels
             _playlistViewModel = playlistViewModel;
             //Worker
@@ -71,7 +74,7 @@ namespace Ctms.Applications.Controllers
 
         public void Initialize()
         {
-            IPlaylistView playlistView = container.GetExportedValue<IPlaylistView>();
+            _playlistVm.SelectCmd = _selectCmd;
             //_playlistViewModel = new PlaylistViewModel(playlistView);
             //Commands
             _playlistViewModel.PlayCommand = _playCommand;
