@@ -19,7 +19,7 @@ namespace Ctms.Applications.DataFactories
         {
             Song newSong  = new Song();
             newSong.Title = song.Title;
-            newSong.Artist = song.Artist_Name;
+            newSong.ArtistName = song.Artist_Name;
 
             return newSong;
         }

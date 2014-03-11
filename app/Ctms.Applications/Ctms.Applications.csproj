@@ -38,7 +38,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="DataModels\" />
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +55,7 @@
     <Compile Include="DataFactories\BaseFactory.cs" />
     <Compile Include="DataFactories\PlaylistFactory.cs" />
     <Compile Include="DataFactories\SongFactory.cs" />
+    <Compile Include="DataModels\ResultDataModel.cs" />
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Handlers\TagHandler.cs" />
     <Compile Include="ViewModels\SearchTagViewModel.cs">
@@ -65,7 +65,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Workers\DetailWorker.cs" />
-    <Compile Include="Workers\ObservableCollection.cs" />
     <Compile Include="Workers\PlaylistWorker.cs" />
     <Compile Include="Workers\ResultWorker.cs" />
     <Compile Include="Workers\SearchWorker.cs" />

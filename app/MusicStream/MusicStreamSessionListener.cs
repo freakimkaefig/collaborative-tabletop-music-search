@@ -34,18 +34,16 @@ namespace MusicStream
 
         public override void LoggedIn(SpotifySession session, SpotifyError error)
         {
-            base.LoggedIn(session, error);
-            switch(error)
+            if (error == SpotifyError.Ok)
             {
-                case SpotifyError.Ok:
-                    _sessionManager.logMessages.Enqueue("Spotify: LOGGED IN");    //Logging LoginMessage to TextBox
-                    break;
-                case SpotifyError.UserNeedsPremium:
-                    _sessionManager.logMessages.Enqueue("Spotify: ERROR - UserNeedsPremium");
-                    break;
+                base.LoggedIn(session, error);
+                _sessionManager.logMessages.Enqueue("Spotify: LOGGED IN");  //Logging LoginMessage to TextBox
+                _sessionManager.LoggedInCallback();
             }
-
-            _sessionManager.LoggedInCallback();
+            else
+            {
+                _sessionManager.SpotifyError(error);
+            }           
         }
 
         public override void LoggedOut(SpotifySession session)

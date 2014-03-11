@@ -18,6 +18,7 @@ using System.Waf.Applications;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation;
 using Ctms.Domain.Objects;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Presentation.Views
 {
@@ -57,7 +58,7 @@ namespace Ctms.Presentation.Views
 
         private void Results_OnDragCanceled(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
         {
-            Result data = e.Cursor.Data as Result;
+            ResultDataModel data = e.Cursor.Data as ResultDataModel;
             ScatterViewItem item = data.DraggedElement as ScatterViewItem;
             if (item != null)
             {
@@ -86,7 +87,7 @@ namespace Ctms.Presentation.Views
                 return;
             }
 
-            Result data = draggedElement.Content as Result;
+            ResultDataModel data = draggedElement.Content as ResultDataModel;
 
             // Set the dragged element. This is needed in case the drag operation is canceled.
             data.DraggedElement = draggedElement;

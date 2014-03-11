@@ -16,6 +16,7 @@ using Ctms.Applications.Views;
 using Ctms.Applications.ViewModels;
 using System.Waf.Applications;
 using Ctms.Domain.Objects;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Presentation.Views
 {
@@ -44,7 +45,7 @@ namespace Ctms.Presentation.Views
 
         private void PlaylistAddDropTarget_Drop(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
         {
-            object result = e.Cursor.Data as Result;
+            object result = e.Cursor.Data as ResultDataModel;
             _viewModel.AddTrackCommand.Execute(result);
         }
     }

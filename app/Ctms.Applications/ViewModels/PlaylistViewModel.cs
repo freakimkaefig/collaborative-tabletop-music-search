@@ -9,6 +9,7 @@ using Ctms.Applications.Views;
 using Ctms.Domain.Objects;
 using System.Collections.ObjectModel;
 using SpotifySharp;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -26,13 +27,14 @@ namespace Ctms.Applications.ViewModels
         private ICommand _stopCommand;
         private ICommand _addTrackCommand;
         //
-        private ObservableCollection<Result> _resultsForPlaylist;
+        private ObservableCollection<ResultDataModel> _playlistResults;
+        private Playlist _currentPlaylist = null;
 
         [ImportingConstructor]
         public PlaylistViewModel(IPlaylistView view)
             : base(view)
         {
-            _resultsForPlaylist = new ObservableCollection<Result>();
+            _playlistResults = new ObservableCollection<ResultDataModel>();
         }
 
 
@@ -90,15 +92,28 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ObservableCollection<Result> ResultsForPlaylist
+        public ObservableCollection<ResultDataModel> ResultsForPlaylist
         {
-            get { return _resultsForPlaylist; }
+            get { return _playlistResults; }
             set
             {
-                if (_resultsForPlaylist != value)
+                if (_playlistResults != value)
                 {
-                    _resultsForPlaylist = value;
-                    RaisePropertyChanged("Playlist");
+                    _playlistResults = value;
+                    RaisePropertyChanged("ResultsForPlaylist");
+                }
+            }
+        }
+
+        public Playlist CurrentPlaylist
+        {
+            get { return _currentPlaylist; }
+            set
+            {
+                if (_currentPlaylist != value)
+                {
+                    _currentPlaylist = value;
+                    RaisePropertyChanged("CurrentPlaylist");
                 }
             }
         }

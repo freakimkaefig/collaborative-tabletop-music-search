@@ -6,8 +6,8 @@
 
     <DataTemplate x:Key="SurfaceListBoxItemDataTemplate">
         <StackPanel Height="100" Width="200" Background="BlueViolet">
-            <Label Content="{Binding Song.Artist}"/>
-            <Label Content="{Binding Song.Title}"/>
+            <Label Content="{Binding Result.Song.ArtistName}"/>
+            <Label Content="{Binding Result.Song.Title}"/>
             <!--<Label Content="{Binding Duration}"/>-->
         </StackPanel>
     </DataTemplate>

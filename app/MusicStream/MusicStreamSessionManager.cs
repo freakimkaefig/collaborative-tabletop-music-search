@@ -15,6 +15,11 @@ using System.Collections.ObjectModel;
 
 namespace MusicStream
 {
+    /// <summary>
+    /// main class for handling streaming from spotify
+    /// accessed via ViewModels or Workers from outside
+    /// 
+    /// </summary>
     public class MusicStreamSessionManager
     {
         private BackgroundWorkHelper _backgroundWorkHelper;
@@ -25,10 +30,12 @@ namespace MusicStream
         private MusicStreamPlaylistListener _playlistListener;
 
         //Actions
-        public Action<string> receiveLogMessage;
+        public Action<string> ReceiveLogMessage;
+        public Action<SpotifyError> SpotifyError;
         public Action SpotifyLoggedIn;
         public Action SpotifyLoggedOut;
         public Action<ObservableCollection<Playlist>> ReadyForPlayback;
+        public Action<Playlist> PlaylistOpened;
         public Action PrelistenStarted;
         public Action PrelistenStopped;
         public Action PlaybackStarted;
@@ -52,18 +59,19 @@ namespace MusicStream
         private byte[] _copiedFrames;
         private Track _currentTrack;
         private int _currentTrackIndex;
-        private Playlist _currentPlaylist;
         
 
         public MusicStreamSessionManager()
         {
-            //InitializeComponent();
+            //constructor for MusicStreamSessionManager
+            //first object needed for streaming
 
             _backgroundWorkHelper = new BackgroundWorkHelper();
 
             syncContext = SynchronizationContext.Current;
             logMessages = new ConcurrentQueue<string>();
 
+            //configuration for SpotifySession
             var config = new SpotifySessionConfig();
             config.ApiVersion = 12;
             config.CacheLocation = "spotifydata";
@@ -103,6 +111,9 @@ namespace MusicStream
         /* ---------- PUBLIC METHODS ---------- */
         public void Login(string username, string password)
         {
+            //handles logging in to spotify
+            //accessed through menu
+
             Dictionary<string, object> credentials = new Dictionary<string, object>();
             credentials.Add("username", username);
             credentials.Add("password", password);
@@ -112,6 +123,8 @@ namespace MusicStream
 
         public void Logout()
         {
+            //handles logging out from spotify
+
             _backgroundWorkHelper.DoInBackground(LogoutWorker, LogoutCompleted);
         }
 
@@ -132,6 +145,12 @@ namespace MusicStream
         public void CreatePlaylist(string name)
         {
             _backgroundWorkHelper.DoInBackground(CreatePlaylistWorker, CreatePlaylistCompleted, name);
+        }
+
+        public void AddTrackToPlaylist(Playlist playlist, string spotifyTrackId)
+        {
+            object[] data = new object[2] { playlist, spotifyTrackId };
+            _backgroundWorkHelper.DoInBackground(AddTrackToPlaylistWorker, AddTrackToPlaylistCompleted, data);
         }
 
         
@@ -164,7 +183,7 @@ namespace MusicStream
         public void LoggedInCallback()
         {
             /* Callback, when successfully logged in to Spotify
-             * creating new PlaylistContainer
+             * creating new PlaylistContainer for streaming or playlist operations
              */
             SpotifyLoggedIn();  //Notify MenuController
 
@@ -208,6 +227,10 @@ namespace MusicStream
 
         public void MusicDeliveryCallback(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
         {
+            //handle received music data from spotify for streaming
+            //format: audio format for streaming
+            //frames: pointer to the byte-data in storage
+
             var size = num_frames * format.channels * 2;
             if (size != 0)
             {
@@ -284,6 +307,8 @@ namespace MusicStream
             {
                 logMessages.Enqueue("Track " + i + ": " + ((Playlist)e.Result).Track(i).Artist(0).Name() + " - " + ((Playlist)e.Result).Track(i).Name());
             }
+
+            PlaylistOpened((Playlist)e.Result);
         }
 
         private void CreatePlaylistWorker(object sender, DoWorkEventArgs e)
@@ -293,6 +318,19 @@ namespace MusicStream
         private void CreatePlaylistCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             Playlist playlist = (Playlist)e.Result;
+        }
+
+        private void AddTrackToPlaylistWorker(object sender, DoWorkEventArgs e)
+        {
+            Playlist playlist = (Playlist)((object[])e.Argument)[0];
+            string spotifyTrackId = (string)((object[])e.Argument)[1];
+            Link link = Link.CreateFromString(spotifyTrackId);
+            playlist.AddTracks(new Track[1] { Track.GetPlayable(_session, link.AsTrack()) }, playlist.NumTracks(), _session);
+            e.Result = e.Argument;
+        }
+        private void AddTrackToPlaylistCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
         }
 
 
@@ -309,7 +347,7 @@ namespace MusicStream
             string message;
             while (logMessages.TryDequeue(out message))
             {
-                receiveLogMessage(message);
+                ReceiveLogMessage(message);
             }
             while (timeout == 0)
             {

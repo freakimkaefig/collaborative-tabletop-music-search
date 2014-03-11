@@ -18,8 +18,8 @@ namespace Ctms.Applications.Workers
     [Export]
     public class MusicStreamAccountWorker
     {
-        private string _spotifyUsername = "mybleton";
-        private string _spotifyPassword = "ctms";
+        //private string _spotifyUsername = "mybleton";     //deprecated: Username not saved (input via menu)
+        //private string _spotifyPassword = "ctms";         //deprecated: Password not saved (security issues, input via menu)
         private ObservableCollection<Playlist> _playlists;
 
         private MusicStreamSessionManager _sessionManager;
@@ -37,6 +37,10 @@ namespace Ctms.Applications.Workers
 
         //Getter
         public bool CanLogin() { return _menuViewModel.CanLogin; }
+        public bool IsLoggedIn() { return _menuViewModel.IsLoggedIn; }
+
+        /* deprecated: Username & Password not saved in code
+         * 
         public string SpotifyUsername
         {
             set { _spotifyUsername = value; }
@@ -47,16 +51,25 @@ namespace Ctms.Applications.Workers
             set { _spotifyPassword = value; }
             get { return _spotifyPassword; }
         }
+         * */
 
 
+        //PUBLIC METHODS
         public void Login(SurfacePasswordBox spotifyPasswordInput)
         {
+            //handles Click on LoginButton in Menu
+
             _sessionManager = new MusicStreamSessionManager();
             SessionManagerCreated(_sessionManager);
-            _sessionManager.receiveLogMessage = ReceiveLogMessage;
+
+            //registration of listeners to MusicStreamSessionManager
+            _sessionManager.ReceiveLogMessage = ReceiveLogMessage;
+            _sessionManager.SpotifyError = SpotifyError;
             _sessionManager.SpotifyLoggedIn = SpotifyLoggedIn;
             _sessionManager.SpotifyLoggedOut = SpotifyLoggedOut;
             _sessionManager.ReadyForPlayback = ReadyForPlayback;
+
+            //passing credentials to MusicStreamSessionManager & logging in
             _sessionManager.Login(_menuViewModel.SpotifyUsernameInput, spotifyPasswordInput.Password);
         }
 
@@ -67,21 +80,56 @@ namespace Ctms.Applications.Workers
 
         public void OpenPlaylist(SpotifyPlaylist spotifyPlaylist)
         {
-            _sessionManager.OpenPlaylists(spotifyPlaylist.Playlist);
+            if (_menuViewModel.IsLoggedIn)
+            {
+                _sessionManager.OpenPlaylists(spotifyPlaylist.Playlist);
+            }
+            else
+            {
+                //Notify user to login to spotify
+            }
         }
 
         public void CreateNewPlaylist(SurfaceTextBox name)
         {
-            _sessionManager.CreatePlaylist(name.Text);
+            if (_menuViewModel.IsLoggedIn)
+            {
+                _sessionManager.CreatePlaylist(name.Text);
+            }
+            else
+            {
+                //Notify user to login to spotify
+            }
         }
 
+
+        //CALLBACKS
         private void ReceiveLogMessage(string logMessage)
         {
             _menuViewModel.LoginLogMessage += "\n" + CodeHelpers.GetTimeStamp() + "\n" +logMessage + "\n";
         }
 
+        private void SpotifyError(SpotifyError spotifyError)
+        {
+            switch (spotifyError)
+            {
+                case SpotifySharp.SpotifyError.Ok:
+                    //no Error
+                    break;
+                case SpotifySharp.SpotifyError.TrackNotPlayable:
+                    //no Error
+                    break;
+                //... switch all errors from SpotifySharp.SpotifyError
+                default:
+                    ReceiveLogMessage("ERROR");
+                    break;
+            }
+        }
+
         private void SpotifyLoggedIn()
         {
+            //toast for visual feedback
+
             _menuViewModel.IsLoggedIn = true;
         }
 

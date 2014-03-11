@@ -18,6 +18,7 @@ using Ctms.Applications.Views;
 using MusicStream;
 using Ctms.Applications.Workers;
 using Ctms.Domain.Objects;
+using Ctms.Applications.DataModels;
 
 
 namespace Ctms.Applications.Controllers
@@ -65,7 +66,7 @@ namespace Ctms.Applications.Controllers
             this._playCommand = new DelegateCommand(_streamingWorker.PlayCurrentTrack, _streamingWorker.CanStream);
             this._pauseCommand = new DelegateCommand(_streamingWorker.PauseCurrentTrack, _streamingWorker.Playing);
             this._stopCommand = new DelegateCommand(_streamingWorker.StopPlayback, _streamingWorker.Playing);
-            this._addTrackCommand = new DelegateCommand((result) => _playlistWorker.AddTrackToPlaylist((Result)result));
+            this._addTrackCommand = new DelegateCommand((result) => _playlistWorker.AddTrackToPlaylist((ResultDataModel)result));
         }
 
         public void Initialize()
