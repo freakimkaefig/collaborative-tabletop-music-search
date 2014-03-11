@@ -24,29 +24,5 @@
             s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter" s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave" s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop" Margin="1700,590,0,90">
         </s:SurfaceListBox>
         <Label Content="PlaylistView" Height="38" Margin="1700,1042,0,0" />
-        
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="" Width="Auto" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <!--Button with command. This RelativeSource defines that the command is contained in the same data source
-                            (PlaylistViewModel) as the UserControl-->
-                            <Button Command="{Binding DataContext.SelectCmd, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                                CommandParameter="{Binding}">
-                                <Button.Content>
-                                    <StackPanel>
-                                        <Label Content="{Binding Name}" BorderThickness="0"/>
-                                        <!--<Label Content="{Binding Id}" BorderThickness="0" />-->
-                                    </StackPanel>
-                                </Button.Content>
-                            </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                
-            </DataGrid.Columns>
-        </DataGrid>
-
-
     </Grid>
 </UserControl>

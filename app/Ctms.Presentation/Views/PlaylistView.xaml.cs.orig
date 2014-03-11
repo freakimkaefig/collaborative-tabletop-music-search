@@ -29,6 +29,7 @@ namespace Ctms.Presentation.Views
         {
             InitializeComponent();
             _lazyVm = new Lazy<PlaylistViewModel>(() => ViewHelper.GetViewModel<PlaylistViewModel>(this));
+<<<<<<< HEAD
         }
 
         private PlaylistViewModel _viewModel { get { return _lazyVm.Value; } }
@@ -47,6 +48,11 @@ namespace Ctms.Presentation.Views
         {
             object result = e.Cursor.Data as ResultDataModel;
             _viewModel.AddTrackCommand.Execute(result);
+=======
+>>>>>>> dev
         }
+
+        // Provides this view's viewmodel
+        private PlaylistViewModel _viewModel { get { return _lazyVm.Value; } }
     }
 }

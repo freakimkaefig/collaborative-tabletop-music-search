@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+<<<<<<< HEAD
+using SpotifySharp;
+=======
+//using MusicSearch.ResponseObjects;
+>>>>>>> dev
+
+namespace Ctms.Domain.Objects
+{
+    public class Song
+    {
+        public string SpotifyId { get; set; }
+        public string Title { get; set; }
+<<<<<<< HEAD
+        public string ArtistName { get; set; }
+
+        public string ArtistId { get; set; }
+        public int Duration { get; set; }
+=======
+        public string Artist { get; set; }
+        //public ResponseContainer ResponseContainer { get; set; }
+>>>>>>> dev
+    }
+}

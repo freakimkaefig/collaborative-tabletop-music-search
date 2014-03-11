@@ -15,11 +15,14 @@ using System.Data.EntityClient;
 using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
+<<<<<<< HEAD
 using MusicStream;
-using Ctms.Domain.Objects;
 using Ctms.Applications.Workers;
 using Ctms.Domain.Objects;
 using Ctms.Applications.DataModels;
+=======
+using Ctms.Domain.Objects;
+>>>>>>> dev
 
 
 namespace Ctms.Applications.Controllers
@@ -38,6 +41,7 @@ namespace Ctms.Applications.Controllers
         private readonly EntityService entityService;
         private readonly IMessageService _messageService;
         //ViewModels
+<<<<<<< HEAD
         private PlaylistViewModel _playlistViewModel;
         //Worker
         private StreamingWorker _streamingWorker;
@@ -48,18 +52,30 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _stopCommand;
         private readonly DelegateCommand _addTrackCommand;
 
+=======
+        private PlaylistViewModel _playlistVm;
+        //Commands
+        private readonly DelegateCommand _selectCmd;
+>>>>>>> dev
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
-        public PlaylistController(CompositionContainer container, IShellService shellService, EntityService entityService,
+<<<<<<< HEAD
+        public PlaylistController(CompositionContainer container, IShellService shellService, IEntityService entityService,
             PlaylistViewModel playlistViewModel, StreamingWorker streamingWorker, PlaylistWorker playlistWorker)
+=======
+        public PlaylistController(CompositionContainer container, IShellService shellService, EntityService entityService,
+            PlaylistViewModel playlistVm, IMessageService messageService)
+>>>>>>> dev
         {
             this.container = container;
             //Services
             this.shellService = shellService;
             this.entityService = entityService;
+            _messageService = messageService;
             //ViewModels
+<<<<<<< HEAD
             _playlistViewModel = playlistViewModel;
             //Worker
             _streamingWorker = streamingWorker;
@@ -69,10 +85,17 @@ namespace Ctms.Applications.Controllers
             this._pauseCommand = new DelegateCommand(_streamingWorker.PauseCurrentTrack, _streamingWorker.Playing);
             this._stopCommand = new DelegateCommand(_streamingWorker.StopPlayback, _streamingWorker.Playing);
             this._addTrackCommand = new DelegateCommand((result) => _playlistWorker.AddTrackToPlaylist((ResultDataModel)result));
+=======
+            _playlistVm = playlistVm;
+            //Commands
+            _selectCmd = new DelegateCommand((playlist) => SelectPlaylist((Playlist)playlist));
+>>>>>>> dev
         }
 
         public void Initialize()
         {
+<<<<<<< HEAD
+            IPlaylistView playlistView = container.GetExportedValue<IPlaylistView>();
             //_playlistViewModel = new PlaylistViewModel(playlistView);
             //Commands
             _playlistViewModel.PlayCommand = _playCommand;
@@ -82,6 +105,13 @@ namespace Ctms.Applications.Controllers
             AddWeakEventListener(_playlistViewModel, PlaylistViewModelPropertyChanged);
 
             shellService.PlaylistView = _playlistViewModel.View;
+=======
+            AddWeakEventListener(_playlistVm, PlaylistViewModelPropertyChanged);
+
+            _playlistVm.SelectCmd = _selectCmd;
+
+            shellService.PlaylistView = _playlistVm.View;
+>>>>>>> dev
         }
 
         private void UpdateCommands()
@@ -89,6 +119,11 @@ namespace Ctms.Applications.Controllers
             _playCommand.RaiseCanExecuteChanged();
             _pauseCommand.RaiseCanExecuteChanged();
             _stopCommand.RaiseCanExecuteChanged();
+        }
+
+        public void SelectPlaylist(Playlist playlist)
+        {
+            MessageServiceExtensions.ShowMessage(_messageService, "Clicked " + playlist.Name);
         }
 
         private void PlaylistViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)

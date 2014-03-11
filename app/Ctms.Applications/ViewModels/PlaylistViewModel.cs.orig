@@ -8,18 +8,28 @@ using System.Windows.Input;
 using Ctms.Applications.Views;
 using Ctms.Domain.Objects;
 using System.Collections.ObjectModel;
+<<<<<<< HEAD
 using SpotifySharp;
 using Ctms.Applications.DataModels;
+=======
+>>>>>>> dev
 
 namespace Ctms.Applications.ViewModels
 {
     [Export]
     public class PlaylistViewModel : ViewModel<IPlaylistView>
     {
-        private bool _isValid = true;
+<<<<<<< HEAD
+        private bool isValid = true;
         private bool _readyForPlayback = false;
         private bool _playing = false;
         private bool _prelistening = false;
+=======
+        private bool _isValid = true;
+        private Playlist _playlist;
+        private ICommand _selectCmd;
+        private ObservableCollection<Playlist> _playlists;
+>>>>>>> dev
 
         //Commands
         private ICommand _playCommand;
@@ -27,14 +37,22 @@ namespace Ctms.Applications.ViewModels
         private ICommand _stopCommand;
         private ICommand _addTrackCommand;
         //
-        private Playlist _currentPlaylist = null;
         private ObservableCollection<ResultDataModel> _playlistResults;
+        private Playlist _currentPlaylist = null;
 
         [ImportingConstructor]
         public PlaylistViewModel(IPlaylistView view)
             : base(view)
         {
+<<<<<<< HEAD
             _playlistResults = new ObservableCollection<ResultDataModel>();
+=======
+            _playlists = new ObservableCollection<Playlist>()
+            {
+                new Playlist() { Id = 1, Name = "Playlist1" },
+                new Playlist() { Id = 2, Name = "Playlist2" },
+            };
+>>>>>>> dev
         }
 
 
@@ -53,19 +71,7 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ObservableCollection<ResultDataModel> PlaylistResults
-        {
-            get { return _playlistResults; }
-            set
-            {
-                if (_playlistResults != value)
-                {
-                    _playlistResults = value;
-                    RaisePropertyChanged("PlaylistResults");
-                }
-            }
-        }
-
+<<<<<<< HEAD
         public bool ReadyForPlayback
         {
             get { return _readyForPlayback; }
@@ -75,10 +81,35 @@ namespace Ctms.Applications.ViewModels
                 {
                     _readyForPlayback = value;
                     RaisePropertyChanged("ReadyForPlayback");
+=======
+        public ObservableCollection<Playlist> Playlists
+        {
+            get { return _playlists; }
+            set
+            {
+                if (_playlists != value)
+                {
+                    _playlists = value;
+                    RaisePropertyChanged("Playlists");
                 }
             }
         }
 
+        public Playlist Playlist
+        {
+            get { return _playlist; }
+            set
+            {
+                if (_playlist != value)
+                {
+                    _playlist = value;
+                    RaisePropertyChanged("Playlist");
+>>>>>>> dev
+                }
+            }
+        }
+
+<<<<<<< HEAD
         public bool Playing
         {
             get { return _playing; }
@@ -179,6 +210,17 @@ namespace Ctms.Applications.ViewModels
                 {
                     _addTrackCommand = value;
                     RaisePropertyChanged("AddTrackCommand");
+=======
+        public ICommand SelectCmd
+        {
+            get { return _selectCmd; }
+            set
+            {
+                if (_selectCmd != value)
+                {
+                    _selectCmd = value;
+                    RaisePropertyChanged("SelectCmd");
+>>>>>>> dev
                 }
             }
         }

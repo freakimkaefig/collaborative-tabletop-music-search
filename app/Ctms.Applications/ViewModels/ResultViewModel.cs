@@ -49,19 +49,6 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ObservableCollection<Result> Results
-        {
-            get { return _results; }
-            set
-            {
-                if (_results != value)
-                {
-                    _results = value;
-                    RaisePropertyChanged("Results");
-                }
-            }
-        }
-
         public ObservableCollection<ResultDataModel> Results
         {
             get { return _results; }

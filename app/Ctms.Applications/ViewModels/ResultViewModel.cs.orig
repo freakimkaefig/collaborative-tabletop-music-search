@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.Waf.Applications;
 using System.Windows.Input;
 using Ctms.Applications.Views;
 using Ctms.Domain.Objects;
+using System.Collections.ObjectModel;
+<<<<<<< HEAD
+using SpotifySharp;
+using Ctms.Applications.DataModels;
+=======
+>>>>>>> dev
 
 namespace Ctms.Applications.ViewModels
 {
@@ -17,17 +19,55 @@ namespace Ctms.Applications.ViewModels
         private Result result;
         private string title;
         private ICommand selectCommand;
-<<<<<<< HEAD
         private ICommand prelistenCommand;
-=======
         private ICommand clickedResultCommand;
->>>>>>> origin/dev
+<<<<<<< HEAD
+        private ObservableCollection<ResultDataModel> _results;
+=======
+        private ObservableCollection<Result> _results;
+>>>>>>> dev
 
 
         [ImportingConstructor]
         public ResultViewModel(IResultView view)
             : base(view)
         {
+<<<<<<< HEAD
+            _results = new ObservableCollection<ResultDataModel>()
+            {
+                new ResultDataModel("spotify:track:4lCv7b86sLynZbXhfScfm2", "Firework", "Katy Perry"),
+                new ResultDataModel("spotify:track:1zi3f2VL4eSFHvm0WC506q", "Achy Breaky Heart", "Billy Ray Cyrus"),
+                new ResultDataModel("spotify:track:6HNGXmc7A14zeeWTj4gzz8", "Watercolour", "Pendulum")
+=======
+
+            _results = new ObservableCollection<Result>()
+            {
+                new Result() 
+                {
+                    Song =  new Song()
+                    {
+                        Title = "Fireworks",
+                        Artist = "Katy Perry"
+                    }
+                },
+                new Result() 
+                {
+                    Song =  new Song()
+                    {
+                        Title = "Achy Breaky Heart",
+                        Artist = "Billy Ray Cyrus"
+                    }
+                },
+                new Result() 
+                {
+                    Song =  new Song()
+                    {
+                        Title = "Watercolour",
+                        Artist = "Pendulum"
+                    }
+                }
+>>>>>>> dev
+            };
         }
 
 
@@ -42,6 +82,23 @@ namespace Ctms.Applications.ViewModels
                 {
                     isValid = value;
                     RaisePropertyChanged("IsValid");
+                }
+            }
+        }
+
+<<<<<<< HEAD
+        public ObservableCollection<ResultDataModel> Results
+=======
+        public ObservableCollection<Result> Results
+>>>>>>> dev
+        {
+            get { return _results; }
+            set
+            {
+                if (_results != value)
+                {
+                    _results = value;
+                    RaisePropertyChanged("Results");
                 }
             }
         }
@@ -72,7 +129,6 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-<<<<<<< HEAD
         public ICommand PrelistenCommand
         {
             get { return prelistenCommand; }
@@ -85,7 +141,7 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-=======
+
 
         public ICommand ClickedResultCommand
         {
@@ -100,6 +156,5 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
->>>>>>> origin/dev
     }
 }

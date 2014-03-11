@@ -36,7 +36,7 @@ namespace Ctms.Applications.Controllers
         private readonly CompositionContainer _container;
         //Services
         private readonly IShellService _shellService;
-        private readonly IEntityService _entityService;
+        private readonly EntityService _entityService;
         //ViewModels
         private MenuViewModel _menuViewModel;
         private ShellViewModel _shellViewModel;
