@@ -19,7 +19,8 @@ namespace MusicSearch.Managers
     public class SearchManager
     {
         public ResponseContainer ResponseContainer;
-        private string _defaultURL = "http://developer.echonest.com/api/v4/";
+        private String _defaultURL = "http://developer.echonest.com/api/v4/";
+        private String  currentPath = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
         private String apiKey = null;
 
         //neue Instanz vom ResponseContainer
@@ -46,12 +47,10 @@ namespace MusicSearch.Managers
 
         public void initGenresRC()
         {
-            string path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-            
-            var newpath = path.Substring(0, path.LastIndexOf("app"))+"app/MusicSearch/files/genres.txt";
-            var regex3 = new Regex(Regex.Escape("%20"));
-            var newText4 = regex3.Replace(newpath, " ", 100);
-            
+            var newpath = currentPath.Substring(0, currentPath.LastIndexOf("app")) + "app/MusicSearch/files/genres.txt";
+            //var regex3 = new Regex(Regex.Escape("%20"));
+            //var newText4 = regex3.Replace(newpath, " ", 100);
+            var newText4 = StringHelper.replacePartialString(newpath, "%20", " ", 100);
             
             System.IO.StreamReader rdr = System.IO.File.OpenText(newText4);
             string reader = rdr.ReadToEnd();
@@ -136,8 +135,9 @@ namespace MusicSearch.Managers
 
             var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //'artists' durch 'ArtistInfos' ersetzen
-            var regex = new Regex(Regex.Escape("artists"));
-            var newText = regex.Replace(cleared, "ArtistInfos", 1);
+            //var regex = new Regex(Regex.Escape("artists"));
+            //var newText = regex.Replace(cleared, "ArtistInfos", 1);
+            var newText = StringHelper.replacePartialString(cleared, "artists", "ArtistInfos", 1);
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             //ID einfügen, zwecks Rückschlüssen
@@ -158,12 +158,13 @@ namespace MusicSearch.Managers
 
             var cleared2 = @"" + response2.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //'songs' durch 'TitleSuggestions' ersetzen
-            var regex2 = new Regex(Regex.Escape("songs"));
-            var newText2 = regex2.Replace(cleared2, "ArtistInfos\': [{\'ArtistSongs", 1);
+            //var regex2 = new Regex(Regex.Escape("songs"));
+            //var newText2 = regex2.Replace(cleared2, "ArtistInfos\': [{\'ArtistSongs", 1);
+            var newText2 = StringHelper.replacePartialString(cleared2, "songs", "ArtistInfos\': [{\'ArtistSongs", 1);
             newText2 = newText2.Insert(newText2.LastIndexOf("}") - 1, "}]");
-            var regex3 = new Regex(Regex.Escape("id"));
-            var newText3 = regex3.Replace(newText2, "title_id", 100);
-
+            //var regex3 = new Regex(Regex.Escape("id"));
+            //var newText3 = regex3.Replace(newText2, "title_id", 100);
+            var newText3 = StringHelper.replacePartialString(newText2, "id", "title_id", 100);
             var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(newText3);
             //Innere Liste initialisieren
             ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
@@ -187,11 +188,13 @@ namespace MusicSearch.Managers
 
             var cleared3 = @"" + response3.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //'artists' durch 'SimilarArtist' ersetzen
-            var regex4 = new Regex(Regex.Escape("artists"));
-            var newText4 = regex4.Replace(cleared3, "ArtistInfos\': [{\'SimilarArtists", 1);
+            //var regex4 = new Regex(Regex.Escape("artists"));
+            //var newText4 = regex4.Replace(cleared3, "ArtistInfos\': [{\'SimilarArtists", 1);
+            var newText4 = StringHelper.replacePartialString(cleared3, "artists", "ArtistInfos\': [{\'SimilarArtists", 1);
             newText4 = newText4.Insert(newText4.LastIndexOf("}") - 1, "}]");
-            var regex5 = new Regex(Regex.Escape("id"));
-            var newText5 = regex5.Replace(newText4, "artist_id", 100);
+            //var regex5 = new Regex(Regex.Escape("id"));
+            //var newText5 = regex5.Replace(newText4, "artist_id", 100);
+            var newText5 = StringHelper.replacePartialString(newText4, "id", "artist_id", 100);
 
             var temp3 = JsonConvert.DeserializeObject<ResponseContainer>(newText5);
             //Innere Liste initialisieren
@@ -247,8 +250,9 @@ namespace MusicSearch.Managers
 
             var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //'songs' durch 'TitleSuggestions' ersetzen
-            var regex = new Regex(Regex.Escape("songs"));
-            var newText = regex.Replace(cleared, "TitleSuggestions", 1);
+            //var regex = new Regex(Regex.Escape("songs"));
+            //var newText = regex.Replace(cleared, "TitleSuggestions", 1);
+            var newText = StringHelper.replacePartialString(cleared, "songs", "TitleSuggestions", 1);
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             //ID einfügen, zwecks Rückschlüssen
@@ -289,8 +293,9 @@ namespace MusicSearch.Managers
 
             var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //'songs' durch 'TitleSuggestions' ersetzen
-            var regex = new Regex(Regex.Escape("artists"));
-            var newText = regex.Replace(cleared, "ArtistSuggestions", 1);
+            //var regex = new Regex(Regex.Escape("artists"));
+            //var newText = regex.Replace(cleared, "ArtistSuggestions", 1);
+            var newText = StringHelper.replacePartialString(cleared, "artists", "ArtistSuggestions", 1);
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             //ID einfügen, zwecks Rückschlüssen
@@ -395,8 +400,9 @@ namespace MusicSearch.Managers
         {
             if (String.IsNullOrEmpty(apiKey))
             {
+                
                 //XML auslesen
-                XDocument doc = XDocument.Load(@"../../../MusicSearch/files/config.xml");
+                XDocument doc = XDocument.Load(currentPath.Substring(0, currentPath.LastIndexOf("app")) + "app/MusicSearch/files/config.xml");
                 XElement el = doc.Element("apikey");
                 apiKey = (String)el;
 
@@ -422,9 +428,10 @@ namespace MusicSearch.Managers
             //http://james.newtonking.com/json/help/index.html
             //Escapes in string making problems?
             var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
-            var regex3 = new Regex(Regex.Escape("spotify-WW:track"));
-            var newText4 = regex3.Replace(cleared, "spotify:track", 1000);
+            //var regex3 = new Regex(Regex.Escape("spotify-WW:track"));
+            //var newText4 = regex3.Replace(cleared, "spotify:track", 1000);
             
+            var newText4 = StringHelper.replacePartialString(cleared, "spotify-WW:track", "spotify:track" , int 1000);
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
             //originId einfügen, zwecks Rückschlüssen
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
@@ -448,44 +455,27 @@ namespace MusicSearch.Managers
             //List<ResponseContainer.ResponseObj.genres> GenreSuggestionsRC = new List<ResponseContainer.ResponseObj.genres>();
             List<String> GenreSuggestions = new List<String>();
 
-            foreach (ResponseContainer.ResponseObj.genres c in GenresRC)
+            foreach (ResponseContainer.ResponseObj.genres g in GenresRC)
             {
-                if (c.genre_name.Contains(term))
+                if (g.genre_name.Contains(term))
                 {
-                    GenreSuggestions.Add(lowerToUpper(c.genre_name.ToString()));
+                    GenreSuggestions.Add(StringHelper.lowerToUpper(g.genre_name.ToString()));
                     //GenreSuggestionsRC.Add(c);
                 }
-                for(int i = 0; i<c.Subgenres.Count; i++)
+                for(int i = 0; i<g.Subgenres.Count; i++)
                 {
-                    if(c.Subgenres[i].name.Contains(term))
+                    if(g.Subgenres[i].name.Contains(term))
                     {
-                        GenreSuggestions.Add(lowerToUpper(c.Subgenres[i].name.ToString()));
+                        GenreSuggestions.Add(StringHelper.lowerToUpper(g.Subgenres[i].name.ToString()));
                         //GenreSuggestionsRC.Add(c);
                     }
-                    
                 }  
             }
             //foreach (ResponseContainer.ResponseObj.genres.subgenres x in GenresRC)
             return GenreSuggestions;
             //return GenreSuggestionsRC;
         }
-
-        public string lowerToUpper(String term)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (string str in term.Split(' '))
-            {
-                if (str.Length > 0)
-                {
-                    sb.Append(str.Substring(0, 1).ToUpper() + str.Substring(1) + " ");
-                }
-            }
-            return sb.ToString();
-        }
     }
-
-    
 
     public class searchObjects
     {
