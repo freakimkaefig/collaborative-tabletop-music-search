@@ -389,9 +389,10 @@ namespace MusicSearch.Managers
             //http://james.newtonking.com/json/help/index.html
             //Escapes in string making problems?
             var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            var regex3 = new Regex(Regex.Escape("spotify-WW:track"));
+            var newText4 = regex3.Replace(cleared, "spotify:track", 1000);
 
-
-            var temp = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
             //originId einfügen, zwecks Rückschlüssen
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
 

@@ -65,13 +65,13 @@ namespace MusicSearch.Test
             //##################################
             //TEST-Liste befüllen
             //##################################
-            /*testListe.Add(new testObjects
+            searchListe.Add(new searchObjects
             {
                genre = "Rock",
                originId = 1
                 
-            });*/
-            searchListe.Add(new searchObjects
+            });
+            /*searchListe.Add(new searchObjects
             {
                 artist_id = "ARH6W4X1187B99274F",
                 originId = 2
@@ -82,7 +82,7 @@ namespace MusicSearch.Test
                 title_id = "SOFJZMT12A6D4F883D",
                 originId = 3
 
-            });
+            });*/
             //##################################
             //##################################
             //Debug.WriteLine("Reading List...");
@@ -93,14 +93,14 @@ namespace MusicSearch.Test
             //SuggestionQuery("artist",1,"Katy P");
 
             //Such-Anfrage
-            //SearchQuery(searchListe);
+            SearchQuery(searchListe);
 
             //Detail-View Info's Anfrage
-            getDetailInfo(null, "ARH6W4X1187B99274F", "123");
+            //getDetailInfo(null, "ARH6W4X1187B99274F", "123");
 
             //api key holen
-            var temp = GetAPIKey();
-            Debug.WriteLine(temp);
+            //var temp = GetAPIKey();
+            //Debug.WriteLine(temp);
             
         }
 
@@ -475,9 +475,10 @@ namespace MusicSearch.Test
             //http://james.newtonking.com/json/help/index.html
             //Escapes in string making problems?
             var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            var regex3 = new Regex(Regex.Escape("spotify-WW:track"));
+            var newText4 = regex3.Replace(cleared, "spotify:track", 1000);
 
-
-            var temp = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
             //originId einfügen, zwecks Rückschlüssen
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
             
