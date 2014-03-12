@@ -66,7 +66,9 @@ namespace MusicSearch.Test
                 
             });
             SearchManager sm = new SearchManager();
-            //var temp = sm.getGenres();
+            //String temp = sm.lowerToUpper("lower upper");
+            var temp = sm.getGenreSuggestions("elec");
+            //var temp2 = sm.getGenres();
             //sm.getArtistSuggestions(1, "katy");
 
             //ArtistInfosRC.Add(new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>());

@@ -37,6 +37,35 @@ namespace MusicSearch.Managers
         //neue Instanz vom ResponseContainer für die Genres
         List<ResponseContainer.ResponseObj.genres> GenresRC = new List<ResponseContainer.ResponseObj.genres>();
 
+        
+        
+        public SearchManager()
+        {
+            initGenresRC();
+        }
+
+        public void initGenresRC()
+        {
+            string path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+            
+            var newpath = path.Substring(0, path.LastIndexOf("app"))+"app/MusicSearch/files/genres.txt";
+            var regex3 = new Regex(Regex.Escape("%20"));
+            var newText4 = regex3.Replace(newpath, " ", 100);
+            
+            
+            System.IO.StreamReader rdr = System.IO.File.OpenText(newText4);
+            string reader = rdr.ReadToEnd();
+
+            //reader = reader.Replace("'", "&#39;");
+            var cleared = @"" + reader.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
+
+            for (int i = 0; i < temp.Response.Genres.Count; i++)
+            {
+                GenresRC.Add(temp.Response.Genres[i]);
+            }
+        }
 
 
         public void getDetailInfo(String artist_name, String artist_id, String originID)
@@ -410,27 +439,49 @@ namespace MusicSearch.Managers
 
         public List<ResponseContainer.ResponseObj.genres> getGenres()
         {
-            
-            string path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-            
-            var newpath = path.Substring(0, path.LastIndexOf("app"))+"app/MusicSearch/files/genres.txt";
-            var regex3 = new Regex(Regex.Escape("%20"));
-            var newText4 = regex3.Replace(newpath, " ", 100);
-            
-            
-            System.IO.StreamReader rdr = System.IO.File.OpenText(newText4);
-            string reader = rdr.ReadToEnd();
-
-            //reader = reader.Replace("'", "&#39;");
-            var cleared = @"" + reader.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
-            
-            var temp = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
-
-            for (int i = 0; i < temp.Response.Genres.Count; i++)
-            {
-                GenresRC.Add(temp.Response.Genres[i]);
-            }
             return GenresRC;
+        }
+
+        public List<String> getGenreSuggestions(String term)
+        {
+            //neue Instanz vom ResponseContainer für die GenreVorschläge
+            //List<ResponseContainer.ResponseObj.genres> GenreSuggestionsRC = new List<ResponseContainer.ResponseObj.genres>();
+            List<String> GenreSuggestions = new List<String>();
+
+            foreach (ResponseContainer.ResponseObj.genres c in GenresRC)
+            {
+                if (c.genre_name.Contains(term))
+                {
+                    GenreSuggestions.Add(lowerToUpper(c.genre_name.ToString()));
+                    //GenreSuggestionsRC.Add(c);
+                }
+                for(int i = 0; i<c.Subgenres.Count; i++)
+                {
+                    if(c.Subgenres[i].name.Contains(term))
+                    {
+                        GenreSuggestions.Add(lowerToUpper(c.Subgenres[i].name.ToString()));
+                        //GenreSuggestionsRC.Add(c);
+                    }
+                    
+                }  
+            }
+            //foreach (ResponseContainer.ResponseObj.genres.subgenres x in GenresRC)
+            return GenreSuggestions;
+            //return GenreSuggestionsRC;
+        }
+
+        public string lowerToUpper(String term)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (string str in term.Split(' '))
+            {
+                if (str.Length > 0)
+                {
+                    sb.Append(str.Substring(0, 1).ToUpper() + str.Substring(1) + " ");
+                }
+            }
+            return sb.ToString();
         }
     }
 
