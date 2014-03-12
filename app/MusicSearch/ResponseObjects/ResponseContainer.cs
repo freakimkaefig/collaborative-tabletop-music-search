@@ -81,7 +81,7 @@ namespace MusicSearch.ResponseObjects
                 public string Artist_Id { get; set; }
                 public string Artist_Name { get; set; }
                 public string Title { get; set; }
-                public List<Object> tracks { get; set; }
+                public List<Tracks> tracks { get; set; }
                 public int originId { get; set; }
                 public double song_hotttnesss { get; set; }
 
@@ -97,6 +97,10 @@ namespace MusicSearch.ResponseObjects
                     public double loudness { get; set; }
                 }*/
              
+            }
+            public class Tracks
+            {
+                public string foreign_id { get; set; }
             }
 
             
