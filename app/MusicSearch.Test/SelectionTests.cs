@@ -59,18 +59,22 @@ namespace MusicSearch.Test
         public void startTests()
         {
             // Diese Methode kann später gelöscht werden. Dient hier nur als Startpunkt.
-
-            //ArtistInfosRC.Add(new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>());
-
-            //##################################
-            //TEST-Liste befüllen
-            //##################################
             searchListe.Add(new searchObjects
             {
                genre = "Rock",
                originId = 1
                 
             });
+            SearchManager sm = new SearchManager();
+            //var temp = sm.getGenres();
+            //sm.getArtistSuggestions(1, "katy");
+
+            //ArtistInfosRC.Add(new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>());
+
+            //##################################
+            //TEST-Liste befüllen
+            //##################################
+            
             /*searchListe.Add(new searchObjects
             {
                 artist_id = "ARH6W4X1187B99274F",
@@ -93,7 +97,7 @@ namespace MusicSearch.Test
             //SuggestionQuery("artist",1,"Katy P");
 
             //Such-Anfrage
-            SearchQuery(searchListe);
+            //SearchQuery(searchListe);
 
             //Detail-View Info's Anfrage
             //getDetailInfo(null, "ARH6W4X1187B99274F", "123");

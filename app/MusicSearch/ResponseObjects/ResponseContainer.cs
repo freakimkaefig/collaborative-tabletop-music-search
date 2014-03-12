@@ -19,6 +19,7 @@ namespace MusicSearch.ResponseObjects
             public List<ArtistSuggestion> ArtistSuggestions { get; set; }
             public List<TitleSuggestion> TitleSuggestions { get; set; }
             public List<ArtistInfo> ArtistInfos { get; set; }
+            public List<genres> Genres { get; set; }
             
 
             public class StatusObj
@@ -102,7 +103,17 @@ namespace MusicSearch.ResponseObjects
             {
                 public string foreign_id { get; set; }
             }
-
+            public class genres
+            {
+                public String genre_name { get; set; }
+                public List<genres.subgenres> Subgenres { get; set; }
+                
+                public class subgenres
+                {
+                    public String name { get; set; }
+                }
+            }
+            
             
         }
     }

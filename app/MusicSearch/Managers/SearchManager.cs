@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using System.Reflection;
 
 namespace MusicSearch.Managers
 {
@@ -32,6 +33,9 @@ namespace MusicSearch.Managers
 
         //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
         List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
+
+        //neue Instanz vom ResponseContainer für die Genres
+        List<ResponseContainer.ResponseObj.genres> GenresRC = new List<ResponseContainer.ResponseObj.genres>();
 
 
 
@@ -391,7 +395,7 @@ namespace MusicSearch.Managers
             var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             var regex3 = new Regex(Regex.Escape("spotify-WW:track"));
             var newText4 = regex3.Replace(cleared, "spotify:track", 1000);
-
+            
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
             //originId einfügen, zwecks Rückschlüssen
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
@@ -403,8 +407,34 @@ namespace MusicSearch.Managers
             }
             return SearchRC;
         }
-        
+
+        public List<ResponseContainer.ResponseObj.genres> getGenres()
+        {
+            
+            string path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+            
+            var newpath = path.Substring(0, path.LastIndexOf("app"))+"app/MusicSearch/files/genres.txt";
+            var regex3 = new Regex(Regex.Escape("%20"));
+            var newText4 = regex3.Replace(newpath, " ", 100);
+            
+            
+            System.IO.StreamReader rdr = System.IO.File.OpenText(newText4);
+            string reader = rdr.ReadToEnd();
+
+            //reader = reader.Replace("'", "&#39;");
+            var cleared = @"" + reader.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
+
+            for (int i = 0; i < temp.Response.Genres.Count; i++)
+            {
+                GenresRC.Add(temp.Response.Genres[i]);
+            }
+            return GenresRC;
+        }
     }
+
+    
 
     public class searchObjects
     {
