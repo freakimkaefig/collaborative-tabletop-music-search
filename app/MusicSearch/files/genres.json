@@ -1,5 +1,943 @@
-{"genres": [{"name":"alternative", "subgenres"[{"name": "alternative emo"}, {"name": "alternative hip hop"}, {"name": "alternative metal"}, {"name": "alternative metalcore"}, {"name": "alternative new age"}, {"name": "alternative pop"}, {"name": "alternative rock"}, {"name": "gothic alternative"}, {"name": "hard alternative"}, {"name": "progressive alternative"}]}, {"name":"electronic", "subgenres":[{"name": "acid house"}, {"name": "acid jazz"}, {"name": "acid techno"}, {"name": "alternative dance"}, {"name": "bass music"}, {"name": "big beat"}, {"name": "brostep"}, {"name": "chicago house"}, {"name": "chill lounge"}, {"name": "chill-out"}, {"name": "chill-out trance"}, {"name": "chiptune"}, {"name": "deep disco"}, {"name": "deep disco house"}, {"name": "deep euro house"}, {"name": "deep house"}, {"name": "digital hardcore"}, {"name": "disco"}, {"name": "disco house"}, {"name": "drum and bass"}, {"name": "drumfunk"}, {"name": "dub techno"}, {"name": "dubstep"}, {"name": "dutch house"}, {"name": "ebm"}, {"name": "edm"}, {"name": "electric blues"}, {"name": "electro dub"}, {"name": "electro house"}, {"name": "electro jazz"}, {"name": "electro swing"}, {"name": "freakbeat"}, {"name": "gabba"}, {"name": "ghettotech"}, {"name": "hands up"}, {"name": "hardstyle"}, {"name": "house"},{"name": "jump up"}, {"name": "lounge"}, {"name": "lounge house"}, {"name": "miami bass"}, {"name": "microhouse"}, {"name": "minimal"}, {"name": "minimal dub"}, {"name": "minimal dubstep"}, {"name": "minimal techno"}, {"name": "nordic house"}, {"name": "progressive house"}, {"name": "progressive psytrance"}, {"name": "progressive trance"},{"name": "schranz"}, {"name": "tech house"}, {"name": "techno"}, {"name": "trance"}, {"name": "trip hop"}, {"name": "vocal house"}]}, {"name":"rock", "subgenres":[{"name": "art rock"}, {"name": "blues-rock"}, {"name": "celtic rock"}, {"name": "classic funk rock"}, {"name": "classic garage rock"}, {"name": "classic rock"}, {"name": "chilean rock"}, {"name": "country rock"}, {"name": "funk rock"}, {"name": "garage rock"}, {"name": "geek rock"}, {"name": "german pop rock"}, {"name": "indian rock"}, {"name": "irish rock"}, {"name": "kraut rock"}, {"name": "medieval rock"}, {"name": "noise rock"}, {"name": "piano rock"}, {"name": "post rock"}, {"name": "progressive rock"}, {"name": "pub rock"}, {"name": "rock 'n roll"}, {"name": "rock noise"}, {"name": "rockabilly"}, {"name": "roots rock"}, {"name": "soft rock"}, {"name": "stoner rock"}, {"name": "traditional rock 'n roll"}, {"name": "traditional rockabilly"}, {"name": "trash rock"}]}, {"name":"pop", "subgenres":[{"name": "acoustic pop"}, {"name": "austropop"}, {"name": "britpop"}, {"name": "europop"}, {"name": "garage pop"}, {"name": "german pop"}, {"name": "mashup"}, {"name": "noise pop"}, {"name": "stomp pop"}, {"name": "teen pop"}, {"name": "viral pop"}]}, {"name":"rap", "subgenres"[{"name": "crunk"}, {"name": "dirty south rap"}, {"name": "dutch hip hop"}, {"name": "east coast hip hop"}, {"name": "gangster rap"}, {"name": "german hip hop"}, {"name": "hip hop"}, {"name": "nu skool breaks"}, {"name": "old school hip hop"}, {"name": "southern hip hop"}, {"name": "turntablism"}, {"name": "uk hip hop"}, {"name": "underground hip hop"}, {"name": "underground rap"}, {"name": "west coast rap"}]}, {"name":"jazz", "subgenres"[{"name": "avant-garde jazz"}, {"name": "cool jazz"}, {"name": "jazz"}, {"name": "jazz blues"}, {"name": "jazz orchestra"}, {"name": "jazz trio"}, {"name": "gypsy jazz"}, {"name": "new orleans jazz"}, {"name": "nu jazz"}, {"name": "smooth jazz"}, {"name": "south african jazz"}, {"name": "vintage jazz"}, {"name": "vocal jazz"}]}, {"name":"blues", "subgenres"[{"name": "acoustic blues"}, {"name": "chicago blues"}, {"name": "country blues"}, {"name": "delta blues"}, {"name": "louisiana blues"}, {"name": "memphis blues"}, {"name": "new orleans blues"}, {"name": "piano blues"}, {"name": "punk blues"}, {"name": "soul blues"}, {"name": "swamp blues"}, {"name": "traditional blues"}]}, {"name":"metal", "subgenres"[{"name": "avantgarde metal"}, {"name": "black metal"}, {"name": "brutal death metal"}, {"name": "dark black metal"}, {"name": "death metal"}, {"name": "doom metal"}, {"name": "funk metal"}, {"name": "grim death metal"}, {"name": "groove metal"}, {"name": "metal"}, {"name": "metal guitar"}, {"name": "metalcore"}, {"name": "nu metal"}, {"name": "post-metal"}, {"name": "progressive metal"}, {"name": "raw black metal"}, {"name": "retro metal"}, {"name": "sludge metal"}, {"name": "speed metal"}, {"name": "stoner metal"}, {"name": "viking metal"}]}, {"name":"folk", "subgenres"[{"name": "anti-folk"}, {"name": "folkmusik"}, {"name": "geek folk"}, {"name": "irish folk"}, {"name": "nordic folk"}, {"name": "nl folk"}, {"name": "traditional folk"}, {"name": "traditional british folk"}, {"name": "traditional irish folk"}]}, {"name":"punk", "subgenres"[{"name": "celtic punk"}, {"name": "emo punk"}, {"name": "german punk"}, {"name": "noise punk"}, {"name": "punk"}, {"name": "ska punk"}, {"name": "skate punk"}, {"name": "steampunk"}, {"name": "street punk"}]}, {"name":"r&b", "subgenres"[{"name": "deep northern soul"}, {"name": "memphis soul"}, {"name": "soul"}, {"name": "southern soul"}, {"name": "traditional soul"}, {"name": "alternative r&b"}, {"name": "freestyle"}, {"name": "funk"}, {"name": "g funk"}, {"name": "liquid funk"}, {"name": "traditional funk"}, {"name": "new jack swing"}, {"name": "swing"}, {"name": "traditional swing"}, {"name": "urban contemporary"}]}, {"name":"reggae", "subgenres"[{"name": "dub"}, {"name": "ska"}, {"name": "traditional ska"}, {"name": "traditional reggae"}, {"name": "reggaeton"}, {"name": "roots reggae"}, {"name": "dancehall"}, {"name": "riddim"}]}, {"name":"classical", "subgenres"[{"name": "classic afrobeat"}, {"name": "classic eurovision"}, {"name": "classic schlager"}, {"name": "classic soundtrack"}, {"name": "classical christmas"}, {"name": "classical guitar"}, {"name": "classical organ"}, {"name": "classical period"}, {"name": "classical piano"}, {"name": "avant-garde"}, {"name": "choral"}, {"name": "movie tunes"}, {"name": "orchestral"}]}, {"name":"country", "subgenres"[{"name": "country"}, {"name": "country christmas"}, {"name": "country gospel"}, {"name": "traditional country"}, {"name": "western swing"}, {"name": "progressive bluegrass"}, ]}, ]}
-
-
-
-{"name": "a cappella"}, {"name": "afrobeat"}, {"name": "afrobeats"}, {"name": "ambient"}, {"name": "ambient fusion"}, {"name": "anime"},  {"name": "balearic"}, {"name": "balkan brass"}, {"name": "barbershop"}, {"name": "baroque"}, {"name": "beach music"}, {"name": "beatdown"}, {"name": "bebop"},  {"name": "big band"}, {"name": "black death"}, {"name": "bolero"}, {"name": "boogie-woogie"}, {"name": "brass band"}, {"name": "brass ensemble"}, {"name": "breakbeat"}, {"name": "broken beat"}, {"name": "brutal deathcore"}, {"name": "c64"}, {"name": "cabaret"}, {"name": "calypso"}, {"name": "canterbury scene"}, {"name": "cello"}, {"name": "celtic"}, {"name": "celtic christmas"}, {"name": "children's music"}, {"name": "christmas"}, {"name": "comedy"}, {"name": "comic"}, {"name": "cuban rumba"}, {"name": "dark ambient"}, {"name": "dark cabaret"}, {"name": "death core"}, {"name": "deathgrind"}, {"name": "deep ambient"}, {{"name": "discovery"}, {"name": "doomcore"}, {"name": "downtempo"}, {"name": "downtempo fusion"}, {"name": "early music"},  {"name": "easy listening"}, {"name": "emo"}, {"name": "environmental"}, {"name": "eurobeat"},  {"name": "eurovision"}, {"name": "exotica"}, {"name": "filthstep"}, {"name": "fingerstyle"}, {"name": "flamenco"}, {"name": "flick hop"}, {"name": "free improvisation"},  {"name": "funeral doom"}, {"name": "funky breaks"}, {"name": "german indie"}, {"name": "german oi"}, {"name": "girl group"}, {"name": "glitch"}, {"name": "goregrind"}, {"name": "gospel"}, {"name": "grime"}, {"name": "grindcore"}, {"name": "grunge"}, {"name": "happy hardcore"}, {"name": "hardcore"}, {"name": "harp"}, {"name": "hawaiian"},  {"name": "industrial"}, {"name": "jungle"}, {"name": "karneval"}, {"name": "kindermusik"}, {"name": "latin"}, {"name": "mambo"}, {"name": "marching band"}, {"name": "mariachi"}, {"name": "medieval"}, {"name": "meditation"}, {"name": "native american"}, {"name": "nerdcore"}, {"name": "neue deutsche harte"}, {"name": "neue deutsche welle"}, {"name": "new age"}, {"name": "new beat"}, {"name": "new rave"}, {"name": "new wave"}, {"name": "new weird america"}, {"name": "ninja"}, {"name": "nintendocore"}, {"name": "no wave"}, {"name": "nu age"}, {"name": "nu gaze"}, {"name": "nu-cumbia"}, {"name": "oi"},  {"name": "old-time"}, {"name": "opera"}, {"name": "poetry"}, {"name": "polka"}, {"name": "post-grunge"}, {"name": "post-hardcore"}, {"name": "punjabi"}, {"name": "regional mexican"}, {"name": "relaxative"}, {"name": "renaissance"}, {"name": "romantic"}, {"name": "rumba"}, {"name": "salsa"}, {"name": "samba"}, {"name": "schlager"}, {"name": "soundtrack"}, {"name": "southern gospel"},  {"name": "speed garage"}, {"name": "speedcore"}, {"name": "spoken word"}, {"name": "stomp and flutter"}, {"name": "stomp and holler"}, {"name": "straight edge"}, {"name": "string quartet"}, {"name": "sunset lounge"}, {"name": "surf music"}, {"name": "tango"}, {"name": "throat singing"}, {"name": "tibetan"}, {"name": "trap music"}, {"name": "trapstep"}, {"name": "tribute"}, {"name": "tropical"}, {"name": "uk garage"},  {"name": "vegan straight edge"}, {"name": "video game music"}, {"name": "violin"}, {"name": "volksmusik"}, ], "total": 430}}
+{
+    "genres": [
+        {
+            "name": "alternative",
+            "subgenres": [
+                {
+                    "name": "alternative dance"
+                },
+                {
+                    "name": "alternative emo"
+                },
+                {
+                    "name": "alternative hip hop"
+                },
+                {
+                    "name": "alternative metal"
+                },
+                {
+                    "name": "alternative metalcore"
+                },
+                {
+                    "name": "alternative new age"
+                },
+                {
+                    "name": "alternative pop"
+                },
+                {
+                    "name": "alternative rock"
+                },
+                {
+                    "name": "gothic alternative"
+                },
+                {
+                    "name": "hard alternative"
+                },
+                {
+                    "name": "progressive alternative"
+                }
+            ]
+        },
+        {
+            "name": "electronic",
+            "subgenres": [
+                {
+                    "name": "acid house"
+                },
+                {
+                    "name": "acid jazz"
+                },
+                {
+                    "name": "acid techno"
+                },
+                {
+                    "name": "bass music"
+                },
+                {
+                    "name": "big beat"
+                },
+                {
+                    "name": "brostep"
+                },
+                {
+                    "name": "chicago house"
+                },
+                {
+                    "name": "chill lounge"
+                },
+                {
+                    "name": "chill-out trance"
+                },
+                {
+                    "name": "chiptune"
+                },
+                {
+                    "name": "deep disco"
+                },
+                {
+                    "name": "deep house"
+                },
+                {
+                    "name": "digital hardcore"
+                },
+                {
+                    "name": "disco"
+                },
+                {
+                    "name": "disco house"
+                },
+                {
+                    "name": "drum and bass"
+                },
+                {
+                    "name": "drumfunk"
+                },
+                {
+                    "name": "dubstep"
+                },
+                {
+                    "name": "dutch house"
+                },
+                {
+                    "name": "electric blues"
+                },
+                {
+                    "name": "electro dub"
+                },
+                {
+                    "name": "electro house"
+                },
+                {
+                    "name": "electro jazz"
+                },
+                {
+                    "name": "electro swing"
+                },
+                {
+                    "name": "funky breaks"
+                },
+                {
+                    "name": "gabba"
+                },
+                {
+                    "name": "ghettotech"
+                },
+                {
+                    "name": "glitch"
+                },
+                {
+                    "name": "hands up"
+                },
+                {
+                    "name": "hardcore"
+                },
+                {
+                    "name": "hardstyle"
+                },
+                {
+                    "name": "house"
+                },
+                {
+                    "name": "jump up"
+                },
+                {
+                    "name": "lounge"
+                },
+                {
+                    "name": "miami bass"
+                },
+                {
+                    "name": "minimal"
+                },
+                {
+                    "name": "minimal dubstep"
+                },
+                {
+                    "name": "minimal techno"
+                },
+                {
+                    "name": "new age"
+                },
+                {
+                    "name": "ninja"
+                },
+                {
+                    "name": "progressive house"
+                },
+                {
+                    "name": "progressive psytrance"
+                },
+                {
+                    "name": "progressive trance"
+                },
+                {
+                    "name": "schranz"
+                },
+                {
+                    "name": "tech house"
+                },
+                {
+                    "name": "techno"
+                },
+                {
+                    "name": "trance"
+                },
+                {
+                    "name": "trip hop"
+                },
+                {
+                    "name": "vocal house"
+                }
+            ]
+        },
+        {
+            "name": "rock",
+            "subgenres": [
+                {
+                    "name": "blues-rock"
+                },
+                {
+                    "name": "celtic rock"
+                },
+                {
+                    "name": "classic funk rock"
+                },
+                {
+                    "name": "classic garage rock"
+                },
+                {
+                    "name": "classic rock"
+                },
+                {
+                    "name": "country rock"
+                },
+                {
+                    "name": "funk rock"
+                },
+                {
+                    "name": "garage rock"
+                },
+                {
+                    "name": "geek rock"
+                },
+                {
+                    "name": "german pop rock"
+                },
+                {
+                    "name": "indian rock"
+                },
+                {
+                    "name": "industrial"
+                },
+                {
+                    "name": "irish rock"
+                },
+                {
+                    "name": "kraut rock"
+                },
+                {
+                    "name": "medieval rock"
+                },
+                {
+                    "name": "nintendocore"
+                },
+                {
+                    "name": "noise rock"
+                },
+                {
+                    "name": "piano rock"
+                },
+                {
+                    "name": "post rock"
+                },
+                {
+                    "name": "progressive rock"
+                },
+                {
+                    "name": "pub rock"
+                },
+                {
+                    "name": "rock 'n roll"
+                },
+                {
+                    "name": "rockabilly"
+                },
+                {
+                    "name": "roots rock"
+                },
+                {
+                    "name": "soft rock"
+                },
+                {
+                    "name": "stoner rock"
+                },
+                {
+                    "name": "traditional rock 'n roll"
+                },
+                {
+                    "name": "traditional rockabilly"
+                },
+                {
+                    "name": "trash rock"
+                }
+            ]
+        },
+        {
+            "name": "pop",
+            "subgenres": [
+                {
+                    "name": "acoustic pop"
+                },
+                {
+                    "name": "austropop"
+                },
+                {
+                    "name": "britpop"
+                },
+                {
+                    "name": "europop"
+                },
+                {
+                    "name": "garage pop"
+                },
+                {
+                    "name": "german pop"
+                },
+                {
+                    "name": "mashup"
+                },
+                {
+                    "name": "teen pop"
+                },
+                {
+                    "name": "viral pop"
+                }
+            ]
+        },
+        {
+            "name": "rap",
+            "subgenres": [
+                {
+                    "name": "crunk"
+                },
+                {
+                    "name": "dirty south rap"
+                },
+                {
+                    "name": "dutch hip hop"
+                },
+                {
+                    "name": "east coast hip hop"
+                },
+                {
+                    "name": "gangster rap"
+                },
+                {
+                    "name": "german hip hop"
+                },
+                {
+                    "name": "hip hop"
+                },
+                {
+                    "name": "nu skool breaks"
+                },
+                {
+                    "name": "old school hip hop"
+                },
+                {
+                    "name": "southern hip hop"
+                },
+                {
+                    "name": "turntablism"
+                },
+                {
+                    "name": "uk hip hop"
+                },
+                {
+                    "name": "underground hip hop"
+                },
+                {
+                    "name": "underground rap"
+                },
+                {
+                    "name": "west coast rap"
+                }
+            ]
+        },
+        {
+            "name": "jazz",
+            "subgenres": [
+                {
+                    "name": "avant-garde jazz"
+                },
+                {
+                    "name": "boogie-woogie"
+                },
+                {
+                    "name": "cool jazz"
+                },
+                {
+                    "name": "jazz blues"
+                },
+                {
+                    "name": "jazz orchestra"
+                },
+                {
+                    "name": "jazz trio"
+                },
+                {
+                    "name": "gypsy jazz"
+                },
+                {
+                    "name": "new orleans jazz"
+                },
+                {
+                    "name": "nu jazz"
+                },
+                {
+                    "name": "smooth jazz"
+                },
+                {
+                    "name": "south african jazz"
+                },
+                {
+                    "name": "vintage jazz"
+                },
+                {
+                    "name": "vocal jazz"
+                }
+            ]
+        },
+        {
+            "name": "blues",
+            "subgenres": [
+                {
+                    "name": "acoustic blues"
+                },
+                {
+                    "name": "chicago blues"
+                },
+                {
+                    "name": "country blues"
+                },
+                {
+                    "name": "louisiana blues"
+                },
+                {
+                    "name": "memphis blues"
+                },
+                {
+                    "name": "new orleans blues"
+                },
+                {
+                    "name": "piano blues"
+                },
+                {
+                    "name": "punk blues"
+                },
+                {
+                    "name": "soul blues"
+                },
+                {
+                    "name": "swamp blues"
+                },
+                {
+                    "name": "traditional blues"
+                }
+            ]
+        },
+        {
+            "name": "metal",
+            "subgenres": [
+                {
+                    "name": "avantgarde metal"
+                },
+                {
+                    "name": "black metal"
+                },
+                {
+                    "name": "brutal death metal"
+                },
+                {
+                    "name": "dark black metal"
+                },
+                {
+                    "name": "death core"
+                },
+                {
+                    "name": "deathgrind"
+                },
+                {
+                    "name": "death metal"
+                },
+                {
+                    "name": "doom metal"
+                },
+                {
+                    "name": "funk metal"
+                },
+                {
+                    "name": "goregrind"
+                },
+                {
+                    "name": "grim death metal"
+                },
+                {
+                    "name": "grindcore"
+                },
+                {
+                    "name": "groove metal"
+                },
+                {
+                    "name": "happy hardcore"
+                },
+                {
+                    "name": "metal guitar"
+                },
+                {
+                    "name": "metalcore"
+                },
+                {
+                    "name": "nu metal"
+                },
+                {
+                    "name": "post-metal"
+                },
+                {
+                    "name": "progressive metal"
+                },
+                {
+                    "name": "raw black metal"
+                },
+                {
+                    "name": "retro metal"
+                },
+                {
+                    "name": "sludge metal"
+                },
+                {
+                    "name": "speedcore"
+                },
+                {
+                    "name": "speed metal"
+                },
+                {
+                    "name": "stoner metal"
+                },
+                {
+                    "name": "viking metal"
+                }
+            ]
+        },
+        {
+            "name": "folk",
+            "subgenres": [
+                {
+                    "name": "folkmusik"
+                },
+                {
+                    "name": "geek folk"
+                },
+                {
+                    "name": "irish folk"
+                },
+                {
+                    "name": "nordic folk"
+                },
+                {
+                    "name": "nl folk"
+                },
+                {
+                    "name": "traditional folk"
+                },
+                {
+                    "name": "traditional british folk"
+                },
+                {
+                    "name": "traditional irish folk"
+                },
+                {
+                    "name": "volksmusik"
+                }
+            ]
+        },
+        {
+            "name": "punk",
+            "subgenres": [
+                {
+                    "name": "celtic punk"
+                },
+                {
+                    "name": "emo"
+                },
+                {
+                    "name": "emo punk"
+                },
+                {
+                    "name": "german punk"
+                },
+                {
+                    "name": "grunge"
+                },
+                {
+                    "name": "noise punk"
+                },
+                {
+                    "name": "oi"
+                },
+                {
+                    "name": "ska punk"
+                },
+                {
+                    "name": "skate punk"
+                },
+                {
+                    "name": "steampunk"
+                },
+                {
+                    "name": "straight edge"
+                },
+                {
+                    "name": "street punk"
+                },
+                {
+                    "name": "vegan straight edge"
+                }
+            ]
+        },
+        {
+            "name": "r&b",
+            "subgenres": [
+                {
+                    "name": "deep northern soul"
+                },
+                {
+                    "name": "memphis soul"
+                },
+                {
+                    "name": "soul"
+                },
+                {
+                    "name": "southern soul"
+                },
+                {
+                    "name": "traditional soul"
+                },
+                {
+                    "name": "alternative r&b"
+                },
+                {
+                    "name": "freestyle"
+                },
+                {
+                    "name": "funk"
+                },
+                {
+                    "name": "traditional funk"
+                },
+                {
+                    "name": "new jack swing"
+                },
+                {
+                    "name": "swing"
+                },
+                {
+                    "name": "traditional swing"
+                },
+                {
+                    "name": "urban contemporary"
+                }
+            ]
+        },
+        {
+            "name": "reggae",
+            "subgenres": [
+                {
+                    "name": "dancehall"
+                },
+                {
+                    "name": "downtempo"
+                },
+                {
+                    "name": "dub"
+                },
+                {
+                    "name": "reggaeton"
+                },
+                {
+                    "name": "riddim"
+                },
+                {
+                    "name": "roots reggae"
+                },
+                {
+                    "name": "ska"
+                },
+                {
+                    "name": "traditional ska"
+                },
+                {
+                    "name": "traditional reggae"
+                }
+            ]
+        },
+        {
+            "name": "classical",
+            "subgenres": [
+                {
+                    "name": "baroque"
+                },
+                {
+                    "name": "big band"
+                },
+                {
+                    "name": "cello"
+                },
+                {
+                    "name": "classic afrobeat"
+                },
+                {
+                    "name": "classic eurovision"
+                },
+                {
+                    "name": "classic schlager"
+                },
+                {
+                    "name": "classic soundtrack"
+                },
+                {
+                    "name": "classical christmas"
+                },
+                {
+                    "name": "classical guitar"
+                },
+                {
+                    "name": "classical period"
+                },
+                {
+                    "name": "classical piano"
+                },
+                {
+                    "name": "avant-garde"
+                },
+                {
+                    "name": "choral"
+                },
+                {
+                    "name": "movie tunes"
+                },
+                {
+                    "name": "orchestral"
+                }
+            ]
+        },
+        {
+            "name": "country",
+            "subgenres": [
+                {
+                    "name": "country christmas"
+                },
+                {
+                    "name": "country gospel"
+                },
+                {
+                    "name": "traditional country"
+                },
+                {
+                    "name": "western swing"
+                },
+                {
+                    "name": "progressive bluegrass"
+                }
+            ]
+        },
+        {
+            "name": "international",
+            "subgenres": [
+                {
+                    "name": "afrobeat"
+                },
+                {
+                    "name": "balkan brass"
+                },
+                {
+                    "name": "balearic"
+                },
+                {
+                    "name": "bolero"
+                },
+                {
+                    "name": "brass ensemble"
+                },
+                {
+                    "name": "celtic"
+                },
+                {
+                    "name": "cuban rumba"
+                },
+                {
+                    "name": "eurobeat"
+                },
+                {
+                    "name": "flamenco"
+                },
+                {
+                    "name": "german indie"
+                },
+                {
+                    "name": "german oi"
+                },
+                {
+                    "name": "gospel"
+                },
+                {
+                    "name": "hawaiian"
+                },
+                {
+                    "name": "jungle"
+                },
+                {
+                    "name": "latin"
+                },
+                {
+                    "name": "mambo"
+                },
+                {
+                    "name": "mariachi"
+                },
+                {
+                    "name": "native american"
+                },
+                {
+                    "name": "neue deutsche welle"
+                },
+                {
+                    "name": "polka"
+                },
+                {
+                    "name": "punjabi"
+                },
+                {
+                    "name": "rumba"
+                },
+                {
+                    "name": "salsa"
+                },
+                {
+                    "name": "samba"
+                },
+                {
+                    "name": "schlager"
+                },
+                {
+                    "name": "tango"
+                },
+                {
+                    "name": "throat singing"
+                },
+                {
+                    "name": "tibetan"
+                },
+                {
+                    "name": "tropical"
+                },
+                {
+                    "name": "uk garage"
+                }
+            ]
+        },
+        {
+            "name": "easy-listening",
+            "subgenres": [
+                {
+                    "name": "a cappella"
+                },
+                {
+                    "name": "ambient"
+                },
+                {
+                    "name": "barbershop"
+                },
+                {
+                    "name": "beach music"
+                },
+                {
+                    "name": "cabaret"
+                },
+                {
+                    "name": "children's music"
+                },
+                {
+                    "name": "christmas"
+                },
+                {
+                    "name": "comedy"
+                },
+                {
+                    "name": "comic"
+                },
+                {
+                    "name": "early music"
+                },
+                {
+                    "name": "exotica"
+                },
+                {
+                    "name": "harp"
+                },
+                {
+                    "name": "karneval"
+                },
+                {
+                    "name": "kindermusik"
+                },
+                {
+                    "name": "marching band"
+                },
+                {
+                    "name": "medieval"
+                },
+                {
+                    "name": "meditation"
+                },
+                {
+                    "name": "opera"
+                },
+                {
+                    "name": "poetry"
+                },
+                {
+                    "name": "relaxative"
+                },
+                {
+                    "name": "renaissance"
+                },
+                {
+                    "name": "romantic"
+                },
+                {
+                    "name": "soundtrack"
+                },
+                {
+                    "name": "string quartet"
+                },
+                {
+                    "name": "sunset lounge"
+                },
+                {
+                    "name": "surf music"
+                },
+                {
+                    "name": "tribute"
+                },
+                {
+                    "name": "video game music"
+                },
+                {
+                    "name": "violin"
+                }
+            ]
+        }
+    ],
+    "total": 360
+}
