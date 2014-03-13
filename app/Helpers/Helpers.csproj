@@ -57,6 +57,7 @@
     <Compile Include="BackgroundWorkHelper.cs" />
     <Compile Include="CollectionHelper.cs" />
     <Compile Include="HttpRequester.cs" />
+    <Compile Include="StringHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using System.Linq;
-using Helpers;
-using Newtonsoft.Json;
-using MusicSearch.Managers;
-using MusicSearch.SearchObjects;
-using MusicSearch.ResponseObjects;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Xml;
-using System.Xml.Linq;
+using System.Linq;
 using System.Reflection;
+using System.Xml.Linq;
+using Helpers;
+using MusicSearch.ResponseObjects;
+using Newtonsoft.Json;
 
 namespace MusicSearch.Managers
 {
@@ -38,7 +32,6 @@ namespace MusicSearch.Managers
         //neue Instanz vom ResponseContainer für die Genres
         List<ResponseContainer.ResponseObj.genres> GenresRC = new List<ResponseContainer.ResponseObj.genres>();
 
-        
         
         public SearchManager()
         {
@@ -263,7 +256,7 @@ namespace MusicSearch.Managers
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
                 TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
             }
-            return TitleSuggestionsRC;
+            return TitleSuggestionsRC.Where(a => a.originId == ID).ToList();
         }
 
         public List<ResponseContainer.ResponseObj.ArtistSuggestion> getArtistSuggestions(int ID, String term)
@@ -306,11 +299,12 @@ namespace MusicSearch.Managers
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistSuggestions[i]);
                 ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
             }
-            return ArtistSuggestionsRC;
+            return ArtistSuggestionsRC.Where(a => a.originId == ID).ToList();
         }
 
         public List<ResponseContainer.ResponseObj.Song> SearchQuery(List<searchObjects> searchList)
         {
+            SearchRC.Clear();
             if (searchList != null && searchList.Any())
             {
                 //Liste auslesen
@@ -400,7 +394,6 @@ namespace MusicSearch.Managers
         {
             if (String.IsNullOrEmpty(apiKey))
             {
-                
                 //XML auslesen
                 XDocument doc = XDocument.Load(currentPath.Substring(0, currentPath.LastIndexOf("app")) + "app/MusicSearch/files/config.xml");
                 XElement el = doc.Element("apikey");
@@ -431,7 +424,7 @@ namespace MusicSearch.Managers
             //var regex3 = new Regex(Regex.Escape("spotify-WW:track"));
             //var newText4 = regex3.Replace(cleared, "spotify:track", 1000);
             
-            var newText4 = StringHelper.replacePartialString(cleared, "spotify-WW:track", "spotify:track" , int 1000);
+            var newText4 = StringHelper.replacePartialString(cleared, "spotify-WW:track", "spotify:track" , 1000);
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
             //originId einfügen, zwecks Rückschlüssen
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
