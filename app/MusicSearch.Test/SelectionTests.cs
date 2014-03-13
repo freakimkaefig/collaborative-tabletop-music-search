@@ -27,6 +27,16 @@ namespace MusicSearch.Test
         public int originId { get; set; }
     }
 
+    [TestClass]
+    public class combinedSearchObjects
+    {
+        public String artist_id { get; set; }
+        public String genre { get; set; }
+        public int[] originIds { get; set; }
+
+
+    }
+
     // Test-Enviroment for Queries to EchoNest, Parsing the responses and logging them
     [TestClass]
     public class QueryTests
@@ -66,7 +76,7 @@ namespace MusicSearch.Test
             });
             SearchManager sm = new SearchManager();
             //String temp = sm.lowerToUpper("lower upper");
-            var temp = sm.getGenreSuggestions("elec");
+            //var temp = sm.getGenreSuggestions("elec");
             //var temp2 = sm.getGenres();
             //sm.getArtistSuggestions(1, "katy");
 
