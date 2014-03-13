@@ -19,6 +19,8 @@ namespace MusicSearch.ResponseObjects
             public List<ArtistSuggestion> ArtistSuggestions { get; set; }
             public List<TitleSuggestion> TitleSuggestions { get; set; }
             public List<ArtistInfo> ArtistInfos { get; set; }
+            public List<genres> Genres { get; set; }
+            
 
             public class StatusObj
             {
@@ -31,14 +33,14 @@ namespace MusicSearch.ResponseObjects
             {
                 public String name { get; set; }
                 public String id { get; set; }
-                public int tangibleId { get; set; }
+                public int originId { get; set; }
             }
 
             public class TitleSuggestion
             {
                 public String title { get; set; }
                 public String id { get; set; }
-                public int tangibleId { get; set; }
+                public int originId { get; set; }
                 public String artist_name { get; set; }
             }
 
@@ -57,6 +59,22 @@ namespace MusicSearch.ResponseObjects
                 public List<Object> images { get; set; }
                 public List<Object> news { get; set; }
                 public Object artist_location { get; set; }
+                public int originId { get; set; }
+
+                public List<ArtistInfo.ArtistSong> ArtistSongs { get; set; }
+                public List<ArtistInfo.SimilarArtist> SimilarArtists { get; set; }
+
+                public class SimilarArtist
+                {
+                    public String name {get;set;}
+                    public double familiarity {get;set;}
+                    public String artist_id { get; set; }
+                }
+                public class ArtistSong
+                {
+                    public String title { get; set; }
+                    public String title_id { get; set; }
+                }
             }
 
             public class Song
@@ -64,8 +82,8 @@ namespace MusicSearch.ResponseObjects
                 public string Artist_Id { get; set; }
                 public string Artist_Name { get; set; }
                 public string Title { get; set; }
-                public List<Object> tracks { get; set; }
-                public int tangibleId { get; set; }
+                public List<Tracks> tracks { get; set; }
+                public int originId { get; set; }
                 public double song_hotttnesss { get; set; }
 
                 public Object audio_summary { get; set; }
@@ -81,7 +99,21 @@ namespace MusicSearch.ResponseObjects
                 }*/
              
             }
-
+            public class Tracks
+            {
+                public string foreign_id { get; set; }
+            }
+            public class genres
+            {
+                public String genre_name { get; set; }
+                public List<genres.subgenres> Subgenres { get; set; }
+                
+                public class subgenres
+                {
+                    public String name { get; set; }
+                }
+            }
+            
             
         }
     }
