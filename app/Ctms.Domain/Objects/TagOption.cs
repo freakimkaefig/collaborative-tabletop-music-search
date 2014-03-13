@@ -11,6 +11,11 @@ namespace Ctms.Domain.Objects
     {
         private Keyword _keyword;
 
+        public TagOption(int id)
+        {
+            Id = id;
+        }
+
         public int Id { get; set; }
 
         // Which keyword is assigned to this tag option

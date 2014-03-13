@@ -73,36 +73,10 @@ namespace Ctms.Applications.Data
             return GetAllStyles().FirstOrDefault(s => s.Id == styleId).SubStyles;
         }
 
-        /// <summary>
-        /// Get all tags
-        /// </summary>
-        /// <returns></returns>
-        public ObservableCollection<TagDataModel> GetAllTagDMs()
-        {
-            return _searchVm.Tags;
-        }
-
-        /// <summary>
-        /// Get all tags
-        /// </summary>
-        /// <returns></returns>
-        public TagDataModel GetTagDMById(int id)
-        {
-            return _searchVm.Tags.FirstOrDefault(t => t.Tag.Id == id);
-        }
+        
 
 
-        /// <summary>
-        /// Get tag option by id
-        /// </summary>
-        /// <returns></returns>
-        public TagDataModel GetTagDMByTagOption(int tagOptionId)
-        {
-            return _searchVm.Tags
-                        .FirstOrDefault(t => t.Tag.TagOptions
-                            .Contains(t.Tag.TagOptions.FirstOrDefault(to => to.Id == tagOptionId)));
-        }
-
+        #region Tags
 
         /// <summary>
         /// Get all tag Ids
@@ -118,6 +92,9 @@ namespace Ctms.Applications.Data
             return ids;
         }
 
+        #endregion Tags
+
+        #region TagDataModels
 
         /// <summary>
         /// Add tag data model
@@ -129,24 +106,53 @@ namespace Ctms.Applications.Data
         }
 
         /// <summary>
+        /// Get all tags
+        /// </summary>
+        /// <returns></returns>
+        public ObservableCollection<TagDataModel> GetAllTagDMs()
+        {
+            return _searchVm.Tags;
+        }
+
+        /// <summary>
+        /// Get all TagDataModels
+        /// </summary>
+        /// <returns></returns>
+        public TagDataModel GetTagDMById(int id)
+        {
+            return _searchVm.Tags.FirstOrDefault(t => t.Tag.Id == id);
+        }
+
+
+        /// <summary>
+        /// Get TagOption by id
+        /// </summary>
+        /// <returns></returns>
+        public TagDataModel GetTagDMByTagOption(int tagOptionId)
+        {
+            return _searchVm.Tags
+                        .FirstOrDefault(t => t.Tag.TagOptions
+                            .Contains(t.Tag.TagOptions.FirstOrDefault(to => to.Id == tagOptionId)));
+        }
+
+        #endregion TagDataModels
+
+
+
+        #region TagOptions
+
+        /// <summary>
         /// Get tag option by id
         /// </summary>
         /// <returns></returns>
         public TagOption GetTagOptionById(int tagOptionId)
         {
-            //var tag = _searchVm.Tags.
-            //                FirstOrDefault(t => t.Tag.TagOptions.
-            //                    FirstOrDefault(to => to.Id == tagOptionId) != null);
-            
-            //return tag.Tag.TagOptions.FirstOrDefault(to => to.Id == tagOptionId);
-
             return GetAllTagOptions().FirstOrDefault(to => to.Id == tagOptionId);
         }
 
         /// <summary>
         /// Get tag options by tid
         /// </summary>
-        /// <returns></returns>
         public ObservableCollection<TagOption> GetTagOptionsByTagId(int tagId)
         {
             return GetTagDMById(tagId).Tag.TagOptions;
@@ -156,11 +162,29 @@ namespace Ctms.Applications.Data
         /// <summary>
         /// Get tag option by id
         /// </summary>
-        /// <returns></returns>
         public List<TagOption> GetAllTagOptions()
         {
             return _searchVm.Tags.SelectMany(t => t.Tag.TagOptions).Distinct().ToList();
         }
+
+        #endregion TagOptions
+
+
+
+        #region Keywords
+
+
+        /// <summary>
+        /// Get tag option by id
+        /// </summary>
+        public ObservableCollection<Keyword> GetAllKeywords()
+        {
+            return EntitiesHelper.ToObservableCollection<Keyword>
+                                    (GetAllTagOptions().Select(to => to.Keyword));
+        }
+
+        #endregion Keywords
+
 
         /*
         Example:         

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Helpers
 {
-    public class CollectionHelper
+    public class EntitiesHelper
     {
 
         /// <summary>

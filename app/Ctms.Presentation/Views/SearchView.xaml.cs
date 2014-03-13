@@ -60,7 +60,7 @@ namespace Ctms.Presentation.Views
             var pieMenu = searchTagView.PieMenu;
 
             if(Tags.ContainsKey(tagId) == false) Tags.Add(tagId, searchTagView);
-            else Tags[tagId] = searchTagView;
+            //else Tags[tagId] = searchTagView;
 
             pieMenu.Items.Clear();
 
@@ -172,7 +172,9 @@ namespace Ctms.Presentation.Views
             // remove inserted placeholder item which has been placed just for correct item size calculation
             pieMenuItems.Clear();
 
-            var options = tagDM.Tag.TagOptions;
+            //if (tagDM.IsMenuVisible == false) return;
+
+            var options = tagDM.Tag.TagOptions.Where(to => to.LayerNr == tagDM.Tag.CurrentLayerNr);
             foreach (var option in options)
             {
                 var hexColor = "#5555";
@@ -182,6 +184,7 @@ namespace Ctms.Presentation.Views
 
                 var pieMenuItem = new PieMenuItem()
                 {
+                    Id = option.Id,
                     BorderThickness = new Thickness(0.0),
                     FontSize = 16,
                     CenterText = true,
@@ -209,13 +212,20 @@ namespace Ctms.Presentation.Views
                 subHeaderBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 pieMenuItem.SetBinding(PieMenuItem.SubHeaderProperty, subHeaderBinding);
 
-                // SubHeader binding
+                // Command binding
                 Binding commandBinding = new Binding("SelectOptionCmd");
-                commandBinding.Source = _viewModel;
+                commandBinding.Source = _viewModel;                
                 commandBinding.NotifyOnSourceUpdated = true;
                 commandBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 pieMenuItem.SetBinding(PieMenuItem.CommandProperty, commandBinding);
-
+                /*
+                // Command parameter binding
+                Binding commandParamBinding = new Binding("SelectOptionCmd");
+                commandParamBinding.Source = _viewModel;
+                commandParamBinding.NotifyOnSourceUpdated = true;
+                commandParamBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                pieMenuItem.SetBinding(PieMenuItem.CommandProperty, commandParamBinding);
+                */
                 pieMenu.Items.Add(pieMenuItem);
             }
             /*

@@ -25,134 +25,139 @@
     </s:TagVisualization.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
-
-        <s:SurfaceButton DataContext="{DynamicResource SearchVM}" Content="Home" Name="HomeButton" HorizontalAlignment="Left" Grid.Row="0" 
-                         Command="{Binding GoHomeCmd}" CommandParameter="{DynamicResource TagId}"/>
-        <s:SurfaceButton Content="Breadcrumb" Command="{Binding GoBreadcrumbCmd}" CommandParameter="{DynamicResource TagId}" Grid.Row="0" HorizontalAlignment="Right"/>
-
-
-
-        <Grid Grid.Row="3">
-            <Grid.Background>
-                <ImageBrush ImageSource="../../Resources/Images/Search/record.png" Opacity="1.0"/>
-            </Grid.Background>
-
+        <!-- Beginning of menu -->
+        <Grid Visibility="{Binding IsMenuVisible, Converter={StaticResource visibilityConverter}}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="1*" />
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
-            <!--<ps:PieMenu 
-                x:Name="PieMenu"
-                Canvas.Left="100"
-                Canvas.Top="100"
-                SelectedBackground="#7399"
-                Foreground="White"
-                BorderBrush="#000"
-                SectorGap="0"
-                Gap="0"
-                Radius="120"
-                InnerRadius="33"
-                RotateText="True"
-                RotateTextAngle="0"
-                Rotation="150"
-                MenuSector="360"
-                Background="Transparent"
-                Grid.Row="0"
-                DataContext="{DynamicResource TagDM}">-->
+            <s:SurfaceButton DataContext="{DynamicResource SearchVM}" Content="Home" Name="HomeButton" HorizontalAlignment="Left" Grid.Row="0" 
+                             Command="{Binding GoHomeCmd}" CommandParameter="{DynamicResource TagId}"/>
+            <s:SurfaceButton Content="Breadcrumb" Command="{Binding GoBreadcrumbCmd}" CommandParameter="{DynamicResource TagId}" Grid.Row="0" HorizontalAlignment="Right"/>
+
+            <Grid Grid.Row="3">
+                <Grid.Background>
+                    <ImageBrush ImageSource="../../Resources/Images/Search/record.png" Opacity="1.0"/>
+                </Grid.Background>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!--<ps:PieMenu 
+                    x:Name="PieMenu"
+                    Canvas.Left="100"
+                    Canvas.Top="100"
+                    SelectedBackground="#7399"
+                    Foreground="White"
+                    BorderBrush="#000"
+                    SectorGap="0"
+                    Gap="0"
+                    Radius="120"
+                    InnerRadius="33"
+                    RotateText="True"
+                    RotateTextAngle="0"
+                    Rotation="150"
+                    MenuSector="360"
+                    Background="Transparent"
+                    Grid.Row="0"
+                    DataContext="{DynamicResource TagDM}">-->
+
+                    <!-- placeholder item for correct calculation of piemenuitem size -->
+
+                <!--<ps:PieMenuItem Name="Hans" Header="MyHeader" SubHeader="MySubHeader" BorderThickness="0" 
+                                        Command="" Background="#0000"/>
+
+                </ps:PieMenu>-->
+
+                <ps:PieMenu 
+                    x:Name="PieMenu"
+                    Canvas.Left="100"
+                    Canvas.Top="100"
+                    SelectedBackground="#7399"
+                    Foreground="White"
+                    BorderBrush="#000"
+                    SectorGap="0"
+                    Gap="0"
+                    Radius="120"
+                    InnerRadius="33"
+                    RotateText="True"
+                    RotateTextAngle="0"
+                    Rotation="150"
+                    MenuSector="360"
+                    Background="Transparent"
+                    Grid.Row="0"
+                    Visibility="{Binding IsMenuVisible, Converter={StaticResource visibilityConverter}}"
+                    >
+
+                    <!-- placeholder item for correct calculation of piemenuitem size -->
+                    <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
+                                        Command="" Background="#0000"/>
+
+                </ps:PieMenu>
+
+                <!--<ps:PieMenu.ItemTemplate>
+
+                    <DataTemplate>
+                        <ps:PieMenuItem Header="{Binding Keyword.Name}"
+                                FontSize = "16"
+                                CenterText = "true"
+                                Background = "Transparent"
+                                            ></ps:PieMenuItem>
+                    </DataTemplate>
+                </ps:PieMenu.ItemTemplate>-->
 
                 <!-- placeholder item for correct calculation of piemenuitem size -->
+                <!--
+                    <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
+                                        Command="" Background="#0000"/>-->
 
-            <!--<ps:PieMenuItem Name="Hans" Header="MyHeader" SubHeader="MySubHeader" BorderThickness="0" 
-                                    Command="" Background="#0000"/>
+            </Grid>
 
-            </ps:PieMenu>-->
+            <!--<DataGrid DataContext="{DynamicResource TagDM}" ItemsSource="{Binding Tag.TagOptions}" Width="180">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="First Name" Binding="{Binding Keyword.Name}" Foreground="#000"/>
+                    <DataGridTextColumn Header="First Name" Binding="{Binding Keyword.Description}" Foreground="#000" />
+                </DataGrid.Columns>
+            </DataGrid>-->
 
-            <ps:PieMenu 
-                x:Name="PieMenu"
-                Canvas.Left="100"
-                Canvas.Top="100"
-                SelectedBackground="#7399"
-                Foreground="White"
-                BorderBrush="#000"
-                SectorGap="0"
-                Gap="0"
-                Radius="120"
-                InnerRadius="33"
-                RotateText="True"
-                RotateTextAngle="0"
-                Rotation="150"
-                MenuSector="360"
-                Background="Transparent"
-                Grid.Row="0">
+            <StackPanel DataContext="{DynamicResource TagDM}" 
+                        Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}"
+                        Orientation="Horizontal"      
+                        Grid.Row="4">
 
-                <!-- placeholder item for correct calculation of piemenuitem size -->
-                <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
-                                    Command="" Background="#0000"/>
+                <s:SurfaceTextBox DataContext="{DynamicResource TagDM}"
+                    Name="InputField" 
+                    Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
+                    Height="Auto" Width="180" />
 
-            </ps:PieMenu>
+                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                    Command="{Binding GetSuggestionsCmd}" CommandParameter="{DynamicResource TagId}"  
+                    Content="Ok"/>
 
-            <!--<ps:PieMenu.ItemTemplate>
-
-                <DataTemplate>
-                    <ps:PieMenuItem Header="{Binding Keyword.Name}"
-                            FontSize = "16"
-                            CenterText = "true"
-                            Background = "Transparent"
-                                        ></ps:PieMenuItem>
-                </DataTemplate>
-            </ps:PieMenu.ItemTemplate>-->
-
-            <!-- placeholder item for correct calculation of piemenuitem size -->
-            <!--
-                <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
-                                    Command="" Background="#0000"/>-->
-
+            </StackPanel>
         </Grid>
-
-        <!--<DataGrid DataContext="{DynamicResource TagDM}" ItemsSource="{Binding Tag.TagOptions}" Width="180">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="First Name" Binding="{Binding Keyword.Name}" Foreground="#000"/>
-                <DataGridTextColumn Header="First Name" Binding="{Binding Keyword.Description}" Foreground="#000" />
-            </DataGrid.Columns>
-        </DataGrid>-->
-
-        <StackPanel DataContext="{DynamicResource TagDM}" 
-                    Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}"
-                    Orientation="Horizontal"      
-                    Grid.Row="4">
-
-            <s:SurfaceTextBox DataContext="{DynamicResource TagDM}"
-                Name="InputField" 
-                Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
-                Height="Auto" Width="180" />
-
-            <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                Command="{Binding GetSuggestionsCmd}" CommandParameter="{DynamicResource TagId}"  
-                Content="Ok"/>
-
-        </StackPanel>
-
+        <!-- End of menu -->
+        
         <TextBlock 
             Name="HansBlock"
             Height="100" Width="100"
             DataContext="{DynamicResource TagDM}"
+            Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
             Text="{Binding Tag.AssignedKeyword.Name, 
                 NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
 

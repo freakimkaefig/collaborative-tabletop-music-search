@@ -40,7 +40,7 @@ namespace Ctms.Applications.Workers
             //Data
             _repository = repository;
             //Workers
-            //_resultWorker = resultWorker;
+
             //Other vars
         }
 
@@ -73,29 +73,56 @@ namespace Ctms.Applications.Workers
 
         private void CreateSuggestions(int tagId, TagDataModel tag, List<ResponseContainer.ResponseObj.ArtistSuggestion> suggestions, KeywordTypes keywordType)
         {
-            tag.Tag.AssignedKeyword = new Keyword("Hans2!", keywordType);
-
             // suggestions are shown in layer 2
             tag.Tag.CurrentLayerNr = 2;
 
+            // get all options of this tag
             var tagOptions = _repository.GetTagOptionsByTagId(tagId);
 
-            //!! copy to breadcrumb
-            tagOptions.Clear();
+            // remove previous options at this layer
+            tagOptions.ToList().RemoveAll(to => to.LayerNr == tag.Tag.CurrentLayerNr);
 
             foreach (var suggestion in suggestions)
             {
-                var tagOption = new TagOption()
-                {
-                    //!! Unterscheidung Title - Artist nötig
-                    Keyword = new Keyword(suggestion.name, keywordType)
-                    {
-                        //Description = suggestion.artist_name
-                    }
-                };
+                // create keyword out of this suggestion
+                var keyword = _tagFactory.CreateKeyword(suggestion.name, keywordType);
+
+                // create option with this keyword
+                var tagOption   = _tagFactory.CreateTagOption(keyword, tag.Tag.CurrentLayerNr);
+
                 tagOptions.Add(tagOption);
             }
             _searchVM.UpdateVisuals(tag);
+        }
+
+        public void SelectOption(int tagOptionId)
+        {
+            var tag         = _repository.GetTagDMByTagOption(tagOptionId);
+            var tagOption   = _repository.GetTagOptionById(tagOptionId);
+            var keywordType = tagOption.Keyword.Type;
+
+            if (tag.Tag.CurrentLayerNr == 0)
+            {
+                // init selected keyword of tag so that the type is clear
+                tag.Tag.AssignedKeyword = _tagFactory.CreateKeyword(tagOption.Keyword.Name, tagOption.Keyword.Type);
+
+                UpdateOptions(tag.Id, tagOption);
+            }
+            else if (keywordType == KeywordTypes.Genre)
+            {
+
+            }
+            else
+            {
+                if (tag.Tag.CurrentLayerNr == 1)
+                {
+                    UpdateOptions(tag.Id, tagOption);
+                }
+                else if (tag.Tag.CurrentLayerNr == 2)
+                {
+                    AssignKeyword(tag, tagOption);
+                }
+            }
         }
 
         /// <summary>
@@ -155,17 +182,20 @@ namespace Ctms.Applications.Workers
 
             // keyword type selection is in layer 0
             var layerNumber         = 0;
-            tag.Tag.CurrentLayerNr      = layerNumber;
+            tag.Tag.CurrentLayerNr  = layerNumber;
 
             var tagOpts             = tag.Tag.TagOptions;
             tagOpts.Clear();
 
-            var options = Enum.GetValues(typeof(KeywordTypes));
-            foreach (var option in options)
+            var keywordTypes = Enum.GetValues(typeof(KeywordTypes));
+            foreach (KeywordTypes keywordType in keywordTypes)
             {
-                // create Keyword, e.g. Artist, Type or Genre
-                var keyword     = new Keyword(option.ToString(), (KeywordTypes)option);
+                if (keywordType == KeywordTypes.None) continue;
 
+                // create Keyword, e.g. Artist, Type or Genre
+                var keyword = _tagFactory.CreateKeyword(keywordType.ToString(), keywordType);
+
+                // create TagOption for this keyword
                 var tagOption   = _tagFactory.CreateTagOption(keyword, layerNumber);
 
                 tagOpts.Add(tagOption);
@@ -174,38 +204,27 @@ namespace Ctms.Applications.Workers
             //_searchVM.UpdateMenuItems((ISearchTagView)tag.TagVisDef, tag);
         }
 
-        public void SelectOption(int tagOptionId)
-        {
-            var tag             = _repository.GetTagDMByTagOption(tagOptionId);
-            var tagOption       = _repository.GetTagOptionById(tagOptionId);
-            var keywordType     = tagOption.Keyword.Type;
-
-            if (tag.Tag.CurrentLayerNr == 0)
-            {
-                // init selected keyword of tag so that the type is clear
-                tag.Tag.AssignedKeyword = new Keyword("Hans!", keywordType);
-                UpdateOptions(tag.Id, tagOption);
-            }
-            else if (keywordType == KeywordTypes.Genre)
-            {
-
-            }
-            else
-            {
-                if (tag.Tag.CurrentLayerNr == 1)
-                {
-                    UpdateOptions(tag.Id, tagOption);
-                }
-                else if (tag.Tag.CurrentLayerNr == 2)
-                {
-                    AssignKeyword(tag, tagOption);
-                }
-            }
-        }
-
+        /// <summary>
+        /// Assign selected keyword to tag and show it
+        /// </summary>
         public void AssignKeyword(TagDataModel tag, TagOption tagOption)
         {
+            // assign keyword to tag
             tag.Tag.AssignedKeyword = tagOption.Keyword;
+
+            // show keyword
+            SetKeywordIsVisible(tag, true);
+        }
+
+        private void SetKeywordIsVisible(TagDataModel tag, bool isKeywordVisible)
+        {
+            // show or hide keyword
+            tag.IsAssignedKeywordVisible = isKeywordVisible;
+
+            // hide menu if keyword is visible, show menu if keyword is invisible
+            tag.IsMenuVisible = isKeywordVisible == true ? false : true;
+
+            _searchVM.UpdateVisuals(tag);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Ctms.Domain
     {
         Genre,
         Title,
-        Artist
+        Artist,
+        None
     }
 }

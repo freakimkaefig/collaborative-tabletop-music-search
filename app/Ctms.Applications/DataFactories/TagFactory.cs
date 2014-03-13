@@ -42,19 +42,26 @@ namespace Ctms.Applications.DataFactories
 
         public TagOption CreateTagOption(Keyword keyword, int layerNumber)
         {
-            var tagOption = new TagOption()
+            var tagOptions = _repository.GetAllTagOptions();
+            var nextFreeId = EntitiesHelper.CalcNextId<TagOption>(tagOptions, (t => t.Id));
+
+            var tagOption = new TagOption(nextFreeId)
             {
-                Keyword     = keyword,
+                Keyword = keyword,
                 LayerNr = layerNumber
             };
 
-            var tagOptions = _repository.GetAllTagOptions();
-
-            var nextFreeId = CollectionHelper.CalcNextId<TagOption>(tagOptions, (t => t.Id));
-
-            tagOption.Id = nextFreeId;
-
             return tagOption;
+        }
+
+        public Keyword CreateKeyword(string name, KeywordTypes type, string description = null)
+        {
+            var tagOptions = _repository.GetAllKeywords();
+            var nextFreeId = EntitiesHelper.CalcNextId<Keyword>(tagOptions, (t => t.Id));
+
+            var keyword = new Keyword(nextFreeId, name, type);
+
+            return keyword;
         }
 
         public void Delete()

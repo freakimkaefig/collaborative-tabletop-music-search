@@ -12,32 +12,27 @@ namespace Ctms.Domain.Objects
     {
         private Keyword _assignedKeyword;
         private readonly ObservableCollection<TagOption> _tagOptions;
+        //private readonly ObservableCollection<TagOption> _previousOptions;
 
         public Tag()
         {
-            //TagOptions = new ObservableCollection<TagOption>();
-            _tagOptions = new ObservableCollection<TagOption>();
+            _tagOptions         = new ObservableCollection<TagOption>();
+            //_previousOptions    = new ObservableCollection<TagOption>();
         }
 
         public int Id { get; set; }
 
         // A tag provides multiple TagOptions which lead to a final selection of a keyword
-        //public ObservableCollection<TagOption> TagOptions { get; set; }
-
         public ObservableCollection<TagOption> TagOptions
         {
             get { return _tagOptions; }
-            /*
-            set
-            {
-                if (_tagOptions != value)
-                {
-                    _tagOptions = value;
-                    RaisePropertyChanged("TagOptions");
-                }
-            }*/
         }
-
+        /*
+        public ObservableCollection<TagOption> PreviousOptions
+        {
+            get { return _previousOptions; }
+        }
+        */
         public int CurrentLayerNr { get; set; }
 
         // What is the current angle in relation to the default orientation
@@ -56,7 +51,5 @@ namespace Ctms.Domain.Objects
                 }
             }
         }
-
-
     }
 }
