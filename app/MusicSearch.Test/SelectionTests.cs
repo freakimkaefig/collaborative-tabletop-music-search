@@ -6,7 +6,6 @@ using Helpers;
 using Newtonsoft.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MusicSearch.Managers;
-using MusicSearch.SearchObjects;
 using MusicSearch.ResponseObjects;
 using System.Diagnostics;
 using System.Text.RegularExpressions;

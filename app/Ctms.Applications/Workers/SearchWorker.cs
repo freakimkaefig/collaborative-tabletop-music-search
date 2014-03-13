@@ -33,15 +33,15 @@ namespace Ctms.Applications.Workers
 
         public void StartSearch()
         {
-            var searchManager = new SearchManager();
-            searchManager.StartSearch();
-            _resultWorker.RefreshResults(searchManager.ResponseContainer);
+            //var searchManager = new SearchManager();
+            //searchManager.StartSearch();
+            //_resultWorker.RefreshResults(searchManager.ResponseContainer);
 
             //RefreshResults(searchManager.ResponseContainer);
 
-            _backgroundWorker = new BackgroundWorkHelper();
+            //_backgroundWorker = new BackgroundWorkHelper();
             //Tell which method to execute in background in what to do after completion
-            _backgroundWorker.DoInBackground(searchManager.Start, SearchCompleted);
+            //_backgroundWorker.DoInBackground(searchManager.Start, SearchCompleted);
         }
 
         private void SearchCompleted(object sender, RunWorkerCompletedEventArgs e)

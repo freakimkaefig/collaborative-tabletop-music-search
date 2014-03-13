@@ -6,7 +6,6 @@ using System.Waf.Applications;
 using Ctms.Domain.Objects;
 using Microsoft.Surface.Presentation.Controls;
 using System.Collections.ObjectModel;
-using PieInTheSky;
 using System.Windows.Media;
 using System.Windows;
 
@@ -21,7 +20,7 @@ namespace Ctms.Applications.DataModels
         private Tag _tag;
         private string _inputTerms;
         private bool _isInputVisible = false;
-        private readonly ObservableCollection<PieMenuItem> _pieMenuItems;
+        //private readonly ObservableCollection<PieMenuItem> _pieMenuItems;
 
         public TagDataModel(Tag tag)
         {
@@ -29,7 +28,7 @@ namespace Ctms.Applications.DataModels
 
             _tag        = tag;
             _inputTerms = "";
-            _pieMenuItems = new ObservableCollection<PieMenuItem>();
+            //_pieMenuItems = new ObservableCollection<PieMenuItem>();
         }
 
         // default constructor needed to be usable as dynamic resource in view
@@ -49,7 +48,7 @@ namespace Ctms.Applications.DataModels
                 }
             }
         }
-
+        /*
         public ObservableCollection<PieMenuItem> PieMenuItems
         {
             get 
@@ -74,7 +73,7 @@ namespace Ctms.Applications.DataModels
                 return _pieMenuItems; 
             }
         }
-
+        */
         // visualization of this tag
         public TagVisualizationDefinition TagVisDef { get; set; }
 

@@ -59,10 +59,6 @@
       <Project>{FA5E9B9F-D676-4189-AC91-B2246ADB975A}</Project>
       <Name>Ctms.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\libs\WpfApplicationFramework\WpfApplicationFramework.csproj">
-      <Project>{27B67DFE-0BF1-4435-B036-E4C083EAEA03}</Project>
-      <Name>WpfApplicationFramework</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

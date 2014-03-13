@@ -15,10 +15,6 @@ namespace Ctms.Applications.Views
 
         void ToogleInputVisibility(bool visible);
 
-        //void UpdateMenuItems(ISearchTagView searchTagView, TagDataModel tagDM);
-
         void UpdateVisual(int tagId);
-
-        //void UpdateMenuItems(int tagId);
     }
 }

@@ -197,12 +197,7 @@ namespace Ctms.Applications.Controllers
 
         private void SearchViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "InputValue")//SelectedSong is just an example
-            {
-                //...
-                UpdateCommands();
-            }
-            else if (e.PropertyName == "Tags")//SelectedSong is just an example
+            if (e.PropertyName == "Tags")//SelectedSong is just an example
             {
 
             }

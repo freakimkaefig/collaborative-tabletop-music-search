@@ -569,7 +569,7 @@ namespace PieInTheSky
                 PathGeometry geometry = new PathGeometry();
                 geometry.Figures.Add(pathFigure);
 
-                TagOption option = new TagOption();
+                //TagOption option = new TagOption();
 
                 // Get the menu item to extract properties
                 //!!MA PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;

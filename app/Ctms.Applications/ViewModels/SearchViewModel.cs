@@ -24,7 +24,6 @@ namespace Ctms.Applications.ViewModels
         private ICommand    _startSearchCommand;
         private ICommand    _selectOptionCmd;
         private ICommand    _getSuggestionsCmd;
-        private string      _inputValue;
         private string      _item1Header;
         private string      _item2Header;
         private int         _mainItemId;
@@ -84,19 +83,6 @@ namespace Ctms.Applications.ViewModels
                 {
                     _keywordType = value;
                     RaisePropertyChanged("KeywordType");
-                }
-            }
-        }
-
-        public string InputValue
-        {
-            get { return _inputValue; }
-            set
-            {
-                if (_inputValue != value)
-                {
-                    _inputValue = value;
-                    RaisePropertyChanged("InputValue");
                 }
             }
         }
@@ -235,20 +221,6 @@ namespace Ctms.Applications.ViewModels
 
         public void OnVisualizationAdded(TagVisualization tagVisualization)
         {
-            /*
-            var tagValue    = tagVisualization.VisualizedTag.Value;
-            var tagVizual   = tagVisualization.VisualizedTag;
-            var simpleTag   = tagVisualization;
-            */
-            //TagVisualizations.Add(tagVisualization);
-            /*
-            var tagVisualization    = (SearchTagView) e.TagVisualization;
-            var tagId               = (int) tagVisualization.VisualizedTag.Value;
-            /*
-            var pieMenu             = ((PieMenu) tagVisualization.PieMenu1);//!!
-            var pieMenuItems        = (ItemCollection) pieMenu.Items;*/
-
-            //AddedVisualization = true;
         }
 
         public void UpdateVisuals(TagDataModel tagDM)

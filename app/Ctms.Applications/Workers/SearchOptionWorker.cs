@@ -14,6 +14,7 @@ using Ctms.Applications.DataModels;
 using Ctms.Applications.DataFactories;
 using Ctms.Applications.Views;
 using Ctms.Domain;
+using MusicSearch.ResponseObjects;
 
 namespace Ctms.Applications.Workers
 {
@@ -70,7 +71,7 @@ namespace Ctms.Applications.Workers
             SetInputIsVisible(tag, false);
         }
 
-        private void CreateSuggestions(int tagId, TagDataModel tag, List<MusicSearch.ResponseObjects.ResponseContainer.ResponseObj.TitleSuggestion> suggestions, KeywordTypes keywordType)
+        private void CreateSuggestions(int tagId, TagDataModel tag, List<ResponseContainer.ResponseObj.ArtistSuggestion> suggestions, KeywordTypes keywordType)
         {
             tag.Tag.AssignedKeyword = new Keyword("Hans2!", keywordType);
 
@@ -78,30 +79,22 @@ namespace Ctms.Applications.Workers
             tag.Tag.CurrentLayerNr = 2;
 
             var tagOptions = _repository.GetTagOptionsByTagId(tagId);
+
             //!! copy to breadcrumb
             tagOptions.Clear();
-
-            
-
-            //var tagOpts = new List<TagOption>();
 
             foreach (var suggestion in suggestions)
             {
                 var tagOption = new TagOption()
                 {
                     //!! Unterscheidung Title - Artist nötig
-
-                    Keyword = new Keyword(suggestion.artist_name, keywordType)
+                    Keyword = new Keyword(suggestion.name, keywordType)
                     {
-                        Description = suggestion.artist_name
+                        //Description = suggestion.artist_name
                     }
                 };
                 tagOptions.Add(tagOption);
-                //tagOpts.Add(tagOption);
             }
-             //tagOptions = CollectionHelper.ToObservableCollection<TagOption>(tagOpts);
-            //_searchVM.Tags.FirstOrDefault(t => t.Id == tagId).Tag.TagOptions = tagOptions;
-            //_searchVM.Tags.FirstOrDefault(t => t.Id == tagId).Tag = tag.Tag;
             _searchVM.UpdateVisuals(tag);
         }
 

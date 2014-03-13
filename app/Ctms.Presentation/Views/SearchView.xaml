@@ -21,8 +21,6 @@
                      TouchDown="SearchTagVisualizer_TouchDown"
                      >
         
-        
-
         <Grid Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -40,23 +38,6 @@
 
             <Label Content="SearchView" Grid.Column="0" Grid.Row="0"/>
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" Grid.Column="0" Grid.Row="1" Width="100" Height="50" HorizontalAlignment="Left"/>
-            <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding InputValue}" Width="140"/>
-            <TextBlock Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Left" Style="{StaticResource SearchOptionsTextBlock}"
-                Text="ControlResources Key Example"/>
-
-<!--
-            <s:TagVisualization
-               Grid.Row="0" Grid.Column="0" Grid.RowSpan="6" Grid.ColumnSpan="3" >
-                <s:TagVisualizationDefinition
-                    Source="SearchTagView.xaml"
-                    MaxCount="1"
-                    LostTagTimeout="5000.0"
-                    TagRemovedBehavior="Fade"
-                    UsesTagOrientation="False"
-                    Value="50"                  
-                    ></s:TagVisualizationDefinition>
-            </s:TagVisualization>
--->
         </Grid>
         
     </s:TagVisualizer>

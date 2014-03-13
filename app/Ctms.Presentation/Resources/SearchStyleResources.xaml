@@ -14,8 +14,8 @@
     -->
 
     <!--Key styles-->
-    <Style x:Key="SearchOptionsTextBlock" TargetType="TextBlock">
+    <!--<Style x:Key="SearchOptionsTextBlock" TargetType="TextBlock">
         <Setter Property="Foreground" Value="#0f0" />
-    </Style>
+    </Style>-->
 
 </ResourceDictionary>

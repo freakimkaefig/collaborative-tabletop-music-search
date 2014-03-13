@@ -68,7 +68,6 @@ namespace Ctms.Presentation.Views
             searchTagView.Resources["TagDM"] = tagDM;
             searchTagView.Resources["TagId"] = tagId;
             searchTagView.Resources["TagOptions"] = tagDM.Tag.TagOptions;
-            searchTagView.Resources["PieMenuItems"] = tagDM.PieMenuItems;
 
             UpdateMenuItems(tagId);
             UpdateInputField(searchTagView, tagDM);
@@ -76,17 +75,11 @@ namespace Ctms.Presentation.Views
             UpdateVisual(tagId);
         }
 
-        
-
         public void UpdateVisual(int tagId)
         {
             UpdateMenuItems(tagId);
 
             var pieMenu = Tags[tagId].PieMenu;
-
-            //pieMenu.InvalidateVisual();
-
-            //((SearchTagView) searchTagView).InvalidateVisual();
 
             foreach (PieMenuItem item in pieMenu.Items)
             {
@@ -248,6 +241,7 @@ namespace Ctms.Presentation.Views
 
         private void Old_OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
         {
+            /*
             // Every time tag is placed its visualization must be initiated again (is lost after tag remove)
 
             _viewModel.OnVisualizationAdded(e.TagVisualization);
@@ -259,22 +253,17 @@ namespace Ctms.Presentation.Views
             searchTagView.PieMenu.Items.Clear();
             searchTagView.PieMenu.ItemsSource = null;
 
-
-            /*
-            searchTagView.Resources.Add("SearchVM", _viewModel);
-            searchTagView.Resources.Add("TagDM", tagDM);
-            searchTagView.Resources.Add("TagId", tagId);
-            */
             searchTagView.Resources["SearchVM"] = _viewModel;
             searchTagView.Resources["TagDM"] = tagDM;
             searchTagView.Resources["TagId"] = tagId;
             searchTagView.Resources["TagOptions"] = tagDM.Tag.TagOptions;
             searchTagView.Resources["PieMenuItems"] = tagDM.PieMenuItems;
 
-            //UpdateMenuItems(searchTagView, tagDM);
+            UpdateMenuItems(searchTagView, tagDM);
             UpdateInputField(searchTagView, tagDM);
 
             UpdateVisual(tagId);
+            */ 
         }
 
         /*
