@@ -52,6 +52,32 @@ namespace MusicSearch.Managers
             //_request = BuildString();
         }
 
+        public List<ResponseContainer.ResponseObj.TitleSuggestion> getArtistSuggestions(int ID, String term)
+        {
+            var TitleSuggestionsRC = new List<ResponseContainer.ResponseObj.TitleSuggestion>();
+            var sugg1 = new ResponseContainer.ResponseObj.TitleSuggestion()
+            {
+                artist_name = "Katy Perry",
+                tangibleId = 1,
+                id = "AR0IVTL1187B9AD520"
+            };
+            var sugg2 = new ResponseContainer.ResponseObj.TitleSuggestion()
+            {
+                artist_name = "Katy Paffl",
+                tangibleId = 1,
+                id = "ARZHJLI12086C12834"
+            };
+            TitleSuggestionsRC.Add(sugg1);
+            TitleSuggestionsRC.Add(sugg2);
+
+            return TitleSuggestionsRC;
+        }
+
+        public void SongsByArtistIDQuery(String artist_id, int ID)
+        {
+
+        }
+
         private String BuildString()
         {
             String query = _defaultURL;

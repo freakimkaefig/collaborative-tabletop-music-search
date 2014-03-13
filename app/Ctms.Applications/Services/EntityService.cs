@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
 using System.Collections.ObjectModel;
-using MusicSearch.SearchObjects;
+using Ctms.Domain.Objects;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Applications.Services
 {
@@ -12,7 +13,11 @@ namespace Ctms.Applications.Services
     [Export]
     public class EntityService
     {
+        /*
         private ObservableCollection<Style> _styles;
+        private ObservableCollection<Tag> _tags;
+        private ObservableCollection<TagDataModel> _tagDataModels;
+        private ObservableCollection<TagOption> _tagOptions;
 
         public ObservableCollection<Style> Styles
         {
@@ -32,43 +37,42 @@ namespace Ctms.Applications.Services
             }
         }
 
-
-        /*
-        //WAF BookLibrary Examples:
-
-        //private BookLibraryEntities entities;
-        
-        public BookLibraryEntities Entities
-        {
-            get { return entities; }
-            set { entities = value; }
-        }
-
-        public ObservableCollection<Book> Books
+        public ObservableCollection<Tag> Tags
         {
             get
             {
-                if (books == null && entities != null)
-                {
-                    // We need to call ToArray so that Include will be executed (Eager loading).
-                    entities.Books.Include("LendTo").ToArray();
-                    books = new EntityObservableCollection<Book>(entities.Books);
+                if (_tags == null)
+                {   // read and set styles
+                    //_tags = 
                 }
-                return books;
+                _tags = new ObservableCollection<Tag>();//!!ToDo: Fill
+                return _tags;
             }
         }
 
-        public ObservableCollection<Person> Persons
+        public ObservableCollection<TagDataModel> TagDataModels
         {
             get
             {
-                if (persons == null && entities != null)
-                {
-                    persons = new EntityObservableCollection<Person>(entities.Persons);
+                if (_tagDataModels == null)
+                {   // init list
+                    _tagDataModels = new ObservableCollection<TagDataModel>();
                 }
-                return persons;
+                return _tagDataModels;
             }
         }
-         */ 
+
+        public ObservableCollection<TagOption> TagOptions
+        {
+            get
+            {
+                if (_tagOptions == null)
+                {   // init list
+                    _tagOptions = new ObservableCollection<TagOption>();
+                }
+                return _tagOptions;
+            }
+        }
+        */
     }
 }

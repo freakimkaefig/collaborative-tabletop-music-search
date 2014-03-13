@@ -3,21 +3,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:p="clr-namespace:Ctms.Presentation.Properties"
+    xmlns:c="clr-namespace:Ctms.Presentation.Converters"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
-    xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
+    xmlns:dm="clr-namespace:Ctms.Applications.DataModels;assembly=Ctms.Applications"
+    xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"  
     Name="MyTagVisualization"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
-    Loaded="SimpleVisualization_Loaded" >
+    Loaded="SimpleVisualization_Loaded"
+    PreviewTouchDown="MyTagVisualization_PreviewTouchDown">
+
+    <s:TagVisualization.Resources>
+        <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
+        <!--<vm:SearchViewModel x:Key="SearchVM" />
+        <sys:Int32 x:Key="TagId" />
+        <dm:TagDataModel x:Key="TagDM" />-->
+    </s:TagVisualization.Resources>
 
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="../../Resources/Images/Search/record.png" Opacity="1.0"/>
-        </Grid.Background>
         <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="2*"/>
@@ -25,82 +34,130 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <Button Content="Home" Name="HomeButton" HorizontalAlignment="Left" Grid.Row="0" Command="{Binding SelectOptionCmd}" CommandParameter="1"/>
-        <Button Content="Breadcrumb" Command="{Binding SelectOptionCmd}" CommandParameter="1" Grid.Row="0" HorizontalAlignment="Right"/>
+        <s:SurfaceButton DataContext="{DynamicResource SearchVM}" Content="Home" Name="HomeButton" HorizontalAlignment="Left" Grid.Row="0" 
+                         Command="{Binding GoHomeCmd}" CommandParameter="{DynamicResource TagId}"/>
+        <s:SurfaceButton Content="Breadcrumb" Command="{Binding GoBreadcrumbCmd}" CommandParameter="{DynamicResource TagId}" Grid.Row="0" HorizontalAlignment="Right"/>
 
-        <!--Temporary approach to display tag data -->
-        <ListBox ItemsSource="{Binding TagOptions}" BorderBrush="Transparent" 
-                 Background="Black"
-             Grid.IsSharedSizeScope="True"
-             HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
-            <ListBox.ItemTemplate>
+
+
+        <Grid Grid.Row="3">
+            <Grid.Background>
+                <ImageBrush ImageSource="../../Resources/Images/Search/record.png" Opacity="1.0"/>
+            </Grid.Background>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!--<ps:PieMenu 
+                x:Name="PieMenu"
+                Canvas.Left="100"
+                Canvas.Top="100"
+                SelectedBackground="#7399"
+                Foreground="White"
+                BorderBrush="#000"
+                SectorGap="0"
+                Gap="0"
+                Radius="120"
+                InnerRadius="33"
+                RotateText="True"
+                RotateTextAngle="0"
+                Rotation="150"
+                MenuSector="360"
+                Background="Transparent"
+                Grid.Row="0"
+                DataContext="{DynamicResource TagDM}">-->
+
+                <!-- placeholder item for correct calculation of piemenuitem size -->
+
+            <!--<ps:PieMenuItem Name="Hans" Header="MyHeader" SubHeader="MySubHeader" BorderThickness="0" 
+                                    Command="" Background="#0000"/>
+
+            </ps:PieMenu>-->
+
+            <ps:PieMenu 
+                x:Name="PieMenu"
+                Canvas.Left="100"
+                Canvas.Top="100"
+                SelectedBackground="#7399"
+                Foreground="White"
+                BorderBrush="#000"
+                SectorGap="0"
+                Gap="0"
+                Radius="120"
+                InnerRadius="33"
+                RotateText="True"
+                RotateTextAngle="0"
+                Rotation="150"
+                MenuSector="360"
+                Background="Transparent"
+                Grid.Row="0">
+
+                <!-- placeholder item for correct calculation of piemenuitem size -->
+                <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
+                                    Command="" Background="#0000"/>
+
+            </ps:PieMenu>
+
+            <!--<ps:PieMenu.ItemTemplate>
+
                 <DataTemplate>
-                    <Button Command="{Binding DataContext.SelectOptionCmd, RelativeSource={RelativeSource AncestorType=s:TagVisualization}}" 
-                            CommandParameter="{Binding}">
-                        <Button.Content>
-                            <StackPanel>
-                                <Label Content="{Binding Keyword.Name}" FontWeight="Bold" BorderThickness="0"/>
-                                <Label Content="{Binding Id}" BorderThickness="0" />
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
+                    <ps:PieMenuItem Header="{Binding Keyword.Name}"
+                            FontSize = "16"
+                            CenterText = "true"
+                            Background = "Transparent"
+                                        ></ps:PieMenuItem>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ps:PieMenu.ItemTemplate>-->
 
-        <!--Selection state-->
-        <!--<ps:PieMenu x:Name="PieMenu1"  Grid.Column="0" Grid.Row="0"
-                       Canvas.Left="100"
-                       Canvas.Top="100"
-                       SelectedBackground="#7399"
-                       Foreground="White"
-                       BorderBrush="#000"
-                       SectorGap="0"
-                       Gap="0"
-                       Radius="120"
-                       InnerRadius="33"
-                       RotateText="True"
-                       RotateTextAngle="0"
-                       Rotation="150"
-                       MenuSector="240"
-                        Background="Transparent"  DataContext="{Binding Parent}">
-            <ps:PieMenuItem Name="PieMenuItem1" Header="Audioslave" SubHeader="Cochise" BorderThickness="0" 
-                                    Command="{Binding SelectOptionCmd}" Background="#0555">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Katy Perry" SubHeader="{Binding Breadcrumb2}" BorderThickness="0"  Background="#5555">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Arvmin van Buuren" SubHeader="Cochise" BorderThickness="0" Background="#0555">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem Header="Zedd" SubHeader="Cochise" BorderThickness="0"  Background="#5555">
-            </ps:PieMenuItem>
-            <ps:PieMenuItem  Header="Pink" SubHeader="Cochise" BorderThickness="0"  Background="#0555">
-            </ps:PieMenuItem>
-        </ps:PieMenu>
-        <ps:PieMenu x:Name="PieMenu2"  Grid.Column="0" Grid.Row="0"
-                       Canvas.Left="100"
-                       Canvas.Top="100"
-                       Background="Transparent"
-                       SelectedBackground="#7399"
-                       Foreground="White"
-                       BorderBrush="#000"
-                       SectorGap="0"
-                       Gap="0"
-                       Radius="120"
-                       InnerRadius="33"
-                       RotateText="True"
-                       RotateTextAngle="-90"
-                       Rotation="30"
-                       MenuSector="120">
-            <ps:PieMenuItem Header="Elvis" SubHeader="Cochise"  
-                    BorderThickness="0" FontSize="16"
-                    CenterText="true" Command="{Binding SelectOptionCmd}" Background="#5555"
-                    Id="{Binding Id}">
-            </ps:PieMenuItem>
-        </ps:PieMenu>-->
-        <!--<TextBlock Text="Keyword" VerticalAlignment="Bottom" HorizontalAlignment="Center" 
-                   Foreground="#acf" FontWeight="Bold" FontSize="18"/>-->
+            <!-- placeholder item for correct calculation of piemenuitem size -->
+            <!--
+                <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
+                                    Command="" Background="#0000"/>-->
+
+        </Grid>
+
+        <!--<DataGrid DataContext="{DynamicResource TagDM}" ItemsSource="{Binding Tag.TagOptions}" Width="180">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="First Name" Binding="{Binding Keyword.Name}" Foreground="#000"/>
+                <DataGridTextColumn Header="First Name" Binding="{Binding Keyword.Description}" Foreground="#000" />
+            </DataGrid.Columns>
+        </DataGrid>-->
+
+        <StackPanel DataContext="{DynamicResource TagDM}" 
+                    Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}"
+                    Orientation="Horizontal"      
+                    Grid.Row="4">
+
+            <s:SurfaceTextBox DataContext="{DynamicResource TagDM}"
+                Name="InputField" 
+                Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
+                Height="Auto" Width="180" />
+
+            <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                Command="{Binding GetSuggestionsCmd}" CommandParameter="{DynamicResource TagId}"  
+                Content="Ok"/>
+
+        </StackPanel>
+
+        <TextBlock 
+            Name="HansBlock"
+            Height="100" Width="100"
+            DataContext="{DynamicResource TagDM}"
+            Text="{Binding Tag.AssignedKeyword.Name, 
+                NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <!--DataContext="{DynamicResource TagDM}"
+            Text="{Binding Tag.AssignedKeyword.Name, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"-->
 
     </Grid>
 </s:TagVisualization>

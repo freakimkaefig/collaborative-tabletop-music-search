@@ -57,8 +57,10 @@
     <Compile Include="BackgroundWorkHelper.cs" />
     <Compile Include="CollectionHelper.cs" />
     <Compile Include="HttpRequester.cs" />
+    <Compile Include="TimingHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObservableRangeCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

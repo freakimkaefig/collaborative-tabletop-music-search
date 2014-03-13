@@ -9,7 +9,10 @@ using Ctms.Applications.Views;
 using Ctms.Domain.Objects;
 using Microsoft.Surface.Presentation.Controls;
 using System.Collections.ObjectModel;
-using MusicSearch.SearchObjects;
+using Ctms.Applications.DataModels;
+using System.Threading;
+using System.Windows.Data;
+using Ctms.Domain;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -20,46 +23,42 @@ namespace Ctms.Applications.ViewModels
         private string      _keywordType;
         private ICommand    _startSearchCommand;
         private ICommand    _selectOptionCmd;
+        private ICommand    _getSuggestionsCmd;
         private string      _inputValue;
         private string      _item1Header;
         private string      _item2Header;
         private int         _mainItemId;
-        private List<Entry> _entries;
-        private ObservableCollection<TagOption>   tagOptions;
         private List<TagVisualization> _tagVisualizations;
+        private ISearchView _searchView;
+        private Keyword _assignedKeyword;
+        private ICommand _selectCircleOptionCmd;
+        private ObservableCollection<TagDataModel> _tags;
+        private ICommand _goHomeCmd;
+        private ICommand    _goBreadcrumbCmd;
+        private bool        _addedVisualization;
         //private readonly IEnumerable<SearchTagViewModel> _searchTags;
-
 
         [ImportingConstructor]
         public SearchViewModel(ISearchView view)
             : base(view)
         {
-            tagOptions = new ObservableCollection<TagOption>();
-            TagVisualizations = new List<TagVisualization>();
-
-            _entries = new List<Entry>()
-            {
-                new Entry { Id = 0, Header = "Hypocratics", SubHeader = "Audioslave" },
-                new Entry { Id = 1, Header = "Hypocratics", SubHeader = "Katy Perry" },
-                new Entry { Id = 2, Header = "Hypocratics", SubHeader = "Anyone" },
-                new Entry { Id = 3, Header = "Hypocratics", SubHeader = "John Wayne" },
-                new Entry { Id = 4, Header = "Hypocratics", SubHeader = "Justin Bieber" }
-            };
+            _tags = new ObservableCollection<TagDataModel>();
+            _searchView = view;
         }
 
-        public string Breadcrumb { get { return "SVM"; } }
-        public string Breadcrumb2 { get { return "SVM2"; } }
-
-        public List<Entry> Entries
+        public SearchViewModel() : base(null)
         {
-            get { return _entries; } 
+
         }
 
-        public class Entry {
-            public int      Id { get; set; }
-            public string   Header { get; set; }
-            public string   SubHeader { get; set; }
+        public void ShowKeyword(TagOption tagOption)
+        {
+            //ListVisibility = ...
+            //KeywordVisibility = ...
+            AssignedKeyword = tagOption.Keyword;
         }
+
+        #region Properties
 
         public bool IsEnabled { get { return true; } }
 
@@ -102,6 +101,52 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public Keyword AssignedKeyword
+        {
+            get { return _assignedKeyword; }
+            set
+            {
+                if (_assignedKeyword != value)
+                {
+                    _assignedKeyword = value;
+                    RaisePropertyChanged("AssignedKeyword");
+                }
+            }
+        }
+
+        public ObservableCollection<TagDataModel> Tags
+        {
+            get { return _tags; }
+            set
+            {
+                if (_tags != value)
+                {
+                    _tags = value;
+                    RaisePropertyChanged("Tags");
+                }
+            }
+        }
+
+        public bool AddedVisualization
+        {
+            get { return _addedVisualization; }
+            set
+            {
+                if (_addedVisualization != value)
+                {
+                    _addedVisualization = value;
+                    RaisePropertyChanged("AddedVisualization");
+                }
+            }
+        }
+
+
+
+        #endregion
+
+
+        #region Commands
+
         public ICommand StartSearchCmd
         {
             get { return _startSearchCommand; }
@@ -128,116 +173,87 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
+
+        public ICommand GoHomeCmd
+        {
+            get { return _goHomeCmd; }
+            set
+            {
+                if (_goHomeCmd != value)
+                {
+                    _goHomeCmd = value;
+
+                    RaisePropertyChanged("GoHomeCmd");
+                }
+            }
+        }
+
+        public ICommand GoBreadcrumbCmd
+        {
+            get { return _goBreadcrumbCmd; }
+            set
+            {
+                if (_goBreadcrumbCmd != value)
+                {
+                    _goBreadcrumbCmd = value;
+
+                    RaisePropertyChanged("GoBreadcrumbCmd");
+                }
+            }
+        }
+
+
+        public ICommand SelectCircleOptionCmd
+        {
+            get { return _selectCircleOptionCmd; }
+            set
+            {
+                if (_selectCircleOptionCmd != value)
+                {
+                    _selectCircleOptionCmd = value;
+
+                    RaisePropertyChanged("SelectCircleOptionCmd");
+                }
+            }
+        }
         
-        public string Item1Header
+
+        public ICommand GetSuggestionsCmd
         {
-            get
-            {
-                if (_item1Header == null) return "My dynamic song";
-                else { return _item1Header; };
-            }
+            get { return _getSuggestionsCmd; }
             set
             {
-                if (_item1Header != value)
+                if (_getSuggestionsCmd != value)
                 {
-                    _item1Header = value;
-                    RaisePropertyChanged("Item1Header");
+                    _getSuggestionsCmd = value;
+                    RaisePropertyChanged("GetSuggestionsCmd");
                 }
             }
         }
 
-        public string Item2Header
-        {
-            get
-            {
-                if (_item2Header == null) return "My dynamic song2";
-                else { return _item2Header; };
-            }
-            set
-            {
-                if (_item2Header != value)
-                {
-                    _item2Header = value;
-                    RaisePropertyChanged("Item2Header");
-                 }
-            }
-        }
-
-        public int MainItemId
-        {
-            get { return _mainItemId; }
-            set
-            {
-                if (_mainItemId != value)
-                {
-                    _mainItemId = value;
-                    RaisePropertyChanged("MainItemId");
-                }
-            }
-        }
-
-        public List<TagVisualization> TagVisualizations
-        {
-            get { return _tagVisualizations; }
-            set
-            {
-                if (_tagVisualizations != value)
-                {
-                    _tagVisualizations = value;
-                    RaisePropertyChanged("TagVisualizations");
-                }
-            }
-        }
-
-        public ObservableCollection<TagOption> TagOptions
-        {
-            get { return tagOptions; }
-            set
-            {
-                if (tagOptions != value)
-                {
-                    tagOptions = value;
-                    RaisePropertyChanged("TagOptions");
-                }
-            }
-        }
+        #endregion Commands  
 
         public void OnVisualizationAdded(TagVisualization tagVisualization)
         {
-            //var tagValue    = tagVisualization.VisualizedTag.Value;
-            //var tagVizual   = tagVisualization.VisualizedTag;
-            //var simpleTag   = tagVisualization;
-
-            TagVisualizations.Add(tagVisualization);
+            /*
+            var tagValue    = tagVisualization.VisualizedTag.Value;
+            var tagVizual   = tagVisualization.VisualizedTag;
+            var simpleTag   = tagVisualization;
+            */
+            //TagVisualizations.Add(tagVisualization);
             /*
             var tagVisualization    = (SearchTagView) e.TagVisualization;
             var tagId               = (int) tagVisualization.VisualizedTag.Value;
             /*
             var pieMenu             = ((PieMenu) tagVisualization.PieMenu1);//!!
             var pieMenuItems        = (ItemCollection) pieMenu.Items;*/
+
+            //AddedVisualization = true;
         }
 
-        public void OnVisualizationRemoved(TagVisualization tagVisualization)
+        public void UpdateVisuals(TagDataModel tagDM)
         {
-            TagVisualizations.Remove(tagVisualization);
+            _searchView.UpdateVisual(tagDM.Id);
         }
-
-        /*
-        public List<SearchTagViewModel> SearchTags
-        {
-            get { return _searchTags; }
-            set
-            {
-                if (_searchTags != value)
-                {
-                    _searchTags = value;
-                    RaisePropertyChanged("SearchTags");
-                }
-            }
-        }
-        */
-
-        //public IEnumerable<SearchTagViewModel> SearchTags { get { return _searchTags; } }
-
     }
 }

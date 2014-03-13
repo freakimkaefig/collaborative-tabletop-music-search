@@ -25,13 +25,14 @@ namespace Ctms.Applications.Workers
 
         public void RefreshResults(ResponseContainer responseContainer)
         {
+            /*
             //Example of how to read a resulting song and assign it to viewmodel
             SongFactory factory = new SongFactory();
             var result = new Result();
             Random rnd = new Random();
             int index = rnd.Next(0, responseContainer.Response.Songs.Count);
             result.Song = factory.Create(responseContainer.Response.Songs[index]);
-            _resultViewModel.Result = result;
+            _resultViewModel.Result = result;*/
         }
     }
 }

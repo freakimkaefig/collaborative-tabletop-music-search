@@ -9,14 +9,19 @@
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     MinWidth="450" MinHeight="550" IsEnabled="{Binding IsEnabled}"
-    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
-    
-    <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
-    waf:ValidationHelper.IsEnabled="true" -->
-
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
+    Name="SearchV">
 
     <s:TagVisualizer x:Name="SearchTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
-                     VisualizationRemoved="OnVisualizationRemoved">
+                     VisualizationRemoved="OnVisualizationRemoved" 
+                     GotTouchCapture="SearchTagVisualizer_GotTouchCapture"
+                     GotFocus="SearchTagVisualizer_GotFocus"
+                     SourceUpdated="SearchTagVisualizer_SourceUpdated"
+                     TouchEnter="SearchTagVisualizer_TouchEnter"
+                     TouchDown="SearchTagVisualizer_TouchDown"
+                     >
+        
+        
 
         <Grid Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
@@ -34,7 +39,7 @@
             </Grid.RowDefinitions>
 
             <Label Content="SearchView" Grid.Column="0" Grid.Row="0"/>
-            <Button Content="Search/Refresh" Command="{Binding StartSearchCmd}" Grid.Column="0" Grid.Row="1" Width="100" Height="50" HorizontalAlignment="Left"/>
+            <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" Grid.Column="0" Grid.Row="1" Width="100" Height="50" HorizontalAlignment="Left"/>
             <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding InputValue}" Width="140"/>
             <TextBlock Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Left" Style="{StaticResource SearchOptionsTextBlock}"
                 Text="ControlResources Key Example"/>

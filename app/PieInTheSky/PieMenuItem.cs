@@ -3,10 +3,11 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace PieInTheSky
 {
-    public class PieMenuItem : HeaderedItemsControl
+    public class PieMenuItem : HeaderedItemsControl, INotifyPropertyChanged
     {
         public event RoutedEventHandler Click;
 
@@ -74,7 +75,7 @@ namespace PieInTheSky
                 base.SetValue(PieMenuItem.CenterTextProperty, value);
             }
         }
-
+        
         [Bindable(true)]
         public string SubHeader
         {
@@ -86,8 +87,23 @@ namespace PieInTheSky
             set
             {
                 base.SetValue(PieMenuItem.SubHeaderProperty, value);
+                NotifyPropertyChanged("SubHeader"); 
             }
         }
+        
+        /*
+        [Bindable(true)]
+        public int Id
+        {
+            get
+            {
+                return (int)base.GetValue(PieMenuItem.IdProperty);
+            }
+            set
+            {
+                base.SetValue(PieMenuItem.IdProperty, value);
+            }
+        }*/
 
         [Bindable(true)]
         public int Id
@@ -114,9 +130,29 @@ namespace PieInTheSky
             PieMenuItem.IdProperty = DependencyProperty.Register("Id", typeof(int), typeof(PieMenuItem), new FrameworkPropertyMetadata(0));
 
             //PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem), new FrameworkPropertyMetadata(""));
-            PieMenuItem.SubHeaderProperty = DependencyProperty.Register(
-                "SubHeader",  typeof(string), typeof(PieMenuItem),  new FrameworkPropertyMetadata("", (FrameworkPropertyMetadataOptions.AffectsRender), new PropertyChangedCallback(DoSth)));
+            
+            //PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem),
+            //    new UIPropertyMetadata(string.Empty, DoSth));
+            
+            PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.AffectsRender));
+             
+            
+            //PieMenuItem.SubHeaderProperty = DependencyProperty.Register(
+            //    "SubHeader",  typeof(string), typeof(PieMenuItem),  new FrameworkPropertyMetadata("", (FrameworkPropertyMetadataOptions.AffectsRender), new PropertyChangedCallback(DoSth)));
         
+            //PieMenuItem.SubHeaderProperty = DependencyProperty.Register(
+            //    "SubHeader",  typeof(string), typeof(PieMenuItem),  
+            //    new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        
+        }
+
+        private static void UsernamePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Debug.Print("OldValue: {0}", e.OldValue);
+            Debug.Print("NewValue: {0}", e.NewValue);
+
+
+            //Command.Execute(0);
         }
 
         public static void DoSth(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -124,10 +160,15 @@ namespace PieInTheSky
             var value = (string)e.NewValue;
             var oldValue = (string)e.OldValue;
             ((PieMenuItem)d).SetValue(SubHeaderProperty, value);
-            var val = ((PieMenuItem)d).ReadLocalValue(SubHeaderProperty);
+            ((PieMenuItem)d).UpdateLayout();
+            /*
+            var p = (PieMenuItem)d;
+            var be = p.GetBindingExpression(PieMenuItem.SubHeaderProperty);
+            //be.UpdateSource();
+            be.UpdateTarget();
+            ((PieMenuItem)d).GetBindingExpression(PieMenuItem.SubHeaderProperty).UpdateTarget();
+            //var val = ((PieMenuItem)d).ReadLocalValue(SubHeaderProperty);*/
         }
-
-        public string Breadcrumb { get { return "PieMenuItem"; }}
 
         public double CalculateSize(double s, double d)
         {
@@ -170,6 +211,16 @@ namespace PieInTheSky
             if (Click != null)
             {
                 Click(this, new RoutedEventArgs());
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(string sProp)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(sProp));
             }
         }
     }
