@@ -67,10 +67,14 @@
   <ItemGroup>
     <Compile Include="CtmsEntities.cs" />
     <Compile Include="Objects\Detail.cs" />
+    <Compile Include="Objects\Keyword.cs" />
+    <Compile Include="Objects\KeywordContainer.cs" />
+    <Compile Include="Objects\KeywordTypes.cs" />
     <Compile Include="Objects\Result.cs" />
     <Compile Include="Objects\Playlist.cs" />
     <Compile Include="Objects\Song.cs" />
     <Compile Include="Objects\Tag.cs" />
+    <Compile Include="Objects\TagOption.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

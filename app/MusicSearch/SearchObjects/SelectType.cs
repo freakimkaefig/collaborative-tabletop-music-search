@@ -5,16 +5,9 @@ using System.Text;
 
 namespace MusicSearch.SearchObjects
 {
-    public class KeywordType
+    public class SelectType
     {
-        public enum Types
-        {
-            Style,
-            Title,
-            Artist
-        };
-
-        public Types Type { get; set; }
+        public KeywordTypes Type { get; set; }
 
         public string Name 
         { 

@@ -6,11 +6,24 @@ using System.Reflection;
 using System.Xml.Linq;
 using Helpers;
 using MusicSearch.ResponseObjects;
+<<<<<<< HEAD
 using Newtonsoft.Json;
 
 namespace MusicSearch.Managers
 {
     public class SearchManager
+=======
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.IO;
+using System.Xml;
+using System.Xml.Linq;
+using System.Reflection;
+
+namespace MusicSearch.Managers
+{
+    public class SearchManager
+>>>>>>> de79d323ecec49f3e7dfdc4d4f9397cb3f1eb4c1
     {
         public ResponseContainer ResponseContainer;
         private String _defaultURL = "http://developer.echonest.com/api/v4/";

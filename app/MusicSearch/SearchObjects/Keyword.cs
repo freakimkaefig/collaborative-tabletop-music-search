@@ -5,16 +5,19 @@ using System.Text;
 
 namespace MusicSearch.SearchObjects
 {
+    // A keyword can be 
     public class Keyword
     {
-        public int KeywordId            { get; set; }   
-        public KeywordType.Types Type   { get; protected set; }        
-        public string Name              { get; set; }
-        public double Weight            { get; set; }
+        public int Id               { get; set; }   
+        public KeywordTypes Type    { get; protected set; }
+        public string Name          { get; set; }
+        public string Description   { get; set; }
+        public double Weight        { get; set; }
 
-        public Keyword(string name)
+        public Keyword(string name, KeywordTypes type)
         {
             Name = name;
+            Type = type;
         }
     }
 
@@ -22,9 +25,8 @@ namespace MusicSearch.SearchObjects
     {
         public List<Style> SubStyles { get; set; }
 
-        public Style(string name) : base(name)
+        public Style(string name) : base(name, KeywordTypes.Genre)
         {
-            Type = KeywordType.Types.Style;
         }
     }
 
@@ -33,9 +35,8 @@ namespace MusicSearch.SearchObjects
         public string SpotifyId     { get; set; }
         public List<Artist> Artists { get; set; }
 
-        public Title(string name) : base(name)
+        public Title(string name) : base(name, KeywordTypes.Title)
         {
-            Type = KeywordType.Types.Title;
         }
     }
 
@@ -43,9 +44,8 @@ namespace MusicSearch.SearchObjects
     {
         public List<Title> Titles { get; set; }
 
-        public Artist(string name) : base(name)
+        public Artist(string name) : base(name, KeywordTypes.Artist)
         {
-            Type = KeywordType.Types.Artist;
         }
     }
 }

@@ -58,9 +58,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SearchObjects\KeywordContainer.cs" />
-    <Compile Include="SearchObjects\KeywordType.cs" />
-    <Compile Include="SearchObjects\Keyword.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Managers\SearchManager.cs" />

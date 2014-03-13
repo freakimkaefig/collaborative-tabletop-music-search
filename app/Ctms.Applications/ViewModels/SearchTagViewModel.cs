@@ -7,11 +7,13 @@ using Ctms.Domain.Objects;
 using System.Windows.Input;
 using Ctms.Applications.Views;
 using System.Waf.Applications;
+using System.Collections.ObjectModel;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Applications.ViewModels
 {
     [Export]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public class SearchTagViewModel : ViewModel<ISearchTagView>
     {
         private bool _isValid = true;
@@ -20,23 +22,31 @@ namespace Ctms.Applications.ViewModels
         private string _item1Header;
         private int _id;
         private string _keyword;
-        private List<Tag> _tags;
+        private ISearchTagView _searchTagView;
         
         [ImportingConstructor]
         public SearchTagViewModel(ISearchTagView view)
             : base(view)
         {
-            _tags = new List<Tag>();
+            _searchTagView = view;
 
-            var r = new Random(DateTime.Now.Millisecond);
-            testContent = r.NextDouble();
+            _tags = new ObservableCollection<TagDataModel>();
         }
 
-        public string Breadcrumb { get { return "STVM"; } }
+        private ObservableCollection<TagDataModel> _tags;
 
-        private double testContent;
-
-        public double TestContent { get { return testContent; } }
+        public ObservableCollection<TagDataModel> Tags
+        {
+            get { return _tags; }
+            set
+            {
+                if (_tags != value)
+                {
+                    _tags = value;
+                    RaisePropertyChanged("Tags");
+                }
+            }
+        }
 
         public bool IsEnabled { get { return true; } }//Detail != null;//!! Has to be adjusted
 
@@ -65,51 +75,8 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-        
-        public ICommand SelectOptionCmd
-        {
-            get { return _selectOptionCmd; }
-            set
-            {
-                if (_selectOptionCmd != value)
-                {
-                    _selectOptionCmd = value;
-                    RaisePropertyChanged("SelectOptionCmd");
-                }
-            }
-        }
 
         public ISearchTagView MyView { get; set; }
 
-        public List<Tag> Tags
-        {
-            get { return _tags; }
-            set
-            {
-                if (_tags != value)
-                {
-                    _tags = value;
-                    RaisePropertyChanged("Tags");
-                }
-            }
-        }
-
-        public string Keyword
-        {
-            get { return "MyKeyword"; }
-            set
-            {
-                if (_keyword != value)
-                {
-                    _keyword = value;
-                    RaisePropertyChanged("Keyword");
-                }
-            }
-        }
-
-        public void DoSth()
-        {
-            MyView.DoSth();
-        }
     }
 }

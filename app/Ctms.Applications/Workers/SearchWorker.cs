@@ -5,7 +5,6 @@ using System.Text;
 using Helpers;
 using MusicSearch.Managers;
 using System.ComponentModel;
-using MusicSearch.SearchObjects;
 using Ctms.Applications.ViewModels;
 using System.ComponentModel.Composition;
 

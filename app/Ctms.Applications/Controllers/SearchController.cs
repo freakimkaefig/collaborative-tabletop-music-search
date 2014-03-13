@@ -10,7 +10,6 @@ using Ctms.Applications.Properties;
 using Ctms.Applications.Services;
 using Ctms.Applications.ViewModels;
 using Ctms.Domain;
-//using System.IO;
 using System.Data.EntityClient;
 using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
@@ -20,8 +19,10 @@ using Ctms.Applications.DataFactories;
 using MusicSearch.ResponseObjects;
 using Ctms.Domain.Objects;
 using Ctms.Applications.Workers;
-using MusicSearch.SearchObjects;
 using System.Collections.Generic;
+using Ctms.Applications.DataModels;
+using Ctms.Applications.Data;
+using System.Collections.Specialized;
 
 
 namespace Ctms.Applications.Controllers
@@ -50,16 +51,25 @@ namespace Ctms.Applications.Controllers
         //Commands
         private readonly DelegateCommand _startSearchCmd;
         private readonly DelegateCommand _selectOptionCmd;
+        private readonly DelegateCommand _getSuggestionsCmd;
         //Further vars
+        private SearchManager _searchManager;
+        private DelegateCommand _selectCircleOptionCmd;
+        private IMessageService _messageService;
+        private Repository _repository;
+        private SynchronizingCollection<TagDataModel, Tag> _tagDataModels;
 
         [ImportingConstructor]
         public SearchController(CompositionContainer container, IShellService shellService, EntityService entityService,
+            IMessageService messageService,
             SearchViewModel searchVm, 
             SearchTagViewModel searchTagVm, 
             ResultViewModel resultVm,
-            SearchWorker searchWorker, ResultWorker resultWorker, SearchOptionWorker searchOptionWorker)
+            SearchWorker searchWorker, ResultWorker resultWorker, SearchOptionWorker searchOptionWorker,
+            Repository repository)
         {
             _container                  = container;
+            _repository                 = repository;
             //Workers
             _searchWorker               = searchWorker;
             _resultWorker               = resultWorker;
@@ -67,41 +77,78 @@ namespace Ctms.Applications.Controllers
             //Services
             _shellService               = shellService;
             _entityService              = entityService;
-            _tagVisualizationService    = new SearchTagVisualizationService(searchVm);//, searchTagVm);
+            _tagVisualizationService    = new SearchTagVisualizationService(searchVm, _repository);//, searchTagVm);
+            _messageService             = messageService;
             //ViewModels
             _searchVm                   = searchVm;
             _searchTagVm                = searchTagVm;
             _resultVm                   = resultVm;
             //Commands
             _startSearchCmd             = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
-            _selectOptionCmd            = new DelegateCommand((id) => _searchOptionWorker.SelectOption((TagOption)id));
+            _selectOptionCmd            = new DelegateCommand((tagId) => _searchOptionWorker.SelectOption((int)tagId));
+            //_selectCircleOptionCmd = new DelegateCommand((id) => _searchOptionWorker.SelectCircleOption((int)id));
+            _selectCircleOptionCmd      = new DelegateCommand((tagId) => SelectCircleOption((int)tagId));
+            
+            _getSuggestionsCmd          = new DelegateCommand((tagId) => _searchOptionWorker.LoadSuggestions((int)tagId));
+            //Further vars
+            _searchManager              = new SearchManager();
         }
 
         public void Initialize()
         {
+            _repository.Initialize(_searchManager);
+
             //Commands
             _searchVm.StartSearchCmd = _startSearchCmd;
+            _searchVm.SelectCircleOptionCmd = _selectCircleOptionCmd;
             //Views
             _shellService.SearchView = _searchVm.View;
             _shellService.SearchTagView = _searchTagVm.View;
             //Listeners
             AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
+            AddWeakEventListener((INotifyCollectionChanged)_searchVm.Tags, TagsChanged);
+            /*
+            foreach(var tag in _searchVm.Tags)
+            {
+                AddWeakEventListener((INotifyCollectionChanged)tag.Tag.TagOptions, TagsChanged);
+            }*/
+
             //_searchTagVm.SelectOptionCmd = _selectOptionCmd;
-            _searchVm.SelectOptionCmd = _selectOptionCmd;
+            _searchVm.SelectOptionCmd   = _selectOptionCmd;
+            _searchVm.GetSuggestionsCmd = _getSuggestionsCmd;
 
             InitKeywords();
 
             // set  default tag values
             _tagVisualizationService.InitTagDefinitions();
-            _searchOptionWorker.UpdateOptions();
 
+            _searchVm.Tags = _repository.GetAllTagDMs();
+
+            _searchOptionWorker.Initialize(_searchManager);
+            foreach (var tag in _searchVm.Tags)
+            {
+                _searchOptionWorker.UpdateOptions(tag.Tag.Id);
+            }
+        }
+
+        private void TagsChanged(object sender, NotifyCollectionChangedEventArgs e) 
+        { 
+            //UpdateItemCount(); 
+        
+        }
+
+
+        private void SelectCircleOption(int id)
+        {
+            MessageServiceExtensions.ShowMessage(_messageService, "Selected Circle option: " + id);
         }
 
         private void InitKeywords()
         {
             List<Tag> tags = new List<Tag>()
-            {/*
+            {
+                /*
                 new Tag()
                 {
                     Id = 0,
@@ -158,6 +205,11 @@ namespace Ctms.Applications.Controllers
             else if (e.PropertyName == "Tags")//SelectedSong is just an example
             {
 
+            }
+            else if (e.PropertyName == "AddedVisualization" && _searchVm.AddedVisualization == true)//SelectedSong is just an example
+            {
+                //_searchVm.AddedVisualization = false;
+                //_searchOptionWorker.UpdateOptions();
             }
         }
     }
