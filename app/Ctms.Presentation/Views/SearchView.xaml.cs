@@ -64,22 +64,36 @@ namespace Ctms.Presentation.Views
 
             pieMenu.Items.Clear();
 
+            //  create dynamic resources
             searchTagView.Resources["SearchVM"] = _viewModel;
             searchTagView.Resources["TagDM"] = tagDM;
             searchTagView.Resources["TagId"] = tagId;
             searchTagView.Resources["TagOptions"] = tagDM.Tag.TagOptions;
 
+
             UpdateMenuItems(tagId);
             UpdateInputField(searchTagView, tagDM);
 
+            CalcMenuVisibility(searchTagView, tagDM);
+
             UpdateVisual(tagId);
+        }
+
+        private static void CalcMenuVisibility(SearchTagView searchTagView, TagDataModel tagDM)
+        {
+            // calculate visibility and create dynamic resource
+            var converter = new BooleanToVisibilityConverter();
+            var isVisible = converter.Convert(tagDM.IsMenuVisible, null, null, null);
+            searchTagView.Resources["IsMenuVisible"] = isVisible;
         }
 
         public void UpdateVisual(int tagId)
         {
             UpdateMenuItems(tagId);
+            CalcMenuVisibility(Tags[tagId], _viewModel.Tags[tagId]);
 
             var pieMenu = Tags[tagId].PieMenu;
+
 
             foreach (PieMenuItem item in pieMenu.Items)
             {
@@ -218,35 +232,11 @@ namespace Ctms.Presentation.Views
                 commandBinding.NotifyOnSourceUpdated = true;
                 commandBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 pieMenuItem.SetBinding(PieMenuItem.CommandProperty, commandBinding);
-                /*
-                // Command parameter binding
-                Binding commandParamBinding = new Binding("SelectOptionCmd");
-                commandParamBinding.Source = _viewModel;
-                commandParamBinding.NotifyOnSourceUpdated = true;
-                commandParamBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                pieMenuItem.SetBinding(PieMenuItem.CommandProperty, commandParamBinding);
-                */
+
                 pieMenu.Items.Add(pieMenuItem);
             }
-            /*
-            foreach (PieMenuItem item in pieMenu.Items)
-            {
-                var textBrush = (Brush)(new BrushConverter().ConvertFrom("#fff"));
-                var backgrBrush = (Brush)(new BrushConverter().ConvertFrom(Colors.Transparent));
-                var textBlock = new TextBlock()
-                {
-                    FontSize = 16,
-                    Background = backgrBrush,
-                    Foreground = textBrush
-                };
-                Point relativeLocation = item.TranslatePoint(new Point(0, 0), item);
-                textBlock.Poi
-            }*/
 
             pieMenu.InvalidateVisual();
-            //this.InvalidateVisual();
-
-            //PieMenus.Add(pieMenu);
         }
 
         private void Old_OnVisualizationAdded(object sender, TagVisualizerEventArgs e)

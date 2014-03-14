@@ -39,11 +39,22 @@
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
 
-            <s:SurfaceButton DataContext="{DynamicResource SearchVM}" Content="Home" Name="HomeButton" HorizontalAlignment="Left" Grid.Row="0" 
-                             Command="{Binding GoHomeCmd}" CommandParameter="{DynamicResource TagId}"/>
-            <s:SurfaceButton Content="Breadcrumb" Command="{Binding GoBreadcrumbCmd}" CommandParameter="{DynamicResource TagId}" Grid.Row="0" HorizontalAlignment="Right"/>
+            <s:SurfaceButton DataContext="{DynamicResource SearchVM}" 
+                             Content="Home" 
+                             Name="HomeButton" 
+                             HorizontalAlignment="Left" 
+                             Grid.Row="0" 
+                             Command="{Binding GoHomeCmd}" 
+                             CommandParameter="{DynamicResource TagId}"
+                             Visibility="{DynamicResource IsMenuVisible}"/>
+            <s:SurfaceButton Content="Breadcrumb" 
+                             Command="{Binding GoBreadcrumbCmd}" 
+                             CommandParameter="{DynamicResource TagId}" 
+                             Grid.Row="0" 
+                             HorizontalAlignment="Right"
+                             Visibility="{DynamicResource IsMenuVisible}"/>
 
-            <Grid Grid.Row="3">
+            <Grid Grid.Row="3" Visibility="{DynamicResource IsMenuVisible}">
                 <Grid.Background>
                     <ImageBrush ImageSource="../../Resources/Images/Search/record.png" Opacity="1.0"/>
                 </Grid.Background>
@@ -101,8 +112,7 @@
                     MenuSector="360"
                     Background="Transparent"
                     Grid.Row="0"
-                    Visibility="{Binding IsMenuVisible, Converter={StaticResource visibilityConverter}}"
-                    >
+                    Visibility="{DynamicResource IsMenuVisible}">
 
                     <!-- placeholder item for correct calculation of piemenuitem size -->
                     <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
