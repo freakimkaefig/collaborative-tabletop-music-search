@@ -18,15 +18,17 @@ namespace Ctms.Applications.Workers
     [Export]
     public class MusicStreamAccountWorker
     {
-        //private string _spotifyUsername = "mybleton";     //deprecated: Username not saved (input via menu)
-        //private string _spotifyPassword = "ctms";         //deprecated: Password not saved (security issues, input via menu)
         private ObservableCollection<Playlist> _playlists;
 
         private MusicStreamSessionManager _sessionManager;
         private MenuViewModel _menuViewModel;
         private PlaylistViewModel _playlistViewModel;
 
-        public Action<MusicStreamSessionManager> SessionManagerCreated;
+        public Action<MusicStreamSessionManager> StreamingSessionManagerCreated;
+        public Action<MusicStreamSessionManager> PlaylistSessionManagerCreated;
+        public Action<MusicStreamSessionManager> ResultSessionManagerCreated;
+
+        public string test;
 
         [ImportingConstructor]
         public MusicStreamAccountWorker(MenuViewModel menuViewModel, PlaylistViewModel playlistViewModel)
@@ -60,7 +62,9 @@ namespace Ctms.Applications.Workers
             //handles Click on LoginButton in Menu
 
             _sessionManager = new MusicStreamSessionManager();
-            SessionManagerCreated(_sessionManager);
+            PlaylistSessionManagerCreated(_sessionManager);
+            StreamingSessionManagerCreated(_sessionManager);
+            ResultSessionManagerCreated(_sessionManager);
 
             //registration of listeners to MusicStreamSessionManager
             _sessionManager.ReceiveLogMessage = ReceiveLogMessage;
@@ -71,6 +75,9 @@ namespace Ctms.Applications.Workers
 
             //passing credentials to MusicStreamSessionManager & logging in
             _sessionManager.Login(_menuViewModel.SpotifyUsernameInput, spotifyPasswordInput.Password);
+
+            //AUTOLOGIN REMOVE FOR RELEASE
+            //_sessionManager.Login("mybleton", "ctms");
         }
 
         public void Logout()

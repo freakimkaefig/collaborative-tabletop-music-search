@@ -9,12 +9,14 @@ using Ctms.Applications.Views;
 using System.Collections.ObjectModel;
 using SpotifySharp;
 using Ctms.Domain.Objects;
+using System.Windows;
 
 namespace Ctms.Applications.ViewModels
 {
     [Export]
     public class MenuViewModel : ViewModel<IMenuView>
     {
+        private IMenuView _view;
         private bool isValid = true;
         private bool _canLogin = true;
         private string _loginButtonContent = "Spotify Login";
@@ -40,6 +42,14 @@ namespace Ctms.Applications.ViewModels
             : base(view)
         {
             _playlists = new ObservableCollection<SpotifyPlaylist>();
+            _view = view;
+            DisplayLoginDialog();
+        }
+
+        public void DisplayLoginDialog()
+        {
+            VisualState temp = _view.VisualStateLoginDialogVisible;
+            VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
         }
 
         public bool IsEnabled { get { return true; } }//!! Has to be adjusted

@@ -104,6 +104,12 @@ namespace MusicStream
             base.StreamingError(session, error);
         }
 
+        public override void MetadataUpdated(SpotifySession session)
+        {
+            base.MetadataUpdated(session);
+
+        }
+
         public override void StartPlayback(SpotifySession session)
         {
             //base.StartPlayback(session);

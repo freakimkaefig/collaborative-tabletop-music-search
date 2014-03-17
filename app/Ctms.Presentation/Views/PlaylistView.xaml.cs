@@ -17,6 +17,7 @@ using Ctms.Applications.ViewModels;
 using System.Waf.Applications;
 using Ctms.Domain.Objects;
 using Ctms.Applications.DataModels;
+using Microsoft.Surface.Presentation.Controls;
 
 namespace Ctms.Presentation.Views
 {
@@ -47,6 +48,16 @@ namespace Ctms.Presentation.Views
         {
             object result = e.Cursor.Data as ResultDataModel;
             _viewModel.AddTrackCommand.Execute(result);
+        }
+
+        private void Playlist_PreviewInputDeviceDown(object sender, InputEventArgs e)
+        {
+            
+        }
+
+        private void surfaceListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _viewModel.JumpToTrackCommand.Execute(surfaceListBox.SelectedIndex);
         }
     }
 }

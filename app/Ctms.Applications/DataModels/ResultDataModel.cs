@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Waf.Applications;
 using Ctms.Domain.Objects;
+using SpotifySharp;
 
 namespace Ctms.Applications.DataModels
 {
@@ -11,13 +12,14 @@ namespace Ctms.Applications.DataModels
     {
         private Result _result;
 
-        public ResultDataModel(string spotifyId, string title, string artistName)
+        public ResultDataModel(string spotifyId, Track track, string title, string artistName)
         {
             _result = new Result();
             Result.Song = new Song();
             Result.Song.SpotifyId = spotifyId;
             Result.Song.Title = title;
             Result.Song.ArtistName = artistName;
+            SpotifyTrack = track;
         }
 
         public Result Result
@@ -26,6 +28,17 @@ namespace Ctms.Applications.DataModels
             set { _result = value; }
         }
 
+        public Track SpotifyTrack { get; set; }
+        public string Duration
+        {
+            get
+            {
+                return TimeSpan.FromMilliseconds(SpotifyTrack.Duration()).Minutes + ":" + TimeSpan.FromMilliseconds(SpotifyTrack.Duration()).Seconds;
+            }
+        }
+
         public object DraggedElement { get; set; }
+        public object ClickedElement { get; set; }
+        public object ActiveElement { get; set; }
     }
 }

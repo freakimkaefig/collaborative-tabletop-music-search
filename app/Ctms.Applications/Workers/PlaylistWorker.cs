@@ -27,14 +27,18 @@ namespace Ctms.Applications.Workers
             _playlistViewModel = playlistViewModel;
             _accountWorker = accountWorker;
 
-            _accountWorker.SessionManagerCreated = SessionManagerCreated;
+            _accountWorker.PlaylistSessionManagerCreated = PlaylistSessionManagerCreated;
         }
 
         //CALLBACK
-        private void SessionManagerCreated(MusicStreamSessionManager sessionManager)
+        private void PlaylistSessionManagerCreated(MusicStreamSessionManager sessionManager)
         {
             _sessionManager = sessionManager;
             _sessionManager.PlaylistOpened = PlaylistOpened;
+            _sessionManager.PlaybackStarted = PlaybackStarted;
+            _sessionManager.PlaybackPaused = PlaybackPaused;
+            _sessionManager.PlaybackStopped = PlaybackStopped;
+            _sessionManager.PlaybackEndOfTrack = EndOfTrack;
         }
 
         private void PlaylistOpened(Playlist playlist)
@@ -43,12 +47,34 @@ namespace Ctms.Applications.Workers
 
             //add existing tracks to playlistCollection binded to list
             _playlistViewModel.CurrentPlaylist = playlist;
+            _playlistViewModel.ResultsForPlaylist.Clear();
             for (int i = 0; i < playlist.NumTracks(); i++)
             {
-                _playlistViewModel.ResultsForPlaylist.Add(new ResultDataModel(Link.CreateFromTrack(playlist.Track(i), 0).AsString(), playlist.Track(i).Name(), playlist.Track(i).Artist(0).Name()));
+                _playlistViewModel.ResultsForPlaylist.Add(new ResultDataModel(Link.CreateFromTrack(playlist.Track(i), 0).AsString(), Link.CreateFromTrack(playlist.Track(i), 0).AsTrack(), playlist.Track(i).Name(), playlist.Track(i).Artist(0).Name()));
             }
         }
 
+        private void PlaybackStarted()
+        {
+            _playlistViewModel.Playing = true;
+        }
+
+        private void PlaybackPaused()
+        {
+            _playlistViewModel.Playing = false;
+        }
+
+        private void PlaybackStopped()
+        {
+            _playlistViewModel.Playing = false;
+        }
+
+        private void EndOfTrack()
+        {
+            
+        }
+
+        //PUBLIC METHODS
         public void AddTrackToPlaylist(ResultDataModel result)
         {
             if (_accountWorker.IsLoggedIn())
@@ -69,6 +95,11 @@ namespace Ctms.Applications.Workers
                 //user not logged in
                 //Notify user to login to spotify
             }
+        }
+
+        public void JumpToTrack(int index)
+        {
+            _sessionManager.JumpToTrackInPlaylist(_playlistViewModel.CurrentPlaylist, index);
         }
     }
 }

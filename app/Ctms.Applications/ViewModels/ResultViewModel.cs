@@ -26,6 +26,7 @@ namespace Ctms.Applications.ViewModels
             : base(view)
         {
             _results = new ObservableCollection<ResultDataModel>();
+            view.AddResources();
         }
 
 

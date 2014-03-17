@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Ctms.Presentation.Views.PlaylistView"
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:p="clr-namespace:Ctms.Presentation.Properties"
@@ -7,22 +7,65 @@
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:s="http://schemas.microsoft.com/surface/2008"         
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="Ctms.Presentation.Views.PlaylistView"         
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     
     
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
-    <Grid Margin="0,0,0,0" Width="1920" Height="1080">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1920"/>
-        </Grid.ColumnDefinitions>
-        
-        <s:SurfaceButton Content="Play" Width="100" Height="40" HorizontalAlignment="Left" Command="{Binding PlayCommand}" Margin="1700,996,0,44" />
-        <s:SurfaceButton Content="Stop" Width="100" Height="40" HorizontalAlignment="Right" Command="{Binding StopCommand}" Margin="0,996,0,44" />
-        <s:SurfaceListBox Name="PlaylistAddDropTarget" Height="400" AllowDrop="True" ItemsSource="{Binding ResultsForPlaylist}" ItemTemplate="{StaticResource SurfaceListBoxItemDataTemplate}"
-            s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter" s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave" s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop" Margin="1700,590,0,90">
-        </s:SurfaceListBox>
-        <Label Content="PlaylistView" Height="38" Margin="1700,1042,0,0" />
-    </Grid>
+    <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
+    waf:ValidationHelper.IsEnabled="true" -->
+    <Grid Margin="0" Height="1080" Width="1920">
+    	<VisualStateManager.VisualStateGroups>
+    		<VisualStateGroup x:Name="PlaylistViewVisibility">
+    			<VisualState x:Name="PlaylistViewInvisible"/>
+    			<VisualState x:Name="PlaylistViewVisible">
+    				<Storyboard>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+    						<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+    					</ObjectAnimationUsingKeyFrames>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="surfaceButton2">
+    						<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+    					</ObjectAnimationUsingKeyFrames>
+    				</Storyboard>
+    			</VisualState>
+    		</VisualStateGroup>
+    	</VisualStateManager.VisualStateGroups>
+    
+    
+		<!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
+    waf:ValidationHelper.IsEnabled="true" -->
+		<Grid x:Name="grid" Margin="0,0,0,0" Background="Black" Visibility="Hidden">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="800"/>
+				<ColumnDefinition Width="1104"/>
+			</Grid.ColumnDefinitions>
+            <s:SurfaceListBox x:Name="surfaceListBox" Margin="0,120,0,0" Background="#333700FF"
+                              ItemTemplate="{StaticResource SurfaceListBoxItemDataTemplate}" ItemsSource="{Binding ResultsForPlaylist}"
+                              SelectionChanged="surfaceListBox_SelectionChanged"
+                              AllowDrop="True"/>
+			<s:SurfaceButton x:Name="surfaceButton" Content="PLAY" Command="{Binding PlayCommand}" HorizontalAlignment="Left" Height="32" Margin="192,24,0,0" VerticalAlignment="Top" Width="80"/>
+			<s:SurfaceButton x:Name="surfaceButton1" Content="STOP" Command="{Binding StopCommand}" HorizontalAlignment="Left" Height="38" Margin="304,24,0,0" VerticalAlignment="Top" Width="64" RenderTransformOrigin="-1.625,0.632"/>
+			<Label x:Name="label" Content="DETAILVIEW kommt hier her" Grid.Column="1" Margin="296,288,232,504"/>
+		</Grid>
+		<s:SurfaceButton x:Name="surfaceButton2" Content="SEARCH" Margin="0" VerticalAlignment="Center" Height="80" HorizontalAlignment="Right" Visibility="Hidden">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+					<ei:GoToStateAction StateName="PlaylistViewInvisible"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</s:SurfaceButton>
+        <s:SurfaceButton Margin="0,0,0.146,0" VerticalAlignment="Center" Height="80" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="80" Content="PLAYLIST"
+                         s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter"
+                         s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave"
+                         s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop"
+                         AllowDrop="True">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+					<ei:GoToStateAction StateName="PlaylistViewVisible"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</s:SurfaceButton>
+	</Grid>
 </UserControl>

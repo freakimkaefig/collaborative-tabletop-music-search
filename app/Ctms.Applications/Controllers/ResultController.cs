@@ -16,6 +16,7 @@ using System.Data.Common;
 using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
 using Ctms.Applications.Workers;
+using Ctms.Applications.DataModels;
 
 
 namespace Ctms.Applications.Controllers
@@ -55,7 +56,7 @@ namespace Ctms.Applications.Controllers
             //Workers
             this._streamingWorker = streamingWorker;
             //Commands
-            this._prelistenCommand = new DelegateCommand((id) => _streamingWorker.Prelisten((string)id));
+            this._prelistenCommand = new DelegateCommand((result) => _streamingWorker.Prelisten((ResultDataModel)result));
             //this.selectOptionCommand = new DelegateCommand(chooseResult, CanSelectResult);
         }
 
@@ -78,6 +79,11 @@ namespace Ctms.Applications.Controllers
         private void ResultViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Result")
+            {
+                UpdateCommands();
+            }
+
+            if (e.PropertyName == "Results")
             {
                 UpdateCommands();
             }

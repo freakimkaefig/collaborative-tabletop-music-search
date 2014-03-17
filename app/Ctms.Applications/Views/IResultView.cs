@@ -8,5 +8,6 @@ namespace Ctms.Applications.Views
 {
     public interface IResultView : IView
     {
+        void AddResources();
     }
 }

@@ -33,24 +33,14 @@ namespace Ctms.Presentation.Views
             _lazyVm = new Lazy<ResultViewModel>(() => ViewHelper.GetViewModel<ResultViewModel>(this));
         }
 
+        public void AddResources()
+        {
+            this.Resources["ViewModel"] = _lazyVm.Value;
+            this.Resources["Results"] = _lazyVm.Value.Results;
+        }
+
         // Provides this view's viewmodel
         private ResultViewModel _viewModel { get { return _lazyVm.Value; } }
-
-        private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
-        }
-
-        private void ScatterViewItem_TouchDown(object sender, TouchEventArgs e)
-        {
-            object id = "spotify:track:4lCv7b86sLynZbXhfScfm2"; //Pass spotify-track-id from echonest
-            _viewModel.PrelistenCommand.Execute(id);
-        }
-        private void ScatterViewItem_TouchDown(object sender, MouseButtonEventArgs e)
-        {
-            object id = "spotify:track:4lCv7b86sLynZbXhfScfm2";
-            _viewModel.PrelistenCommand.Execute(id);
-        }
 
         private void Results_OnDragCompleted(object sender, Microsoft.Surface.Presentation.SurfaceDragCompletedEventArgs e)
         {
@@ -138,11 +128,40 @@ namespace Ctms.Presentation.Views
             if (cursor != null)
             {
                 // Hide the ScatterViewItem.
-                draggedElement.Visibility = Visibility.Hidden;
+                //draggedElement.Visibility = Visibility.Hidden;
 
                 // This event has been handled.
                 e.Handled = true;
             }
+        }
+
+        private void Results_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+            ScatterViewItem clickedElement = null;
+
+            // Find the ScatterViewItem object that is being touched.
+            while (clickedElement == null && findSource != null)
+            {
+                if ((clickedElement = findSource as ScatterViewItem) == null)
+                {
+                    findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                }
+            }
+
+            if (clickedElement == null)
+            {
+                return;
+            }
+
+            ResultDataModel data = clickedElement.Content as ResultDataModel;
+
+            _viewModel.PrelistenCommand.Execute((object)data);
+        }
+
+        private void Results_StylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
+        {
+
         }
     }
 }

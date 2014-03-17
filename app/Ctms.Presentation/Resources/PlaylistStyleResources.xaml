@@ -5,11 +5,20 @@
     xmlns:c="clr-namespace:Ctms.Presentation.Converters">
 
     <DataTemplate x:Key="SurfaceListBoxItemDataTemplate">
-        <StackPanel Height="100" Width="200" Background="BlueViolet">
-            <Label Content="{Binding Result.Song.ArtistName}"/>
-            <Label Content="{Binding Result.Song.Title}"/>
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="660"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="{Binding Result.Song.ArtistName}" Grid.Column="0" Grid.Row="0"/>
+            <Label Content="{Binding Result.Song.Title}" Grid.Column="0" Grid.Row="1"/>
+            <Label Content="{Binding Duration}" Grid.Column="1" Grid.Row="0"/>
             <!--<Label Content="{Binding Duration}"/>-->
-        </StackPanel>
+        </Grid>
     </DataTemplate>
     <!--
         This document is used for specific style definitions for the playlist view.

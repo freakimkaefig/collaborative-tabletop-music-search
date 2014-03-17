@@ -23,11 +23,17 @@ namespace Ctms.Presentation.Views
     {
         private readonly Lazy<MenuViewModel> _lazyVm;
 
+        //VisualStates
+        private VisualState _loginDialogVisible;
+
         public MenuView()
         {
             InitializeComponent();
             _lazyVm = new Lazy<MenuViewModel>(() => ViewHelper.GetViewModel<MenuViewModel>(this));
+            _loginDialogVisible = LoginDialogVisible;
         }
+
+        public VisualState VisualStateLoginDialogVisible { get { return _loginDialogVisible; } set { } }
 
         // Provides this view's viewmodel
         private MenuViewModel _viewModel { get { return _lazyVm.Value; } }

@@ -8,6 +8,7 @@ using Ctms.Applications.ViewModels;
 using SpotifySharp;
 using Helpers;
 using System.ComponentModel;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Applications.Workers
 {
@@ -22,15 +23,13 @@ namespace Ctms.Applications.Workers
         private MusicStreamAccountWorker _accountWorker;
         private MusicStreamSessionManager _sessionManager;
 
-        private string _testtrack = "spotify:track:4lCv7b86sLynZbXhfScfm2";
-
         [ImportingConstructor]
         public StreamingWorker(PlaylistViewModel playlistViewModel, MusicStreamAccountWorker musicStreamAccountWorker)
         {
             this._playlistViewModel = playlistViewModel;
-            this._accountWorker = musicStreamAccountWorker;
+            _accountWorker = musicStreamAccountWorker;
 
-            _accountWorker.SessionManagerCreated = SessionManagerCreated;
+            _accountWorker.StreamingSessionManagerCreated = StreamingSessionManagerCreated;
         }
 
         //SETTER & GETTER
@@ -39,17 +38,14 @@ namespace Ctms.Applications.Workers
         
 
         //CALLBACKS
-        private void SessionManagerCreated(MusicStreamSessionManager sessionManager)
+        private void StreamingSessionManagerCreated(MusicStreamSessionManager sessionManager)
         {
             this._sessionManager = sessionManager;
 
             //_sessionManager.GetLoadedTrackCompleted = GetLoadedTrackCompleted;
             _sessionManager.PrelistenStarted = PrelistenStarted;
             _sessionManager.PrelistenStopped = PrelistenStopped;
-            _sessionManager.PlaybackStarted = PlaybackStarted;
-            _sessionManager.PlaybackPaused = PlaybackPaused;
-            _sessionManager.PlaybackStopped = PlaybackStopped;
-            _sessionManager.PlaybackEndOfTrack = EndOfTrack;
+            
         }
 
         private void PrelistenStarted()
@@ -60,26 +56,6 @@ namespace Ctms.Applications.Workers
         private void PrelistenStopped()
         {
             _playlistViewModel.Prelistening = false;
-        }
-
-        private void PlaybackStarted()
-        {
-            _playlistViewModel.Playing = true;
-        }
-
-        private void PlaybackPaused()
-        {
-            
-        }
-
-        private void PlaybackStopped()
-        {
-            
-        }
-
-        private void EndOfTrack()
-        {
-
         }
 
         public void PlayCurrentTrack()
@@ -98,16 +74,29 @@ namespace Ctms.Applications.Workers
         }
 
         //PUBLIC METHODS
-        public void Prelisten(string id)
+        public void Prelisten(ResultDataModel result)
         {
             if (_playlistViewModel.Prelistening || _playlistViewModel.Playing)
             {
-                _sessionManager.StopPrelisteningTrack();
-                _sessionManager.StopTrack();
+                if (result.SpotifyTrack == _sessionManager.CurrentPrelistenTrack)
+                {
+                    _sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
+                    _sessionManager.StopPrelisteningTrack();
+                    _sessionManager.StopTrack();
+                }
+                else
+                {
+                    _sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
+                    _sessionManager.StopPrelisteningTrack();
+                    _sessionManager.StopTrack();
+                    _sessionManager.logMessages.Enqueue("PRELISTEN START!");
+                    _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
+                }
             }
             else
             {
-                _sessionManager.StartPrelisteningTrack(id);
+                _sessionManager.logMessages.Enqueue("PRELISTEN START!");
+                _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
             }
         }
     }

@@ -13,6 +13,5 @@ namespace Ctms.Domain.Objects
         public string ArtistName { get; set; }
 
         public string ArtistId { get; set; }
-        public int Duration { get; set; }
     }
 }

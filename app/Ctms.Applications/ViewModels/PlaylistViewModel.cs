@@ -26,6 +26,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _pauseCommand;
         private ICommand _stopCommand;
         private ICommand _addTrackCommand;
+        private ICommand _jumpToTrackCommand;
         //
         private Playlist _currentPlaylist = null;
         private ObservableCollection<ResultDataModel> _playlistResults;
@@ -49,19 +50,6 @@ namespace Ctms.Applications.ViewModels
                 {
                     _isValid = value;
                     RaisePropertyChanged("IsValid");
-                }
-            }
-        }
-
-        public ObservableCollection<ResultDataModel> PlaylistResults
-        {
-            get { return _playlistResults; }
-            set
-            {
-                if (_playlistResults != value)
-                {
-                    _playlistResults = value;
-                    RaisePropertyChanged("PlaylistResults");
                 }
             }
         }
@@ -179,6 +167,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _addTrackCommand = value;
                     RaisePropertyChanged("AddTrackCommand");
+                }
+            }
+        }
+
+        public ICommand JumpToTrackCommand
+        {
+            get { return _jumpToTrackCommand; }
+            set
+            {
+                if (_jumpToTrackCommand != value)
+                {
+                    _jumpToTrackCommand = value;
+                    RaisePropertyChanged("JumpToTrackCommand");
                 }
             }
         }

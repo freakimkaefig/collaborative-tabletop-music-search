@@ -8,6 +8,8 @@ using Ctms.Domain.Objects;
 using Ctms.Applications.ViewModels;
 using System.ComponentModel.Composition;
 using Ctms.Applications.DataModels;
+using SpotifySharp;
+using MusicStream;
 
 namespace Ctms.Applications.Workers
 {
@@ -15,22 +17,47 @@ namespace Ctms.Applications.Workers
     public class ResultWorker
     {
         private ResultViewModel _resultViewModel;
+        private MenuViewModel _menuViewModel;
+        private MusicStreamAccountWorker _accountWorker;
+        private MusicStreamSessionManager _sessionManager;
 
         [ImportingConstructor]
-        public ResultWorker(ResultViewModel resultViewModel)
+        public ResultWorker(ResultViewModel resultViewModel, MenuViewModel menuViewModel, MusicStreamAccountWorker accountWorker)
         {
             _resultViewModel = resultViewModel;
+            _menuViewModel = menuViewModel;
+            _accountWorker = accountWorker;
+
+            _accountWorker.ResultSessionManagerCreated = ResultSessionManagerCreated;
+        }
+
+        private void ResultSessionManagerCreated(MusicStreamSessionManager sessionManager)
+        {
+            _sessionManager = sessionManager;
         }
 
         public bool CanRefreshResults() { return _resultViewModel.IsValid; }
 
         public void RefreshResults(List<ResponseContainer.ResponseObj.Song> response)
         {
-            for (int i = 0; i < response.Count; i++)
+            if (_menuViewModel.IsLoggedIn)
             {
-                //string spotifyTrackId = response[i].tracks[0].spotifyId;  //DAVE
-                //if spotifyTrackId == playable return else j++; //LUKAS
-                _resultViewModel.Results.Add(new ResultDataModel("spotify:track:4lCv7b86sLynZbXhfScfm2", response[i].Title, response[i].Artist_Name));
+                _resultViewModel.Results.Clear();
+                for (int i = 0; i < response.Count; i++)
+                {
+                    for (int j = 0; j < response[i].tracks.Count; j++)
+                    {
+                        if (_sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id) != null)
+                        {
+                            _resultViewModel.Results.Add(new ResultDataModel(response[i].tracks[j].foreign_id, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id), response[i].Title, response[i].Artist_Name));
+                            j = response[i].tracks.Count;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                _menuViewModel.DisplayLoginDialog();
             }
         }
     }
