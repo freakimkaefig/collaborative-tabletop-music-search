@@ -20,6 +20,8 @@ namespace Ctms.Domain
 
         public int Id { get; set; }
 
+        public string SearchId { get; set; }
+
         public KeywordTypes Type { get; protected set; }
         
         

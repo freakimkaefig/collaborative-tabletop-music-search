@@ -227,6 +227,7 @@
     <Resource Include="Resources\Images\Search\basic-texture.png" />
     <Resource Include="Resources\Images\Search\record.png" />
     <Resource Include="Resources\Images\Search\tweed.png" />
+    <Resource Include="Resources\Images\Search\maske_dunkel.png" />
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>

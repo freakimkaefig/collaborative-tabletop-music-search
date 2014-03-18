@@ -12,12 +12,12 @@ namespace Ctms.Domain.Objects
     {
         private Keyword _assignedKeyword;
         private readonly ObservableCollection<TagOption> _tagOptions;
-        //private readonly ObservableCollection<TagOption> _previousOptions;
+        private readonly ObservableCollection<TagOption> _previousOptions;
 
         public Tag()
         {
             _tagOptions         = new ObservableCollection<TagOption>();
-            //_previousOptions    = new ObservableCollection<TagOption>();
+            _previousOptions    = new ObservableCollection<TagOption>();
         }
 
         public int Id { get; set; }
@@ -27,12 +27,12 @@ namespace Ctms.Domain.Objects
         {
             get { return _tagOptions; }
         }
-        /*
+        
         public ObservableCollection<TagOption> PreviousOptions
         {
             get { return _previousOptions; }
         }
-        */
+        
         public int CurrentLayerNr { get; set; }
 
         // What is the current angle in relation to the default orientation

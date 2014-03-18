@@ -10,6 +10,7 @@ namespace Ctms.Domain
         Genre,
         Title,
         Artist,
+        Attribute,
         None
     }
 }

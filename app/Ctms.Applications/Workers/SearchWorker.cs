@@ -7,6 +7,7 @@ using MusicSearch.Managers;
 using System.ComponentModel;
 using Ctms.Applications.ViewModels;
 using System.ComponentModel.Composition;
+using Ctms.Domain;
 
 namespace Ctms.Applications.Workers
 {
@@ -25,23 +26,46 @@ namespace Ctms.Applications.Workers
             _searchViewModel = searchViewModel;
             //Workers
             _resultWorker = resultWorker;
-            //Managers
-            _searchManager = new SearchManager();
+        }
+
+        public void Initialize(SearchManager searchManager)
+        {
+            _searchManager = searchManager;
         }
 
         public bool CanStartSearch() { return _searchViewModel.IsValid; }
 
         public void StartSearch()
         {
-            //var searchManager = new SearchManager();
-            //searchManager.StartSearch();
-            //_resultWorker.RefreshResults(searchManager.ResponseContainer);
+            var tags = _searchViewModel.Tags;
+            var searchObjects = new List<searchObjects>();
 
-            //RefreshResults(searchManager.ResponseContainer);
+            var usedTags =  tags.Where(t => t.Tag.AssignedKeyword != null && !String.IsNullOrEmpty(t.Tag.AssignedKeyword.SearchId));
 
-            //_backgroundWorker = new BackgroundWorkHelper();
-            //Tell which method to execute in background in what to do after completion
-            //_backgroundWorker.DoInBackground(searchManager.Start, SearchCompleted);
+            foreach (var tag in usedTags)
+            {
+                var searchObject = new searchObjects();
+                searchObject.originId = tag.Id;
+
+                var keyword = tag.Tag.AssignedKeyword;
+
+                if (keyword.Type == KeywordTypes.Artist)
+                {
+                    searchObject.artist_id = keyword.SearchId;
+                }
+                else if (keyword.Type == KeywordTypes.Title)
+                {
+                    searchObject.title_id = keyword.SearchId;
+                }
+                else if (keyword.Type == KeywordTypes.Genre)
+                {
+                    searchObject.genre = keyword.SearchId;
+                }
+
+                searchObjects.Add(searchObject);
+            }
+
+            var songs = _searchManager.SearchQuery(searchObjects);
         }
 
         private void SearchCompleted(object sender, RunWorkerCompletedEventArgs e)

@@ -21,6 +21,7 @@ namespace Ctms.Applications.DataModels
         private bool _isInputVisible;
         private bool _isAssignedKeywordVisible;
         private bool _isMenuVisible = true;
+        private bool _isEditVisible = false;
 
         public TagDataModel(Tag tag)
         {
@@ -47,6 +48,8 @@ namespace Ctms.Applications.DataModels
                 }
             }
         }
+
+        public ObservableCollection<MusicSearch.ResponseObjects.ResponseContainer.ResponseObj.Suggestion> Suggestions { get; set; }
 
         // visualization of this tag
         public TagVisualizationDefinition TagVisDef { get; set; }
@@ -91,6 +94,22 @@ namespace Ctms.Applications.DataModels
             {
                 _isMenuVisible = value;
                 RaisePropertyChanged("IsMenuVisible");
+            }
+        }
+
+        public bool IsEditVisible
+        {
+            get
+            {
+                return _isEditVisible;
+            }
+            set
+            {
+                if (_isEditVisible != value)
+                {
+                    _isEditVisible = value;
+                    RaisePropertyChanged("IsEditVisible");
+                }
             }
         }
     }

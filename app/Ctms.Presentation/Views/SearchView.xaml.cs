@@ -23,6 +23,7 @@ using System.Diagnostics;
 using Ctms.Applications.DataModels;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using Ctms.Presentation.Converters;
 
 namespace Ctms.Presentation.Views
 {
@@ -34,13 +35,13 @@ namespace Ctms.Presentation.Views
     {
         private readonly Lazy<SearchViewModel> _lazyVm;
 
-        public Dictionary<int, SearchTagView> Tags;
+        public Dictionary<int, SearchTagView> SearchTagViews;
 
         public SearchView()
         {
             InitializeComponent();
             _lazyVm = new Lazy<SearchViewModel>(() => ViewHelper.GetViewModel<SearchViewModel>(this));
-            Tags = new Dictionary<int, SearchTagView>();
+            SearchTagViews = new Dictionary<int, SearchTagView>();
         }
 
         // Provides this view's viewmodel
@@ -52,24 +53,24 @@ namespace Ctms.Presentation.Views
         {
             // Every time tag is placed its visualization must be initiated again (is lost after tag remove)
 
-            _viewModel.OnVisualizationAdded(e.TagVisualization);
 
             var searchTagView = (SearchTagView)e.TagVisualization;
             var tagId = (int)searchTagView.VisualizedTag.Value;
             var tagDM = _viewModel.Tags[tagId];
             var pieMenu = searchTagView.PieMenu;
 
-            if(Tags.ContainsKey(tagId) == false) Tags.Add(tagId, searchTagView);
+
+            if(SearchTagViews.ContainsKey(tagId) == false) SearchTagViews.Add(tagId, searchTagView);
             //else Tags[tagId] = searchTagView;
 
+            //_viewModel.OnVisualizationAdded(tagId);
+
+            UpdateVisual(tagId);
+
+            /*
             pieMenu.Items.Clear();
 
-            //  create dynamic resources
-            searchTagView.Resources["SearchVM"] = _viewModel;
-            searchTagView.Resources["TagDM"] = tagDM;
-            searchTagView.Resources["TagId"] = tagId;
-            searchTagView.Resources["TagOptions"] = tagDM.Tag.TagOptions;
-
+            UpdateResources(searchTagView, tagId, tagDM);
 
             UpdateMenuItems(tagId);
             UpdateInputField(searchTagView, tagDM);
@@ -77,6 +78,22 @@ namespace Ctms.Presentation.Views
             CalcMenuVisibility(searchTagView, tagDM);
 
             UpdateVisual(tagId);
+            */
+        }
+
+        private void UpdateResources(SearchTagView searchTagView, int tagId, TagDataModel tagDM)
+        {
+            //  create dynamic resources
+            searchTagView.Resources["SearchVM"] = _viewModel;
+            searchTagView.Resources["TagDM"] = tagDM;
+            searchTagView.Resources["TagId"] = tagId;
+            searchTagView.Resources["TagOptions"] = tagDM.Tag.TagOptions;
+            searchTagView.Resources["PreviousOptions"] = tagDM.Tag.PreviousOptions;
+
+            var converter = new BoolToVisibilityConverter();
+            var isEditVisible = converter.Convert(tagDM.IsEditVisible, null, null, null);
+            searchTagView.Resources["IsEditVisible"] = converter.Convert(tagDM.IsEditVisible, null, null, null);
+            searchTagView.Resources["IsMenuVisible"] = converter.Convert(tagDM.IsMenuVisible, null, null, null);
         }
 
         private static void CalcMenuVisibility(SearchTagView searchTagView, TagDataModel tagDM)
@@ -89,10 +106,13 @@ namespace Ctms.Presentation.Views
 
         public void UpdateVisual(int tagId)
         {
-            UpdateMenuItems(tagId);
-            CalcMenuVisibility(Tags[tagId], _viewModel.Tags[tagId]);
+            if (SearchTagViews.ContainsKey(tagId) == false) SearchTagViews.Add(tagId, null);
 
-            var pieMenu = Tags[tagId].PieMenu;
+            UpdateMenuItems(tagId);
+            UpdateResources(SearchTagViews[tagId], tagId, _viewModel.Tags[tagId]);
+            CalcMenuVisibility(SearchTagViews[tagId], _viewModel.Tags[tagId]);
+
+            var pieMenu = SearchTagViews[tagId].PieMenu;
 
 
             foreach (PieMenuItem item in pieMenu.Items)
@@ -101,6 +121,69 @@ namespace Ctms.Presentation.Views
                 item.InvalidateProperty(PieMenuItem.HeaderProperty);
                 item.InvalidateProperty(PieMenuItem.SubHeaderProperty);
             }
+            pieMenu.InvalidateVisual();
+        }
+
+        public void UpdateMenuItems(int tagId)
+        {
+            var pieMenu = SearchTagViews[tagId].PieMenu;
+            var tagDM = _viewModel.Tags[tagId];
+
+            var pieMenuItems = (ItemCollection)pieMenu.Items;
+
+            // remove inserted placeholder item which has been placed just for correct item size calculation
+            pieMenuItems.Clear();
+
+            //if (tagDM.IsMenuVisible == false) return;
+
+            var options = tagDM.Tag.TagOptions.Where(to => to.LayerNr == tagDM.Tag.CurrentLayerNr);
+            foreach (var option in options)
+            {
+                var hexColor = "#5555";
+                if (option.Id % 3 == 1) { hexColor = "#2222"; }
+                if (option.Id % 3 == 2) { hexColor = "#0000"; }
+                var brush = (Brush)(new BrushConverter().ConvertFrom(hexColor));
+
+                var pieMenuItem = new PieMenuItem()
+                {
+                    Id = option.Id,
+                    BorderThickness = new Thickness(0.0),
+                    FontSize = 16,
+                    CenterText = true,
+                    Background = brush
+                };
+
+                // Id binding
+                Binding idBinding = new Binding("Id");
+                idBinding.Source = option;
+                idBinding.NotifyOnSourceUpdated = true;
+                idBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                pieMenuItem.SetBinding(PieMenuItem.IdProperty, idBinding);
+
+                // Header binding
+                Binding headerBinding = new Binding("Keyword.Name");
+                headerBinding.Source = option;
+                headerBinding.NotifyOnSourceUpdated = true;
+                headerBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                pieMenuItem.SetBinding(PieMenuItem.HeaderProperty, headerBinding);
+
+                // SubHeader binding
+                Binding subHeaderBinding = new Binding("Keyword.Description");
+                subHeaderBinding.Source = option;
+                subHeaderBinding.NotifyOnSourceUpdated = true;
+                subHeaderBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                pieMenuItem.SetBinding(PieMenuItem.SubHeaderProperty, subHeaderBinding);
+
+                // Command binding
+                Binding commandBinding = new Binding("SelectOptionCmd");
+                commandBinding.Source = _viewModel;
+                commandBinding.NotifyOnSourceUpdated = true;
+                commandBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                pieMenuItem.SetBinding(PieMenuItem.CommandProperty, commandBinding);
+
+                pieMenu.Items.Add(pieMenuItem);
+            }
+
             pieMenu.InvalidateVisual();
         }
 
@@ -176,68 +259,7 @@ namespace Ctms.Presentation.Views
             //Is not called 
         }
         
-        public void UpdateMenuItems(int tagId)
-        {
-            var pieMenu = Tags[tagId].PieMenu;
-            var tagDM   = _viewModel.Tags[tagId];
-
-            var pieMenuItems = (ItemCollection) pieMenu.Items;
-
-            // remove inserted placeholder item which has been placed just for correct item size calculation
-            pieMenuItems.Clear();
-
-            //if (tagDM.IsMenuVisible == false) return;
-
-            var options = tagDM.Tag.TagOptions.Where(to => to.LayerNr == tagDM.Tag.CurrentLayerNr);
-            foreach (var option in options)
-            {
-                var hexColor = "#5555";
-                if (option.Id % 3 == 1) { hexColor = "#2222"; }
-                if (option.Id % 3 == 2) { hexColor = "#0000"; }
-                var brush = (Brush)(new BrushConverter().ConvertFrom(hexColor));
-
-                var pieMenuItem = new PieMenuItem()
-                {
-                    Id = option.Id,
-                    BorderThickness = new Thickness(0.0),
-                    FontSize = 16,
-                    CenterText = true,
-                    Background = brush
-                };
-
-                // Id binding
-                Binding idBinding = new Binding("Id");
-                idBinding.Source = option;
-                idBinding.NotifyOnSourceUpdated = true;
-                idBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                pieMenuItem.SetBinding(PieMenuItem.IdProperty, idBinding);
-
-                // Header binding
-                Binding headerBinding = new Binding("Keyword.Name");
-                headerBinding.Source = option;
-                headerBinding.NotifyOnSourceUpdated = true;
-                headerBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                pieMenuItem.SetBinding(PieMenuItem.HeaderProperty, headerBinding);
-
-                // SubHeader binding
-                Binding subHeaderBinding = new Binding("Keyword.Description");
-                subHeaderBinding.Source = option;
-                subHeaderBinding.NotifyOnSourceUpdated = true;
-                subHeaderBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                pieMenuItem.SetBinding(PieMenuItem.SubHeaderProperty, subHeaderBinding);
-
-                // Command binding
-                Binding commandBinding = new Binding("SelectOptionCmd");
-                commandBinding.Source = _viewModel;                
-                commandBinding.NotifyOnSourceUpdated = true;
-                commandBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                pieMenuItem.SetBinding(PieMenuItem.CommandProperty, commandBinding);
-
-                pieMenu.Items.Add(pieMenuItem);
-            }
-
-            pieMenu.InvalidateVisual();
-        }
+        
 
         private void Old_OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
         {

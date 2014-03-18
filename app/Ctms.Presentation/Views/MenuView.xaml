@@ -22,7 +22,6 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Label Content="MenuView" Grid.Column="0" Grid.Row="0"/>
         <s:SurfaceButton Grid.Row="0" Grid.Column="3" Width="100"         
             Command="{Binding ExitAppCommand}">Exit
             </s:SurfaceButton>
