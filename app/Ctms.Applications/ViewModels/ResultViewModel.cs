@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Ctms.Applications.Views;
 using Ctms.Domain.Objects;
 using System.Collections.ObjectModel;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -26,7 +27,7 @@ namespace Ctms.Applications.ViewModels
         public ResultViewModel(IResultView view)
             : base(view)
         {
-
+            
             _results = new ObservableCollection<Result>()
             {
                 new Result() 
@@ -54,6 +55,8 @@ namespace Ctms.Applications.ViewModels
                     }
                 }
             };
+
+            //_results = new ObservableCollection<ResultDataModel>();
         }
 
 

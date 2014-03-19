@@ -202,7 +202,7 @@ namespace PieInTheSky
 
         public void OnClick()
         {
-            if (Command != null && Command.CanExecute(null))//!!CanExecute variable?
+            if (Command != null && Command.CanExecute(null))//!!
             {
                 Command.Execute(Id);
             }

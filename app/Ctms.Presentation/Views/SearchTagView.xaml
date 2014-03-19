@@ -15,8 +15,12 @@
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
     Loaded="SimpleVisualization_Loaded"
-    PreviewTouchDown="MyTagVisualization_PreviewTouchDown" >
+    PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
+    Moved="TagVisualization_Moved"
+                    >
 
+    <!--DataContext="{DynamicResource TagDM}"-->
+    
     <s:TagVisualization.Resources>
         <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
         <DataTemplate x:Key="BreadcrumbTemplate">
@@ -40,7 +44,11 @@
     </s:TagVisualization.Resources>
     
     <!--Start Surrounding Tag Grid-->
-    <Grid>        
+    <!--<Grid Name="TagGrid" DataContext="{DynamicResource Tag.Angle}">-->
+    <Grid Name="TagGrid">  
+        <!--<Grid.RenderTransform>
+            <RotateTransform Angle="{Binding Angle}" />
+        </Grid.RenderTransform>-->
         <!-- Start menu -->
         <Grid>
             <Grid.RowDefinitions>
@@ -95,7 +103,7 @@
                     Visibility="{DynamicResource IsMenuVisible}">
                     <!-- placeholder item for correct calculation of PieMenuItem size -->
                     <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
-                                        Command="" Background="#0000"/>
+                                        Command="" Background="#0000" />
                 </ps:PieMenu>
                 <!--End PieMenu with tag options-->
 

@@ -16,6 +16,7 @@ using Ctms.Applications.Views;
 using Ctms.Domain;
 using MusicSearch.ResponseObjects;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Ctms.Applications.Workers
 {
@@ -181,7 +182,26 @@ namespace Ctms.Applications.Workers
 
             if (keywordType == KeywordTypes.Artist)
             {
-                var suggestions = _searchManager.getArtistSuggestions(tagId, terms);
+                //var helper = new BackgroundWorkHelper();
+                //helper.DoInBackground(_searchManager.getArtistSuggestions(tagId, terms), , 
+
+                var suggestions = new List<ResponseContainer.ResponseObj.ArtistSuggestion>()
+                {
+                    new ResponseContainer.ResponseObj.ArtistSuggestion()
+                    {
+                        id = "MyId1",
+                        name = "Haxen",
+                        originId = 0
+                    },
+                    new ResponseContainer.ResponseObj.ArtistSuggestion()
+                    {
+                        id = "MyId2",
+                        name = "Haxen2",
+                        originId = 0
+                    }
+                };
+
+                //var suggestions = _searchManager.getArtistSuggestions(tagId, terms);
 
                 foreach (var suggestion in suggestions)
                 {
@@ -214,6 +234,25 @@ namespace Ctms.Applications.Workers
 
             _searchVM.UpdateVisuals(tag);
         }
+
+        public static void GetArtistsInBackgr(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void CollectingCmsDataCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+            }
+            else if (e.Error != null)
+            {
+            }
+            else
+            {
+            }
+        }
+        
 
         private void AddBreadcrumb(TagDataModel tag, string name)
         {
