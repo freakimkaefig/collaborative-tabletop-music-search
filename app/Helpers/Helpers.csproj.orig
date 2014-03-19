@@ -59,8 +59,10 @@
     <Compile Include="CollectionHelper.cs" />
     <Compile Include="HttpRequester.cs" />
     <Compile Include="StringHelper.cs" />
+    <Compile Include="TimingHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObservableRangeCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,6 +87,13 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 =======
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -143,8 +152,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundWorkHelper.cs" />
-    <Compile Include="CollectionHelper.cs" />
+    <Compile Include="EntitiesHelper.cs" />
     <Compile Include="HttpRequester.cs" />
+    <Compile Include="StringHelper.cs" />
     <Compile Include="TimingHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -173,7 +183,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
->>>>>>> de79d323ecec49f3e7dfdc4d4f9397cb3f1eb4c1
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -181,4 +190,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+>>>>>>> 9edfd88d278a988d04903ee9cb4e6d69d11bb1e9
 </Project>
