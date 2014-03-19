@@ -20,6 +20,7 @@ namespace MusicSearch.ResponseObjects
             public List<TitleSuggestion> TitleSuggestions { get; set; }
             public List<ArtistInfo> ArtistInfos { get; set; }
             public List<genres> Genres { get; set; }
+            public List<combinedGenres> CombinedGenres { get; set; }
             
 
             public class StatusObj
@@ -89,18 +90,23 @@ namespace MusicSearch.ResponseObjects
                 public double song_hotttnesss { get; set; }
 
                 public Object audio_summary { get; set; }
-               /* {
-                    public double energy { get; set; }
-                    public double liveness { get; set; }
-                    public double tempo { get; set; }
-                    public double speechiness { get; set; }
-                    public double duration { get; set; }
-                    public double acousticness { get; set; }
-                    public double danceability { get; set; }
-                    public double loudness { get; set; }
-                }*/
-             
+                           
             }
+
+            public class combinedGenres
+            {
+                public string Artist_Id { get; set; }
+                public string Artist_Name { get; set; }
+                public string Title { get; set; }
+                public List<Tracks> tracks { get; set; }
+                public List<Origin> originIDs { get; set; }
+            }
+
+            public class Origin
+            {
+                public String originID { get; set; }
+            }
+
             public class Tracks
             {
                 public string foreign_id { get; set; }

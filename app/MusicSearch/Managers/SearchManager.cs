@@ -17,26 +17,60 @@ namespace MusicSearch.Managers
         private String  currentPath = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
         private String apiKey = null;
 
-        //neue Instanz vom ResponseContainer
-        List<ResponseContainer.ResponseObj.Song> SearchRC = new List<ResponseContainer.ResponseObj.Song>();
-        
-        //neue Instanz vom ResponseContainer für die Vorschläge zur Artisten-Suche
-        List<ResponseContainer.ResponseObj.ArtistSuggestion> ArtistSuggestionsRC = new List<ResponseContainer.ResponseObj.ArtistSuggestion>();
-
-        //neue Instanz vom ResponseContainer für die Vorschläge zur Artisten-Suche
-        List<ResponseContainer.ResponseObj.TitleSuggestion> TitleSuggestionsRC = new List<ResponseContainer.ResponseObj.TitleSuggestion>();
-
-        //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
-        List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
-
         //neue Instanz vom ResponseContainer für die Genres
         List<ResponseContainer.ResponseObj.genres> GenresRC = new List<ResponseContainer.ResponseObj.genres>();
+
+        //Instanzen für die Attribute der kombinierten Genre-/Artisten-Suche
+        List<String> combinedSearchArtistAttributes = new List<String>();
+        List<String> combinedSearchGenreAttributes = new List<String>();
 
         
         public SearchManager()
         {
             initGenresRC();
         }
+
+        //###################################################
+        //###################################################
+
+        public void combinedSearchQuery(List<combinedSearchObjects> list)
+        {
+            foreach (combinedSearchObjects cso in list)
+            {
+                if (!String.IsNullOrEmpty(cso.artist_id))
+                {
+                    //combinedArtistQuery(c.originIds, c.artist_id, c.ArtistParameter);
+                }
+                else if (!String.IsNullOrEmpty(cso.genre[0].ToString()))
+                {
+                    //combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                }
+            }
+        }
+
+       /* public void combinedGenreQuery(List<int> IDs, String genre, List<GenreParameter> gp)
+        {
+            if (genre.Contains(" "))
+            {
+                genre = genre.Replace(" ", "+");
+            }
+
+            genre = genre.ToLower();
+
+            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&type=genre-radio&genre=" + genre;
+
+            //Debug.WriteLine("genre-request URL = " + request);
+            
+            foreach (var prop in gp.GetType().GetProperties())
+            {
+                request += "&"+prop.Name.ToString()+"="+prop.GetValue(gp, null);
+
+            }
+            Debug.WriteLine("request: " + request);
+        }*/
+
+        //###################################################
+        //###################################################
 
         public void initGenresRC()
         {
@@ -57,8 +91,34 @@ namespace MusicSearch.Managers
             {
                 GenresRC.Add(temp.Response.Genres[i]);
             }
+            foreach (var prop in typeof(ArtistParameter).GetProperties())
+            {
+                string name = prop.Name;
+
+                //in Liste hinzufügen
+                combinedSearchArtistAttributes.Add(name);
+            }
+            foreach (var prop in typeof(GenreParameter).GetProperties())
+            {
+                string name = prop.Name;
+
+                //in Liste hinzufügen
+                combinedSearchGenreAttributes.Add(name);
+            }
         }
 
+        public List<String> getCombinedSearchAttributes(String artistORgenre)
+        {
+            if (artistORgenre == "artist")
+            {
+                return combinedSearchArtistAttributes;
+            }
+            else if (artistORgenre == "genre")
+            {
+                return combinedSearchGenreAttributes;
+            }
+            return null;
+        }
 
         public void getDetailInfo(String artist_name, String artist_id, String originID)
         {
@@ -104,6 +164,9 @@ namespace MusicSearch.Managers
 
         public List<ResponseContainer.ResponseObj.ArtistInfo> getArtistInfo(String artist,String ID)
         {
+            //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
+            List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
+
            
                  /* Viele Infos:
                  * http://developer.echonest.com/api/v4/artist/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=terms&bucket=id:facebook&bucket=artist_location&bucket=biographies&bucket=years_active&bucket=video&bucket=urls&bucket=blogs&bucket=reviews&bucket=images&bucket=news&bucket=discovery&sort=hotttnesss-desc&results=1&name=katy+perry
@@ -219,6 +282,10 @@ namespace MusicSearch.Managers
 
         public List<ResponseContainer.ResponseObj.TitleSuggestion> getTitleSuggestions(int ID, String term)
         {
+            //neue Instanz vom ResponseContainer für die Vorschläge zur Artisten-Suche
+            List<ResponseContainer.ResponseObj.TitleSuggestion> TitleSuggestionsRC = new List<ResponseContainer.ResponseObj.TitleSuggestion>();
+
+
             /*Bsp URL:
              http://developer.echonest.com/api/v4/song/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=roar
              * 
@@ -252,18 +319,23 @@ namespace MusicSearch.Managers
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
 
             // clear previous suggestions for this origin
-            TitleSuggestionsRC.RemoveAll(s => s.originId == ID);
+            //unnötig da bei methodenaufruf neue instanz generiert wird
+            //TitleSuggestionsRC.RemoveAll(s => s.originId == ID);
 
             for (int i = 0; i < temp.Response.TitleSuggestions.Count; i++)
             {
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
                 TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
             }
-            return TitleSuggestionsRC.Where(a => a.originId == ID).ToList();
+            return TitleSuggestionsRC;
         }
 
         public List<ResponseContainer.ResponseObj.ArtistSuggestion> getArtistSuggestions(int ID, String term)
         {
+
+            //neue Instanz vom ResponseContainer für die Vorschläge zur Artisten-Suche
+            List<ResponseContainer.ResponseObj.ArtistSuggestion> ArtistSuggestionsRC = new List<ResponseContainer.ResponseObj.ArtistSuggestion>();
+
             /*Bsp URL:
              * http://developer.echonest.com/api/v4/artist/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=emin
              * 
@@ -298,19 +370,22 @@ namespace MusicSearch.Managers
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
 
             // clear previous suggestions for this origin
-            ArtistSuggestionsRC.RemoveAll(s => s.originId == ID);
+            //unnötig, da bei Methodenaufruf neue Instanz generiert wird
+            //ArtistSuggestionsRC.RemoveAll(s => s.originId == ID);
 
             for (int i = 0; i < temp.Response.ArtistSuggestions.Count; i++)
             {
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistSuggestions[i]);
                 ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
             }
-            return ArtistSuggestionsRC.Where(a => a.originId == ID).ToList();
+            return ArtistSuggestionsRC;
         }
 
         public List<ResponseContainer.ResponseObj.Song> SearchQuery(List<searchObjects> searchList)
         {
-            SearchRC.Clear();
+            //neue Instanz vom ResponseContainer
+            List<ResponseContainer.ResponseObj.Song> SearchRC = new List<ResponseContainer.ResponseObj.Song>();
+
             if (searchList != null && searchList.Any())
             {
                 //Liste auslesen
@@ -319,19 +394,19 @@ namespace MusicSearch.Managers
                     if (!String.IsNullOrEmpty(searchList[i].artist_id))
                     {
                         Debug.WriteLine("\nFOUND ARTIST_ID IN TESTLISTE: " + searchList[i].artist_id + " at position: " + i);
-                        return SongsByArtistIDQuery(searchList[i].artist_id, searchList[i].originId);
+                        return SongsByArtistIDQuery(searchList[i].artist_id, searchList[i].originId, SearchRC);
 
                     }
                     else if (!String.IsNullOrEmpty(searchList[i].title_id))
                     {
                         Debug.WriteLine("\nFOUND TITLE_ID IN TESTLISTE: " + searchList[i].title_id + " at position: " + i);
-                        return SongsByTitleIDQuery(searchList[i].title_id, searchList[i].originId);
+                        return SongsByTitleIDQuery(searchList[i].title_id, searchList[i].originId, SearchRC);
 
                     }
                     else if (!String.IsNullOrEmpty(searchList[i].genre))
                     {
                         Debug.WriteLine("\nFOUND GENRE IN TESTLISTE: " + searchList[i].genre + " at position: " + i);
-                        return SongsByGenreQuery(searchList[i].genre, searchList[i].originId);
+                        return SongsByGenreQuery(searchList[i].genre, searchList[i].originId, SearchRC);
 
                     }
                     
@@ -341,7 +416,7 @@ namespace MusicSearch.Managers
         }
 
 
-        public List<ResponseContainer.ResponseObj.Song> SongsByGenreQuery(String genre, int ID)
+        public List<ResponseContainer.ResponseObj.Song> SongsByGenreQuery(String genre, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
         {
 
             if (genre.Contains(" "))
@@ -356,7 +431,7 @@ namespace MusicSearch.Managers
 
             //Debug.WriteLine("genre-request URL = " + request);
 
-            return LoadOnlineResponse(request, ID); //Send Query
+            return LoadOnlineResponse(request, ID, SearchRC); //Send Query
 
 
             //Genre-Suche vertiefen (nice to have):
@@ -366,7 +441,7 @@ namespace MusicSearch.Managers
         }
 
 
-        public List<ResponseContainer.ResponseObj.Song> SongsByTitleIDQuery(String title_id, int ID)
+        public List<ResponseContainer.ResponseObj.Song> SongsByTitleIDQuery(String title_id, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
         {
            
             // check for further parameters like "hotttnesss"
@@ -375,21 +450,19 @@ namespace MusicSearch.Managers
 
             Debug.WriteLine("sending title query...\n" + request);
             //############
-            return LoadOnlineResponse(request, ID); //Send Query
+            return LoadOnlineResponse(request, ID, SearchRC); //Send Query
             //############
         }
 
 
-        public List<ResponseContainer.ResponseObj.Song> SongsByArtistIDQuery(String artist_id, int ID)
+        public List<ResponseContainer.ResponseObj.Song> SongsByArtistIDQuery(String artist_id, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
         {
            
-            // check for further parameters like "hotttnesss" ?
-
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "artist_id=" + artist_id;
 
             Debug.WriteLine("sending artist query...\n" + request);
             //############
-            return LoadOnlineResponse(request, ID); //Send Query
+            return LoadOnlineResponse(request, ID, SearchRC); //Send Query
             //############
 
             //Assert.IsNull(_request); //TEST
@@ -410,7 +483,7 @@ namespace MusicSearch.Managers
             return apiKey;
         }
 
-        public List<ResponseContainer.ResponseObj.Song> LoadOnlineResponse(String request, int ID) //Send Query
+        public List<ResponseContainer.ResponseObj.Song> LoadOnlineResponse(String request, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC) //Send Query
         {
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
@@ -419,10 +492,10 @@ namespace MusicSearch.Managers
 
             //Debug.WriteLine("received&fixed response: "+response);
 
-            return ParseResponse(response, ID);
+            return ParseResponse(response, ID, SearchRC);
         }
 
-        public List<ResponseContainer.ResponseObj.Song> ParseResponse(String response, int ID)
+        public List<ResponseContainer.ResponseObj.Song> ParseResponse(String response, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
         {
             //http://james.newtonking.com/json/help/index.html
             //Escapes in string making problems?
@@ -446,6 +519,11 @@ namespace MusicSearch.Managers
         public List<ResponseContainer.ResponseObj.genres> getGenres()
         {
             return GenresRC;
+        }
+
+        public List<ResponseContainer.ResponseObj.genres.subgenres> getSubgenres(String topLevelGenre)
+        {
+            return getGenres().FirstOrDefault(g => g.genre_name == topLevelGenre).Subgenres;
         }
 
         public List<String> getGenreSuggestions(String term)
@@ -482,5 +560,42 @@ namespace MusicSearch.Managers
         public String title_id { get; set; }
         public String genre { get; set; }
         public int originId { get; set; }
+    }
+
+    
+    public class combinedSearchObjects
+    {
+        public String artist_id { get; set; }
+        public String[] genre { get; set; }
+        public List<int> originIds { get; set; }
+
+        //parameters...
+        public List<ArtistParameter> ArtistParameter { get; set; }
+        public List<GenreParameter> GenreParameter { get; set; }
+    }
+    
+    public class ArtistParameter
+    {
+        public double max_tempo { get; set; }
+        public double min_tempo { get; set; }
+        public double artist_min_familiarity { get; set; }
+        public String artist_start_year_before { get; set; }
+        public String artist_start_year_after { get; set; }
+        public String artist_end_year_before { get; set; }
+        public String artist_end_year_after { get; set; }
+        public double song_min_hotttnesss { get; set; }
+        public double artist_min_hotttnesss { get; set; }
+        public double min_danceability { get; set; }
+        public double min_energy { get; set; }
+        public double min_liveness { get; set; }
+        public double min_acousticness { get; set; }
+    }
+    
+    public class GenreParameter
+    {
+        public String song_selection { get; set; }
+        public double variety { get; set; }
+        public String distribution { get; set; }
+        public double adventurousness { get; set; }
     }
 }
