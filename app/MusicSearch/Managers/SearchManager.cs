@@ -20,6 +20,10 @@ namespace MusicSearch.Managers
         //neue Instanz vom ResponseContainer für die Genres
         List<ResponseContainer.ResponseObj.genres> GenresRC = new List<ResponseContainer.ResponseObj.genres>();
 
+        //Instanzen für die Attribute der kombinierten Genre-/Artisten-Suche
+        List<String> combinedSearchArtistAttributes = new List<String>();
+        List<String> combinedSearchGenreAttributes = new List<String>();
+
         
         public SearchManager()
         {
@@ -37,7 +41,7 @@ namespace MusicSearch.Managers
                 {
                     //combinedArtistQuery(c.originIds, c.artist_id, c.ArtistParameter);
                 }
-                else if (!String.IsNullOrEmpty(cso.genre))
+                else if (!String.IsNullOrEmpty(cso.genre[0].ToString()))
                 {
                     //combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
                 }
@@ -87,8 +91,34 @@ namespace MusicSearch.Managers
             {
                 GenresRC.Add(temp.Response.Genres[i]);
             }
+            foreach (var prop in typeof(ArtistParameter).GetProperties())
+            {
+                string name = prop.Name;
+
+                //in Liste hinzufügen
+                combinedSearchArtistAttributes.Add(name);
+            }
+            foreach (var prop in typeof(GenreParameter).GetProperties())
+            {
+                string name = prop.Name;
+
+                //in Liste hinzufügen
+                combinedSearchGenreAttributes.Add(name);
+            }
         }
 
+        public List<String> getCombinedSearchAttributes(String artistORgenre)
+        {
+            if (artistORgenre == "artist")
+            {
+                return combinedSearchArtistAttributes;
+            }
+            else if (artistORgenre == "genre")
+            {
+                return combinedSearchGenreAttributes;
+            }
+            return null;
+        }
 
         public void getDetailInfo(String artist_name, String artist_id, String originID)
         {
@@ -531,18 +561,19 @@ namespace MusicSearch.Managers
         public String genre { get; set; }
         public int originId { get; set; }
     }
+
     
     public class combinedSearchObjects
     {
         public String artist_id { get; set; }
-        public String genre { get; set; }
+        public String[] genre { get; set; }
         public List<int> originIds { get; set; }
 
         //parameters...
         public List<ArtistParameter> ArtistParameter { get; set; }
         public List<GenreParameter> GenreParameter { get; set; }
     }
-   
+    
     public class ArtistParameter
     {
         public double max_tempo { get; set; }
@@ -559,7 +590,7 @@ namespace MusicSearch.Managers
         public double min_liveness { get; set; }
         public double min_acousticness { get; set; }
     }
-   
+    
     public class GenreParameter
     {
         public String song_selection { get; set; }

@@ -116,7 +116,11 @@ namespace MusicSearch.Test
 
             });
             SearchManager sm = new SearchManager();
+            //var temp = sm.getCombinedSearchAttributes("artist");
+
             combinedSearchQuery(combinedSearchListe);
+
+
             //String temp = sm.lowerToUpper("lower upper");
             //var temp = sm.getGenreSuggestions("elec");
             //var temp2 = sm.getGenres();
@@ -124,9 +128,6 @@ namespace MusicSearch.Test
 
             //ArtistInfosRC.Add(new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>());
 
-            //##################################
-            //TEST-Liste befüllen
-            //##################################
             
             /*searchListe.Add(new searchObjects
             {
@@ -140,8 +141,7 @@ namespace MusicSearch.Test
                 originId = 3
 
             });*/
-            //##################################
-            //##################################
+            
             //Debug.WriteLine("Reading List...");
             //Debug.WriteLine("testliste.länge = " + searchListe.Count);
 
@@ -163,6 +163,9 @@ namespace MusicSearch.Test
 
         //###################################################
         //###################################################
+
+        
+
 
         public void combinedSearchQuery(List<combinedSearchObjects> list)
         {
