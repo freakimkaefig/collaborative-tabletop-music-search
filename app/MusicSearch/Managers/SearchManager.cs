@@ -491,10 +491,10 @@ namespace MusicSearch.Managers
             return GenresRC;
         }
 
-        /*public List<ResponseContainer.ResponseObj.genres> getSubgenres()
+        public List<ResponseContainer.ResponseObj.genres.subgenres> getSubgenres(String topLevelGenre)
         {
-
-        }*/
+            return getGenres().FirstOrDefault(g => g.genre_name == topLevelGenre).Subgenres;
+        }
 
         public List<String> getGenreSuggestions(String term)
         {
