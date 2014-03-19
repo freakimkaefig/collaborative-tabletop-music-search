@@ -21,7 +21,8 @@ namespace MusicSearch.ResponseObjects
             public List<ArtistInfo> ArtistInfos { get; set; }
             public List<genres> Genres { get; set; }
             public List<combinedGenres> CombinedGenres { get; set; }
-            
+            public List<combinedArtists> CombinedArtists { get; set; }
+
 
             public class StatusObj
             {
@@ -99,18 +100,23 @@ namespace MusicSearch.ResponseObjects
                 public string Artist_Name { get; set; }
                 public string Title { get; set; }
                 public List<Tracks> tracks { get; set; }
-                public List<Origin> originIDs { get; set; }
+                public String[] originIDs { get; set; }
             }
 
-            public class Origin
+            public class combinedArtists
             {
-                public String originID { get; set; }
+                public string Artist_Id { get; set; }
+                public string Artist_Name { get; set; }
+                public string Title { get; set; }
+                public List<Tracks> tracks { get; set; }
+                public String[] originIDs { get; set; }
             }
-
+            
             public class Tracks
             {
                 public string foreign_id { get; set; }
             }
+
             public class genres
             {
                 public String genre_name { get; set; }

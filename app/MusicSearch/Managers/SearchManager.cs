@@ -30,47 +30,154 @@ namespace MusicSearch.Managers
             initGenresRC();
         }
 
-        //###################################################
-        //###################################################
-
         public void combinedSearchQuery(List<combinedSearchObjects> list)
         {
             foreach (combinedSearchObjects cso in list)
             {
                 if (!String.IsNullOrEmpty(cso.artist_id))
                 {
-                    //combinedArtistQuery(c.originIds, c.artist_id, c.ArtistParameter);
+                    combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
                 }
                 else if (!String.IsNullOrEmpty(cso.genre[0].ToString()))
                 {
-                    //combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                    combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
                 }
             }
         }
 
-       /* public void combinedGenreQuery(List<int> IDs, String genre, List<GenreParameter> gp)
+        public List<ResponseContainer.ResponseObj.combinedArtists> combinedArtistQuery(List<int> IDs, String artist_id, List<ArtistParameter> ap)
         {
-            if (genre.Contains(" "))
+            //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
+            List<ResponseContainer.ResponseObj.combinedArtists> combinedArtistRC = new List<ResponseContainer.ResponseObj.combinedArtists>();
+
+            //basic URL
+            String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&" + "artist_id=" + artist_id;
+
+            //get & add attributes to combined-search-URL
+            var properties = ap[0].GetType().GetProperties();
+            foreach (var prop in properties)
             {
-                genre = genre.Replace(" ", "+");
+                string name = prop.Name;
+                var propValue = prop.GetValue(ap[0], null);
+                if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
+                {
+                    if (propValue.ToString().Contains(","))
+                    {
+                        propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
+                    }
+                    request += "&" + name + "=" + propValue.ToString();
+
+                }
             }
 
-            genre = genre.ToLower();
-
-            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&type=genre-radio&genre=" + genre;
-
-            //Debug.WriteLine("genre-request URL = " + request);
-            
-            foreach (var prop in gp.GetType().GetProperties())
-            {
-                request += "&"+prop.Name.ToString()+"="+prop.GetValue(gp, null);
-
-            }
             Debug.WriteLine("request: " + request);
-        }*/
+            //JSON response delivered as string
+            String response = HttpRequester.StartRequest(request);
+            //transform "\'" to unicode equivalent
+            //response = response.Replace("'", "&#39;");//not needed!?
 
-        //###################################################
-        //###################################################
+            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            var newText = StringHelper.replacePartialString(cleared, "songs", "CombinedArtists", 1);
+            //Add Origin-IDs to each result
+            String OriginIDS = "\'originIDs\': [";
+
+            for (int i = 0; i < IDs.Count; i++)
+            {
+                if (i < IDs.Count - 1)
+                {
+                    OriginIDS += "\'" + IDs[i] + "\', ";
+                }
+                else
+                {
+                    OriginIDS += "\'" + IDs[i] + "\'";
+                }
+
+            }
+            OriginIDS += "], ";
+            newText = StringHelper.replacePartialString(newText, "\'title\'", OriginIDS + "\'title\'", 1000);
+
+
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
+            for (int i = 0; i < temp.Response.CombinedArtists.Count; i++)
+            {
+                combinedArtistRC.Add(temp.Response.CombinedArtists[i]);
+            }
+            return combinedArtistRC;
+        }
+
+        public List<ResponseContainer.ResponseObj.combinedGenres> combinedGenreQuery(List<int> IDs, String[] genre, List<GenreParameter> gp)
+        {
+            //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
+            List<ResponseContainer.ResponseObj.combinedGenres> combinedGenreRC = new List<ResponseContainer.ResponseObj.combinedGenres>();
+
+            //basic URL
+            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&type=genre-radio";
+
+            //Add genre(s) to URL
+            for (int i = 0; i < genre.Length; i++)
+            {
+                if (genre[i].Contains(" "))
+                {
+                    genre[i] = genre[i].Replace(" ", "+");
+                }
+
+                genre[i] = genre[i].ToLower();
+                request += "&genre=" + genre[i].ToString();
+            }
+
+            //get & add attributes to combined-search-URL
+            var properties = gp[0].GetType().GetProperties();
+            foreach (var prop in properties)
+            {
+                string name = prop.Name;
+                var propValue = prop.GetValue(gp[0], null);
+                if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
+                {
+                    if (propValue.ToString().Contains(","))
+                    {
+                        propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
+                    }
+                    request += "&" + name + "=" + propValue.ToString();
+
+                }
+            }
+
+            Debug.WriteLine("request: " + request);
+            //JSON response delivered as string
+            String response = HttpRequester.StartRequest(request);
+            //transform "\'" to unicode equivalent
+            //response = response.Replace("'", "&#39;");//not needed!?
+
+            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            //'songs' durch 'combinedGenres' ersetzen
+            var newText = StringHelper.replacePartialString(cleared, "songs", "CombinedGenres", 1);
+            //Add Origin-IDs to each result
+            String OriginIDS = "\'originIDs\': [";
+
+            for (int i = 0; i < IDs.Count; i++)
+            {
+                if (i < IDs.Count - 1)
+                {
+                    OriginIDS += "\'" + IDs[i] + "\', ";
+                }
+                else
+                {
+                    OriginIDS += "\'" + IDs[i] + "\'";
+                }
+
+            }
+            OriginIDS += "], ";
+            newText = StringHelper.replacePartialString(newText, "\'title\'", OriginIDS + "\'title\'", 1000);
+
+
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
+            for (int i = 0; i < temp.Response.CombinedGenres.Count; i++)
+            {
+                combinedGenreRC.Add(temp.Response.CombinedGenres[i]);
+            }
+
+            return combinedGenreRC;
+        }
 
         public void initGenresRC()
         {
