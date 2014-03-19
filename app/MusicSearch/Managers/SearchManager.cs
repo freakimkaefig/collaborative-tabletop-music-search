@@ -38,6 +38,48 @@ namespace MusicSearch.Managers
             initGenresRC();
         }
 
+        //###################################################
+        //###################################################
+
+        public void combinedSearchQuery(List<combinedSearchObjects> list)
+        {
+            foreach (combinedSearchObjects cso in list)
+            {
+                if (!String.IsNullOrEmpty(cso.artist_id))
+                {
+                    //combinedArtistQuery(c.originIds, c.artist_id, c.ArtistParameter);
+                }
+                else if (!String.IsNullOrEmpty(cso.genre))
+                {
+                    combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                }
+            }
+        }
+
+        public void combinedGenreQuery(List<int> IDs, String genre, List<GenreParameter> gp)
+        {
+            if (genre.Contains(" "))
+            {
+                genre = genre.Replace(" ", "+");
+            }
+
+            genre = genre.ToLower();
+
+            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&type=genre-radio&genre=" + genre;
+
+            //Debug.WriteLine("genre-request URL = " + request);
+            
+            foreach (var prop in gp.GetType().GetProperties())
+            {
+                request += "&"+prop.Name.ToString()+"="+prop.GetValue(gp, null);
+
+            }
+            Debug.WriteLine("request: " + request);
+        }
+
+        //###################################################
+        //###################################################
+
         public void initGenresRC()
         {
             var newpath = currentPath.Substring(0, currentPath.LastIndexOf("app")) + "app/MusicSearch/files/genres.txt";
@@ -377,8 +419,6 @@ namespace MusicSearch.Managers
         public List<ResponseContainer.ResponseObj.Song> SongsByArtistIDQuery(String artist_id, int ID)
         {
            
-            // check for further parameters like "hotttnesss" ?
-
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "artist_id=" + artist_id;
 
             Debug.WriteLine("sending artist query...\n" + request);
@@ -476,5 +516,41 @@ namespace MusicSearch.Managers
         public String title_id { get; set; }
         public String genre { get; set; }
         public int originId { get; set; }
+    }
+    
+    public class combinedSearchObjects
+    {
+        public String artist_id { get; set; }
+        public String genre { get; set; }
+        public List<int> originIds { get; set; }
+
+        //parameters...
+        public List<ArtistParameter> ArtistParameter { get; set; }
+        public List<GenreParameter> GenreParameter { get; set; }
+    }
+   
+    public class ArtistParameter
+    {
+        public double max_tempo { get; set; }
+        public double min_tempo { get; set; }
+        public double artist_min_familiarity { get; set; }
+        public String artist_start_year_before { get; set; }
+        public String artist_start_year_after { get; set; }
+        public String artist_end_year_before { get; set; }
+        public String artist_end_year_after { get; set; }
+        public double song_min_hotttnesss { get; set; }
+        public double artist_min_hotttnesss { get; set; }
+        public double min_danceability { get; set; }
+        public double min_energy { get; set; }
+        public double min_liveness { get; set; }
+        public double min_acousticness { get; set; }
+    }
+   
+    public class GenreParameter
+    {
+        public String song_selection { get; set; }
+        public double variety { get; set; }
+        public String distribution { get; set; }
+        public double adventurousness { get; set; }
     }
 }

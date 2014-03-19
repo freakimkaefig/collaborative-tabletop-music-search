@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using System.Reflection;
 
 
 
@@ -32,9 +33,36 @@ namespace MusicSearch.Test
     {
         public String artist_id { get; set; }
         public String genre { get; set; }
-        public int[] originIds { get; set; }
+        public List<int> originIds { get; set; }
 
-
+        //parameters...
+        public List<ArtistParameter> ArtistParameter { get; set; }
+        public List<GenreParameter> GenreParameter { get; set; }
+    }
+    [TestClass]
+    public class ArtistParameter
+    {
+        public double max_tempo { get; set; }
+        public double min_tempo { get; set; }
+        public double artist_min_familiarity { get; set; }
+        public String artist_start_year_before { get; set; }
+        public String artist_start_year_after { get; set; }
+        public String artist_end_year_before { get; set; }
+        public String artist_end_year_after { get; set; }
+        public double song_min_hotttnesss { get; set; }
+        public double artist_min_hotttnesss { get; set; }
+        public double min_danceability { get; set; }
+        public double min_energy { get; set; }
+        public double min_liveness { get; set; }
+        public double min_acousticness { get; set; }
+    }
+    [TestClass]
+    public class GenreParameter
+    {
+        public String song_selection { get; set; }
+        public double variety { get; set; }
+        public String distribution { get; set; }
+        public double adventurousness { get; set; }
     }
 
     // Test-Enviroment for Queries to EchoNest, Parsing the responses and logging them
@@ -52,6 +80,9 @@ namespace MusicSearch.Test
                 
         //TEST-LISTE
         List<searchObjects> searchListe = new List<searchObjects>();
+
+        //TEST-LISTE
+        List<combinedSearchObjects> combinedSearchListe = new List<combinedSearchObjects>();
 
         //neue Instanz vom ResponseContainer für die Vorschläge zur Artisten-Suche
         List<ResponseContainer.ResponseObj.ArtistSuggestion> ArtistSuggestionsRC = new List<ResponseContainer.ResponseObj.ArtistSuggestion>();
@@ -74,7 +105,16 @@ namespace MusicSearch.Test
                originId = 1
                 
             });
+
+            combinedSearchListe.Add(new combinedSearchObjects
+            {
+                genre = "Rock",
+                originIds = new List<int>() { 1, 2 },
+                GenreParameter = new List<GenreParameter>(){new GenreParameter(){adventurousness = 0.8},new GenreParameter(){song_selection = "tempo-bottom"}}  
+
+            });
             SearchManager sm = new SearchManager();
+            combinedSearchQuery(combinedSearchListe);
             //String temp = sm.lowerToUpper("lower upper");
             //var temp = sm.getGenreSuggestions("elec");
             //var temp2 = sm.getGenres();
@@ -118,6 +158,50 @@ namespace MusicSearch.Test
             //Debug.WriteLine(temp);
             
         }
+
+        //###################################################
+        //###################################################
+
+        public void combinedSearchQuery(List<combinedSearchObjects> list)
+        {
+            foreach (combinedSearchObjects cso in list)
+            {
+                if (!String.IsNullOrEmpty(cso.artist_id))
+                {
+                    //combinedArtistQuery(c.originIds, c.artist_id, c.ArtistParameter);
+                }
+                else if (!String.IsNullOrEmpty(cso.genre))
+                {
+                    combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                }
+            }
+        }
+
+        public void combinedGenreQuery(List<int> IDs, String genre, List<GenreParameter> gp)
+        {
+            if (genre.Contains(" "))
+            {
+                genre = genre.Replace(" ", "+");
+            }
+
+            genre = genre.ToLower();
+
+            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&type=genre-radio&genre=" + genre;
+
+            //Debug.WriteLine("genre-request URL = " + request);
+
+            foreach (var prop in gp.GetType().GetProperties())
+            {
+                request += "&" + prop.Name.ToString() + "=" + prop.GetValue(gp, null);
+                
+
+            }
+            Debug.WriteLine("request: " + request);
+        }
+
+        //###################################################
+        //###################################################
+
 
         public void getDetailInfo(String artist_name, String artist_id, String originID)
         {
