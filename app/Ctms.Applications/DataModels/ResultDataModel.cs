@@ -12,14 +12,13 @@ namespace Ctms.Applications.DataModels
     {
         private Result _result;
 
-        public ResultDataModel(string spotifyId, Track track, string title, string artistName)
+        public ResultDataModel(string title, string artistName, Track spotifyTrack)
         {
             _result = new Result();
             Result.Song = new Song();
-            Result.Song.SpotifyId = spotifyId;
             Result.Song.Title = title;
             Result.Song.ArtistName = artistName;
-            SpotifyTrack = track;
+            SpotifyTrack = spotifyTrack;
         }
 
         public Result Result

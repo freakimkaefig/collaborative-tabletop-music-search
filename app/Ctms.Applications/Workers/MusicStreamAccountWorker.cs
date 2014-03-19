@@ -61,7 +61,10 @@ namespace Ctms.Applications.Workers
         {
             //handles Click on LoginButton in Menu
 
-            _sessionManager = new MusicStreamSessionManager();
+            if (_sessionManager == null)
+            {
+                _sessionManager = new MusicStreamSessionManager();
+            }
             PlaylistSessionManagerCreated(_sessionManager);
             StreamingSessionManagerCreated(_sessionManager);
             ResultSessionManagerCreated(_sessionManager);

@@ -158,10 +158,5 @@ namespace Ctms.Presentation.Views
 
             _viewModel.PrelistenCommand.Execute((object)data);
         }
-
-        private void Results_StylusSystemGesture(object sender, StylusSystemGestureEventArgs e)
-        {
-
-        }
     }
 }

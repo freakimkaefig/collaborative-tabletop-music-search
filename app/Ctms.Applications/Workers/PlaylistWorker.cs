@@ -39,6 +39,7 @@ namespace Ctms.Applications.Workers
             _sessionManager.PlaybackPaused = PlaybackPaused;
             _sessionManager.PlaybackStopped = PlaybackStopped;
             _sessionManager.PlaybackEndOfTrack = EndOfTrack;
+            _sessionManager.PlaylistTrackRemoved = PlaylistTrackRemoved;
         }
 
         private void PlaylistOpened(Playlist playlist)
@@ -50,7 +51,7 @@ namespace Ctms.Applications.Workers
             _playlistViewModel.ResultsForPlaylist.Clear();
             for (int i = 0; i < playlist.NumTracks(); i++)
             {
-                _playlistViewModel.ResultsForPlaylist.Add(new ResultDataModel(Link.CreateFromTrack(playlist.Track(i), 0).AsString(), Link.CreateFromTrack(playlist.Track(i), 0).AsTrack(), playlist.Track(i).Name(), playlist.Track(i).Artist(0).Name()));
+               _playlistViewModel.ResultsForPlaylist.Add(new ResultDataModel(playlist.Track(i).Name(), playlist.Track(i).Artist(0).Name(), playlist.Track(i)));
             }
         }
 
@@ -74,6 +75,11 @@ namespace Ctms.Applications.Workers
             
         }
 
+        private void PlaylistTrackRemoved(int index)
+        {
+            _playlistViewModel.ResultsForPlaylist.RemoveAt(index);
+        }
+
         //PUBLIC METHODS
         public void AddTrackToPlaylist(ResultDataModel result)
         {
@@ -81,8 +87,19 @@ namespace Ctms.Applications.Workers
             {
                 if (_playlistViewModel.CurrentPlaylist != null)
                 {
+                    for (var i = 0; i < _playlistViewModel.CurrentPlaylist.NumTracks(); i++)
+                    {
+                        if (_playlistViewModel.CurrentPlaylist.Track(i).Artist(0).Name().Equals(result.SpotifyTrack.Artist(0).Name()) && _playlistViewModel.CurrentPlaylist.Track(i).Name().Equals(result.SpotifyTrack.Name()))
+                        {
+                            return;
+                        }
+                        else
+                        {
+
+                        }
+                    }
                     _playlistViewModel.ResultsForPlaylist.Add(result);
-                    _sessionManager.AddTrackToPlaylist(_playlistViewModel.CurrentPlaylist, result.Result.Song.SpotifyId);
+                    _sessionManager.AddTrackToPlaylist(_playlistViewModel.CurrentPlaylist, result.SpotifyTrack);
                 }
                 else
                 {

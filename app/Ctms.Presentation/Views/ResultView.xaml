@@ -18,7 +18,5 @@
                    PreviewTouchDown="Results_PreviewInputDeviceDown"
                    s:SurfaceDragDrop.DragCanceled="Results_OnDragCanceled"
                    s:SurfaceDragDrop.DragCompleted="Results_OnDragCompleted"
-                   PreviewMouseDoubleClick="Results_PreviewMouseDoubleClick"
-                   StylusSystemGesture="Results_StylusSystemGesture"/>
-
+                   PreviewMouseDoubleClick="Results_PreviewMouseDoubleClick"/>
 </UserControl>

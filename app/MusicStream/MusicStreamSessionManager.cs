@@ -42,6 +42,7 @@ namespace MusicStream
         public Action PlaybackPaused;
         public Action PlaybackStopped;
         public Action PlaybackEndOfTrack;
+        public Action<int> PlaylistTrackRemoved;
 
         private string _credentialsBlob = null;
         private object _userdata = null;
@@ -84,8 +85,11 @@ namespace MusicStream
 
             timer = new System.Threading.Timer(obj => InvokeProcessEvents(_session), null, Timeout.Infinite, Timeout.Infinite);
 
+            
+
             //Creating new SpotifySession
             _session = SpotifySession.Create(config);
+            _session.FlushCaches();
         }
 
         //SETTER & GETTER
@@ -139,13 +143,14 @@ namespace MusicStream
         public Track CheckTrackAvailability(string spotifyTrackId)
         {
             Track track = Link.CreateFromString(spotifyTrackId).AsTrack();
-            if (Track.GetAvailability(_session, track) == TrackAvailability.Available || Track.GetPlayable(_session, track) != null)
+            if (Track.GetAvailability(_session, track) == TrackAvailability.Available && Track.GetPlayable(_session, track) != null)
             {
                 return Track.GetPlayable(_session, track);
             }
             else
             {
-                logMessages.Enqueue("Track unavailable: " + spotifyTrackId);
+                var avail = Track.GetAvailability(_session, track);
+                //logMessages.Enqueue("Track unavailable: " + spotifyTrackId);
                 return null;
             }
         }
@@ -171,9 +176,9 @@ namespace MusicStream
             _backgroundWorkHelper.DoInBackground(CreatePlaylistWorker, CreatePlaylistCompleted, name);
         }
 
-        public void AddTrackToPlaylist(Playlist playlist, string spotifyTrackId)
+        public void AddTrackToPlaylist(Playlist playlist, Track spotifyTrack)
         {
-            object[] data = new object[2] { playlist, spotifyTrackId };
+            object[] data = new object[2] { playlist, spotifyTrack };
             _backgroundWorkHelper.DoInBackground(AddTrackToPlaylistWorker, AddTrackToPlaylistCompleted, data);
         }
 
@@ -182,10 +187,20 @@ namespace MusicStream
             _currentPlaylist = playlist;
             _currentTrackIndex = index;
             _bufferedWaveProvider.ClearBuffer();
-            _session.PlayerLoad(playlist.Track(index));
-            _session.PlayerPlay(true);
-            _waveOutDevice.Play();
-            PlaybackStarted();
+            try
+            {
+                _session.PlayerLoad(playlist.Track(index));
+                _session.PlayerPlay(true);
+                _waveOutDevice.Play();
+                PlaybackStarted();
+            }
+            catch (SpotifyException spotifyException)
+            {
+                int[] tracks = new int[1] {index};
+                playlist.RemoveTracks(tracks);
+                PlaylistTrackRemoved(index);
+                JumpToTrackInPlaylist(playlist, index + 1);
+            }
         }
         
 
@@ -227,9 +242,16 @@ namespace MusicStream
              */
             SpotifyLoggedIn();  //Notify MenuController
 
-            _playlistContainer = _session.Playlistcontainer();
-            _playlistContainerListener = new MusicStreamPlaylistContainerListener(this);
-            _playlistContainer.AddCallbacks(_playlistContainerListener, Userdata);
+            if (_playlistContainer == null)
+            {
+                _playlistContainer = _session.Playlistcontainer();
+            }
+
+            if (_playlistContainerListener == null)
+            {
+                _playlistContainerListener = new MusicStreamPlaylistContainerListener(this);
+                _playlistContainer.AddCallbacks(_playlistContainerListener, Userdata);
+            }
         }
 
         public void LoggedOutCallback()
@@ -282,8 +304,11 @@ namespace MusicStream
 
         public void EndOfTrack(SpotifySession session)
         {
-            PlaybackEndOfTrack();
-            ProceedPlayingPlaylist();
+            if (_currentPlaylist != null)
+            {
+                PlaybackEndOfTrack();
+                ProceedPlayingPlaylist();
+            }
         }
 
 
@@ -373,10 +398,7 @@ namespace MusicStream
 
         private void AddTrackToPlaylistWorker(object sender, DoWorkEventArgs e)
         {
-            Playlist playlist = (Playlist)((object[])e.Argument)[0];
-            string spotifyTrackId = (string)((object[])e.Argument)[1];
-            Link link = Link.CreateFromString(spotifyTrackId);
-            playlist.AddTracks(new Track[1] { Track.GetPlayable(_session, link.AsTrack()) }, playlist.NumTracks(), _session);
+            ((Playlist)((object[])e.Argument)[0]).AddTracks(new Track[1] { (Track)((object[])e.Argument)[1] }, ((Playlist)((object[])e.Argument)[0]).NumTracks(), _session);
             e.Result = e.Argument;
         }
         private void AddTrackToPlaylistCompleted(object sender, RunWorkerCompletedEventArgs e)

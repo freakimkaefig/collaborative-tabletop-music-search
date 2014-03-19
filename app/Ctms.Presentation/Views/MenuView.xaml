@@ -104,7 +104,7 @@
         <!--<s:SurfaceButton Content="Exit" Grid.Column="0" Width="100" Height="40" Command="{Binding ExitAppCommand}" Margin="1820,0,0,1040" />
         <s:SurfaceButton Content="Login" Grid.Column="0" Width="100" Height="40" Command="{Binding LoginCommand}" Margin="1714,0,106,1040" />-->
         <TextBox Text="{Binding LoginLogMessage}" Width="300" VerticalScrollBarVisibility="Auto" Foreground="Black" TextWrapping="Wrap" IsReadOnly="True" Margin="1566,46,0,0" Grid.Column="0" Height="474" VerticalAlignment="Top" />
-        <s:SurfaceButton x:Name="MenuButton_Hide" Content="MENU" HorizontalAlignment="Left" Margin="0,94.333,0,0" Width="80" Height="80" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center">
+        <s:SurfaceButton x:Name="MenuButton_Hide" Content="MENU" HorizontalAlignment="Left" Margin="0" Width="80" Height="80" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom">
         	<i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewTouchDown">
         			<ei:GoToStateAction StateName="MenuInvisible"/>
@@ -122,7 +122,7 @@
         		</TransformGroup>
         	</s:SurfaceButton.RenderTransform>
         </s:SurfaceButton>
-        <s:SurfaceButton x:Name="MenuButton_Show" Content="MENU" HorizontalAlignment="Left" Margin="0,94.333,0,0" Width="80" Height="80" VerticalAlignment="Center" >
+        <s:SurfaceButton x:Name="MenuButton_Show" Content="MENU" HorizontalAlignment="Left" Margin="0" Width="80" Height="80" VerticalAlignment="Bottom" >
         	<i:Interaction.Triggers>
         		<i:EventTrigger EventName="PreviewTouchDown">
         			<ei:GoToStateAction StateName="MenuVisible"/>
@@ -132,7 +132,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </s:SurfaceButton>
-        <StackPanel x:Name="MenuPanel" HorizontalAlignment="Left" Margin="-150.667,-15.667,0,0" Width="140" Height="250" RenderTransformOrigin="0.5,0.5" Background="Black" VerticalAlignment="Center">
+        <StackPanel x:Name="MenuPanel" HorizontalAlignment="Left" Margin="-140.5,0,0,0" Width="140" Height="250" RenderTransformOrigin="0.5,0.5" Background="Black" VerticalAlignment="Bottom">
         	<StackPanel.RenderTransform>
         		<TransformGroup>
         			<ScaleTransform/>

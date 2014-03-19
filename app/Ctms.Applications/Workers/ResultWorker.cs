@@ -47,9 +47,9 @@ namespace Ctms.Applications.Workers
                 {
                     for (int j = 0; j < response[i].tracks.Count; j++)
                     {
-                        if (_sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id) != null)
+                        if(_sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id) != null)
                         {
-                            _resultViewModel.Results.Add(new ResultDataModel(response[i].tracks[j].foreign_id, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id), response[i].Title, response[i].Artist_Name));
+                            _resultViewModel.Results.Add(new ResultDataModel(response[i].Title, response[i].Artist_Name, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id)));
                             j = response[i].tracks.Count;
                         }
                     }

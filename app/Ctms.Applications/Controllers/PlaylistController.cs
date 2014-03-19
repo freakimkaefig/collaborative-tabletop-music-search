@@ -48,6 +48,7 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _stopCommand;
         private readonly DelegateCommand _addTrackCommand;
         private readonly DelegateCommand _jumpToTrackCommand;
+        private readonly DelegateCommand _rotateCommand;
 
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
@@ -71,6 +72,7 @@ namespace Ctms.Applications.Controllers
             this._stopCommand = new DelegateCommand(_streamingWorker.StopPlayback, _streamingWorker.Playing);
             this._addTrackCommand = new DelegateCommand((result) => _playlistWorker.AddTrackToPlaylist((ResultDataModel)result));
             this._jumpToTrackCommand = new DelegateCommand((index) => _playlistWorker.JumpToTrack((int)index));
+            this._rotateCommand = new DelegateCommand(_playlistViewModel.RotatePlaylistView);
         }
 
         public void Initialize()
@@ -82,6 +84,7 @@ namespace Ctms.Applications.Controllers
             _playlistViewModel.StopCommand = _stopCommand;
             _playlistViewModel.AddTrackCommand = _addTrackCommand;
             _playlistViewModel.JumpToTrackCommand = _jumpToTrackCommand;
+            _playlistViewModel.RotateCommand = _rotateCommand;
             AddWeakEventListener(_playlistViewModel, PlaylistViewModelPropertyChanged);
 
             shellService.PlaylistView = _playlistViewModel.View;

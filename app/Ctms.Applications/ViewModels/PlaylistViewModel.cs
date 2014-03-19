@@ -10,16 +10,19 @@ using Ctms.Domain.Objects;
 using System.Collections.ObjectModel;
 using SpotifySharp;
 using Ctms.Applications.DataModels;
+using System.Windows;
 
 namespace Ctms.Applications.ViewModels
 {
     [Export]
     public class PlaylistViewModel : ViewModel<IPlaylistView>
     {
+        private IPlaylistView _view;
         private bool _isValid = true;
         private bool _readyForPlayback = false;
         private bool _playing = false;
         private bool _prelistening = false;
+        private bool _isRotate = false;
 
         //Commands
         private ICommand _playCommand;
@@ -27,6 +30,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _stopCommand;
         private ICommand _addTrackCommand;
         private ICommand _jumpToTrackCommand;
+        private ICommand _rotateCommand;
         //
         private Playlist _currentPlaylist = null;
         private ObservableCollection<ResultDataModel> _playlistResults;
@@ -35,9 +39,27 @@ namespace Ctms.Applications.ViewModels
         public PlaylistViewModel(IPlaylistView view)
             : base(view)
         {
+            _view = view;
             _playlistResults = new ObservableCollection<ResultDataModel>();
         }
 
+
+        public void RotatePlaylistView()
+        {
+            VisualState visualState;
+            if (IsRotate == false)
+            {
+                visualState = _view.VisualStateRotate180;
+                IsRotate = true;
+            }
+            else
+            {
+                visualState = _view.VisualStateRotate0;
+                IsRotate = false;
+            }
+            
+            VisualStateManager.GoToState((FrameworkElement)_view, visualState.Name, true);
+        }
 
         public bool IsEnabled { get { return true; } }//Playlist != null;//!! Has to be adjusted
 
@@ -89,6 +111,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _prelistening = value;
                     RaisePropertyChanged("Prelistening");
+                }
+            }
+        }
+
+        public bool IsRotate
+        {
+            get { return _isRotate; }
+            set
+            {
+                if (_isRotate != value)
+                {
+                    _isRotate = value;
+                    RaisePropertyChanged("IsRotate");
                 }
             }
         }
@@ -180,6 +215,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _jumpToTrackCommand = value;
                     RaisePropertyChanged("JumpToTrackCommand");
+                }
+            }
+        }
+
+        public ICommand RotateCommand
+        {
+            get { return _rotateCommand; }
+            set
+            {
+                if (_rotateCommand != value)
+                {
+                    _rotateCommand = value;
+                    RaisePropertyChanged("RotateCommand");
                 }
             }
         }
