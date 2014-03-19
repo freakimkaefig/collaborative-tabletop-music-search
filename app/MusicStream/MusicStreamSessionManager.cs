@@ -118,6 +118,7 @@ namespace MusicStream
         /* ---------- PUBLIC METHODS ---------- */
         public void Login(string username, string password)
         {
+            logMessages.Enqueue("MusicStreamSessionManager.Login");
             //handles logging in to spotify
             //accessed through menu
 
@@ -160,11 +161,13 @@ namespace MusicStream
 
         public void OpenPlaylists(Playlist playlist)
         {
+            logMessages.Enqueue("MusicStreamSessionManager.OpenPlaylists");
             _backgroundWorkHelper.DoInBackground(OpenPlaylistWorker, OpenPlaylistCompleted, playlist);
         }
 
         public void CreatePlaylist(string name)
         {
+            logMessages.Enqueue("MusicStreamSessionManager.CreatePlaylist");
             _backgroundWorkHelper.DoInBackground(CreatePlaylistWorker, CreatePlaylistCompleted, name);
         }
 
@@ -218,6 +221,7 @@ namespace MusicStream
         /* ---------- CALLBACKS ---------- */
         public void LoggedInCallback()
         {
+            logMessages.Enqueue("MusicStreamSessionManager.LoggedInCallback");
             /* Callback, when successfully logged in to Spotify
              * creating new PlaylistContainer for streaming or playlist operations
              */
