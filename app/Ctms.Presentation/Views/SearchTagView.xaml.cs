@@ -33,55 +33,30 @@ namespace Ctms.Presentation.Views
             count++;
         }
 
+        public SearchViewModel ViewModel { get; set; }
+
         // Provides this view's viewmodel
         private SearchTagViewModel _viewModel { get { return _lazyVm.Value; } }
 
         private void TagVisualization_Moved(object sender, TagVisualizerEventArgs e)
         {
-            var trorientation = e.TagVisualization.TrackedTouch.GetOrientation(this);
-            //var or = e.TagVisualization.
+            var searchTagView = (SearchTagView)e.TagVisualization;
+            var tagId = (int)searchTagView.VisualizedTag.Value;
 
-            var tag = (SearchTagView)e.TagVisualization;
-            var orientation = tag.Orientation;
-            var oriOff = tag.OrientationOffsetFromTag;
+            var tagAngle = (int) e.TagVisualization.TrackedTouch.GetOrientation(this);
+            //var position = e.TagVisualization.TrackedTouch.GetPosition(this);
+            var screenPosition = searchTagView.PointToScreen(new Point(0d, 0d));
 
-            var tagOr = e.TagVisualization.Orientation;
-            var transform = tag.TagGrid.RenderTransform;
-            var myTag = tag.Tag;
 
-            Debug.WriteLine("Orientation : " + orientation);
-            Debug.WriteLine("OrientationOffset : " + oriOff);
-            Debug.WriteLine("RenderTransform : " + transform);
-            Debug.WriteLine("trorientation : " + trorientation);
+            var tag = ViewModel.Tags[tagId].Tag;
+            tag.Angle = tagAngle;
+            tag.PositionX = (double)screenPosition.X;
+            tag.PositionY = (double)screenPosition.Y;
 
-            var myTag2 = e.TagVisualization.Orientation;
-            var myTag3 = e.TagVisualization.Tag;
 
-            Debug.WriteLine("Orientation : " + myTag3);
-            
-            /*
-            var tag = (SearchTagView)e.TagVisualization;
-            Double orientation = tag.MyTagVisualization.GetOrientation(this);
-            RotateTransform render = newRotateTransform(orientation);
-            render.CenterX = x;
-            render.CenterY = x;
-            pointer.RenderTransform = render;
-
-            int angle = (int)orientation;
-
-            if (angle > a && angle < b)
-            {
-
-                //trigger method
-
-            }
-
-            else
-            {
-
-                //trigger method
-
-            }*/
+            //Debug.WriteLine("tag.PositionY : " + tag.PositionY);
+            Debug.WriteLine("screenPosition.Y : " + screenPosition.Y);
+            //Debug.WriteLine("screenPosition.X : " + screenPosition.X);
         }
 
         public void SimpleVisualization_Loaded(object sender, RoutedEventArgs e)

@@ -317,7 +317,7 @@ namespace Ctms.Applications.Workers
             // set last layer
             tag.Tag.CurrentLayerNr--;
 
-            RemovePreviousBreadcrumbs(tag);
+            //RemovePreviousBreadcrumbs(tag);
 
             _searchVM.UpdateVisuals(tag);
         }

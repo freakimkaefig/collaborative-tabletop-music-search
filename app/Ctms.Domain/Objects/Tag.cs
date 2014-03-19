@@ -14,6 +14,9 @@ namespace Ctms.Domain.Objects
         private readonly ObservableCollection<TagOption> _tagOptions;
         private readonly ObservableCollection<TagOption> _previousOptions;
         private double _angle;
+        private double _positionY;
+        private double _positionX;
+        private double _rotation;
 
         public Tag()
         {
@@ -48,6 +51,43 @@ namespace Ctms.Domain.Objects
                 {
                     _angle = value;
                     RaisePropertyChanged("Angle");
+                }
+            }
+        }
+
+        public double Rotation
+        {
+            get 
+            {
+                var rotation = PositionY > 300 ? 180.0 : 0.0;
+                
+                return rotation; 
+            }
+        }
+
+        public double PositionY
+        {
+            get { return _positionY; }
+            set
+            {
+                if (_positionY != value)
+                {
+                    _positionY = value;
+                    RaisePropertyChanged("PositionY");
+                    RaisePropertyChanged("Rotation");
+                }
+            }
+        }
+
+        public double PositionX
+        {
+            get { return _positionX; }
+            set
+            {
+                if (_positionX != value)
+                {
+                    _positionX = value;
+                    RaisePropertyChanged("PositionX");
                 }
             }
         }

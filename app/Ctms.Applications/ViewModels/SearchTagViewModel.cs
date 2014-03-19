@@ -23,29 +23,13 @@ namespace Ctms.Applications.ViewModels
         private int _id;
         private string _keyword;
         private ISearchTagView _searchTagView;
+        private double _angle;
         
         [ImportingConstructor]
         public SearchTagViewModel(ISearchTagView view)
             : base(view)
         {
             _searchTagView = view;
-
-            _tags = new ObservableCollection<TagDataModel>();
-        }
-
-        private ObservableCollection<TagDataModel> _tags;
-
-        public ObservableCollection<TagDataModel> Tags
-        {
-            get { return _tags; }
-            set
-            {
-                if (_tags != value)
-                {
-                    _tags = value;
-                    RaisePropertyChanged("Tags");
-                }
-            }
         }
 
         public bool IsEnabled { get { return true; } }//Detail != null;//!! Has to be adjusted
@@ -76,8 +60,6 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        
         public ISearchTagView MyView { get; set; }
-
     }
 }

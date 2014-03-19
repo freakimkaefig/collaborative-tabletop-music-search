@@ -45,10 +45,13 @@
     
     <!--Start Surrounding Tag Grid-->
     <!--<Grid Name="TagGrid" DataContext="{DynamicResource Tag.Angle}">-->
-    <Grid Name="TagGrid">  
-        <!--<Grid.RenderTransform>
-            <RotateTransform Angle="{Binding Angle}" />
-        </Grid.RenderTransform>-->
+    <!--<Grid Name="TagGrid" DataContext="{DynamicResource TagDM}"--> 
+    <Grid Name="TagGrid" 
+                RenderTransformOrigin="0.5, 0.5">  
+        <Grid.RenderTransform>
+            <!--<RotateTransform Angle="{Binding Tag.Rotation}" />-->
+            <RotateTransform Angle="{Binding Tags[0].Tag.Rotation}" />
+        </Grid.RenderTransform>
         <!-- Start menu -->
         <Grid>
             <Grid.RowDefinitions>
@@ -190,6 +193,18 @@
                 VerticalAlignment="Bottom"
             />
             <!-- End Assigned keyword-->
+            
+            <!--Angle-->
+            <TextBlock 
+                DataContext="{DynamicResource TagDM}"
+                Text="{Binding Tag.Angle, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                Grid.Column="0"
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+            />
+            <!--Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"-->
+            <!--//Angle-->
 
         </Grid>
         <!-- End menu -->

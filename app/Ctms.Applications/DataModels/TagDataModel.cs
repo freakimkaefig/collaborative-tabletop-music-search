@@ -22,6 +22,7 @@ namespace Ctms.Applications.DataModels
         private bool _isAssignedKeywordVisible;
         private bool _isMenuVisible = true;
         private bool _isEditVisible = false;
+        private double _rotation;
 
         public TagDataModel(Tag tag)
         {

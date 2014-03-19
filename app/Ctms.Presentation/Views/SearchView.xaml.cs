@@ -58,6 +58,8 @@ namespace Ctms.Presentation.Views
             var tagDM = _viewModel.Tags[tagId];
             var pieMenu = searchTagView.PieMenu;
 
+            searchTagView.ViewModel = _viewModel;
+
             //var orientation = searchTagView.Orientation;
             //searchTagView.Orientation = 50.0;
 

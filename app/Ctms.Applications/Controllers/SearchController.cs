@@ -143,11 +143,6 @@ namespace Ctms.Applications.Controllers
             {
 
             }
-            else if (e.PropertyName == "AddedVisualization" && _searchVm.AddedVisualization == true)//SelectedSong is just an example
-            {
-                //_searchVm.AddedVisualization = false;
-                //_searchOptionWorker.UpdateOptions();
-            }
         }
     }
 }

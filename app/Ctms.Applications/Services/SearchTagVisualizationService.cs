@@ -43,7 +43,6 @@ namespace Ctms.Applications.Services
                 tagVisDef.LostTagTimeout = 5000.0;
                 tagVisDef.TagRemovedBehavior = TagRemovedBehavior.Fade;
                 tagVisDef.UsesTagOrientation = false;
-                //tagVisDef.OrientationOffsetFromTag = 0.0;
 
                 AddTagVisualization(tagVisDef, i);
             }
