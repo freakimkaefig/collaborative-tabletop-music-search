@@ -29,18 +29,20 @@ namespace MusicSearch.ResponseObjects
                 public string Message { get; set; }
             }
 
-            public class ArtistSuggestion
+            public class Suggestion
             {
-                public String name { get; set; }
-                public String id { get; set; }
                 public int originId { get; set; }
+                public String id { get; set; }
             }
 
-            public class TitleSuggestion
+            public class ArtistSuggestion : Suggestion
+            {
+                public String name { get; set; }
+            }
+
+            public class TitleSuggestion : Suggestion
             {
                 public String title { get; set; }
-                public String id { get; set; }
-                public int originId { get; set; }
                 public String artist_name { get; set; }
             }
 

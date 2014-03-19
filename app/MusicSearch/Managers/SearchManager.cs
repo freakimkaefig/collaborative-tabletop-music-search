@@ -293,6 +293,9 @@ namespace MusicSearch.Managers
             //ID einfügen, zwecks Rückschlüssen
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
 
+            // clear previous suggestions for this origin
+            TitleSuggestionsRC.RemoveAll(s => s.originId == ID);
+
             for (int i = 0; i < temp.Response.TitleSuggestions.Count; i++)
             {
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
@@ -335,6 +338,9 @@ namespace MusicSearch.Managers
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             //ID einfügen, zwecks Rückschlüssen
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
+
+            // clear previous suggestions for this origin
+            ArtistSuggestionsRC.RemoveAll(s => s.originId == ID);
 
             for (int i = 0; i < temp.Response.ArtistSuggestions.Count; i++)
             {

@@ -30,11 +30,12 @@ namespace Ctms.Applications.ViewModels
         private List<TagVisualization> _tagVisualizations;
         private ISearchView _searchView;
         private Keyword _assignedKeyword;
-        private ICommand _selectCircleOptionCmd;
         private ObservableCollection<TagDataModel> _tags;
         private ICommand _goHomeCmd;
         private ICommand    _goBreadcrumbCmd;
         private bool        _addedVisualization;
+        private ICommand _addVisualizationCmd;
+        private ICommand _editCmd;
         //private readonly IEnumerable<SearchTagViewModel> _searchTags;
 
         [ImportingConstructor]
@@ -187,21 +188,6 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-
-
-        public ICommand SelectCircleOptionCmd
-        {
-            get { return _selectCircleOptionCmd; }
-            set
-            {
-                if (_selectCircleOptionCmd != value)
-                {
-                    _selectCircleOptionCmd = value;
-
-                    RaisePropertyChanged("SelectCircleOptionCmd");
-                }
-            }
-        }
         
 
         public ICommand GetSuggestionsCmd
@@ -217,10 +203,37 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public ICommand EditCmd
+        {
+            get { return _editCmd; }
+            set
+            {
+                if (_editCmd != value)
+                {
+                    _editCmd = value;
+                    RaisePropertyChanged("EditCmd");
+                }
+            }
+        }
+
         #endregion Commands  
 
-        public void OnVisualizationAdded(TagVisualization tagVisualization)
+        public void OnVisualizationAdded(int tagId)
         {
+            AddVisualization.Execute(tagId);
+        }
+
+        public ICommand AddVisualization
+        {
+            get { return _addVisualizationCmd; }
+            set
+            {
+                if (_addVisualizationCmd != value)
+                {
+                    _addVisualizationCmd = value;
+                    RaisePropertyChanged("AddVisualization");
+                }
+            }
         }
 
         public void UpdateVisuals(TagDataModel tagDM)

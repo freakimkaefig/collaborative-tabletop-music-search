@@ -751,7 +751,7 @@ namespace PieInTheSky
 
             var leftMargin = Radius;
             var topMargin = InnerRadius + 25.0;
-            var fontSize = 12.0;
+            var fontSize = 11.0;
             var subToMainDistance = fontSize + 5.0;
 
             Point mainTextPoint = new Point(rect.X + leftMargin, rect.Y + topMargin);

@@ -51,7 +51,11 @@ namespace Ctms.Applications.Controllers
         //Commands
         private readonly DelegateCommand _startSearchCmd;
         private readonly DelegateCommand _selectOptionCmd;
+        private readonly DelegateCommand _goBreadcrumbCmd;
         private readonly DelegateCommand _getSuggestionsCmd;
+        private readonly DelegateCommand _addVisualizationCmd;
+        private readonly DelegateCommand _editCmd;
+        private readonly DelegateCommand _goHomeCmd;
         //Further vars
         private SearchManager _searchManager;
         private DelegateCommand _selectCircleOptionCmd;
@@ -85,11 +89,13 @@ namespace Ctms.Applications.Controllers
             _resultVm                   = resultVm;
             //Commands
             _startSearchCmd             = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
-            _selectOptionCmd            = new DelegateCommand((tagId) => _searchOptionWorker.SelectOption((int)tagId));
+            _selectOptionCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.SelectOption((int)tagOptionId));
             //_selectCircleOptionCmd = new DelegateCommand((id) => _searchOptionWorker.SelectCircleOption((int)id));
-            _selectCircleOptionCmd      = new DelegateCommand((tagId) => SelectCircleOption((int)tagId));
-            
-            _getSuggestionsCmd          = new DelegateCommand((tagId) => _searchOptionWorker.LoadSuggestions((int)tagId));
+            _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoToBreadcrumb((int)tagOptionId));
+            _getSuggestionsCmd          = new DelegateCommand((tagOptionId) => _searchOptionWorker.LoadSuggestions((int)tagOptionId));
+            _editCmd                    = new DelegateCommand((tagId) => _searchOptionWorker.EditTag((int)tagId));
+            _goHomeCmd  = new DelegateCommand((tagId) => _searchOptionWorker.GoHome((int)tagId));
+            //_addVisualizationCmd = new DelegateCommand((tagId) => _searchOptionWorker.LoadMenu((int)tagId));
             //Further vars
             _searchManager              = new SearchManager();
         }
@@ -100,14 +106,13 @@ namespace Ctms.Applications.Controllers
 
             //Commands
             _searchVm.StartSearchCmd = _startSearchCmd;
-            _searchVm.SelectCircleOptionCmd = _selectCircleOptionCmd;
             //Views
             _shellService.SearchView = _searchVm.View;
             _shellService.SearchTagView = _searchTagVm.View;
             //Listeners
             AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
-            AddWeakEventListener((INotifyCollectionChanged)_searchVm.Tags, TagsChanged);
+            //AddWeakEventListener((INotifyCollectionChanged)_searchVm.Tags, TagsChanged);
             /*
             foreach(var tag in _searchVm.Tags)
             {
@@ -117,78 +122,20 @@ namespace Ctms.Applications.Controllers
             //_searchTagVm.SelectOptionCmd = _selectOptionCmd;
             _searchVm.SelectOptionCmd   = _selectOptionCmd;
             _searchVm.GetSuggestionsCmd = _getSuggestionsCmd;
-
-            InitKeywords();
+            _searchVm.GoBreadcrumbCmd   = _goBreadcrumbCmd;
+            _searchVm.AddVisualization  = _addVisualizationCmd;
+            _searchVm.EditCmd           = _editCmd;
+            _searchVm.GoHomeCmd         = _goHomeCmd;
 
             // set  default tag values
             _tagVisualizationService.InitTagDefinitions();
 
             _searchVm.Tags = _repository.GetAllTagDMs();
 
-            _searchOptionWorker.Initialize(_searchManager);
-            foreach (var tag in _searchVm.Tags)
-            {
-                _searchOptionWorker.UpdateOptions(tag.Tag.Id);
-            }
+            _searchWorker.Initialize(_searchManager);
+            _searchOptionWorker.Initialize(_searchManager, _searchVm.Tags);
         }
-
-        private void TagsChanged(object sender, NotifyCollectionChangedEventArgs e) 
-        { 
-            //UpdateItemCount(); 
         
-        }
-
-
-        private void SelectCircleOption(int id)
-        {
-            MessageServiceExtensions.ShowMessage(_messageService, "Selected Circle option: " + id);
-        }
-
-        private void InitKeywords()
-        {
-            List<Tag> tags = new List<Tag>()
-            {
-                /*
-                new Tag()
-                {
-                    Id = 0,
-                    TagOptions = new List<TagOption>()
-                    {
-                        new DoubleTextTagOption()
-                        {
-                            Id          = 1,
-                            MainText    = "Fireworks",
-                            SubText     = "Katy Perry"
-                        },
-                        new DoubleTextTagOption()
-                        {
-                            Id          = 2,
-                            MainText    = "Fireworker",
-                            SubText     = "ACDC"
-                        }
-                    },
-                    SelectedKeyword = new Artist("Korn")
-                },
-                new Tag()
-                {
-                    Id = 1,
-                    TagOptions = new List<TagOption>()
-                    {
-                        new SingleTextTagOption()
-                        {
-                            Id = 3,
-                            Text = "The Baseballs"
-                        },
-                        new SingleTextTagOption()
-                        {
-                            Id = 4,
-                            Text = "Baseball Fighters"
-                        }
-                    }
-                }*/
-            };
-            //_searchVm.Tags = tags;
-        }
 
         private void UpdateCommands()
         {
