@@ -53,7 +53,6 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _selectOptionCmd;
         private readonly DelegateCommand _goBreadcrumbCmd;
         private readonly DelegateCommand _getSuggestionsCmd;
-        private readonly DelegateCommand _addVisualizationCmd;
         private readonly DelegateCommand _editCmd;
         private readonly DelegateCommand _goHomeCmd;
         //Further vars
@@ -90,12 +89,10 @@ namespace Ctms.Applications.Controllers
             //Commands
             _startSearchCmd             = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
             _selectOptionCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.SelectOption((int)tagOptionId));
-            //_selectCircleOptionCmd = new DelegateCommand((id) => _searchOptionWorker.SelectCircleOption((int)id));
             _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoToBreadcrumb((int)tagOptionId));
             _getSuggestionsCmd          = new DelegateCommand((tagOptionId) => _searchOptionWorker.LoadSuggestions((int)tagOptionId));
             _editCmd                    = new DelegateCommand((tagId) => _searchOptionWorker.EditTag((int)tagId));
             _goHomeCmd  = new DelegateCommand((tagId) => _searchOptionWorker.GoHome((int)tagId));
-            //_addVisualizationCmd = new DelegateCommand((tagId) => _searchOptionWorker.LoadMenu((int)tagId));
             //Further vars
             _searchManager              = new SearchManager();
         }
@@ -119,11 +116,9 @@ namespace Ctms.Applications.Controllers
                 AddWeakEventListener((INotifyCollectionChanged)tag.Tag.TagOptions, TagsChanged);
             }*/
 
-            //_searchTagVm.SelectOptionCmd = _selectOptionCmd;
             _searchVm.SelectOptionCmd   = _selectOptionCmd;
             _searchVm.GetSuggestionsCmd = _getSuggestionsCmd;
             _searchVm.GoBreadcrumbCmd   = _goBreadcrumbCmd;
-            _searchVm.AddVisualization  = _addVisualizationCmd;
             _searchVm.EditCmd           = _editCmd;
             _searchVm.GoHomeCmd         = _goHomeCmd;
 

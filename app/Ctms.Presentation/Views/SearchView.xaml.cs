@@ -53,12 +53,13 @@ namespace Ctms.Presentation.Views
         {
             // Every time tag is placed its visualization must be initiated again (is lost after tag remove)
 
-
             var searchTagView = (SearchTagView)e.TagVisualization;
             var tagId = (int)searchTagView.VisualizedTag.Value;
             var tagDM = _viewModel.Tags[tagId];
             var pieMenu = searchTagView.PieMenu;
 
+            //var orientation = searchTagView.Orientation;
+            //searchTagView.Orientation = 50.0;
 
             if(SearchTagViews.ContainsKey(tagId) == false) SearchTagViews.Add(tagId, searchTagView);
             //else Tags[tagId] = searchTagView;
@@ -114,7 +115,6 @@ namespace Ctms.Presentation.Views
 
             var pieMenu = SearchTagViews[tagId].PieMenu;
 
-
             foreach (PieMenuItem item in pieMenu.Items)
             {
                 item.InvalidateVisual();
@@ -124,6 +124,9 @@ namespace Ctms.Presentation.Views
             pieMenu.InvalidateVisual();
         }
 
+        /// <summary>
+        /// Update items of pie menu
+        /// </summary>
         public void UpdateMenuItems(int tagId)
         {
             var pieMenu = SearchTagViews[tagId].PieMenu;
@@ -187,24 +190,28 @@ namespace Ctms.Presentation.Views
             pieMenu.InvalidateVisual();
         }
 
-        private void UpdateInputField(SearchTagView searchTagView, TagDataModel tagDM)
-        {
-            //tagDM.InputTerms = searchTagView.InputField.
-            //searchTagView.DataContext = tagDM;
-        }
-
-
-        public void ToogleInputVisibility(bool visible)
-        {
-            //!! Load elements dynamically
-            //if (visible == false) SearchInputPanel.Visibility = Visibility.Hidden;
-            //else if (visible == true) SearchInputPanel.Visibility = Visibility.Visible;
-        }
-
         private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
         {
             //_viewModel.OnVisualizationRemoved(e.TagVisualization);
         }
+
+        private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            // problem is that options of the pie menu can be pressed with the tag. this can't 
+            // be avoided, because the framework doesn't recognize early enough that the tag isn't recognized anymore
+            // and thinks that the tag is a finger. So the combination of fingerrecognized and tagrecognized doesn't help
+            // with identifying finger touches unambiguously
+
+            var t = (TouchEventArgs)e;
+
+            Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown");
+            Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
+            Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
+            //MessageBox.Show("SV: MyTagVisualization_PreviewTouchDown");
+        }
+
+
+        #region UnusedEvents
 
         private void SearchTagVisualizer_GotTouchCapture(object sender, TouchEventArgs e)
         {
@@ -237,85 +244,6 @@ namespace Ctms.Presentation.Views
 
         }
 
-        private void PieMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            //MessageBox.Show("SV: PieMenuItem_Click");
-            var t = (TouchEventArgs)e;
-            
-            if (!t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
-            {
-                MessageBox.Show("SV: PieMenuItem_Click if");
-            }
-        }
-        
-        private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
-        {
-            
-            //MessageBox.Show("SV: MyTagVisualization_PreviewTouchDown");
-        }
-
-        private void PieMenuItem_ItemPreviewTouchDown(object sender, TouchEventArgs e)
-        {
-            //Is not called 
-        }
-        
-        
-
-        private void Old_OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
-        {
-            /*
-            // Every time tag is placed its visualization must be initiated again (is lost after tag remove)
-
-            _viewModel.OnVisualizationAdded(e.TagVisualization);
-
-            var searchTagView = (SearchTagView)e.TagVisualization;
-            var tagId = (int)searchTagView.VisualizedTag.Value;
-            var tagDM = _viewModel.Tags[tagId];
-
-            searchTagView.PieMenu.Items.Clear();
-            searchTagView.PieMenu.ItemsSource = null;
-
-            searchTagView.Resources["SearchVM"] = _viewModel;
-            searchTagView.Resources["TagDM"] = tagDM;
-            searchTagView.Resources["TagId"] = tagId;
-            searchTagView.Resources["TagOptions"] = tagDM.Tag.TagOptions;
-            searchTagView.Resources["PieMenuItems"] = tagDM.PieMenuItems;
-
-            UpdateMenuItems(searchTagView, tagDM);
-            UpdateInputField(searchTagView, tagDM);
-
-            UpdateVisual(tagId);
-            */ 
-        }
-
-        /*
-        public void Old_UpdateMenuItems(ISearchTagView searchTagView, TagDataModel tagDM)
-        {
-            var pieMenu = ((PieMenu)((SearchTagView)searchTagView).PieMenu);
-            var pieMenuItems = (ItemCollection)pieMenu.Items;
-
-            // remove inserted placeholder item which has been placed just for correct item size calculation
-            pieMenuItems.Clear();
-
-            var options = tagDM.Tag.TagOptions;
-            foreach (var option in options)
-            {
-                var brush = (Brush)(new BrushConverter().ConvertFrom("#5555"));
-
-                var pieMenuItem = new PieMenuItem()
-                {
-                    Id = option.Id,
-                    Header = option.Keyword.Name,
-                    SubHeader = option.Keyword.Description,
-                    BorderThickness = new Thickness(0.0),
-                    FontSize = 16,
-                    CenterText = true,
-                    Command = _viewModel.SelectOptionCmd,
-                    Background = brush
-                };
-                pieMenu.Items.Add(pieMenuItem);
-            }
-            pieMenu.InvalidateVisual();
-        }*/
+        #endregion UnusedEvents
     }
 }

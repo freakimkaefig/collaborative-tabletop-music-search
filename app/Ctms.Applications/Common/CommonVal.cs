@@ -22,6 +22,7 @@ namespace Ctms.Applications.Common
 
         //Values
         public const int MaxTagNumber = 12;
+        public const int VisibleTagOptionsNumber = 3;
 
         /*
          * Path variables

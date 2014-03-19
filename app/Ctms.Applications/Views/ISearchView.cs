@@ -13,8 +13,6 @@ namespace Ctms.Applications.Views
     {
         TagVisualizer TagVisualizer { get; set; }
 
-        void ToogleInputVisibility(bool visible);
-
         void UpdateVisual(int tagId);
     }
 }

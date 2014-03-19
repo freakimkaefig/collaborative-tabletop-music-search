@@ -13,11 +13,14 @@ namespace Ctms.Domain.Objects
         private Keyword _assignedKeyword;
         private readonly ObservableCollection<TagOption> _tagOptions;
         private readonly ObservableCollection<TagOption> _previousOptions;
+        private double _angle;
 
         public Tag()
         {
             _tagOptions         = new ObservableCollection<TagOption>();
             _previousOptions    = new ObservableCollection<TagOption>();
+
+            //_angle = 90.0;
         }
 
         public int Id { get; set; }
@@ -36,7 +39,18 @@ namespace Ctms.Domain.Objects
         public int CurrentLayerNr { get; set; }
 
         // What is the current angle in relation to the default orientation
-        public double Angle { get; set; }
+        public double Angle
+        {
+            get { return _angle; }
+            set
+            {
+                if (_angle != value)
+                {
+                    _angle = value;
+                    RaisePropertyChanged("Angle");
+                }
+            }
+        }
 
         // Which keyword is assigned to this tag
         public Keyword AssignedKeyword

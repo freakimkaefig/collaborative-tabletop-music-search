@@ -76,6 +76,7 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        
         public ISearchTagView MyView { get; set; }
 
     }
