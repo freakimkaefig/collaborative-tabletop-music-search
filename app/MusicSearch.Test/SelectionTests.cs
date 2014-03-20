@@ -117,7 +117,7 @@ namespace MusicSearch.Test
             SearchManager sm = new SearchManager();
             //var temp = sm.getCombinedSearchAttributes("artist");
 
-            //var temp = sm.combinedSearchQuery(combinedSearchListe);
+            var temp = sm.combinedSearchQuery(combinedSearchListe);
                 //combinedSearchQuery(combinedSearchListe);
 
 

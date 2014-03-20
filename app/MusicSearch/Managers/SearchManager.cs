@@ -17,10 +17,8 @@ namespace MusicSearch.Managers
         private String  currentPath = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
         private String apiKey = null;
 
-        //neue Instanz vom ResponseContainer für die Genres
         List<ResponseContainer.ResponseObj.genres> GenresRC = new List<ResponseContainer.ResponseObj.genres>();
 
-        //Instanzen für die Attribute der kombinierten Genre-/Artisten-Suche
         List<String> combinedSearchArtistAttributes = new List<String>();
         List<String> combinedSearchGenreAttributes = new List<String>();
 
@@ -30,25 +28,25 @@ namespace MusicSearch.Managers
             initGenresRC();
         }
 
-        public void combinedSearchQuery(List<combinedSearchObjects> list)
+        public List<ResponseContainer.ResponseObj.combinedQuery> combinedSearchQuery(List<combinedSearchObjects> list)
         {
             foreach (combinedSearchObjects cso in list)
             {
                 if (!String.IsNullOrEmpty(cso.artist_id))
                 {
-                    combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
+                    return combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
                 }
                 else if (!String.IsNullOrEmpty(cso.genre[0].ToString()))
                 {
-                    combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                    return combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
                 }
             }
+            return null;
         }
 
-        public List<ResponseContainer.ResponseObj.combinedArtists> combinedArtistQuery(List<int> IDs, String artist_id, List<ArtistParameter> ap)
+        public List<ResponseContainer.ResponseObj.combinedQuery> combinedArtistQuery(List<int> IDs, String artist_id, List<ArtistParameter> ap)
         {
-            //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
-            List<ResponseContainer.ResponseObj.combinedArtists> combinedArtistRC = new List<ResponseContainer.ResponseObj.combinedArtists>();
+            List<ResponseContainer.ResponseObj.combinedQuery> combinedArtistRC = new List<ResponseContainer.ResponseObj.combinedQuery>();
 
             //basic URL
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&" + "artist_id=" + artist_id;
@@ -73,10 +71,10 @@ namespace MusicSearch.Managers
             Debug.WriteLine("request: " + request);
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
-            //transform "\'" to unicode equivalent
-            //response = response.Replace("'", "&#39;");//not needed!?
-
-            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            
+            //Apostrophes are replaced by HTML unicode
+            var cleared = @"" + response.Replace("\"", "'");
+            //manipulate response to receive results in RC
             var newText = StringHelper.replacePartialString(cleared, "songs", "CombinedArtists", 1);
             //Add Origin-IDs to each result
             String OriginIDS = "\'originIDs\': [";
@@ -96,19 +94,18 @@ namespace MusicSearch.Managers
             OriginIDS += "], ";
             newText = StringHelper.replacePartialString(newText, "\'title\'", OriginIDS + "\'title\'", 1000);
 
-
+            //convert response (JSON) in RC-instance
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            for (int i = 0; i < temp.Response.CombinedArtists.Count; i++)
+            for (int i = 0; i < temp.Response.combinedQueries.Count; i++)
             {
-                combinedArtistRC.Add(temp.Response.CombinedArtists[i]);
+                combinedArtistRC.Add(temp.Response.combinedQueries[i]);
             }
             return combinedArtistRC;
         }
 
-        public List<ResponseContainer.ResponseObj.combinedGenres> combinedGenreQuery(List<int> IDs, String[] genre, List<GenreParameter> gp)
+        public List<ResponseContainer.ResponseObj.combinedQuery> combinedGenreQuery(List<int> IDs, String[] genre, List<GenreParameter> gp)
         {
-            //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
-            List<ResponseContainer.ResponseObj.combinedGenres> combinedGenreRC = new List<ResponseContainer.ResponseObj.combinedGenres>();
+            List<ResponseContainer.ResponseObj.combinedQuery> combinedGenreRC = new List<ResponseContainer.ResponseObj.combinedQuery>();
 
             //basic URL
             String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&type=genre-radio";
@@ -125,7 +122,7 @@ namespace MusicSearch.Managers
                 request += "&genre=" + genre[i].ToString();
             }
 
-            //get & add attributes to combined-search-URL
+            //get & add attributes to combined-search-URL by using reflection
             var properties = gp[0].GetType().GetProperties();
             foreach (var prop in properties)
             {
@@ -133,6 +130,7 @@ namespace MusicSearch.Managers
                 var propValue = prop.GetValue(gp[0], null);
                 if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
                 {
+                    //check if values are correctly formated, if not fix them
                     if (propValue.ToString().Contains(","))
                     {
                         propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
@@ -142,14 +140,11 @@ namespace MusicSearch.Managers
                 }
             }
 
-            Debug.WriteLine("request: " + request);
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
-            //transform "\'" to unicode equivalent
-            //response = response.Replace("'", "&#39;");//not needed!?
-
-            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
-            //'songs' durch 'combinedGenres' ersetzen
+            //Apostrophes are replaced by HTML unicode
+            var cleared = @"" + response.Replace("\"", "'");
+            //manipulate response to receive results in RC
             var newText = StringHelper.replacePartialString(cleared, "songs", "CombinedGenres", 1);
             //Add Origin-IDs to each result
             String OriginIDS = "\'originIDs\': [";
@@ -169,11 +164,11 @@ namespace MusicSearch.Managers
             OriginIDS += "], ";
             newText = StringHelper.replacePartialString(newText, "\'title\'", OriginIDS + "\'title\'", 1000);
 
-
+            //convert response (JSON) in RC-instance
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            for (int i = 0; i < temp.Response.CombinedGenres.Count; i++)
+            for (int i = 0; i < temp.Response.combinedQueries.Count; i++)
             {
-                combinedGenreRC.Add(temp.Response.CombinedGenres[i]);
+                combinedGenreRC.Add(temp.Response.combinedQueries[i]);
             }
 
             return combinedGenreRC;
@@ -181,16 +176,14 @@ namespace MusicSearch.Managers
 
         public void initGenresRC()
         {
+            //absolute path to genre.txt
             var newpath = currentPath.Substring(0, currentPath.LastIndexOf("app")) + "app/MusicSearch/files/genres.txt";
-            //var regex3 = new Regex(Regex.Escape("%20"));
-            //var newText4 = regex3.Replace(newpath, " ", 100);
             var newText4 = StringHelper.replacePartialString(newpath, "%20", " ", 100);
-            
+            //open txt-file & read it
             System.IO.StreamReader rdr = System.IO.File.OpenText(newText4);
             string reader = rdr.ReadToEnd();
 
-            //reader = reader.Replace("'", "&#39;");
-            var cleared = @"" + reader.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            var cleared = @"" + reader.Replace("\"", "'");
             
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
 
@@ -202,20 +195,19 @@ namespace MusicSearch.Managers
             {
                 string name = prop.Name;
 
-                //in Liste hinzufügen
                 combinedSearchArtistAttributes.Add(name);
             }
             foreach (var prop in typeof(GenreParameter).GetProperties())
             {
                 string name = prop.Name;
 
-                //in Liste hinzufügen
                 combinedSearchGenreAttributes.Add(name);
             }
         }
 
         public List<String> getCombinedSearchAttributes(String artistORgenre)
         {
+            //return prefetched lists according to parameter
             if (artistORgenre == "artist")
             {
                 return combinedSearchArtistAttributes;
@@ -232,16 +224,13 @@ namespace MusicSearch.Managers
             //check if artist-name or artist-id is available
             if (!String.IsNullOrEmpty(artist_id))
             {
-                //query by artist_id
-                //find exact name 
-                //http://developer.echonest.com/api/v4/song/search?api_key=L5WMCPOK4F2LA9H5X&artist_id=ARH6W4X1187B99274F&results=1
-
+                //get name of the artist by id
                 String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&artist_id=" + artist_id + "&results=1";
                 //JSON response delivered as string
                 String response = HttpRequester.StartRequest(request);
-                //Antwort in Array splitten
+                //split into array
                 String[] splitted = response.Split(new Char[] { '\"' });
-                //Artist-Name an fester Position in Array:
+                //name of artist is at fixxed position in array
                 String name = splitted[27].ToString();
 
                 //do a query by artist_name
@@ -252,183 +241,109 @@ namespace MusicSearch.Managers
                 //do a query by artist_name
                 getArtistInfo(artist_name, originID);
             }
-            //#################################
-            //#################################
-            //detailierte Infos zum Song via artist&titel bisher nicht über echonest verfügbar...
-
-            /*if (!String.IsNullOrEmpty(artist_id) && !String.IsNullOrEmpty(title))
-            {
-                //find exact name 
-                //do a query by artist_name and by title
-            }
-            else if (!String.IsNullOrEmpty(artist_name) && !String.IsNullOrEmpty(title))
-            {
-                //do a query by artist_name and by title
-            }*/
-            //#################################
-            //#################################
-        }
+           }
 
         public List<ResponseContainer.ResponseObj.ArtistInfo> getArtistInfo(String artist,String ID)
         {
-            //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
             List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
 
-           
-                 /* Viele Infos:
+                /* Viele Infos:
                  * http://developer.echonest.com/api/v4/artist/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=terms&bucket=id:facebook&bucket=artist_location&bucket=biographies&bucket=years_active&bucket=video&bucket=urls&bucket=blogs&bucket=reviews&bucket=images&bucket=news&bucket=discovery&sort=hotttnesss-desc&results=1&name=katy+perry
                  * FB-Seite:
                  * gibt "facebook:artist:6979332244" zurück, seite lautet dann http://www.facebook.com/profile.php?id=6979332244
                  */
-
+            //fix spacing and upper-case letters
             if (artist.Contains(" "))
             {
                 artist = artist.Replace(" ", "+");
-                Debug.WriteLine("fixed artist-spacing to: " + artist);
             }
-
             artist = artist.ToLower();
 
+            //build first query (basic information about the artist)
             String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=terms&bucket=id:facebook&bucket=artist_location&bucket=biographies&bucket=years_active&bucket=video&bucket=urls&bucket=blogs&bucket=reviews&bucket=images&bucket=news&sort=hotttnesss-desc&results=1&name=" + artist;
-
-            //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
             //transform "\'" to unicode equivalent
             response = response.Replace("'", "&#39;");
-
-            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
-            //'artists' durch 'ArtistInfos' ersetzen
-            //var regex = new Regex(Regex.Escape("artists"));
-            //var newText = regex.Replace(cleared, "ArtistInfos", 1);
+            //Apostrophes are replaced by HTML unicode
+            var cleared = @"" + response.Replace("\"", "'");
+            //manipulate response to receive results in RC
             var newText = StringHelper.replacePartialString(cleared, "artists", "ArtistInfos", 1);
-
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            //ID einfügen, zwecks Rückschlüssen
+            //add Origin-IDs
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
             JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistInfos[0]);
+            //add first artist-info-results to RC
             ArtistInfosRC.Add(temp.Response.ArtistInfos[0]);
-
-            /* Liste der Songs:
-             * http://developer.echonest.com/api/v4/artist/songs?api_key=L5WMCPOK4F2LA9H5X&format=json&results=100&name=katy+perry
-             */
-
+            
+            //build 2nd query (songs of the artist)
             String request2 = _defaultURL + "artist/songs?" + "api_key=" + GetAPIKey() + "&format=json&results=100&name=" + artist;
-
-            //JSON response delivered as string
             String response2 = HttpRequester.StartRequest(request2);
             //transform "\'" to unicode equivalent
             response2 = response2.Replace("'", "&#39;");
-
-            var cleared2 = @"" + response2.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
-            //'songs' durch 'TitleSuggestions' ersetzen
-            //var regex2 = new Regex(Regex.Escape("songs"));
-            //var newText2 = regex2.Replace(cleared2, "ArtistInfos\': [{\'ArtistSongs", 1);
+            //Apostrophes are replaced by HTML unicode
+            var cleared2 = @"" + response2.Replace("\"", "'");
+            //manipulate response to receive results in RC
             var newText2 = StringHelper.replacePartialString(cleared2, "songs", "ArtistInfos\': [{\'ArtistSongs", 1);
             newText2 = newText2.Insert(newText2.LastIndexOf("}") - 1, "}]");
-            //var regex3 = new Regex(Regex.Escape("id"));
-            //var newText3 = regex3.Replace(newText2, "title_id", 100);
             var newText3 = StringHelper.replacePartialString(newText2, "id", "title_id", 100);
             var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(newText3);
-            //Innere Liste initialisieren
+            //Initialise first inner list of RC
             ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
-
+            //add further artist-info-results to inner list of RC
             for (int i = 0; i < temp2.Response.ArtistInfos[0].ArtistSongs.Count; i++)
             {
                 ArtistInfosRC[0].ArtistSongs.Add(temp2.Response.ArtistInfos[0].ArtistSongs[i]);
-                //ArtistInfosRC.ArtistSongs.Add(temp2.Response.ArtistSongs[i]);
             }
 
-            /* Ähnliche Artisten (unsortiert!)
-            * http://developer.echonest.com/api/v4/artist/similar?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=familiarity&min_familiarity=0.7&name=katy+perry
-            * 
-            * */
+            //build 3rd query (similiar artists)
             String request3 = _defaultURL + "artist/similar?" + "api_key=" + GetAPIKey() + "&format=json&bucket=familiarity&min_familiarity=0.7&name=" + artist;
-
-            //JSON response delivered as string
             String response3 = HttpRequester.StartRequest(request3);
             //transform "\'" to unicode equivalent
             response3 = response3.Replace("'", "&#39;");
-
             var cleared3 = @"" + response3.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
-            //'artists' durch 'SimilarArtist' ersetzen
-            //var regex4 = new Regex(Regex.Escape("artists"));
-            //var newText4 = regex4.Replace(cleared3, "ArtistInfos\': [{\'SimilarArtists", 1);
+            //manipulate response to receive results in RC
             var newText4 = StringHelper.replacePartialString(cleared3, "artists", "ArtistInfos\': [{\'SimilarArtists", 1);
             newText4 = newText4.Insert(newText4.LastIndexOf("}") - 1, "}]");
-            //var regex5 = new Regex(Regex.Escape("id"));
-            //var newText5 = regex5.Replace(newText4, "artist_id", 100);
             var newText5 = StringHelper.replacePartialString(newText4, "id", "artist_id", 100);
-
             var temp3 = JsonConvert.DeserializeObject<ResponseContainer>(newText5);
-            //Innere Liste initialisieren
+            //Initialise second inner list of RC
             ArtistInfosRC[0].SimilarArtists = new List<ResponseContainer.ResponseObj.ArtistInfo.SimilarArtist>();
-
+            //add remaining artist-info-results to second inner list of RC
             for (int i = 0; i < temp3.Response.ArtistInfos[0].SimilarArtists.Count; i++)
             {
                 ArtistInfosRC[0].SimilarArtists.Add(temp3.Response.ArtistInfos[0].SimilarArtists[i]);
-                //ArtistInfosRC.ArtistSongs.Add(temp2.Response.ArtistSongs[i]);
             }
+            //order results of second inner list descending by familiarity
             ArtistInfosRC[0].SimilarArtists = ArtistInfosRC[0].SimilarArtists.OrderByDescending(a => a.familiarity).ToList();
 
             return ArtistInfosRC;
         }
 
-        public void SuggestionQuery(String type, int ID, String term)
-        {
-            //Debug.WriteLine("suggestion query, nothing else...");
-
-            if (type == "title")
-            {
-                getTitleSuggestions(ID, term);
-            }
-            if (type == "artist")
-            {
-                getArtistSuggestions(ID, term);
-            }
-        }
-
+      
         public List<ResponseContainer.ResponseObj.TitleSuggestion> getTitleSuggestions(int ID, String term)
         {
-            //neue Instanz vom ResponseContainer für die Vorschläge zur Artisten-Suche
             List<ResponseContainer.ResponseObj.TitleSuggestion> TitleSuggestionsRC = new List<ResponseContainer.ResponseObj.TitleSuggestion>();
 
-
-            /*Bsp URL:
-             http://developer.echonest.com/api/v4/song/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=roar
-             * 
-             * Mögliche Erweiterung falls Vorschläge nicht erwartungskonform sind:
-             * # &fuzzy_match=true in URL einbauen
-             * # &start=0(default),15,30,... einbauen um weitere (andere!) Ergebnisse abzurufen
-             */
+            //fix spacing & upper-case letters
             if (term.Contains(" "))
             {
                 term = term.Replace(" ", "+");
-                Debug.WriteLine("fixed term-spacing to: " + term);
             }
-
             term = term.ToLower();
 
+            //build query
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=" + term;
-
-            //JSON response delivered as string
+            //send query & receive response
             String response = HttpRequester.StartRequest(request);
             //transform "\'" to unicode equivalent
             response = response.Replace("'", "&#39;");
-
-            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
-            //'songs' durch 'TitleSuggestions' ersetzen
-            //var regex = new Regex(Regex.Escape("songs"));
-            //var newText = regex.Replace(cleared, "TitleSuggestions", 1);
+            //Apostrophes are replaced by HTML unicode
+            var cleared = @"" + response.Replace("\"", "'");
+            //manipulate response to receive results in RC
             var newText = StringHelper.replacePartialString(cleared, "songs", "TitleSuggestions", 1);
-
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            //ID einfügen, zwecks Rückschlüssen
+            //Add Origin-ID and add results to RC
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
-
-            // clear previous suggestions for this origin
-            //unnötig da bei methodenaufruf neue instanz generiert wird
-            //TitleSuggestionsRC.RemoveAll(s => s.originId == ID);
-
             for (int i = 0; i < temp.Response.TitleSuggestions.Count; i++)
             {
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
@@ -439,47 +354,29 @@ namespace MusicSearch.Managers
 
         public List<ResponseContainer.ResponseObj.ArtistSuggestion> getArtistSuggestions(int ID, String term)
         {
-
-            //neue Instanz vom ResponseContainer für die Vorschläge zur Artisten-Suche
             List<ResponseContainer.ResponseObj.ArtistSuggestion> ArtistSuggestionsRC = new List<ResponseContainer.ResponseObj.ArtistSuggestion>();
 
-            /*Bsp URL:
-             * http://developer.echonest.com/api/v4/artist/search?api_key=L5WMCPOK4F2LA9H5X&format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=emin
-             * 
-             * Mögliche Erweiterung falls Vorschläge nicht erwartungskonform sind:
-             * # &fuzzy_match=true in URL einbauen
-             * # &start=0(default),15,30,... einbauen um weitere (andere!) Ergebnisse abzurufen
-             * 
-            */
+            //fix spacing and upper-case letters
             if (term.Contains(" "))
             {
                 term = term.Replace(" ", "+");
                 Debug.WriteLine("fixed term-spacing to: " + term);
             }
-
             term = term.ToLower();
 
+            //build query
             String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=" + term;
-
-            //JSON response delivered as string
+            //send query and receive response
             String response = HttpRequester.StartRequest(request);
             //transform "\'" to unicode equivalent
             response = response.Replace("'", "&#39;");
-
-            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
-            //'songs' durch 'TitleSuggestions' ersetzen
-            //var regex = new Regex(Regex.Escape("artists"));
-            //var newText = regex.Replace(cleared, "ArtistSuggestions", 1);
+            //Apostrophes are replaced by HTML unicode
+            var cleared = @"" + response.Replace("\"", "'");
+            //manipulate response to receive results in RC
             var newText = StringHelper.replacePartialString(cleared, "artists", "ArtistSuggestions", 1);
-
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            //ID einfügen, zwecks Rückschlüssen
+            //Add Origin-ID and results to RC
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
-
-            // clear previous suggestions for this origin
-            //unnötig, da bei Methodenaufruf neue Instanz generiert wird
-            //ArtistSuggestionsRC.RemoveAll(s => s.originId == ID);
-
             for (int i = 0; i < temp.Response.ArtistSuggestions.Count; i++)
             {
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistSuggestions[i]);
@@ -490,12 +387,11 @@ namespace MusicSearch.Managers
 
         public List<ResponseContainer.ResponseObj.Song> SearchQuery(List<searchObjects> searchList)
         {
-            //neue Instanz vom ResponseContainer
             List<ResponseContainer.ResponseObj.Song> SearchRC = new List<ResponseContainer.ResponseObj.Song>();
 
             if (searchList != null && searchList.Any())
             {
-                //Liste auslesen
+                //traverse list and call respective methods
                 for (int i = 0; i < searchList.Count; i++)
                 {
                     if (!String.IsNullOrEmpty(searchList[i].artist_id))
@@ -516,7 +412,6 @@ namespace MusicSearch.Managers
                         return SongsByGenreQuery(searchList[i].genre, searchList[i].originId, SearchRC);
 
                     }
-                    
                 }
             }
             return null;
@@ -525,40 +420,28 @@ namespace MusicSearch.Managers
 
         public List<ResponseContainer.ResponseObj.Song> SongsByGenreQuery(String genre, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
         {
-
+            //fix spacing and upper-case letters
             if (genre.Contains(" "))
             {
                 genre = genre.Replace(" ", "+");
                 Debug.WriteLine("fixed spacing of genre to: " + genre);
             }
-
             genre = genre.ToLower();
 
             String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&song_selection=song_hotttnesss-top&variety=1&type=genre-radio&genre=" + genre;
-
-            //Debug.WriteLine("genre-request URL = " + request);
-
-            return LoadOnlineResponse(request, ID, SearchRC); //Send Query
-
-
-            //Genre-Suche vertiefen (nice to have):
-            //find similiar songs (or artists and then songs...) by those artists
-            //bsp:
-            //http://developer.echonest.com/docs/v4/genre.html#similar
+            //Send Query
+            return LoadOnlineResponse(request, ID, SearchRC); 
         }
 
 
         public List<ResponseContainer.ResponseObj.Song> SongsByTitleIDQuery(String title_id, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
         {
            
-            // check for further parameters like "hotttnesss"
-
             String request = _defaultURL + "song/profile?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&id=" + title_id;
 
             Debug.WriteLine("sending title query...\n" + request);
-            //############
-            return LoadOnlineResponse(request, ID, SearchRC); //Send Query
-            //############
+            //Send Query
+            return LoadOnlineResponse(request, ID, SearchRC); 
         }
 
 
@@ -568,11 +451,8 @@ namespace MusicSearch.Managers
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "artist_id=" + artist_id;
 
             Debug.WriteLine("sending artist query...\n" + request);
-            //############
-            return LoadOnlineResponse(request, ID, SearchRC); //Send Query
-            //############
-
-            //Assert.IsNull(_request); //TEST
+            //Send Query
+            return LoadOnlineResponse(request, ID, SearchRC); 
         }
 
 
@@ -580,41 +460,31 @@ namespace MusicSearch.Managers
         {
             if (String.IsNullOrEmpty(apiKey))
             {
-                //XML auslesen
+                //open&read xml-file
                 XDocument doc = XDocument.Load(currentPath.Substring(0, currentPath.LastIndexOf("app")) + "app/MusicSearch/files/config.xml");
                 XElement el = doc.Element("apikey");
                 apiKey = (String)el;
-
-                //Debug.WriteLine("apiKey: " + apiKey);
             }
             return apiKey;
         }
 
-        public List<ResponseContainer.ResponseObj.Song> LoadOnlineResponse(String request, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC) //Send Query
+        public List<ResponseContainer.ResponseObj.Song> LoadOnlineResponse(String request, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
         {
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
             //transform "\'" to unicode equivalent
             response = response.Replace("'", "&#39;");
-
-            //Debug.WriteLine("received&fixed response: "+response);
-
             return ParseResponse(response, ID, SearchRC);
         }
 
         public List<ResponseContainer.ResponseObj.Song> ParseResponse(String response, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
         {
-            //http://james.newtonking.com/json/help/index.html
-            //Escapes in string making problems?
-            var cleared = @"" + response.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
-            //var regex3 = new Regex(Regex.Escape("spotify-WW:track"));
-            //var newText4 = regex3.Replace(cleared, "spotify:track", 1000);
-            
+            //Apostrophes are replaced by HTML unicode
+            var cleared = @"" + response.Replace("\"", "'");
             var newText4 = StringHelper.replacePartialString(cleared, "spotify-WW:track", "spotify:track" , 1000);
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
-            //originId einfügen, zwecks Rückschlüssen
             String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
-
+            //add Origin-ID and results to RC
             for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.Songs[i]);
@@ -625,39 +495,37 @@ namespace MusicSearch.Managers
 
         public List<ResponseContainer.ResponseObj.genres> getGenres()
         {
+            //return prefetched (init-method) list
             return GenresRC;
         }
 
         public List<ResponseContainer.ResponseObj.genres.subgenres> getSubgenres(String topLevelGenre)
         {
+            //return subgenres of first matching genre (there're no duplicate genres)
             return getGenres().FirstOrDefault(g => g.genre_name == topLevelGenre).Subgenres;
         }
 
         public List<String> getGenreSuggestions(String term)
         {
-            //neue Instanz vom ResponseContainer für die GenreVorschläge
-            //List<ResponseContainer.ResponseObj.genres> GenreSuggestionsRC = new List<ResponseContainer.ResponseObj.genres>();
             List<String> GenreSuggestions = new List<String>();
-
+            //traverse all genres
             foreach (ResponseContainer.ResponseObj.genres g in GenresRC)
             {
+                //fix writing for better reading
                 if (g.genre_name.Contains(term))
                 {
                     GenreSuggestions.Add(StringHelper.lowerToUpper(g.genre_name.ToString()));
-                    //GenreSuggestionsRC.Add(c);
                 }
+                //traverse subgenres
                 for(int i = 0; i<g.Subgenres.Count; i++)
                 {
                     if(g.Subgenres[i].name.Contains(term))
                     {
                         GenreSuggestions.Add(StringHelper.lowerToUpper(g.Subgenres[i].name.ToString()));
-                        //GenreSuggestionsRC.Add(c);
                     }
                 }  
             }
-            //foreach (ResponseContainer.ResponseObj.genres.subgenres x in GenresRC)
             return GenreSuggestions;
-            //return GenreSuggestionsRC;
         }
     }
 
