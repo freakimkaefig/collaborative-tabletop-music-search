@@ -34,7 +34,7 @@ namespace Ctms.Applications.Services
 
         public void InitTagDefinitions()
         {
-            for (int i = 0; i < CommonVal.MaxTagNumber; i++)
+            for (int i = 0; i < CommonVal.Tag_MaxNumber; i++)
             {
                 var tagVisDef = new TagVisualizationDefinition();
                 tagVisDef.Value = i;

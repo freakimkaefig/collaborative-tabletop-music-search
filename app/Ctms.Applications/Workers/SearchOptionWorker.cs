@@ -184,7 +184,7 @@ namespace Ctms.Applications.Workers
             {
                 //var helper = new BackgroundWorkHelper();
                 //helper.DoInBackground(_searchManager.getArtistSuggestions(tagId, terms), , 
-
+                /*
                 var suggestions = new List<ResponseContainer.ResponseObj.ArtistSuggestion>()
                 {
                     new ResponseContainer.ResponseObj.ArtistSuggestion()
@@ -200,8 +200,8 @@ namespace Ctms.Applications.Workers
                         originId = 0
                     }
                 };
-
-                //var suggestions = _searchManager.getArtistSuggestions(tagId, terms);
+                */
+                var suggestions = _searchManager.getArtistSuggestions(tagId, terms);
 
                 foreach (var suggestion in suggestions)
                 {
@@ -275,7 +275,6 @@ namespace Ctms.Applications.Workers
             var tag = _repository.GetTagDMByTagOption(tagOptionId);
             var tagOptions = tag.Tag.TagOptions;
             var tagOption = _repository.GetTagOptionById(tagOptionId);
-
 
             // update current LayerNr
             var currentLayerNr = tagOption.LayerNr;

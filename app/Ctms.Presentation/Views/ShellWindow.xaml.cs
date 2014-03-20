@@ -38,7 +38,7 @@ namespace Ctms.Presentation.Views
 
         // Provides this view's viewmodel
         private ShellViewModel _viewModel { get { return _lazyVm.Value; } }
-
+        
         public bool IsMaximized
         {
             get { return WindowState == WindowState.Maximized; }

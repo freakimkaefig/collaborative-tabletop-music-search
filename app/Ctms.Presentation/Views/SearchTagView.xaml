@@ -50,7 +50,7 @@
                 RenderTransformOrigin="0.5, 0.5">  
         <Grid.RenderTransform>
             <!--<RotateTransform Angle="{Binding Tag.Rotation}" />-->
-            <RotateTransform Angle="{Binding Tags[0].Tag.Rotation}" />
+            <RotateTransform Angle="{Binding Tags[0].Tag.Orientation}" />
         </Grid.RenderTransform>
         <!-- Start menu -->
         <Grid>

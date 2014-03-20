@@ -13,10 +13,10 @@ namespace Ctms.Domain.Objects
         private Keyword _assignedKeyword;
         private readonly ObservableCollection<TagOption> _tagOptions;
         private readonly ObservableCollection<TagOption> _previousOptions;
-        private double _angle;
-        private double _positionY;
-        private double _positionX;
-        private double _rotation;
+        private short _angle;
+        private short _positionY;
+        private short _positionX;
+        private short orientation;
 
         public Tag()
         {
@@ -42,7 +42,7 @@ namespace Ctms.Domain.Objects
         public int CurrentLayerNr { get; set; }
 
         // What is the current angle in relation to the default orientation
-        public double Angle
+        public short Angle
         {
             get { return _angle; }
             set
@@ -55,17 +55,20 @@ namespace Ctms.Domain.Objects
             }
         }
 
-        public double Rotation
+        public short Orientation
         {
-            get 
+            get { return orientation; }
+            set
             {
-                var rotation = PositionY > 300 ? 180.0 : 0.0;
-                
-                return rotation; 
+                if (orientation != value)
+                {
+                    orientation = value;
+                    RaisePropertyChanged("Orientation");
+                }
             }
         }
 
-        public double PositionY
+        public short PositionY
         {
             get { return _positionY; }
             set
@@ -74,12 +77,11 @@ namespace Ctms.Domain.Objects
                 {
                     _positionY = value;
                     RaisePropertyChanged("PositionY");
-                    RaisePropertyChanged("Rotation");
                 }
             }
         }
 
-        public double PositionX
+        public short PositionX
         {
             get { return _positionX; }
             set
