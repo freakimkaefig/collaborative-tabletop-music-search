@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="BackgroundWorkHelper.cs" />
     <Compile Include="EntitiesHelper.cs" />
+    <Compile Include="ExceptionHandler.cs" />
     <Compile Include="HttpRequester.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="TimingHelper.cs" />

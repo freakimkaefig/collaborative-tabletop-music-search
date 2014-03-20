@@ -370,6 +370,10 @@ namespace MusicSearch.Managers
             String response = HttpRequester.StartRequest(request);
             //transform "\'" to unicode equivalent
             response = response.Replace("'", "&#39;");
+            if (String.IsNullOrEmpty(response))
+            {
+                return null;
+            }
             //Apostrophes are replaced by HTML unicode
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
