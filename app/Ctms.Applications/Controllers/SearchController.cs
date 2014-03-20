@@ -101,49 +101,59 @@ namespace Ctms.Applications.Controllers
         {
             _repository.Initialize(_searchManager);
 
-            //Commands
-            _searchVm.StartSearchCmd = _startSearchCmd;
-            //Views
+            // views
             _shellService.SearchView = _searchVm.View;
             _shellService.SearchTagView = _searchTagVm.View;
-            //Listeners
-            AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
+            // assign commands
+            _searchVm.StartSearchCmd = _startSearchCmd;
             _searchVm.SelectOptionCmd   = _selectOptionCmd;
             _searchVm.GetSuggestionsCmd = _getSuggestionsCmd;
             _searchVm.GoBreadcrumbCmd   = _goBreadcrumbCmd;
             _searchVm.EditCmd           = _editCmd;
             _searchVm.GoHomeCmd         = _goHomeCmd;
 
-            // set  default tag values
+            // init tag definitions
             _tagVisualizationService.InitTagDefinitions();
 
-            _searchVm.Tags = _repository.GetAllTagDMs();
-
+            // init workers
             _searchWorker.Initialize(_searchManager);
             _searchOptionWorker.Initialize(_searchManager, _searchVm.Tags);
+
+            // listeners
+            AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
+            foreach (var tag in _searchVm.Tags)
+            {   // add listener to each tag
+                AddWeakEventListener(tag, TagDMChanged);
+            }
         }
-        
 
         private void UpdateCommands()
         {
 
         }
 
-        private void TagsChanged(object sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// Called when a property of TagDataModel has changed
+        /// </summary>
+        /// <param name="sender">Object which contains the changed property</param>
+        /// <param name="e">PropertyChangedEventArgs</param>
+        private void TagDMChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Angle")
-            {
+            if (e.PropertyName == "VisibleOptions")
+            {   // when visible options changed the tag visualization has to be updated
+                _searchVm.UpdateVisuals((TagDataModel)sender);
             }
         }
 
+        /// <summary>
+        /// Called when a property of SearchViewModel has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SearchViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Angle")
-            {
-                _searchVm.Tags[0].CalculateOptionsIndex();
-            }
-            else if (e.PropertyName == "KeywordType")
+            if (e.PropertyName == "")
             {
             }
         }

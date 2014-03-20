@@ -58,7 +58,7 @@ namespace Ctms.Presentation.Views
             // orientate tag to the nearest side of the two long sides
             tag.Tag.Orientation = tag.Tag.PositionY > windowHeight / 2 ? (short) 180 : (short) 0;
 
-            tag.CalculateOptionsIndex();
+            tag.UpdateVisibleOptions();
         }
 
         public void SimpleVisualization_Loaded(object sender, RoutedEventArgs e)

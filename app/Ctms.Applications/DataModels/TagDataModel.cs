@@ -42,7 +42,7 @@ namespace Ctms.Applications.DataModels
 
         private int currentOptionsIndex = 0;
 
-        public void CalculateOptionsIndex()
+        public void UpdateVisibleOptions()
         {
             if (Tag.Angle - lastAngle > CommonVal.Tag_OptionsStepAngle)
             {   // turned tag clockwise
@@ -59,7 +59,7 @@ namespace Ctms.Applications.DataModels
                 lastAngle = Tag.Angle;
                 RaisePropertyChanged("VisibleOptions");
                 //Debug.WriteLine("VisibleOptions.Count: " + VisibleOptions.Count() + ", currentOptionsIndex--: " + currentOptionsIndex);
-                LogOptions();
+                //LogOptions();
             }
         }
 
@@ -98,9 +98,8 @@ namespace Ctms.Applications.DataModels
                 }
 
                 // select options of this layer and select only a few, corresponding to current options index
-                var tagOptionsList = Tag.TagOptions.Where(to => to.LayerNr == Tag.CurrentLayerNr).
-                                            // select some options by their index in the list
-                                            Skip(currentOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
+                // select some options by their index in the list
+                var tagOptionsList = tagOptions.Skip(currentOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
 
                 return EntitiesHelper.ToObservableCollection<TagOption>(tagOptionsList);
             }

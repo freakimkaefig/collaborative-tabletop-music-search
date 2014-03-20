@@ -71,7 +71,6 @@ namespace Ctms.Presentation.Views
             searchTagView.Resources["SearchVM"] = _viewModel;
             searchTagView.Resources["TagDM"] = tagDM;
             searchTagView.Resources["TagId"] = tagId;
-            searchTagView.Resources["TagOptions"] = tagDM.Tag.TagOptions;
             searchTagView.Resources["PreviousOptions"] = tagDM.Tag.PreviousOptions;
 
             var converter = new BoolToVisibilityConverter();
@@ -122,7 +121,8 @@ namespace Ctms.Presentation.Views
 
             //if (tagDM.IsMenuVisible == false) return;
 
-            var options = tagDM.Tag.TagOptions.Where(to => to.LayerNr == tagDM.Tag.CurrentLayerNr);
+            //!!-var options = tagDM.Tag.TagOptions.Where(to => to.LayerNr == tagDM.Tag.CurrentLayerNr);
+            var options = tagDM.VisibleOptions;
             foreach (var option in options)
             {
                 var hexColor = "#5555";

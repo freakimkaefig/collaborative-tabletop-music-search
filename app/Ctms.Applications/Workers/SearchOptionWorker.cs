@@ -276,7 +276,6 @@ namespace Ctms.Applications.Workers
             var tagOptions = tag.Tag.TagOptions;
             var tagOption = _repository.GetTagOptionById(tagOptionId);
 
-
             // update current LayerNr
             var currentLayerNr = tagOption.LayerNr;
             tag.Tag.CurrentLayerNr = currentLayerNr;
