@@ -73,7 +73,7 @@
                   Width="{StaticResource PieMenuDiameter}">
                 
                 <Grid.Background>
-                    <ImageBrush ImageSource="../../Resources/Images/Search/record.png" Opacity="1.0"/>
+                    <ImageBrush ImageSource="../../Resources/Images/Search/record2.png" Opacity="1.0"/>
                 </Grid.Background>
 
                 <Grid.RowDefinitions>

@@ -34,12 +34,12 @@ namespace Ctms.Presentation
         {
             base.OnStartup(e);
 
-#if (DEBUG != true)
+//#if (DEBUG != true)
             // Don't handle the exceptions in Debug mode because otherwise the Debugger wouldn't
             // jump into the code when an exception occurs.
             DispatcherUnhandledException += AppDispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += AppDomainUnhandledException;
-#endif
+//#endif
 
             catalog = new AggregateCatalog();
             // Add the WpfApplicationFramework assembly to the catalog
@@ -59,6 +59,8 @@ namespace Ctms.Presentation
             //moduleControllers = container.GetExportedValues<Controller>();
             foreach (IModuleController moduleController in moduleControllers) { moduleController.Initialize(); }
             foreach (IModuleController moduleController in moduleControllers) { moduleController.Run(); }
+
+            //throw new Exception("Halts Maul");
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -89,9 +91,13 @@ namespace Ctms.Presentation
 
             if (!isTerminating)
             {
-                MessageBox.Show(string.Format(CultureInfo.CurrentCulture,
-                        "Unknown Error", e.ToString())
-                    , ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
+                //MessageBox.Show(string.Format(CultureInfo.CurrentCulture,
+                //        "Unknown Error", e.ToString())
+                //    , ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
+
+                string errorMessage = string.Format("An unhandled exception occurred: {0}", e.Message);
+                MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        
             }
         }
     }
