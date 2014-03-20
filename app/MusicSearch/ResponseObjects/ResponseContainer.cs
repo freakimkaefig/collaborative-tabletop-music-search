@@ -20,8 +20,7 @@ namespace MusicSearch.ResponseObjects
             public List<TitleSuggestion> TitleSuggestions { get; set; }
             public List<ArtistInfo> ArtistInfos { get; set; }
             public List<genres> Genres { get; set; }
-            public List<combinedGenres> CombinedGenres { get; set; }
-            public List<combinedArtists> CombinedArtists { get; set; }
+            public List<combinedQuery> combinedQueries { get; set; }
 
 
             public class StatusObj
@@ -94,7 +93,7 @@ namespace MusicSearch.ResponseObjects
                            
             }
 
-            public class combinedGenres
+            public class combinedQuery
             {
                 public string Artist_Id { get; set; }
                 public string Artist_Name { get; set; }
@@ -103,15 +102,6 @@ namespace MusicSearch.ResponseObjects
                 public String[] originIDs { get; set; }
             }
 
-            public class combinedArtists
-            {
-                public string Artist_Id { get; set; }
-                public string Artist_Name { get; set; }
-                public string Title { get; set; }
-                public List<Tracks> tracks { get; set; }
-                public String[] originIDs { get; set; }
-            }
-            
             public class Tracks
             {
                 public string foreign_id { get; set; }
