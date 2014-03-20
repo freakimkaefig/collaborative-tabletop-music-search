@@ -124,7 +124,7 @@ namespace MusicSearch.Test
             //String temp = sm.lowerToUpper("lower upper");
             //var temp = sm.getGenreSuggestions("elec");
             //var temp2 = sm.getGenres();
-            //sm.getArtistSuggestions(1, "katy");
+            sm.getArtistSuggestions(1, "katy");
 
             //ArtistInfosRC.Add(new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>());
 

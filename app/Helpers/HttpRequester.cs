@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
+using System.Diagnostics;
 
 namespace Helpers
 {
@@ -30,7 +31,7 @@ namespace Helpers
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    throw(ex);
                 }
             }
             return response;
