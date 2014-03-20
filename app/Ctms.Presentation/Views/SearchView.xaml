@@ -8,7 +8,7 @@
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    MinWidth="450" MinHeight="550" IsEnabled="{Binding IsEnabled}"
+    IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
     Name="SearchV">
 
@@ -28,7 +28,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-
+            
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
                 Grid.Column="0" 
                 Grid.Row="0" 

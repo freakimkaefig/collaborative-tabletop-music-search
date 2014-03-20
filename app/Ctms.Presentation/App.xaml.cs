@@ -61,20 +61,6 @@ namespace Ctms.Presentation
             foreach (IModuleController moduleController in moduleControllers) { moduleController.Run(); }
         }
 
-        //[Export(typeof(IModuleController)), Export]
-        //public class Foo : Controller, IModuleController 
-        //{
-        //    public void Initialize()
-        //    {
-        //    }
-        //    public void Run()
-        //    {
-        //    }
-        //    public void Shutdown()
-        //    {
-        //    }
-        //} 
-
         protected override void OnExit(ExitEventArgs e)
         {
             foreach (IModuleController moduleController in moduleControllers.Reverse()) { moduleController.Shutdown(); }

@@ -21,8 +21,9 @@ namespace Ctms.Applications.Common
         }
 
         //Values
-        public const int MaxTagNumber = 12;
-        public const int VisibleTagOptionsNumber = 3;
+        public const int Tag_MaxNumber              = 12;
+        public const int Tag_VisibleOptionsCount    = 3;
+        public const int Tag_OptionsStepAngle       = 15;
 
         /*
          * Path variables

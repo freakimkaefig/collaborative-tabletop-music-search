@@ -60,28 +60,9 @@ namespace Ctms.Presentation.Views
 
             searchTagView.ViewModel = _viewModel;
 
-            //var orientation = searchTagView.Orientation;
-            //searchTagView.Orientation = 50.0;
-
             if(SearchTagViews.ContainsKey(tagId) == false) SearchTagViews.Add(tagId, searchTagView);
-            //else Tags[tagId] = searchTagView;
-
-            //_viewModel.OnVisualizationAdded(tagId);
 
             UpdateVisual(tagId);
-
-            /*
-            pieMenu.Items.Clear();
-
-            UpdateResources(searchTagView, tagId, tagDM);
-
-            UpdateMenuItems(tagId);
-            UpdateInputField(searchTagView, tagDM);
-
-            CalcMenuVisibility(searchTagView, tagDM);
-
-            UpdateVisual(tagId);
-            */
         }
 
         private void UpdateResources(SearchTagView searchTagView, int tagId, TagDataModel tagDM)
@@ -194,7 +175,6 @@ namespace Ctms.Presentation.Views
 
         private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
         {
-            //_viewModel.OnVisualizationRemoved(e.TagVisualization);
         }
 
         private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
@@ -203,15 +183,14 @@ namespace Ctms.Presentation.Views
             // be avoided, because the framework doesn't recognize early enough that the tag isn't recognized anymore
             // and thinks that the tag is a finger. So the combination of fingerrecognized and tagrecognized doesn't help
             // with identifying finger touches unambiguously
-
+            /* Don't delete, may will be needed later
             var t = (TouchEventArgs)e;
 
             Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown");
             Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
             Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
-            //MessageBox.Show("SV: MyTagVisualization_PreviewTouchDown");
+            */
         }
-
 
         #region UnusedEvents
 

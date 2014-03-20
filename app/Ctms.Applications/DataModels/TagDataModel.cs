@@ -8,6 +8,9 @@ using Microsoft.Surface.Presentation.Controls;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using System.Windows;
+using Ctms.Applications.Common;
+using Helpers;
+using System.Diagnostics;
 
 namespace Ctms.Applications.DataModels
 {
@@ -34,6 +37,74 @@ namespace Ctms.Applications.DataModels
 
         // default constructor needed to be usable as dynamic resource in view
         public TagDataModel() { }
+
+        private short lastAngle = 0;
+
+        private int currentOptionsIndex = 0;
+
+        public void CalculateOptionsIndex()
+        {
+            if (Tag.Angle - lastAngle > CommonVal.Tag_OptionsStepAngle)
+            {   // turned tag clockwise
+                currentOptionsIndex++;
+                //Console.WriteLine("currentOptionsIndex++ last angle: {0} current: {1}", lastAngle, Tag.Angle);
+                lastAngle = Tag.Angle;
+                RaisePropertyChanged("VisibleOptions");
+                //Debug.WriteLine("VisibleOptions.Count: " + VisibleOptions.Count() + ", currentOptionsIndex++: " + currentOptionsIndex);
+            }
+            else if (lastAngle - Tag.Angle > CommonVal.Tag_OptionsStepAngle)
+            {   // turned tag anti-clockwise
+                currentOptionsIndex--;
+                //Console.WriteLine("currentOptionsIndex-- last angle: {0} current: {1}", lastAngle, Tag.Angle);
+                lastAngle = Tag.Angle;
+                RaisePropertyChanged("VisibleOptions");
+                //Debug.WriteLine("VisibleOptions.Count: " + VisibleOptions.Count() + ", currentOptionsIndex--: " + currentOptionsIndex);
+                LogOptions();
+            }
+        }
+
+        private void LogOptions()
+        {
+            var names = "";
+            foreach (var option in VisibleOptions)
+            {
+                names += option.Keyword.Name + " ";
+            }
+            Debug.WriteLine(names);
+        }
+
+        public void RefreshLayer()
+        {
+            currentOptionsIndex = 0;
+        }
+
+        public ObservableCollection<TagOption> VisibleOptions
+        {
+            get 
+            {
+                var tagOptions      = Tag.TagOptions.Where(to => to.LayerNr == Tag.CurrentLayerNr);
+                var optionsCount    = tagOptions.Count();
+
+                //Debug.WriteLine("currentOptionsIndex: " + currentOptionsIndex);
+
+                if (currentOptionsIndex < 0)
+                {   // index must be at least 0
+                    currentOptionsIndex = 0;
+                }
+                else if (currentOptionsIndex + CommonVal.Tag_VisibleOptionsCount > optionsCount)
+                {   // index is over the head, regarding maximum count of options to display
+                    currentOptionsIndex = currentOptionsIndex - 1;
+                    //Debug.WriteLine("currentOptionsIndex decreased: " + currentOptionsIndex);
+                }
+
+                // select options of this layer and select only a few, corresponding to current options index
+                var tagOptionsList = Tag.TagOptions.Where(to => to.LayerNr == Tag.CurrentLayerNr).
+                                            // select some options by their index in the list
+                                            Skip(currentOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
+
+                return EntitiesHelper.ToObservableCollection<TagOption>(tagOptionsList);
+            }
+        }
 
         public int  Id { get { return Tag.Id; } }
 

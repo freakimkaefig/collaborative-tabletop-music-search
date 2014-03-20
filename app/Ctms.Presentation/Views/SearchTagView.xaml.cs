@@ -25,12 +25,16 @@ namespace Ctms.Presentation.Views
 
         private int count = 0;
 
+        private short windowHeight;
+
         public SearchTagView()
         {
             InitializeComponent();
             _lazyVm = new Lazy<SearchTagViewModel>(() => ViewHelper.GetViewModel<SearchTagViewModel>(this));
 
             count++;
+
+            windowHeight = (short)Application.Current.MainWindow.ActualHeight;
         }
 
         public SearchViewModel ViewModel { get; set; }
@@ -40,23 +44,21 @@ namespace Ctms.Presentation.Views
 
         private void TagVisualization_Moved(object sender, TagVisualizerEventArgs e)
         {
-            var searchTagView = (SearchTagView)e.TagVisualization;
-            var tagId = (int)searchTagView.VisualizedTag.Value;
+            var searchTagView   = (SearchTagView)e.TagVisualization;
+            var tagId           = (int)searchTagView.VisualizedTag.Value;
 
-            var tagAngle = (int) e.TagVisualization.TrackedTouch.GetOrientation(this);
-            //var position = e.TagVisualization.TrackedTouch.GetPosition(this);
             var screenPosition = searchTagView.PointToScreen(new Point(0d, 0d));
 
+            // set angle and position of this tag
+            var tag         = ViewModel.Tags[tagId];
+            tag.Tag.Angle       = (short) e.TagVisualization.TrackedTouch.GetOrientation(this);
+            tag.Tag.PositionX   = (short) screenPosition.X;
+            tag.Tag.PositionY   = (short) screenPosition.Y;
 
-            var tag = ViewModel.Tags[tagId].Tag;
-            tag.Angle = tagAngle;
-            tag.PositionX = (double)screenPosition.X;
-            tag.PositionY = (double)screenPosition.Y;
+            // orientate tag to the nearest side of the two long sides
+            tag.Tag.Orientation = tag.Tag.PositionY > windowHeight / 2 ? (short) 180 : (short) 0;
 
-
-            //Debug.WriteLine("tag.PositionY : " + tag.PositionY);
-            Debug.WriteLine("screenPosition.Y : " + screenPosition.Y);
-            //Debug.WriteLine("screenPosition.X : " + screenPosition.X);
+            tag.CalculateOptionsIndex();
         }
 
         public void SimpleVisualization_Loaded(object sender, RoutedEventArgs e)

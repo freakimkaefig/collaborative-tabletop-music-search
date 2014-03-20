@@ -51,13 +51,6 @@ namespace Ctms.Applications.ViewModels
 
         }
 
-        public void ShowKeyword(TagOption tagOption)
-        {
-            //ListVisibility = ...
-            //KeywordVisibility = ...
-            AssignedKeyword = tagOption.Keyword;
-        }
-
         #region Properties
 
         public bool IsEnabled { get { return true; } }

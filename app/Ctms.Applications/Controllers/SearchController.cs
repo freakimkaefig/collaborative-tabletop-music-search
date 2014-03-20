@@ -109,13 +109,6 @@ namespace Ctms.Applications.Controllers
             //Listeners
             AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
 
-            //AddWeakEventListener((INotifyCollectionChanged)_searchVm.Tags, TagsChanged);
-            /*
-            foreach(var tag in _searchVm.Tags)
-            {
-                AddWeakEventListener((INotifyCollectionChanged)tag.Tag.TagOptions, TagsChanged);
-            }*/
-
             _searchVm.SelectOptionCmd   = _selectOptionCmd;
             _searchVm.GetSuggestionsCmd = _getSuggestionsCmd;
             _searchVm.GoBreadcrumbCmd   = _goBreadcrumbCmd;
@@ -135,13 +128,23 @@ namespace Ctms.Applications.Controllers
         private void UpdateCommands()
         {
 
-        }        
+        }
+
+        private void TagsChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Angle")
+            {
+            }
+        }
 
         private void SearchViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Tags")//SelectedSong is just an example
+            if (e.PropertyName == "Angle")
             {
-
+                _searchVm.Tags[0].CalculateOptionsIndex();
+            }
+            else if (e.PropertyName == "KeywordType")
+            {
             }
         }
     }
