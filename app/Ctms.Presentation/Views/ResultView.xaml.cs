@@ -19,6 +19,7 @@ using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation;
 using Ctms.Domain.Objects;
 using Ctms.Applications.DataModels;
+using Blake.NUI.WPF.Gestures;
 
 namespace Ctms.Presentation.Views
 {
@@ -31,6 +32,8 @@ namespace Ctms.Presentation.Views
         {
             InitializeComponent();
             _lazyVm = new Lazy<ResultViewModel>(() => ViewHelper.GetViewModel<ResultViewModel>(this));
+
+            Events.RegisterGestureEventSupport(this);
         }
 
         public void AddResources()
@@ -59,6 +62,7 @@ namespace Ctms.Presentation.Views
             }
         }
 
+        //private void Results_HoldGesture(object sender, GestureEventArgs e)
         private void Results_PreviewInputDeviceDown(object sender, InputEventArgs e)
         {
             FrameworkElement findSource = e.OriginalSource as FrameworkElement;
@@ -135,7 +139,7 @@ namespace Ctms.Presentation.Views
             }
         }
 
-        private void Results_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void Results_DoubleTapGesture(object sender, GestureEventArgs e)
         {
             FrameworkElement findSource = e.OriginalSource as FrameworkElement;
             ScatterViewItem clickedElement = null;

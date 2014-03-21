@@ -189,6 +189,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Blake.NUI.WPF">
+      <HintPath>..\libs\Blake.NUI\bin\Blake.NUI.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Blake.NUI.WPF.Surface">
+      <HintPath>..\libs\Blake.NUI\bin\Blake.NUI.WPF.Surface.dll</HintPath>
+    </Reference>
+    <Reference Include="Blake.NUI.WPF.SurfaceToolkit">
+      <HintPath>..\libs\Blake.NUI\bin\Blake.NUI.WPF.SurfaceToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Effects" />
     <Reference Include="Microsoft.Expression.Interactions" />
     <Reference Include="Microsoft.Surface, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />

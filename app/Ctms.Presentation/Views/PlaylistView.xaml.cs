@@ -19,6 +19,7 @@ using Ctms.Domain.Objects;
 using Ctms.Applications.DataModels;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation;
+using Blake.NUI.WPF.Gestures;
 
 namespace Ctms.Presentation.Views
 {
@@ -38,6 +39,8 @@ namespace Ctms.Presentation.Views
 
             _rotate0 = Rotate0;
             _rotate180 = Rotate180;
+
+            Events.RegisterGestureEventSupport(this);
         }
 
         public VisualState VisualStateRotate0 { get { return _rotate0; } set { } }
@@ -45,6 +48,8 @@ namespace Ctms.Presentation.Views
 
         private PlaylistViewModel _viewModel { get { return _lazyVm.Value; } }
 
+
+        //Drag & Drop from ResultView(ScatterView) to PlaylistView(SurfaceButton)
         private void PlaylistAddDropTarget_DragEnter(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
         {
             e.Cursor.Visual.Tag = "DragEnter";
@@ -61,15 +66,19 @@ namespace Ctms.Presentation.Views
             _viewModel.AddTrackCommand.Execute(result);
         }
 
-        private void surfaceListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void surfaceListBox_DoubleTapGesture(object sender, GestureEventArgs e)
         {
             _viewModel.JumpToTrackCommand.Execute(surfaceListBox.SelectedIndex);
         }
 
-        private void Playlist_PreviewInputDeviceDown(object sender, TouchEventArgs e)
+
+        //Drag & Drop inside PlaylistView(SurfaceListBox)
+        private void Playlist_HoldGesture(object sender, GestureEventArgs e)
         {
             FrameworkElement findSource = e.OriginalSource as FrameworkElement;
-            SurfaceListBoxItem draggedElement = null;
+            SurfaceListBoxItem draggedElement = e.TouchDevice.Target as SurfaceListBoxItem;
+            //ResultDataModel content = draggedElement.Content as ResultDataModel;
+            //content.Opacity = 0.5;
 
             // Find the touched SurfaceListBoxItem object.
             while (draggedElement == null && findSource != null)
@@ -124,6 +133,9 @@ namespace Ctms.Presentation.Views
             // Otherwise SurfaceListBoxItem captures the touch 
             // and causes the drag operation to fail.
             e.Handled = (startDragOkay != null);
+
+            //Remove item from list
+            //_viewModel.ResultsForPlaylist.Remove(draggedElement.Content as ResultDataModel);
         }
 
         private void OnTargetChanged(object sender, TargetChangedEventArgs e)
@@ -139,17 +151,64 @@ namespace Ctms.Presentation.Views
             }
         }
 
-        private void Playlist_OnDragCanceled(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
+        private void Playlist_OnDragCanceled(object sender, SurfaceDragDropEventArgs e)
+        {
+            
+        }
+
+        private void Playlist_OnDragCompleted(object sender, SurfaceDragCompletedEventArgs e)
         {
 
         }
 
-        private void Playlist_OnDragCompleted(object sender, Microsoft.Surface.Presentation.SurfaceDragCompletedEventArgs e)
+        private void Playlist_OnDragOver(object sender, SurfaceDragDropEventArgs e)
         {
+            ResultDataModel data = e.Cursor.Data as ResultDataModel;
 
+            SurfaceListBox target = e.Cursor.CurrentTarget as SurfaceListBox;
+            int index = -1;
+            SurfaceListBoxItem sListBoxItem = null;
+            for (int i = 0; i < _viewModel.ResultsForPlaylist.Count; i++)
+            {
+                sListBoxItem = target.ItemContainerGenerator.ContainerFromIndex(i) as SurfaceListBoxItem;
+                if (sListBoxItem == null) continue;
+                if (IsMouseOverTarget(sListBoxItem, e.Cursor.GetPosition((IInputElement)sListBoxItem)) == 1)
+                {
+                    index = i;
+                    textBox.Text += "Index: " + index + " | Position: up\n";
+                    textBox.ScrollToEnd();
+                    break;
+                }
+                else if (IsMouseOverTarget(sListBoxItem, e.Cursor.GetPosition((IInputElement)sListBoxItem)) == 2)
+                {
+                    index = i + 1;
+                    textBox.Text += "Index: " + index + " | Position: down\n";
+                    textBox.ScrollToEnd();
+                    break;
+                }
+            }
+            if (index != -1)
+            {
+                if (_viewModel.ResultsForPlaylist.IndexOf(null) != -1)
+                {
+                    _viewModel.ResultsForPlaylist.Remove(null);
+                }
+
+                try
+                {
+                    int hideFrom = _viewModel.ResultsForPlaylist.IndexOf(data);
+                    _viewModel.ResultsForPlaylist.Insert(index, null);
+                }
+                catch (ArgumentOutOfRangeException exception)
+                {
+                    textBox.Text += exception.Message + "\n";
+                    textBox.ScrollToEnd();
+                }
+                //_viewModel.ResultsForPlaylist.ElementAt(hideFrom).Opacity = 0.5;
+            }
         }
 
-        private void Playlist_DragEnter(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
+        private void Playlist_DragEnter(object sender, SurfaceDragDropEventArgs e)
         {
             ResultDataModel data = e.Cursor.Data as ResultDataModel;
 
@@ -159,18 +218,60 @@ namespace Ctms.Presentation.Views
             }
         }
 
-        private void Playlist_DragLeave(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
+        private void Playlist_DragLeave(object sender, SurfaceDragDropEventArgs e)
         {
             e.Effects = e.Cursor.AllowedEffects;
         }
 
-        private void Playlist_Drop(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
+        private void Playlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+        }
+
+        private static int IsMouseOverTarget(Visual target, Point point)
+        {
+            Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
+            Rect up = new Rect(bounds.TopLeft.X, bounds.TopLeft.Y, bounds.Width, bounds.Height/2);
+            Rect down = new Rect(bounds.TopLeft.X, bounds.TopLeft.Y + up.Height, bounds.Width, bounds.Height / 2);
+            if (up.Contains(point))
+            {
+                return 1;
+            }
+            else if (down.Contains(point))
+            {
+                return 2;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        private void Playlist_Drop(object sender, SurfaceDragDropEventArgs e)
+        {
+            ResultDataModel droppedItem = e.Cursor.Data as ResultDataModel;
+            SurfaceListBox target = e.Cursor.CurrentTarget as SurfaceListBox;
+            int insertIndex = _viewModel.ResultsForPlaylist.IndexOf(null);
+            int removeIndex = _viewModel.ResultsForPlaylist.IndexOf(droppedItem);
+            _viewModel.ResultsForPlaylist.Remove(droppedItem);
+            _viewModel.ResultsForPlaylist.Insert(insertIndex, droppedItem);
+            _viewModel.ResultsForPlaylist.Remove(null);
+
+            textBox.Text += removeIndex + " => " + (insertIndex);
+            textBox.ScrollToEnd();
+
+            object[] data = new object[] { removeIndex, (insertIndex) };
+            _viewModel.ReorderTrackCommand.Execute(data);
+
             //Res.Add(e.Cursor.Data as DataItem);
 
-            ResultDataModel droppedItem = e.Cursor.Data as ResultDataModel;
-            int index = _viewModel.ResultsForPlaylist.IndexOf(droppedItem);
-            SurfaceListBox target = e.Cursor.CurrentTarget as SurfaceListBox;
+            //
+            //int index = _viewModel.ResultsForPlaylist.IndexOf(droppedItem);
+            //SurfaceListBox target = e.Cursor.CurrentTarget as SurfaceListBox;
+            //SurfaceListBoxItem targetItem = FindAncestor((DependencyObject)e.OriginalSource);
+
+            //if(overlayElement
+            //Point currentPosition = (Point)e.Cursor.GetPosition((IInputElement)this);
 
             /*
             int removedIdx = listbox1.Items.IndexOf(droppedData);

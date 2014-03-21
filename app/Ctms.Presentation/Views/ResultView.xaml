@@ -7,7 +7,8 @@
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
-    xmlns:s="http://schemas.microsoft.com/surface/2008"         
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:gestures="clr-namespace:Blake.NUI.WPF.Gestures;assembly=Blake.NUI.WPF"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
     Width="1920" Height="1080">
@@ -19,5 +20,6 @@
                    PreviewTouchDown="Results_PreviewInputDeviceDown"
                    s:SurfaceDragDrop.DragCanceled="Results_OnDragCanceled"
                    s:SurfaceDragDrop.DragCompleted="Results_OnDragCompleted"
-                   PreviewMouseDoubleClick="Results_PreviewMouseDoubleClick"/>
+                   gestures:Events.DoubleTapGesture="Results_DoubleTapGesture"/>
+                   <!--gestures:Events.HoldGesture="Results_HoldGesture"-->
 </UserControl>

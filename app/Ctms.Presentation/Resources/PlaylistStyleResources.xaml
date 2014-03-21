@@ -5,7 +5,7 @@
     xmlns:c="clr-namespace:Ctms.Presentation.Converters">
 
     <DataTemplate x:Key="SurfaceListBoxItemDataTemplate">
-        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="{Binding Opacity}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="660"/>
                 <ColumnDefinition Width="60"/>
@@ -24,19 +24,15 @@
     <!-- Style for Playlist Items when dragged -->
     <Style x:Key="PlaylistCursorStyle" TargetType="{x:Type ContentControl}">
         <Setter Property="ContentTemplate" Value="{StaticResource SurfaceListBoxItemDataTemplate}" />
-        <Setter Property="BorderThickness" Value="9"/>
-        <Setter Property="BorderBrush" Value="AntiqueWhite"/>
+        <Setter Property="Opacity" Value="0.5"/>
+        <Setter Property="OpacityMask" Value="Green"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <Border 
-                            BorderThickness="{TemplateBinding BorderThickness}" 
-                            BorderBrush="{TemplateBinding BorderBrush}">
-                        <ContentPresenter Margin="0"
-                                Content="{TemplateBinding Content}" 
-                                ContentTemplate="{TemplateBinding ContentTemplate}">
-                        </ContentPresenter>
-                    </Border>
+                    <ContentPresenter Margin="0"
+                        Content="{TemplateBinding Content}" 
+                        ContentTemplate="{TemplateBinding ContentTemplate}">
+                    </ContentPresenter>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

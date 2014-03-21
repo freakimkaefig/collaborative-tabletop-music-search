@@ -118,5 +118,10 @@ namespace Ctms.Applications.Workers
         {
             _sessionManager.JumpToTrackInPlaylist(_playlistViewModel.CurrentPlaylist, index);
         }
+
+        public void ReorderTrack(object[] data)
+        {
+            _sessionManager.ReorderTrack((int)data[0], (int)data[1]);
+        }
     }
 }

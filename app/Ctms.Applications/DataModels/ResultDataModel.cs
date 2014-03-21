@@ -20,6 +20,8 @@ namespace Ctms.Applications.DataModels
             Result.Song.Title = title;
             Result.Song.ArtistName = artistName;
             SpotifyTrack = spotifyTrack;
+
+            Opacity = 1.0;
         }
 
         public Result Result
@@ -38,6 +40,7 @@ namespace Ctms.Applications.DataModels
         }
 
         public object DraggedElement { get; set; }
+        public double Opacity { get; set; }
         public bool CanDrop
         {
             get { return _canDrop; }

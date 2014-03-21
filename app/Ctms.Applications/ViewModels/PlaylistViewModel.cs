@@ -31,6 +31,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _addTrackCommand;
         private ICommand _jumpToTrackCommand;
         private ICommand _rotateCommand;
+        private ICommand _reorderTrackCommand;
         //
         private Playlist _currentPlaylist = null;
         private ObservableCollection<ResultDataModel> _playlistResults;
@@ -228,6 +229,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _rotateCommand = value;
                     RaisePropertyChanged("RotateCommand");
+                }
+            }
+        }
+
+        public ICommand ReorderTrackCommand
+        {
+            get { return _reorderTrackCommand; }
+            set
+            {
+                if (_reorderTrackCommand != value)
+                {
+                    _reorderTrackCommand = value;
+                    RaisePropertyChanged("ReorderTrackCommand");
                 }
             }
         }

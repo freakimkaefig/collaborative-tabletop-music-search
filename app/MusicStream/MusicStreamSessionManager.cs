@@ -232,6 +232,12 @@ namespace MusicStream
             PlaybackStarted();
         }
 
+        public void ReorderTrack(int oldIndex, int newIndex)
+        {
+            int[] tracks = new int[] { oldIndex };
+            _currentPlaylist.ReorderTracks(tracks, newIndex);
+        }
+
 
         /* ---------- CALLBACKS ---------- */
         public void LoggedInCallback()
