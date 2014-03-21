@@ -37,7 +37,7 @@ namespace MusicStream
             if (error == SpotifyError.Ok)
             {
                 base.LoggedIn(session, error);
-                _sessionManager.logMessages.Enqueue("Spotify: LOGGED IN");  //Logging LoginMessage to TextBox
+                //_sessionManager.logMessages.Enqueue("Spotify: LOGGED IN");  //Logging LoginMessage to TextBox
                 _sessionManager.LoggedInCallback();
             }
             else
@@ -113,7 +113,7 @@ namespace MusicStream
         public override void StartPlayback(SpotifySession session)
         {
             //base.StartPlayback(session);
-            _sessionManager.logMessages.Enqueue("Playback started");
+            //_sessionManager.logMessages.Enqueue("Playback started");
         }
 
         public override void StopPlayback(SpotifySession session)

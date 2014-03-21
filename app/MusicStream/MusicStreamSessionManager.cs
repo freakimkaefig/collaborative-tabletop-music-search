@@ -122,7 +122,7 @@ namespace MusicStream
         /* ---------- PUBLIC METHODS ---------- */
         public void Login(string username, string password)
         {
-            logMessages.Enqueue("MusicStreamSessionManager.Login");
+            //logMessages.Enqueue("MusicStreamSessionManager.Login");
             //handles logging in to spotify
             //accessed through menu
 
@@ -166,13 +166,13 @@ namespace MusicStream
 
         public void OpenPlaylists(Playlist playlist)
         {
-            logMessages.Enqueue("MusicStreamSessionManager.OpenPlaylists");
+            //logMessages.Enqueue("MusicStreamSessionManager.OpenPlaylists");
             _backgroundWorkHelper.DoInBackground(OpenPlaylistWorker, OpenPlaylistCompleted, playlist);
         }
 
         public void CreatePlaylist(string name)
         {
-            logMessages.Enqueue("MusicStreamSessionManager.CreatePlaylist");
+            //logMessages.Enqueue("MusicStreamSessionManager.CreatePlaylist");
             _backgroundWorkHelper.DoInBackground(CreatePlaylistWorker, CreatePlaylistCompleted, name);
         }
 
@@ -236,7 +236,7 @@ namespace MusicStream
         /* ---------- CALLBACKS ---------- */
         public void LoggedInCallback()
         {
-            logMessages.Enqueue("MusicStreamSessionManager.LoggedInCallback");
+            //logMessages.Enqueue("MusicStreamSessionManager.LoggedInCallback");
             /* Callback, when successfully logged in to Spotify
              * creating new PlaylistContainer for streaming or playlist operations
              */
@@ -278,7 +278,7 @@ namespace MusicStream
             _waveOutDevice.Init(_bufferedWaveProvider);
 
             //Notify PlaylistWorker that Playback is ready to start!!!
-            logMessages.Enqueue("READY FOR PLAYBACK");
+            logMessages.Enqueue("SPOTIFY IS READY");
             ReadyForPlayback(_playlists);
         }
 
@@ -376,11 +376,13 @@ namespace MusicStream
         }
         private void OpenPlaylistCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            /*
             logMessages.Enqueue("Playlist '" + ((Playlist)e.Result).Name() + "' opened");
             for (var i = 0; i < ((Playlist)e.Result).NumTracks(); i++)
             {
                 logMessages.Enqueue("Track " + i + ": " + ((Playlist)e.Result).Track(i).Artist(0).Name() + " - " + ((Playlist)e.Result).Track(i).Name());
             }
+             * */
 
             _currentPlaylist = (Playlist)e.Result;
             PlaylistOpened((Playlist)e.Result);

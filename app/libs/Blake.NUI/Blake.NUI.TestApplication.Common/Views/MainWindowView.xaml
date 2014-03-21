@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Blake.NUI.TestApplication.Common.Views.MainWindowView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:s="http://schemas.microsoft.com/surface/2008"
+             xmlns:controls="clr-namespace:Blake.NUI.WPF.Controls;assembly=Blake.NUI.WPF"
+             xmlns:touch="clr-namespace:Blake.NUI.WPF.Touch;assembly=Blake.NUI.WPF"
+             xmlns:common="clr-namespace:Blake.NUI.WPF.Common;assembly=Blake.NUI.WPF"
+             xmlns:local="clr-namespace:Blake.NUI.TestApplication.Common"
+             mc:Ignorable="d"
+             d:DesignHeight="1024"
+             d:DesignWidth="768">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <controls:ZoomCanvas Name="zoom"
+                             ViewChanged="zoom_ViewChanged">
+            <controls:ZoomCanvas.InputAdapter>
+                <touch:ZoomCanvasInputAdapterTouch />
+            </controls:ZoomCanvas.InputAdapter>
+            <s:ScatterView Name="scatter" Background="Green" Width="700">
+                <Viewbox>
+                    <Rectangle Width="200" 
+                               Height="200"
+                               Fill="Red" />
+                </Viewbox>
+                <Viewbox>
+                    <Rectangle Width="200"
+                               Height="200"
+                               Fill="Blue" />
+                </Viewbox>
+                <Viewbox>
+                    <Rectangle Width="200"
+                               Height="200"
+                               Fill="Green" />
+                </Viewbox>
+                <Viewbox>
+                    <Rectangle Width="200"
+                               Height="200"
+                               Fill="Yellow" />
+                </Viewbox>
+            </s:ScatterView>
+        </controls:ZoomCanvas>
+        <local:GestureTester Height="100" Background="LawnGreen" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" />
+    </Grid>
+</UserControl>

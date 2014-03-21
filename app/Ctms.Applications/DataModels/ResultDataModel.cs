@@ -11,6 +11,7 @@ namespace Ctms.Applications.DataModels
     public class ResultDataModel : DataModel
     {
         private Result _result;
+        private bool _canDrop = true;
 
         public ResultDataModel(string title, string artistName, Track spotifyTrack)
         {
@@ -37,6 +38,17 @@ namespace Ctms.Applications.DataModels
         }
 
         public object DraggedElement { get; set; }
+        public bool CanDrop
+        {
+            get { return _canDrop; }
+            set
+            {
+                if (_canDrop != value)
+                {
+                    _canDrop = value;
+                }
+            }
+        }
         public object ClickedElement { get; set; }
         public object ActiveElement { get; set; }
     }

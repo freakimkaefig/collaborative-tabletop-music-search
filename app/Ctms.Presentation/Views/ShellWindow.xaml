@@ -8,9 +8,8 @@
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:c="clr-namespace:Ctms.Presentation.Converters"
     mc:Ignorable="d"     
-    MinWidth="1280"  MinHeight="700"
     Width="1920" Height="1080"
-    WindowState="Maximized" WindowStyle="None">
+    WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"> <!--Topmost="True">-->
 <!--d:DataContext="{d:DesignInstance dd:SampleShellViewModel, IsDesignTimeCreatable=True}"
     Title="{Binding Title}" Icon="{StaticResource BookLibraryImageSource}"
     waf:ValidationHelper.IsEnabled="true" waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"-->

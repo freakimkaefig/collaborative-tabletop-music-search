@@ -20,6 +20,35 @@
             <!--<Label Content="{Binding Duration}"/>-->
         </Grid>
     </DataTemplate>
+
+    <!-- Style for Playlist Items when dragged -->
+    <Style x:Key="PlaylistCursorStyle" TargetType="{x:Type ContentControl}">
+        <Setter Property="ContentTemplate" Value="{StaticResource SurfaceListBoxItemDataTemplate}" />
+        <Setter Property="BorderThickness" Value="9"/>
+        <Setter Property="BorderBrush" Value="AntiqueWhite"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <Border 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter Margin="0"
+                                Content="{TemplateBinding Content}" 
+                                ContentTemplate="{TemplateBinding ContentTemplate}">
+                        </ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Tag" Value="CanDrop">
+                <Setter Property="BorderBrush" Value="Green" />
+            </Trigger>
+            <Trigger Property="Tag" Value="CannotDrop">
+                <Setter Property="BorderBrush" Value="Red" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <!--
         This document is used for specific style definitions for the playlist view.
         Hints: 

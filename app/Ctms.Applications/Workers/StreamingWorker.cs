@@ -80,22 +80,22 @@ namespace Ctms.Applications.Workers
             {
                 if (result.SpotifyTrack == _sessionManager.CurrentPrelistenTrack)
                 {
-                    _sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
+                    //_sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
                     _sessionManager.StopPrelisteningTrack();
                     _sessionManager.StopTrack();
                 }
                 else
                 {
-                    _sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
+                    //_sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
                     _sessionManager.StopPrelisteningTrack();
                     _sessionManager.StopTrack();
-                    _sessionManager.logMessages.Enqueue("PRELISTEN START!");
+                    //_sessionManager.logMessages.Enqueue("PRELISTEN START!");
                     _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
                 }
             }
             else
             {
-                _sessionManager.logMessages.Enqueue("PRELISTEN START!");
+                //_sessionManager.logMessages.Enqueue("PRELISTEN START!");
                 _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
             }
         }

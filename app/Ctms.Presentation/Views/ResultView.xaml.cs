@@ -87,7 +87,7 @@ namespace Ctms.Presentation.Views
             ContentControl cursorVisual = new ContentControl()
             {
                 Content = draggedElement.DataContext,
-                Style = FindResource("CursorStyle") as Style
+                Style = FindResource("ResultCursorStyle") as Style
             };
 
             // Create a list of input devices, 

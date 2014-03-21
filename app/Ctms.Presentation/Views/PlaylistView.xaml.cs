@@ -89,7 +89,7 @@ namespace Ctms.Presentation.Views
             ContentControl cursorVisual = new ContentControl()
             {
                 Content = draggedElement.DataContext,
-                Style = FindResource("CursorStyle") as Style
+                Style = FindResource("PlaylistCursorStyle") as Style
             };
 
             // Add a handler. This will enable the application to change the visual cues.
@@ -131,7 +131,7 @@ namespace Ctms.Presentation.Views
             if (e.Cursor.CurrentTarget != null)
             {
                 ResultDataModel data = e.Cursor.Data as ResultDataModel;
-                //e.Cursor.Visual.Tag = (data.CanDrop) ? "CanDrop" : "CannotDrop";
+                e.Cursor.Visual.Tag = (data.CanDrop) ? "CanDrop" : "CannotDrop";
             }
             else
             {
@@ -153,10 +153,10 @@ namespace Ctms.Presentation.Views
         {
             ResultDataModel data = e.Cursor.Data as ResultDataModel;
 
-            /*if (!data.CanDrop)
+            if (!data.CanDrop)
             {
                 e.Effects = DragDropEffects.None;
-            }*/
+            }
         }
 
         private void Playlist_DragLeave(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
@@ -167,6 +167,30 @@ namespace Ctms.Presentation.Views
         private void Playlist_Drop(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
         {
             //Res.Add(e.Cursor.Data as DataItem);
+
+            ResultDataModel droppedItem = e.Cursor.Data as ResultDataModel;
+            int index = _viewModel.ResultsForPlaylist.IndexOf(droppedItem);
+            SurfaceListBox target = e.Cursor.CurrentTarget as SurfaceListBox;
+
+            /*
+            int removedIdx = listbox1.Items.IndexOf(droppedData);
+            int targetIdx = listbox1.Items.IndexOf(target);
+
+            if (removedIdx < targetIdx)
+            {
+                _empList.Insert(targetIdx + 1, droppedData);
+                _empList.RemoveAt(removedIdx);
+            }
+            else
+            {
+                int remIdx = removedIdx + 1;
+                if (_empList.Count + 1 > remIdx)
+                {
+                    _empList.Insert(targetIdx, droppedData);
+                    _empList.RemoveAt(remIdx);
+                }
+            }
+             * */
         }
     }
 }
