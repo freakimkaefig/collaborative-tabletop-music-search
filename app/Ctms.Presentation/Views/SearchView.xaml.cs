@@ -111,33 +111,71 @@ namespace Ctms.Presentation.Views
         /// </summary>
         public void UpdateMenuItems(int tagId)
         {
+
             var pieMenu = SearchTagViews[tagId].PieMenu;
+            var pieMenuMain = SearchTagViews[tagId].PieMenuMain;
             var tagDM = _viewModel.Tags[tagId];
 
-            var pieMenuItems = (ItemCollection)pieMenu.Items;
+            var pieMenuItems    = (ItemCollection)pieMenu.Items;
+            var pieMenuMainItem = (ItemCollection)pieMenuMain.Items;
 
             // remove inserted placeholder item which has been placed just for correct item size calculation
             pieMenuItems.Clear();
+            pieMenuMainItem.Clear();
 
-            //if (tagDM.IsMenuVisible == false) return;
-
-            //!!-var options = tagDM.Tag.TagOptions.Where(to => to.LayerNr == tagDM.Tag.CurrentLayerNr);
             var options = tagDM.VisibleOptions;
-            foreach (var option in options)
+
+            var count = options.Count;
+
+            var i = 0;
+            TagOption option;
+
+            // loop backwards so that first element of options is last in pieMenu
+            for (i = options.Count - 1; i >= 0; i--)
             {
-                var hexColor = "#5555";
-                if (option.Id % 3 == 1) { hexColor = "#2222"; }
-                if (option.Id % 3 == 2) { hexColor = "#0000"; }
-                var brush = (Brush)(new BrushConverter().ConvertFrom(hexColor));
+                option              = options[i];
+                var backgroundHex   = "";
+                var textHex         = "";
+
+                if ((tagDM.CurrentOptionsIndex + i) % 3 == 0) 
+                {
+                    backgroundHex = "#5000";
+                    textHex = "#ffff";
+                }
+                else if ((tagDM.CurrentOptionsIndex + i) % 3 == 1)
+                {
+                    backgroundHex = "#5444";
+                    textHex = "#ffff";
+                }
+                else if ((tagDM.CurrentOptionsIndex + i) % 3 == 2)
+                {
+                    backgroundHex = "#5888";
+                    textHex = "#ffff";
+                }
+                backgroundHex = "#0000";
+
+                var backgroundColor = (Brush)(new BrushConverter().ConvertFrom(backgroundHex));
+                var textColor = (Brush)(new BrushConverter().ConvertFrom(textHex));
 
                 var pieMenuItem = new PieMenuItem()
                 {
                     Id = option.Id,
                     BorderThickness = new Thickness(0.0),
-                    FontSize = 16,
-                    CenterText = true,
-                    Background = brush
+                    Foreground = textColor,
+                    Background = backgroundColor,
+                    CenterTextVertically = true
                 };
+
+                if (i == 0)
+                {
+                    pieMenuItem.FontSize = 16;
+                    pieMenuItem.CenterTextHorizontal = true;
+                }
+                else
+	            {
+                    pieMenuItem.FontSize = 13;
+                    pieMenuItem.CenterTextHorizontal = false;
+	            }
 
                 // Id binding
                 Binding idBinding = new Binding("Id");
@@ -167,10 +205,18 @@ namespace Ctms.Presentation.Views
                 commandBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 pieMenuItem.SetBinding(PieMenuItem.CommandProperty, commandBinding);
 
-                pieMenu.Items.Add(pieMenuItem);
+                if (i == 0)
+                {   // Add item to main pie menu with one big option
+                    pieMenuMain.Items.Add(pieMenuItem);
+                }
+                else
+                {   // add item to pie menu with multiple small options
+                    pieMenu.Items.Add(pieMenuItem);
+                }
             }
 
             pieMenu.InvalidateVisual();
+            pieMenuMain.InvalidateVisual();
         }
 
         private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)

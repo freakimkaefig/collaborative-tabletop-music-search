@@ -11,6 +11,7 @@ using System.Windows;
 using Ctms.Applications.Common;
 using Helpers;
 using System.Diagnostics;
+using Ctms.Domain;
 
 namespace Ctms.Applications.DataModels
 {
@@ -25,7 +26,6 @@ namespace Ctms.Applications.DataModels
         private bool _isAssignedKeywordVisible;
         private bool _isMenuVisible = true;
         private bool _isEditVisible = false;
-        private double _rotation;
 
         public TagDataModel(Tag tag)
         {
@@ -38,29 +38,58 @@ namespace Ctms.Applications.DataModels
         // default constructor needed to be usable as dynamic resource in view
         public TagDataModel() { }
 
-        private short lastAngle = 0;
+        private short lastHandledAngle = 0;
 
-        private int currentOptionsIndex = 0;
+        private int activeOptionsIndex;
 
+        public int CurrentOptionsIndex { get { return (int)activeOptionsIndex; } }
+
+
+        /// <summary>
+        /// Compute which options shall be visible, regarding tag angle and count of option placeholders
+        /// </summary>
         public void UpdateVisibleOptions()
         {
-            if (Tag.Angle - lastAngle > CommonVal.Tag_OptionsStepAngle)
-            {   // turned tag clockwise
-                currentOptionsIndex++;
-                //Console.WriteLine("currentOptionsIndex++ last angle: {0} current: {1}", lastAngle, Tag.Angle);
-                lastAngle = Tag.Angle;
-                RaisePropertyChanged("VisibleOptions");
-                //Debug.WriteLine("VisibleOptions.Count: " + VisibleOptions.Count() + ", currentOptionsIndex++: " + currentOptionsIndex);
+            var difference = lastHandledAngle - Tag.Angle;
+
+            // check if tag has been rotated over the switching part of 360° and 0°
+            // e.g. 355 - 5 = 350 change to: 355 - 365 = -10
+            if (difference > 180) difference = difference - 360;
+            // e.g. 5 - 355 = -350 change to: 365 - 355 = 10
+            if (difference < -180) difference = difference + 360;
+
+            if (Math.Abs(difference) > CommonVal.Tag_OptionsStepAngle)
+            {   // absolute difference is big enough to scroll to next options
+
+                if (difference < 0)
+                {   // turned tag clockwise
+                    if (activeOptionsIndex + CommonVal.Tag_VisibleOptionsCount < ActiveLayerOptions.Count())
+                    {   // index can be raised without getting over the top
+                        activeOptionsIndex++;
+
+                        lastHandledAngle = Tag.Angle;
+
+                        // raise changed event so controller can react
+                        RaisePropertyChanged("VisibleOptions");
+                    }
+                }
+                else if (difference > 0)
+                {   // turned tag anti-clockwise
+
+                    // index must be at least 0
+                    activeOptionsIndex = activeOptionsIndex > 1 ? activeOptionsIndex - 1 : 0;
+
+                    lastHandledAngle = Tag.Angle;
+
+                    // raise changed event so controller can react
+                    RaisePropertyChanged("VisibleOptions");
+                }
             }
-            else if (lastAngle - Tag.Angle > CommonVal.Tag_OptionsStepAngle)
-            {   // turned tag anti-clockwise
-                currentOptionsIndex--;
-                //Console.WriteLine("currentOptionsIndex-- last angle: {0} current: {1}", lastAngle, Tag.Angle);
-                lastAngle = Tag.Angle;
-                RaisePropertyChanged("VisibleOptions");
-                //Debug.WriteLine("VisibleOptions.Count: " + VisibleOptions.Count() + ", currentOptionsIndex--: " + currentOptionsIndex);
-                //LogOptions();
-            }
+        }
+
+        private IEnumerable<TagOption> ActiveLayerOptions
+        {
+            get { return Tag.TagOptions.Where(to => to.LayerNr == Tag.CurrentLayerNr); }
         }
 
         private void LogOptions()
@@ -75,33 +104,18 @@ namespace Ctms.Applications.DataModels
 
         public void RefreshLayer()
         {
-            currentOptionsIndex = 0;
+            activeOptionsIndex = 0;
         }
 
         public ObservableCollection<TagOption> VisibleOptions
         {
             get 
             {
-                var tagOptions      = Tag.TagOptions.Where(to => to.LayerNr == Tag.CurrentLayerNr);
-                var optionsCount    = tagOptions.Count();
-
-                //Debug.WriteLine("currentOptionsIndex: " + currentOptionsIndex);
-
-                if (currentOptionsIndex < 0)
-                {   // index must be at least 0
-                    currentOptionsIndex = 0;
-                }
-                else if (currentOptionsIndex + CommonVal.Tag_VisibleOptionsCount > optionsCount)
-                {   // index is over the head, regarding maximum count of options to display
-                    currentOptionsIndex = currentOptionsIndex - 1;
-                    //Debug.WriteLine("currentOptionsIndex decreased: " + currentOptionsIndex);
-                }
-
-                // select options of this layer and select only a few, corresponding to current options index
+                // select only some options of this layer, corresponding to current options index
                 // select some options by their index in the list
-                var tagOptionsList = tagOptions.Skip(currentOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
+                var optionsList = ActiveLayerOptions.Skip(activeOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
 
-                return EntitiesHelper.ToObservableCollection<TagOption>(tagOptionsList);
+                return EntitiesHelper.ToObservableCollection<TagOption>(optionsList);
             }
         }
 

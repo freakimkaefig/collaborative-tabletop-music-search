@@ -51,7 +51,11 @@ namespace Ctms.Presentation.Views
 
             // set angle and position of this tag
             var tag         = ViewModel.Tags[tagId];
-            tag.Tag.Angle       = (short) e.TagVisualization.TrackedTouch.GetOrientation(this);
+            var trackedTouch = e.TagVisualization.TrackedTouch;
+            if (trackedTouch != null)
+            {
+                tag.Tag.Angle = (short)trackedTouch.GetOrientation(this);
+            }
             tag.Tag.PositionX   = (short) screenPosition.X;
             tag.Tag.PositionY   = (short) screenPosition.Y;
 

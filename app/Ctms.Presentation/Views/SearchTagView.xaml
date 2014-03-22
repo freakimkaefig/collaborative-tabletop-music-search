@@ -46,12 +46,7 @@
     <!--Start Surrounding Tag Grid-->
     <!--<Grid Name="TagGrid" DataContext="{DynamicResource Tag.Angle}">-->
     <!--<Grid Name="TagGrid" DataContext="{DynamicResource TagDM}"--> 
-    <Grid Name="TagGrid" 
-                RenderTransformOrigin="0.5, 0.5">  
-        <Grid.RenderTransform>
-            <!--<RotateTransform Angle="{Binding Tag.Rotation}" />-->
-            <RotateTransform Angle="{Binding Tags[0].Tag.Orientation}" />
-        </Grid.RenderTransform>
+    <Grid Name="TagGrid" >  
         <!-- Start menu -->
         <Grid>
             <Grid.RowDefinitions>
@@ -91,15 +86,37 @@
                     Canvas.Top="100"
                     SelectedBackground="#7399"
                     Foreground="White"
-                    BorderBrush="#000"
-                    SectorGap="0"
-                    Gap="0"
+                    BorderBrush="#333"
+                    SectorGap="1"
+                    Gap="1"
                     Radius="120"
                     InnerRadius="33"
                     RotateText="True"
                     RotateTextAngle="0"
                     Rotation="150"
-                    MenuSector="360"
+                    MenuSector="240"
+                    Background="Transparent"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Visibility="{DynamicResource IsMenuVisible}">
+                    <!-- placeholder item for correct calculation of PieMenuItem size -->
+                    <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
+                                        Command="" Background="#0000" />
+                </ps:PieMenu>
+
+                <ps:PieMenu 
+                    x:Name="PieMenuMain"
+                    Canvas.Left="100"
+                    Canvas.Top="100"
+                    BorderBrush="#333"
+                    SectorGap="1"
+                    Gap="1"
+                    Radius="120"
+                    InnerRadius="33"
+                    RotateText="False"
+                    RotateTextAngle="-90"
+                    Rotation="30"
+                    MenuSector="120"
                     Background="Transparent"
                     Grid.Row="0"
                     Grid.Column="0"
@@ -195,14 +212,14 @@
             <!-- End Assigned keyword-->
             
             <!--Angle-->
-            <TextBlock 
+            <!--<TextBlock 
                 DataContext="{DynamicResource TagDM}"
                 Text="{Binding Tag.Angle, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                 Grid.Column="0"
                 Grid.Row="1"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"
-            />
+            />-->
             <!--Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"-->
             <!--//Angle-->
 

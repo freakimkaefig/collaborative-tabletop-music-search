@@ -61,8 +61,8 @@ namespace Ctms.Presentation
             foreach (IModuleController moduleController in moduleControllers) { moduleController.Run(); }
 
             //throw new Exception("Halts Maul");
-            string errorMessage = string.Format("An unhandled exception occurred: {0}", "Halts Maul - Fehler 66");
-            MessageBox.Show("Eeeh, du! Halts Maul", "Error", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            //string errorMessage = string.Format("An unhandled exception occurred: {0}", "Halts Maul - Fehler 66");
+            //MessageBox.Show("Eeeh, du! Halts Maul", "Error", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
 
         protected override void OnExit(ExitEventArgs e)

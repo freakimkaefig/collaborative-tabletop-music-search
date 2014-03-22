@@ -65,7 +65,7 @@ namespace Ctms.Applications.Workers
 
             tag.Tag.PreviousOptions.Clear();
 
-            tag.Tag.CurrentLayerNr = 0;
+            UpdateActiveLayerNumber(tag, 0);
 
             var tagOpts = tag.Tag.TagOptions;
             tagOpts.Clear();
@@ -85,6 +85,12 @@ namespace Ctms.Applications.Workers
             }
         }
 
+        public void UpdateActiveLayerNumber(TagDataModel tagDM, int currentLayerNr)
+        {
+            tagDM.Tag.CurrentLayerNr = currentLayerNr;
+            tagDM.RefreshLayer();
+        }
+
         public void SelectOption(int tagOptionId)
         {
             var tag         = _repository.GetTagDMByTagOption(tagOptionId);
@@ -92,10 +98,9 @@ namespace Ctms.Applications.Workers
             var tagOption   = _repository.GetTagOptionById(tagOptionId);
             var keywordType = tagOption.Keyword.Type;
 
-
             AddBreadcrumb(tag, tagOption.Keyword.Name);
 
-            tag.Tag.CurrentLayerNr++;
+            UpdateActiveLayerNumber(tag, tag.Tag.CurrentLayerNr + 1);
 
             switch (tag.Tag.CurrentLayerNr)
             {
@@ -172,7 +177,7 @@ namespace Ctms.Applications.Workers
 
             AddBreadcrumb(tag, terms);
 
-            tag.Tag.CurrentLayerNr++;
+            UpdateActiveLayerNumber(tag, tag.Tag.CurrentLayerNr + 1);
 
             // get all options of this tag
             var tagOptions = _repository.GetTagOptionsByTagId(tagId);
@@ -182,32 +187,15 @@ namespace Ctms.Applications.Workers
 
             if (keywordType == KeywordTypes.Artist)
             {
-                //var helper = new BackgroundWorkHelper();
-                //helper.DoInBackground(_searchManager.getArtistSuggestions(tagId, terms), , 
-                /*
-                var suggestions = new List<ResponseContainer.ResponseObj.ArtistSuggestion>()
-                {
-                    new ResponseContainer.ResponseObj.ArtistSuggestion()
-                    {
-                        id = "MyId1",
-                        name = "Haxen",
-                        originId = 0
-                    },
-                    new ResponseContainer.ResponseObj.ArtistSuggestion()
-                    {
-                        id = "MyId2",
-                        name = "Haxen2",
-                        originId = 0
-                    }
-                };
-                */
                 var suggestions = _searchManager.getArtistSuggestions(tagId, terms);
 
-                foreach (var suggestion in suggestions)
+                for (var i = 0; i < suggestions.Count; i++)
+                //foreach (var suggestion in suggestions)
                 {
                     // create keyword out of this suggestion
-                    var keyword = _tagFactory.CreateKeyword(suggestion.name, keywordType);
-                    keyword.SearchId = suggestion.id;
+                    //var keyword = _tagFactory.CreateKeyword(i + "" + suggestions[i].name, keywordType);
+                    var keyword = _tagFactory.CreateKeyword(suggestions[i].name, keywordType);
+                    keyword.SearchId = suggestions[i].id;
                     // create option with this keyword
                     var tagOption = _tagFactory.CreateTagOption(keyword, tag.Tag.CurrentLayerNr);
 
@@ -292,7 +280,6 @@ namespace Ctms.Applications.Workers
         {
             var tag = _repository.GetTagDMById(tagId);
             tag.Tag.TagOptions.Clear();
-            //tag.Suggestions.Clear();
 
             SetInputIsVisible(tag, false);
 
@@ -314,7 +301,7 @@ namespace Ctms.Applications.Workers
             SetKeywordIsVisible(tag, false);
 
             // set last layer
-            tag.Tag.CurrentLayerNr--;
+            UpdateActiveLayerNumber(tag, tag.Tag.CurrentLayerNr - 1);
 
             //RemovePreviousBreadcrumbs(tag);
 

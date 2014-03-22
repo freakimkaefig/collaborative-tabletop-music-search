@@ -17,7 +17,8 @@ namespace PieInTheSky
         public static readonly DependencyProperty SubMenuSectorProperty;
         public static readonly DependencyProperty SectorRadiusProperty;
         public static readonly DependencyProperty CommandProperty;
-        public static readonly DependencyProperty CenterTextProperty;
+        public static readonly DependencyProperty CenterTextVerticalProperty;
+        public static readonly DependencyProperty CenterTextHorizontalProperty;
         public static readonly DependencyProperty SubHeaderProperty;
         public static readonly DependencyProperty IdProperty;
 
@@ -64,15 +65,28 @@ namespace PieInTheSky
         }
 
         [Bindable(true)]
-        public bool CenterText
+        public bool CenterTextVertically
         {
             get
             {
-                return (bool)base.GetValue(PieMenuItem.CenterTextProperty);
+                return (bool)base.GetValue(PieMenuItem.CenterTextVerticalProperty);
             }
             set
             {
-                base.SetValue(PieMenuItem.CenterTextProperty, value);
+                base.SetValue(PieMenuItem.CenterTextVerticalProperty, value);
+            }
+        }
+
+        [Bindable(true)]
+        public bool CenterTextHorizontal
+        {
+            get
+            {
+                return (bool)base.GetValue(PieMenuItem.CenterTextHorizontalProperty);
+            }
+            set
+            {
+                base.SetValue(PieMenuItem.CenterTextHorizontalProperty, value);
             }
         }
         
@@ -87,23 +101,8 @@ namespace PieInTheSky
             set
             {
                 base.SetValue(PieMenuItem.SubHeaderProperty, value);
-                NotifyPropertyChanged("SubHeader"); 
             }
         }
-        
-        /*
-        [Bindable(true)]
-        public int Id
-        {
-            get
-            {
-                return (int)base.GetValue(PieMenuItem.IdProperty);
-            }
-            set
-            {
-                base.SetValue(PieMenuItem.IdProperty, value);
-            }
-        }*/
 
         [Bindable(true)]
         public int Id
@@ -126,7 +125,8 @@ namespace PieInTheSky
         {
             PieMenuItem.SubMenuSectorProperty = DependencyProperty.Register("SubMenuSector", typeof(double), typeof(PieMenuItem), new FrameworkPropertyMetadata(120.0));
             PieMenuItem.CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(PieMenuItem), new FrameworkPropertyMetadata(null));
-            PieMenuItem.CenterTextProperty = DependencyProperty.Register("CenterText", typeof(bool), typeof(PieMenuItem), new FrameworkPropertyMetadata(false));
+            PieMenuItem.CenterTextVerticalProperty = DependencyProperty.Register("CenterTextVertical", typeof(bool), typeof(PieMenuItem), new FrameworkPropertyMetadata(false));
+            PieMenuItem.CenterTextHorizontalProperty = DependencyProperty.Register("CenterTextHorizontal", typeof(bool), typeof(PieMenuItem), new FrameworkPropertyMetadata(false));
             PieMenuItem.IdProperty = DependencyProperty.Register("Id", typeof(int), typeof(PieMenuItem), new FrameworkPropertyMetadata(0));
 
             //PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem), new FrameworkPropertyMetadata(""));
