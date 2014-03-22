@@ -71,7 +71,10 @@ namespace MusicSearch.Managers
             Debug.WriteLine("request: " + request);
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
-            
+            if (String.IsNullOrEmpty(response))
+            {
+                return null;
+            }
             //Apostrophes are replaced by HTML unicode
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
@@ -142,6 +145,10 @@ namespace MusicSearch.Managers
 
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
+            if (String.IsNullOrEmpty(response))
+            {
+                return null;
+            }
             //Apostrophes are replaced by HTML unicode
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
@@ -262,6 +269,10 @@ namespace MusicSearch.Managers
             //build first query (basic information about the artist)
             String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=terms&bucket=id:facebook&bucket=artist_location&bucket=biographies&bucket=years_active&bucket=video&bucket=urls&bucket=blogs&bucket=reviews&bucket=images&bucket=news&sort=hotttnesss-desc&results=1&name=" + artist;
             String response = HttpRequester.StartRequest(request);
+            if (String.IsNullOrEmpty(response))
+            {
+                return null;
+            }
             //transform "\'" to unicode equivalent
             response = response.Replace("'", "&#39;");
             //Apostrophes are replaced by HTML unicode
@@ -278,6 +289,10 @@ namespace MusicSearch.Managers
             //build 2nd query (songs of the artist)
             String request2 = _defaultURL + "artist/songs?" + "api_key=" + GetAPIKey() + "&format=json&results=100&name=" + artist;
             String response2 = HttpRequester.StartRequest(request2);
+            if (String.IsNullOrEmpty(response))
+            {
+                return null;
+            }
             //transform "\'" to unicode equivalent
             response2 = response2.Replace("'", "&#39;");
             //Apostrophes are replaced by HTML unicode
@@ -298,6 +313,10 @@ namespace MusicSearch.Managers
             //build 3rd query (similiar artists)
             String request3 = _defaultURL + "artist/similar?" + "api_key=" + GetAPIKey() + "&format=json&bucket=familiarity&min_familiarity=0.7&name=" + artist;
             String response3 = HttpRequester.StartRequest(request3);
+            if (String.IsNullOrEmpty(response))
+            {
+                return null;
+            }
             //transform "\'" to unicode equivalent
             response3 = response3.Replace("'", "&#39;");
             var cleared3 = @"" + response3.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
@@ -335,6 +354,10 @@ namespace MusicSearch.Managers
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=" + term;
             //send query & receive response
             String response = HttpRequester.StartRequest(request);
+            if (String.IsNullOrEmpty(response))
+            {
+                return null;
+            }
             //transform "\'" to unicode equivalent
             response = response.Replace("'", "&#39;");
             //Apostrophes are replaced by HTML unicode
@@ -368,6 +391,10 @@ namespace MusicSearch.Managers
             String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=" + term;
             //send query and receive response
             String response = HttpRequester.StartRequest(request);
+            if (String.IsNullOrEmpty(response))
+            {
+                return null;
+            }
             //transform "\'" to unicode equivalent
             response = response.Replace("'", "&#39;");
             if (String.IsNullOrEmpty(response))
@@ -476,6 +503,10 @@ namespace MusicSearch.Managers
         {
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
+            if (String.IsNullOrEmpty(response))
+            {
+                return null;
+            }
             //transform "\'" to unicode equivalent
             response = response.Replace("'", "&#39;");
             return ParseResponse(response, ID, SearchRC);
