@@ -23,6 +23,8 @@ namespace Ctms.Applications.ViewModels
         private bool _playing = false;
         private bool _prelistening = false;
         private bool _isRotate = false;
+        private bool _isShuffle = false;
+        private bool _isRepeat = false;
 
         //Commands
         private ICommand _playCommand;
@@ -32,6 +34,8 @@ namespace Ctms.Applications.ViewModels
         private ICommand _jumpToTrackCommand;
         private ICommand _rotateCommand;
         private ICommand _reorderTrackCommand;
+        private ICommand _shuffleCommand;
+        private ICommand _repeatCommand;
         //
         private Playlist _currentPlaylist = null;
         private ObservableCollection<ResultDataModel> _playlistResults;
@@ -125,6 +129,32 @@ namespace Ctms.Applications.ViewModels
                 {
                     _isRotate = value;
                     RaisePropertyChanged("IsRotate");
+                }
+            }
+        }
+
+        public bool IsShuffle
+        {
+            get { return _isShuffle; }
+            set
+            {
+                if (_isShuffle != value)
+                {
+                    _isShuffle = value;
+                    RaisePropertyChanged("IsShuffle");
+                }
+            }
+        }
+
+        public bool IsRepeat
+        {
+            get { return _isRepeat; }
+            set
+            {
+                if (_isRepeat != value)
+                {
+                    _isRepeat = value;
+                    RaisePropertyChanged("IsRepeat");
                 }
             }
         }
@@ -242,6 +272,32 @@ namespace Ctms.Applications.ViewModels
                 {
                     _reorderTrackCommand = value;
                     RaisePropertyChanged("ReorderTrackCommand");
+                }
+            }
+        }
+
+        public ICommand ShuffleCommand
+        {
+            get { return _shuffleCommand; }
+            set
+            {
+                if (_shuffleCommand != value)
+                {
+                    _shuffleCommand = value;
+                    RaisePropertyChanged("ShuffleCommand");
+                }
+            }
+        }
+
+        public ICommand RepeatCommand
+        {
+            get { return _repeatCommand; }
+            set
+            {
+                if (_repeatCommand != value)
+                {
+                    _repeatCommand = value;
+                    RaisePropertyChanged("RepeatCommand");
                 }
             }
         }

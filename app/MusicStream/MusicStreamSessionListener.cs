@@ -106,8 +106,8 @@ namespace MusicStream
 
         public override void MetadataUpdated(SpotifySession session)
         {
-            base.MetadataUpdated(session);
-
+            //base.MetadataUpdated(session);
+            _sessionManager.Session = session;
         }
 
         public override void StartPlayback(SpotifySession session)

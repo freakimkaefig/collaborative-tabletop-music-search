@@ -51,6 +51,7 @@ namespace MusicStream
         public ConcurrentQueue<string> logMessages;
         SynchronizationContext syncContext;
         System.Threading.Timer timer;
+        private Random _random;
 
         //Player
         private IWavePlayer _waveOutDevice;
@@ -61,6 +62,9 @@ namespace MusicStream
         private Playlist _currentPlaylist;
         private Track _currentPrelistenTrack;
         private int _currentTrackIndex;
+
+        private bool _isShuffle = false;
+        private bool _isRepeat = false;
         
 
         public MusicStreamSessionManager()
@@ -72,6 +76,7 @@ namespace MusicStream
 
             syncContext = SynchronizationContext.Current;
             logMessages = new ConcurrentQueue<string>();
+            _random = new Random();
 
             //configuration for SpotifySession
             var config = new SpotifySessionConfig();
@@ -93,6 +98,12 @@ namespace MusicStream
         }
 
         //SETTER & GETTER
+        public SpotifySession Session
+        {
+            set { _session = value; }
+            get { return _session; }
+        }
+
         public string CredentialsBlob
         {
             set { this._credentialsBlob = value; }
@@ -116,6 +127,18 @@ namespace MusicStream
         {
             set { _currentPrelistenTrack = value; }
             get { return _currentPrelistenTrack; }
+        }
+
+        public bool IsShuffle
+        {
+            set { _isShuffle = value; }
+            get { return _isShuffle; }
+        }
+
+        public bool IsRepeat
+        {
+            set { _isRepeat = value; }
+            get { return _isRepeat; }
         }
 
 
@@ -167,7 +190,12 @@ namespace MusicStream
         public void OpenPlaylists(Playlist playlist)
         {
             //logMessages.Enqueue("MusicStreamSessionManager.OpenPlaylists");
-            _backgroundWorkHelper.DoInBackground(OpenPlaylistWorker, OpenPlaylistCompleted, playlist);
+            //_backgroundWorkHelper.DoInBackground(OpenPlaylistWorker, OpenPlaylistCompleted, playlist);
+
+            _playlistListener = new MusicStreamPlaylistListener(this);
+            playlist.AddCallbacks(_playlistListener, Userdata);
+            _currentPlaylist = playlist;
+            PlaylistOpened(playlist);
         }
 
         public void CreatePlaylist(string name)
@@ -224,12 +252,49 @@ namespace MusicStream
 
         public void ProceedPlayingPlaylist()
         {
-            _currentTrackIndex++;
-            _bufferedWaveProvider.ClearBuffer();
-            _session.PlayerLoad(_currentPlaylist.Track(_currentTrackIndex));
-            _session.PlayerPlay(true);
-            _waveOutDevice.Play();
-            PlaybackStarted();
+            if (IsShuffle)
+            {
+                //choose next track by random
+                var test = _random.Next(0, 100);
+                _currentTrackIndex = _random.Next(0, _currentPlaylist.NumTracks());
+            }
+            else
+            {
+                //next track in the list
+                _currentTrackIndex++;
+            }
+
+            if (_currentTrackIndex >= _currentPlaylist.NumTracks())
+            {
+                //finished track is last of the list
+                if (IsRepeat)
+                {
+                    //restart playlist from beginning
+                    _currentTrackIndex = 0;
+                    _bufferedWaveProvider.ClearBuffer();
+                    _session.PlayerLoad(_currentPlaylist.Track(_currentTrackIndex));
+                    _session.PlayerPlay(true);
+                    _waveOutDevice.Play();
+                    PlaybackStarted();
+                }
+                else
+                {
+                    //stop playback after last track
+                    _session.PlayerPlay(false);
+                    _session.PlayerUnload();
+                    _waveOutDevice.Stop();
+                    return;
+                }
+            }
+            else
+            {
+                //play next track
+                _bufferedWaveProvider.ClearBuffer();
+                _session.PlayerLoad(_currentPlaylist.Track(_currentTrackIndex));
+                _session.PlayerPlay(true);
+                _waveOutDevice.Play();
+                PlaybackStarted();
+            }
         }
 
         public void ReorderTrack(int oldIndex, int newIndex)
@@ -372,26 +437,6 @@ namespace MusicStream
         private void PrelistenStopCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             PrelistenStopped();
-        }
-
-        private void OpenPlaylistWorker(object sender, DoWorkEventArgs e)
-        {
-            _playlistListener = new MusicStreamPlaylistListener(this);
-            ((Playlist)e.Argument).AddCallbacks(_playlistListener, Userdata);
-            e.Result = (Playlist)e.Argument;
-        }
-        private void OpenPlaylistCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            /*
-            logMessages.Enqueue("Playlist '" + ((Playlist)e.Result).Name() + "' opened");
-            for (var i = 0; i < ((Playlist)e.Result).NumTracks(); i++)
-            {
-                logMessages.Enqueue("Track " + i + ": " + ((Playlist)e.Result).Track(i).Artist(0).Name() + " - " + ((Playlist)e.Result).Track(i).Name());
-            }
-             * */
-
-            _currentPlaylist = (Playlist)e.Result;
-            PlaylistOpened((Playlist)e.Result);
         }
 
         private void CreatePlaylistWorker(object sender, DoWorkEventArgs e)

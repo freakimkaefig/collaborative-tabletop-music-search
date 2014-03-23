@@ -151,12 +151,12 @@ namespace Ctms.Applications.Workers
         private void ReadyForPlayback(ObservableCollection<Playlist> playlists)
         {
             _playlistViewModel.ReadyForPlayback = true;
-            _playlists = playlists;
 
-            foreach (var playlist in playlists)
+            for (var i = 0; i < playlists.Count; i++)
             {
-                _menuViewModel.Playlists.Add(new SpotifyPlaylist() { Playlist = playlist });
-                _menuViewModel.PlaylistName = _menuViewModel.Playlists[0].Playlist.Name();
+                SpotifyPlaylist spotifyPlaylist = new SpotifyPlaylist();
+                spotifyPlaylist.Playlist = playlists[i];
+                _menuViewModel.Playlists.Add(spotifyPlaylist);
             }
         }
     }

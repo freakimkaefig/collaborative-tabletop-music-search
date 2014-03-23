@@ -50,6 +50,8 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _jumpToTrackCommand;
         private readonly DelegateCommand _rotateCommand;
         private readonly DelegateCommand _reorderTrackCommand;
+        private readonly DelegateCommand _shuffleCommand;
+        private readonly DelegateCommand _repeatCommand;
 
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
@@ -75,6 +77,8 @@ namespace Ctms.Applications.Controllers
             this._jumpToTrackCommand = new DelegateCommand((index) => _playlistWorker.JumpToTrack((int)index));
             this._rotateCommand = new DelegateCommand(_playlistViewModel.RotatePlaylistView);
             this._reorderTrackCommand = new DelegateCommand((data) => _playlistWorker.ReorderTrack((object[])data));
+            this._shuffleCommand = new DelegateCommand(_playlistWorker.ToggleShuffle, _streamingWorker.CanStream);
+            this._repeatCommand = new DelegateCommand(_playlistWorker.ToggleRepeat, _streamingWorker.CanStream);
         }
 
         public void Initialize()
@@ -88,6 +92,8 @@ namespace Ctms.Applications.Controllers
             _playlistViewModel.JumpToTrackCommand = _jumpToTrackCommand;
             _playlistViewModel.RotateCommand = _rotateCommand;
             _playlistViewModel.ReorderTrackCommand = _reorderTrackCommand;
+            _playlistViewModel.ShuffleCommand = _shuffleCommand;
+            _playlistViewModel.RepeatCommand = _repeatCommand;
             AddWeakEventListener(_playlistViewModel, PlaylistViewModelPropertyChanged);
 
             shellService.PlaylistView = _playlistViewModel.View;
@@ -98,6 +104,8 @@ namespace Ctms.Applications.Controllers
             _playCommand.RaiseCanExecuteChanged();
             _pauseCommand.RaiseCanExecuteChanged();
             _stopCommand.RaiseCanExecuteChanged();
+            _shuffleCommand.RaiseCanExecuteChanged();
+            _repeatCommand.RaiseCanExecuteChanged();
         }
 
         private void PlaylistViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)

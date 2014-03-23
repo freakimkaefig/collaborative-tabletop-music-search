@@ -123,5 +123,33 @@ namespace Ctms.Applications.Workers
         {
             _sessionManager.ReorderTrack((int)data[0], (int)data[1]);
         }
+
+        public void ToggleShuffle()
+        {
+            if (_playlistViewModel.IsShuffle)
+            {
+                _playlistViewModel.IsShuffle = false;
+            }
+            else
+            {
+                _playlistViewModel.IsShuffle = true;
+            }
+
+            _sessionManager.IsShuffle = _playlistViewModel.IsShuffle;
+        }
+
+        public void ToggleRepeat()
+        {
+            if (_playlistViewModel.IsRepeat)
+            {
+                _playlistViewModel.IsRepeat = false;
+            }
+            else
+            {
+                _playlistViewModel.IsRepeat = true;
+            }
+
+            _sessionManager.IsRepeat = _playlistViewModel.IsRepeat;
+        }
     }
 }
