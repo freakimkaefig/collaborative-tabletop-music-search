@@ -20,6 +20,8 @@ using Ctms.Applications.DataModels;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation;
 using Blake.NUI.WPF.Gestures;
+using System.Windows.Media.Animation;
+using System.Numerics;
 
 namespace Ctms.Presentation.Views
 {
@@ -62,8 +64,26 @@ namespace Ctms.Presentation.Views
 
         private void PlaylistAddDropTarget_Drop(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
         {
-            object result = e.Cursor.Data as ResultDataModel;
-            _viewModel.AddTrackCommand.Execute(result);
+            FrameworkElement frameworkElement = sender as FrameworkElement;
+
+            
+            Image animatedImage = null;
+
+            if (frameworkElement.Name == "DropTargetLeft")
+            {
+                animatedImage = PlusImageLeft;
+            }
+            else if (frameworkElement.Name == "DropTargetRight")
+            {
+                animatedImage = PlusImageRight;
+            }
+
+            object[] data = new object[]
+            {
+                e.Cursor.Data as ResultDataModel,
+                animatedImage as Image,
+            };
+            _viewModel.AddTrackCommand.Execute(data);
         }
 
         private void surfaceListBox_DoubleTapGesture(object sender, GestureEventArgs e)

@@ -8,6 +8,8 @@ using MusicStream;
 using Ctms.Domain.Objects;
 using SpotifySharp;
 using Ctms.Applications.DataModels;
+using System.Windows.Media.Animation;
+using System.Windows;
 
 namespace Ctms.Applications.Workers
 {
@@ -20,6 +22,9 @@ namespace Ctms.Applications.Workers
         private PlaylistViewModel _playlistViewModel;
         private MusicStreamAccountWorker _accountWorker;
         private MusicStreamSessionManager _sessionManager;
+
+        DoubleAnimation fadeIn = new DoubleAnimation() { From = 0, To = 1, Duration = TimeSpan.FromSeconds(1) };
+        DoubleAnimation fadeOut = new DoubleAnimation() { From = 1, To = 0, Duration = TimeSpan.FromSeconds(2) };
 
         [ImportingConstructor]
         public PlaylistWorker(PlaylistViewModel playlistViewModel, MusicStreamAccountWorker accountWorker)
@@ -81,8 +86,10 @@ namespace Ctms.Applications.Workers
         }
 
         //PUBLIC METHODS
-        public void AddTrackToPlaylist(ResultDataModel result)
+        public void AddTrackToPlaylist(object[] data)
         {
+            ResultDataModel result = (ResultDataModel)data[0];
+            System.Windows.Controls.Image imageElement = (System.Windows.Controls.Image)data[1];
             if (_accountWorker.IsLoggedIn())
             {
                 if (_playlistViewModel.CurrentPlaylist != null)
@@ -91,13 +98,23 @@ namespace Ctms.Applications.Workers
                     {
                         if (_playlistViewModel.CurrentPlaylist.Track(i).Artist(0).Name().Equals(result.SpotifyTrack.Artist(0).Name()) && _playlistViewModel.CurrentPlaylist.Track(i).Name().Equals(result.SpotifyTrack.Name()))
                         {
+                            //track already in playlist
+                            _sessionManager.logMessages.Enqueue("Track already in playlist");
                             return;
                         }
                         else
                         {
-
+                            
                         }
                     }
+                    Storyboard.SetTarget(fadeIn, imageElement);
+                    Storyboard.SetTarget(fadeOut, imageElement);
+                    Storyboard.SetTargetProperty(fadeIn, new PropertyPath(System.Windows.Controls.Image.OpacityProperty));
+                    Storyboard.SetTargetProperty(fadeOut, new PropertyPath(System.Windows.Controls.Image.OpacityProperty));
+                    Storyboard sb = new Storyboard();
+                    sb.Children.Add(fadeIn);
+                    sb.Children.Add(fadeOut);
+                    sb.Begin();
                     _playlistViewModel.ResultsForPlaylist.Add(result);
                     _sessionManager.AddTrackToPlaylist(_playlistViewModel.CurrentPlaylist, result.SpotifyTrack);
                 }
@@ -105,12 +122,14 @@ namespace Ctms.Applications.Workers
                 {
                     //no playlist available
                     //Notify user to open or create playlist
+                    _sessionManager.logMessages.Enqueue("No Playlist opened");
                 }
             }
             else
             {
                 //user not logged in
                 //Notify user to login to spotify
+                _sessionManager.logMessages.Enqueue("User not logged in");
             }
         }
 
