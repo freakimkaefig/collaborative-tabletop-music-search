@@ -217,7 +217,7 @@
         		</i:Interaction.Triggers>
         	</s:SurfaceButton>
         </Grid>
-        <Grid x:Name="OpenPlaylistDialog" HorizontalAlignment="Left" Margin="-568,80,0,0" Width="308" Background="#CC000000" RenderTransformOrigin="0.5,0.5" Height="440" VerticalAlignment="Top">
+        <Grid x:Name="OpenPlaylistDialog" HorizontalAlignment="Left" Margin="-1568,80,0,0" Width="308" Background="#CC000000" RenderTransformOrigin="0.5,0.5" Height="440" VerticalAlignment="Top">
         	<Grid.RenderTransform>
         		<TransformGroup>
         			<ScaleTransform/>
