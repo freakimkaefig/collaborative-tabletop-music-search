@@ -25,6 +25,7 @@ namespace MusicStream
         private PlaylistContainer _playlistContainer;
         private MusicStreamPlaylistContainerListener _playlistContainerListener;
         private MusicStreamPlaylistListener _playlistListener;
+        private MusicStreamVisualizationManager _visualizationManager;
 
         //Actions
         public Action<string> ReceiveLogMessage;
@@ -95,24 +96,37 @@ namespace MusicStream
         }
 
         //SETTER & GETTER
+        /// <summary>
+        /// Getter&Setter for the current SpotifySession
+        /// </summary>
         public SpotifySession Session
         {
             set { _session = value; }
             get { return _session; }
         }
 
+        /// <summary>
+        /// Getter&Setter for the current CredentialsBlob
+        /// </summary>
         public string CredentialsBlob
         {
             set { this._credentialsBlob = value; }
             get { return this._credentialsBlob; }
         }
 
+        /// <summary>
+        /// Getter&Setter for the current Userdata
+        /// </summary>
         public object Userdata
         {
             set { this._userdata = value; }
             get { return this._userdata; }
         }
 
+        /// <summary>
+        /// Returns current AudioBufferStats
+        /// </summary>
+        /// <returns>int samples; int stutter</returns>
         public AudioBufferStats GetCurrentAudioBufferStats()
         {
             _audioBufferStats.samples = _bufferedWaveProvider.BufferedBytes / 2;
@@ -140,6 +154,11 @@ namespace MusicStream
 
 
         /* ---------- PUBLIC METHODS ---------- */
+        /// <summary>
+        /// Handles Logging in to Spotify
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
         public void Login(string username, string password)
         {
             //logMessages.Enqueue("MusicStreamSessionManager.Login");
@@ -153,6 +172,9 @@ namespace MusicStream
             //_session.Login(_spotifyUsername, _spotifyPassword, true, CredentialsBlob);
         }
 
+        /// <summary>
+        /// Handles logout from Spotify
+        /// </summary>
         public void Logout()
         {
             //handles logging out from spotify
@@ -160,6 +182,11 @@ namespace MusicStream
             _backgroundWorkHelper.DoInBackground(LogoutWorker, LogoutCompleted);
         }
 
+        /// <summary>
+        /// Checks if track is available for streaming from Spotify
+        /// </summary>
+        /// <param name="spotifyTrackId"></param>
+        /// <returns></returns>
         public Track CheckTrackAvailability(string spotifyTrackId)
         {
             Track track = Link.CreateFromString(spotifyTrackId).AsTrack();
@@ -175,15 +202,27 @@ namespace MusicStream
             }
         }
 
+        /// <summary>
+        /// Starts streaming passed track from middle (prelistening)
+        /// </summary>
+        /// <param name="track"></param>
         public void StartPrelisteningTrack(Track track)
         {  
             _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, track);
         }
+
+        /// <summary>
+        /// Stops prelistening of current prelistened track
+        /// </summary>
         public void StopPrelisteningTrack()
         {
             _backgroundWorkHelper.DoInBackground(PrelistenStopWorker, PrelistenStopCompleted);
         }
 
+        /// <summary>
+        /// Open passed playlist from Spotify
+        /// </summary>
+        /// <param name="playlist"></param>
         public void OpenPlaylists(Playlist playlist)
         {
             //logMessages.Enqueue("MusicStreamSessionManager.OpenPlaylists");
@@ -195,18 +234,32 @@ namespace MusicStream
             PlaylistOpened(playlist);
         }
 
+        /// <summary>
+        /// Create and open a new playlist with the passed name for the currently logged in user
+        /// </summary>
+        /// <param name="name"></param>
         public void CreatePlaylist(string name)
         {
             //logMessages.Enqueue("MusicStreamSessionManager.CreatePlaylist");
             _backgroundWorkHelper.DoInBackground(CreatePlaylistWorker, CreatePlaylistCompleted, name);
         }
 
+        /// <summary>
+        /// Add passed track to passed playlist in Spotify
+        /// </summary>
+        /// <param name="playlist"></param>
+        /// <param name="spotifyTrack"></param>
         public void AddTrackToPlaylist(Playlist playlist, Track spotifyTrack)
         {
             object[] data = new object[2] { playlist, spotifyTrack };
             _backgroundWorkHelper.DoInBackground(AddTrackToPlaylistWorker, AddTrackToPlaylistCompleted, data);
         }
 
+        /// <summary>
+        /// Moves to passed track(index) in passed playlist
+        /// </summary>
+        /// <param name="playlist"></param>
+        /// <param name="index"></param>
         public void JumpToTrackInPlaylist(Playlist playlist, int index)
         {
             _currentPlaylist = playlist;
@@ -294,10 +347,16 @@ namespace MusicStream
             }
         }
 
-        public void ReorderTrack(int oldIndex, int newIndex)
+        /// <summary>
+        /// Reorder tracks in passed playlist
+        /// </summary>
+        /// <param name="playlist">Playlist from SpotifySharp</param>
+        /// <param name="oldIndex">index of track to reorder</param>
+        /// <param name="newIndex">index of track where to put</param>
+        public void ReorderTrack(Playlist playlist, int oldIndex, int newIndex)
         {
             int[] tracks = new int[] { oldIndex };
-            _currentPlaylist.ReorderTracks(tracks, newIndex);
+            playlist.ReorderTracks(tracks, newIndex);
         }
 
 
@@ -337,6 +396,9 @@ namespace MusicStream
                 //logMessages.Enqueue("Found Playlist: (" + i + ")" + _playlistContainer.Playlist(i).Name());
             }
 
+            //Create VisualizationManager
+            _visualizationManager = new MusicStreamVisualizationManager(this);
+
             //Create Buffer, Stats & AudioDevice
             _bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat()); //Create new Buffer
             _bufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(240);
@@ -367,6 +429,8 @@ namespace MusicStream
                 _copiedFrames = new byte[size];
                 Marshal.Copy(frames, _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
                 _bufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
+
+                _visualizationManager.MusicDeliveryCallback(format, _copiedFrames, num_frames);
             }
         }
 

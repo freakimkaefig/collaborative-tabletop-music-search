@@ -140,7 +140,7 @@ namespace Ctms.Applications.Workers
 
         public void ReorderTrack(object[] data)
         {
-            _sessionManager.ReorderTrack((int)data[0], (int)data[1]);
+            _sessionManager.ReorderTrack(_playlistViewModel.CurrentPlaylist, (int)data[0], (int)data[1]);
         }
 
         public void ToggleShuffle()

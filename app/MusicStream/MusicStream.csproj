@@ -62,6 +62,7 @@
     <Compile Include="MusicStreamPlaylistListener.cs" />
     <Compile Include="MusicStreamSessionListener.cs" />
     <Compile Include="MusicStreamSessionManager.cs" />
+    <Compile Include="MusicStreamVisualizationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
