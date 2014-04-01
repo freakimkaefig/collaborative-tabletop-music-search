@@ -192,14 +192,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Blake.NUI.WPF">
-      <HintPath>..\libs\Blake.NUI\bin\Blake.NUI.WPF.dll</HintPath>
+    <Reference Include="Blake.NUI.WPF, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\Blake.NUI\Blake.NUI.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Blake.NUI.WPF.Surface">
-      <HintPath>..\libs\Blake.NUI\bin\Blake.NUI.WPF.Surface.dll</HintPath>
+    <Reference Include="Blake.NUI.WPF.Surface, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\Blake.NUI\Blake.NUI.WPF.Surface.dll</HintPath>
     </Reference>
-    <Reference Include="Blake.NUI.WPF.SurfaceToolkit">
-      <HintPath>..\libs\Blake.NUI\bin\Blake.NUI.WPF.SurfaceToolkit.dll</HintPath>
+    <Reference Include="Blake.NUI.WPF.SurfaceToolkit, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\Blake.NUI\Blake.NUI.WPF.SurfaceToolkit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Effects" />
     <Reference Include="Microsoft.Expression.Interactions" />
