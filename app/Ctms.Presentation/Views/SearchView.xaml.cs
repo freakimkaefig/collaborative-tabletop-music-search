@@ -24,6 +24,7 @@ using Ctms.Applications.DataModels;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Ctms.Presentation.Converters;
+using System.Windows.Media.Animation;
 
 namespace Ctms.Presentation.Views
 {
@@ -42,6 +43,8 @@ namespace Ctms.Presentation.Views
             InitializeComponent();
             _lazyVm = new Lazy<SearchViewModel>(() => ViewHelper.GetViewModel<SearchViewModel>(this));
             SearchTagViews = new Dictionary<int, SearchTagView>();
+            
+                
         }
 
         // Provides this view's viewmodel
@@ -63,6 +66,10 @@ namespace Ctms.Presentation.Views
             if(SearchTagViews.ContainsKey(tagId) == false) SearchTagViews.Add(tagId, searchTagView);
 
             UpdateVisual(tagId);
+
+            Storyboard sb = (Storyboard)Application.Current.Resources["Tests"];
+            animation.BeginStoryboard(sb);
+
         }
 
         private void UpdateResources(SearchTagView searchTagView, int tagId, TagDataModel tagDM)
@@ -77,6 +84,8 @@ namespace Ctms.Presentation.Views
             var isEditVisible = converter.Convert(tagDM.IsEditVisible, null, null, null);
             searchTagView.Resources["IsEditVisible"] = converter.Convert(tagDM.IsEditVisible, null, null, null);
             searchTagView.Resources["IsMenuVisible"] = converter.Convert(tagDM.IsMenuVisible, null, null, null);
+
+            
         }
 
         private static void CalcMenuVisibility(SearchTagView searchTagView, TagDataModel tagDM)
