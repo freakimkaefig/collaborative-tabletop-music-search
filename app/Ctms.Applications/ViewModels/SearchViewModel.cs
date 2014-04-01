@@ -37,6 +37,7 @@ namespace Ctms.Applications.ViewModels
         private bool        _addedVisualization;
         private ICommand _addVisualizationCmd;
         private ICommand _editCmd;
+        private List<searchObjects> _searchObjectsList;
         //private readonly IEnumerable<SearchTagViewModel> _searchTags;
 
         [ImportingConstructor]

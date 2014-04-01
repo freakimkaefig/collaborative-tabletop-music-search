@@ -27,10 +27,11 @@ namespace Ctms.Applications.Workers
             _searchViewModel = searchViewModel;
             //Workers
             _resultWorker = resultWorker;
-        }
-
             //Helpers
             _backgroundWorker = new BackgroundWorkHelper();
+        }
+
+            
         public void Initialize(SearchManager searchManager)
         {
             _searchManager = searchManager;
