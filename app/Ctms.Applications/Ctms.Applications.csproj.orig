@@ -1,4 +1,4 @@
-<<<<<<< origin/fullscreen
+<<<<<<< HEAD
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
@@ -39,7 +39,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="DataModels\" />
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
@@ -57,7 +56,9 @@
     <Compile Include="DataFactories\BaseFactory.cs" />
     <Compile Include="DataFactories\PlaylistFactory.cs" />
     <Compile Include="DataFactories\SongFactory.cs" />
+    <Compile Include="DataModels\ResultDataModel.cs" />
     <Compile Include="Data\Repository.cs" />
+    <Compile Include="Data\XmlProvider.cs" />
     <Compile Include="Handlers\TagHandler.cs" />
     <Compile Include="ViewModels\SearchTagViewModel.cs">
       <SubType>Code</SubType>
@@ -66,7 +67,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Workers\DetailWorker.cs" />
-    <Compile Include="Workers\ObservableCollection.cs" />
     <Compile Include="Workers\PlaylistWorker.cs" />
     <Compile Include="Workers\ResultWorker.cs" />
     <Compile Include="Workers\SearchWorker.cs" />
@@ -81,9 +81,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\TagVisualizationService.cs" />
+    <Compile Include="Services\SearchTagVisualizationService.cs" />
     <Compile Include="Services\EntityService.cs" />
-    <Compile Include="Services\IEntityService.cs" />
     <Compile Include="Services\IPresentationService.cs" />
     <Compile Include="Services\IShellService.cs" />
     <Compile Include="Services\ShellService.cs" />
@@ -208,7 +207,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="DataModels\" />
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
@@ -224,12 +222,15 @@
     <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="DataFactories\BaseFactory.cs" />
+    <Compile Include="DataFactories\TagFactory.cs" />
     <Compile Include="DataFactories\PlaylistFactory.cs" />
     <Compile Include="DataFactories\SongFactory.cs" />
+    <Compile Include="DataModels\TagDataModel.cs" />
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Data\XmlProvider.cs" />
     <Compile Include="DevHelper\DevDataProvider.cs" />
     <Compile Include="Handlers\TagHandler.cs" />
+    <Compile Include="Services\MyMessageService.cs" />
     <Compile Include="ViewModels\SearchTagViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -321,5 +322,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
->>>>>>> local
+>>>>>>> origin/dev
 </Project>

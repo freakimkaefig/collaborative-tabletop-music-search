@@ -6,9 +6,9 @@ using Ctms.Domain.Objects;
 using System.Collections.ObjectModel;
 <<<<<<< HEAD
 using SpotifySharp;
-using Ctms.Applications.DataModels;
 =======
->>>>>>> dev
+>>>>>>> origin/dev
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -21,11 +21,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand selectCommand;
         private ICommand prelistenCommand;
         private ICommand clickedResultCommand;
-<<<<<<< HEAD
         private ObservableCollection<ResultDataModel> _results;
-=======
-        private ObservableCollection<Result> _results;
->>>>>>> dev
 
 
         [ImportingConstructor]
@@ -33,13 +29,10 @@ namespace Ctms.Applications.ViewModels
             : base(view)
         {
 <<<<<<< HEAD
-            _results = new ObservableCollection<ResultDataModel>()
-            {
-                new ResultDataModel("spotify:track:4lCv7b86sLynZbXhfScfm2", "Firework", "Katy Perry"),
-                new ResultDataModel("spotify:track:1zi3f2VL4eSFHvm0WC506q", "Achy Breaky Heart", "Billy Ray Cyrus"),
-                new ResultDataModel("spotify:track:6HNGXmc7A14zeeWTj4gzz8", "Watercolour", "Pendulum")
+            _results = new ObservableCollection<ResultDataModel>();
+            view.AddResources();
 =======
-
+            
             _results = new ObservableCollection<Result>()
             {
                 new Result() 
@@ -66,8 +59,10 @@ namespace Ctms.Applications.ViewModels
                         Artist = "Pendulum"
                     }
                 }
->>>>>>> dev
             };
+
+            //_results = new ObservableCollection<ResultDataModel>();
+>>>>>>> origin/dev
         }
 
 
@@ -86,11 +81,7 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-<<<<<<< HEAD
         public ObservableCollection<ResultDataModel> Results
-=======
-        public ObservableCollection<Result> Results
->>>>>>> dev
         {
             get { return _results; }
             set
