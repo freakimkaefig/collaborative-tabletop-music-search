@@ -28,7 +28,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _newPlaylistCommand;
         private ICommand _goCommand;
         //
-        private string _spotifyUsernameInput = null;
+        private string _spotifyUsernameInput = "mybleton";
         private string _loginLogMessage;
         private string _playlistName = null;
         private string _goInput;

@@ -67,8 +67,8 @@ namespace Ctms.Presentation.Views
 
             UpdateVisual(tagId);
 
-            Storyboard sb = (Storyboard)Application.Current.Resources["Tests"];
-            animation.BeginStoryboard(sb);
+            //Storyboard sb = (Storyboard)Application.Current.Resources["Tests"];
+            //animation.BeginStoryboard(sb);
 
         }
 
