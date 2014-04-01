@@ -57,6 +57,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Helpers\" />
     <Folder Include="Resources\Images\Common\" />
     <Folder Include="Resources\Images\Detail\" />
     <Folder Include="Resources\Images\Menu\" />
@@ -184,6 +185,7 @@
     </Compile>
     <Compile Include="Views\SearchView.xaml.cs">
       <DependentUpon>SearchView.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\ShellWindow.xaml.cs">
       <DependentUpon>ShellWindow.xaml</DependentUpon>
@@ -213,6 +215,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.SqlXml" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Interactivity" />
@@ -253,6 +256,8 @@
     <Resource Include="Resources\Images\Search\basic-texture.png" />
     <Resource Include="Resources\Images\Search\record.png" />
     <Resource Include="Resources\Images\Search\tweed.png" />
+    <Resource Include="Resources\Images\Search\maske_dunkel.png" />
+    <Resource Include="Resources\Images\Search\record2.png" />
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>

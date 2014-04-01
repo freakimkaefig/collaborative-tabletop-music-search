@@ -25,8 +25,11 @@ namespace Ctms.Applications.ViewModels
         public ResultViewModel(IResultView view)
             : base(view)
         {
+            
             _results = new ObservableCollection<ResultDataModel>();
             view.AddResources();
+
+            //_results = new ObservableCollection<ResultDataModel>();
         }
 
 

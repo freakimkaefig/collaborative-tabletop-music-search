@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using Ctms.Domain.Objects;
 using MusicSearch.ResponseObjects;
+using Ctms.Applications.Data;
 
 namespace Ctms.Applications.DataFactories
 {
     //Provides methods for CRUD-operations on the database-object playlist
     public class SongFactory : BaseFactory
     {
-        public SongFactory()
-            : base()
+        public SongFactory(Repository repository)
+            : base(repository)
         {
         }
         

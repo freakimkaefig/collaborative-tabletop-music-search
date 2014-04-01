@@ -19,7 +19,9 @@ namespace MusicSearch.ResponseObjects
             public List<ArtistSuggestion> ArtistSuggestions { get; set; }
             public List<TitleSuggestion> TitleSuggestions { get; set; }
             public List<ArtistInfo> ArtistInfos { get; set; }
-            
+            public List<genres> Genres { get; set; }
+            public List<combinedQuery> combinedQueries { get; set; }
+
 
             public class StatusObj
             {
@@ -28,18 +30,20 @@ namespace MusicSearch.ResponseObjects
                 public string Message { get; set; }
             }
 
-            public class ArtistSuggestion
+            public class Suggestion
             {
-                public String name { get; set; }
-                public String id { get; set; }
                 public int originId { get; set; }
+                public String id { get; set; }
             }
 
-            public class TitleSuggestion
+            public class ArtistSuggestion : Suggestion
+            {
+                public String name { get; set; }
+            }
+
+            public class TitleSuggestion : Suggestion
             {
                 public String title { get; set; }
-                public String id { get; set; }
-                public int originId { get; set; }
                 public String artist_name { get; set; }
             }
 
@@ -86,23 +90,34 @@ namespace MusicSearch.ResponseObjects
                 public double song_hotttnesss { get; set; }
 
                 public Object audio_summary { get; set; }
-               /* {
-                    public double energy { get; set; }
-                    public double liveness { get; set; }
-                    public double tempo { get; set; }
-                    public double speechiness { get; set; }
-                    public double duration { get; set; }
-                    public double acousticness { get; set; }
-                    public double danceability { get; set; }
-                    public double loudness { get; set; }
-                }*/
-             
+                           
             }
+
+            public class combinedQuery
+            {
+                public string Artist_Id { get; set; }
+                public string Artist_Name { get; set; }
+                public string Title { get; set; }
+                public List<Tracks> tracks { get; set; }
+                public String[] originIDs { get; set; }
+            }
+
             public class Tracks
             {
                 public string foreign_id { get; set; }
             }
 
+            public class genres
+            {
+                public String genre_name { get; set; }
+                public List<genres.subgenres> Subgenres { get; set; }
+                
+                public class subgenres
+                {
+                    public String name { get; set; }
+                }
+            }
+            
             
         }
     }

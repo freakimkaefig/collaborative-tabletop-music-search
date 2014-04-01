@@ -2,43 +2,111 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MusicSearch.SearchObjects;
+using System.Collections.ObjectModel;
+using System.Waf.Foundation;
+using Helpers;
 
 namespace Ctms.Domain.Objects
 {
-    public class Tag
+    // A Tag is the digital representation of a "Tangible"
+    public class Tag : Model
     {
-        public int              Id                  { get; set; }
-        public double           Angle               { get; set; }
-        //public string State { get; set; }
-        public List<TagOption>  TagOptions          { get; set; } // A tag provides multiple TagOptions
-        public Keyword          SelectedKeyword     { get; set; }
-        public List<Keyword>    ParentKeywords      { get; set; }
+        private Keyword _assignedKeyword;
+        private readonly ObservableCollection<TagOption> _tagOptions;
+        private readonly ObservableCollection<TagOption> _previousOptions;
+        private short _angle;
+        private short _positionY;
+        private short _positionX;
+        private short orientation;
 
         public Tag()
         {
-            TagOptions = new List<TagOption>();
+            _tagOptions         = new ObservableCollection<TagOption>();
+            _previousOptions    = new ObservableCollection<TagOption>();
+
+            //_angle = 90.0;
         }
-    }
 
-    // Is provided by a Tag
-    public class TagOption
-    {
-        public int Id           { get; set; }
-        public Keyword Keyword  { get; set; }
-    }
+        public int Id { get; set; }
 
-    // TagOption with two text items
-    public class DoubleTextTagOption : TagOption
-    {
-        //!! still needed?
-        public string MainText  { get; set; }
-        public string SubText   { get; set; }
-    }
+        // A tag provides multiple TagOptions which lead to a final selection of a keyword
+        public ObservableCollection<TagOption> TagOptions
+        {
+            get { return _tagOptions; }
+        }
+        
+        public ObservableCollection<TagOption> PreviousOptions
+        {
+            get { return _previousOptions; }
+        }
+        
+        public int CurrentLayerNr { get; set; }
 
-    // TagOption with one text item
-    public class SingleTextTagOption : TagOption
-    {
-        public string Text { get; set; }
+        // What is the current angle in relation to the default orientation
+        public short Angle
+        {
+            get { return _angle; }
+            set
+            {
+                if (_angle != value)
+                {
+                    _angle = value;
+                    RaisePropertyChanged("Angle");
+                }
+            }
+        }
+
+        public short Orientation
+        {
+            get { return orientation; }
+            set
+            {
+                if (orientation != value)
+                {
+                    orientation = value;
+                    RaisePropertyChanged("Orientation");
+                }
+            }
+        }
+
+        public short PositionY
+        {
+            get { return _positionY; }
+            set
+            {
+                if (_positionY != value)
+                {
+                    _positionY = value;
+                    RaisePropertyChanged("PositionY");
+                }
+            }
+        }
+
+        public short PositionX
+        {
+            get { return _positionX; }
+            set
+            {
+                if (_positionX != value)
+                {
+                    _positionX = value;
+                    RaisePropertyChanged("PositionX");
+                }
+            }
+        }
+
+        // Which keyword is assigned to this tag
+        public Keyword AssignedKeyword
+        {
+            get { return _assignedKeyword; }
+            set
+            {
+                if (_assignedKeyword != value)
+                {
+                    _assignedKeyword = value;
+                    RaisePropertyChanged("AssignedKeyword");
+                }
+            }
+        }
     }
 }

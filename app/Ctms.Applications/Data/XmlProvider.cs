@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
-using MusicSearch.SearchObjects;
+using Ctms.Domain;
 
 namespace Ctms.Applications.Services
 {
@@ -18,9 +18,9 @@ namespace Ctms.Applications.Services
             //ToDo: Read styles from xml
             var styles = new List<Style>()
             {
-                new Style("Rock"),
-                new Style("Drum 'n' Bass"),
-                new Style("Elektro")               
+                new Style(0, "Rock"),
+                new Style(1, "Drum 'n' Bass"),
+                new Style(2, "Elektro")               
             };
             return styles;
         }

@@ -8,6 +8,6 @@ namespace MusicSearch.SearchObjects
     //Stores keywords in a hierarchical order below their Types
     public class KeywordContainer
     {
-        public Dictionary<KeywordType.Types, List<Keyword>> Container;
+        public Dictionary<KeywordTypes, List<Keyword>> Container;
     }
 }

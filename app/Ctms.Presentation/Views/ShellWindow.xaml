@@ -10,14 +10,6 @@
     mc:Ignorable="d"     
     Width="1920" Height="1080"
     WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"> <!--Topmost="True">-->
-<!--d:DataContext="{d:DesignInstance dd:SampleShellViewModel, IsDesignTimeCreatable=True}"
-    Title="{Binding Title}" Icon="{StaticResource BookLibraryImageSource}"
-    waf:ValidationHelper.IsEnabled="true" waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"-->
-
-    <!--xmlns:p="clr-namespace:Ctms.Presentation.Properties"
-    
-    xmlns:dd="clr-namespace:Ctms.Presentation.DesignData"
-    xmlns:c="clr-namespace:Ctms.Presentation.Converters"-->
 
     <Window.Background>
         <RadialGradientBrush
@@ -31,18 +23,15 @@
         </RadialGradientBrush>
     </Window.Background>
     
-    <!--<s:TagVisualizer x:Name="MyTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
-                     VisualizationRemoved="OnVisualizationRemoved">-->
-        <Grid Margin="0,0,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+    <Grid Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
             
             <ContentControl Content="{Binding ShellService.SearchView}" Grid.Column="0"/>            
             <ContentControl Content="{Binding ShellService.ResultView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.DetailView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.MenuView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Column="0"/>
-        </Grid>  
-    <!--</s:TagVisualizer>-->
+    </Grid>  
 </s:SurfaceWindow>

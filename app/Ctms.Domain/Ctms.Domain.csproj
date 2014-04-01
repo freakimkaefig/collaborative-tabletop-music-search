@@ -40,6 +40,10 @@
     <Folder Include="DataFiles\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{D529C6B5-B1B8-4837-918E-FBF777B36F11}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\libs\WpfApplicationFramework\WpfApplicationFramework.csproj">
       <Project>{27B67DFE-0BF1-4435-B036-E4C083EAEA03}</Project>
       <Name>WpfApplicationFramework</Name>
@@ -70,11 +74,15 @@
   <ItemGroup>
     <Compile Include="CtmsEntities.cs" />
     <Compile Include="Objects\Detail.cs" />
+    <Compile Include="Objects\Keyword.cs" />
+    <Compile Include="Objects\KeywordContainer.cs" />
+    <Compile Include="Objects\KeywordTypes.cs" />
     <Compile Include="Objects\Result.cs" />
     <Compile Include="Objects\SpotifyPlaylist.cs" />
     <Compile Include="Objects\Song.cs" />
     <Compile Include="Objects\SpotifyTrack.cs" />
     <Compile Include="Objects\Tag.cs" />
+    <Compile Include="Objects\TagOption.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

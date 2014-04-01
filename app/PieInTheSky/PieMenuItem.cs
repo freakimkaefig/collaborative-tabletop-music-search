@@ -3,10 +3,11 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace PieInTheSky
 {
-    public class PieMenuItem : HeaderedItemsControl
+    public class PieMenuItem : HeaderedItemsControl, INotifyPropertyChanged
     {
         public event RoutedEventHandler Click;
 
@@ -16,7 +17,8 @@ namespace PieInTheSky
         public static readonly DependencyProperty SubMenuSectorProperty;
         public static readonly DependencyProperty SectorRadiusProperty;
         public static readonly DependencyProperty CommandProperty;
-        public static readonly DependencyProperty CenterTextProperty;
+        public static readonly DependencyProperty CenterTextVerticalProperty;
+        public static readonly DependencyProperty CenterTextHorizontalProperty;
         public static readonly DependencyProperty SubHeaderProperty;
         public static readonly DependencyProperty IdProperty;
 
@@ -63,18 +65,31 @@ namespace PieInTheSky
         }
 
         [Bindable(true)]
-        public bool CenterText
+        public bool CenterTextVertically
         {
             get
             {
-                return (bool)base.GetValue(PieMenuItem.CenterTextProperty);
+                return (bool)base.GetValue(PieMenuItem.CenterTextVerticalProperty);
             }
             set
             {
-                base.SetValue(PieMenuItem.CenterTextProperty, value);
+                base.SetValue(PieMenuItem.CenterTextVerticalProperty, value);
             }
         }
 
+        [Bindable(true)]
+        public bool CenterTextHorizontal
+        {
+            get
+            {
+                return (bool)base.GetValue(PieMenuItem.CenterTextHorizontalProperty);
+            }
+            set
+            {
+                base.SetValue(PieMenuItem.CenterTextHorizontalProperty, value);
+            }
+        }
+        
         [Bindable(true)]
         public string SubHeader
         {
@@ -110,13 +125,34 @@ namespace PieInTheSky
         {
             PieMenuItem.SubMenuSectorProperty = DependencyProperty.Register("SubMenuSector", typeof(double), typeof(PieMenuItem), new FrameworkPropertyMetadata(120.0));
             PieMenuItem.CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(PieMenuItem), new FrameworkPropertyMetadata(null));
-            PieMenuItem.CenterTextProperty = DependencyProperty.Register("CenterText", typeof(bool), typeof(PieMenuItem), new FrameworkPropertyMetadata(false));
+            PieMenuItem.CenterTextVerticalProperty = DependencyProperty.Register("CenterTextVertical", typeof(bool), typeof(PieMenuItem), new FrameworkPropertyMetadata(false));
+            PieMenuItem.CenterTextHorizontalProperty = DependencyProperty.Register("CenterTextHorizontal", typeof(bool), typeof(PieMenuItem), new FrameworkPropertyMetadata(false));
             PieMenuItem.IdProperty = DependencyProperty.Register("Id", typeof(int), typeof(PieMenuItem), new FrameworkPropertyMetadata(0));
 
             //PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem), new FrameworkPropertyMetadata(""));
-            PieMenuItem.SubHeaderProperty = DependencyProperty.Register(
-                "SubHeader",  typeof(string), typeof(PieMenuItem),  new FrameworkPropertyMetadata("", (FrameworkPropertyMetadataOptions.AffectsRender), new PropertyChangedCallback(DoSth)));
+            
+            //PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem),
+            //    new UIPropertyMetadata(string.Empty, DoSth));
+            
+            PieMenuItem.SubHeaderProperty = DependencyProperty.Register("SubHeader", typeof(string), typeof(PieMenuItem), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.AffectsRender));
+             
+            
+            //PieMenuItem.SubHeaderProperty = DependencyProperty.Register(
+            //    "SubHeader",  typeof(string), typeof(PieMenuItem),  new FrameworkPropertyMetadata("", (FrameworkPropertyMetadataOptions.AffectsRender), new PropertyChangedCallback(DoSth)));
         
+            //PieMenuItem.SubHeaderProperty = DependencyProperty.Register(
+            //    "SubHeader",  typeof(string), typeof(PieMenuItem),  
+            //    new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        
+        }
+
+        private static void UsernamePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Debug.Print("OldValue: {0}", e.OldValue);
+            Debug.Print("NewValue: {0}", e.NewValue);
+
+
+            //Command.Execute(0);
         }
 
         public static void DoSth(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -124,10 +160,15 @@ namespace PieInTheSky
             var value = (string)e.NewValue;
             var oldValue = (string)e.OldValue;
             ((PieMenuItem)d).SetValue(SubHeaderProperty, value);
-            var val = ((PieMenuItem)d).ReadLocalValue(SubHeaderProperty);
+            ((PieMenuItem)d).UpdateLayout();
+            /*
+            var p = (PieMenuItem)d;
+            var be = p.GetBindingExpression(PieMenuItem.SubHeaderProperty);
+            //be.UpdateSource();
+            be.UpdateTarget();
+            ((PieMenuItem)d).GetBindingExpression(PieMenuItem.SubHeaderProperty).UpdateTarget();
+            //var val = ((PieMenuItem)d).ReadLocalValue(SubHeaderProperty);*/
         }
-
-        public string Breadcrumb { get { return "PieMenuItem"; }}
 
         public double CalculateSize(double s, double d)
         {
@@ -161,15 +202,24 @@ namespace PieInTheSky
 
         public void OnClick()
         {
-            if (Command != null && Command.CanExecute(null))
+            if (Command != null && Command.CanExecute(null))//!!
             {
-                //Command.Execute(Header);
                 Command.Execute(Id);
             }
 
             if (Click != null)
             {
                 Click(this, new RoutedEventArgs());
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged(string sProp)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(sProp));
             }
         }
     }

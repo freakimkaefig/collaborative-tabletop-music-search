@@ -53,12 +53,16 @@
     <Compile Include="Controllers\ResultController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="DataFactories\BaseFactory.cs" />
+    <Compile Include="DataFactories\TagFactory.cs" />
     <Compile Include="DataFactories\PlaylistFactory.cs" />
     <Compile Include="DataFactories\SongFactory.cs" />
     <Compile Include="DataModels\ResultDataModel.cs" />
+    <Compile Include="DataModels\TagDataModel.cs" />
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Data\XmlProvider.cs" />
+    <Compile Include="DevHelper\DevDataProvider.cs" />
     <Compile Include="Handlers\TagHandler.cs" />
+    <Compile Include="Services\MyMessageService.cs" />
     <Compile Include="ViewModels\SearchTagViewModel.cs">
       <SubType>Code</SubType>
     </Compile>

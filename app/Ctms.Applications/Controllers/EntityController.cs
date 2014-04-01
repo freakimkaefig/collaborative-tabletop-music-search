@@ -14,6 +14,8 @@ using System.IO;
 using System.Data.EntityClient;
 using System.Data.Common;
 using Ctms.Applications.Common;
+using Ctms.Applications.Data;
+using Ctms.Applications.DevHelper;
 
 namespace Ctms.Applications.Controllers
 {
@@ -29,19 +31,22 @@ namespace Ctms.Applications.Controllers
         private readonly IMessageService messageService;
         private readonly IShellService shellService;
         private readonly ShellViewModel shellViewModel;
+        private readonly Repository _repository;
         private readonly DelegateCommand saveCommand;
         private CtmsEntities entities;
 
 
         [ImportingConstructor]
         public EntityController(EntityService entityService, IMessageService messageService, IShellService shellService,
-            ShellViewModel shellViewModel)
+            ShellViewModel shellViewModel, Repository repository)
         {
             this.entityService = entityService;
             this.messageService = messageService;
             this.shellService = shellService;
             this.shellViewModel = shellViewModel;
             this.saveCommand = new DelegateCommand(() => Save(), CanSave);
+
+            _repository = repository;
         }
 
         
@@ -54,6 +59,7 @@ namespace Ctms.Applications.Controllers
 
         public void Initialize()
         {
+
             // Create directory for the database.
             string dataDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                 ApplicationInfo.Company, ApplicationInfo.ProductName);
@@ -65,7 +71,7 @@ namespace Ctms.Applications.Controllers
             // Set |DataDirectory| macro to our own path. This macro is used within the connection string.
             AppDomain.CurrentDomain.SetData("DataDirectory", dataDirectory);
 
-            entities = new CtmsEntities();
+            //entities = new CtmsEntities();
             /*//!!
             // Copy the template database file into the DataDirectory when it doesn't exists.
             DbConnection connection = entities.Connection;
@@ -84,6 +90,8 @@ namespace Ctms.Applications.Controllers
 
 
             Configurator.Init();
+            DevDataProvider.Initialize(_repository);
+            DevDataProvider.LoadTags();
         }
 
         public void Shutdown()

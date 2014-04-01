@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Waf.Applications;
 using Microsoft.Surface.Presentation.Controls;
+using Ctms.Domain.Objects;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Applications.Views
 {
@@ -11,6 +13,6 @@ namespace Ctms.Applications.Views
     {
         TagVisualizer TagVisualizer { get; set; }
 
-        //PieMenu
+        void UpdateVisual(int tagId);
     }
 }

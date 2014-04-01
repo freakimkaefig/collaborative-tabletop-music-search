@@ -7,6 +7,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
+using System.Collections;
+using Ctms.Domain.Objects;
+//using Ctms.Domain.Objects;
 
 namespace PieInTheSky
 {
@@ -170,6 +173,8 @@ namespace PieInTheSky
         private int _current_selection = -1;
         private bool _was_selected = false;
         private double _size;
+        public DrawingContext DrawingContext { get; set; }
+        public ItemsControl ItemsControl { get; set; }
 
         #endregion fields
 
@@ -189,10 +194,7 @@ namespace PieInTheSky
             PieMenu.RotateTextProperty = DependencyProperty.Register("RotateText", typeof(bool), typeof(PieMenu), new FrameworkPropertyMetadata(true));
             PieMenu.RotateTextAngleProperty = DependencyProperty.Register("RotateTextAngle", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(90.0));
             PieMenu.AdditionalTextProperty = DependencyProperty.Register("AdditionalText", typeof(string), typeof(PieMenu), new FrameworkPropertyMetadata(""));
-            //PieMenu.RotateTextAngleProperty = 15.0; 
         }
-
-        public string Breadcrumb { get { return "PieMenu"; } }
 
         #endregion constructor
 
@@ -223,6 +225,11 @@ namespace PieInTheSky
             _size = ss;
 
             return new Size(ss, ss);
+        }
+
+        public void Render()
+        {
+            OnRender(DrawingContext);
         }
 
         protected override Size ArrangeOverride(Size finalsize)
@@ -293,8 +300,10 @@ namespace PieInTheSky
             InvalidateVisual();
         }
 
-        protected override void OnRender(System.Windows.Media.DrawingContext drawingContext)
+        protected override void OnRender(DrawingContext drawingContext)
         {
+            DrawingContext = drawingContext;
+
             var maxRotation = 360.0;//!!auf 180.0?
 
             // "normalize" rotation to avoid problems elsewhere
@@ -305,9 +314,10 @@ namespace PieInTheSky
             // initialize data structure for remembering sectors at each level
             _sectors = new List<List<Tuple<double, double>>>();
 
+            ItemsControl = this;
+
             // Draw the menu (level 0)
-            DrawCirclePart(this, 0, rotation, this.MenuSector, drawingContext);
-            //DrawRectanglePart(this, 0, 200.0, 200.0, this.MenuSector, drawingContext);
+            DrawCircle(this, 0, rotation, this.MenuSector, drawingContext);
         }
 
         #endregion event methods
@@ -489,7 +499,7 @@ namespace PieInTheSky
 
         #region Display methods
 
-        private void DrawCirclePart(ItemsControl items_control, int level, double angle, double sector, DrawingContext drawingContext)
+        private void DrawCircle(ItemsControl items_control, int level, double angle, double sector, DrawingContext drawingContext)
         {
             // Make sure sector is limited to available place
             double full_sector = Math.Min(sector, 360.0);//!!Auch auf 180.0?
@@ -559,9 +569,25 @@ namespace PieInTheSky
                 PathGeometry geometry = new PathGeometry();
                 geometry.Figures.Add(pathFigure);
 
+                //TagOption option = new TagOption();
+
                 // Get the menu item to extract properties
+                //!!MA PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;
+
                 PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;
-                ///*
+                
+                //var menu_item = items_control.Items[i] as TagOption;
+                /*
+                var brush = (Brush)(new BrushConverter().ConvertFrom("#fff"));
+
+                var pieMenuItem = new PieMenuItem()
+                {
+                    BorderThickness = new Thickness(0.0),
+                    FontSize = 16,
+                    CenterText = true,
+                    Background = brush
+                };*/
+                
                 // find color for backgound and border 
                 Brush background_brush = menu_item.Background;
                 if (background_brush == null) background_brush = this.Background;
@@ -571,7 +597,7 @@ namespace PieInTheSky
                 {
                     background_brush = this.SelectedBackground;
                 }
-                //*/
+                
                 //var background_brush = Brushes.Transparent;
                 var border_brush = Brushes.Gray;
 
@@ -582,13 +608,42 @@ namespace PieInTheSky
                 drawingContext.DrawGeometry(background_brush, new Pen(border_brush, menu_item.BorderThickness.Left), geometry);
 
                 // Get header of menu item as string and make a formatted text based on properties of menu item
-                var header      = ((String) menu_item.Header);
-                var subHeader   = ((String) menu_item.SubHeader);
+                //var header      = ((String)menu_item.Keyword.Name);
+                //var subHeader   = ((String) menu_item.Keyword.Description);
+
+                var header = ((String)menu_item.Header);
+                var subHeader = ((String)menu_item.SubHeader);
+
+                header      = header == null ? "" : header;
+                subHeader   = subHeader == null ? "" : subHeader;
+                /*
+                var fontFamiliy = new FontFamily("Arial");
+                var fontStyle   = new FontStyle();
+                var fontWeight  = new FontWeight();
+                var fontStretch = new FontStretch();
+                var fontSize    = pieMenuItem.FontSize;
+                var foreground  = brush;
 
                 // add line break
                 var itemText = header + Environment.NewLine + subHeader;
 
+                //if(header == null || subHeader == null) continue;
+                FormattedText headerText = new FormattedText(header,
+                                CultureInfo.CurrentCulture,
+                                FlowDirection.LeftToRight,
+                                new Typeface(fontFamiliy, fontStyle, fontWeight, fontStretch),
+                                fontSize,
+                                foreground);
 
+                FormattedText subHeaderText = new FormattedText(subHeader,
+                                CultureInfo.CurrentCulture,
+                                FlowDirection.LeftToRight,
+                                new Typeface(fontFamiliy, fontStyle, fontWeight, fontStretch),
+                                fontSize,
+                                foreground);
+                */
+                ///*
+                //if(header == null || subHeader == null) continue;
                 FormattedText headerText = new FormattedText(header,
                                 CultureInfo.CurrentCulture,
                                 FlowDirection.LeftToRight,
@@ -603,13 +658,11 @@ namespace PieInTheSky
                                 menu_item.FontSize,
                                 menu_item.Foreground);
 
-                
                 var boxLength = 0.0;
                 if (RotateTextAngle == -90.0 || RotateTextAngle == 270.0)
                 {   // text is displayed viewing away from the center
                     //!! Länge aus Umfang berechnen?
                     boxLength = 120.0;
-
                 }
                 else
 	            {
@@ -625,17 +678,34 @@ namespace PieInTheSky
                 subHeaderText.Trimming = TextTrimming.CharacterEllipsis;
 
                 var bottomMargin = 0.0;
+                var innerMargin  = 0.0;
 
-                if (menu_item.CenterText == true)
+                var headerTextPosX = 0.0;
+                //var headerTextPosX = center.X - headerText.Width;
+                var subTextPosX = 0.0;
+                //var subTextPosX = center.X - subHeaderText.Width;
+
+                if (menu_item.CenterTextVertically == true)
                 {
                     bottomMargin = 10.0;
+                }
+
+                if (menu_item.CenterTextHorizontal == true)
+                {   // center text horizontally
+                    headerTextPosX  = center.X - headerText.Width / 2.0;
+                    subTextPosX     = center.X - subHeaderText.Width / 2.0;
+                }
+                else
+                {   // left-align text
+                    headerTextPosX = center.X - (Radius / 2.0) + InnerRadius + innerMargin;
+                    subTextPosX = center.X - (Radius / 2.0) + InnerRadius + innerMargin;
                 }
 
                 var textDistance = 18.0;
 
                 // Calculate placement of text in  center
-                Point headerTextPoint = new Point(center.X - headerText.Width / 2.0, center.Y - headerText.Height / 2.0 + textDistance / 2.0 - bottomMargin);
-                Point subTextPoint = new Point(center.X - subHeaderText.Width / 2.0, center.Y - subHeaderText.Height / 2.0 - textDistance / 2.0 - bottomMargin);
+                Point headerTextPoint = new Point(headerTextPosX, center.Y - headerText.Height / 2.0 + textDistance / 2.0 - bottomMargin);
+                Point subTextPoint = new Point(subTextPosX, center.Y - subHeaderText.Height / 2.0 - textDistance / 2.0 - bottomMargin);
 
                 // Draw the text as name of menu item
                 // Added rotation angle adjustment of text
@@ -646,16 +716,6 @@ namespace PieInTheSky
                 drawingContext.DrawText(headerText, headerTextPoint);
                 drawingContext.DrawText(subHeaderText, subTextPoint);
                 if (this.RotateText) drawingContext.Pop();
-
-                /*
-                // if this menu item is selected, draw the next level
-                if (_selection.GetSelection(level) == i) 
-                {
-                    // start angle of sub menu is center angle of menu item minus half the sector of the sub menu
-                    double new_angle = (start_inner_angle + end_inner_angle) / 2.0 - menu_item.SubMenuSector / 2.0;
-                    DrawCirclePart(menu_item, level + 1, new_angle, menu_item.SubMenuSector, drawingContext);
-                }
-                */ 
             }
         }
 
@@ -705,7 +765,7 @@ namespace PieInTheSky
 
             var leftMargin = Radius;
             var topMargin = InnerRadius + 25.0;
-            var fontSize = 12.0;
+            var fontSize = 11.0;
             var subToMainDistance = fontSize + 5.0;
 
             Point mainTextPoint = new Point(rect.X + leftMargin, rect.Y + topMargin);
