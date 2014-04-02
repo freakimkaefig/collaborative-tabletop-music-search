@@ -211,7 +211,7 @@ namespace MusicStream
         {
             if (_playlistPlaying == true)
             {
-
+                var playback = _waveOutDevice.PlaybackState;
                 _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, track);
             }
             else

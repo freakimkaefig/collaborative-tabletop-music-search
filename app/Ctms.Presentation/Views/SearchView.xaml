@@ -8,6 +8,7 @@
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:svl="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
     Width="1920" Height="1080">
@@ -25,19 +26,13 @@
         <Grid Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1696*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="188*" />
-            </Grid.RowDefinitions>
-            
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
-                Grid.Column="0" 
-                Grid.Row="0" 
                 Width="100" 
                 Height="50" 
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"/>
+                VerticalAlignment="Center" Grid.Column="1" Margin="694,358,903,672" />
             
             <ContentControl Name="animation" ContentTemplate="{StaticResource KugelAnimation}">
                 

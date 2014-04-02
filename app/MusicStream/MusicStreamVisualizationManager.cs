@@ -13,6 +13,7 @@ namespace MusicStream
         private MusicStreamSessionManager _sessionManager;
         private int _counter = 0;
         private Lomont.LomontFFT _lomontFFT;
+        private SpectrumAnalyzer _spectrumAnalyzer;
 
         /// <summary>
         /// Constructor for MusicStreamVisualizationManager
