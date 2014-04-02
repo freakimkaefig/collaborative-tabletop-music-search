@@ -59,6 +59,7 @@ namespace MusicStream
         private byte[] _copiedFrames;
         private Playlist _currentPlaylist;
         private int _currentPlaylistTrackIndex;
+        private double _currentPlaylistTrackPlayedDuration = 0.0;
         private bool _playlistPlaying = false;
         private Track _currentPrelistenTrack;
 
@@ -218,13 +219,13 @@ namespace MusicStream
         {
             if (_playlistPlaying == true)
             {
-                var playback = _waveOutDevice.PlaybackState;
-                _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, track);
+                //Save position in current track
             }
             else
             {
 
             }
+            _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, track);
         }
 
         /// <summary>
@@ -437,6 +438,12 @@ namespace MusicStream
             //format: audio format for streaming
             //frames: pointer to the byte-data in storage
 
+            int duration = _currentPlaylist.Track(_currentPlaylistTrackIndex).Duration();
+            var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
+            float howMuchSecs = ( (2048 * 2 * 2) / 176400 ) * 100;
+            _currentPlaylistTrackPlayedDuration += 0.046;
+            //logMessages.Enqueue("Received: " + _currentPlaylistTrackPlayedDuration + " / " + duration);
+
             var size = num_frames * format.channels * 2;
             if (size != 0)
             {
@@ -444,16 +451,18 @@ namespace MusicStream
                 Marshal.Copy(frames, _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
                 _bufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
 
-                if (_copiedFrames.Length % 2 == 0)
+                if (NumberHelper.IsPowerOfTwo(num_frames))
                 {
                     _visualizationManager.MusicDeliveryCallback(format, _copiedFrames, num_frames);
                 }
                 else
                 {
-                    byte[] temp = new byte[_copiedFrames.Length+1];
-                    Array.Copy(_copiedFrames, 0, temp, 0, _copiedFrames.Length);
-                    temp[temp.Length] = 0;
-                    _visualizationManager.MusicDeliveryCallback(format, temp, num_frames);
+                    var newNumFrames = NumberHelper.GetPowerOfTwoLessThanOrEqualTo(num_frames);
+                    var newSize = newNumFrames  * format.channels * 2;
+                    byte[] temp = new byte[newSize];
+                    Array.Copy(_copiedFrames, 0, temp, 0, newSize);
+                    _visualizationManager.MusicDeliveryCallback(format, temp, newNumFrames);
+                    //http://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2
                 }
             }
         }

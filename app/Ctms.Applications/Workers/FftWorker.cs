@@ -46,7 +46,7 @@ namespace Ctms.Applications.Workers
             _searchViewModel.Fft7Value = (int)arr[15];
             _searchViewModel.Fft8Value = (int)arr[30];
             _searchViewModel.Fft9Value = (int)arr[150];
-            _searchViewModel.Fft10Value = (int)arr[1000];
+            _searchViewModel.Fft10Value = (int)arr[200];
         }
     }
 }
