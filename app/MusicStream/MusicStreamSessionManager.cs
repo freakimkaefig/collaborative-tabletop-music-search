@@ -444,7 +444,17 @@ namespace MusicStream
                 Marshal.Copy(frames, _copiedFrames, 0, size);   //Copy Pointer Bytes to _copiedFrames
                 _bufferedWaveProvider.AddSamples(_copiedFrames, 0, size);    //adding bytes from _copiedFrames as samples
 
-                _visualizationManager.MusicDeliveryCallback(format, _copiedFrames, num_frames);
+                if (_copiedFrames.Length % 2 == 0)
+                {
+                    _visualizationManager.MusicDeliveryCallback(format, _copiedFrames, num_frames);
+                }
+                else
+                {
+                    byte[] temp = new byte[_copiedFrames.Length+1];
+                    Array.Copy(_copiedFrames, 0, temp, 0, _copiedFrames.Length);
+                    temp[temp.Length] = 0;
+                    _visualizationManager.MusicDeliveryCallback(format, temp, num_frames);
+                }
             }
         }
 
