@@ -8,17 +8,10 @@
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:svl="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
-<<<<<<< HEAD
     Width="1920" Height="1080">
-    
-    <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
-    waf:ValidationHelper.IsEnabled="true" -->
-
-=======
-    Name="SearchV">
->>>>>>> origin/dev
 
     <s:TagVisualizer x:Name="SearchTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
                      VisualizationRemoved="OnVisualizationRemoved" 
@@ -33,52 +26,37 @@
         <Grid Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1696*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
 <<<<<<< HEAD
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+            <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="188*" />
             </Grid.RowDefinitions>
-
-            <Label Content="SearchView" Grid.Column="0" Grid.Row="0"/>
-            <s:SurfaceButton Content="Search/Refresh" Command="{Binding StartSearchCmd}" Grid.Column="1" Grid.Row="6" Width="100" Height="50" HorizontalAlignment="Left" Margin="752,703,0,19" />
-            <TextBox Grid.Column="0" Grid.Row="2" Text="{Binding InputValue}" Width="140"/>
-            <TextBlock Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Left" Style="{StaticResource SearchOptionsTextBlock}"
-                Text="ControlResources Key Example"/>
-
-<!--
-            <s:TagVisualization
-               Grid.Row="0" Grid.Column="0" Grid.RowSpan="6" Grid.ColumnSpan="3" >
-                <s:TagVisualizationDefinition
-                    Source="SearchTagView.xaml"
-                    MaxCount="1"
-                    LostTagTimeout="5000.0"
-                    TagRemovedBehavior="Fade"
-                    UsesTagOrientation="False"
-                    Value="50"                  
-                    ></s:TagVisualizationDefinition>
-            </s:TagVisualization>
--->
-=======
-            </Grid.RowDefinitions>
             
+            
+            
+=======
+>>>>>>> d90d32c549c352fe3fa6068df61344b4441af0ae
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
-                Grid.Column="0" 
-                Grid.Row="0" 
                 Width="100" 
                 Height="50" 
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"/>
+                VerticalAlignment="Center" Grid.Column="1" Margin="694,358,903,672" />
             
             <ContentControl Name="animation" ContentTemplate="{StaticResource KugelAnimation}">
                 
             </ContentControl>
->>>>>>> origin/dev
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft1Value}" Margin="0,393,-8,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft2Value}" Margin="0,393,-115.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft3Value}" Margin="0,393,-295.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft4Value}" Margin="0,393,-469.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft5Value}" Margin="0,393,-679.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft6Value}" Margin="0,393,-841.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft7Value}" Margin="0,393,-1000.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft8Value}" Margin="0,393,-1096.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft9Value}" Margin="0,393,-1198.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft10Value}" Margin="0,393,-1309.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
         </Grid>
         
     </s:TagVisualizer>
