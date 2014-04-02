@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LomontFFT.cs" />
     <Compile Include="MusicStreamPlaylistContainerListener.cs" />
     <Compile Include="MusicStreamPlaylistListener.cs" />
     <Compile Include="MusicStreamSessionListener.cs" />
