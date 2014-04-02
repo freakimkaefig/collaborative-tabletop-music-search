@@ -9,6 +9,7 @@ using Ctms.Applications.Views;
 using System.Waf.Applications;
 using System.Collections.ObjectModel;
 using Ctms.Applications.DataModels;
+using System.Windows;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -24,6 +25,7 @@ namespace Ctms.Applications.ViewModels
         private string _keyword;
         private ISearchTagView _searchTagView;
         private double _angle;
+        private Point _position;
         
         [ImportingConstructor]
         public SearchTagViewModel(ISearchTagView view)
@@ -56,6 +58,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _id = value;
                     RaisePropertyChanged("Id");
+                }
+            }
+        }
+
+        public Point Position
+        {
+            get { return _position; }
+            set
+            {
+                if (_position != value)
+                {
+                    _position = value;
+                    RaisePropertyChanged("Position");
                 }
             }
         }

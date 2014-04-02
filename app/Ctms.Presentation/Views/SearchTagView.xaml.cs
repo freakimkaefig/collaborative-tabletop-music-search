@@ -44,6 +44,8 @@ namespace Ctms.Presentation.Views
 
         private void TagVisualization_Moved(object sender, TagVisualizerEventArgs e)
         {
+            //e.TagVisualization.Center; //passing center of tag to update animation between tangibles
+
             var searchTagView   = (SearchTagView)e.TagVisualization;
             var tagId           = (int)searchTagView.VisualizedTag.Value;
 

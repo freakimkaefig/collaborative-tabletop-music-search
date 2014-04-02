@@ -67,7 +67,7 @@ namespace Ctms.Applications.Workers
                 searchObjects.Add(searchObject);
             }
 
-            //var songs = _searchManager.SearchQuery(searchObjects);
+            //var songs = _searchManager.SearchQuery(searchObjects);    //NOT WORKING (is always empty)
             var songs = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList);
             _resultWorker.RefreshResults(songs);
         }

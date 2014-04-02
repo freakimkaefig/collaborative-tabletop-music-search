@@ -162,5 +162,29 @@ namespace Ctms.Presentation.Views
 
             _viewModel.PrelistenCommand.Execute((object)data);
         }
+
+        private void Results_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+            ScatterViewItem clickedElement = null;
+
+            // Find the ScatterViewItem object that is being touched.
+            while (clickedElement == null && findSource != null)
+            {
+                if ((clickedElement = findSource as ScatterViewItem) == null)
+                {
+                    findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                }
+            }
+
+            if (clickedElement == null)
+            {
+                return;
+            }
+
+            ResultDataModel data = clickedElement.Content as ResultDataModel;
+
+            _viewModel.PrelistenCommand.Execute((object)data);
+        }
     }
 }
