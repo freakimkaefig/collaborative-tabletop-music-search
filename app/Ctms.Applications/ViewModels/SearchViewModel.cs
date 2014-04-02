@@ -41,16 +41,16 @@ namespace Ctms.Applications.ViewModels
         //private readonly IEnumerable<SearchTagViewModel> _searchTags;
 
         //FFT Values
-        private int _fft1Value;
-        private int _fft2Value;
-        private int _fft3Value;
-        private int _fft4Value;
-        private int _fft5Value;
-        private int _fft6Value;
-        private int _fft7Value;
-        private int _fft8Value;
-        private int _fft9Value;
-        private int _fft10Value;
+        private int _fft1Value = 0;
+        private int _fft2Value = 0;
+        private int _fft3Value = 0;
+        private int _fft4Value = 0;
+        private int _fft5Value = 0;
+        private int _fft6Value = 0;
+        private int _fft7Value = 0;
+        private int _fft8Value = 0;
+        private int _fft9Value = 0;
+        private int _fft10Value = 0;
 
         [ImportingConstructor]
         public SearchViewModel(ISearchView view)
