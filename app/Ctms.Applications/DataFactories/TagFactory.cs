@@ -26,8 +26,7 @@ namespace Ctms.Applications.DataFactories
             // create Tag
             Tag tag = new Tag()
             {
-                Id = id,
-                //TagOptions = new ObservableCollection<TagOption>()
+                Id = id
             };
 
             // create TagDataModel wrapper for tag

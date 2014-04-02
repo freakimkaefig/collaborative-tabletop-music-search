@@ -25,7 +25,7 @@
         </RadialGradientBrush>
     </Window.Background>
     
-    <Grid Margin="0,0,0,0">
+    <Grid Margin="0,0,0,0" Name="ShellGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
@@ -39,5 +39,6 @@
         <ContentControl Content="{Binding ShellService.ResultView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
         <ContentControl Content="{Binding ShellService.DetailView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
         <ContentControl Content="{Binding ShellService.MenuView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
+        <ContentControl Content="{Binding ShellService.InfoView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Height="500" Width="500"/>
     </Grid>  
 </s:SurfaceWindow>

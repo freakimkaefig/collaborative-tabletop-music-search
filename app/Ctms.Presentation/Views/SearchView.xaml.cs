@@ -61,6 +61,10 @@ namespace Ctms.Presentation.Views
             searchTagView.ViewModel = _viewModel;
 
             if(SearchTagViews.ContainsKey(tagId) == false) SearchTagViews.Add(tagId, searchTagView);
+            else
+            {
+                SearchTagViews[tagId] = searchTagView;
+            }
 
             UpdateVisual(tagId);
         }
@@ -71,7 +75,7 @@ namespace Ctms.Presentation.Views
             searchTagView.Resources["SearchVM"] = _viewModel;
             searchTagView.Resources["TagDM"] = tagDM;
             searchTagView.Resources["TagId"] = tagId;
-            searchTagView.Resources["PreviousOptions"] = tagDM.Tag.PreviousOptions;
+            searchTagView.Resources["BreadcrumbOptions"] = tagDM.Tag.BreadcrumbOptions;
 
             var converter = new BoolToVisibilityConverter();
             var isEditVisible = converter.Convert(tagDM.IsEditVisible, null, null, null);
@@ -89,7 +93,7 @@ namespace Ctms.Presentation.Views
 
         public void UpdateVisual(int tagId)
         {
-            if (SearchTagViews.ContainsKey(tagId) == false) SearchTagViews.Add(tagId, null);
+            //if (SearchTagViews.ContainsKey(tagId) == false) SearchTagViews.Add(tagId, null);
 
             UpdateMenuItems(tagId);
             UpdateResources(SearchTagViews[tagId], tagId, _viewModel.Tags[tagId]);
@@ -119,7 +123,7 @@ namespace Ctms.Presentation.Views
             var pieMenuItems    = (ItemCollection)pieMenu.Items;
             var pieMenuMainItem = (ItemCollection)pieMenuMain.Items;
 
-            // remove inserted placeholder item which has been placed just for correct item size calculation
+            // remove inserted items (when initializing this is the placeholder item)
             pieMenuItems.Clear();
             pieMenuMainItem.Clear();
 

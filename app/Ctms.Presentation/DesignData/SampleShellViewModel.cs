@@ -21,6 +21,7 @@ namespace Ctms.Presentation.DesignData
             ShellService.PlaylistView = new PlaylistView();
             ShellService.ResultView = new ResultView();
             ShellService.SearchView = new SearchView();
+            ShellService.InfoView = new InfoView();
         }
 
         private class MockShellView : IShellView

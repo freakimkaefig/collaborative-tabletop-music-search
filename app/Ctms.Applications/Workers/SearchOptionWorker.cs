@@ -17,6 +17,7 @@ using Ctms.Domain;
 using MusicSearch.ResponseObjects;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Ctms.Applications.Workers
 {
@@ -63,7 +64,7 @@ namespace Ctms.Applications.Workers
         {
             var tag = _searchVM.Tags[tagId];
 
-            tag.Tag.PreviousOptions.Clear();
+            tag.Tag.BreadcrumbOptions.Clear();
 
             UpdateActiveLayerNumber(tag, 0);
 
@@ -98,7 +99,8 @@ namespace Ctms.Applications.Workers
             var tagOption   = _repository.GetTagOptionById(tagOptionId);
             var keywordType = tagOption.Keyword.Type;
 
-            AddBreadcrumb(tag, tagOption.Keyword.Name);
+            // add breadcrumb only if the next stop is not assignKeyword
+            if(tagOption.LayerNr != 2) AddBreadcrumb(tag, tagOption);
 
             UpdateActiveLayerNumber(tag, tag.Tag.CurrentLayerNr + 1);
 
@@ -131,7 +133,7 @@ namespace Ctms.Applications.Workers
 
                     }
 
-                    _searchVM.UpdateVisuals(tag);
+                    //_searchVM.UpdateVisuals(tag);
 
                     break;
                 }
@@ -153,14 +155,20 @@ namespace Ctms.Applications.Workers
                             tag.Tag.TagOptions.Add(genreOption);
                         }
                     }
+                    else if (keywordType == KeywordTypes.Attribute)
+                    {   // load attributes
 
-                    _searchVM.UpdateVisuals(tag);
+                    }
+
+                    //_searchVM.UpdateVisuals(tag);
 
                     break;
                 }
                 case 3: // ---layer 3---
                 {
                     AssignKeyword(tag, tagOption);
+
+                    tag.State = TagDataModel.States.Assigned;
 
                     break;
                 }
@@ -171,11 +179,17 @@ namespace Ctms.Applications.Workers
 
         public void LoadSuggestions(int tagId)
         {
-            var tag             = _repository.GetTagDMById(tagId);
-            var terms           = _repository.GetTagDMById(tagId).InputTerms;
-            var keywordType     = tag.Tag.AssignedKeyword.Type;
+            var tag         = _repository.GetTagDMById(tagId);
+            var terms       = _repository.GetTagDMById(tagId).InputTerms;
+            var keywordType = tag.Tag.AssignedKeyword.Type;
 
-            AddBreadcrumb(tag, terms);
+            var termKeyword   = _tagFactory.CreateKeyword(terms, keywordType);
+            var termTagOption = _tagFactory.CreateTagOption(termKeyword, tag.Tag.CurrentLayerNr);
+
+            _repository.AddTagOption(termTagOption);
+
+            //AddBreadcrumb(tag, terms);
+            AddBreadcrumb(tag, termTagOption);
 
             UpdateActiveLayerNumber(tag, tag.Tag.CurrentLayerNr + 1);
 
@@ -190,7 +204,6 @@ namespace Ctms.Applications.Workers
                 var suggestions = _searchManager.getArtistSuggestions(tagId, terms);
 
                 for (var i = 0; i < suggestions.Count; i++)
-                //foreach (var suggestion in suggestions)
                 {
                     // create keyword out of this suggestion
                     //var keyword = _tagFactory.CreateKeyword(i + "" + suggestions[i].name, keywordType);
@@ -228,7 +241,7 @@ namespace Ctms.Applications.Workers
 
         }
 
-        private void CollectingCmsDataCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void GetArtistsCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
@@ -240,40 +253,64 @@ namespace Ctms.Applications.Workers
             {
             }
         }
-        
 
-        private void AddBreadcrumb(TagDataModel tag, string name)
+
+        /// <summary>
+        /// Add tagOption to breadcrumbOptions
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <param name="tagOption"></param>
+        ///
+        private void AddBreadcrumb(TagDataModel tag, TagOption tagOption)
         {
-            var breadcrumbKeyword = _tagFactory.CreateKeyword(name, KeywordTypes.None);
-            var breadcrumbTagOption = _tagFactory.CreateTagOption(breadcrumbKeyword, tag.Tag.CurrentLayerNr);
-
-            tag.Tag.PreviousOptions.Add(breadcrumbTagOption);
+            tag.Tag.BreadcrumbOptions.Add(tagOption);
         }
 
+        /// <summary>
+        /// Remove previous breadcrumbOptions from higher or equal layer
+        /// </summary>
+        ///
         private void RemovePreviousBreadcrumbs(TagDataModel tag)
         {
-            if (tag.Tag.PreviousOptions != null)
+            if (tag.Tag.BreadcrumbOptions != null)
             {
-                tag.Tag.PreviousOptions.ToList().RemoveAll(p => p.LayerNr >= tag.Tag.CurrentLayerNr);
+                tag.Tag.BreadcrumbOptions.RemoveAll(p => p.LayerNr >= tag.Tag.CurrentLayerNr);
             }
         }
 
-        public void GoToBreadcrumb(int tagOptionId)
+        /// <summary>
+        /// Remove previous breadcrumbOptions from higher or equal layer
+        /// </summary>
+        ///
+        private void RemovePreviousOptions(TagDataModel tag)
         {
-            var tag = _repository.GetTagDMByTagOption(tagOptionId);
-            var tagOptions = tag.Tag.TagOptions;
-            var tagOption = _repository.GetTagOptionById(tagOptionId);
+            if (tag.Tag.TagOptions != null)
+            {
+                tag.Tag.TagOptions.RemoveAll(p => p.LayerNr > tag.Tag.CurrentLayerNr);
+            }
+        }
+
+
+        /// <summary>
+        /// Go to option of breadcrumb and update items
+        /// </summary>
+        /// <param name="breadcrumbOptionId">Id of selected breadcrumb</param>
+        public void GoBreadcrumb(int breadcrumbOptionId)
+        {
+            var tag                 = _repository.GetTagDMByTagOption(breadcrumbOptionId);
+            var tagOptions          = tag.Tag.TagOptions;
+            var breadcrumbOption    = _repository.GetTagOptionById(breadcrumbOptionId);
 
             // update current LayerNr
-            var currentLayerNr = tagOption.LayerNr;
+            var currentLayerNr = breadcrumbOption.LayerNr;
             tag.Tag.CurrentLayerNr = currentLayerNr;
 
+            // remove options of higher layers
             RemovePreviousBreadcrumbs(tag);
+            RemovePreviousOptions(tag);
 
-            // remove TagOptions of higher layers
-            tagOptions.ToList().RemoveAll(to => to.LayerNr > currentLayerNr);
-
-            _searchVM.UpdateVisuals(tag);
+            //_searchVM.UpdateVisuals(tag);
+            SelectOption(breadcrumbOption.Id);
         }
 
         public void GoHome(int tagId)
@@ -293,8 +330,7 @@ namespace Ctms.Applications.Workers
         {
             var tag = _repository.GetTagDMById(tagId);
 
-            tag.Tag.AssignedKeyword.SearchId    = null;
-            tag.Tag.AssignedKeyword.Name        = null;
+            tag.State = TagDataModel.States.Editing;
 
             SetMenuIsVisible(tag, true);
             SetEditIsVisible(tag, false);
@@ -302,8 +338,6 @@ namespace Ctms.Applications.Workers
 
             // set last layer
             UpdateActiveLayerNumber(tag, tag.Tag.CurrentLayerNr - 1);
-
-            //RemovePreviousBreadcrumbs(tag);
 
             _searchVM.UpdateVisuals(tag);
         }

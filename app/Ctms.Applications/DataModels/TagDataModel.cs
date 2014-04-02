@@ -21,6 +21,7 @@ namespace Ctms.Applications.DataModels
     public class TagDataModel : DataModel
     {
         private Tag _tag;
+        private States _state;
         private string _inputTerms;
         private bool _isInputVisible;
         private bool _isAssignedKeywordVisible;
@@ -33,6 +34,7 @@ namespace Ctms.Applications.DataModels
 
             _tag        = tag;
             _inputTerms = "";
+            _state      = States.Editing;
         }
 
         // default constructor needed to be usable as dynamic resource in view
@@ -43,7 +45,6 @@ namespace Ctms.Applications.DataModels
         private int activeOptionsIndex;
 
         public int CurrentOptionsIndex { get { return (int)activeOptionsIndex; } }
-
 
         /// <summary>
         /// Compute which options shall be visible, regarding tag angle and count of option placeholders
@@ -196,6 +197,28 @@ namespace Ctms.Applications.DataModels
                     RaisePropertyChanged("IsEditVisible");
                 }
             }
+        }
+
+        public States State
+        {
+            get
+            {
+                return _state;
+            }
+            set
+            {
+                if (_state != value)
+                {
+                    _state = value;
+                    RaisePropertyChanged("State");
+                }
+            }
+        }
+
+        public enum States
+        {
+            Assigned,
+            Editing            
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Helpers
 {
-    public class EntitiesHelper
+    public static class EntitiesHelper
     {
 
         /// <summary>
@@ -40,6 +40,25 @@ namespace Helpers
             else
             {
                 return 0;
+            }
+        }
+
+
+        /// <summary>
+        /// Remove multiple items from ObservableCollection
+        /// </summary>
+        /// <typeparam name="T">Type of collection</typeparam>
+        /// <param name="collection">Collection with items</param>
+        /// <param name="condition">Conditions which items to remove</param>
+        /// <see cref="https://stackoverflow.com/questions/5118513/removeall-for-observablecollections"/>
+        public static void RemoveAll<T>(this ObservableCollection<T> collection, Func<T, bool> condition)
+        {
+            for (int i = collection.Count - 1; i >= 0; i--)
+            {
+                if (condition(collection[i]))
+                {
+                    collection.RemoveAt(i);
+                }
             }
         }
     }

@@ -13,6 +13,7 @@ namespace Ctms.Applications.Services
         private object playlistView;
         private object resultView;
         private object menuView;
+        private object infoView;
         private bool isReportingEnabled;
         private Lazy<object> lazyReportingView;
         private object searchTagView;
@@ -105,6 +106,19 @@ namespace Ctms.Applications.Services
                 {
                     menuView = value;
                     RaisePropertyChanged("MenuView");
+                }
+            }
+        }
+
+        public object InfoView
+        {
+            get { return infoView; }
+            set
+            {
+                if (infoView != value)
+                {
+                    infoView = value;
+                    RaisePropertyChanged("InfoView");
                 }
             }
         }

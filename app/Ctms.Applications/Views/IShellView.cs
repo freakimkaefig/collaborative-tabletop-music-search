@@ -5,6 +5,7 @@ using System.Text;
 using System.Waf.Applications;
 using System.ComponentModel;
 using Microsoft.Surface.Presentation.Controls;
+using System.Windows.Controls;
 
 namespace Ctms.Applications.Views
 {
