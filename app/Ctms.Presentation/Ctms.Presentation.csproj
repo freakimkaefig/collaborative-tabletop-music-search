@@ -225,9 +225,6 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="WPFSoundVisualizationLib">
-      <HintPath>..\libs\WPF Sound Visualization Library\WPFSoundVisualizationLib.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ctms.Applications\Ctms.Applications.csproj">

@@ -21,18 +21,18 @@ namespace Ctms.Applications.Workers
         private MusicStreamAccountWorker _accountWorker;
         private MusicStreamSessionManager _sessionManager;
         private MusicStreamVisualizationManager _visualizationManager;
-        private FftWorker _fftWorker;
+        //private FftWorker _fftWorker;
 
         [ImportingConstructor]
-        public ResultWorker(ResultViewModel resultViewModel, MenuViewModel menuViewModel, MusicStreamAccountWorker accountWorker, FftWorker fftWorker)
+        public ResultWorker(ResultViewModel resultViewModel, MenuViewModel menuViewModel, MusicStreamAccountWorker accountWorker)
         {
 
             _resultViewModel = resultViewModel;
             _menuViewModel = menuViewModel;
             _accountWorker = accountWorker;
-            _fftWorker = fftWorker;
+            //_fftWorker = fftWorker;
             _accountWorker.ResultSessionManagerCreated = ResultSessionManagerCreated;
-            _fftWorker.VisualizationManagerCreated = VisualizationManagerCreated;
+            //_fftWorker.VisualizationManagerCreated = VisualizationManagerCreated;
         }
 
         private void ResultSessionManagerCreated(MusicStreamSessionManager sessionManager)

@@ -11,31 +11,42 @@ namespace Ctms.Applications.Workers
     [Export]
     public class FftWorker
     {
-        private MusicStreamVisualizationManager _msvm;
-        private SearchViewModel _searchVm;
-        public Action<MusicStreamVisualizationManager> VisualizationManagerCreated;
+        private MusicStreamAccountWorker _accountWorker;
+        private MusicStreamSessionManager _sessionManager;
+        private MusicStreamVisualizationManager _visualizationManager;
+        private SearchViewModel _searchViewModel;
+        //public Action<MusicStreamVisualizationManager> VisualizationManagerCreated;
 
         [ImportingConstructor]
-        public FftWorker(SearchViewModel searchVm)
+        public FftWorker(SearchViewModel searchVm, MusicStreamAccountWorker accountWorker)
         {
-            _msvm = new MusicStreamVisualizationManager();
-            _searchVm = searchVm;
-            VisualizationManagerCreated(_msvm);
-            _msvm.FftDataReceived = UpdateVm;
+            _searchViewModel = searchVm;
+            _accountWorker = accountWorker;
+            
+            //VisualizationManagerCreated(_visualizationManager);
+            _accountWorker.FftSessionManagerCreated = FftSessionManagerCreated;
+        }
+
+        private void FftSessionManagerCreated(MusicStreamSessionManager sessionManager)
+        {
+            _sessionManager = sessionManager;
+            _visualizationManager = new MusicStreamVisualizationManager(sessionManager);
+            _sessionManager.VisualizationManager = _visualizationManager;
+            _visualizationManager.FftDataReceived = UpdateVm;
         }
 
         private void UpdateVm(double[] arr)
         {
-            _searchVm.Fft1Value = (int)arr[2];
-            _searchVm.Fft2Value = (int)arr[3];
-            _searchVm.Fft3Value = (int)arr[4];
-            _searchVm.Fft4Value = (int)arr[5];
-            _searchVm.Fft5Value = (int)arr[7];
-            _searchVm.Fft6Value = (int)arr[10];
-            _searchVm.Fft7Value = (int)arr[15];
-            _searchVm.Fft8Value = (int)arr[30];
-            _searchVm.Fft9Value = (int)arr[150];
-            _searchVm.Fft10Value = (int)arr[1000];
+            _searchViewModel.Fft1Value = (int)arr[2];
+            _searchViewModel.Fft2Value = (int)arr[3];
+            _searchViewModel.Fft3Value = (int)arr[4];
+            _searchViewModel.Fft4Value = (int)arr[5];
+            _searchViewModel.Fft5Value = (int)arr[7];
+            _searchViewModel.Fft6Value = (int)arr[10];
+            _searchViewModel.Fft7Value = (int)arr[15];
+            _searchViewModel.Fft8Value = (int)arr[30];
+            _searchViewModel.Fft9Value = (int)arr[150];
+            _searchViewModel.Fft10Value = (int)arr[1000];
         }
     }
 }

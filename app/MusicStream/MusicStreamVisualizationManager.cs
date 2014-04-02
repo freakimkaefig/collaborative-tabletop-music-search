@@ -10,6 +10,7 @@ namespace MusicStream
 {
     public class MusicStreamVisualizationManager
     {
+        private MusicStreamSessionManager _sessionManager;
         private int _counter = 0;
         private Lomont.LomontFFT _lomontFFT;
         public Action<double[]> FftDataReceived;
@@ -18,9 +19,9 @@ namespace MusicStream
         /// Constructor for MusicStreamVisualizationManager
         /// Handles fast fourier transformation for visualizing of streamed music
         /// </summary>
-        public MusicStreamVisualizationManager()
+        public MusicStreamVisualizationManager(MusicStreamSessionManager sessionManager)
         {
-
+            _sessionManager = sessionManager;
         }
 
         /// <summary>
@@ -35,9 +36,9 @@ namespace MusicStream
             int sampleRate = format.sample_rate;            //SampleRate = 44100
             SampleType sampleType = format.sample_type;     //SampleType = Int16NativeEndian
 
-            //AudioBufferStats stats = _sessionManager.GetCurrentAudioBufferStats();
-            //int samples = stats.samples; //Anzahl der abgespielten bzw. gebufferten Bytes
-           // int stutter = stats.stutter; //"Hänger"
+            AudioBufferStats stats = _sessionManager.GetCurrentAudioBufferStats();
+            int samples = stats.samples; //Anzahl der abgespielten bzw. gebufferten Bytes
+            int stutter = stats.stutter; //"Hänger"
 
             //Debug.WriteLine("DATA received:\nSamples: "+samples+"\nHänger: "+stutter+"\nFrames: "+frames);
 

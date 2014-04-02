@@ -27,6 +27,7 @@ namespace Ctms.Applications.Workers
         public Action<MusicStreamSessionManager> StreamingSessionManagerCreated;
         public Action<MusicStreamSessionManager> PlaylistSessionManagerCreated;
         public Action<MusicStreamSessionManager> ResultSessionManagerCreated;
+        public Action<MusicStreamSessionManager> FftSessionManagerCreated;
 
         public string test;
 
@@ -68,6 +69,7 @@ namespace Ctms.Applications.Workers
             PlaylistSessionManagerCreated(_sessionManager);
             StreamingSessionManagerCreated(_sessionManager);
             ResultSessionManagerCreated(_sessionManager);
+            FftSessionManagerCreated(_sessionManager);
 
             //registration of listeners to MusicStreamSessionManager
             _sessionManager.ReceiveLogMessage = ReceiveLogMessage;
