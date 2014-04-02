@@ -47,4 +47,168 @@
         <Setter Property="Margin" Value="30" />
     </Style>
 
+    
+    <Storyboard x:Key="Tests">
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"                           Storyboard.TargetName="kugel1" RepeatBehavior="Forever">
+            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.95" Value="400"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+            
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"                           Storyboard.TargetName="kugel2" RepeatBehavior="Forever">
+            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.38" Value="250"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.76" Value="100"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.33" Value="-180"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+            
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"                           Storyboard.TargetName="kugel3" RepeatBehavior="Forever">
+            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.38" Value="120"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.76" Value="0"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.33" Value="-200"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+            
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"                           Storyboard.TargetName="kugel4" RepeatBehavior="Forever">
+            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.95" Value="-400"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+         
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="kugel1" RepeatBehavior="Forever">
+            <EasingColorKeyFrame KeyTime="0" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.38" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.76" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.95" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.33" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.52" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.9" Value="Black"/>
+        </ColorAnimationUsingKeyFrames>
+            
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="kugel2" RepeatBehavior="Forever">
+            <EasingColorKeyFrame KeyTime="0" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.38" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.76" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.95" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.33" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.52" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.9" Value="Red"/>
+        </ColorAnimationUsingKeyFrames>
+            
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="kugel3" RepeatBehavior="Forever">
+            <EasingColorKeyFrame KeyTime="0" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.38" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.76" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.95" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.33" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.52" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.9" Value="Black"/>
+        </ColorAnimationUsingKeyFrames>
+            
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="kugel4" RepeatBehavior="Forever">
+            <EasingColorKeyFrame KeyTime="0" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.38" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.76" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.95" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.33" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.52" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.9" Value="Red"/>
+        </ColorAnimationUsingKeyFrames> 
+    </Storyboard>
+    
+    <DataTemplate x:Key="KugelAnimation">
+        
+        <Grid x:Name="LayoutRoot">
+
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard x:Name="Tests_BeginStoryboard" Storyboard="{StaticResource Tests}"/>
+                </EventTrigger>
+            </Grid.Triggers>
+
+            <Ellipse x:Name="kugel1"
+                     Fill="Black"
+                     Height="20"
+                     HorizontalAlignment="Left"
+                     Margin="58,0,0,14.5"
+                     RenderTransformOrigin="0.5,0.5"
+                     Width="20">
+                <Ellipse.Effect>
+                    <DropShadowEffect/>
+                </Ellipse.Effect>
+                <Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            
+            <Ellipse x:Name="kugel2" 
+                     Fill="Black" 
+                     Height="20"
+                     HorizontalAlignment="Left" 
+                     Margin="182.5,0,0,14.5" 
+                     RenderTransformOrigin="0.5,0.5"
+                     Width="20">
+                <Ellipse.Effect>
+                    <DropShadowEffect/>
+                </Ellipse.Effect>
+                <Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            
+            <Ellipse x:Name="kugel3" 
+                     Fill="Black" 
+                     Height="20"
+                     HorizontalAlignment="Right"
+                     Margin="0,0,203.5,14.5" 
+                     RenderTransformOrigin="0.5,0.5"
+                     Width="20">
+                <Ellipse.Effect>
+                    <DropShadowEffect/>
+                </Ellipse.Effect>
+                <Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            
+            <Ellipse x:Name="kugel4" 
+                     Fill="Black" 
+                     Height="20"
+                     HorizontalAlignment="Right" 
+                     Margin="0,0,71,14.5" 
+                     RenderTransformOrigin="0.5,0.5"
+                     Width="20">
+                <Ellipse.Effect>
+                    <DropShadowEffect/>
+                </Ellipse.Effect>
+                <Ellipse.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            
+        </Grid>
+    </DataTemplate>
+
 </ResourceDictionary>
