@@ -23,9 +23,12 @@ namespace Ctms.Applications.ViewModels
         //Commands
         private ICommand _exitAppCommand;
         private ICommand _loginCommand;
+        private ICommand _rotateLoginDialogCommand;
         private ICommand _logoutCommand;
         private ICommand _openPlaylistCommand;
+        private ICommand _rotateOpenPlaylistCommand;
         private ICommand _newPlaylistCommand;
+        private ICommand _rotateNewPlaylistCommand;
         private ICommand _goCommand;
         //
         private string _spotifyUsernameInput = "mybleton";
@@ -34,6 +37,9 @@ namespace Ctms.Applications.ViewModels
         private string _goInput;
         private bool _isLoggedIn = false;
         private bool _menuIsVisible = false;
+        private bool _loginDialogIsRotate = false;
+        private bool _openPlaylistDialogIsRotate = false;
+        private bool _createPlaylistDialogIsRotate = false;
         private ObservableCollection<SpotifyPlaylist> _playlists;
 
 
@@ -46,6 +52,8 @@ namespace Ctms.Applications.ViewModels
             DisplayLoginDialog();
         }
 
+        #region Public Methods
+
         public void DisplayLoginDialog()
         {
             VisualState temp = _view.VisualStateLoginDialogVisible;
@@ -53,6 +61,61 @@ namespace Ctms.Applications.ViewModels
         }
 
         public bool IsEnabled { get { return true; } }//!! Has to be adjusted
+
+        public void RotateLoginDialog()
+        {
+            VisualState visualState;
+            if (LoginDialogIsRotate == false)
+            {
+                visualState = _view.VisualStateRotate180_LoginDialog;
+                LoginDialogIsRotate = true;
+            }
+            else
+            {
+                visualState = _view.VisualStateRotate0_LoginDialog;
+                LoginDialogIsRotate = false;
+            }
+
+            VisualStateManager.GoToState((FrameworkElement)_view, visualState.Name, true);
+        }
+
+        public void RotateOpenPlaylistDialog()
+        {
+            VisualState visualState;
+            if (OpenPlaylistDialogIsRotate == false)
+            {
+                visualState = _view.VisualStateRotate180_OpenPlaylistDialog;
+                OpenPlaylistDialogIsRotate = true;
+            }
+            else
+            {
+                visualState = _view.VisualStateRotate0_OpenPlaylistDialog;
+                OpenPlaylistDialogIsRotate = false;
+            }
+
+            VisualStateManager.GoToState((FrameworkElement)_view, visualState.Name, true);
+        }
+
+        public void RotateCreatePlaylistDialog()
+        {
+            VisualState visualState;
+            if (CreatePlaylistDialogIsRotate == false)
+            {
+                visualState = _view.VisualStateRotate180_CreatePlaylistDialog;
+                CreatePlaylistDialogIsRotate = true;
+            }
+            else
+            {
+                visualState = _view.VisualStateRotate0_CreatePlaylistDialog;
+                CreatePlaylistDialogIsRotate = false;
+            }
+
+            VisualStateManager.GoToState((FrameworkElement)_view, visualState.Name, true);
+        }
+
+        #endregion Public Methods
+
+        #region Properties
 
         public bool IsValid
         {
@@ -89,71 +152,6 @@ namespace Ctms.Applications.ViewModels
                 {
                     _loginButtonContent = value;
                     RaisePropertyChanged("LoginButtonContent");
-                }
-            }
-        }
-
-        public ICommand ExitAppCommand
-        {
-            get { return _exitAppCommand; }
-            set
-            {
-                if (_exitAppCommand != value)
-                {
-                    _exitAppCommand = value;
-                    RaisePropertyChanged("ExitAppCommand");
-                }
-            }
-        }
-
-        public ICommand LoginCommand
-        {
-            get { return _loginCommand; }
-            set
-            {
-                if (_loginCommand != value)
-                {
-                    _loginCommand = value;
-                    RaisePropertyChanged("LoginCommand");
-                }
-            }
-        }
-
-        public ICommand LogoutCommand
-        {
-            get { return _logoutCommand; }
-            set
-            {
-                if (_logoutCommand != value)
-                {
-                    _logoutCommand = value;
-                    RaisePropertyChanged("LogoutCommand");
-                }
-            }
-        }
-
-        public ICommand OpenPlaylistCommand
-        {
-            get { return _openPlaylistCommand; }
-            set
-            {
-                if (_openPlaylistCommand != value)
-                {
-                    _openPlaylistCommand = value;
-                    RaisePropertyChanged("OpenPlaylistCommand");
-                }
-            }
-        }
-
-        public ICommand NewPlaylistCommand
-        {
-            get { return _newPlaylistCommand; }
-            set
-            {
-                if (_newPlaylistCommand != value)
-                {
-                    _newPlaylistCommand = value;
-                    RaisePropertyChanged("NewPlaylistCommand");
                 }
             }
         }
@@ -223,6 +221,45 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public bool LoginDialogIsRotate
+        {
+            get { return _loginDialogIsRotate; }
+            set
+            {
+                if (_loginDialogIsRotate != value)
+                {
+                    _loginDialogIsRotate = value;
+                    RaisePropertyChanged("LoginDialogIsRotate");
+                }
+            }
+        }
+
+        public bool OpenPlaylistDialogIsRotate
+        {
+            get { return _openPlaylistDialogIsRotate; }
+            set
+            {
+                if (_openPlaylistDialogIsRotate != value)
+                {
+                    _openPlaylistDialogIsRotate = value;
+                    RaisePropertyChanged("OpenPlaylistDialogIsRotate");
+                }
+            }
+        }
+
+        public bool CreatePlaylistDialogIsRotate
+        {
+            get { return _createPlaylistDialogIsRotate; }
+            set
+            {
+                if (_createPlaylistDialogIsRotate != value)
+                {
+                    _createPlaylistDialogIsRotate = value;
+                    RaisePropertyChanged("CreatePlaylistDialogIsRotate");
+                }
+            }
+        }
+
         public ObservableCollection<SpotifyPlaylist> Playlists
         {
             get { return _playlists; }
@@ -235,5 +272,116 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
+
+        #endregion Properties
+
+        #region Commands
+
+        public ICommand ExitAppCommand
+        {
+            get { return _exitAppCommand; }
+            set
+            {
+                if (_exitAppCommand != value)
+                {
+                    _exitAppCommand = value;
+                    RaisePropertyChanged("ExitAppCommand");
+                }
+            }
+        }
+
+        public ICommand LoginCommand
+        {
+            get { return _loginCommand; }
+            set
+            {
+                if (_loginCommand != value)
+                {
+                    _loginCommand = value;
+                    RaisePropertyChanged("LoginCommand");
+                }
+            }
+        }
+
+        public ICommand RotateLoginDialogCommand
+        {
+            get { return _rotateLoginDialogCommand; }
+            set
+            {
+                if (_rotateLoginDialogCommand != value)
+                {
+                    _rotateLoginDialogCommand = value;
+                    RaisePropertyChanged("RotateLoginDialogCommand");
+                }
+            }
+        }
+
+        public ICommand LogoutCommand
+        {
+            get { return _logoutCommand; }
+            set
+            {
+                if (_logoutCommand != value)
+                {
+                    _logoutCommand = value;
+                    RaisePropertyChanged("LogoutCommand");
+                }
+            }
+        }
+
+        public ICommand OpenPlaylistCommand
+        {
+            get { return _openPlaylistCommand; }
+            set
+            {
+                if (_openPlaylistCommand != value)
+                {
+                    _openPlaylistCommand = value;
+                    RaisePropertyChanged("OpenPlaylistCommand");
+                }
+            }
+        }
+
+        public ICommand RotateOpenPlaylistCommand
+        {
+            get { return _rotateOpenPlaylistCommand; }
+            set
+            {
+                if (_rotateOpenPlaylistCommand != value)
+                {
+                    _rotateOpenPlaylistCommand = value;
+                    RaisePropertyChanged("RotateOpenPlaylistCommand");
+                }
+            }
+        }
+
+        public ICommand RotateCreatePlaylistCommand
+        {
+            get { return _rotateNewPlaylistCommand; }
+            set
+            {
+                if (_rotateNewPlaylistCommand != value)
+                {
+                    _rotateNewPlaylistCommand = value;
+                    RaisePropertyChanged("RotateCreatePlaylistCommand");
+                }
+            }
+        }
+
+        public ICommand NewPlaylistCommand
+        {
+            get { return _newPlaylistCommand; }
+            set
+            {
+                if (_newPlaylistCommand != value)
+                {
+                    _newPlaylistCommand = value;
+                    RaisePropertyChanged("NewPlaylistCommand");
+                }
+            }
+        }
+
+        #endregion Commands
+
     }
 }

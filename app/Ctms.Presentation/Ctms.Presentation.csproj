@@ -263,6 +263,7 @@
     <Resource Include="Resources\Images\Search\record2.png" />
     <Resource Include="Resources\Images\Playlist\plus.png" />
     <Resource Include="Resources\Images\Playlist\playlist.png" />
+    <Resource Include="Resources\Images\Playlist\rotate-icon.png" />
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>

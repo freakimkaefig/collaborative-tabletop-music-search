@@ -25,15 +25,35 @@ namespace Ctms.Presentation.Views
 
         //VisualStates
         private VisualState _loginDialogVisible;
+        private VisualState _visualStateRotate0_LoginDialog;
+        private VisualState _visualStateRotate180_LoginDialog;
+        private VisualState _visualStateRotate0_OpenPlaylistDialog;
+        private VisualState _visualStateRotate180_OpenPlaylistDialog;
+        private VisualState _visualStateRotate0_CreatePlaylistDialog;
+        private VisualState _visualStateRotate180_CreatePlaylistDialog;
 
         public MenuView()
         {
             InitializeComponent();
             _lazyVm = new Lazy<MenuViewModel>(() => ViewHelper.GetViewModel<MenuViewModel>(this));
+
+            //Visual States
             _loginDialogVisible = LoginDialogVisible;
+            _visualStateRotate0_LoginDialog = Rotate0_LoginDialog;
+            _visualStateRotate180_LoginDialog = Rotate180_LoginDialog;
+            _visualStateRotate0_OpenPlaylistDialog = Rotate0_OpenPlaylistDialog;
+            _visualStateRotate180_OpenPlaylistDialog = Rotate180_OpenPlaylistDialog;
+            _visualStateRotate0_CreatePlaylistDialog = Rotate0_CreatePlaylistDialog;
+            _visualStateRotate180_CreatePlaylistDialog = Rotate180_CreatePlaylistDialog;
         }
 
         public VisualState VisualStateLoginDialogVisible { get { return _loginDialogVisible; } set { } }
+        public VisualState VisualStateRotate0_LoginDialog { get { return _visualStateRotate0_LoginDialog; } set { } }
+        public VisualState VisualStateRotate180_LoginDialog { get { return _visualStateRotate180_LoginDialog; } set { } }
+        public VisualState VisualStateRotate0_OpenPlaylistDialog { get { return _visualStateRotate0_OpenPlaylistDialog; } set { } }
+        public VisualState VisualStateRotate180_OpenPlaylistDialog { get { return _visualStateRotate180_OpenPlaylistDialog; } set { } }
+        public VisualState VisualStateRotate0_CreatePlaylistDialog { get { return _visualStateRotate0_CreatePlaylistDialog; } set { } }
+        public VisualState VisualStateRotate180_CreatePlaylistDialog { get { return _visualStateRotate180_CreatePlaylistDialog; } set { } }
 
         // Provides this view's viewmodel
         private MenuViewModel _viewModel { get { return _lazyVm.Value; } }
