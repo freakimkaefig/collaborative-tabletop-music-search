@@ -152,6 +152,13 @@ namespace MusicStream
             get { return _isRepeat; }
         }
 
+        public MusicStreamVisualizationManager VisualizationManager
+        {
+            set { _visualizationManager = value; }
+            get { return _visualizationManager; }
+
+        }
+
 
         /* ---------- PUBLIC METHODS ---------- */
         /// <summary>
@@ -395,9 +402,6 @@ namespace MusicStream
                 _playlists.Add(_playlistContainer.Playlist(i));
                 //logMessages.Enqueue("Found Playlist: (" + i + ")" + _playlistContainer.Playlist(i).Name());
             }
-
-            //Create VisualizationManager
-            _visualizationManager = new MusicStreamVisualizationManager(this);
 
             //Create Buffer, Stats & AudioDevice
             _bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat()); //Create new Buffer

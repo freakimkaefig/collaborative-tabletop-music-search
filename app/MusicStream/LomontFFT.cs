@@ -1,6 +1,4 @@
-﻿//Source: http://www.lomont.org/Software/Misc/FFT/LomontFFT.html
-
-// Code to implement decently performing FFT for complex and real valued                                         
+﻿// Code to implement decently performing FFT for complex and real valued                                         
 // signals. See www.lomont.org for a derivation of the relevant algorithms                                       
 // from first principles. Copyright Chris Lomont 2010-2012.                                                      
 // This code and any ports are free for all to use for any reason as long                                        
@@ -38,7 +36,7 @@ namespace Lomont
         /// and imaginary parts</param>                                                                          
         /// <param name="forward">true for a forward transform, false for                                        
         /// inverse transform</param>                                                                            
-        public void FFT(double[] data, bool forward)
+        public double[] FFT(double[] data, bool forward)
         {
             var n = data.Length;
             // checks n is a power of 2 in 2's complement format                                                 
@@ -79,7 +77,7 @@ namespace Lomont
             }
 
             // perform data scaling as needed                                                                    
-            Scale(data, n, forward);
+            return Scale(data, n, forward);
         }
 
         /// <summary>                                                                                            

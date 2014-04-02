@@ -40,6 +40,18 @@ namespace Ctms.Applications.ViewModels
         private List<searchObjects> _searchObjectsList;
         //private readonly IEnumerable<SearchTagViewModel> _searchTags;
 
+        //FFT Values
+        private int _fft1Value;
+        private int _fft2Value;
+        private int _fft3Value;
+        private int _fft4Value;
+        private int _fft5Value;
+        private int _fft6Value;
+        private int _fft7Value;
+        private int _fft8Value;
+        private int _fft9Value;
+        private int _fft10Value;
+
         [ImportingConstructor]
         public SearchViewModel(ISearchView view)
             : base(view)
@@ -76,6 +88,132 @@ namespace Ctms.Applications.ViewModels
         {
 
         }
+
+        #region FFTValues
+
+        public int Fft1Value
+        {
+            get { return _fft1Value; }
+            set
+            {
+                if (_fft1Value != value)
+                {
+                    _fft1Value = value;
+                    RaisePropertyChanged("Fft1Value");
+                }
+            }
+        }
+        public int Fft2Value
+        {
+            get { return _fft2Value; }
+            set
+            {
+                if (_fft2Value != value)
+                {
+                    _fft2Value = value;
+                    RaisePropertyChanged("Fft2Value");
+                }
+            }
+        }
+        public int Fft3Value
+        {
+            get { return _fft3Value; }
+            set
+            {
+                if (_fft3Value != value)
+                {
+                    _fft3Value = value;
+                    RaisePropertyChanged("Fft3Value");
+                }
+            }
+        }
+        public int Fft4Value
+        {
+            get { return _fft4Value; }
+            set
+            {
+                if (_fft4Value != value)
+                {
+                    _fft4Value = value;
+                    RaisePropertyChanged("Fft4Value");
+                }
+            }
+        }
+        public int Fft5Value
+        {
+            get { return _fft5Value; }
+            set
+            {
+                if (_fft5Value != value)
+                {
+                    _fft5Value = value;
+                    RaisePropertyChanged("Fft5Value");
+                }
+            }
+        }
+        public int Fft6Value
+        {
+            get { return _fft6Value; }
+            set
+            {
+                if (_fft6Value != value)
+                {
+                    _fft6Value = value;
+                    RaisePropertyChanged("Fft6Value");
+                }
+            }
+        }
+        public int Fft7Value
+        {
+            get { return _fft7Value; }
+            set
+            {
+                if (_fft7Value != value)
+                {
+                    _fft7Value = value;
+                    RaisePropertyChanged("Fft7Value");
+                }
+            }
+        }
+        public int Fft8Value
+        {
+            get { return _fft8Value; }
+            set
+            {
+                if (_fft8Value != value)
+                {
+                    _fft8Value = value;
+                    RaisePropertyChanged("Fft8Value");
+                }
+            }
+        }
+        public int Fft9Value
+        {
+            get { return _fft9Value; }
+            set
+            {
+                if (_fft9Value != value)
+                {
+                    _fft9Value = value;
+                    RaisePropertyChanged("Fft9Value");
+                }
+            }
+        }
+        public int Fft10Value
+        {
+            get { return _fft10Value; }
+            set
+            {
+                if (_fft10Value != value)
+                {
+                    _fft10Value = value;
+                    RaisePropertyChanged("Fft10Value");
+                }
+            }
+        }
+
+        #endregion
+
 
         #region Properties
 

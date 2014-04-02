@@ -20,20 +20,30 @@ namespace Ctms.Applications.Workers
         private MenuViewModel _menuViewModel;
         private MusicStreamAccountWorker _accountWorker;
         private MusicStreamSessionManager _sessionManager;
+        private MusicStreamVisualizationManager _visualizationManager;
+        private FftWorker _fftWorker;
 
         [ImportingConstructor]
-        public ResultWorker(ResultViewModel resultViewModel, MenuViewModel menuViewModel, MusicStreamAccountWorker accountWorker)
+        public ResultWorker(ResultViewModel resultViewModel, MenuViewModel menuViewModel, MusicStreamAccountWorker accountWorker, FftWorker fftWorker)
         {
+
             _resultViewModel = resultViewModel;
             _menuViewModel = menuViewModel;
             _accountWorker = accountWorker;
-
+            _fftWorker = fftWorker;
             _accountWorker.ResultSessionManagerCreated = ResultSessionManagerCreated;
+            _fftWorker.VisualizationManagerCreated = VisualizationManagerCreated;
         }
 
         private void ResultSessionManagerCreated(MusicStreamSessionManager sessionManager)
         {
             _sessionManager = sessionManager;
+        }
+
+        private void VisualizationManagerCreated(MusicStreamVisualizationManager visualizationManager)
+        {
+            _visualizationManager = visualizationManager;
+            _sessionManager.VisualizationManager = _visualizationManager;
         }
 
         public bool CanRefreshResults() { return _resultViewModel.IsValid; }

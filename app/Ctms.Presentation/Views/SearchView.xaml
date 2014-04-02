@@ -31,6 +31,8 @@
                 <RowDefinition Height="188*" />
             </Grid.RowDefinitions>
             
+            
+            
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
                 Grid.Column="0" 
                 Grid.Row="0" 
@@ -42,6 +44,16 @@
             <ContentControl Name="animation" ContentTemplate="{StaticResource KugelAnimation}">
                 
             </ContentControl>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft1Value}" Margin="0,393,-8,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft2Value}" Margin="0,393,-115.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft3Value}" Margin="0,393,-295.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft4Value}" Margin="0,393,-469.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft5Value}" Margin="0,393,-679.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft6Value}" Margin="0,393,-841.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft7Value}" Margin="0,393,-1000.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft8Value}" Margin="0,393,-1096.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft9Value}" Margin="0,393,-1198.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft10Value}" Margin="0,393,-1309.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
         </Grid>
         
     </s:TagVisualizer>

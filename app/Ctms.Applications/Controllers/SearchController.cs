@@ -48,6 +48,7 @@ namespace Ctms.Applications.Controllers
         private SearchWorker _searchWorker;
         private SearchOptionWorker _searchOptionWorker;
         private ResultWorker _resultWorker;
+        private FftWorker _fftWorker;
         //Commands
         private readonly DelegateCommand _startSearchCmd;
         private readonly DelegateCommand _selectOptionCmd;
@@ -69,7 +70,7 @@ namespace Ctms.Applications.Controllers
             SearchTagViewModel searchTagVm, 
             ResultViewModel resultVm,
             SearchWorker searchWorker, ResultWorker resultWorker, SearchOptionWorker searchOptionWorker,
-            Repository repository)
+            Repository repository, FftWorker fftWorker)
         {
             _container                  = container;
             _repository                 = repository;
@@ -77,6 +78,7 @@ namespace Ctms.Applications.Controllers
             _searchWorker               = searchWorker;
             _resultWorker               = resultWorker;
             _searchOptionWorker         = searchOptionWorker;
+            _fftWorker                  = fftWorker;
             //Services
             _shellService               = shellService;
             _entityService              = entityService;
@@ -144,6 +146,7 @@ namespace Ctms.Applications.Controllers
             {   // when visible options changed the tag visualization has to be updated
                 _searchVm.UpdateVisuals((TagDataModel)sender);
             }
+            
         }
 
         /// <summary>
@@ -155,6 +158,10 @@ namespace Ctms.Applications.Controllers
         {
             if (e.PropertyName == "")
             {
+            }
+            if (e.PropertyName == "Fft1Value")
+            {
+
             }
         }
     }

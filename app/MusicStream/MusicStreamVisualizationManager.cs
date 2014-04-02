@@ -8,19 +8,19 @@ using System.Diagnostics;
 
 namespace MusicStream
 {
-    class MusicStreamVisualizationManager
+    public class MusicStreamVisualizationManager
     {
-        private MusicStreamSessionManager _sessionManager;
         private int _counter = 0;
         private Lomont.LomontFFT _lomontFFT;
+        public Action<double[]> FftDataReceived;
 
         /// <summary>
         /// Constructor for MusicStreamVisualizationManager
         /// Handles fast fourier transformation for visualizing of streamed music
         /// </summary>
-        public MusicStreamVisualizationManager(MusicStreamSessionManager sessionManager)
+        public MusicStreamVisualizationManager()
         {
-            _sessionManager = sessionManager;
+
         }
 
         /// <summary>
@@ -35,16 +35,18 @@ namespace MusicStream
             int sampleRate = format.sample_rate;            //SampleRate = 44100
             SampleType sampleType = format.sample_type;     //SampleType = Int16NativeEndian
 
-            AudioBufferStats stats = _sessionManager.GetCurrentAudioBufferStats();
-            int samples = stats.samples; //Anzahl der abgespielten bzw. gebufferten Bytes
-            int stutter = stats.stutter; //"Hänger"
+            //AudioBufferStats stats = _sessionManager.GetCurrentAudioBufferStats();
+            //int samples = stats.samples; //Anzahl der abgespielten bzw. gebufferten Bytes
+           // int stutter = stats.stutter; //"Hänger"
 
-            Debug.WriteLine("DATA received:\nSamples: "+samples+"\nHänger: "+stutter+"\nFrames: "+frames);
+            //Debug.WriteLine("DATA received:\nSamples: "+samples+"\nHänger: "+stutter+"\nFrames: "+frames);
 
             Double[] preparedFrames = prepareBytes(channels, sampleRate, frames);
 
+            //Source: http://www.lomont.org/Software/Misc/FFT/LomontFFT.html
             _lomontFFT = new Lomont.LomontFFT();
-            Double[] framesFFT = _lomontFFT.TableFFT(preparedFrames, true);
+            Double[] framesFFT = _lomontFFT.FFT(preparedFrames, true);
+            FftDataReceived(framesFFT);
         }
 
         //Source: https://stackoverflow.com/questions/17416112/apply-fft-on-pcm-data-and-convert-to-a-spectrogram 
