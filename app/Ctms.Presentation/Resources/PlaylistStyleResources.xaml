@@ -5,7 +5,7 @@
     xmlns:c="clr-namespace:Ctms.Presentation.Converters">
 
     <DataTemplate x:Key="SurfaceListBoxItemDataTemplate">
-        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="{Binding Opacity}">
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Opacity="{Binding Opacity}" Background="#222">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="660"/>
                 <ColumnDefinition Width="60"/>

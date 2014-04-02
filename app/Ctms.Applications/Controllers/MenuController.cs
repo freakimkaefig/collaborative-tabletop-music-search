@@ -45,8 +45,11 @@ namespace Ctms.Applications.Controllers
         //Commands
         private readonly DelegateCommand _exitAppCommand;
         private readonly DelegateCommand _loginCommand;
+        private readonly DelegateCommand _rotateLoginDialogCommand;
         private readonly DelegateCommand _logoutCommand;
         private readonly DelegateCommand _openPlaylistCommand;
+        private readonly DelegateCommand _rotateOpenPlaylistCommand;
+        private readonly DelegateCommand _rotateCreatePlaylistCommand;
         private readonly DelegateCommand _newPlaylistCommand;
         //Further vars
         
@@ -68,8 +71,11 @@ namespace Ctms.Applications.Controllers
             //Commands
             this._exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
             this._loginCommand = new DelegateCommand((password) => _musicStreamAccountWorker.Login((SurfacePasswordBox)password));
+            this._rotateLoginDialogCommand = new DelegateCommand(_menuViewModel.RotateLoginDialog);
             this._logoutCommand = new DelegateCommand(_musicStreamAccountWorker.Logout);
             this._openPlaylistCommand = new DelegateCommand((playlist) => _musicStreamAccountWorker.OpenPlaylist((SpotifyPlaylist)playlist));
+            this._rotateOpenPlaylistCommand = new DelegateCommand(_menuViewModel.RotateOpenPlaylistDialog);
+            this._rotateCreatePlaylistCommand = new DelegateCommand(_menuViewModel.RotateCreatePlaylistDialog);
             this._newPlaylistCommand = new DelegateCommand((name) => _musicStreamAccountWorker.CreateNewPlaylist((SurfaceTextBox)name));
         }
 
@@ -79,8 +85,11 @@ namespace Ctms.Applications.Controllers
             //Commands
             _menuViewModel.ExitAppCommand = _exitAppCommand;
             _menuViewModel.LoginCommand = _loginCommand;
+            _menuViewModel.RotateLoginDialogCommand = _rotateLoginDialogCommand;
             _menuViewModel.LogoutCommand = _logoutCommand;
             _menuViewModel.OpenPlaylistCommand = _openPlaylistCommand;
+            _menuViewModel.RotateOpenPlaylistCommand = _rotateOpenPlaylistCommand;
+            _menuViewModel.RotateCreatePlaylistCommand = _rotateCreatePlaylistCommand;
             _menuViewModel.NewPlaylistCommand = _newPlaylistCommand;
 
             AddWeakEventListener(_menuViewModel, MenuViewModelPropertyChanged);
@@ -99,6 +108,11 @@ namespace Ctms.Applications.Controllers
         {
             //!!Best option?
             _shellViewModel.ExitCommand.Execute(null);
+        }
+
+        private void RotateOpenPlaylistDialog()
+        {
+
         }
 
         private bool CanExitApp() { return _shellViewModel.IsValid; }
