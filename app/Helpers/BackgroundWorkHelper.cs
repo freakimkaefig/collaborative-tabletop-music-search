@@ -50,5 +50,26 @@ namespace Helpers
             }
         }
 
+        public void DoInBackgroundWithParams(DoWorkEventHandler workerMethod, RunWorkerCompletedEventHandler completedHandler, params object[] arguments)
+        {
+            BackgroundWorker bgWorker = new BackgroundWorker();
+
+            // Set up the Background Worker Events
+            bgWorker.DoWork += workerMethod;
+
+            // Decide which method shall be executed when work is completed
+            bgWorker.RunWorkerCompleted += completedHandler;
+
+            // Run the Background Worker
+            if (arguments != null)
+            {
+                bgWorker.RunWorkerAsync(arguments);
+            }
+            else
+            {
+                bgWorker.RunWorkerAsync();
+            }
+        }
+
     }
 }

@@ -70,10 +70,18 @@ namespace Ctms.Presentation.Views
             }
 
             UpdateVisual(tagId);
+        }
 
-            Storyboard sb = (Storyboard)Application.Current.Resources["Tests"];
-            animation.BeginStoryboard(sb);
-
+        private void UpdateAnimation()
+        {
+            try
+            {
+                Storyboard sb = (Storyboard)Application.Current.Resources["Tests"];
+                animation.BeginStoryboard(sb);
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void UpdateResources(SearchTagView searchTagView, int tagId, TagDataModel tagDM)
@@ -117,6 +125,8 @@ namespace Ctms.Presentation.Views
                 item.InvalidateProperty(PieMenuItem.SubHeaderProperty);
             }
             pieMenu.InvalidateVisual();
+
+            UpdateAnimation();
         }
 
         /// <summary>

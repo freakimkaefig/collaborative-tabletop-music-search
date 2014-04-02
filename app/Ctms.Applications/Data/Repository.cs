@@ -159,9 +159,9 @@ namespace Ctms.Applications.Data
         /// Add tag option
         /// </summary>
         /// <returns></returns>
-        public void AddTagOption(TagOption tagOption)
+        public void AddTagOption(TagDataModel tag, TagOption tagOption)
         {
-            GetAllTagOptions().Add(tagOption);
+            tag.Tag.TagOptions.Add(tagOption);
         }
 
         /// <summary>
