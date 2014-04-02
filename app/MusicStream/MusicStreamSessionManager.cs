@@ -58,8 +58,9 @@ namespace MusicStream
         private AudioBufferStats _audioBufferStats;
         private byte[] _copiedFrames;
         private Playlist _currentPlaylist;
+        private int _currentPlaylistTrackIndex;
+        private bool _playlistPlaying = false;
         private Track _currentPrelistenTrack;
-        private int _currentTrackIndex;
 
         private bool _isShuffle = false;
         private bool _isRepeat = false;
@@ -214,8 +215,16 @@ namespace MusicStream
         /// </summary>
         /// <param name="track"></param>
         public void StartPrelisteningTrack(Track track)
-        {  
-            _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, track);
+        {
+            if (_playlistPlaying == true)
+            {
+                var playback = _waveOutDevice.PlaybackState;
+                _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, track);
+            }
+            else
+            {
+
+            }
         }
 
         /// <summary>
@@ -270,7 +279,7 @@ namespace MusicStream
         public void JumpToTrackInPlaylist(Playlist playlist, int index)
         {
             _currentPlaylist = playlist;
-            _currentTrackIndex = index;
+            _currentPlaylistTrackIndex = index;
             _bufferedWaveProvider.ClearBuffer();
             try
             {
@@ -278,6 +287,7 @@ namespace MusicStream
                 _session.PlayerPlay(true);
                 _waveOutDevice.Play();
                 PlaybackStarted();
+                _playlistPlaying = true;
             }
             catch (SpotifyException spotifyException)
             {
@@ -313,23 +323,23 @@ namespace MusicStream
             {
                 //choose next track by random
                 var test = _random.Next(0, 100);
-                _currentTrackIndex = _random.Next(0, _currentPlaylist.NumTracks());
+                _currentPlaylistTrackIndex = _random.Next(0, _currentPlaylist.NumTracks());
             }
             else
             {
                 //next track in the list
-                _currentTrackIndex++;
+                _currentPlaylistTrackIndex++;
             }
 
-            if (_currentTrackIndex >= _currentPlaylist.NumTracks())
+            if (_currentPlaylistTrackIndex >= _currentPlaylist.NumTracks())
             {
                 //finished track is last of the list
                 if (IsRepeat)
                 {
                     //restart playlist from beginning
-                    _currentTrackIndex = 0;
+                    _currentPlaylistTrackIndex = 0;
                     _bufferedWaveProvider.ClearBuffer();
-                    _session.PlayerLoad(_currentPlaylist.Track(_currentTrackIndex));
+                    _session.PlayerLoad(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                     _session.PlayerPlay(true);
                     _waveOutDevice.Play();
                     PlaybackStarted();
@@ -347,7 +357,7 @@ namespace MusicStream
             {
                 //play next track
                 _bufferedWaveProvider.ClearBuffer();
-                _session.PlayerLoad(_currentPlaylist.Track(_currentTrackIndex));
+                _session.PlayerLoad(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                 _session.PlayerPlay(true);
                 _waveOutDevice.Play();
                 PlaybackStarted();
