@@ -37,16 +37,16 @@ namespace Ctms.Applications.Workers
 
         private void UpdateVm(double[] arr)
         {
-            _searchViewModel.Fft1Value = (int)arr[2];
-            _searchViewModel.Fft2Value = (int)arr[3];
-            _searchViewModel.Fft3Value = (int)arr[4];
-            _searchViewModel.Fft4Value = (int)arr[5];
-            _searchViewModel.Fft5Value = (int)arr[7];
-            _searchViewModel.Fft6Value = (int)arr[10];
-            _searchViewModel.Fft7Value = (int)arr[15];
-            _searchViewModel.Fft8Value = (int)arr[30];
-            _searchViewModel.Fft9Value = (int)arr[150];
-            _searchViewModel.Fft10Value = (int)arr[1000];
+            _searchViewModel.Fft1Value = Math.Abs((int)arr[2] * 100);
+            _searchViewModel.Fft2Value = Math.Abs((int)arr[3] * 100);
+            _searchViewModel.Fft3Value = Math.Abs((int)arr[4] * 100);
+            _searchViewModel.Fft4Value = Math.Abs((int)arr[5] * 100);
+            _searchViewModel.Fft5Value = Math.Abs((int)arr[7] * 100);
+            _searchViewModel.Fft6Value = Math.Abs((int)arr[10] * 100);
+            _searchViewModel.Fft7Value = Math.Abs((int)arr[15] * 100);
+            _searchViewModel.Fft8Value = Math.Abs((int)arr[30] * 100);
+            _searchViewModel.Fft9Value = Math.Abs((int)arr[150] * 100);
+            _searchViewModel.Fft10Value = Math.Abs((int)arr[1000] * 100);
         }
     }
 }

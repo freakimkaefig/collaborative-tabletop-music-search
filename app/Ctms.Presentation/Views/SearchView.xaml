@@ -32,12 +32,22 @@
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
                 Width="100" 
                 Height="50" 
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" Grid.Column="1" Margin="694,358,903,672" />
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top" Grid.Column="1" Margin="529.5,133,0,0" />
             
             <ContentControl Name="animation" ContentTemplate="{StaticResource KugelAnimation}">
                 
             </ContentControl>
+            <Rectangle Grid.Column="1" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="235.5,358,0,539" Stroke="Black" Width="60" Height="{Binding Fft1Value}"/>
+            <Rectangle Grid.Column="1" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="334.5,358,0,539" Stroke="Black" Width="60" Height="{Binding Fft2Value}"/>
+            <Rectangle Grid.Column="1" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="433.5,358,0,539" Stroke="Black" Width="60" Height="{Binding Fft3Value}"/>
+            <Rectangle Grid.Column="1" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="529.5,358,0,539" Stroke="Black" Width="60" Height="{Binding Fft4Value}"/>
+            <Rectangle Grid.Column="1" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="623.75,358,0,539" Stroke="Black" Width="60" Height="{Binding Fft5Value}"/>
+            <Rectangle Grid.Column="1" Fill="#FFF4F4F5" HorizontalAlignment="Left" Margin="728.75,358,0,539" Stroke="Black" Width="60" Height="{Binding Fft6Value}"/>
+            <Rectangle Grid.Column="1" Fill="#FFF4F4F5" Margin="836.75,358,793.75,539" Stroke="Black" Width="60" Height="{Binding Fft7Value}"/>
+            <Rectangle Grid.Column="1" Fill="#FFF4F4F5" Margin="0,358,676.75,539" Stroke="Black" HorizontalAlignment="Right" Width="60" Height="{Binding Fft8Value}"/>
+            <Rectangle Grid.Column="1" Fill="#FFF4F4F5" Margin="0,358,562.75,539" Stroke="Black" HorizontalAlignment="Right" Width="60" Height="{Binding Fft9Value}"/>
+            <Rectangle Grid.Column="1" Fill="#FFF4F4F5" Margin="0,358,448.75,539" Stroke="Black" HorizontalAlignment="Right" Width="60" Height="{Binding Fft10Value}"/>
         </Grid>
         
     </s:TagVisualizer>
