@@ -8,6 +8,7 @@ using SpotifySharp;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Ctms.Domain.Objects;
+using System.Diagnostics;
 
 
 namespace Ctms.Applications.Workers
@@ -118,6 +119,7 @@ namespace Ctms.Applications.Workers
         //CALLBACKS
         private void ReceiveLogMessage(string logMessage)
         {
+            Debug.WriteLine(CodeHelpers.GetTimeStamp() + ": " + logMessage);
             _menuViewModel.LoginLogMessage += "\n" + CodeHelpers.GetTimeStamp() + "\n" +logMessage + "\n";
         }
 
@@ -133,7 +135,7 @@ namespace Ctms.Applications.Workers
                     break;
                 //... switch all errors from SpotifySharp.SpotifyError
                 default:
-                    ReceiveLogMessage("ERROR");
+                    ReceiveLogMessage("SpotifyError" + spotifyError.ToString());
                     break;
             }
         }

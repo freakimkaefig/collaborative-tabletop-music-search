@@ -58,19 +58,25 @@ namespace Ctms.Applications.Workers
             _playlistViewModel.Prelistening = false;
         }
 
-        public void PlayCurrentTrack()
+        public void PlaylistPlayPause()
         {
-           //Called when Button "Play" from PlaylistView clicked
-        }
-
-        public void PauseCurrentTrack()
-        {
-            //Called when Button "Pause" from PlaylistView clicked
+            //Called when Button "Play/Pause" from PlaylistView clicked
+            if (_playlistViewModel.Playing)
+            {
+                _sessionManager.PlaylistPause();
+                _playlistViewModel.Playing = false;
+            }
+            else
+            {
+                _sessionManager.PlaylistPlay();
+                _playlistViewModel.Playing = true;
+            }
         }
 
         public void StopPlayback()
         {
             //Called when Button "Stop" from PlaylistView clicked
+            _sessionManager.PlaylistStop();
         }
 
         //PUBLIC METHODS

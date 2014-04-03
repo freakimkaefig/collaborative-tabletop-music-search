@@ -43,8 +43,7 @@ namespace Ctms.Applications.Controllers
         private StreamingWorker _streamingWorker;
         private PlaylistWorker _playlistWorker;
         //Commands
-        private readonly DelegateCommand _playCommand;
-        private readonly DelegateCommand _pauseCommand;
+        private readonly DelegateCommand _playPauseCommand;
         private readonly DelegateCommand _stopCommand;
         private readonly DelegateCommand _addTrackCommand;
         private readonly DelegateCommand _jumpToTrackCommand;
@@ -70,8 +69,7 @@ namespace Ctms.Applications.Controllers
             _streamingWorker = streamingWorker;
             _playlistWorker = playlistWorker;
             //Commands
-            this._playCommand = new DelegateCommand(_streamingWorker.PlayCurrentTrack, _streamingWorker.CanStream);
-            this._pauseCommand = new DelegateCommand(_streamingWorker.PauseCurrentTrack, _streamingWorker.Playing);
+            this._playPauseCommand = new DelegateCommand(_streamingWorker.PlaylistPlayPause, _streamingWorker.CanStream);
             this._stopCommand = new DelegateCommand(_streamingWorker.StopPlayback, _streamingWorker.Playing);
             this._addTrackCommand = new DelegateCommand((data) => _playlistWorker.AddTrackToPlaylist((object[])data));
             this._jumpToTrackCommand = new DelegateCommand((index) => _playlistWorker.JumpToTrack((int)index));
@@ -85,8 +83,7 @@ namespace Ctms.Applications.Controllers
         {
             //_playlistViewModel = new PlaylistViewModel(playlistView);
             //Commands
-            _playlistViewModel.PlayCommand = _playCommand;
-            _playlistViewModel.PauseCommand = _pauseCommand;
+            _playlistViewModel.PlayPauseCommand = _playPauseCommand;
             _playlistViewModel.StopCommand = _stopCommand;
             _playlistViewModel.AddTrackCommand = _addTrackCommand;
             _playlistViewModel.JumpToTrackCommand = _jumpToTrackCommand;
@@ -101,8 +98,7 @@ namespace Ctms.Applications.Controllers
 
         private void UpdateCommands()
         {
-            _playCommand.RaiseCanExecuteChanged();
-            _pauseCommand.RaiseCanExecuteChanged();
+            _playPauseCommand.RaiseCanExecuteChanged();
             _stopCommand.RaiseCanExecuteChanged();
             _shuffleCommand.RaiseCanExecuteChanged();
             _repeatCommand.RaiseCanExecuteChanged();
@@ -130,6 +126,24 @@ namespace Ctms.Applications.Controllers
             if (e.PropertyName == "ReadyForPlayback")
             {
                 //...
+                UpdateCommands();
+            }
+            if (e.PropertyName == "PlayPauseCommand")
+            {
+                //...
+                UpdateCommands();
+            }
+
+            if (e.PropertyName == "Playing")
+            {
+                if (!_playlistViewModel.Playing)
+                {
+                    _playlistViewModel.PlayPauseText = "Play";
+                }
+                else
+                {
+                    _playlistViewModel.PlayPauseText = "Pause";
+                }
                 UpdateCommands();
             }
         }
