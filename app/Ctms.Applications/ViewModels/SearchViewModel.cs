@@ -51,6 +51,7 @@ namespace Ctms.Applications.ViewModels
         private int _fft8Value = 0;
         private int _fft9Value = 0;
         private int _fft10Value = 0;
+        private List<System.Windows.Shapes.Rectangle> _fftRectangle;
 
         [ImportingConstructor]
         public SearchViewModel(ISearchView view)
@@ -58,6 +59,7 @@ namespace Ctms.Applications.ViewModels
         {
             _tags = new ObservableCollection<TagDataModel>();
             _searchView = view;
+            _searchView.InitializeRectangles();
 
             //Testweise hinzufügen eines SearchObjects
                 //MICHL: befüllen durch Tangibles die auf dem Tisch stehen!
@@ -91,6 +93,18 @@ namespace Ctms.Applications.ViewModels
 
         #region FFTValues
 
+        public List<System.Windows.Shapes.Rectangle> FftRectangle
+        {
+            get { return _fftRectangle; }
+            set
+            {
+                if (_fftRectangle != value)
+                {
+                    _fftRectangle = value;
+                    RaisePropertyChanged("FftRectangle");
+                }
+            }
+        }
         public int Fft1Value
         {
             get { return _fft1Value; }
