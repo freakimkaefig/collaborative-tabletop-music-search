@@ -21,7 +21,7 @@
     waf:ValidationHelper.IsEnabled="true" -->
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
-    <Grid x:Name="grid1" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
+    <Grid x:Name="grid1" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" Width="Auto">
     	<Grid.RenderTransform>
     		<TransformGroup>
     			<ScaleTransform/>
@@ -122,7 +122,7 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
-        <s:SurfaceButton Name="DropTargetRight" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="80" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="80"
+        <s:SurfaceButton Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="80" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="80"
                          s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter"
                          s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave"
                          s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop"
@@ -143,7 +143,7 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
-        <Image Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" Margin="200" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="0"/>
+        <Image Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="0"/>
         <s:SurfaceButton Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="80" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="80"
         	s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter"
         	s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave"
