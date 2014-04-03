@@ -30,7 +30,7 @@ namespace MusicStream
         /// <param name="format"></param>
         /// <param name="frames"></param>
         /// <param param name="num_frames"></param>
-        public void MusicDeliveryCallback(AudioFormat format, byte[] frames, int num_frames)
+        public void MusicDeliveryCallback(AudioFormat format, byte[] frames, int num_frames, double howmuchsec)
         {
             int channels = format.channels;                 //Channels = 2
             int sampleRate = format.sample_rate;            //SampleRate = 44100
@@ -42,13 +42,15 @@ namespace MusicStream
 
             //Debug.WriteLine("DATA received:\nSamples: "+samples+"\nHänger: "+stutter+"\nFrames: "+frames);
 
-            Double[] preparedFrames = prepareBytes(channels, sampleRate, frames);
+            Double[] preparedFrames = new Double[frames.Length + 1];
+            preparedFrames = prepareBytes(channels, sampleRate, frames);
+
 
             //Source: http://www.lomont.org/Software/Misc/FFT/LomontFFT.html
             _lomontFFT = new Lomont.LomontFFT();
             Double[] framesFFT = _lomontFFT.FFT(preparedFrames, true);
-            //mittelwerte berechnen um nullwerte zu vermeiden?
-            //Double[] avgFramges = CalcAvg(framesFFT);
+            framesFFT[framesFFT.Length - 1] = howmuchsec;
+
             FftDataReceived(framesFFT);
         }
 
