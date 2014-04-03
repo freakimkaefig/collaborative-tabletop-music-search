@@ -37,16 +37,87 @@ namespace Ctms.Applications.Workers
 
         private void UpdateVm(double[] arr)
         {
-            _searchViewModel.Fft1Value = (int)Math.Abs(arr[2] * 100);
-            _searchViewModel.Fft2Value = (int)Math.Abs(arr[3] * 100);
-            _searchViewModel.Fft3Value = (int)Math.Abs(arr[4] * 100);
-            _searchViewModel.Fft4Value = (int)Math.Abs(arr[5] * 100);
-            _searchViewModel.Fft5Value = (int)Math.Abs(arr[7] * 100);
-            _searchViewModel.Fft6Value = (int)Math.Abs(arr[10] * 100);
-            _searchViewModel.Fft7Value = (int)Math.Abs(arr[15] * 100);
-            _searchViewModel.Fft8Value = (int)Math.Abs(arr[30] * 100);
-            _searchViewModel.Fft9Value = (int)Math.Abs(arr[150] * 100);
-            _searchViewModel.Fft10Value = Math.Abs((int)arr[200] * 100);
+            if (arr[6] != null)
+            {
+                _searchViewModel.Fft1Value = (int)Math.Abs(arr[6] * 100);
+            }
+            else
+            {
+                _searchViewModel.Fft1Value = 0;
+            }
+            if (arr[9] != null)
+            {
+                _searchViewModel.Fft2Value = (int)Math.Abs(arr[9] * 100);
+            }
+            else
+            {
+                _searchViewModel.Fft2Value = 0;
+            }
+            if (arr[16] != null)
+            {
+                _searchViewModel.Fft3Value = (int)Math.Abs(arr[16] * 100);
+            }
+            else
+            {
+                _searchViewModel.Fft3Value = 0;
+            }
+            if (arr[23] != null)
+            {
+                _searchViewModel.Fft4Value = (int)Math.Abs(arr[23] * 100);
+            }
+            else
+            {
+                _searchViewModel.Fft4Value = 0;
+            }
+            if (arr[34] != null)
+            {
+                _searchViewModel.Fft5Value = (int)Math.Abs(arr[34] * 100);
+            }
+            else
+            {
+                _searchViewModel.Fft5Value = 0;
+            }
+            if (arr[70] != null)
+            {
+                _searchViewModel.Fft6Value = (int)Math.Abs(arr[70] * 100);
+            }
+            else
+            {
+                _searchViewModel.Fft6Value = 0;
+            }
+            if (arr[116] != null)
+            {
+                _searchViewModel.Fft7Value = (int)Math.Abs(arr[116] * 100);
+            }
+            else
+            {
+                _searchViewModel.Fft7Value = 0;
+            }
+            if (arr[163] != null)
+            {
+                _searchViewModel.Fft8Value = (int)Math.Abs(arr[163] * 100);
+            }
+            else
+            {
+                _searchViewModel.Fft8Value = 0;
+            }
+            if (arr[232] != null)
+            {
+                _searchViewModel.Fft9Value = (int)Math.Abs(arr[232] * 100);
+            }
+            else
+            {
+                _searchViewModel.Fft9Value = 0;
+            }
+            if (arr[372] != null)
+            {
+                _searchViewModel.Fft10Value = Math.Abs((int)arr[372] * 100);
+            }
+            else
+            {
+                _searchViewModel.Fft10Value = 0;
+            }
+
         }
     }
 }
