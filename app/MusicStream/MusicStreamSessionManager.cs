@@ -442,7 +442,7 @@ namespace MusicStream
             var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
             double howMuchSecs = ( ((double)num_frames * 2.0 * 2.0) / (double)bytesPerSec ) * 1000.0;
             _currentPlaylistTrackPlayedDuration += (int)howMuchSecs;
-            logMessages.Enqueue("Received: " + _currentPlaylistTrackPlayedDuration + " / " + duration);
+            //logMessages.Enqueue("Received: " + _currentPlaylistTrackPlayedDuration + " / " + duration);
 
             var size = num_frames * format.channels * 2;
             if (size != 0)

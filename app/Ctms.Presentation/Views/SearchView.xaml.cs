@@ -43,7 +43,6 @@ namespace Ctms.Presentation.Views
             InitializeComponent();
             _lazyVm = new Lazy<SearchViewModel>(() => ViewHelper.GetViewModel<SearchViewModel>(this));
             SearchTagViews = new Dictionary<int, SearchTagView>();
-            
                 
         }
 
@@ -51,6 +50,23 @@ namespace Ctms.Presentation.Views
         private SearchViewModel _viewModel { get { return _lazyVm.Value; } }
 
         public TagVisualizer TagVisualizer { get { return SearchTagVisualizer; } set {} }
+
+        public void InitializeRectangles()
+        {
+            List<System.Windows.Shapes.Rectangle> rectangles = new List<System.Windows.Shapes.Rectangle>();
+            rectangles.Add(Fft1);
+            rectangles.Add(Fft2);
+            rectangles.Add(Fft3);
+            rectangles.Add(Fft4);
+            rectangles.Add(Fft5);
+            rectangles.Add(Fft6);
+            rectangles.Add(Fft7);
+            rectangles.Add(Fft8);
+            rectangles.Add(Fft9);
+            rectangles.Add(Fft10);
+
+            _viewModel.FftRectangle = rectangles;
+        }
 
         private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
         {

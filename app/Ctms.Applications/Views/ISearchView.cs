@@ -14,5 +14,6 @@ namespace Ctms.Applications.Views
         TagVisualizer TagVisualizer { get; set; }
 
         void UpdateVisual(int tagId);
+        void InitializeRectangles();
     }
 }
