@@ -88,8 +88,8 @@
 				</TransformGroup>
 			</Grid.RenderTransform>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="800"/>
-				<ColumnDefinition Width="1104"/>
+				<ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
 			</Grid.ColumnDefinitions>
             <s:SurfaceListBox x:Name="surfaceListBox" Margin="0,120,0,0" Background="#000"
                               ItemTemplate="{StaticResource SurfaceListBoxItemDataTemplate}" ItemsSource="{Binding ResultsForPlaylist}"
@@ -143,7 +143,7 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
-        <Image Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="0" Margin="1811,459,49,561"/>
+        <Image Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" Margin="200" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="0"/>
         <s:SurfaceButton Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="80" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="80"
         	s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter"
         	s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave"

@@ -66,7 +66,7 @@ namespace Ctms.Applications.Controllers
 
             AddWeakEventListener(_infoVm, InfoViewModelPropertyChanged);
 
-            //ShowCommonInfo("CommonInfoMain", "InfoSub");
+            ShowCommonInfo("CommonInfoMain", "InfoSub");
             //ShowTagInfo("TagInfoMain", "InfoSub", 0);
             //ShowTutorialInfo("TutorialInfoMain", "InfoSub");
         }
