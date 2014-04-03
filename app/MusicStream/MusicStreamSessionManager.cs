@@ -61,6 +61,7 @@ namespace MusicStream
         private int _currentPlaylistTrackIndex;
         private double _currentPlaylistTrackPlayedDuration = 0.0;
         private bool _playlistPlaying = false;
+        private bool _prelistPlaying = false;
         private Track _currentPrelistenTrack;
 
         private bool _isShuffle = false;
@@ -220,11 +221,13 @@ namespace MusicStream
             if (_playlistPlaying == true)
             {
                 //Save position in current track
+                
             }
             else
             {
 
             }
+            _prelistPlaying = true;
             _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, track);
         }
 
@@ -281,6 +284,7 @@ namespace MusicStream
         {
             _currentPlaylist = playlist;
             _currentPlaylistTrackIndex = index;
+            _currentPlaylistTrackPlayedDuration = 0;
             _bufferedWaveProvider.ClearBuffer();
             try
             {
@@ -363,6 +367,8 @@ namespace MusicStream
                 _waveOutDevice.Play();
                 PlaybackStarted();
             }
+
+            _currentPlaylistTrackPlayedDuration = 0;
         }
 
         /// <summary>
@@ -438,6 +444,7 @@ namespace MusicStream
             //format: audio format for streaming
             //frames: pointer to the byte-data in storage
 
+            //calculate how much seconds already received;
             int duration = _currentPlaylist.Track(_currentPlaylistTrackIndex).Duration();
             var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
             double howMuchSecs = ( ((double)num_frames * 2.0 * 2.0) / (double)bytesPerSec ) * 1000.0;
