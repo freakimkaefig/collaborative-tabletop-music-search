@@ -7,20 +7,21 @@ using System.Windows;
 
 namespace Ctms.Domain.Objects
 {
-    /*
+    
     public enum InfoTypes
     {
         CommonInfo,
         TagInfo,
         TutorialInfo
     }
-    */
+    
     public class Info : Model
     {
-        protected Info(string mainText, string subText)//, InfoTypes infoType)
+        protected Info(int id, string mainText, string subText)//, InfoTypes infoType)
         {
             MainText    = mainText;
             SubText     = subText;
+            Id          = id;
         }
 
         public int Id { get; set; }
@@ -43,7 +44,8 @@ namespace Ctms.Domain.Objects
 
     public class CommonInfo : Info
     {
-        public CommonInfo(string mainText, string subText) : base (mainText, subText)//, InfoTypes.CommonInfo)
+        public CommonInfo(int id, string mainText, string subText) 
+            : base (id, mainText, subText)//, InfoTypes.CommonInfo)
         {
 
         }
@@ -51,7 +53,8 @@ namespace Ctms.Domain.Objects
 
     public class TagInfo : Info
     {
-        public TagInfo(string mainText, string subText) : base(mainText, subText)
+        public TagInfo(int id, string mainText, string subText)
+            : base(id, mainText, subText)
         {
 
         }
@@ -59,7 +62,8 @@ namespace Ctms.Domain.Objects
 
     public class TutorialInfo : Info
     {
-        public TutorialInfo(string mainText, string subText) : base(mainText, subText)
+        public TutorialInfo(int id, string mainText, string subText)
+            : base(id, mainText, subText)
         {
 
         }

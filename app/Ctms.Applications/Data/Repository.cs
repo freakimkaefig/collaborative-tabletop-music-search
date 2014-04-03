@@ -77,7 +77,7 @@ namespace Ctms.Applications.Data
 
 
         #region Infos
-
+        /*
         /// <summary>
         /// Get all common infos
         /// </summary>
@@ -100,6 +100,14 @@ namespace Ctms.Applications.Data
         public ObservableCollection<InfoDataModel> GetAllTutorialInfos()
         {
             return _infoVm.TutorialInfos;
+        }
+        */
+        public ObservableCollection<InfoDataModel> GetAllInfos(InfoTypes type)
+        {
+            if (type == InfoTypes.CommonInfo) return _infoVm.CommonInfos;
+            else if (type == InfoTypes.TagInfo) return _infoVm.TagInfos;
+            else if (type == InfoTypes.TutorialInfo) return _infoVm.TutorialInfos;
+            else return null;
         }
 
         /// <summary>

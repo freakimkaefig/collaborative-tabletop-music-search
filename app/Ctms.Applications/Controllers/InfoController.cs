@@ -66,14 +66,14 @@ namespace Ctms.Applications.Controllers
 
             AddWeakEventListener(_infoVm, InfoViewModelPropertyChanged);
 
-            ShowCommonInfo("CommonInfoMain", "InfoSub");
-            ShowTagInfo("TagInfoMain", "InfoSub", 0);
-            ShowTutorialInfo("TutorialInfoMain", "InfoSub");
+            //ShowCommonInfo("CommonInfoMain", "InfoSub");
+            //ShowTagInfo("TagInfoMain", "InfoSub", 0);
+            //ShowTutorialInfo("TutorialInfoMain", "InfoSub");
         }
 
         private void ShowCommonInfo(string mainText, string subText)
         {
-            var info = _infoFactory.CreateCommonInfoDm(mainText, subText);
+            var info = _infoFactory.CreateInfoDm(mainText, subText, InfoTypes.CommonInfo);
             info.IsVisible = true;
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
@@ -82,7 +82,7 @@ namespace Ctms.Applications.Controllers
 
         private void ShowTagInfo(string mainText, string subText, int tagId)
         {
-            var info = _infoFactory.CreateCommonInfoDm(mainText, subText);
+            var info = _infoFactory.CreateInfoDm(mainText, subText, InfoTypes.TagInfo);
             info.IsVisible = true;
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
@@ -92,9 +92,8 @@ namespace Ctms.Applications.Controllers
 
         private void ShowTutorialInfo(string mainText, string subText)
         {
-            var info = _infoFactory.CreateCommonInfoDm(mainText, subText);
+            var info = _infoFactory.CreateInfoDm(mainText, subText, InfoTypes.TutorialInfo);
             info.IsVisible = true;
-            info.Info.MainText = "Funzt!";
             _infoVm.TutorialInfos.Add(info);
             info.Info.MainText = mainText;
             info.Info.SubText = subText;

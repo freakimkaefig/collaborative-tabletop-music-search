@@ -25,13 +25,12 @@
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ListBox ItemsSource="{Binding Infos}" BorderBrush="Transparent" 
-                 Grid.IsSharedSizeScope="True"
-                 HorizontalContentAlignment="Stretch">
+        <ListBox ItemsSource="{Binding CommonInfos}" Background="Transparent"
+                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="4" >
-                        <!--Style="{StaticResource CommonInfo}"-->
+                    <Grid Style="{StaticResource CommonInfoGrid}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto" />
@@ -42,9 +41,9 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold"/>
-                        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.Subtext}" FontWeight="Bold"/>
-                        <s:SurfaceButton Grid.Row="1" Grid.ColumnSpan="3" Content="Ok" />
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch"/>
+                        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" />
+                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="Ok" HorizontalAlignment="Stretch" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
