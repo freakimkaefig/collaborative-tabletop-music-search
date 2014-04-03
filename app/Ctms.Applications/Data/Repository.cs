@@ -85,7 +85,7 @@ namespace Ctms.Applications.Data
         /// <returns>sub styles</returns>
         public ObservableCollection<InfoDataModel> GetAllInfos()
         {
-            return _infoVm.Infos;
+            return _infoVm.CommonInfos;
         }
 
         #endregion Infos

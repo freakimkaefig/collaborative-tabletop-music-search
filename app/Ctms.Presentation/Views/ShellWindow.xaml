@@ -10,7 +10,6 @@
     mc:Ignorable="d"     
     WindowState="Maximized"
     WindowStyle="None"
-    Height="1366" Width="768"
     >
 
     <Window.Background>
@@ -39,6 +38,6 @@
         <ContentControl Content="{Binding ShellService.ResultView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
         <ContentControl Content="{Binding ShellService.DetailView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
         <ContentControl Content="{Binding ShellService.MenuView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
-        <ContentControl Content="{Binding ShellService.InfoView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Height="500" Width="500"/>
+        <!--<ContentControl Content="{Binding ShellService.InfoView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>-->
     </Grid>  
 </s:SurfaceWindow>

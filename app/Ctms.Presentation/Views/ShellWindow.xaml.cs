@@ -50,7 +50,7 @@ namespace Ctms.Presentation.Views
                 }
                 else if (WindowState == WindowState.Maximized)
                 {
-                    WindowState = WindowState.Normal;
+                    WindowState = WindowState.Maximized;
                 }
             }
         }

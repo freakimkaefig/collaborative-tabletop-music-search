@@ -16,6 +16,7 @@ namespace Ctms.Domain.Objects
 
         public enum InfoState
         {
+
         }
 
         public int Id { get; set; }
