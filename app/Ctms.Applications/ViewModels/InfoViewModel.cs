@@ -16,13 +16,17 @@ namespace Ctms.Applications.ViewModels
     public class InfoViewModel : ViewModel<IInfoView>
     {
         private bool isValid = true;
-        private ObservableCollection<InfoDataModel> _infos;
+        private ObservableCollection<InfoDataModel> _commonInfos;
+        private ObservableCollection<InfoDataModel> _tagInfos;
+        private ObservableCollection<InfoDataModel> _tutorialInfos;
         
         [ImportingConstructor]
         public InfoViewModel(IInfoView view)
             : base(view)
         {
-            _infos = new ObservableCollection<InfoDataModel>();
+            _commonInfos = new ObservableCollection<InfoDataModel>();
+            _tagInfos = new ObservableCollection<InfoDataModel>();
+            _tutorialInfos = new ObservableCollection<InfoDataModel>();
         }
 
 
@@ -41,7 +45,11 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ObservableCollection<InfoDataModel> Infos { get { return _infos; } }
+        public ObservableCollection<InfoDataModel> CommonInfos { get { return _commonInfos; } }
+
+        public ObservableCollection<InfoDataModel> TagInfos { get { return _tagInfos; } }
+
+        public ObservableCollection<InfoDataModel> TutorialInfos { get { return _tutorialInfos; } }
 
         //public Detail Detail
         //{

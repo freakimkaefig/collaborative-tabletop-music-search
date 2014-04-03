@@ -7,15 +7,18 @@ using System.Windows;
 
 namespace Ctms.Domain.Objects
 {
+    public enum InfoTypes
+    {
+        CommonInfo,
+        TagInfo,
+        TutorialInfo
+    }
+
     public class Info : Model
     {
-        public Info()
+        protected Info(string mainText, InfoTypes infoType)
         {
 
-        }
-
-        public enum InfoState
-        {
         }
 
         public int Id { get; set; }
@@ -26,6 +29,37 @@ namespace Ctms.Domain.Objects
 
         public Point Position { get; set; }
 
-        public InfoState State { get; set; }
+        public InfoStates State { get; set; }
+
+        public enum InfoStates
+        {
+
+        }
+
+        public InfoTypes InfoType { get; set; }
+    }
+
+    public class CommonInfo : Info
+    {
+        public CommonInfo(string mainText) : base (mainText, InfoTypes.CommonInfo)
+        {
+
+        }
+    }
+
+    public class TagInfo : Info
+    {
+        public TagInfo(string mainText) : base(mainText, InfoTypes.TagInfo)
+        {
+
+        }
+    }
+
+    public class TutorialInfo : Info
+    {
+        public TutorialInfo(string mainText) : base(mainText, InfoTypes.TutorialInfo)
+        {
+
+        }
     }
 }

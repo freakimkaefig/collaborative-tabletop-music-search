@@ -21,9 +21,9 @@ namespace Ctms.Applications.DataFactories
         {
         }
         
-        public InfoDataModel CreateInfoDataModel()
+        public InfoDataModel CreateCommonInfoDataModel()
         {
-            var infos = _repository.GetAllInfos();
+            var infos = _repository.GetAllCommonInfos();
             var nextFreeId = EntitiesHelper.CalcNextId<InfoDataModel>(infos, (t => t.Info.Id));
 
             // create Tag
@@ -42,5 +42,46 @@ namespace Ctms.Applications.DataFactories
             return newInfo;
         }
 
+        public InfoDataModel CreateTagInfoDataModel()
+        {
+            var infos = _repository.GetAllCommonInfos();
+            var nextFreeId = EntitiesHelper.CalcNextId<InfoDataModel>(infos, (t => t.Info.Id));
+
+            // create Tag
+            var info = new Info()
+            {
+                Id = nextFreeId,
+                //TagOptions = new ObservableCollection<TagOption>()
+            };
+
+            // create TagDataModel wrapper for tag
+            var newInfo = new InfoDataModel(info)
+            {
+                Info = info
+            };
+
+            return newInfo;
+        }
+
+        public InfoDataModel CreateTutorialInfoDataModel()
+        {
+            var infos = _repository.GetAllCommonInfos();
+            var nextFreeId = EntitiesHelper.CalcNextId<InfoDataModel>(infos, (t => t.Info.Id));
+
+            // create Tag
+            var info = new Info()
+            {
+                Id = nextFreeId,
+                //TagOptions = new ObservableCollection<TagOption>()
+            };
+
+            // create TagDataModel wrapper for tag
+            var newInfo = new InfoDataModel(info)
+            {
+                Info = info
+            };
+
+            return newInfo;
+        }
     }
 }
