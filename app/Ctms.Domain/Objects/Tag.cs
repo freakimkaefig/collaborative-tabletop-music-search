@@ -13,7 +13,7 @@ namespace Ctms.Domain.Objects
     {
         private Keyword _assignedKeyword;
         private readonly ObservableCollection<TagOption> _tagOptions;
-        private readonly ObservableCollection<TagOption> _previousOptions;
+        private readonly ObservableCollection<TagOption> _breadcrumbOptions;
         private short _angle;
         private short _positionY;
         private short _positionX;
@@ -22,7 +22,7 @@ namespace Ctms.Domain.Objects
         public Tag()
         {
             _tagOptions         = new ObservableCollection<TagOption>();
-            _previousOptions    = new ObservableCollection<TagOption>();
+            _breadcrumbOptions    = new ObservableCollection<TagOption>();
 
             //_angle = 90.0;
         }
@@ -35,9 +35,9 @@ namespace Ctms.Domain.Objects
             get { return _tagOptions; }
         }
         
-        public ObservableCollection<TagOption> PreviousOptions
+        public ObservableCollection<TagOption> BreadcrumbOptions
         {
-            get { return _previousOptions; }
+            get { return _breadcrumbOptions; }
         }
         
         public int CurrentLayerNr { get; set; }

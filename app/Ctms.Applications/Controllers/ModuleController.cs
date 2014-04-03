@@ -32,6 +32,7 @@ namespace Ctms.Applications.Controllers
         private readonly PlaylistController playlistController;
         private readonly DetailController   detailController;
         private readonly MenuController     menuController;
+        private readonly InfoController     infoController;
         //Services
         private readonly IShellService      shellService;
         //ViewModels
@@ -45,6 +46,7 @@ namespace Ctms.Applications.Controllers
         public ModuleController(IMessageService messageService, IPresentationService presentationService,
             IEntityController entityController, SearchController searchController, ResultController resultController,
             PlaylistController playlistController, DetailController detailController, MenuController menuController,
+            InfoController infoController,
             ShellService shellService, ShellViewModel shellViewModel)
         {
             presentationService.InitializeCultures();
@@ -55,6 +57,7 @@ namespace Ctms.Applications.Controllers
             this.playlistController = playlistController;
             this.detailController   = detailController;
             this.menuController     = menuController;
+            this.infoController     = infoController;
             //Services
             this.messageService     = messageService;
             this.shellService       = shellService;
@@ -77,6 +80,7 @@ namespace Ctms.Applications.Controllers
             playlistController.Initialize();
             detailController.Initialize();
             menuController.Initialize();
+            infoController.Initialize();
         }
 
         public void Run()

@@ -64,6 +64,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.XML" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">
@@ -74,6 +75,7 @@
   <ItemGroup>
     <Compile Include="CtmsEntities.cs" />
     <Compile Include="Objects\Detail.cs" />
+    <Compile Include="Objects\Info.cs" />
     <Compile Include="Objects\Keyword.cs" />
     <Compile Include="Objects\KeywordContainer.cs" />
     <Compile Include="Objects\KeywordTypes.cs" />

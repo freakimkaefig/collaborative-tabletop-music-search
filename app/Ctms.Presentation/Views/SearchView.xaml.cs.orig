@@ -72,16 +72,22 @@ namespace Ctms.Presentation.Views
             UpdateVisual(tagId);
         }
 
+<<<<<<< HEAD
+            //Storyboard sb = (Storyboard)Application.Current.Resources["Tests"];
+            //animation.BeginStoryboard(sb);
+
+=======
         private void UpdateAnimation()
         {
             try
             {
-                //Storyboard sb = (Storyboard)Application.Current.Resources["Tests"];
-                //animation.BeginStoryboard(sb);
+                Storyboard sb = (Storyboard)Application.Current.Resources["Tests"];
+                animation.BeginStoryboard(sb);
             }
             catch (Exception)
             {
             }
+>>>>>>> origin/dev
         }
 
         private void UpdateResources(SearchTagView searchTagView, int tagId, TagDataModel tagDM)

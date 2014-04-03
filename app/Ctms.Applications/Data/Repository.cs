@@ -28,12 +28,13 @@ namespace Ctms.Applications.Data
         private PlaylistViewModel   _playlistVm;
         private ResultViewModel     _resultVm;
         private SearchTagViewModel  _searchTagVm;
+        private InfoViewModel       _infoVm;
         private SearchManager       _searchManager;
 
         [ImportingConstructor]
         public Repository(EntityService entityService, SearchViewModel searchVm, DetailViewModel detailVm,
             MenuViewModel menuVm, PlaylistViewModel playlistVm, ResultViewModel resultVm, SearchTagViewModel searchTagVm,
-            ShellViewModel shellVm)
+            InfoViewModel infoVm, ShellViewModel shellVm)
         {
             _entityService = entityService;
 
@@ -42,6 +43,7 @@ namespace Ctms.Applications.Data
             _menuVm         = menuVm;
             _playlistVm     = playlistVm;
             _resultVm       = resultVm;
+            _infoVm         = infoVm;
             _searchTagVm    = searchTagVm;
         }
 
@@ -73,8 +75,20 @@ namespace Ctms.Applications.Data
             return GetAllStyles().FirstOrDefault(s => s.Id == styleId).SubStyles;
         }
 
-        
 
+        #region Infos
+
+        /// <summary>
+        /// Get all sub styles of a style
+        /// </summary>
+        /// <param name="styleId">id of parent style</param>
+        /// <returns>sub styles</returns>
+        public ObservableCollection<InfoDataModel> GetAllInfos()
+        {
+            return _infoVm.Infos;
+        }
+
+        #endregion Infos
 
         #region Tags
 
@@ -142,6 +156,15 @@ namespace Ctms.Applications.Data
         #region TagOptions
 
         /// <summary>
+        /// Add tag option
+        /// </summary>
+        /// <returns></returns>
+        public void AddTagOption(TagDataModel tag, TagOption tagOption)
+        {
+            tag.Tag.TagOptions.Add(tagOption);
+        }
+
+        /// <summary>
         /// Get tag option by id
         /// </summary>
         /// <returns></returns>
@@ -169,7 +192,26 @@ namespace Ctms.Applications.Data
 
         #endregion TagOptions
 
+        #region BreadcrumbOptions
 
+        /// <summary>
+        /// Get tag option by id
+        /// </summary>
+        public List<TagOption> GetAllBreadcrumbOptions()
+        {
+            return _searchVm.Tags.SelectMany(t => t.Tag.BreadcrumbOptions).Distinct().ToList();
+        }
+
+        /// <summary>
+        /// Get tag option by id
+        /// </summary>
+        /// <returns></returns>
+        public TagOption GetBreadcrumbOptionById(int breadcrumbOptionId)
+        {
+            return GetAllBreadcrumbOptions().FirstOrDefault(po => po.Id == breadcrumbOptionId);
+        }
+
+        #endregion BreadcrumbOptions
 
         #region Keywords
 

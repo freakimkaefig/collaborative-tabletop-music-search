@@ -18,5 +18,7 @@ namespace Ctms.Applications.Services
         object SearchTagView { get; set; }
 
         object MenuView { get; set; }
+
+        object InfoView { get; set; }
     }
 }

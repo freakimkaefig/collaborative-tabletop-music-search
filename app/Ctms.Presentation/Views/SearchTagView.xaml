@@ -25,7 +25,7 @@
         <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
         <DataTemplate x:Key="BreadcrumbTemplate">
             <s:SurfaceButton Content="{Binding Keyword.Name}" 
-                             Command="{DynamicResource GoBreadcrumbCmd}" 
+                             Command="{Binding DataContext.GoBreadcrumbCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                              CommandParameter="{Binding Id}" 
                              Grid.Row="2" 
                              Grid.ColumnSpan="3"
@@ -173,7 +173,7 @@
                              Style="{StaticResource SearchViewBtn}"/>
 
             <ItemsControl ItemTemplate="{DynamicResource BreadcrumbTemplate}"  
-                        ItemsSource="{DynamicResource PreviousOptions}"
+                        ItemsSource="{DynamicResource BreadcrumbOptions}"
                         Grid.Row="0" 
                         Grid.Column="1"
                         Grid.ColumnSpan="2">

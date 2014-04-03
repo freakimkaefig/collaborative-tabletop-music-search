@@ -91,10 +91,10 @@ namespace Ctms.Applications.Controllers
             //Commands
             _startSearchCmd             = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
             _selectOptionCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.SelectOption((int)tagOptionId));
-            _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoToBreadcrumb((int)tagOptionId));
+            _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId));
             _getSuggestionsCmd          = new DelegateCommand((tagOptionId) => _searchOptionWorker.LoadSuggestions((int)tagOptionId));
             _editCmd                    = new DelegateCommand((tagId) => _searchOptionWorker.EditTag((int)tagId));
-            _goHomeCmd  = new DelegateCommand((tagId) => _searchOptionWorker.GoHome((int)tagId));
+            _goHomeCmd                  = new DelegateCommand((tagId) => _searchOptionWorker.GoHome((int)tagId));
             //Further vars
             _searchManager              = new SearchManager();
         }

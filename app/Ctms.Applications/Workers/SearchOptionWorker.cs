@@ -17,6 +17,7 @@ using Ctms.Domain;
 using MusicSearch.ResponseObjects;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Ctms.Applications.Workers
 {
@@ -46,14 +47,14 @@ namespace Ctms.Applications.Workers
             //Other vars
         }
 
-        public void Initialize(SearchManager searchManager, ObservableCollection<TagDataModel> tags)
+        public void Initialize(SearchManager searchManager, ObservableCollection<TagDataModel> tagDMs)
         {
             _searchManager = searchManager;
             _tagFactory     = new TagFactory(_repository);
 
-            foreach (var tag in tags)
+            foreach (var tagDM in tagDMs)
             {
-                LoadKeywordTypes(tag.Id);
+                LoadKeywordTypes(tagDM.Id);
             }
         }
 
@@ -61,13 +62,13 @@ namespace Ctms.Applications.Workers
 
         public void LoadKeywordTypes(int tagId)
         {
-            var tag = _searchVM.Tags[tagId];
+            var tagDM = _searchVM.Tags[tagId];
 
-            tag.Tag.PreviousOptions.Clear();
+            tagDM.Tag.BreadcrumbOptions.Clear();
 
-            UpdateActiveLayerNumber(tag, 0);
+            UpdateActiveLayerNumber(tagDM, 0);
 
-            var tagOpts = tag.Tag.TagOptions;
+            var tagOpts = tagDM.Tag.TagOptions;
             tagOpts.Clear();
 
             var keywordTypes = Enum.GetValues(typeof(KeywordTypes));
@@ -79,7 +80,7 @@ namespace Ctms.Applications.Workers
                 var keyword     = _tagFactory.CreateKeyword(keywordType.ToString(), keywordType);
 
                 // create TagOption for this keyword type at layer 0
-                var tagOption = _tagFactory.CreateTagOption(keyword, tag.Tag.CurrentLayerNr);
+                var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
 
                 tagOpts.Add(tagOption);
             }
@@ -93,25 +94,26 @@ namespace Ctms.Applications.Workers
 
         public void SelectOption(int tagOptionId)
         {
-            var tag         = _repository.GetTagDMByTagOption(tagOptionId);
-            var tagId       = tag.Id;
+            var tagDM       = _repository.GetTagDMByTagOption(tagOptionId);
+            var tagId       = tagDM.Id;
             var tagOption   = _repository.GetTagOptionById(tagOptionId);
             var keywordType = tagOption.Keyword.Type;
 
-            AddBreadcrumb(tag, tagOption.Keyword.Name);
+            // add breadcrumb only if the next stop is not assignKeyword
+            if(tagOption.LayerNr != 2) AddBreadcrumb(tagDM, tagOption);
 
-            UpdateActiveLayerNumber(tag, tag.Tag.CurrentLayerNr + 1);
+            UpdateActiveLayerNumber(tagDM, tagDM.Tag.CurrentLayerNr + 1);
 
-            switch (tag.Tag.CurrentLayerNr)
+            switch (tagDM.Tag.CurrentLayerNr)
             {
                 case 1: // ---layer 1---
                 {
                     if (keywordType == KeywordTypes.Artist || keywordType == KeywordTypes.Title)
                     {
                         // init selected keyword of tag and set its type
-                        tag.Tag.AssignedKeyword = _tagFactory.CreateKeyword(tagOption.Keyword.Name, tagOption.Keyword.Type);
+                        tagDM.Tag.AssignedKeyword = _tagFactory.CreateKeyword(tagOption.Keyword.Name, tagOption.Keyword.Type);
 
-                        SetInputIsVisible(tag, true);
+                        SetInputIsVisible(tagDM, true);
                     }
                     if (keywordType == KeywordTypes.Genre)
                     {   // load top genres
@@ -121,9 +123,9 @@ namespace Ctms.Applications.Workers
                         {
                             var keyword = _tagFactory.CreateKeyword(genre.genre_name, KeywordTypes.Genre);
 
-                            var genreOption = _tagFactory.CreateTagOption(keyword, tag.Tag.CurrentLayerNr);
+                            var genreOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
 
-                            tag.Tag.TagOptions.Add(genreOption);
+                            tagDM.Tag.TagOptions.Add(genreOption);
                         }
                     }
                     else if (keywordType == KeywordTypes.Attribute)
@@ -131,7 +133,7 @@ namespace Ctms.Applications.Workers
 
                     }
 
-                    _searchVM.UpdateVisuals(tag);
+                    //_searchVM.UpdateVisuals(tag);
 
                     break;
                 }
@@ -148,59 +150,58 @@ namespace Ctms.Applications.Workers
                         {
                             var keyword = _tagFactory.CreateKeyword(subGenre.name, KeywordTypes.Genre);
 
-                            var genreOption = _tagFactory.CreateTagOption(keyword, tag.Tag.CurrentLayerNr);
+                            var genreOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
 
-                            tag.Tag.TagOptions.Add(genreOption);
+                            tagDM.Tag.TagOptions.Add(genreOption);
                         }
                     }
+                    else if (keywordType == KeywordTypes.Attribute)
+                    {   // load attributes
 
-                    _searchVM.UpdateVisuals(tag);
+                    }
 
                     break;
                 }
                 case 3: // ---layer 3---
                 {
-                    AssignKeyword(tag, tagOption);
+                    AssignKeyword(tagDM, tagOption);
+
+                    tagDM.State = TagDataModel.States.Assigned;
 
                     break;
                 }
             }
+
             // update menu
-            _searchVM.UpdateVisuals(tag);
+            _searchVM.UpdateVisuals(tagDM);
         }
 
         public void LoadSuggestions(int tagId)
         {
-            var tag             = _repository.GetTagDMById(tagId);
-            var terms           = _repository.GetTagDMById(tagId).InputTerms;
-            var keywordType     = tag.Tag.AssignedKeyword.Type;
+            var tagDM       = _repository.GetTagDMById(tagId);
+            var terms       = _repository.GetTagDMById(tagId).InputTerms;
+            var keywordType = tagDM.Tag.AssignedKeyword.Type;
 
-            AddBreadcrumb(tag, terms);
+            var termKeyword   = _tagFactory.CreateKeyword(terms, keywordType);
+            var termTagOption = _tagFactory.CreateTagOption(termKeyword, tagDM.Tag.CurrentLayerNr);
 
-            UpdateActiveLayerNumber(tag, tag.Tag.CurrentLayerNr + 1);
+            _repository.AddTagOption(tagDM, termTagOption);
+
+            AddBreadcrumb(tagDM, termTagOption);
+
+            UpdateActiveLayerNumber(tagDM, tagDM.Tag.CurrentLayerNr + 1);
 
             // get all options of this tag
             var tagOptions = _repository.GetTagOptionsByTagId(tagId);
 
             // remove previous options at this layer
-            tagOptions.ToList().RemoveAll(to => to.LayerNr == tag.Tag.CurrentLayerNr);
+            tagOptions.RemoveAll(to => to.LayerNr == tagDM.Tag.CurrentLayerNr);
 
             if (keywordType == KeywordTypes.Artist)
             {
-                var suggestions = _searchManager.getArtistSuggestions(tagId, terms);
-
-                for (var i = 0; i < suggestions.Count; i++)
-                //foreach (var suggestion in suggestions)
-                {
-                    // create keyword out of this suggestion
-                    //var keyword = _tagFactory.CreateKeyword(i + "" + suggestions[i].name, keywordType);
-                    var keyword = _tagFactory.CreateKeyword(suggestions[i].name, keywordType);
-                    keyword.SearchId = suggestions[i].id;
-                    // create option with this keyword
-                    var tagOption = _tagFactory.CreateTagOption(keyword, tag.Tag.CurrentLayerNr);
-
-                    tagOptions.Add(tagOption);
-                }
+                // get artist suggestions in background
+                var backgrWorker = new BackgroundWorkHelper();
+                backgrWorker.DoInBackground(GetArtistsSuggestionsInBackgr, GetArtistsSuggestionsCompleted, tagDM);
             }
             else if (keywordType == KeywordTypes.Title)
             {
@@ -213,22 +214,25 @@ namespace Ctms.Applications.Workers
                     keyword.SearchId = suggestion.id;
 
                     // create option with this keyword
-                    var tagOption = _tagFactory.CreateTagOption(keyword, tag.Tag.CurrentLayerNr);
+                    var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
 
                     tagOptions.Add(tagOption);
+                    _repository.AddTagOption(tagDM, tagOption);
                 }
             }
-            SetInputIsVisible(tag, false);
+            SetInputIsVisible(tagDM, false);
 
-            _searchVM.UpdateVisuals(tag);
+            _searchVM.UpdateVisuals(tagDM);
         }
 
-        public static void GetArtistsInBackgr(object sender, DoWorkEventArgs e)
+        public void GetArtistsSuggestionsInBackgr(object sender, DoWorkEventArgs e)
         {
+            var tagDM = (TagDataModel) e.Argument;
 
+            e.Result = _searchManager.getArtistSuggestions(tagDM.Id, tagDM.InputTerms);
         }
 
-        private void CollectingCmsDataCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void GetArtistsSuggestionsCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
@@ -238,113 +242,163 @@ namespace Ctms.Applications.Workers
             }
             else
             {
+                var suggestions = (List<ResponseContainer.ResponseObj.ArtistSuggestion>) e.Result;
+
+                TagDataModel tagDM = null;
+                var firstSuggestion = suggestions.FirstOrDefault();
+                if (suggestions != null && suggestions.Any())
+                {
+                    tagDM = _repository.GetTagDMById(suggestions.FirstOrDefault().originId);
+                }
+
+                if (tagDM == null)
+                {
+                    _messageService.ShowWarning("Couldn't get Artists");
+                    return;
+                }
+
+                for (var i = 0; i < suggestions.Count; i++)
+                {
+                    // create keyword out of this suggestion
+                    var keyword = _tagFactory.CreateKeyword(suggestions[i].name, tagDM.Tag.AssignedKeyword.Type);
+                    keyword.SearchId = suggestions[i].id;
+
+                    // create option with this keyword
+                    var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
+
+                    _repository.AddTagOption(tagDM, tagOption);
+                }
+
+                SetInputIsVisible(tagDM, false);
+
+                _searchVM.UpdateVisuals(tagDM);
             }
         }
-        
 
-        private void AddBreadcrumb(TagDataModel tag, string name)
+        /// <summary>
+        /// Add tagOption to breadcrumbOptions
+        /// </summary>
+        /// <param name="tagDM"></param>
+        /// <param name="tagOption"></param>
+        ///
+        private void AddBreadcrumb(TagDataModel tagDM, TagOption tagOption)
         {
-            var breadcrumbKeyword = _tagFactory.CreateKeyword(name, KeywordTypes.None);
-            var breadcrumbTagOption = _tagFactory.CreateTagOption(breadcrumbKeyword, tag.Tag.CurrentLayerNr);
-
-            tag.Tag.PreviousOptions.Add(breadcrumbTagOption);
+            tagDM.Tag.BreadcrumbOptions.Add(tagOption);
         }
 
+        /// <summary>
+        /// Remove previous breadcrumbOptions from higher or equal layer
+        /// </summary>
+        ///
         private void RemovePreviousBreadcrumbs(TagDataModel tag)
         {
-            if (tag.Tag.PreviousOptions != null)
+            if (tag.Tag.BreadcrumbOptions != null)
             {
-                tag.Tag.PreviousOptions.ToList().RemoveAll(p => p.LayerNr >= tag.Tag.CurrentLayerNr);
+                tag.Tag.BreadcrumbOptions.RemoveAll(p => p.LayerNr >= tag.Tag.CurrentLayerNr);
             }
         }
 
-        public void GoToBreadcrumb(int tagOptionId)
+        /// <summary>
+        /// Remove previous breadcrumbOptions from higher or equal layer
+        /// </summary>
+        ///
+        private void RemovePreviousOptions(TagDataModel tag)
         {
-            var tag = _repository.GetTagDMByTagOption(tagOptionId);
-            var tagOptions = tag.Tag.TagOptions;
-            var tagOption = _repository.GetTagOptionById(tagOptionId);
+            if (tag.Tag.TagOptions != null)
+            {
+                tag.Tag.TagOptions.RemoveAll(p => p.LayerNr > tag.Tag.CurrentLayerNr);
+            }
+        }
+
+
+        /// <summary>
+        /// Go to option of breadcrumb and update items
+        /// </summary>
+        /// <param name="breadcrumbOptionId">Id of selected breadcrumb</param>
+        public void GoBreadcrumb(int breadcrumbOptionId)
+        {
+            var tagDM               = _repository.GetTagDMByTagOption(breadcrumbOptionId);
+            var tagOptions          = tagDM.Tag.TagOptions;
+            var breadcrumbOption    = _repository.GetTagOptionById(breadcrumbOptionId);
 
             // update current LayerNr
-            var currentLayerNr = tagOption.LayerNr;
-            tag.Tag.CurrentLayerNr = currentLayerNr;
+            var currentLayerNr = breadcrumbOption.LayerNr;
+            tagDM.Tag.CurrentLayerNr = currentLayerNr;
 
-            RemovePreviousBreadcrumbs(tag);
+            // remove options of higher layers
+            RemovePreviousBreadcrumbs(tagDM);
+            RemovePreviousOptions(tagDM);
 
-            // remove TagOptions of higher layers
-            tagOptions.ToList().RemoveAll(to => to.LayerNr > currentLayerNr);
-
-            _searchVM.UpdateVisuals(tag);
+            //_searchVM.UpdateVisuals(tag);
+            SelectOption(breadcrumbOption.Id);
         }
 
         public void GoHome(int tagId)
         {
-            var tag = _repository.GetTagDMById(tagId);
-            tag.Tag.TagOptions.Clear();
+            var tagDM = _repository.GetTagDMById(tagId);
+            tagDM.Tag.TagOptions.Clear();
 
-            SetInputIsVisible(tag, false);
+            SetInputIsVisible(tagDM, false);
 
             LoadKeywordTypes(tagId);
 
-            _searchVM.UpdateVisuals(tag);
+            _searchVM.UpdateVisuals(tagDM);
         }
 
         // Enables editing for tag
         public void EditTag(int tagId)
         {
-            var tag = _repository.GetTagDMById(tagId);
+            var tagDM = _repository.GetTagDMById(tagId);
 
-            tag.Tag.AssignedKeyword.SearchId    = null;
-            tag.Tag.AssignedKeyword.Name        = null;
+            tagDM.State = TagDataModel.States.Editing;
 
-            SetMenuIsVisible(tag, true);
-            SetEditIsVisible(tag, false);
-            SetKeywordIsVisible(tag, false);
+            SetMenuIsVisible(tagDM, true);
+            SetEditIsVisible(tagDM, false);
+            SetKeywordIsVisible(tagDM, false);
 
             // set last layer
-            UpdateActiveLayerNumber(tag, tag.Tag.CurrentLayerNr - 1);
+            UpdateActiveLayerNumber(tagDM, tagDM.Tag.CurrentLayerNr - 1);
 
-            //RemovePreviousBreadcrumbs(tag);
-
-            _searchVM.UpdateVisuals(tag);
+            _searchVM.UpdateVisuals(tagDM);
         }
 
 
         /// <summary>
         /// Assign selected keyword to tag and show it
         /// </summary>        
-        public void AssignKeyword(TagDataModel tag, TagOption tagOption)
+        public void AssignKeyword(TagDataModel tagDM, TagOption tagOption)
         {
             // assign keyword to tag
-            tag.Tag.AssignedKeyword = tagOption.Keyword;
+            tagDM.Tag.AssignedKeyword = tagOption.Keyword;
 
             // show keyword
-            SetMenuIsVisible(tag, false);
-            SetKeywordIsVisible(tag, true);
-            SetEditIsVisible(tag, true);
+            SetMenuIsVisible(tagDM, false);
+            SetKeywordIsVisible(tagDM, true);
+            SetEditIsVisible(tagDM, true);
         }
 
 
         #region Visibilities
 
-        private void SetInputIsVisible(TagDataModel tag, bool visibility)
+        private void SetInputIsVisible(TagDataModel tagDM, bool visibility)
         {
-            tag.IsInputVisible = visibility;
+            tagDM.IsInputVisible = visibility;
         }
 
-        private void SetMenuIsVisible(TagDataModel tag, bool visibility)
+        private void SetMenuIsVisible(TagDataModel tagDM, bool visibility)
         {
-            tag.IsMenuVisible = visibility;
+            tagDM.IsMenuVisible = visibility;
         }
 
-        private void SetEditIsVisible(TagDataModel tag, bool visibility)
+        private void SetEditIsVisible(TagDataModel tagDM, bool visibility)
         {
-            tag.IsEditVisible = visibility;
+            tagDM.IsEditVisible = visibility;
         }
 
-        private void SetKeywordIsVisible(TagDataModel tag, bool isKeywordVisible)
+        private void SetKeywordIsVisible(TagDataModel tagDM, bool isKeywordVisible)
         {
             // show or hide keyword
-            tag.IsAssignedKeywordVisible = isKeywordVisible;
+            tagDM.IsAssignedKeywordVisible = isKeywordVisible;
         }
 
         #endregion Visibilities
