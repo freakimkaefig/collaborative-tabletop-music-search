@@ -64,16 +64,16 @@ namespace Ctms.Applications.Controllers
         {
             _shellService.InfoView = _infoVm.View;
 
-            AddWeakEventListener(_infoVm, DetailViewModelPropertyChanged);
+            AddWeakEventListener(_infoVm, InfoViewModelPropertyChanged);
 
-            ShowCommonInfo("InfoMain", "InfoSub");
-            ShowTagInfo("InfoMain", "InfoSub", 0);
-            ShowTutorialInfo("InfoMain", "InfoSub");
+            ShowCommonInfo("CommonInfoMain", "InfoSub");
+            ShowTagInfo("TagInfoMain", "InfoSub", 0);
+            ShowTutorialInfo("TutorialInfoMain", "InfoSub");
         }
 
         private void ShowCommonInfo(string mainText, string subText)
         {
-            var info = _infoFactory.CreateCommonInfoDataModel();
+            var info = _infoFactory.CreateCommonInfoDm(mainText, subText);
             info.IsVisible = true;
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
@@ -82,7 +82,7 @@ namespace Ctms.Applications.Controllers
 
         private void ShowTagInfo(string mainText, string subText, int tagId)
         {
-            var info = _infoFactory.CreateTagInfoDataModel();
+            var info = _infoFactory.CreateCommonInfoDm(mainText, subText);
             info.IsVisible = true;
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
@@ -92,7 +92,7 @@ namespace Ctms.Applications.Controllers
 
         private void ShowTutorialInfo(string mainText, string subText)
         {
-            var info = _infoFactory.CreateTutorialInfoDataModel();
+            var info = _infoFactory.CreateCommonInfoDm(mainText, subText);
             info.IsVisible = true;
             info.Info.MainText = "Funzt!";
             _infoVm.TutorialInfos.Add(info);
@@ -113,7 +113,7 @@ namespace Ctms.Applications.Controllers
         {
         }
 
-        private void DetailViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void InfoViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedSong")//SelectedSong is just an example
             {

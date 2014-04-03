@@ -20,68 +20,32 @@ namespace Ctms.Applications.DataFactories
             : base(repository)
         {
         }
-        
-        public InfoDataModel CreateCommonInfoDataModel()
+
+
+        private InfoDataModel CreateInfoDm(Info info)
         {
-            var infos = _repository.GetAllCommonInfos();
-            var nextFreeId = EntitiesHelper.CalcNextId<InfoDataModel>(infos, (t => t.Info.Id));
-
-            // create Tag
-            var info = new Info()
-            {
-                Id = nextFreeId,
-                //TagOptions = new ObservableCollection<TagOption>()
-            };
-
             // create TagDataModel wrapper for tag
             var newInfo = new InfoDataModel(info)
             {
                 Info = info
             };
-
             return newInfo;
         }
 
-        public InfoDataModel CreateTagInfoDataModel()
+        public InfoDataModel CreateCommonInfoDm(string mainText, string subText)
         {
             var infos = _repository.GetAllCommonInfos();
             var nextFreeId = EntitiesHelper.CalcNextId<InfoDataModel>(infos, (t => t.Info.Id));
 
             // create Tag
-            var info = new Info()
+            var info = new CommonInfo(mainText, subText)
             {
                 Id = nextFreeId,
                 //TagOptions = new ObservableCollection<TagOption>()
             };
 
-            // create TagDataModel wrapper for tag
-            var newInfo = new InfoDataModel(info)
-            {
-                Info = info
-            };
-
-            return newInfo;
+            return CreateInfoDm(info);
         }
 
-        public InfoDataModel CreateTutorialInfoDataModel()
-        {
-            var infos = _repository.GetAllCommonInfos();
-            var nextFreeId = EntitiesHelper.CalcNextId<InfoDataModel>(infos, (t => t.Info.Id));
-
-            // create Tag
-            var info = new Info()
-            {
-                Id = nextFreeId,
-                //TagOptions = new ObservableCollection<TagOption>()
-            };
-
-            // create TagDataModel wrapper for tag
-            var newInfo = new InfoDataModel(info)
-            {
-                Info = info
-            };
-
-            return newInfo;
-        }
     }
 }
