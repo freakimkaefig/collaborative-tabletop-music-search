@@ -25,19 +25,25 @@
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Label Content="HAAAAAALLLOOOO" Width="200" Height="100" Background="#333" />
-        <ListBox ItemsSource="{Binding Infos}" BorderBrush="Transparent" 
-                 Grid.IsSharedSizeScope="True"
-                 HorizontalContentAlignment="Stretch">
+        <ListBox ItemsSource="{Binding CommonInfos}" Background="Transparent"
+                 HorizontalAlignment="Center" VerticalAlignment="Center"
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="4">
+                    <Grid Style="{StaticResource CommonInfoGrid}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Key" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Info.MainText}" FontWeight="Bold"  />
-                        <!--<TextBox Grid.Column="1" Text="{Binding Value }" />-->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch"/>
+                        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" />
+                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="Ok" HorizontalAlignment="Stretch" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

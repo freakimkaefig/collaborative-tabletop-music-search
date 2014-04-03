@@ -20,25 +20,24 @@ namespace Ctms.Applications.DataFactories
             : base(repository)
         {
         }
-        
-        public InfoDataModel CreateInfoDataModel()
+
+        public InfoDataModel CreateInfoDm(string mainText, string subText, InfoTypes type)
         {
-            var infos = _repository.GetAllInfos();
+            // calc id
+            var infos = _repository.GetAllInfos(type);
             var nextFreeId = EntitiesHelper.CalcNextId<InfoDataModel>(infos, (t => t.Info.Id));
 
-            // create Tag
-            var info = new Info()
-            {
-                Id = nextFreeId,
-                //TagOptions = new ObservableCollection<TagOption>()
-            };
+            // create info
+            Info info = null;
+            if (type == InfoTypes.CommonInfo) info = new CommonInfo(nextFreeId, mainText, subText);
+            else if (type == InfoTypes.TagInfo) info = new TagInfo(nextFreeId, mainText, subText);
+            else if (type == InfoTypes.TutorialInfo) info = new TutorialInfo(nextFreeId, mainText, subText);
 
             // create TagDataModel wrapper for tag
             var newInfo = new InfoDataModel(info)
             {
                 Info = info
             };
-
             return newInfo;
         }
 

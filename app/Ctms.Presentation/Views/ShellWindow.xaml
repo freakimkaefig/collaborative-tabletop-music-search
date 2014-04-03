@@ -32,6 +32,6 @@
             <ContentControl Content="{Binding ShellService.DetailView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.MenuView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Column="0"/>
-        <ContentControl Content="{Binding ShellService.InfoView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Height="500" Width="500"/>
+            <ContentControl Content="{Binding ShellService.InfoView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" IsHitTestVisible="False"/>
     </Grid>  
 </s:SurfaceWindow>
