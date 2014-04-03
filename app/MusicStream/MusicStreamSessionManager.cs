@@ -453,7 +453,7 @@ namespace MusicStream
 
                 if (NumberHelper.IsPowerOfTwo(num_frames))
                 {
-                    _visualizationManager.MusicDeliveryCallback(format, _copiedFrames, num_frames);
+                    _visualizationManager.MusicDeliveryCallback(format, _copiedFrames, num_frames, howMuchSecs);
                 }
                 else
                 {
@@ -461,7 +461,7 @@ namespace MusicStream
                     var newSize = newNumFrames  * format.channels * 2;
                     byte[] temp = new byte[newSize];
                     Array.Copy(_copiedFrames, 0, temp, 0, newSize);
-                    _visualizationManager.MusicDeliveryCallback(format, temp, newNumFrames);
+                    _visualizationManager.MusicDeliveryCallback(format, temp, newNumFrames, howMuchSecs);
                     //http://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2
                 }
             }

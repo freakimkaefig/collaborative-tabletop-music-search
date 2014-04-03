@@ -47,7 +47,9 @@ namespace Ctms.Applications.Workers
 
                 _searchViewModel.Fft1Value = (int)Math.Abs(arr[6] * 200);
 
-                DoubleAnimation interpolate1 = new DoubleAnimation() { From = x, To = _searchViewModel.Fft1Value, Duration = TimeSpan.FromMilliseconds(4) };
+                int ms = (int)(arr[arr.Length - 1]/1000);
+
+                DoubleAnimation interpolate1 = new DoubleAnimation() { From = x, To = _searchViewModel.Fft1Value, Duration = TimeSpan.FromMilliseconds(ms) };
 
                 Storyboard.SetTarget(interpolate1, _searchViewModel.FftRectangle[0]);
 
