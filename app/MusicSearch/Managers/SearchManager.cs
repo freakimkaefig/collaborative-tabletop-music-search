@@ -418,6 +418,14 @@ namespace MusicSearch.Managers
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
                 TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
             }
+
+            if (TitleSuggestionsRC != null && !TitleSuggestionsRC.Any())
+            {
+                var emptyResponse = new ResponseContainer.ResponseObj.TitleSuggestion();
+                emptyResponse.originId = ID;
+                TitleSuggestionsRC.Add(emptyResponse);
+            }
+
             return TitleSuggestionsRC;
         }
 
@@ -464,6 +472,14 @@ namespace MusicSearch.Managers
                 JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistSuggestions[i]);
                 ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
             }
+
+            if (ArtistSuggestionsRC != null && !ArtistSuggestionsRC.Any())
+            {
+                var emptyResponse = new ResponseContainer.ResponseObj.ArtistSuggestion();
+                emptyResponse.originId = ID;
+                ArtistSuggestionsRC.Add(emptyResponse);
+            }
+
             return ArtistSuggestionsRC;
         }
 

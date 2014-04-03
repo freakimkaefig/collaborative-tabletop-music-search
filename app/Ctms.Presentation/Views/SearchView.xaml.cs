@@ -86,6 +86,8 @@ namespace Ctms.Presentation.Views
             }
 
             UpdateVisual(tagId);
+
+            tagDM.Height = (float) searchTagView.ActualHeight;
         }
 
         private void UpdateAnimation()
@@ -150,7 +152,6 @@ namespace Ctms.Presentation.Views
         /// </summary>
         public void UpdateMenuItems(int tagId)
         {
-
             var pieMenu = SearchTagViews[tagId].PieMenu;
             var pieMenuMain = SearchTagViews[tagId].PieMenuMain;
             var tagDM = _viewModel.Tags[tagId];

@@ -19,6 +19,7 @@ using Ctms.Domain.Objects;
 using Ctms.Applications.DataFactories;
 using Ctms.Applications.Data;
 using System.Windows;
+using Ctms.Applications.Workers;
 
 
 namespace Ctms.Applications.Controllers
@@ -37,70 +38,47 @@ namespace Ctms.Applications.Controllers
         //ViewModels
         private InfoViewModel _infoVm;
         //Commands
-        private readonly DelegateCommand doTestCommand;
+        private readonly DelegateCommand _confirmTagInfoCmd;
         //Further vars
-        private InfoFactory _infoFactory;
         private Repository _repository;
+        private InfoWorker _infoWorker;
 
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public InfoController(CompositionContainer container, IShellService shellService, EntityService entityService,
-            Repository repository, InfoViewModel infoViewModel)
+            Repository repository, InfoViewModel infoViewModel, InfoWorker infoWorker)
         {
             //Services
             _shellService       = shellService;
             _entityService      = entityService;
             //ViewModels
-            _infoVm      = infoViewModel;
+            _infoVm         = infoViewModel;
+            _infoWorker     = infoWorker;
             //Commands
-            //doTestCommand      = new DelegateCommand(SelectDetail, CanSelectDetail);
+            _confirmTagInfoCmd = new DelegateCommand((tagId) => _infoWorker.ConfirmTagInfo((int)tagId));
             //Further vars
             _repository = repository;
-            _infoFactory = new InfoFactory(_repository);
         }
 
         public void Initialize()
         {
+            // views
             _shellService.InfoView = _infoVm.View;
+
+            // assign commands
+            _infoVm.ConfirmTagInfoCmd = _confirmTagInfoCmd;
 
             AddWeakEventListener(_infoVm, InfoViewModelPropertyChanged);
 
             //ShowCommonInfo("CommonInfoMain", "InfoSub");
             //ShowTagInfo("TagInfoMain", "InfoSub", 0);
             //ShowTutorialInfo("TutorialInfoMain", "InfoSub");
+
+            _infoWorker.Initialize();
         }
 
-        private void ShowCommonInfo(string mainText, string subText)
-        {
-            var info = _infoFactory.CreateInfoDm(mainText, subText, InfoTypes.CommonInfo);
-            info.IsVisible = true;
-            info.Info.MainText = mainText;
-            info.Info.SubText = subText;
-            _infoVm.CommonInfos.Add(info);
-        }
-
-        private void ShowTagInfo(string mainText, string subText, int tagId)
-        {
-            var info = _infoFactory.CreateInfoDm(mainText, subText, InfoTypes.TagInfo);
-            info.IsVisible = true;
-            info.Info.MainText = mainText;
-            info.Info.SubText = subText;
-            info.Info.Position = new Point(200.0, 200.0);
-            _infoVm.CommonInfos.Add(info);
-        }
-
-        private void ShowTutorialInfo(string mainText, string subText)
-        {
-            var info = _infoFactory.CreateInfoDm(mainText, subText, InfoTypes.TutorialInfo);
-            info.IsVisible = true;
-            _infoVm.TutorialInfos.Add(info);
-            info.Info.MainText = mainText;
-            info.Info.SubText = subText;
-            info.Info.Position = new Point(200.0, 200.0);
-            _infoVm.CommonInfos.Add(info);
-        }
-
+       
         private void UpdateCommands()
         {
 

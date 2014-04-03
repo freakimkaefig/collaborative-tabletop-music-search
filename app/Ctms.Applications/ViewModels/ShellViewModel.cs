@@ -50,6 +50,8 @@ namespace Ctms.Applications.ViewModels
             ViewCore.IsMaximized = Settings.Default.IsMaximized;
         }
 
+        public float WindowHeight { get { return (float) ViewCore.Height; } }
+        public float WindowWidth  { get { return (float) ViewCore.Width; } }
 
         public string Title { get { return ApplicationInfo.ProductName; } }
 

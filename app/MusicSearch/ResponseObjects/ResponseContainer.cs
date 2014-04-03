@@ -32,8 +32,8 @@ namespace MusicSearch.ResponseObjects
 
             public class Suggestion
             {
-                public int originId { get; set; }
                 public String id { get; set; }
+                public int originId { get; set; }
             }
 
             public class ArtistSuggestion : Suggestion
