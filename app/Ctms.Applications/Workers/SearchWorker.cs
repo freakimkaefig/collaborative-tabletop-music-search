@@ -43,7 +43,7 @@ namespace Ctms.Applications.Workers
         {
             var tags = _searchViewModel.Tags;
             var searchObjects = new List<searchObjects>();
-            var usedTags =  tags.Where(t => t.Tag.AssignedKeyword != null && !String.IsNullOrEmpty(t.Tag.AssignedKeyword.SearchId));
+            var usedTags =  tags.Where(t => t.Tag.AssignedKeyword != null /*&& !String.IsNullOrEmpty(t.Tag.AssignedKeyword.SearchId)*/);
             foreach (var tag in usedTags)
             {
                 var searchObject = new searchObjects();
@@ -61,14 +61,14 @@ namespace Ctms.Applications.Workers
                 }
                 else if (keyword.Type == KeywordTypes.Genre)
                 {
-                    searchObject.genre = keyword.SearchId;
+                    searchObject.genre = keyword.Name;
                 }
 
                 searchObjects.Add(searchObject);
             }
 
-            //var songs = _searchManager.SearchQuery(searchObjects);    //NOT WORKING (is always empty)
-            var songs = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList);
+            var songs = _searchManager.SearchQuery(searchObjects);    //NOT WORKING (is always empty)
+            //var songs = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList);
             _resultWorker.RefreshResults(songs);
         }
 

@@ -9,8 +9,7 @@
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     IsEnabled="{Binding IsEnabled}"
-    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
-    Width="1920" Height="1080">
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
 
     <s:TagVisualizer x:Name="SearchTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
                      VisualizationRemoved="OnVisualizationRemoved" 

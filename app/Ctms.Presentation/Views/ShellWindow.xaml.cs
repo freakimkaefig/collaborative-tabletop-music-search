@@ -44,14 +44,14 @@ namespace Ctms.Presentation.Views
             get { return WindowState == WindowState.Maximized; }
             set
             {
-                if (value)
+                /*if (value)
                 {
                     WindowState = WindowState.Maximized;
                 }
                 else if (WindowState == WindowState.Maximized)
                 {
                     WindowState = WindowState.Normal;
-                }
+                }*/
             }
         }
 
