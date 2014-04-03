@@ -47,8 +47,12 @@ namespace MusicStream
             //Source: http://www.lomont.org/Software/Misc/FFT/LomontFFT.html
             _lomontFFT = new Lomont.LomontFFT();
             Double[] framesFFT = _lomontFFT.FFT(preparedFrames, true);
+            //mittelwerte berechnen um nullwerte zu vermeiden?
+            //Double[] avgFramges = CalcAvg(framesFFT);
             FftDataReceived(framesFFT);
         }
+
+      
 
         //Source: https://stackoverflow.com/questions/17416112/apply-fft-on-pcm-data-and-convert-to-a-spectrogram 
 
