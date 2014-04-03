@@ -14,8 +14,7 @@
     xmlns:gestures="clr-namespace:Blake.NUI.WPF.Gestures;assembly=Blake.NUI.WPF"
     x:Class="Ctms.Presentation.Views.PlaylistView"         
     IsEnabled="{Binding IsEnabled}"
-    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
-    Width="1920" Height="1080">
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     
     
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
