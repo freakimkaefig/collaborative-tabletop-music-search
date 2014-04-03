@@ -39,7 +39,9 @@ namespace Lomont
         public double[] FFT(double[] data, bool forward)
         {
             var n = data.Length;
-            // checks n is a power of 2 in 2's complement format                                                 
+            // checks n is a power of 2 in 2's complement format
+
+            //Erläuterung: http://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2                         
             if ((n & (n - 1)) != 0)
                 throw new ArgumentException(
                     "data length " + n + " in FFT is not a power of 2");

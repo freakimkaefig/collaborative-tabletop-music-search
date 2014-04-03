@@ -58,6 +58,7 @@
     <Compile Include="BackgroundWorkHelper.cs" />
     <Compile Include="EntitiesHelper.cs" />
     <Compile Include="HttpRequester.cs" />
+    <Compile Include="NumberHelper.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="TimingHelper.cs" />
   </ItemGroup>

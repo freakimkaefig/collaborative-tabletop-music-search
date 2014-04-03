@@ -46,7 +46,7 @@ namespace Ctms.Applications.Workers
             _searchViewModel.Fft7Value = (int)Math.Abs(arr[15] * 100);
             _searchViewModel.Fft8Value = (int)Math.Abs(arr[30] * 100);
             _searchViewModel.Fft9Value = (int)Math.Abs(arr[150] * 100);
-            _searchViewModel.Fft10Value = (int)Math.Abs(arr[1000] * 100);
+            _searchViewModel.Fft10Value = Math.Abs((int)arr[200] * 100);
         }
     }
 }
