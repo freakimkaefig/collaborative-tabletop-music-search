@@ -30,7 +30,7 @@
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Style="{StaticResource CommonInfoGrid}">
+                    <Grid Style="{StaticResource CommonInfoGrid}" IsHitTestVisible="True">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto" />
