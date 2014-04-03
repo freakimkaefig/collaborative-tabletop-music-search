@@ -85,8 +85,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "spotify_appkey.key" "$(SolutionDir)Ctms.Presentation\bin\Debug"
-copy /Y "libspotify.dll" "$(SolutionDir)Ctms.Presentation\bin\Debug"</PostBuildEvent>
+    <PostBuildEvent>copy "spotify_appkey.key" "$(SolutionDir)Ctms.Presentation\bin\Debug"
+copy "libspotify.dll" "$(SolutionDir)Ctms.Presentation\bin\Debug"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

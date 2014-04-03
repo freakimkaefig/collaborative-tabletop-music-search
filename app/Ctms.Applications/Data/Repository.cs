@@ -77,15 +77,61 @@ namespace Ctms.Applications.Data
 
 
         #region Infos
+        /*
+        /// <summary>
+        /// Get all common infos
+        /// </summary>
+        public ObservableCollection<InfoDataModel> GetAllCommonInfos()
+        {
+            return _infoVm.CommonInfos;
+        }
 
         /// <summary>
-        /// Get all sub styles of a style
+        /// Get all tag infos
         /// </summary>
-        /// <param name="styleId">id of parent style</param>
-        /// <returns>sub styles</returns>
-        public ObservableCollection<InfoDataModel> GetAllInfos()
+        public ObservableCollection<InfoDataModel> GetAllTagInfos()
         {
-            return _infoVm.Infos;
+            return _infoVm.TagInfos;
+        }
+
+        /// <summary>
+        /// Get all tutorial infos
+        /// </summary>
+        public ObservableCollection<InfoDataModel> GetAllTutorialInfos()
+        {
+            return _infoVm.TutorialInfos;
+        }
+        */
+        public ObservableCollection<InfoDataModel> GetAllInfos(InfoTypes type)
+        {
+            if (type == InfoTypes.CommonInfo) return _infoVm.CommonInfos;
+            else if (type == InfoTypes.TagInfo) return _infoVm.TagInfos;
+            else if (type == InfoTypes.TutorialInfo) return _infoVm.TutorialInfos;
+            else return null;
+        }
+
+        /// <summary>
+        /// Get all tag infos
+        /// </summary>
+        public InfoDataModel GetCommonInfoById (int tagId)
+        {
+            return _infoVm.CommonInfos.FirstOrDefault(i => i.Info.Id == tagId);
+        }
+
+        /// <summary>
+        /// Get all tag infos
+        /// </summary>
+        public InfoDataModel GetTagInfoById(int tagId)
+        {
+            return _infoVm.TagInfos.FirstOrDefault(i => i.Info.Id == tagId);
+        }
+
+        /// <summary>
+        /// Get all tag infos
+        /// </summary>
+        public InfoDataModel GetTutorialInfoById(int tagId)
+        {
+            return _infoVm.TutorialInfos.FirstOrDefault(i => i.Info.Id == tagId);
         }
 
         #endregion Infos
