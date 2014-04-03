@@ -37,95 +37,55 @@
             <ContentControl Name="animation" ContentTemplate="{StaticResource KugelAnimation}">
                 
             </ContentControl>
-            <Rectangle Name="Fft1" Grid.Column="1" HorizontalAlignment="Left" Margin="235.5,448,0,449" Stroke="Black" Width="60" Height="{Binding Fft1Value}">
-            	<Rectangle.Fill>
-            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            			<GradientStop Color="#7FFFBB00" Offset="0"/>
-            			<GradientStop Color="#FFFFF6DD" Offset="0.5"/>
-            			<GradientStop Color="#7EFFBB00" Offset="1"/>
-            		</LinearGradientBrush>
-            	</Rectangle.Fill>
+            <Rectangle Name="Fft1" Grid.Column="1" HorizontalAlignment="Left" Margin="235.5,448,0,449" Width="60" Height="{Binding Fft1Value}" Fill="#FF43B7F3">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft2" Grid.Column="1" HorizontalAlignment="Left" Margin="334.5,448,0,449" Stroke="Black" Width="60" Height="{Binding Fft2Value}">
-            	<Rectangle.Fill>
-            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            			<GradientStop Color="#7FFFBB00" Offset="0"/>
-            			<GradientStop Color="#FFFFF6DD" Offset="0.5"/>
-            			<GradientStop Color="#7EFFBB00" Offset="1"/>
-            		</LinearGradientBrush>
-            	</Rectangle.Fill>
+            <Rectangle Name="Fft2" Grid.Column="1" HorizontalAlignment="Left" Margin="334.5,448,0,449" Width="60" Height="{Binding Fft2Value}" Fill="#FF43B7F3">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft3" Grid.Column="1" HorizontalAlignment="Left" Margin="433.5,448,0,449" Stroke="Black" Width="60" Height="{Binding Fft3Value}">
-            	<Rectangle.Fill>
-            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            			<GradientStop Color="#7FFFBB00" Offset="0"/>
-            			<GradientStop Color="#FFFFF6DD" Offset="0.5"/>
-            			<GradientStop Color="#7EFFBB00" Offset="1"/>
-            		</LinearGradientBrush>
-            	</Rectangle.Fill>
+            <Rectangle Name="Fft3" Grid.Column="1" HorizontalAlignment="Left" Margin="433.5,448,0,449" Width="60" Height="{Binding Fft3Value}" Fill="#FF43B7F3">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft4" Grid.Column="1" HorizontalAlignment="Left" Margin="529.5,448,0,449" Stroke="Black" Width="60" Height="{Binding Fft4Value}">
-            	<Rectangle.Fill>
-            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            			<GradientStop Color="#7FFFBB00" Offset="0"/>
-            			<GradientStop Color="#FFFFF6DD" Offset="0.5"/>
-            			<GradientStop Color="#7EFFBB00" Offset="1"/>
-            		</LinearGradientBrush>
-            	</Rectangle.Fill>
+            <Rectangle Name="Fft4" Grid.Column="1" HorizontalAlignment="Left" Margin="529.5,448,0,449" Width="60" Height="{Binding Fft4Value}" Fill="#FF43B7F3">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft5" Grid.Column="1" HorizontalAlignment="Left" Margin="623.75,448,0,449" Stroke="Black" Width="60" Height="{Binding Fft5Value}">
-            	<Rectangle.Fill>
-            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            			<GradientStop Color="#7FFFBB00" Offset="0"/>
-            			<GradientStop Color="#FFFFF6DD" Offset="0.5"/>
-            			<GradientStop Color="#7EFFBB00" Offset="1"/>
-            		</LinearGradientBrush>
-            	</Rectangle.Fill>
+            <Rectangle Name="Fft5" Grid.Column="1" HorizontalAlignment="Left" Margin="623.75,448,0,449" Width="60" Height="{Binding Fft5Value}" Fill="#FF43B7F3">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft6" Grid.Column="1" HorizontalAlignment="Left" Margin="728.75,448,0,449" Stroke="Black" Width="60" Height="{Binding Fft6Value}">
-            	<Rectangle.Fill>
-            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            			<GradientStop Color="#7FFFBB00" Offset="0"/>
-            			<GradientStop Color="#FFFFF6DD" Offset="0.5"/>
-            			<GradientStop Color="#7EFFBB00" Offset="1"/>
-            		</LinearGradientBrush>
-            	</Rectangle.Fill>
+            <Rectangle Name="Fft6" Grid.Column="1" HorizontalAlignment="Left" Margin="728.75,448,0,449" Width="60" Height="{Binding Fft6Value}" Fill="#FF43B7F3">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft7" Grid.Column="1" Margin="836.75,448,793.75,449" Stroke="Black" Width="60" Height="{Binding Fft7Value}">
-            	<Rectangle.Fill>
-            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            			<GradientStop Color="#7FFFBB00" Offset="0"/>
-            			<GradientStop Color="#FFFFF6DD" Offset="0.5"/>
-            			<GradientStop Color="#7EFFBB00" Offset="1"/>
-            		</LinearGradientBrush>
-            	</Rectangle.Fill>
+            <Rectangle Name="Fft7" Grid.Column="1" Margin="836.75,448,793.75,449" Width="60" Height="{Binding Fft7Value}" Fill="#FF43B7F3">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft8" Grid.Column="1" Margin="0,448,676.75,449" Stroke="Black" HorizontalAlignment="Right" Width="60" Height="{Binding Fft8Value}">
-            	<Rectangle.Fill>
-            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            			<GradientStop Color="#7FFFBB00" Offset="0"/>
-            			<GradientStop Color="#FFFFF6DD" Offset="0.5"/>
-            			<GradientStop Color="#7EFFBB00" Offset="1"/>
-            		</LinearGradientBrush>
-            	</Rectangle.Fill>
+            <Rectangle Name="Fft8" Grid.Column="1" Margin="0,448,676.75,449" HorizontalAlignment="Right" Width="60" Height="{Binding Fft8Value}" Fill="#FF43B7F3">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft9" Grid.Column="1" Margin="0,448,562.75,449" Stroke="Black" HorizontalAlignment="Right" Width="60" Height="{Binding Fft9Value}">
-            	<Rectangle.Fill>
-            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            			<GradientStop Color="#7FFFBB00" Offset="0"/>
-            			<GradientStop Color="#FFFFF6DD" Offset="0.5"/>
-            			<GradientStop Color="#7EFFBB00" Offset="1"/>
-            		</LinearGradientBrush>
-            	</Rectangle.Fill>
+            <Rectangle Name="Fft9" Grid.Column="1" Margin="0,448,562.75,449" HorizontalAlignment="Right" Width="60" Height="{Binding Fft9Value}" Fill="#FF43B7F3">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft10" Grid.Column="1" Margin="0,448,448.75,449" Stroke="Black" HorizontalAlignment="Right" Width="60" Height="{Binding Fft10Value}">
-            	<Rectangle.Fill>
-            		<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            			<GradientStop Color="#7FFFBB00" Offset="0"/>
-            			<GradientStop Color="#FFFFF6DD" Offset="0.5"/>
-            			<GradientStop Color="#7EFFBB00" Offset="1"/>
-            		</LinearGradientBrush>
-            	</Rectangle.Fill>
+            <Rectangle Name="Fft10" Grid.Column="1" Margin="0,448,448.75,449" HorizontalAlignment="Right" Width="60" Height="{Binding Fft10Value}" Fill="#FF43B7F3">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
         </Grid>
         

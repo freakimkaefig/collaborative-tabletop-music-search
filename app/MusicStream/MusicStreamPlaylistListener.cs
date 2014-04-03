@@ -6,7 +6,7 @@ using SpotifySharp;
 
 namespace MusicStream
 {
-    class MusicStreamPlaylistListener: PlaylistListener
+    public class MusicStreamPlaylistListener: PlaylistListener
     {
         private MusicStreamSessionManager _sessionManager;
 

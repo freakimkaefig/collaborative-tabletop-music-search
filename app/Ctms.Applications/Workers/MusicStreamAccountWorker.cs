@@ -154,10 +154,13 @@ namespace Ctms.Applications.Workers
         {
             _playlistViewModel.ReadyForPlayback = true;
 
+            _menuViewModel.Playlists.Clear();
+
             for (var i = 0; i < playlists.Count; i++)
             {
                 SpotifyPlaylist spotifyPlaylist = new SpotifyPlaylist();
                 spotifyPlaylist.Playlist = playlists[i];
+                spotifyPlaylist.Playlist.AddCallbacks(new MusicStreamPlaylistListener(_sessionManager), _sessionManager.Userdata);
                 _menuViewModel.Playlists.Add(spotifyPlaylist);
             }
         }
