@@ -37,15 +37,15 @@ namespace Ctms.Applications.Workers
 
         private void UpdateVm(double[] arr)
         {
-            _searchViewModel.Fft1Value = Math.Abs((int)arr[2] * 100);
-            _searchViewModel.Fft2Value = Math.Abs((int)arr[3] * 100);
-            _searchViewModel.Fft3Value = Math.Abs((int)arr[4] * 100);
-            _searchViewModel.Fft4Value = Math.Abs((int)arr[5] * 100);
-            _searchViewModel.Fft5Value = Math.Abs((int)arr[7] * 100);
-            _searchViewModel.Fft6Value = Math.Abs((int)arr[10] * 100);
-            _searchViewModel.Fft7Value = Math.Abs((int)arr[15] * 100);
-            _searchViewModel.Fft8Value = Math.Abs((int)arr[30] * 100);
-            _searchViewModel.Fft9Value = Math.Abs((int)arr[150] * 100);
+            _searchViewModel.Fft1Value = (int)Math.Abs(arr[2] * 100);
+            _searchViewModel.Fft2Value = (int)Math.Abs(arr[3] * 100);
+            _searchViewModel.Fft3Value = (int)Math.Abs(arr[4] * 100);
+            _searchViewModel.Fft4Value = (int)Math.Abs(arr[5] * 100);
+            _searchViewModel.Fft5Value = (int)Math.Abs(arr[7] * 100);
+            _searchViewModel.Fft6Value = (int)Math.Abs(arr[10] * 100);
+            _searchViewModel.Fft7Value = (int)Math.Abs(arr[15] * 100);
+            _searchViewModel.Fft8Value = (int)Math.Abs(arr[30] * 100);
+            _searchViewModel.Fft9Value = (int)Math.Abs(arr[150] * 100);
             _searchViewModel.Fft10Value = Math.Abs((int)arr[200] * 100);
         }
     }
