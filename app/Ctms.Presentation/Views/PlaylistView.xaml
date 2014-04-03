@@ -102,13 +102,15 @@
                               s:SurfaceDragDrop.DragOver="Playlist_OnDragOver"
                               s:SurfaceDragDrop.DragEnter="Playlist_DragEnter"
                               s:SurfaceDragDrop.DragLeave="Playlist_DragLeave"
-                              s:SurfaceDragDrop.Drop="Playlist_Drop"/>
-            <s:SurfaceButton Command="{Binding PlayCommand}" Content="PLAY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="32" Margin="192,24,0,0"/>
+                              s:SurfaceDragDrop.Drop="Playlist_Drop"
+                              TouchDown="Playlist_TouchDown"
+                              TouchMove="Playlist_TouchMove"/>
+            <s:SurfaceButton Command="{Binding PlayPauseCommand}" Content="{Binding PlayPauseText}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="32" Margin="192,24,0,0"/>
             <s:SurfaceButton Command="{Binding StopCommand}" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="38" Margin="304,24,0,0"/>
             <s:SurfaceButton Command="{Binding ShuffleCommand}" Content="{Binding IsShuffle}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="38" Margin="0,66,96,0"/>
             <s:SurfaceButton Command="{Binding RepeatCommand}" Content="{Binding IsRepeat}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="38" Margin="0,66,16,0"/>
 			<Label Content="DETAILVIEW kommt hier her" Grid.Column="1" Margin="296,288,232,504"/>
-            <TextBox x:Name="textBox" Width="300" Height="500" Grid.Column="1"/>
+            <!--<TextBox x:Name="textBox" Width="300" Height="500" Grid.Column="1"/>-->
             <s:SurfaceButton Grid.Column="1" HorizontalAlignment="Left" Margin="8,24,0,0" VerticalAlignment="Top" Command="{Binding RotateCommand}">
                 <Image Opacity="1" Width="80" Height="80" Source="../../Resources/Images/Playlist/rotate-icon.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </s:SurfaceButton>

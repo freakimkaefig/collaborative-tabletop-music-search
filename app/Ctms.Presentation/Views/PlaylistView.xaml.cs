@@ -34,6 +34,9 @@ namespace Ctms.Presentation.Views
         private VisualState _rotate180;
         private VisualState _rotate0;
 
+        protected TouchPoint TouchStart;
+        private bool AlreadySwiped = false;
+
         public PlaylistView()
         {
             InitializeComponent();
@@ -43,6 +46,9 @@ namespace Ctms.Presentation.Views
             _rotate180 = Rotate180;
 
             Events.RegisterGestureEventSupport(this);
+
+            surfaceListBox.TouchDown += new EventHandler<TouchEventArgs>(Playlist_TouchDown);
+            surfaceListBox.TouchMove += new EventHandler<TouchEventArgs>(Playlist_TouchMove);
         }
 
         public VisualState VisualStateRotate0 { get { return _rotate0; } set { } }
@@ -195,15 +201,15 @@ namespace Ctms.Presentation.Views
                 if (IsMouseOverTarget(sListBoxItem, e.Cursor.GetPosition((IInputElement)sListBoxItem)) == 1)
                 {
                     index = i;
-                    textBox.Text += "Index: " + index + " | Position: up\n";
-                    textBox.ScrollToEnd();
+                    //textBox.Text += "Index: " + index + " | Position: up\n";
+                    //textBox.ScrollToEnd();
                     break;
                 }
                 else if (IsMouseOverTarget(sListBoxItem, e.Cursor.GetPosition((IInputElement)sListBoxItem)) == 2)
                 {
                     index = i + 1;
-                    textBox.Text += "Index: " + index + " | Position: down\n";
-                    textBox.ScrollToEnd();
+                    //textBox.Text += "Index: " + index + " | Position: down\n";
+                    //textBox.ScrollToEnd();
                     break;
                 }
             }
@@ -221,8 +227,8 @@ namespace Ctms.Presentation.Views
                 }
                 catch (ArgumentOutOfRangeException exception)
                 {
-                    textBox.Text += exception.Message + "\n";
-                    textBox.ScrollToEnd();
+                    //textBox.Text += exception.Message + "\n";
+                    //textBox.ScrollToEnd();
                 }
                 //_viewModel.ResultsForPlaylist.ElementAt(hideFrom).Opacity = 0.5;
             }
@@ -277,8 +283,8 @@ namespace Ctms.Presentation.Views
             _viewModel.ResultsForPlaylist.Insert(insertIndex, droppedItem);
             _viewModel.ResultsForPlaylist.Remove(null);
 
-            textBox.Text += removeIndex + " => " + (insertIndex);
-            textBox.ScrollToEnd();
+            //textBox.Text += removeIndex + " => " + (insertIndex);
+            //textBox.ScrollToEnd();
 
             object[] data = new object[] { removeIndex, (insertIndex) };
             _viewModel.ReorderTrackCommand.Execute(data);
@@ -312,6 +318,29 @@ namespace Ctms.Presentation.Views
                 }
             }
              * */
+        }
+
+        private void Playlist_TouchDown(object sender, TouchEventArgs e)
+        {
+            TouchStart = e.GetTouchPoint(this);
+        }
+
+        private void Playlist_TouchMove(object sender, TouchEventArgs e)
+        {
+            if (!AlreadySwiped)
+            {
+                var Touch = e.GetTouchPoint(this);
+
+                //right now a swipe is 200 pixels
+
+                //Swipe Left
+                if (TouchStart != null && Touch.Position.X > (TouchStart.Position.X + 200))
+                {
+                    AlreadySwiped = true;
+                }
+            }
+
+            e.Handled = true;
         }
     }
 }

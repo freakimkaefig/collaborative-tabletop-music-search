@@ -25,10 +25,10 @@ namespace Ctms.Applications.ViewModels
         private bool _isRotate = false;
         private bool _isShuffle = false;
         private bool _isRepeat = false;
+        private string _playPauseText = "Play";
 
         //Commands
-        private ICommand _playCommand;
-        private ICommand _pauseCommand;
+        private ICommand _playPauseCommand;
         private ICommand _stopCommand;
         private ICommand _addTrackCommand;
         private ICommand _jumpToTrackCommand;
@@ -65,6 +65,8 @@ namespace Ctms.Applications.ViewModels
             
             VisualStateManager.GoToState((FrameworkElement)_view, visualState.Name, true);
         }
+
+        #region Properties
 
         public bool IsEnabled { get { return true; } }//Playlist != null;//!! Has to be adjusted
 
@@ -159,6 +161,19 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public string PlayPauseText
+        {
+            get { return _playPauseText; }
+            set
+            {
+                if (_playPauseText != value)
+                {
+                    _playPauseText = value;
+                    RaisePropertyChanged("PlayPauseText");
+                }
+            }
+        }
+
         public ObservableCollection<ResultDataModel> ResultsForPlaylist
         {
             get { return _playlistResults; }
@@ -185,28 +200,19 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ICommand PlayCommand
-        {
-            get { return _playCommand; }
-            set
-            {
-                if (_playCommand != value)
-                {
-                    _playCommand = value;
-                    RaisePropertyChanged("PlayCommand");
-                }
-            }
-        }
+        #endregion Properties
 
-        public ICommand PauseCommand
+        #region Commands
+
+        public ICommand PlayPauseCommand
         {
-            get { return _pauseCommand; }
+            get { return _playPauseCommand; }
             set
             {
-                if (_pauseCommand != value)
+                if (_playPauseCommand != value)
                 {
-                    _pauseCommand = value;
-                    RaisePropertyChanged("PauseCommand");
+                    _playPauseCommand = value;
+                    RaisePropertyChanged("PlayPauseCommand");
                 }
             }
         }
@@ -301,5 +307,7 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
+
+        #endregion Command
     }
 }

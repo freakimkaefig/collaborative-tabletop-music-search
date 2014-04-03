@@ -58,7 +58,7 @@ namespace MusicStream
         private AudioBufferStats _audioBufferStats;
         private byte[] _copiedFrames;
         private Playlist _currentPlaylist;
-        private int _currentPlaylistTrackIndex;
+        private int _currentPlaylistTrackIndex = 0;
         private double _currentPlaylistTrackPlayedDuration = 0.0;
         private bool _playlistPlaying = false;
         private bool _prelistPlaying = false;
@@ -218,15 +218,6 @@ namespace MusicStream
         /// <param name="track"></param>
         public void StartPrelisteningTrack(Track track)
         {
-            if (_playlistPlaying == true)
-            {
-                //Save position in current track
-                
-            }
-            else
-            {
-
-            }
             _prelistPlaying = true;
             _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, track);
         }
@@ -311,9 +302,53 @@ namespace MusicStream
             PlaybackStarted();
         }*/
 
-        public void PauseTrack()
+        public void PlaylistPlay()
+        {
+            if (_currentPlaylist != null)
+            {
+                //if playlist is selected
+                if (_currentPlaylistTrackIndex != 0)
+                {
+                    //if trackIndex is already set
+                    if (_currentPlaylistTrackPlayedDuration != 0)
+                    {
+                        //if track was played before
+                        ProceedPlayingPlaylistAfterPrelisten();
+                    }
+                    else
+                    {
+                        //if no track was played before
+                        JumpToTrackInPlaylist(_currentPlaylist, _currentPlaylistTrackIndex);
+                    }
+                }
+                else
+                {
+                    //if trackIndex is not set
+                    _currentPlaylistTrackIndex = 0;
+                    JumpToTrackInPlaylist(_currentPlaylist, _currentPlaylistTrackIndex);
+                }
+            }
+            else
+            {
+                //if no playlist is selected
+                throw new NullReferenceException("No Playlist selected! Cannot play!");
+            }
+        }
+
+        public void PlaylistPause()
         {
             _waveOutDevice.Pause();
+            _session.PlayerPlay(false);
+        }
+
+        public void PlaylistStop()
+        {
+            _waveOutDevice.Stop();
+            _session.PlayerPlay(false);
+            _session.PlayerUnload();
+            _bufferedWaveProvider.ClearBuffer();
+            _currentPlaylistTrackIndex = 0;
+            _currentPlaylistTrackPlayedDuration = 0.0;
         }
 
         public void StopTrack()
@@ -373,6 +408,7 @@ namespace MusicStream
 
         public void ProceedPlayingPlaylistAfterPrelisten()
         {
+            
             _bufferedWaveProvider.ClearBuffer();
             _session.PlayerLoad(_currentPlaylist.Track(_currentPlaylistTrackIndex));
             _session.PlayerSeek((int)_currentPlaylistTrackPlayedDuration);
@@ -459,6 +495,7 @@ namespace MusicStream
             var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
             double howMuchSecs = ( ((double)num_frames * 2.0 * 2.0) / (double)bytesPerSec ) * 1000.0;
             _currentPlaylistTrackPlayedDuration += (int)howMuchSecs;
+            //_currentPlaylistTrackPlayedDuration += _bufferedWaveProvider.BufferedDuration.TotalSeconds;
             //logMessages.Enqueue("Received: " + _currentPlaylistTrackPlayedDuration + " / " + duration);
 
             var size = num_frames * format.channels * 2;
@@ -514,7 +551,10 @@ namespace MusicStream
 
         private void LogoutWorker(object sender, DoWorkEventArgs e)
         {
-            _session.Logout();
+            if (_session != null)
+            {
+                _session.Logout();
+            }
         }
         private void LogoutCompleted(object sender, RunWorkerCompletedEventArgs e)
         {

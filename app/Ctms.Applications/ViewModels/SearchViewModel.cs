@@ -37,6 +37,7 @@ namespace Ctms.Applications.ViewModels
         private bool        _addedVisualization;
         private ICommand _addVisualizationCmd;
         private ICommand _editCmd;
+        private ICommand _fftData;
         private List<searchObjects> _searchObjectsList;
         //private readonly IEnumerable<SearchTagViewModel> _searchTags;
 
@@ -383,6 +384,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _editCmd = value;
                     RaisePropertyChanged("EditCmd");
+                }
+            }
+        }
+
+        public ICommand FftDataAvailabe
+        {
+            get { return _fftData; }
+            set
+            {
+                if (_fftData != value)
+                {
+                    _fftData = value;
+                    RaisePropertyChanged("FftDataAvailabe");
                 }
             }
         }

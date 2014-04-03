@@ -46,7 +46,7 @@ namespace MusicStream
             preparedFrames = prepareBytes(channels, sampleRate, frames);
 
 
-            //Source: http://www.lomont.org/Software/Misc/FFT/LomontFFT.html
+            
             _lomontFFT = new Lomont.LomontFFT();
             Double[] framesFFT = _lomontFFT.FFT(preparedFrames, true);
             framesFFT[framesFFT.Length - 1] = howmuchsec;
@@ -56,7 +56,7 @@ namespace MusicStream
 
       
 
-        //Source: https://stackoverflow.com/questions/17416112/apply-fft-on-pcm-data-and-convert-to-a-spectrogram 
+        
 
         public Double[] prepareBytes(int channels, int sampleRate, byte[] frames)
         {
