@@ -107,6 +107,7 @@ namespace Ctms.Applications.Controllers
         private void ExitApp()
         {
             //!!Best option?
+            _menuViewModel.LogoutCommand.Execute(null);
             _shellViewModel.ExitCommand.Execute(null);
         }
 

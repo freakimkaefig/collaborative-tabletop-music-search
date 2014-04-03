@@ -50,24 +50,27 @@ namespace Ctms.Applications.Workers
 
         public void RefreshResults(List<ResponseContainer.ResponseObj.Song> response)
         {
-            if (_menuViewModel.IsLoggedIn)
+            if (response != null)
             {
-                _resultViewModel.Results.Clear();
-                for (int i = 0; i < response.Count; i++)
+                if (_menuViewModel.IsLoggedIn)
                 {
-                    for (int j = 0; j < response[i].tracks.Count; j++)
+                    _resultViewModel.Results.Clear();
+                    for (int i = 0; i < response.Count; i++)
                     {
-                        if(_sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id) != null)
+                        for (int j = 0; j < response[i].tracks.Count; j++)
                         {
-                            _resultViewModel.Results.Add(new ResultDataModel(response[i].Title, response[i].Artist_Name, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id)));
-                            j = response[i].tracks.Count;
+                            if (_sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id) != null)
+                            {
+                                _resultViewModel.Results.Add(new ResultDataModel(response[i].Title, response[i].Artist_Name, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id)));
+                                j = response[i].tracks.Count;
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                _menuViewModel.DisplayLoginDialog();
+                else
+                {
+                    _menuViewModel.DisplayLoginDialog();
+                }
             }
         }
     }

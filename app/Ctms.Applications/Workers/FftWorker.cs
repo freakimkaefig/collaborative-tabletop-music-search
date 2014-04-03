@@ -55,7 +55,7 @@ namespace Ctms.Applications.Workers
 
                 Storyboard.SetTargetProperty(interpolate1, new PropertyPath(System.Windows.Shapes.Rectangle.HeightProperty));
 
-                sb.Children.Add(interpolate1);
+                //sb.Children.Add(interpolate1);
             }
             else
             {
@@ -136,7 +136,7 @@ namespace Ctms.Applications.Workers
 
 
 
-            sb.Begin();
+            //sb.Begin();
 
         }
     }

@@ -371,6 +371,16 @@ namespace MusicStream
             _currentPlaylistTrackPlayedDuration = 0;
         }
 
+        public void ProceedPlayingPlaylistAfterPrelisten()
+        {
+            _bufferedWaveProvider.ClearBuffer();
+            _session.PlayerLoad(_currentPlaylist.Track(_currentPlaylistTrackIndex));
+            _session.PlayerSeek((int)_currentPlaylistTrackPlayedDuration);
+            _session.PlayerPlay(true);
+            _waveOutDevice.Play();
+            PlaybackStarted();
+        }
+
         /// <summary>
         /// Reorder tracks in passed playlist
         /// </summary>
@@ -478,8 +488,15 @@ namespace MusicStream
         {
             if (_currentPlaylist != null)
             {
-                PlaybackEndOfTrack();
-                ProceedPlayingPlaylist();
+                if (!_prelistPlaying)
+                {
+                    PlaybackEndOfTrack();
+                    ProceedPlayingPlaylist();
+                }
+                else
+                {
+                    ProceedPlayingPlaylistAfterPrelisten();
+                }
             }
         }
 
