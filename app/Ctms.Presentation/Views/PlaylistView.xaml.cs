@@ -34,6 +34,7 @@ namespace Ctms.Presentation.Views
         private VisualState _rotate180;
         private VisualState _rotate0;
 
+        private SurfaceListBoxItem _draggedElement;
         protected TouchPoint TouchStart;
         private bool AlreadySwiped = false;
 
@@ -101,9 +102,12 @@ namespace Ctms.Presentation.Views
         //Drag & Drop inside PlaylistView(SurfaceListBox)
         private void Playlist_HoldGesture(object sender, GestureEventArgs e)
         {
+            _viewModel.TrashVisible = true;
+
             FrameworkElement findSource = e.OriginalSource as FrameworkElement;
             SurfaceListBoxItem draggedElement = e.TouchDevice.Target as SurfaceListBoxItem;
-            //ResultDataModel content = draggedElement.Content as ResultDataModel;
+            _draggedElement = draggedElement;
+            
             //content.Opacity = 0.5;
 
             // Find the touched SurfaceListBoxItem object.
@@ -124,7 +128,7 @@ namespace Ctms.Presentation.Views
             ContentControl cursorVisual = new ContentControl()
             {
                 Content = draggedElement.DataContext,
-                Style = FindResource("PlaylistCursorStyle") as Style
+                Style = FindResource("PlaylistItemCursorStyle") as Style
             };
 
             // Add a handler. This will enable the application to change the visual cues.
@@ -179,12 +183,12 @@ namespace Ctms.Presentation.Views
 
         private void Playlist_OnDragCanceled(object sender, SurfaceDragDropEventArgs e)
         {
-            
+            _viewModel.TrashVisible = false;
         }
 
         private void Playlist_OnDragCompleted(object sender, SurfaceDragCompletedEventArgs e)
         {
-
+            _viewModel.TrashVisible = false;
         }
 
         private void Playlist_OnDragOver(object sender, SurfaceDragDropEventArgs e)
@@ -275,6 +279,8 @@ namespace Ctms.Presentation.Views
 
         private void Playlist_Drop(object sender, SurfaceDragDropEventArgs e)
         {
+            _viewModel.TrashVisible = false;
+
             ResultDataModel droppedItem = e.Cursor.Data as ResultDataModel;
             SurfaceListBox target = e.Cursor.CurrentTarget as SurfaceListBox;
             int insertIndex = _viewModel.ResultsForPlaylist.IndexOf(null);
@@ -341,6 +347,33 @@ namespace Ctms.Presentation.Views
             }
 
             e.Handled = true;
+        }
+
+        private void PlaylistRemoveDropTarget_DragEnter(object sender, SurfaceDragDropEventArgs e)
+        {
+            FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+            //ResultDataModel content = draggedElement.Content as ResultDataModel;
+            //content.Opacity = 0.5;
+
+            // Create the cursor visual.
+            ContentControl cursorVisual = new ContentControl()
+            {
+                Content = _draggedElement.DataContext,
+                Style = FindResource("PlaylistItemTrashCursorStyle") as Style
+            };
+
+            // Add a handler. This will enable the application to change the visual cues.
+            SurfaceDragDrop.AddTargetChangedHandler(cursorVisual, OnTargetChanged);
+        }
+
+        private void PlaylistRemoveDropTarget_DragLeave(object sender, SurfaceDragDropEventArgs e)
+        {
+            
+        }
+
+        private void PlaylistRemoveDropTarget_Drop(object sender, SurfaceDragDropEventArgs e)
+        {
+            //Remove dragged track from playlist
         }
     }
 }

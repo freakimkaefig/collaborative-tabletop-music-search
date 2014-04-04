@@ -84,6 +84,24 @@ namespace Ctms.Applications.Workers
 
             //AUTOLOGIN REMOVE FOR RELEASE
             //_sessionManager.Login("mybleton", "ctms");
+            _menuViewModel.IsLoggingIn = true;
+            _menuViewModel.LoginDialogEnabled = false;
+        }
+
+        public void CancelLogin()
+        {
+            if (!_menuViewModel.IsLoggedIn && _menuViewModel.IsLoggingIn)
+            {
+                _sessionManager.Logout();
+                if (_sessionManager.PlaylistContainerListener != null)
+                {
+                    _sessionManager.Session.Playlistcontainer().RemoveCallbacks(_sessionManager.PlaylistContainerListener, null);
+                }
+            }
+
+            _menuViewModel.IsLoggingIn = false;
+            _menuViewModel.IsLoggedIn = false;
+            _menuViewModel.LoginDialogEnabled = true;
         }
 
         public void Logout()
@@ -144,7 +162,7 @@ namespace Ctms.Applications.Workers
         {
             //toast for visual feedback
 
-            _menuViewModel.IsLoggedIn = true;
+            //_menuViewModel.IsLoggedIn = true;
         }
 
         private void SpotifyLoggedOut()
@@ -154,6 +172,9 @@ namespace Ctms.Applications.Workers
 
         private void ReadyForPlayback(ObservableCollection<Playlist> playlists)
         {
+            _menuViewModel.DisplayLoginDialog(false);
+            _menuViewModel.IsLoggingIn = false;
+            _menuViewModel.IsLoggedIn = true;
             _playlistViewModel.ReadyForPlayback = true;
 
             _menuViewModel.Playlists.Clear();

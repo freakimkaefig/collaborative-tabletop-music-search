@@ -9,7 +9,7 @@ namespace MusicStream
     /// <summary>
     /// Listener for events of PlaylistContainer
     /// </summary>
-    class MusicStreamPlaylistContainerListener : PlaylistContainerListener
+    public class MusicStreamPlaylistContainerListener : PlaylistContainerListener
     {
         private MusicStreamSessionManager _sessionManager;
 

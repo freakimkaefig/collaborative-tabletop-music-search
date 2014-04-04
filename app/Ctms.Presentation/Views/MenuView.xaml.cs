@@ -25,6 +25,7 @@ namespace Ctms.Presentation.Views
 
         //VisualStates
         private VisualState _loginDialogVisible;
+        private VisualState _loginDialogInvisible;
         private VisualState _visualStateRotate0_LoginDialog;
         private VisualState _visualStateRotate180_LoginDialog;
         private VisualState _visualStateRotate0_OpenPlaylistDialog;
@@ -39,6 +40,7 @@ namespace Ctms.Presentation.Views
 
             //Visual States
             _loginDialogVisible = LoginDialogVisible;
+            _loginDialogInvisible = LoginDialogInvisible;
             _visualStateRotate0_LoginDialog = Rotate0_LoginDialog;
             _visualStateRotate180_LoginDialog = Rotate180_LoginDialog;
             _visualStateRotate0_OpenPlaylistDialog = Rotate0_OpenPlaylistDialog;
@@ -48,6 +50,7 @@ namespace Ctms.Presentation.Views
         }
 
         public VisualState VisualStateLoginDialogVisible { get { return _loginDialogVisible; } set { } }
+        public VisualState VisualStateLoginDialogInvisible { get { return _loginDialogInvisible; } set { } }
         public VisualState VisualStateRotate0_LoginDialog { get { return _visualStateRotate0_LoginDialog; } set { } }
         public VisualState VisualStateRotate180_LoginDialog { get { return _visualStateRotate180_LoginDialog; } set { } }
         public VisualState VisualStateRotate0_OpenPlaylistDialog { get { return _visualStateRotate0_OpenPlaylistDialog; } set { } }

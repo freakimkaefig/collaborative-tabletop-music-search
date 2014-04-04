@@ -220,7 +220,7 @@
             <s:SurfaceButton Visibility="{Binding IsLoggedIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Command="{Binding LogoutCommand}" Content="{Binding LoginButtonContent}" Margin="0,10,0,0" VerticalAlignment="Bottom"></s:SurfaceButton>
             <s:SurfaceButton Content="Exit" Margin="0,20,0,0" VerticalAlignment="Bottom" Command="{Binding ExitAppCommand}"/>
         </StackPanel>
-        <Grid x:Name="LoginDialog" HorizontalAlignment="Left" Margin="-976,0,0,136" Width="312" Background="#CC000000" Height="320" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="LoginDialog" HorizontalAlignment="Left" Margin="-976,480,0,160" Width="312" Background="#CC000000" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
         	<Grid.RenderTransform>
         		<TransformGroup>
         			<ScaleTransform/>
@@ -235,9 +235,9 @@
         	<TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18.667"><Run Language="de-de" Text="Login to Spotify"/></TextBlock>
         	<TextBlock HorizontalAlignment="Left" Margin="20,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="de-de" Text="Username"/></TextBlock>
         	<TextBlock HorizontalAlignment="Left" Margin="20,152,0,152.04" TextWrapping="Wrap"><Run Language="de-de" Text="Password"/></TextBlock>
-        	<s:SurfaceTextBox x:Name="SpotifyUsernameInput" Margin="20,91.96,24,0" TextWrapping="Wrap" Text="{Binding SpotifyUsernameInput}" VerticalAlignment="Top"/>
-        	<s:SurfacePasswordBox x:Name="SpotifyPasswordInput" Height="23" Margin="20,0,24,110.04" VerticalAlignment="Bottom"/>
-        	<s:SurfaceButton Content="Cancel" Margin="24,0,0,24" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="80">
+        	<s:SurfaceTextBox x:Name="SpotifyUsernameInput" Margin="20,91.96,24,0" TextWrapping="Wrap" Text="{Binding SpotifyUsernameInput}" VerticalAlignment="Top" IsEnabled="{Binding LoginDialogEnabled}"/>
+        	<s:SurfacePasswordBox x:Name="SpotifyPasswordInput" Height="23" Margin="20,176,24,162" IsEnabled="{Binding LoginDialogEnabled}"/>
+        	<s:SurfaceButton Content="Cancel" Margin="24,0,0,24" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="80" Command="{Binding CancelLoginCommand}">
         		<i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewTouchDown">
                         <ei:GoToStateAction StateName="LoginDialogInvisible"/>
@@ -247,16 +247,18 @@
         			</i:EventTrigger>
         		</i:Interaction.Triggers>
         	</s:SurfaceButton>
-        	<s:SurfaceButton Content="Login" Margin="0,0,24,24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=SpotifyPasswordInput}" Width="76">
-        		<i:Interaction.Triggers>
+        	<s:SurfaceButton Content="Login" Margin="0,0,24,24" VerticalAlignment="Bottom" IsEnabled="{Binding LoginDialogEnabled}" HorizontalAlignment="Right" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=SpotifyPasswordInput}" Width="76">
+        		<!--<i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewTouchDown">
                         <ei:GoToStateAction StateName="LoginDialogInvisible"/>
                     </i:EventTrigger>
                     <i:EventTrigger EventName="Click">
         				<ei:GoToStateAction StateName="LoginDialogInvisible"/>
         			</i:EventTrigger>
-        		</i:Interaction.Triggers>
+        		</i:Interaction.Triggers>-->
         	</s:SurfaceButton>
+            <!--<Image Height="60" Margin="124,0,124,80" VerticalAlignment="Bottom" Width="60" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}"/>-->
+            <Label Content="Logging in... Please wait...." VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,80" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" />
         </Grid>
         <Grid x:Name="OpenPlaylistDialog" HorizontalAlignment="Left" Margin="-568,80,0,488" Width="308" Background="#CC000000" RenderTransformOrigin="0.5,0.5" Height="Auto" VerticalAlignment="Stretch">
         	<Grid.RenderTransform>

@@ -10,6 +10,7 @@ namespace Ctms.Applications.Views
     public interface IMenuView : IView
     {
         VisualState VisualStateLoginDialogVisible { get; set; }
+        VisualState VisualStateLoginDialogInvisible { get; set; }
         VisualState VisualStateRotate0_LoginDialog { get; set; }
         VisualState VisualStateRotate180_LoginDialog { get; set; }
         VisualState VisualStateRotate0_OpenPlaylistDialog { get; set; }

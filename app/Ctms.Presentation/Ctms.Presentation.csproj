@@ -275,6 +275,7 @@
     <Resource Include="Resources\Images\Playlist\plus.png" />
     <Resource Include="Resources\Images\Playlist\playlist.png" />
     <Resource Include="Resources\Images\Playlist\rotate-icon.png" />
+    <Resource Include="Resources\Images\Playlist\trash.png" />
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>

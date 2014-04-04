@@ -45,6 +45,7 @@ namespace Ctms.Applications.Controllers
         //Commands
         private readonly DelegateCommand _exitAppCommand;
         private readonly DelegateCommand _loginCommand;
+        private readonly DelegateCommand _cancelLoginCommand;
         private readonly DelegateCommand _rotateLoginDialogCommand;
         private readonly DelegateCommand _logoutCommand;
         private readonly DelegateCommand _openPlaylistCommand;
@@ -71,6 +72,7 @@ namespace Ctms.Applications.Controllers
             //Commands
             this._exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
             this._loginCommand = new DelegateCommand((password) => _musicStreamAccountWorker.Login((SurfacePasswordBox)password));
+            this._cancelLoginCommand = new DelegateCommand(_musicStreamAccountWorker.CancelLogin);
             this._rotateLoginDialogCommand = new DelegateCommand(_menuViewModel.RotateLoginDialog);
             this._logoutCommand = new DelegateCommand(_musicStreamAccountWorker.Logout);
             this._openPlaylistCommand = new DelegateCommand((playlist) => _musicStreamAccountWorker.OpenPlaylist((SpotifyPlaylist)playlist));
@@ -85,6 +87,7 @@ namespace Ctms.Applications.Controllers
             //Commands
             _menuViewModel.ExitAppCommand = _exitAppCommand;
             _menuViewModel.LoginCommand = _loginCommand;
+            _menuViewModel.CancelLoginCommand = _cancelLoginCommand;
             _menuViewModel.RotateLoginDialogCommand = _rotateLoginDialogCommand;
             _menuViewModel.LogoutCommand = _logoutCommand;
             _menuViewModel.OpenPlaylistCommand = _openPlaylistCommand;
@@ -109,11 +112,6 @@ namespace Ctms.Applications.Controllers
             //!!Best option?
             _menuViewModel.LogoutCommand.Execute(null);
             _shellViewModel.ExitCommand.Execute(null);
-        }
-
-        private void RotateOpenPlaylistDialog()
-        {
-
         }
 
         private bool CanExitApp() { return _shellViewModel.IsValid; }

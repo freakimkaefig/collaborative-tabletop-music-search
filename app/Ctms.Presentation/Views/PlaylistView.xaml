@@ -15,8 +15,11 @@
     x:Class="Ctms.Presentation.Views.PlaylistView"         
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
-    
-    
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
     <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
@@ -91,7 +94,7 @@
 				<ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
 			</Grid.ColumnDefinitions>
-            <s:SurfaceListBox x:Name="surfaceListBox" Margin="0,120,0,0" Background="#000"
+            <s:SurfaceListBox x:Name="surfaceListBox" Margin="0,120,0,80" Background="#000"
                               ItemTemplate="{StaticResource SurfaceListBoxItemDataTemplate}" ItemsSource="{Binding ResultsForPlaylist}"
                               AllowDrop="True"
                               SelectionChanged="Playlist_SelectionChanged"
@@ -116,6 +119,13 @@
             </s:SurfaceButton>
             <Label Content="Shuffle" HorizontalAlignment="Right" Height="24" Margin="0,38,96,0" VerticalAlignment="Top" Width="64"/>
             <Label Content="Repeat" HorizontalAlignment="Right" Height="24" Margin="0,38,16,0" VerticalAlignment="Top" Width="64"/>
+            <s:SurfaceButton VerticalAlignment="Bottom" Visibility="{Binding TrashVisible, Converter={x:Static c:BoolToVisibilityConverter.Default}}"
+                             AllowDrop="True"
+                             s:SurfaceDragDrop.DragEnter="PlaylistRemoveDropTarget_DragEnter"
+        	                 s:SurfaceDragDrop.DragLeave="PlaylistRemoveDropTarget_DragLeave"
+        	                 s:SurfaceDragDrop.Drop="PlaylistRemoveDropTarget_Drop">     
+                <Image Source="../../Resources/Images/Playlist/trash.png" Width="60"  Height="60"/>
+            </s:SurfaceButton>
         </Grid>
 		<s:SurfaceButton x:Name="surfaceButton2" Content="SEARCH" Margin="0" VerticalAlignment="Center" Height="80" HorizontalAlignment="Right" Visibility="Hidden">
 			<i:Interaction.Triggers>

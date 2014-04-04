@@ -26,6 +26,7 @@ namespace Ctms.Applications.ViewModels
         private bool _isShuffle = false;
         private bool _isRepeat = false;
         private string _playPauseText = "Play";
+        private bool _trashVisible = false;
 
         //Commands
         private ICommand _playPauseCommand;
@@ -196,6 +197,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _currentPlaylist = value;
                     RaisePropertyChanged("CurrentPlaylist");
+                }
+            }
+        }
+
+        public bool TrashVisible
+        {
+            get { return _trashVisible; }
+            set
+            {
+                if (_trashVisible != value)
+                {
+                    _trashVisible = value;
+                    RaisePropertyChanged("TrashVisible");
                 }
             }
         }

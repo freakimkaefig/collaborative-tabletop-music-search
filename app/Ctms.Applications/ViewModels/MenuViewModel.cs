@@ -23,18 +23,19 @@ namespace Ctms.Applications.ViewModels
         //Commands
         private ICommand _exitAppCommand;
         private ICommand _loginCommand;
+        private ICommand _cancelLoginCommand;
         private ICommand _rotateLoginDialogCommand;
         private ICommand _logoutCommand;
         private ICommand _openPlaylistCommand;
         private ICommand _rotateOpenPlaylistCommand;
         private ICommand _newPlaylistCommand;
         private ICommand _rotateNewPlaylistCommand;
-        private ICommand _goCommand;
         //
         private string _spotifyUsernameInput = "mybleton";
         private string _loginLogMessage;
         private string _playlistName = null;
-        private string _goInput;
+        private bool _loginDialogEnabled = true;
+        private bool _isLoggingIn = false;
         private bool _isLoggedIn = false;
         private bool _menuIsVisible = false;
         private bool _loginDialogIsRotate = false;
@@ -49,15 +50,23 @@ namespace Ctms.Applications.ViewModels
         {
             _playlists = new ObservableCollection<SpotifyPlaylist>();
             _view = view;
-            DisplayLoginDialog();
+            DisplayLoginDialog(true);
         }
 
         #region Public Methods
 
-        public void DisplayLoginDialog()
+        public void DisplayLoginDialog(bool state)
         {
-            VisualState temp = _view.VisualStateLoginDialogVisible;
-            VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+            if (state == true)
+            {
+                VisualState temp = _view.VisualStateLoginDialogVisible;
+                VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+            }
+            else
+            {
+                VisualState temp = _view.VisualStateLoginDialogInvisible;
+                VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+            }
         }
 
         public bool IsEnabled { get { return true; } }//!! Has to be adjusted
@@ -208,6 +217,32 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public bool LoginDialogEnabled
+        {
+            get { return _loginDialogEnabled; }
+            set
+            {
+                if (_loginDialogEnabled != value)
+                {
+                    _loginDialogEnabled = value;
+                    RaisePropertyChanged("LoginDialogEnabled");
+                }
+            }
+        }
+
+        public bool IsLoggingIn
+        {
+            get { return _isLoggingIn; }
+            set
+            {
+                if (_isLoggingIn != value)
+                {
+                    _isLoggingIn = value;
+                    RaisePropertyChanged("IsLoggingIn");
+                }
+            }
+        }
+
         public bool MenuIsVisible
         {
             get { return _menuIsVisible; }
@@ -299,6 +334,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _loginCommand = value;
                     RaisePropertyChanged("LoginCommand");
+                }
+            }
+        }
+
+        public ICommand CancelLoginCommand
+        {
+            get { return _cancelLoginCommand; }
+            set
+            {
+                if (_cancelLoginCommand != value)
+                {
+                    _cancelLoginCommand = value;
+                    RaisePropertyChanged("CancelLoginCommand");
                 }
             }
         }

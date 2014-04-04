@@ -69,7 +69,7 @@ namespace Ctms.Applications.Workers
                 }
                 else
                 {
-                    _menuViewModel.DisplayLoginDialog();
+                    _menuViewModel.DisplayLoginDialog(true);
                 }
             }
         }

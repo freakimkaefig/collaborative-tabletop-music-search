@@ -68,7 +68,8 @@ namespace MusicStream
         public override void ConnectionError(SpotifySession session, SpotifyError error)
         {
             base.ConnectionError(session, error);
-            _sessionManager.logMessages.Enqueue("CONNECTION ERROR: {0}\n" + error.ToString());  //Logging ConnectionErrors
+            _sessionManager.logMessages.Enqueue("CONNECTION ERROR: {0} - " + error.ToString());  //Logging ConnectionErrors
+            throw new SpotifyException(SpotifyError.OtherPermanent, "Error logging in!");
         }
 
         public override void LogMessage(SpotifySession session, string data)

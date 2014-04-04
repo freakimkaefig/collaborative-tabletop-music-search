@@ -108,6 +108,12 @@ namespace MusicStream
             get { return _session; }
         }
 
+        public MusicStreamPlaylistContainerListener PlaylistContainerListener
+        {
+            set { _playlistContainerListener = value; }
+            get { return _playlistContainerListener; }
+        }
+
         /// <summary>
         /// Getter&Setter for the current CredentialsBlob
         /// </summary>
