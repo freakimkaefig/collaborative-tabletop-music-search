@@ -76,6 +76,7 @@
     <Compile Include="Views\IInfoView.cs" />
     <Compile Include="Workers\DetailWorker.cs" />
     <Compile Include="Workers\FftWorker.cs" />
+    <Compile Include="Workers\InfoWorker.cs" />
     <Compile Include="Workers\PlaylistWorker.cs" />
     <Compile Include="Workers\ResultWorker.cs" />
     <Compile Include="Workers\SearchWorker.cs" />

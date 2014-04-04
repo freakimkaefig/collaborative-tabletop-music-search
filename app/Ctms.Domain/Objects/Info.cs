@@ -30,7 +30,11 @@ namespace Ctms.Domain.Objects
 
         public string SubText { get; set; }
 
-        public Point Position { get; set; }
+        //public Point Position { get; set; }
+
+        public float PositionX { get; set; }
+
+        public float PositionY { get; set; }
 
         public InfoStates State { get; set; }
 

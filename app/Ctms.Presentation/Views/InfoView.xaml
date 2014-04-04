@@ -43,12 +43,71 @@
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch"/>
                         <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" />
-                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="Ok" HorizontalAlignment="Stretch" />
+                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="Ok" HorizontalAlignment="Stretch" 
+                                         Command="{Binding ConfirmCommonInfoCmd}" CommandParameter="{Binding Info.Id}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
+        <ItemsControl ItemsSource="{Binding TagInfos}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Background="Transparent"  IsHitTestVisible="False" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" HorizontalAlignment="Center" />
+                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="Ok" HorizontalAlignment="Center"
+                                         Command="{Binding DataContext.ConfirmTagInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding Info.Id}"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Top" Value="{Binding Info.PositionY}" />
+                    <Setter Property="Canvas.Left" Value="{Binding Info.PositionX}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+
+        <ItemsControl ItemsSource="{Binding TutorialInfos}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Background="Transparent"  IsHitTestVisible="False" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch"/>
+                        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" />
+                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="Ok" HorizontalAlignment="Stretch"
+                                         Command="{Binding ConfirmTutorialInfoCmd}" CommandParameter="{Binding Info.Id}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Top" Value="{Binding Info.PositionY}" />
+                    <Setter Property="Canvas.Left" Value="{Binding Info.PositionX}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+        
         <!--<TextBlock Text="Info" />-->
     </Grid>
 

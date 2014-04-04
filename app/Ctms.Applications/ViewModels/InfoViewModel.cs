@@ -19,6 +19,9 @@ namespace Ctms.Applications.ViewModels
         private ObservableCollection<InfoDataModel> _commonInfos;
         private ObservableCollection<InfoDataModel> _tagInfos;
         private ObservableCollection<InfoDataModel> _tutorialInfos;
+        private ICommand _confirmCommonInfoCmd;
+        private ICommand _confirmTagInfoCmd;
+        private ICommand _confirmTutorialInfoCmd;
         
         [ImportingConstructor]
         public InfoViewModel(IInfoView view)
@@ -51,18 +54,43 @@ namespace Ctms.Applications.ViewModels
 
         public ObservableCollection<InfoDataModel> TutorialInfos { get { return _tutorialInfos; } }
 
-        //public Detail Detail
-        //{
-        //    get { return detail; }
-        //    set
-        //    {
-        //        if (detail != value)
-        //        {
-        //            detail = value;
-        //            RaisePropertyChanged("Detail");
-        //            RaisePropertyChanged("IsEnabled");
-        //        }
-        //    }
-        //}
+        public ICommand ConfirmCommonInfoCmd
+        {
+            get { return _confirmCommonInfoCmd; }
+            set
+            {
+                if (_confirmCommonInfoCmd != value)
+                {
+                    _confirmCommonInfoCmd = value;
+                    RaisePropertyChanged("ConfirmCommonInfoCmd");
+                }
+            }
+        }
+
+        public ICommand ConfirmTagInfoCmd
+        {
+            get { return _confirmTagInfoCmd; }
+            set
+            {
+                if (_confirmTagInfoCmd != value)
+                {
+                    _confirmTagInfoCmd = value;
+                    RaisePropertyChanged("ConfirmTagInfoCmd");
+                }
+            }
+        }
+
+        public ICommand ConfirmTutorialInfoCmd
+        {
+            get { return _confirmTutorialInfoCmd; }
+            set
+            {
+                if (_confirmTutorialInfoCmd != value)
+                {
+                    _confirmTutorialInfoCmd = value;
+                    RaisePropertyChanged("ConfirmTutorialInfoCmd");
+                }
+            }
+        }
     }
 }

@@ -27,6 +27,8 @@ namespace Ctms.Applications.DataModels
         private bool _isAssignedKeywordVisible;
         private bool _isMenuVisible = true;
         private bool _isEditVisible = false;
+        private float _height;
+        private float _width;
 
         public TagDataModel(Tag tag)
         {
@@ -211,6 +213,38 @@ namespace Ctms.Applications.DataModels
                 {
                     _state = value;
                     RaisePropertyChanged("State");
+                }
+            }
+        }
+
+        public float Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                if (_height != value)
+                {
+                    _height = value;
+                    RaisePropertyChanged("Height");
+                }
+            }
+        }
+
+        public float Width
+        {
+            get
+            {
+                return _width;
+            }
+            set
+            {
+                if (_width != value)
+                {
+                    _width = value;
+                    RaisePropertyChanged("Width");
                 }
             }
         }

@@ -30,10 +30,11 @@ namespace Ctms.Applications.Workers
         private Repository _repository;
         private SearchManager _searchManager;
         private TagFactory _tagFactory;
+        private InfoWorker _infoWorker;
 
         [ImportingConstructor]
         public SearchOptionWorker(SearchViewModel searchVM, SearchTagViewModel searchTagVm, IMessageService messageService,
-            Repository repository)
+            Repository repository, InfoWorker infoWorker)
         {
             //ViewModels
             _searchVM = searchVM;
@@ -45,6 +46,7 @@ namespace Ctms.Applications.Workers
             //Workers
 
             //Other vars
+            _infoWorker = infoWorker;
         }
 
         public void Initialize(SearchManager searchManager, ObservableCollection<TagDataModel> tagDMs)
@@ -249,12 +251,10 @@ namespace Ctms.Applications.Workers
                 if (suggestions != null && suggestions.Any())
                 {
                     tagDM = _repository.GetTagDMById(suggestions.FirstOrDefault().originId);
-                }
-
-                if (tagDM == null)
-                {
-                    _messageService.ShowWarning("Couldn't get Artists");
-                    return;
+                    if(String.IsNullOrEmpty(suggestions.FirstOrDefault().name))
+                    {
+                        _infoWorker.ShowTagInfo("No artists found", "Please adjust your terms", tagDM.Id);
+                    }
                 }
 
                 for (var i = 0; i < suggestions.Count; i++)

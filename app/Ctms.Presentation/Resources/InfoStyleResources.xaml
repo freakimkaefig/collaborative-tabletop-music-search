@@ -19,7 +19,18 @@
         <Setter Property="Background" Value="#9999" />
         <Setter Property="Width" Value="300" />
         <Setter Property="Height" Value="200" />
-        
+    </Style>
+
+    <Style x:Key="TagInfoGrid" TargetType="Grid">
+        <Setter Property="Background" Value="#9999" />
+        <Setter Property="Width" Value="300" />
+        <Setter Property="Height" Value="200" />
+    </Style>
+
+    <Style x:Key="TutorialInfoGrid" TargetType="Grid">
+        <Setter Property="Background" Value="#9999" />
+        <Setter Property="Width" Value="300" />
+        <Setter Property="Height" Value="200" />
     </Style>
 
     <Style x:Key="AssignedKeyword" TargetType="TextBlock">
