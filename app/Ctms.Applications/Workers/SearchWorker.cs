@@ -18,15 +18,17 @@ namespace Ctms.Applications.Workers
         private BackgroundWorkHelper _backgroundWorker;
         private SearchManager _searchManager;
         private ResultWorker _resultWorker;
+        private InfoWorker _infoWorker;
         private SearchViewModel _searchViewModel;
 
         [ImportingConstructor]
-        public SearchWorker(SearchViewModel searchViewModel, ResultWorker resultWorker)
+        public SearchWorker(SearchViewModel searchViewModel, ResultWorker resultWorker, InfoWorker infoWorker)
         {
             //ViewModels
             _searchViewModel = searchViewModel;
             //Workers
             _resultWorker = resultWorker;
+            _infoWorker = infoWorker;
             //Helpers
             _backgroundWorker = new BackgroundWorkHelper();
         }
@@ -41,9 +43,17 @@ namespace Ctms.Applications.Workers
 
         public void StartSearch()
         {
+            var loadingInfoId = _infoWorker.ShowCommonInfo("Loading results...", "Please wait a moment");
+
+            var backgrWorker = new BackgroundWorkHelper();
+            backgrWorker.DoInBackground(StartSearch, StartSearchCompleted, loadingInfoId);
+        }
+
+        public void StartSearch(object sender, DoWorkEventArgs e)
+        {
             var tags = _searchViewModel.Tags;
             var searchObjects = new List<searchObjects>();
-            var usedTags =  tags.Where(t => t.Tag.AssignedKeyword != null /*&& !String.IsNullOrEmpty(t.Tag.AssignedKeyword.SearchId)*/);
+            var usedTags = tags.Where(t => t.Tag.AssignedKeyword != null /*&& !String.IsNullOrEmpty(t.Tag.AssignedKeyword.SearchId)*/);
             foreach (var tag in usedTags)
             {
                 var searchObject = new searchObjects();
@@ -69,16 +79,28 @@ namespace Ctms.Applications.Workers
 
             var songs = _searchManager.SearchQuery(searchObjects);    //NOT WORKING (is always empty)
             //var songs = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList);
-            _resultWorker.RefreshResults(songs);
+            var infoId = (int) e.Argument;
+            e.Result = new List<object>() { songs, infoId };
         }
 
-        private void StartSearchWorker(object sender, DoWorkEventArgs e)
-        {
-            e.Result = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList);
-        }
         private void StartSearchCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            _resultWorker.RefreshResults((List<ResponseContainer.ResponseObj.Song>)e.Result);
+            if (e.Cancelled)
+            {
+                _infoWorker.ShowCommonInfo("Cancelled search by user", "", "Ok");
+            }
+            else if (e.Error != null)
+            {
+                _infoWorker.ShowCommonInfo("Search has failed", e.Error.Message, "Ok");
+            }
+            else
+            {
+                var resultSongs     = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
+                var loadingInfoId   = (int)((List<object>)e.Result)[1];
+
+                _resultWorker.RefreshResults(resultSongs);
+                _infoWorker.ConfirmCommonInfo(loadingInfoId);
+            }
         }
     }
 }

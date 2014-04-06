@@ -58,6 +58,7 @@ namespace Ctms.Presentation.Views
             {
                 tag.Tag.Angle = (short)trackedTouch.GetOrientation(this);
             }
+
             tag.Tag.PositionX   = (short) screenPosition.X;
             tag.Tag.PositionY   = (short) screenPosition.Y;
 

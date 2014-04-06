@@ -22,7 +22,7 @@ namespace Ctms.Applications.Common
 
         //Values
         public const int Tag_MaxNumber              = 12;
-        public const int Tag_VisibleOptionsCount    = 5;
+        public const int Tag_VisibleOptionsCount    = 10;
         public const int Tag_OptionsStepAngle       = 10;
 
         /*

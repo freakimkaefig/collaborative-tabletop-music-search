@@ -132,7 +132,6 @@ namespace Ctms.Applications.Workers
                     }
                     else if (keywordType == KeywordTypes.Attribute)
                     {   // load attributes
-
                     }
 
                     //_searchVM.UpdateVisuals(tag);
@@ -207,20 +206,9 @@ namespace Ctms.Applications.Workers
             }
             else if (keywordType == KeywordTypes.Title)
             {
-                var suggestions = _searchManager.getTitleSuggestions(tagId, terms);
-
-                foreach (var suggestion in suggestions)
-                {
-                    // create keyword out of this suggestion
-                    var keyword = _tagFactory.CreateKeyword(suggestion.title, keywordType, suggestion.artist_name);
-                    keyword.SearchId = suggestion.id;
-
-                    // create option with this keyword
-                    var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
-
-                    tagOptions.Add(tagOption);
-                    _repository.AddTagOption(tagDM, tagOption);
-                }
+                // get title suggestions in background
+                var backgrWorker = new BackgroundWorkHelper();
+                backgrWorker.DoInBackground(GetTitleSuggestionsInBackgr, GetTitleSuggestionsCompleted, tagDM);
             }
             SetInputIsVisible(tagDM, false);
 
@@ -253,7 +241,7 @@ namespace Ctms.Applications.Workers
                     tagDM = _repository.GetTagDMById(suggestions.FirstOrDefault().originId);
                     if(String.IsNullOrEmpty(suggestions.FirstOrDefault().name))
                     {
-                        _infoWorker.ShowTagInfo("No artists found", "Please adjust your terms", tagDM.Id);
+                        _infoWorker.ShowTagInfo("No artists found", "Please adjust your terms", tagDM.Id, "Ok");
                     }
                 }
 
@@ -261,6 +249,54 @@ namespace Ctms.Applications.Workers
                 {
                     // create keyword out of this suggestion
                     var keyword = _tagFactory.CreateKeyword(suggestions[i].name, tagDM.Tag.AssignedKeyword.Type);
+                    keyword.SearchId = suggestions[i].id;
+
+                    // create option with this keyword
+                    var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
+
+                    _repository.AddTagOption(tagDM, tagOption);
+                }
+
+                SetInputIsVisible(tagDM, false);
+
+                _searchVM.UpdateVisuals(tagDM);
+            }
+        }
+
+        public void GetTitleSuggestionsInBackgr(object sender, DoWorkEventArgs e)
+        {
+            var tagDM = (TagDataModel)e.Argument;
+
+            e.Result = _searchManager.getTitleSuggestions(tagDM.Id, tagDM.InputTerms);
+        }
+
+        private void GetTitleSuggestionsCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+            }
+            else if (e.Error != null)
+            {
+            }
+            else
+            {
+                var suggestions = (List<ResponseContainer.ResponseObj.TitleSuggestion>)e.Result;
+
+                TagDataModel tagDM = null;
+                var firstSuggestion = suggestions.FirstOrDefault();
+                if (suggestions != null && suggestions.Any())
+                {
+                    tagDM = _repository.GetTagDMById(suggestions.FirstOrDefault().originId);
+                    if (String.IsNullOrEmpty(suggestions.FirstOrDefault().title))
+                    {
+                        _infoWorker.ShowTagInfo("No titles found", "Please adjust your terms", tagDM.Id, "Ok");
+                    }
+                }
+
+                for (var i = 0; i < suggestions.Count; i++)
+                {
+                    // create keyword out of this suggestion
+                    var keyword = _tagFactory.CreateKeyword(suggestions[i].title, tagDM.Tag.AssignedKeyword.Type);
                     keyword.SearchId = suggestions[i].id;
 
                     // create option with this keyword

@@ -9,6 +9,7 @@ using Ctms.Applications.Data;
 using Ctms.Applications.DataFactories;
 using System.Windows;
 using Ctms.Domain.Objects;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Applications.Workers
 {
@@ -39,49 +40,59 @@ namespace Ctms.Applications.Workers
 
         public void Initialize()
         {
-            /*
-            foreach (var tagDM in tagDMs)
-            {
-                LoadKeywordTypes(tagDM.Id);
-            }*/
-
-
-            //ShowCommonInfo("CommonInfoMain", "InfoSub");
         }
 
         public void ConfirmCommonInfo(int infoId)
         {
-            //_repository.
+            _repository.GetAllInfos(InfoTypes.CommonInfo).Remove(_repository.GetCommonInfoById(infoId));
         }
 
         public void ConfirmTagInfo(int infoId)
         {
-            //_repository.
+            _repository.GetAllInfos(InfoTypes.TagInfo).Remove(_repository.GetTagInfoById(infoId));
         }
 
         public void ConfirmTutorialInfo(int infoId)
         {
-            //_repository.
+            _repository.GetAllInfos(InfoTypes.TutorialInfo).Remove(_repository.GetTutorialInfoById(infoId));
         }
 
-        public void ShowCommonInfo(string mainText, string subText)
+        public InfoDataModel CreateInfo(string mainText, string subText, InfoTypes infotype)
         {
-            var info = _infoFactory.CreateInfoDm(mainText, subText, InfoTypes.CommonInfo);
+            var info = _infoFactory.CreateInfoDm(mainText, subText, infotype);
             info.IsVisible = true;
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
-            _infoVm.CommonInfos.Add(info);
+
+            return info;
         }
 
-        public void ShowTagInfo(string mainText, string subText, int tagId)
+        public int ShowCommonInfo(string mainText, string subText, string confirmText = null)
         {
-            var info = _infoFactory.CreateInfoDm(mainText, subText, InfoTypes.TagInfo);
-            info.IsVisible = true;
-            info.Info.MainText  = mainText;
-            info.Info.SubText   = subText;
+            var info = CreateInfo(mainText, subText, InfoTypes.CommonInfo);
+
+            CalcButtons(confirmText, info);
+            _infoVm.CommonInfos.Add(info);
+
+            return info.Info.Id;
+        }
+
+        private static void CalcButtons(string confirmText, InfoDataModel info)
+        {
+            if (confirmText != null)
+            {
+                info.IsConfirmable = true;
+                info.ConfirmText = confirmText;
+            }
+        }
+
+        public void ShowTagInfo(string mainText, string subText, int tagId, string confirmText = null)
+        {
+            var info = CreateInfo(mainText, subText, InfoTypes.TagInfo);
 
             var tagDm = _repository.GetTagDMById(tagId);
-            var infoHeight = 50.0F;//!!read->set globally
+            //!!better to position info the side?
+            var infoHeight = 80.0F;//!!read->set globally
             info.Info.PositionX = tagDm.Tag.PositionX;
             if (_shellVm.WindowHeight < tagDm.Tag.PositionY + tagDm.Height + infoHeight)
             {
@@ -96,14 +107,9 @@ namespace Ctms.Applications.Workers
 
         public void ShowTutorialInfo(string mainText, string subText)
         {
-            var info = _infoFactory.CreateInfoDm(mainText, subText, InfoTypes.TutorialInfo);
-            info.IsVisible = true;
+            var info = CreateInfo(mainText, subText, InfoTypes.TutorialInfo);
+
             _infoVm.TutorialInfos.Add(info);
-            info.Info.MainText = mainText;
-            info.Info.SubText = subText;
-            //info.Info.PositionX = 
-            //info.Info.PositionY = 
-            _infoVm.CommonInfos.Add(info);
         }
 
     }

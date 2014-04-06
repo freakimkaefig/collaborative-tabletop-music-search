@@ -16,7 +16,7 @@
 
     <!--Key styles-->
     <Style x:Key="CommonInfoGrid" TargetType="Grid">
-        <Setter Property="Background" Value="#9999" />
+        <Setter Property="Background" Value="#9333" />
         <Setter Property="Width" Value="300" />
         <Setter Property="Height" Value="200" />
     </Style>

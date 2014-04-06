@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:p="clr-namespace:Ctms.Presentation.Properties"
+    xmlns:c="clr-namespace:Ctms.Presentation.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:waf="http://waf.codeplex.com/schemas"
@@ -12,10 +13,7 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
 
     <UserControl.Resources>
-        <!--<DataTemplate DataType="{x:Type dm:InfoDataModel}">
-            <Grid>
-            </Grid>
-        </DataTemplate>-->
+        <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
     </UserControl.Resources>
     
     <Grid>
@@ -25,6 +23,9 @@
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
+        <!--<s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="Ok" HorizontalAlignment="Center"
+                                         Click="SurfaceButton_Click"
+                                         Command="{Binding ConfirmTagInfoCmd}" CommandParameter="12"/>-->
         <ListBox ItemsSource="{Binding CommonInfos}" Background="Transparent"
                  HorizontalAlignment="Center" VerticalAlignment="Center"
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
@@ -43,8 +44,9 @@
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch"/>
                         <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" />
-                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="Ok" HorizontalAlignment="Stretch" 
-                                         Command="{Binding ConfirmCommonInfoCmd}" CommandParameter="{Binding Info.Id}"/>
+                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Stretch" 
+                                         Command="{Binding DataContext.ConfirmCommonInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding Info.Id}"
+                                         Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -53,12 +55,13 @@
         <ItemsControl ItemsSource="{Binding TagInfos}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas Background="Transparent"  IsHitTestVisible="False" />
+                    <!--Don't use a background so its transparent and underlying items are clickable-->
+                    <Canvas />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
@@ -69,10 +72,12 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" HorizontalAlignment="Center" />
-                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="Ok" HorizontalAlignment="Center"
-                                         Command="{Binding DataContext.ConfirmTagInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding Info.Id}"/>
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch"/>
+                        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" HorizontalAlignment="Stretch" />
+                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Center"
+                                         Command="{Binding DataContext.ConfirmTagInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding Info.Id}"
+                                         Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"
+                                         />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -87,7 +92,7 @@
         <ItemsControl ItemsSource="{Binding TutorialInfos}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas Background="Transparent"  IsHitTestVisible="False" />
+                    <Canvas />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -95,8 +100,10 @@
                     <StackPanel>
                         <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch"/>
                         <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" />
-                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="Ok" HorizontalAlignment="Stretch"
-                                         Command="{Binding ConfirmTutorialInfoCmd}" CommandParameter="{Binding Info.Id}"/>
+                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Stretch"
+                                         Command="{Binding DataContext.ConfirmTutorialInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding Info.Id}"
+                                         Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"
+                                         />
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
