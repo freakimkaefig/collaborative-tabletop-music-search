@@ -52,7 +52,7 @@ namespace Ctms.Applications.Workers
         {
             if (_array.Length >= 6)
             {
-                _searchViewModel.Fft1Value = (int)Math.Abs(_array[6] * 800);
+                _searchViewModel.Fft1Value = (int)Math.Abs(Math.Sqrt(_array[6] * _array[_array.Length - 6]) * 300);
 
                 //int _duration = (int)_array[_array.Length - 1];
 
@@ -76,7 +76,7 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length >= 9)
             {
-                _searchViewModel.Fft2Value = (int)Math.Abs(_array[9] * 800);
+                _searchViewModel.Fft2Value = (int)Math.Abs(Math.Sqrt(_array[9] * _array[_array.Length - 9]) * 300);
 
                 //int ms = (int)arr[arr.Length - 1];
 
@@ -98,7 +98,7 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length >= 16)
             {
-                _searchViewModel.Fft3Value = (int)Math.Abs(_array[16] * 800);
+                _searchViewModel.Fft3Value = (int)Math.Abs(Math.Sqrt(_array[16] * _array[_array.Length - 16]) * 300);
 
                 //int ms = (int)arr[arr.Length - 1];
 
@@ -120,7 +120,7 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length >= 23)
             {
-                _searchViewModel.Fft4Value = (int)Math.Abs(_array[23] * 800);
+                _searchViewModel.Fft4Value = (int)Math.Abs(Math.Sqrt(_array[23] * _array[_array.Length - 23]) * 300);
 
                 //int ms = (int)arr[arr.Length - 1];
 
@@ -143,7 +143,7 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length >= 34)
             {
-                _searchViewModel.Fft5Value = (int)Math.Abs(_array[34] * 800);
+                _searchViewModel.Fft5Value = (int)Math.Abs(Math.Sqrt(_array[34] * _array[_array.Length - 34]) * 300);
 
                 //int ms = (int)arr[arr.Length - 1];
 
@@ -166,7 +166,7 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length >= 70)
             {
-                _searchViewModel.Fft6Value = (int)Math.Abs(_array[70] * 800);
+                _searchViewModel.Fft6Value = (int)Math.Abs(Math.Sqrt(_array[70] * _array[_array.Length - 70]) * 300);
 
                 //int ms = (int)arr[arr.Length - 1];
 
@@ -189,7 +189,7 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length >= 116)
             {
-                _searchViewModel.Fft7Value = (int)Math.Abs(_array[116] * 800);
+                _searchViewModel.Fft7Value = (int)Math.Abs(Math.Sqrt(_array[116] * _array[_array.Length - 116]) * 300);
 
                 //int ms = (int)arr[arr.Length - 1];
 
@@ -212,7 +212,7 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length >= 163)
             {
-                _searchViewModel.Fft8Value = (int)Math.Abs(_array[163] * 800);
+                _searchViewModel.Fft8Value = (int)Math.Abs(Math.Sqrt(_array[163] * _array[_array.Length - 163]) * 300);
 
                 //int ms = (int)arr[arr.Length - 1];
 
@@ -235,7 +235,7 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length >= 232)
             {
-                _searchViewModel.Fft9Value = (int)Math.Abs(_array[232] * 800);
+                _searchViewModel.Fft9Value = (int)Math.Abs(Math.Sqrt(_array[232] * _array[_array.Length - 232]) * 300);
 
                 //int ms = (int)arr[arr.Length - 1];
 
@@ -258,7 +258,7 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length >= 372)
             {
-                _searchViewModel.Fft10Value = (int)Math.Abs(_array[372] * 800);
+                _searchViewModel.Fft10Value = (int)Math.Abs(Math.Sqrt(_array[372] * _array[_array.Length - 372]) * 300);
 
                 //int ms = (int)arr[arr.Length - 1];
 
