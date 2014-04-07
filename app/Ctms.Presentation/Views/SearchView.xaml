@@ -37,8 +37,8 @@
                 Height="50" 
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"/>
-            
-            <ContentControl Name="animation" ContentTemplate="{StaticResource KugelAnimation}">
+
+            <ContentControl Name="animation" ContentTemplate="{StaticResource RectangleAnimation}">
                 
             </ContentControl>
         </Grid>

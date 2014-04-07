@@ -72,7 +72,7 @@ namespace Ctms.Presentation.Views
             UpdateVisual(tagId);
         }
 
-        private void UpdateAnimation()
+       /* private void UpdateAnimation()
         {
             try
             {
@@ -82,7 +82,7 @@ namespace Ctms.Presentation.Views
             catch (Exception)
             {
             }
-        }
+        }*/
 
         private void UpdateResources(SearchTagView searchTagView, int tagId, TagDataModel tagDM)
         {
@@ -126,7 +126,7 @@ namespace Ctms.Presentation.Views
             }
             pieMenu.InvalidateVisual();
 
-            UpdateAnimation();
+           // UpdateAnimation();
         }
 
         /// <summary>
