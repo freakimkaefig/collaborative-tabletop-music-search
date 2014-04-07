@@ -132,15 +132,44 @@
             
             
             <!--Grid for keyword type selection-->
-            <!--<Grid>
-            <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                             Content="Artist" 
-                             Grid.Row="2" 
-                             Grid.Column="0"
-                             Command="{Binding EditCmd}" 
-                             CommandParameter="{DynamicResource TagId}"
-                             Visibility="{DynamicResource IsEditVisible}"
-                             Style="{StaticResource SearchViewBtn}"/>
+            <!--<Grid Row="1" Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                                 Content="Attribute" 
+                                 Grid.Row="0" 
+                                 Grid.Column="0"
+                                 Command="{Binding SelectAttributeCmd}" 
+                                 Style="{StaticResource SearchViewBtn}"/>
+                
+                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                                 Content="Genre" 
+                                 Grid.Row="0" 
+                                 Grid.Column="1"
+                                 Command="{Binding SelectGenreCmd}" 
+                                 Style="{StaticResource SearchViewBtn}"/>
+
+                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                                 Content="Title" 
+                                 Grid.Row="1" 
+                                 Grid.Column="0"
+                                 Command="{Binding SelectTitleCmd}" 
+                                 Style="{StaticResource SearchViewBtn}"/>
+
+                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                                 Content="Artist" 
+                                 Grid.Row="1" 
+                                 Grid.Column="1"
+                                 Command="{Binding SelectArtistCmd}" 
+                                 Style="{StaticResource SearchViewBtn}"/>
             </Grid>-->
             <!--//Grid for keyword type selection-->
             
