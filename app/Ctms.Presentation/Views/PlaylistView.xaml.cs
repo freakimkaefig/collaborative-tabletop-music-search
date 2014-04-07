@@ -47,9 +47,6 @@ namespace Ctms.Presentation.Views
             _rotate180 = Rotate180;
 
             Events.RegisterGestureEventSupport(this);
-
-            surfaceListBox.TouchDown += new EventHandler<TouchEventArgs>(Playlist_TouchDown);
-            surfaceListBox.TouchMove += new EventHandler<TouchEventArgs>(Playlist_TouchMove);
         }
 
         public VisualState VisualStateRotate0 { get { return _rotate0; } set { } }
@@ -59,17 +56,17 @@ namespace Ctms.Presentation.Views
 
 
         //Drag & Drop from ResultView(ScatterView) to PlaylistView(SurfaceButton)
-        private void PlaylistAddDropTarget_DragEnter(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
+        private void PlaylistAddDropTarget_DragEnter(object sender, SurfaceDragDropEventArgs e)
         {
             e.Cursor.Visual.Tag = "DragEnter";
         }
 
-        private void PlaylistAddDropTarget_DragLeave(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
+        private void PlaylistAddDropTarget_DragLeave(object sender, SurfaceDragDropEventArgs e)
         {
             e.Cursor.Visual.Tag = null;
         }
 
-        private void PlaylistAddDropTarget_Drop(object sender, Microsoft.Surface.Presentation.SurfaceDragDropEventArgs e)
+        private void PlaylistAddDropTarget_Drop(object sender, SurfaceDragDropEventArgs e)
         {
             FrameworkElement frameworkElement = sender as FrameworkElement;
 
@@ -326,44 +323,22 @@ namespace Ctms.Presentation.Views
              * */
         }
 
-        private void Playlist_TouchDown(object sender, TouchEventArgs e)
-        {
-            TouchStart = e.GetTouchPoint(this);
-        }
-
-        private void Playlist_TouchMove(object sender, TouchEventArgs e)
-        {
-            if (!AlreadySwiped)
-            {
-                var Touch = e.GetTouchPoint(this);
-
-                //right now a swipe is 200 pixels
-
-                //Swipe Left
-                if (TouchStart != null && Touch.Position.X > (TouchStart.Position.X + 200))
-                {
-                    AlreadySwiped = true;
-                }
-            }
-
-            e.Handled = true;
-        }
-
         private void PlaylistRemoveDropTarget_DragEnter(object sender, SurfaceDragDropEventArgs e)
         {
-            FrameworkElement findSource = e.OriginalSource as FrameworkElement;
-            //ResultDataModel content = draggedElement.Content as ResultDataModel;
-            //content.Opacity = 0.5;
+            e.Cursor.Visual.Tag = "TrashBinDragEnter";            
+        }
 
-            // Create the cursor visual.
-            ContentControl cursorVisual = new ContentControl()
+        private void OnTargetOverTrashBinChanged(object sender, TargetChangedEventArgs e)
+        {
+            if (e.Cursor.CurrentTarget != null)
             {
-                Content = _draggedElement.DataContext,
-                Style = FindResource("PlaylistItemTrashCursorStyle") as Style
-            };
-
-            // Add a handler. This will enable the application to change the visual cues.
-            SurfaceDragDrop.AddTargetChangedHandler(cursorVisual, OnTargetChanged);
+                ResultDataModel data = e.Cursor.Data as ResultDataModel;
+                e.Cursor.Visual.Tag = (data.CanDrop) ? "CanDrop" : "CannotDrop";
+            }
+            else
+            {
+                e.Cursor.Visual.Tag = null;
+            }
         }
 
         private void PlaylistRemoveDropTarget_DragLeave(object sender, SurfaceDragDropEventArgs e)

@@ -75,10 +75,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <ContentPresenter 
-            Content="{TemplateBinding Content}" 
-            ContentTemplate="{TemplateBinding ContentTemplate}">
-                    </ContentPresenter>
+                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

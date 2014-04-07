@@ -24,50 +24,22 @@
     <!-- Style for playlist items when dragged -->
     <Style x:Key="PlaylistItemCursorStyle" TargetType="{x:Type ContentControl}">
         <Setter Property="ContentTemplate" Value="{StaticResource SurfaceListBoxItemDataTemplate}" />
-        <Setter Property="Opacity" Value="0.5"/>
-        <Setter Property="OpacityMask" Value="Green"/>
+        <Setter Property="BorderThickness" Value="5"/>
+        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="Opacity" Value="0.8"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <ContentPresenter Margin="0"
-                        Content="{TemplateBinding Content}" 
-                        ContentTemplate="{TemplateBinding ContentTemplate}">
-                    </ContentPresenter>
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter Margin="0" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="Tag" Value="CanDrop">
-                <Setter Property="BorderBrush" Value="Green" />
-            </Trigger>
-            <Trigger Property="Tag" Value="CannotDrop">
-                <Setter Property="BorderBrush" Value="Red" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    
-    <!-- Style for playlist items when dragged over trash bin-->
-    <Style x:Key="PlaylistItemTrashCursorStyle" TargetType="{x:Type ContentControl}">
-        <Setter Property="ContentTemplate" Value="{StaticResource SurfaceListBoxItemDataTemplate}" />
-        <Setter Property="Opacity" Value="0.5"/>
-        <Setter Property="OpacityMask" Value="Green"/>
-        <Setter Property="Background" Value="Red"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ContentControl}">
-                    <ContentPresenter Margin="0"
-                        Content="{TemplateBinding Content}" 
-                        ContentTemplate="{TemplateBinding ContentTemplate}">
-                    </ContentPresenter>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="Tag" Value="CanDrop">
-                <Setter Property="BorderBrush" Value="Green" />
-            </Trigger>
-            <Trigger Property="Tag" Value="CannotDrop">
-                <Setter Property="BorderBrush" Value="Red" />
+            <Trigger Property="Tag" Value="TrashBinDragEnter">
+                <Setter Property="BorderBrush" Value="Red"/>
+                <Setter Property="Opacity" Value="0.1"/>
             </Trigger>
         </Style.Triggers>
     </Style>

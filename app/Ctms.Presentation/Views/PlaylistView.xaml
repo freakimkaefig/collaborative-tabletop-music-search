@@ -105,9 +105,7 @@
                               s:SurfaceDragDrop.DragOver="Playlist_OnDragOver"
                               s:SurfaceDragDrop.DragEnter="Playlist_DragEnter"
                               s:SurfaceDragDrop.DragLeave="Playlist_DragLeave"
-                              s:SurfaceDragDrop.Drop="Playlist_Drop"
-                              TouchDown="Playlist_TouchDown"
-                              TouchMove="Playlist_TouchMove"/>
+                              s:SurfaceDragDrop.Drop="Playlist_Drop"/>
             <s:SurfaceButton Command="{Binding PlayPauseCommand}" Content="{Binding PlayPauseText}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="32" Margin="192,24,0,0"/>
             <s:SurfaceButton Command="{Binding StopCommand}" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="38" Margin="304,24,0,0"/>
             <s:SurfaceButton Command="{Binding ShuffleCommand}" Content="{Binding IsShuffle}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="38" Margin="0,66,96,0"/>

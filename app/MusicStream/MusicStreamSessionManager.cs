@@ -497,10 +497,21 @@ namespace MusicStream
             //frames: pointer to the byte-data in storage
 
             //calculate how much seconds already received;
-            int duration = _currentPlaylist.Track(_currentPlaylistTrackIndex).Duration();
-            var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
-            double howMuchSecs = ( ((double)num_frames * 2.0 * 2.0) / (double)bytesPerSec ) * 1000.0;
-            _currentPlaylistTrackPlayedDuration += (int)howMuchSecs;
+            double howMuchSecs = 0.0;
+            if (_currentPlaylist != null)
+            {
+                int duration = _currentPlaylist.Track(_currentPlaylistTrackIndex).Duration();
+                var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
+                howMuchSecs = (((double)num_frames * 2.0 * 2.0) / (double)bytesPerSec) * 1000.0;
+                _currentPlaylistTrackPlayedDuration += (int)howMuchSecs;
+            }
+            else
+            {
+                int duration = _currentPrelistenTrack.Duration();
+                var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
+                howMuchSecs = (((double)num_frames * 2.0 * 2.0) / (double)bytesPerSec) * 1000.0;
+                //_currentPrelistenTrackDuration += (int)howMuchSecs;
+            }
             //_currentPlaylistTrackPlayedDuration += _bufferedWaveProvider.BufferedDuration.TotalSeconds;
             //logMessages.Enqueue("Received: " + _currentPlaylistTrackPlayedDuration + " / " + duration);
 

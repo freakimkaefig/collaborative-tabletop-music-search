@@ -66,6 +66,11 @@ namespace Ctms.Applications.Workers
                             }
                         }
                     }
+
+                    if (_resultViewModel.Results.Count < 5)
+                    {
+                        //search again
+                    }
                 }
                 else
                 {
