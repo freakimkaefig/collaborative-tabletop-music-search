@@ -26,6 +26,7 @@
         <Setter Property="ContentTemplate" Value="{StaticResource SurfaceListBoxItemDataTemplate}" />
         <Setter Property="BorderThickness" Value="5"/>
         <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="Background" Value="White"/>
         <Setter Property="Opacity" Value="0.8"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -37,9 +38,9 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="Tag" Value="TrashBinDragEnter">
+            <Trigger Property="Tag" Value="DragEnter">
                 <Setter Property="BorderBrush" Value="Red"/>
-                <Setter Property="Opacity" Value="0.1"/>
+                <Setter Property="Background" Value="Red"/>
             </Trigger>
         </Style.Triggers>
     </Style>

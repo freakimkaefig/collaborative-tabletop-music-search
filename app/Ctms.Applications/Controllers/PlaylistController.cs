@@ -46,6 +46,7 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _playPauseCommand;
         private readonly DelegateCommand _stopCommand;
         private readonly DelegateCommand _addTrackCommand;
+        private readonly DelegateCommand _removeTrackCommand;
         private readonly DelegateCommand _jumpToTrackCommand;
         private readonly DelegateCommand _rotateCommand;
         private readonly DelegateCommand _reorderTrackCommand;
@@ -72,6 +73,7 @@ namespace Ctms.Applications.Controllers
             this._playPauseCommand = new DelegateCommand(_streamingWorker.PlaylistPlayPause, _streamingWorker.CanStream);
             this._stopCommand = new DelegateCommand(_streamingWorker.StopPlayback, _streamingWorker.Playing);
             this._addTrackCommand = new DelegateCommand((data) => _playlistWorker.AddTrackToPlaylist((object[])data));
+            this._removeTrackCommand = new DelegateCommand((index) => _playlistWorker.RemoveTrackFromPlaylist((int)index));
             this._jumpToTrackCommand = new DelegateCommand((index) => _playlistWorker.JumpToTrack((int)index));
             this._rotateCommand = new DelegateCommand(_playlistViewModel.RotatePlaylistView);
             this._reorderTrackCommand = new DelegateCommand((data) => _playlistWorker.ReorderTrack((object[])data));
@@ -86,6 +88,7 @@ namespace Ctms.Applications.Controllers
             _playlistViewModel.PlayPauseCommand = _playPauseCommand;
             _playlistViewModel.StopCommand = _stopCommand;
             _playlistViewModel.AddTrackCommand = _addTrackCommand;
+            _playlistViewModel.RemoveTrackCommand = _removeTrackCommand;
             _playlistViewModel.JumpToTrackCommand = _jumpToTrackCommand;
             _playlistViewModel.RotateCommand = _rotateCommand;
             _playlistViewModel.ReorderTrackCommand = _reorderTrackCommand;

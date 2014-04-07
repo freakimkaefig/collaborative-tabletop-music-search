@@ -117,7 +117,7 @@
             </s:SurfaceButton>
             <Label Content="Shuffle" HorizontalAlignment="Right" Height="24" Margin="0,38,96,0" VerticalAlignment="Top" Width="64"/>
             <Label Content="Repeat" HorizontalAlignment="Right" Height="24" Margin="0,38,16,0" VerticalAlignment="Top" Width="64"/>
-            <s:SurfaceButton VerticalAlignment="Bottom" Visibility="{Binding TrashVisible, Converter={x:Static c:BoolToVisibilityConverter.Default}}"
+            <s:SurfaceButton Name="TrashBin" VerticalAlignment="Bottom" Visibility="{Binding TrashVisible, Converter={x:Static c:BoolToVisibilityConverter.Default}}"
                              AllowDrop="True"
                              s:SurfaceDragDrop.DragEnter="PlaylistRemoveDropTarget_DragEnter"
         	                 s:SurfaceDragDrop.DragLeave="PlaylistRemoveDropTarget_DragLeave"

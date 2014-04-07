@@ -273,6 +273,17 @@ namespace MusicStream
         }
 
         /// <summary>
+        /// Remove track on given position from given playlist
+        /// </summary>
+        /// <param name="playlist"></param>
+        /// <param name="index"></param>
+        public void RemoveTrackFromPlaylist(Playlist playlist, int index)
+        {
+            int[] tracks = new int[] { index };
+            playlist.RemoveTracks(tracks);
+        }
+
+        /// <summary>
         /// Moves to passed track(index) in passed playlist
         /// </summary>
         /// <param name="playlist"></param>
