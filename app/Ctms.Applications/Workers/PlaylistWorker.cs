@@ -133,6 +133,12 @@ namespace Ctms.Applications.Workers
             }
         }
 
+        public void RemoveTrackFromPlaylist(int index)
+        {
+            _playlistViewModel.ResultsForPlaylist.RemoveAt(index);
+            _sessionManager.RemoveTrackFromPlaylist(_playlistViewModel.CurrentPlaylist, index);
+        }
+
         public void JumpToTrack(int index)
         {
             _sessionManager.JumpToTrackInPlaylist(_playlistViewModel.CurrentPlaylist, index);

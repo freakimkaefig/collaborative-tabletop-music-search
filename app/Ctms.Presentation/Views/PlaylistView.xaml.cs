@@ -34,9 +34,7 @@ namespace Ctms.Presentation.Views
         private VisualState _rotate180;
         private VisualState _rotate0;
 
-        private SurfaceListBoxItem _draggedElement;
-        protected TouchPoint TouchStart;
-        private bool AlreadySwiped = false;
+        private FrameworkElement _trashBin;
 
         public PlaylistView()
         {
@@ -47,6 +45,8 @@ namespace Ctms.Presentation.Views
             _rotate180 = Rotate180;
 
             Events.RegisterGestureEventSupport(this);
+
+            _trashBin = TrashBin;
         }
 
         public VisualState VisualStateRotate0 { get { return _rotate0; } set { } }
@@ -103,7 +103,6 @@ namespace Ctms.Presentation.Views
 
             FrameworkElement findSource = e.OriginalSource as FrameworkElement;
             SurfaceListBoxItem draggedElement = e.TouchDevice.Target as SurfaceListBoxItem;
-            _draggedElement = draggedElement;
             
             //content.Opacity = 0.5;
 
@@ -171,6 +170,10 @@ namespace Ctms.Presentation.Views
             {
                 ResultDataModel data = e.Cursor.Data as ResultDataModel;
                 e.Cursor.Visual.Tag = (data.CanDrop) ? "CanDrop" : "CannotDrop";
+                if (e.Cursor.CurrentTarget == _trashBin)
+                {
+                    e.Cursor.Visual.Tag = "DragEnter";
+                }
             }
             else
             {
@@ -281,13 +284,14 @@ namespace Ctms.Presentation.Views
             ResultDataModel droppedItem = e.Cursor.Data as ResultDataModel;
             SurfaceListBox target = e.Cursor.CurrentTarget as SurfaceListBox;
             int insertIndex = _viewModel.ResultsForPlaylist.IndexOf(null);
+            if (insertIndex == -1)
+            {
+                insertIndex = _viewModel.ResultsForPlaylist.Count;
+            }
             int removeIndex = _viewModel.ResultsForPlaylist.IndexOf(droppedItem);
-            _viewModel.ResultsForPlaylist.Remove(droppedItem);
             _viewModel.ResultsForPlaylist.Insert(insertIndex, droppedItem);
+            _viewModel.ResultsForPlaylist.Remove(droppedItem);
             _viewModel.ResultsForPlaylist.Remove(null);
-
-            //textBox.Text += removeIndex + " => " + (insertIndex);
-            //textBox.ScrollToEnd();
 
             object[] data = new object[] { removeIndex, (insertIndex) };
             _viewModel.ReorderTrackCommand.Execute(data);
@@ -323,32 +327,28 @@ namespace Ctms.Presentation.Views
              * */
         }
 
-        private void PlaylistRemoveDropTarget_DragEnter(object sender, SurfaceDragDropEventArgs e)
+        private void PlaylistRemoveDropTarget_DragOver(object sender, SurfaceDragDropEventArgs e)
         {
-            e.Cursor.Visual.Tag = "TrashBinDragEnter";            
+
         }
 
-        private void OnTargetOverTrashBinChanged(object sender, TargetChangedEventArgs e)
+        private void PlaylistRemoveDropTarget_DragEnter(object sender, SurfaceDragDropEventArgs e)
         {
-            if (e.Cursor.CurrentTarget != null)
-            {
-                ResultDataModel data = e.Cursor.Data as ResultDataModel;
-                e.Cursor.Visual.Tag = (data.CanDrop) ? "CanDrop" : "CannotDrop";
-            }
-            else
-            {
-                e.Cursor.Visual.Tag = null;
-            }
+            e.Cursor.Visual.Tag = "DragEnter";
         }
 
         private void PlaylistRemoveDropTarget_DragLeave(object sender, SurfaceDragDropEventArgs e)
         {
-            
+            e.Cursor.Visual.Tag = null;
         }
 
         private void PlaylistRemoveDropTarget_Drop(object sender, SurfaceDragDropEventArgs e)
         {
             //Remove dragged track from playlist
+            ResultDataModel droppedItem = e.Cursor.Data as ResultDataModel;
+            int removeIndex = _viewModel.ResultsForPlaylist.IndexOf(droppedItem);
+
+            _viewModel.RemoveTrackCommand.Execute(removeIndex);
         }
     }
 }

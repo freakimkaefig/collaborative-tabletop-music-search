@@ -32,6 +32,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _playPauseCommand;
         private ICommand _stopCommand;
         private ICommand _addTrackCommand;
+        private ICommand _removeTrackCommand;
         private ICommand _jumpToTrackCommand;
         private ICommand _rotateCommand;
         private ICommand _reorderTrackCommand;
@@ -253,6 +254,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _addTrackCommand = value;
                     RaisePropertyChanged("AddTrackCommand");
+                }
+            }
+        }
+
+        public ICommand RemoveTrackCommand
+        {
+            get { return _removeTrackCommand; }
+            set
+            {
+                if (_removeTrackCommand != value)
+                {
+                    _removeTrackCommand = value;
+                    RaisePropertyChanged("RemoveTrackCommand");
                 }
             }
         }

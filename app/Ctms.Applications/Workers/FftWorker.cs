@@ -20,9 +20,9 @@ namespace Ctms.Applications.Workers
         private SearchViewModel _searchViewModel;
         private double[] _array;
         public delegate void UpdateDelegate();
-        //private Dispatcher _dp;
+
         private int _duration = 250;
-        //public Action<MusicStreamVisualizationManager> VisualizationManagerCreated;
+
 
         [ImportingConstructor]
         public FftWorker(SearchViewModel searchVm, MusicStreamAccountWorker accountWorker)
@@ -50,34 +50,51 @@ namespace Ctms.Applications.Workers
 
         public void UpdateVm()
         {
-            if (_array.Length >= 6)
+            if (_array.Length > 6)
             {
-                _searchViewModel.Fft1Value = (int)Math.Abs(Math.Sqrt(_array[6] * _array[_array.Length - 6]) * 300);
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[6] * _array[6] + _array[_array.Length - 6] * _array[_array.Length - 6]));
 
-                //int _duration = (int)_array[_array.Length - 1];
+                if (calcMagnitude > 450)
+                {
+                    _searchViewModel.Fft1Value = 450;
+                }
+                else
+                {
+                    _searchViewModel.Fft1Value = calcMagnitude;
+                }
+                
+                    //int _duration = (int)_array[_array.Length - 1];
 
-                DoubleAnimation interpolate1 = new DoubleAnimation() { From = _searchViewModel.Fft1Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
+                    DoubleAnimation interpolate1 = new DoubleAnimation() { From = _searchViewModel.Fft1Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
-                Storyboard.SetTarget(interpolate1, _searchViewModel.FftRectangle[0]);
+                    Storyboard.SetTarget(interpolate1, _searchViewModel.FftRectangle[0]);
 
-                Storyboard.SetTargetProperty(interpolate1, new PropertyPath(System.Windows.Shapes.Rectangle.HeightProperty));
+                    Storyboard.SetTargetProperty(interpolate1, new PropertyPath(System.Windows.Shapes.Rectangle.HeightProperty));
 
 
-                Storyboard sb = new Storyboard();
-                sb.Children.Add(interpolate1);
-
-                sb.Begin();
-            
+                    Storyboard sb = new Storyboard();
+                    sb.Children.Add(interpolate1);
+                    
+                    sb.Begin();
+                
 
             }
             else
             {
                 _searchViewModel.Fft1Value = 0;
             }
-            if (_array.Length >= 9)
+            if (_array.Length > 9)
             {
-                _searchViewModel.Fft2Value = (int)Math.Abs(Math.Sqrt(_array[9] * _array[_array.Length - 9]) * 300);
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[9] * _array[9] + _array[_array.Length - 9] * _array[_array.Length - 9]) * 300);
 
+                if (calcMagnitude > 450)
+                {
+                    _searchViewModel.Fft2Value = 450;
+                }
+                else
+                {
+                    _searchViewModel.Fft2Value = calcMagnitude;
+                }
                 //int ms = (int)arr[arr.Length - 1];
 
                 DoubleAnimation interpolate2 = new DoubleAnimation() { From = _searchViewModel.Fft2Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
@@ -85,7 +102,7 @@ namespace Ctms.Applications.Workers
                 Storyboard.SetTarget(interpolate2, _searchViewModel.FftRectangle[1]);
 
                 Storyboard.SetTargetProperty(interpolate2, new PropertyPath(System.Windows.Shapes.Rectangle.HeightProperty));
-
+                
 
                         Storyboard sb = new Storyboard();
                         sb.Children.Add(interpolate2);
@@ -96,10 +113,18 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft2Value = 0;
             }
-            if (_array.Length >= 16)
+            if (_array.Length > 16)
             {
-                _searchViewModel.Fft3Value = (int)Math.Abs(Math.Sqrt(_array[16] * _array[_array.Length - 16]) * 300);
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[16] * _array[16] + _array[_array.Length - 16] * _array[_array.Length - 16]) * 300);
 
+                if (calcMagnitude > 450)
+                {
+                    _searchViewModel.Fft3Value = 450;
+                }
+                else
+                {
+                    _searchViewModel.Fft3Value = calcMagnitude;
+                }
                 //int ms = (int)arr[arr.Length - 1];
 
                 DoubleAnimation interpolate3 = new DoubleAnimation() { From = _searchViewModel.Fft3Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
@@ -118,10 +143,18 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft3Value = 0;
             }
-            if (_array.Length >= 23)
+            if (_array.Length > 23)
             {
-                _searchViewModel.Fft4Value = (int)Math.Abs(Math.Sqrt(_array[23] * _array[_array.Length - 23]) * 300);
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[23] * _array[23] + _array[_array.Length - 23] * _array[_array.Length - 23]) * 300);
 
+                if (calcMagnitude > 450)
+                {
+                    _searchViewModel.Fft4Value = 450;
+                }
+                else
+                {
+                    _searchViewModel.Fft4Value = calcMagnitude;
+                }
                 //int ms = (int)arr[arr.Length - 1];
 
                 DoubleAnimation interpolate4 = new DoubleAnimation() { From = _searchViewModel.Fft4Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
@@ -141,10 +174,18 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft4Value = 0;
             }
-            if (_array.Length >= 34)
+            if (_array.Length > 34)
             {
-                _searchViewModel.Fft5Value = (int)Math.Abs(Math.Sqrt(_array[34] * _array[_array.Length - 34]) * 300);
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[34] * _array[34] + _array[_array.Length - 34] * _array[_array.Length - 34]) * 300);
 
+                if (calcMagnitude > 450)
+                {
+                    _searchViewModel.Fft5Value = 450;
+                }
+                else
+                {
+                    _searchViewModel.Fft5Value = calcMagnitude;
+                }
                 //int ms = (int)arr[arr.Length - 1];
 
                 DoubleAnimation interpolate5 = new DoubleAnimation() { From = _searchViewModel.Fft5Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
@@ -164,10 +205,18 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft5Value = 0;
             }
-            if (_array.Length >= 70)
+            if (_array.Length > 70)
             {
-                _searchViewModel.Fft6Value = (int)Math.Abs(Math.Sqrt(_array[70] * _array[_array.Length - 70]) * 300);
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[70] * _array[70] + _array[_array.Length - 70] * _array[_array.Length - 70]) * 300);
 
+                if (calcMagnitude > 450)
+                {
+                    _searchViewModel.Fft6Value = 450;
+                }
+                else
+                {
+                    _searchViewModel.Fft6Value = calcMagnitude;
+                }
                 //int ms = (int)arr[arr.Length - 1];
 
                 DoubleAnimation interpolate6 = new DoubleAnimation() { From = _searchViewModel.Fft6Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
@@ -187,10 +236,18 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft6Value = 0;
             }
-            if (_array.Length >= 116)
+            if (_array.Length > 116)
             {
-                _searchViewModel.Fft7Value = (int)Math.Abs(Math.Sqrt(_array[116] * _array[_array.Length - 116]) * 300);
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[116] * _array[116] + _array[_array.Length - 116] * _array[_array.Length - 116]) * 300);
 
+                if (calcMagnitude > 450)
+                {
+                    _searchViewModel.Fft7Value = 450;
+                }
+                else
+                {
+                    _searchViewModel.Fft7Value = calcMagnitude;
+                }
                 //int ms = (int)arr[arr.Length - 1];
 
                 DoubleAnimation interpolate7 = new DoubleAnimation() { From = _searchViewModel.Fft7Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
@@ -210,10 +267,18 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft7Value = 0;
             }
-            if (_array.Length >= 163)
+            if (_array.Length > 163)
             {
-                _searchViewModel.Fft8Value = (int)Math.Abs(Math.Sqrt(_array[163] * _array[_array.Length - 163]) * 300);
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[163] * _array[163] + _array[_array.Length - 163] * _array[_array.Length - 163]) * 300);
 
+                if (calcMagnitude > 450)
+                {
+                    _searchViewModel.Fft8Value = 450;
+                }
+                else
+                {
+                    _searchViewModel.Fft8Value = calcMagnitude;
+                }
                 //int ms = (int)arr[arr.Length - 1];
 
                 DoubleAnimation interpolate8 = new DoubleAnimation() { From = _searchViewModel.Fft8Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
@@ -233,10 +298,18 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft8Value = 0;
             }
-            if (_array.Length >= 232)
+            if (_array.Length > 232)
             {
-                _searchViewModel.Fft9Value = (int)Math.Abs(Math.Sqrt(_array[232] * _array[_array.Length - 232]) * 300);
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[232] * _array[232] + _array[_array.Length - 232] * _array[_array.Length - 232]) * 300);
 
+                if (calcMagnitude > 450)
+                {
+                    _searchViewModel.Fft9Value = 450;
+                }
+                else
+                {
+                    _searchViewModel.Fft9Value = calcMagnitude;
+                }
                 //int ms = (int)arr[arr.Length - 1];
 
                 DoubleAnimation interpolate9 = new DoubleAnimation() { From = _searchViewModel.Fft9Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
@@ -256,10 +329,18 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft9Value = 0;
             }
-            if (_array.Length >= 372)
+            if (_array.Length > 372)
             {
-                _searchViewModel.Fft10Value = (int)Math.Abs(Math.Sqrt(_array[372] * _array[_array.Length - 372]) * 300);
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[372] * _array[372] + _array[_array.Length - 372] * _array[_array.Length - 372]) * 300);
 
+                if (calcMagnitude > 450)
+                {
+                    _searchViewModel.Fft10Value = 450;
+                }
+                else
+                {
+                    _searchViewModel.Fft10Value = calcMagnitude;
+                }
                 //int ms = (int)arr[arr.Length - 1];
 
                 DoubleAnimation interpolate10 = new DoubleAnimation() { From = _searchViewModel.Fft10Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
