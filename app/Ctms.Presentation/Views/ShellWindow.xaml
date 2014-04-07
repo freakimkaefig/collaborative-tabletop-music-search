@@ -26,12 +26,13 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-            
-            <ContentControl Content="{Binding ShellService.SearchView}" Grid.Column="0"/>            
+
+        <ContentControl Content="{Binding ShellService.SearchView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.ResultView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.DetailView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.MenuView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Column="0"/>
-            <ContentControl Content="{Binding ShellService.InfoView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
+        <ContentControl Content="{Binding ShellService.InfoView}" Grid.Column="0"/>
+
     </Grid>  
 </s:SurfaceWindow>

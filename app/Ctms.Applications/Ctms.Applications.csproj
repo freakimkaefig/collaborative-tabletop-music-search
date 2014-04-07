@@ -65,7 +65,6 @@
     <Compile Include="Data\XmlProvider.cs" />
     <Compile Include="DevHelper\DevDataProvider.cs" />
     <Compile Include="Handlers\TagHandler.cs" />
-    <Compile Include="Services\MyMessageService.cs" />
     <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\SearchTagViewModel.cs">
       <SubType>Code</SubType>

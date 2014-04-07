@@ -569,29 +569,12 @@ namespace PieInTheSky
                 PathGeometry geometry = new PathGeometry();
                 geometry.Figures.Add(pathFigure);
 
-                //TagOption option = new TagOption();
-
                 // Get the menu item to extract properties
-                //!!MA PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;
-
-                PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;
-                
-                //var menu_item = items_control.Items[i] as TagOption;
-                /*
-                var brush = (Brush)(new BrushConverter().ConvertFrom("#fff"));
-
-                var pieMenuItem = new PieMenuItem()
-                {
-                    BorderThickness = new Thickness(0.0),
-                    FontSize = 16,
-                    CenterText = true,
-                    Background = brush
-                };*/
+                PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;               
                 
                 // find color for backgound and border 
                 Brush background_brush = menu_item.Background;
                 if (background_brush == null) background_brush = this.Background;
-                //if (background_brush == null) background_brush = Brushes.White;
                
                 if (_selection.GetSelection(level) == i) 
                 {
@@ -719,6 +702,7 @@ namespace PieInTheSky
             }
         }
 
+        //!! Not used right now
         private void DrawRectanglePart(ItemsControl items_control, int level, double width, double height, double sector, DrawingContext drawingContext)
         {
             // Create a blue and a black Brush

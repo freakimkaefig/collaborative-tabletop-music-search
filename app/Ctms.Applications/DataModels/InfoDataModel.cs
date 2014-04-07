@@ -22,6 +22,8 @@ namespace Ctms.Applications.DataModels
     {
         private Info _info;
         private bool _isVisible = false;
+        private bool _isConfirmable;
+        private string _confirmText;
 
         public InfoDataModel(Info info)
         {
@@ -34,7 +36,7 @@ namespace Ctms.Applications.DataModels
 
         public Info Info { get; set; }
         
-        // is input field visible
+        // is info visible
         public bool IsVisible 
         { 
             get 
@@ -46,6 +48,34 @@ namespace Ctms.Applications.DataModels
                 _isVisible = value;
                 RaisePropertyChanged("IsVisible");
             } 
+        }
+
+        // is info confirmable
+        public bool IsConfirmable
+        {
+            get
+            {
+                return _isConfirmable;
+            }
+            set
+            {
+                _isConfirmable = value;
+                RaisePropertyChanged("IsConfirmable");
+            }
+        }
+
+        // is info confirmable
+        public string ConfirmText
+        {
+            get
+            {
+                return _confirmText;
+            }
+            set
+            {
+                _confirmText = value;
+                RaisePropertyChanged("ConfirmText");
+            }
         }
 
     }

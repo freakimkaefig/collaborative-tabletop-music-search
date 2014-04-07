@@ -87,8 +87,8 @@
                     SelectedBackground="#7399"
                     Foreground="White"
                     BorderBrush="#333"
-                    SectorGap="1"
-                    Gap="1"
+                    SectorGap="0"
+                    Gap="0"
                     Radius="120"
                     InnerRadius="33"
                     RotateText="True"
@@ -109,8 +109,8 @@
                     Canvas.Left="100"
                     Canvas.Top="100"
                     BorderBrush="#333"
-                    SectorGap="1"
-                    Gap="1"
+                    SectorGap="0"
+                    Gap="0"
                     Radius="120"
                     InnerRadius="33"
                     RotateText="False"
@@ -123,12 +123,26 @@
                     Visibility="{DynamicResource IsMenuVisible}">
                     <!-- placeholder item for correct calculation of PieMenuItem size -->
                     <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
-                                        Command="" Background="#0000" />
+                                        Command="" Background="#0000"/>
                 </ps:PieMenu>
                 <!--End PieMenu with tag options-->
 
             </Grid>
-            <!--Grid for PieMenu-->
+            <!--//Grid for PieMenu-->
+            
+            
+            <!--Grid for keyword type selection-->
+            <!--<Grid>
+            <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                             Content="Artist" 
+                             Grid.Row="2" 
+                             Grid.Column="0"
+                             Command="{Binding EditCmd}" 
+                             CommandParameter="{DynamicResource TagId}"
+                             Visibility="{DynamicResource IsEditVisible}"
+                             Style="{StaticResource SearchViewBtn}"/>
+            </Grid>-->
+            <!--//Grid for keyword type selection-->
             
             <!--Start Text Input field-->
             <StackPanel DataContext="{DynamicResource TagDM}" 
@@ -195,6 +209,7 @@
                 Grid.ColumnSpan="3"
                 Grid.Row="1"
                 VerticalAlignment="Top"
+                HorizontalAlignment="Center"
                 RenderTransformOrigin="0.5, 0.5">
                 <TextBlock.RenderTransform>
                     <RotateTransform Angle="180" />
@@ -208,6 +223,7 @@
                 Grid.ColumnSpan="3"
                 Grid.Row="1"
                 VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
             />
             <!-- End Assigned keyword-->
             
