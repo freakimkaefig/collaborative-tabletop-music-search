@@ -1,0 +1,4 @@
+﻿// log in log4net-file
+Configurator.Log.Debug("Ey");
+
+// 

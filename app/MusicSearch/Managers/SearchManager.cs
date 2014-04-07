@@ -203,10 +203,12 @@ namespace MusicSearch.Managers
         public void init()
         {
             //absolute path to genre.txt
-            var newpath = currentPath.Substring(0, currentPath.LastIndexOf("app")) + "app/MusicSearch/files/genres.txt";
-            var newText4 = StringHelper.replacePartialString(newpath, "%20", " ", 100);
+            //!!var lastAppIndex = currentPath.LastIndexOf("app");
+            //!!var newpath = currentPath.Substring(0, currentPath.LastIndexOf("app")) + "app/MusicSearch/files/genres.txt";
+            var filePath = "files/genres.txt";
+            var genresText = StringHelper.replacePartialString(filePath, "%20", " ", 100);
             //open txt-file & read it
-            System.IO.StreamReader rdr = System.IO.File.OpenText(newText4);
+            System.IO.StreamReader rdr = System.IO.File.OpenText(genresText);
             string reader = rdr.ReadToEnd();
 
             var cleared = @"" + reader.Replace("\"", "'");

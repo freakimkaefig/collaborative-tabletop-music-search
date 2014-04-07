@@ -44,7 +44,7 @@ namespace Ctms.Applications.Controllers
 
         [ImportingConstructor]
         public ModuleController(IMessageService messageService, IPresentationService presentationService,
-            IEntityController entityController, SearchController searchController, ResultController resultController,
+            IEntityController entityController, ResultController resultController, SearchController searchController, 
             PlaylistController playlistController, DetailController detailController, MenuController menuController,
             InfoController infoController,
             ShellService shellService, ShellViewModel shellViewModel)
@@ -52,8 +52,8 @@ namespace Ctms.Applications.Controllers
             presentationService.InitializeCultures();
             //Controller
             this.entityController   = entityController;
-            this.searchController   = searchController;
             this.resultController   = resultController;
+            this.searchController   = searchController;
             this.playlistController = playlistController;
             this.detailController   = detailController;
             this.menuController     = menuController;
@@ -75,8 +75,8 @@ namespace Ctms.Applications.Controllers
             shellViewModel.ExitCommand = exitCommand;
 
             entityController.Initialize();
-            searchController.Initialize();
             resultController.Initialize();
+            searchController.Initialize();
             playlistController.Initialize();
             detailController.Initialize();
             menuController.Initialize();
