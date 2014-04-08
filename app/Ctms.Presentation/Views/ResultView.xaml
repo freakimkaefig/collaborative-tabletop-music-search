@@ -15,11 +15,9 @@
 
 
     <s:ScatterView Name="MainScatterView" ItemsSource="{Binding Results}" ItemTemplate="{StaticResource ScatterViewItemDataTemplate}"
-                   PreviewMouseDown="Results_PreviewInputDeviceDown"
-                   PreviewTouchDown="Results_PreviewInputDeviceDown"
                    s:SurfaceDragDrop.DragCanceled="Results_OnDragCanceled"
                    s:SurfaceDragDrop.DragCompleted="Results_OnDragCompleted"
                    gestures:Events.DoubleTapGesture="Results_DoubleTapGesture"
+                   gestures:Events.HoldGesture="Results_HoldGesture"
                    PreviewMouseDoubleClick="Results_MouseDoubleClick"/>
-                   <!--gestures:Events.HoldGesture="Results_HoldGesture"-->
 </UserControl>

@@ -371,7 +371,9 @@ namespace MusicStream
         public void StopTrack()
         {
             _waveOutDevice.Stop();
+            _session.PlayerPlay(false);
             _session.PlayerUnload();
+            _bufferedWaveProvider.ClearBuffer();
         }
 
         public void ProceedPlayingPlaylist()

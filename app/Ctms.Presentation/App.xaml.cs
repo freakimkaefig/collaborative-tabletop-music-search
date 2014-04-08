@@ -97,7 +97,7 @@ namespace Ctms.Presentation
                 //        "Unknown Error", e.ToString())
                 //    , ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                string errorMessage = string.Format("An unhandled exception occurred: {0}", e.Message);
+                string errorMessage = string.Format("An unhandled exception occurred: {0}", e.Message, e.StackTrace);
                 MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         
             }

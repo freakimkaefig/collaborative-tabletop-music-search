@@ -62,6 +62,7 @@ namespace Ctms.Presentation.Views
             }
         }
 
+        /*
         //private void Results_HoldGesture(object sender, GestureEventArgs e)
         private void Results_PreviewInputDeviceDown(object sender, InputEventArgs e)
         {
@@ -137,6 +138,85 @@ namespace Ctms.Presentation.Views
                 // This event has been handled.
                 e.Handled = true;
             }
+        }*/
+
+
+        private void Results_HoldGesture(object sender, GestureEventArgs e)
+        {
+            FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+            ScatterViewItem draggedElement = null;
+
+            // Find the ScatterViewItem object that is being touched.
+            while (draggedElement == null && findSource != null)
+            {
+                if ((draggedElement = findSource as ScatterViewItem) == null)
+                {
+                    findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                }
+            }
+
+            if (draggedElement == null)
+            {
+                return;
+            }
+
+            ResultDataModel data = draggedElement.Content as ResultDataModel;
+
+            // Set the dragged element. This is needed in case the drag operation is canceled.
+            data.DraggedElement = draggedElement;
+
+            // Create the cursor visual.
+            ContentControl cursorVisual = new ContentControl()
+            {
+                Content = draggedElement.DataContext,
+                Style = FindResource("ResultCursorStyle") as Style
+            };
+
+            // Create a list of input devices, 
+            // and add the device passed to this event handler.
+            List<InputDevice> devices = new List<InputDevice>();
+            devices.Add(e.TouchDevice);
+
+            // If there are touch devices captured within the element,
+            // add them to the list of input devices.
+            foreach (InputDevice device in draggedElement.TouchesCapturedWithin)
+            {
+                if (device != e.TouchDevice)
+                {
+                    devices.Add(device);
+                }
+            }
+
+            // Get the drag source object.
+            ItemsControl dragSource = ItemsControl.ItemsControlFromItemContainer(draggedElement);
+
+            // Start the drag-and-drop operation.
+            SurfaceDragCursor cursor =
+                SurfaceDragDrop.BeginDragDrop(
+                // The ScatterView object that the cursor is dragged out from.
+                  dragSource,
+                // The ScatterViewItem object that is dragged from the drag source.
+                  draggedElement,
+                // The visual element of the cursor.
+                  cursorVisual,
+                // The data attached with the cursor.
+                  draggedElement.DataContext,
+                // The input devices that start dragging the cursor.
+                  devices,
+                // The allowed drag-and-drop effects of the operation.
+                  DragDropEffects.Copy);
+
+            // If the cursor was created, the drag-and-drop operation was successfully started.
+            if (cursor != null)
+            {
+                // Hide the ScatterViewItem.
+                //draggedElement.Visibility = Visibility.Hidden;
+
+                // This event has been handled.
+                e.Handled = true;
+            }
+
+            e.Handled = (cursor != null);
         }
 
         private void Results_DoubleTapGesture(object sender, GestureEventArgs e)

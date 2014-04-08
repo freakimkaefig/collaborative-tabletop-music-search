@@ -106,7 +106,13 @@ namespace Ctms.Applications.Workers
 
         public void Logout()
         {
-            if(_sessionManager != null) _sessionManager.Logout();
+            if (_sessionManager != null)
+            {
+                _sessionManager.Logout();
+                _menuViewModel.IsLoggingIn = false;
+                _menuViewModel.IsLoggedIn = false;
+                _menuViewModel.LoginDialogEnabled = true;
+            }
         }
 
         public void OpenPlaylist(SpotifyPlaylist spotifyPlaylist)
