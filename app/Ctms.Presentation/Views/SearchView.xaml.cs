@@ -35,6 +35,21 @@ namespace Ctms.Presentation.Views
     public partial class SearchView : UserControl, ISearchView
     {
         private readonly Lazy<SearchViewModel> _lazyVm;
+        private Rectangle _fft1;
+        private Rectangle _fft2;
+        private Rectangle _fft3;
+        private Rectangle _fft4;
+        private Rectangle _fft5;
+        private Rectangle _fft6;
+        private Rectangle _fft7;
+        private Rectangle _fft8;
+        private Rectangle _fft9;
+        private Rectangle _fft10;
+        private Rectangle _fft11;
+        private Rectangle _fft12;
+        private Rectangle _fft13;
+        private Rectangle _fft14;
+        private Rectangle _fft15;
 
         public Dictionary<int, SearchTagView> SearchTagViews;
 
@@ -43,8 +58,40 @@ namespace Ctms.Presentation.Views
             InitializeComponent();
             _lazyVm = new Lazy<SearchViewModel>(() => ViewHelper.GetViewModel<SearchViewModel>(this));
             SearchTagViews = new Dictionary<int, SearchTagView>();
-                
+
+            _fft1 = Fft1;
+            _fft2 = Fft2;
+            _fft3 = Fft3;
+            _fft4 = Fft4;
+            _fft5 = Fft5;
+            _fft6 = Fft6;
+            _fft7 = Fft7;
+            _fft8 = Fft8;
+            _fft9 = Fft9;
+            _fft10 = Fft10;
+            _fft11 = Fft11;
+            _fft12 = Fft12;
+            _fft13 = Fft13;
+            _fft14 = Fft14;
+            _fft15 = Fft15;
+
         }
+
+        public Rectangle GetFft1 { get { return _fft1; } set { } }
+        public Rectangle GetFft2 { get { return _fft2; } set { } }
+        public Rectangle GetFft3 { get { return _fft3; } set { } }
+        public Rectangle GetFft4 { get { return _fft4; } set { } }
+        public Rectangle GetFft5 { get { return _fft5; } set { } }
+        public Rectangle GetFft6 { get { return _fft6; } set { } }
+        public Rectangle GetFft7 { get { return _fft7; } set { } }
+        public Rectangle GetFft8 { get { return _fft8; } set { } }
+        public Rectangle GetFft9 { get { return _fft9; } set { } }
+        public Rectangle GetFft10 { get { return _fft10; } set { } }
+        public Rectangle GetFft11 { get { return _fft11; } set { } }
+        public Rectangle GetFft12 { get { return _fft12; } set { } }
+        public Rectangle GetFft13 { get { return _fft13; } set { } }
+        public Rectangle GetFft14 { get { return _fft14; } set { } }
+        public Rectangle GetFft15 { get { return _fft15; } set { } }
 
         // Provides this view's viewmodel
         private SearchViewModel _viewModel { get { return _lazyVm.Value; } }
