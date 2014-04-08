@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using Ctms.Applications.DataModels;
 using Ctms.Applications.Data;
 using System.Collections.Specialized;
+using Ctms.Applications.Common;
 
 
 namespace Ctms.Applications.Controllers
@@ -35,7 +36,6 @@ namespace Ctms.Applications.Controllers
     [Export]
     internal class SearchController : Controller
     {
-        private readonly CompositionContainer _container;
         //Services
         private readonly IShellService _shellService;
         private readonly EntityService _entityService;
@@ -61,18 +61,20 @@ namespace Ctms.Applications.Controllers
         private DelegateCommand _selectCircleOptionCmd;
         private IMessageService _messageService;
         private Repository _repository;
-        private SynchronizingCollection<TagDataModel, Tag> _tagDataModels;
 
         [ImportingConstructor]
-        public SearchController(CompositionContainer container, IShellService shellService, EntityService entityService,
-            IMessageService messageService,
+        public SearchController(
+            IShellService shellService,
             SearchViewModel searchVm, 
             SearchTagViewModel searchTagVm, 
             ResultViewModel resultVm,
-            SearchWorker searchWorker, ResultWorker resultWorker, SearchOptionWorker searchOptionWorker,
-            Repository repository, FftWorker fftWorker)
+            SearchWorker searchWorker, 
+            ResultWorker resultWorker, 
+            SearchOptionWorker searchOptionWorker,
+            Repository repository,
+            FftWorker fftWorker
+            )
         {
-            _container                  = container;
             _repository                 = repository;
             //Workers
             _searchWorker               = searchWorker;
@@ -81,9 +83,7 @@ namespace Ctms.Applications.Controllers
             _fftWorker                  = fftWorker;
             //Services
             _shellService               = shellService;
-            _entityService              = entityService;
-            _tagVisualizationService    = new SearchTagVisualizationService(searchVm, _repository);//, searchTagVm);
-            _messageService             = messageService;
+            _tagVisualizationService    = new SearchTagVisualizationService(searchVm, _repository);
             //ViewModels
             _searchVm                   = searchVm;
             _searchTagVm                = searchTagVm;

@@ -8,10 +8,8 @@
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    xmlns:svl="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
     IsEnabled="{Binding IsEnabled}"
-    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
-    Width="1920" Height="1080">
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
 
     <s:TagVisualizer x:Name="SearchTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
                      VisualizationRemoved="OnVisualizationRemoved" 
@@ -26,37 +24,74 @@
         <Grid Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="1696*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-<<<<<<< HEAD
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="188*" />
-            </Grid.RowDefinitions>
             
             
-            
-=======
->>>>>>> d90d32c549c352fe3fa6068df61344b4441af0ae
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
                 Width="100" 
                 Height="50" 
+<<<<<<< HEAD
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top" Grid.Column="1" Margin="529.5,133,0,0" />
+            <Rectangle Name="Fft1" Grid.Column="1" HorizontalAlignment="Left" Margin="235.5,0,0,0" Width="60" Height="{Binding Fft1Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft2" Grid.Column="1" HorizontalAlignment="Left" Margin="334.5,0,0,0" Width="60" Height="{Binding Fft2Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft3" Grid.Column="1" HorizontalAlignment="Left" Margin="433.5,0,0,0" Width="60" Height="{Binding Fft3Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft4" Grid.Column="1" HorizontalAlignment="Left" Margin="529.5,0,0,0" Width="60" Height="{Binding Fft4Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft5" Grid.Column="1" HorizontalAlignment="Left" Margin="623.75,0,0,0" Width="60" Height="{Binding Fft5Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft6" Grid.Column="1" HorizontalAlignment="Left" Margin="728.75,0,0,0" Width="60" Height="{Binding Fft6Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft7" Grid.Column="1" Margin="836.75,0,793.75,0" Width="60" Height="{Binding Fft7Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft8" Grid.Column="1" Margin="0,0,676.75,0" HorizontalAlignment="Right" Width="60" Height="{Binding Fft8Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft9" Grid.Column="1" Margin="0,0,562.75,0" HorizontalAlignment="Right" Width="60" Height="{Binding Fft9Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft10" Grid.Column="1" Margin="0,0,448.75,0" HorizontalAlignment="Right" Width="60" Height="{Binding Fft10Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+=======
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center" Grid.Column="1" Margin="694,358,903,672" />
-            
-            <ContentControl Name="animation" ContentTemplate="{StaticResource KugelAnimation}">
+                VerticalAlignment="Center"/>
+
+            <ContentControl Name="animation" ContentTemplate="{StaticResource RectangleAnimation}">
                 
             </ContentControl>
-            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft1Value}" Margin="0,393,-8,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
-            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft2Value}" Margin="0,393,-115.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
-            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft3Value}" Margin="0,393,-295.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
-            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft4Value}" Margin="0,393,-469.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
-            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft5Value}" Margin="0,393,-679.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
-            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft6Value}" Margin="0,393,-841.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
-            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft7Value}" Margin="0,393,-1000.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
-            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft8Value}" Margin="0,393,-1096.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
-            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft9Value}" Margin="0,393,-1198.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
-            <Rectangle Fill="#FFF4F4F5" Height="{Binding Fft10Value}" Margin="0,393,-1309.25,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65.75"/>
+>>>>>>> origin/dev
         </Grid>
         
     </s:TagVisualizer>

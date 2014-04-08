@@ -27,24 +27,28 @@ namespace Ctms.Applications.Controllers
     {
         private const string ResourcesDirectoryName = "Resources";
 
-        private readonly EntityService entityService;
-        private readonly IMessageService messageService;
-        private readonly IShellService shellService;
-        private readonly ShellViewModel shellViewModel;
+        private readonly EntityService _entityService;
+        private readonly IMessageService _messageService;
+        private readonly IShellService _shellService;
+        private readonly ShellViewModel _shellViewModel;
         private readonly Repository _repository;
-        private readonly DelegateCommand saveCommand;
-        private CtmsEntities entities;
+        private readonly DelegateCommand _saveCommand;
+        private CtmsEntities _entities;
 
 
         [ImportingConstructor]
         public EntityController(EntityService entityService, IMessageService messageService, IShellService shellService,
             ShellViewModel shellViewModel, Repository repository)
         {
-            this.entityService = entityService;
-            this.messageService = messageService;
-            this.shellService = shellService;
-            this.shellViewModel = shellViewModel;
-            this.saveCommand = new DelegateCommand(() => Save(), CanSave);
+            Configurator.Init();
+            DevDataProvider.Initialize(_repository);
+            DevDataProvider.LoadTags();
+
+            _entityService = entityService;
+            _messageService = messageService;
+            _shellService = shellService;
+            _shellViewModel = shellViewModel;
+            _saveCommand = new DelegateCommand(() => Save(), CanSave);
 
             _repository = repository;
         }
@@ -84,14 +88,10 @@ namespace Ctms.Applications.Controllers
 
             entityService.Entities = entities;
             */
-            AddWeakEventListener(shellViewModel, ShellViewModelPropertyChanged);
-            shellViewModel.SaveCommand = saveCommand;
+            AddWeakEventListener(_shellViewModel, ShellViewModelPropertyChanged);
+            _shellViewModel.SaveCommand = _saveCommand;
             //!!shellViewModel.DatabasePath = dataSourcePath;
 
-
-            Configurator.Init();
-            DevDataProvider.Initialize(_repository);
-            DevDataProvider.LoadTags();
         }
 
         public void Shutdown()
@@ -99,7 +99,7 @@ namespace Ctms.Applications.Controllers
             //!!entities.Dispose();
         }
 
-        public bool CanSave() { return shellViewModel.IsValid; }
+        public bool CanSave() { return _shellViewModel.IsValid; }
 
         public bool Save()
         {
@@ -115,12 +115,12 @@ namespace Ctms.Applications.Controllers
             }
             catch (ValidationException e)
             {
-                messageService.ShowError(shellService.ShellView, string.Format(CultureInfo.CurrentCulture,
+                _messageService.ShowError(_shellService.ShellView, string.Format(CultureInfo.CurrentCulture,
                     Resources.SaveErrorInvalidEntities, e.Message));
             }
             catch (UpdateException e)
             {
-                messageService.ShowError(shellService.ShellView, string.Format(CultureInfo.CurrentCulture,
+                _messageService.ShowError(_shellService.ShellView, string.Format(CultureInfo.CurrentCulture,
                     Resources.SaveErrorInvalidFields, e.InnerException.Message));
             }
             return saved;
@@ -130,7 +130,7 @@ namespace Ctms.Applications.Controllers
         {
             if (e.PropertyName == "IsValid")
             {
-                saveCommand.RaiseCanExecuteChanged();
+                _saveCommand.RaiseCanExecuteChanged();
             }
         }
     }

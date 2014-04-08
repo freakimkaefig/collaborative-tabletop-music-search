@@ -28,12 +28,10 @@ namespace Ctms.Applications.ViewModels
             
             _results = new ObservableCollection<ResultDataModel>();
             view.AddResources();
-
-            //_results = new ObservableCollection<ResultDataModel>();
         }
 
 
-        public bool IsEnabled { get { return true; } }//result != null
+        public bool IsEnabled { get { return true; } }
 
         public bool IsValid
         {

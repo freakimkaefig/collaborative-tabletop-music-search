@@ -90,7 +90,7 @@ namespace Ctms.Presentation.Views
             tagDM.Height = (float) searchTagView.ActualHeight;
         }
 
-        private void UpdateAnimation()
+       /* private void UpdateAnimation()
         {
             try
             {
@@ -100,7 +100,7 @@ namespace Ctms.Presentation.Views
             catch (Exception)
             {
             }
-        }
+        }*/
 
         private void UpdateResources(SearchTagView searchTagView, int tagId, TagDataModel tagDM)
         {
@@ -144,7 +144,7 @@ namespace Ctms.Presentation.Views
             }
             pieMenu.InvalidateVisual();
 
-            UpdateAnimation();
+           // UpdateAnimation();
         }
 
         /// <summary>

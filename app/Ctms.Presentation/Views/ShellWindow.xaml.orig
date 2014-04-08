@@ -7,8 +7,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:c="clr-namespace:Ctms.Presentation.Converters"
+<<<<<<< HEAD
     mc:Ignorable="d"
     WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"> <!--Topmost="True">-->
+=======
+    mc:Ignorable="d"     
+    WindowState="Maximized"
+    WindowStyle="None"
+    >
+>>>>>>> origin/dev
 
     <Window.Background>
         <RadialGradientBrush
@@ -27,12 +34,14 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 <<<<<<< HEAD
-            
-            <ContentControl Content="{Binding ShellService.SearchView}" Grid.Column="0"/>            
+
+        <ContentControl Content="{Binding ShellService.SearchView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.ResultView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.DetailView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.MenuView}" Grid.Column="0"/>
             <ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Column="0"/>
+        <ContentControl Content="{Binding ShellService.InfoView}" Grid.Column="0"/>
+
 =======
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -41,7 +50,7 @@
         <ContentControl Content="{Binding ShellService.ResultView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
         <ContentControl Content="{Binding ShellService.DetailView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
         <ContentControl Content="{Binding ShellService.MenuView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>
-        <ContentControl Content="{Binding ShellService.InfoView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Height="500" Width="500"/>
+        <!--<ContentControl Content="{Binding ShellService.InfoView}" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"/>-->
 >>>>>>> origin/dev
     </Grid>  
 </s:SurfaceWindow>

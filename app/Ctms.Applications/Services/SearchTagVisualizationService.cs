@@ -27,13 +27,16 @@ namespace Ctms.Applications.Services
             _searchVm = searchVm;
             _repository = repository;
             //_searchTagVm = searchTagVm;
-            _tagVisualizer = ((ISearchView)_searchVm.View).TagVisualizer;
+
+            //_tagVisualizer = ((ISearchView)_searchVm.View).TagVisualizer;
+
+            //throw new Exception("AAAHHH");
         }
 
         public TagVisualizationDefinitionCollection TagVisualizers { get { return _tagVisualizers; } }
 
         public void InitTagDefinitions()
-        {
+        {/*
             for (int i = 0; i < CommonVal.Tag_MaxNumber; i++)
             {
                 var tagVisDef = new TagVisualizationDefinition();
@@ -46,7 +49,7 @@ namespace Ctms.Applications.Services
 
                 AddTagVisualization(tagVisDef, i);
             }
-            _tagVisualizers = _tagVisualizer.Definitions;
+            _tagVisualizers = _tagVisualizer.Definitions;*/
         }
 
         private void AddTagVisualization(TagVisualizationDefinition tagVisDef, int id)

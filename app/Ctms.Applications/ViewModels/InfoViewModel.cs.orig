@@ -19,9 +19,12 @@ namespace Ctms.Applications.ViewModels
         private ObservableCollection<InfoDataModel> _commonInfos;
         private ObservableCollection<InfoDataModel> _tagInfos;
         private ObservableCollection<InfoDataModel> _tutorialInfos;
+<<<<<<< HEAD
         private ICommand _confirmCommonInfoCmd;
         private ICommand _confirmTagInfoCmd;
         private ICommand _confirmTutorialInfoCmd;
+=======
+>>>>>>> origin/dev
         
         [ImportingConstructor]
         public InfoViewModel(IInfoView view)
@@ -54,10 +57,7 @@ namespace Ctms.Applications.ViewModels
 
         public ObservableCollection<InfoDataModel> TutorialInfos { get { return _tutorialInfos; } }
 
-        public ObservableCollection<InfoDataModel> TagInfos { get { return _tagInfos; } }
-
-        public ObservableCollection<InfoDataModel> TutorialInfos { get { return _tutorialInfos; } }
-
+<<<<<<< HEAD
         public ICommand ConfirmCommonInfoCmd
         {
             get { return _confirmCommonInfoCmd; }
@@ -96,5 +96,20 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
+=======
+        //public Detail Detail
+        //{
+        //    get { return detail; }
+        //    set
+        //    {
+        //        if (detail != value)
+        //        {
+        //            detail = value;
+        //            RaisePropertyChanged("Detail");
+        //            RaisePropertyChanged("IsEnabled");
+        //        }
+        //    }
+        //}
+>>>>>>> origin/dev
     }
 }
