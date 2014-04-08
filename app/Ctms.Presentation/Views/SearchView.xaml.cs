@@ -64,6 +64,11 @@ namespace Ctms.Presentation.Views
             rectangles.Add(Fft8);
             rectangles.Add(Fft9);
             rectangles.Add(Fft10);
+            rectangles.Add(Fft11);
+            rectangles.Add(Fft12);
+            rectangles.Add(Fft13);
+            rectangles.Add(Fft14);
+            rectangles.Add(Fft15);
 
             _viewModel.FftRectangle = rectangles;
         }

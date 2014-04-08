@@ -52,6 +52,12 @@ namespace Ctms.Applications.ViewModels
         private int _fft8Value = 0;
         private int _fft9Value = 0;
         private int _fft10Value = 0;
+        private int _fft11Value = 0;
+        private int _fft12Value = 0;
+        private int _fft13Value = 0;
+        private int _fft14Value = 0;
+        private int _fft15Value = 0;
+
         private List<System.Windows.Shapes.Rectangle> _fftRectangle;
 
         [ImportingConstructor]
@@ -223,6 +229,66 @@ namespace Ctms.Applications.ViewModels
                 {
                     _fft10Value = value;
                     RaisePropertyChanged("Fft10Value");
+                }
+            }
+        }
+        public int Fft11Value
+        {
+            get { return _fft11Value; }
+            set
+            {
+                if (_fft11Value != value)
+                {
+                    _fft11Value = value;
+                    RaisePropertyChanged("Fft11Value");
+                }
+            }
+        }
+        public int Fft12Value
+        {
+            get { return _fft12Value; }
+            set
+            {
+                if (_fft12Value != value)
+                {
+                    _fft12Value = value;
+                    RaisePropertyChanged("Fft12Value");
+                }
+            }
+        }
+        public int Fft13Value
+        {
+            get { return _fft13Value; }
+            set
+            {
+                if (_fft13Value != value)
+                {
+                    _fft13Value = value;
+                    RaisePropertyChanged("Fft13Value");
+                }
+            }
+        }
+        public int Fft14Value
+        {
+            get { return _fft14Value; }
+            set
+            {
+                if (_fft14Value != value)
+                {
+                    _fft14Value = value;
+                    RaisePropertyChanged("Fft14Value");
+                }
+            }
+        }
+        public int Fft15Value
+        {
+            get { return _fft15Value; }
+            set
+            {
+                if (_fft15Value != value)
+                {
+                    _fft15Value = value;
+                    RaisePropertyChanged("Fft15Value");
                 }
             }
         }

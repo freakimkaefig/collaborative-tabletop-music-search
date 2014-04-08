@@ -33,55 +33,80 @@
                 Height="50" 
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top" Grid.Column="1" Margin="529.5,133,0,0" />
-            <Rectangle Name="Fft1" Grid.Column="1" HorizontalAlignment="Left" Margin="235.5,0,0,0" Width="60" Height="{Binding Fft1Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft1" Grid.Column="1" HorizontalAlignment="Left" Margin="395,0,1235,0" Width="40" Height="{Binding Fft1Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft2" Grid.Column="1" HorizontalAlignment="Left" Margin="334.5,0,0,0" Width="60" Height="{Binding Fft2Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft2" Grid.Column="1" HorizontalAlignment="Left" Margin="455,0,1175,0" Width="40" Height="{Binding Fft2Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft3" Grid.Column="1" HorizontalAlignment="Left" Margin="433.5,0,0,0" Width="60" Height="{Binding Fft3Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft3" Grid.Column="1" HorizontalAlignment="Left" Margin="515,0,1115,0" Width="40" Height="{Binding Fft3Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft4" Grid.Column="1" HorizontalAlignment="Left" Margin="529.5,0,0,0" Width="60" Height="{Binding Fft4Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft4" Grid.Column="1" HorizontalAlignment="Left" Margin="575,0,1055,0" Width="40" Height="{Binding Fft4Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft5" Grid.Column="1" HorizontalAlignment="Left" Margin="623.75,0,0,0" Width="60" Height="{Binding Fft5Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft5" Grid.Column="1" HorizontalAlignment="Left" Margin="635,0,995,0" Width="40" Height="{Binding Fft5Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft6" Grid.Column="1" HorizontalAlignment="Left" Margin="728.75,0,0,0" Width="60" Height="{Binding Fft6Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft6" Grid.Column="1" HorizontalAlignment="Left" Margin="695,0,935,0" Width="40" Height="{Binding Fft6Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft7" Grid.Column="1" Margin="836.75,0,793.75,0" Width="60" Height="{Binding Fft7Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft7" Grid.Column="1" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="#FF43B7F3" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft8" Grid.Column="1" Margin="0,0,676.75,0" HorizontalAlignment="Right" Width="60" Height="{Binding Fft8Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft8" Grid.Column="1" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="#FF43B7F3" VerticalAlignment="Center" Width="40" HorizontalAlignment="Left">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft9" Grid.Column="1" Margin="0,0,562.75,0" HorizontalAlignment="Right" Width="60" Height="{Binding Fft9Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft9" Grid.Column="1" Margin="875,0,755,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft9Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft10" Grid.Column="1" Margin="0,0,448.75,0" HorizontalAlignment="Right" Width="60" Height="{Binding Fft10Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft10" Grid.Column="1" Margin="935,0,695,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft10Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft11" Grid.Column="1" Margin="995,0,635,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft11Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft12" Grid.Column="1" Margin="1055,0,575,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft12Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft13" Grid.Column="1" Margin="1115,0,515,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft13Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft14" Grid.Column="1" Margin="1175,0,455,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft14Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft15" Grid.Column="1" Margin="1235,0,395,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft15Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
         </Grid>
         
