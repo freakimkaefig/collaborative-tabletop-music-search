@@ -54,10 +54,6 @@ namespace Ctms.Applications.ViewModels
 
         public ObservableCollection<InfoDataModel> TutorialInfos { get { return _tutorialInfos; } }
 
-        public ObservableCollection<InfoDataModel> TagInfos { get { return _tagInfos; } }
-
-        public ObservableCollection<InfoDataModel> TutorialInfos { get { return _tutorialInfos; } }
-
         public ICommand ConfirmCommonInfoCmd
         {
             get { return _confirmCommonInfoCmd; }

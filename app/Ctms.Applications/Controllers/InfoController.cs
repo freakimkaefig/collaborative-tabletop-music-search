@@ -42,6 +42,7 @@ namespace Ctms.Applications.Controllers
         //Further vars
         private Repository _repository;
         private InfoWorker _infoWorker;
+        private InfoFactory _infoFactory;
 
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
@@ -65,7 +66,7 @@ namespace Ctms.Applications.Controllers
         {
             _shellService.InfoView = _infoVm.View;
 
-            AddWeakEventListener(_infoVm, DetailViewModelPropertyChanged);
+            AddWeakEventListener(_infoVm, InfoViewModelPropertyChanged);
 
             ShowCommonInfo("InfoMain", "InfoSub");
             ShowTagInfo("InfoMain", "InfoSub", 0);
@@ -74,31 +75,36 @@ namespace Ctms.Applications.Controllers
 
         private void ShowCommonInfo(string mainText, string subText)
         {
-
-            
+            /*
+            var info = _infoFactory.CreateInfoDataModel();
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
             _infoVm.CommonInfos.Add(info);
+             * */
         }
 
         private void ShowTagInfo(string mainText, string subText, int tagId)
         {
+            /*
             var info = _infoFactory.CreateInfoDataModel();
             info.IsVisible = true;
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
             info.Info.Position = new Point(200.0, 200.0);
             _infoVm.CommonInfos.Add(info);
+             * */
         }
 
         private void ShowTutorialInfo(string mainText, string subText)
         {
+            /*
             var info = _infoFactory.CreateInfoDataModel();
             info.IsVisible = true;
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
             info.Info.Position = new Point(200.0, 200.0);
             _infoVm.CommonInfos.Add(info);
+             * */
         }
 
        
