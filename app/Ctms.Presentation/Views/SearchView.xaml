@@ -33,56 +33,339 @@
                 Height="50" 
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top" Grid.Column="1" Margin="529.5,133,0,0" />
-            <Rectangle Name="Fft1" Grid.Column="1" HorizontalAlignment="Left" Margin="235.5,0,0,0" Width="60" Height="{Binding Fft1Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft1" Grid.Column="1" HorizontalAlignment="Left" Margin="395,0,1235,0" Width="40" Height="{Binding Fft1Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft2" Grid.Column="1" HorizontalAlignment="Left" Margin="334.5,0,0,0" Width="60" Height="{Binding Fft2Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft2" Grid.Column="1" HorizontalAlignment="Left" Margin="455,0,1175,0" Width="40" Height="{Binding Fft2Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft3" Grid.Column="1" HorizontalAlignment="Left" Margin="433.5,0,0,0" Width="60" Height="{Binding Fft3Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft3" Grid.Column="1" HorizontalAlignment="Left" Margin="515,0,1115,0" Width="40" Height="{Binding Fft3Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft4" Grid.Column="1" HorizontalAlignment="Left" Margin="529.5,0,0,0" Width="60" Height="{Binding Fft4Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft4" Grid.Column="1" HorizontalAlignment="Left" Margin="575,0,1055,0" Width="40" Height="{Binding Fft4Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft5" Grid.Column="1" HorizontalAlignment="Left" Margin="623.75,0,0,0" Width="60" Height="{Binding Fft5Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft5" Grid.Column="1" HorizontalAlignment="Left" Margin="635,0,995,0" Width="40" Height="{Binding Fft5Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft6" Grid.Column="1" HorizontalAlignment="Left" Margin="728.75,0,0,0" Width="60" Height="{Binding Fft6Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft6" Grid.Column="1" HorizontalAlignment="Left" Margin="695,0,935,0" Width="40" Height="{Binding Fft6Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft7" Grid.Column="1" Margin="836.75,0,793.75,0" Width="60" Height="{Binding Fft7Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft7" Grid.Column="1" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="#FF43B7F3" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft8" Grid.Column="1" Margin="0,0,676.75,0" HorizontalAlignment="Right" Width="60" Height="{Binding Fft8Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft8" Grid.Column="1" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="#FF43B7F3" VerticalAlignment="Center" Width="40" HorizontalAlignment="Left">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft9" Grid.Column="1" Margin="0,0,562.75,0" HorizontalAlignment="Right" Width="60" Height="{Binding Fft9Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft9" Grid.Column="1" Margin="875,0,755,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft9Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft10" Grid.Column="1" Margin="0,0,448.75,0" HorizontalAlignment="Right" Width="60" Height="{Binding Fft10Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle Name="Fft10" Grid.Column="1" Margin="935,0,695,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft10Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
+            <Rectangle Name="Fft11" Grid.Column="1" Margin="995,0,635,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft11Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft12" Grid.Column="1" Margin="1055,0,575,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft12Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft13" Grid.Column="1" Margin="1115,0,515,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft13Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft14" Grid.Column="1" Margin="1175,0,455,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft14Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle Name="Fft15" Grid.Column="1" Margin="1235,0,395,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft15Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+
+            <Ellipse Name="el1"
+                   Height="35"
+                   Width="35"
+                   Fill="Yellow">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform1" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Ellipse.Loaded">   <!--auslösen, wenn 2 Tangibles sich "überschneiden" Radien? -->
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform1"
+                                             Storyboard.TargetProperty="X"
+                                             To="600"   
+                                             Duration="0:0:1"
+                                             AutoReverse="True"
+                                             SpeedRatio="0.9"
+                                             RepeatBehavior="Forever"/> <!--To Property mit Binding an Tangibles binden-->
+                                <DoubleAnimation Storyboard.TargetName="TTransform1"
+                                             Storyboard.TargetProperty="Y"
+                                             To="150"
+                                             Duration="0:0:0.1"
+                                             AutoReverse="True"
+                                             SpeedRatio="0.9"
+                                             RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+            
+            <Ellipse Name="el2"
+                     Height="35"
+                     Width="35"
+                     Fill="Green">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform2" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform2"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.9"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.8"
+                                                 RepeatBehavior="Forever"/>
+                                
+                                <DoubleAnimation Storyboard.TargetName="TTransform2"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="150"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.8"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse Name="el3"
+                     Height="35"
+                     Width="35"
+                     Fill="Blue">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform3" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform3"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.8"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.7"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform3"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="150"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.7"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse Name="el4"
+                     Height="35"
+                     Width="35"
+                     Fill="Black">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform4" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform4"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.7"
+                                                 AutoReverse="True"
+                                                 RepeatBehavior="Forever"
+                                                 SpeedRatio="0.6"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform4"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="150"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 RepeatBehavior="Forever"
+                                                 SpeedRatio="0.6"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse Name="el5"
+                     Height="35"
+                     Width="35"
+                     Fill="Red">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform5" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform5"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.6"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.5"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform5"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="150"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.5"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse Name="el6"
+                     Height="35"
+                     Width="35"
+                     Fill="DarkBlue">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform6" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform6"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.5"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform6"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="150"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse Name="el7"
+                     Height="35"
+                     Width="35"
+                     Fill="DarkGray">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform7" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform7"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.4"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform7"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="150"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse Name="el8"
+                     Height="35"
+                     Width="35"
+                     Fill="Purple">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform8" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform8"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.3"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform8"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="150"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+
         </Grid>
         
     </s:TagVisualizer>

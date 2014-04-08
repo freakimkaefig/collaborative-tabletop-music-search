@@ -18,7 +18,6 @@ namespace Ctms.Applications.Services
     {
         private SearchViewModel _searchVm;
         private Repository _repository;
-        //private SearchTagViewModel _searchTagVm;
         private TagVisualizer _tagVisualizer;
         private TagVisualizationDefinitionCollection _tagVisualizers;
 
@@ -26,17 +25,14 @@ namespace Ctms.Applications.Services
         {
             _searchVm = searchVm;
             _repository = repository;
-            //_searchTagVm = searchTagVm;
 
-            //_tagVisualizer = ((ISearchView)_searchVm.View).TagVisualizer;
-
-            //throw new Exception("AAAHHH");
+            _tagVisualizer = ((ISearchView)_searchVm.View).TagVisualizer;
         }
 
         public TagVisualizationDefinitionCollection TagVisualizers { get { return _tagVisualizers; } }
 
         public void InitTagDefinitions()
-        {/*
+        {
             for (int i = 0; i < CommonVal.Tag_MaxNumber; i++)
             {
                 var tagVisDef = new TagVisualizationDefinition();
@@ -49,7 +45,7 @@ namespace Ctms.Applications.Services
 
                 AddTagVisualization(tagVisDef, i);
             }
-            _tagVisualizers = _tagVisualizer.Definitions;*/
+            _tagVisualizers = _tagVisualizer.Definitions;
         }
 
         private void AddTagVisualization(TagVisualizationDefinition tagVisDef, int id)

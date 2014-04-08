@@ -20,8 +20,12 @@ namespace Ctms.Applications.Workers
         private SearchViewModel _searchViewModel;
         private double[] _array;
         public delegate void UpdateDelegate();
-
+        private int _lowbandMultiplier = 300;
+        private int _midbandMultiplier = 1200;
+        private int _highbandMultiplier = 1500;
+        private int _maxheight = 250;
         private int _duration = 250;
+        private bool _every2ndTime = true;
 
 
         [ImportingConstructor]
@@ -44,21 +48,41 @@ namespace Ctms.Applications.Workers
 
         public void Dispatch(double[] arr)
         {
-            _array = arr;
-            Application.Current.Dispatcher.Invoke(new UpdateDelegate(UpdateVm));
+            
+            if (_every2ndTime)
+            {
+                _every2ndTime = false;
+
+                _array = arr;
+                Application.Current.Dispatcher.Invoke(new UpdateDelegate(UpdateVm));
+            }
+            else
+            {
+                _every2ndTime = true;
+            }
+            
         }
+
+
+        #region setEQ-Bar-Values
 
         public void UpdateVm()
         {
             if (_array.Length > 6)
             {
-                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[6] * _array[6] + _array[_array.Length - 6] * _array[_array.Length - 6]));
+                //Source: https://stackoverflow.com/questions/733243/how-to-copy-part-of-an-array-to-another-array-in-c/733253#733253
+                double[] b = new double[7];
+                Array.Copy(_array, 0, b, 0, 7);
+                double[] c = new double[7];
+                Array.Copy(_array, _array.Length - 7, c, 0, 7);
 
-                if (calcMagnitude > 450)
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _lowbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
                 {
-                    _searchViewModel.Fft1Value = 450;
+                    _searchViewModel.Fft1Value = _maxheight;
                 }
-                else
+                else //if(calcMagnitude > _searchViewModel.Fft1Value)
                 {
                     _searchViewModel.Fft1Value = calcMagnitude;
                 }
@@ -85,13 +109,18 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length > 9)
             {
-                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[9] * _array[9] + _array[_array.Length - 9] * _array[_array.Length - 9]) * 300);
+                double[] b = new double[3];
+                Array.Copy(_array, 7, b, 0, 3);
+                double[] c = new double[3];
+                Array.Copy(_array, _array.Length - 9, c, 0, 3);
 
-                if (calcMagnitude > 450)
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _lowbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
                 {
-                    _searchViewModel.Fft2Value = 450;
+                    _searchViewModel.Fft2Value = _maxheight;
                 }
-                else
+                else //if (calcMagnitude > _searchViewModel.Fft2Value)
                 {
                     _searchViewModel.Fft2Value = calcMagnitude;
                 }
@@ -115,13 +144,18 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length > 16)
             {
-                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[16] * _array[16] + _array[_array.Length - 16] * _array[_array.Length - 16]) * 300);
+                double[] b = new double[8];
+                Array.Copy(_array, 10, b, 0, 8);
+                double[] c = new double[8];
+                Array.Copy(_array, _array.Length - 16, c, 0, 8);
 
-                if (calcMagnitude > 450)
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _lowbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
                 {
-                    _searchViewModel.Fft3Value = 450;
+                    _searchViewModel.Fft3Value = _maxheight;
                 }
-                else
+                else //if (calcMagnitude > _searchViewModel.Fft3Value)
                 {
                     _searchViewModel.Fft3Value = calcMagnitude;
                 }
@@ -145,13 +179,18 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length > 23)
             {
-                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[23] * _array[23] + _array[_array.Length - 23] * _array[_array.Length - 23]) * 300);
+                double[] b = new double[15];
+                Array.Copy(_array, 17, b, 0, 15);
+                double[] c = new double[15];
+                Array.Copy(_array, _array.Length - 23, c, 0, 15);
 
-                if (calcMagnitude > 450)
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _lowbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
                 {
-                    _searchViewModel.Fft4Value = 450;
+                    _searchViewModel.Fft4Value = _maxheight;
                 }
-                else
+                else //if (calcMagnitude > _searchViewModel.Fft4Value)
                 {
                     _searchViewModel.Fft4Value = calcMagnitude;
                 }
@@ -176,13 +215,18 @@ namespace Ctms.Applications.Workers
             }
             if (_array.Length > 34)
             {
-                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[34] * _array[34] + _array[_array.Length - 34] * _array[_array.Length - 34]) * 300);
+                double[] b = new double[12];
+                Array.Copy(_array, 24, b, 0, 12);
+                double[] c = new double[12];
+                Array.Copy(_array, _array.Length - 34, c, 0, 12);
 
-                if (calcMagnitude > 450)
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _midbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
                 {
-                    _searchViewModel.Fft5Value = 450;
+                    _searchViewModel.Fft5Value = _maxheight;
                 }
-                else
+                else //if (calcMagnitude > _searchViewModel.Fft5Value)
                 {
                     _searchViewModel.Fft5Value = calcMagnitude;
                 }
@@ -205,15 +249,20 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft5Value = 0;
             }
-            if (_array.Length > 70)
+            if (_array.Length > 46)
             {
-                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[70] * _array[70] + _array[_array.Length - 70] * _array[_array.Length - 70]) * 300);
+                double[] b = new double[13];
+                Array.Copy(_array, 35, b, 0, 13);
+                double[] c = new double[13];
+                Array.Copy(_array, _array.Length - 46, c, 0, 13);
 
-                if (calcMagnitude > 450)
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _midbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
                 {
-                    _searchViewModel.Fft6Value = 450;
+                    _searchViewModel.Fft6Value = _maxheight;
                 }
-                else
+                else //if (calcMagnitude > _searchViewModel.Fft6Value)
                 {
                     _searchViewModel.Fft6Value = calcMagnitude;
                 }
@@ -236,15 +285,20 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft6Value = 0;
             }
-            if (_array.Length > 116)
+            if (_array.Length > 58)
             {
-                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[116] * _array[116] + _array[_array.Length - 116] * _array[_array.Length - 116]) * 300);
+                double[] b = new double[13];
+                Array.Copy(_array, 47, b, 0, 13);
+                double[] c = new double[13];
+                Array.Copy(_array, _array.Length - 58, c, 0, 13);
 
-                if (calcMagnitude > 450)
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _midbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
                 {
-                    _searchViewModel.Fft7Value = 450;
+                    _searchViewModel.Fft7Value = _maxheight;
                 }
-                else
+                else //if (calcMagnitude > _searchViewModel.Fft7Value)
                 {
                     _searchViewModel.Fft7Value = calcMagnitude;
                 }
@@ -267,15 +321,20 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft7Value = 0;
             }
-            if (_array.Length > 163)
+            if (_array.Length > 70)
             {
-                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[163] * _array[163] + _array[_array.Length - 163] * _array[_array.Length - 163]) * 300);
+                double[] b = new double[13];
+                Array.Copy(_array, 59, b, 0, 13);
+                double[] c = new double[13];
+                Array.Copy(_array, _array.Length - 70, c, 0, 13);
 
-                if (calcMagnitude > 450)
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _midbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
                 {
-                    _searchViewModel.Fft8Value = 450;
+                    _searchViewModel.Fft8Value = _maxheight;
                 }
-                else
+                else //if (calcMagnitude > _searchViewModel.Fft8Value)
                 {
                     _searchViewModel.Fft8Value = calcMagnitude;
                 }
@@ -298,15 +357,20 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft8Value = 0;
             }
-            if (_array.Length > 232)
+            if (_array.Length > 81)
             {
-                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[232] * _array[232] + _array[_array.Length - 232] * _array[_array.Length - 232]) * 300);
+                double[] b = new double[12];
+                Array.Copy(_array, 71, b, 0, 12);
+                double[] c = new double[12];
+                Array.Copy(_array, _array.Length - 81, c, 0, 12);
 
-                if (calcMagnitude > 450)
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _midbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
                 {
-                    _searchViewModel.Fft9Value = 450;
+                    _searchViewModel.Fft9Value = _maxheight;
                 }
-                else
+                else //if (calcMagnitude > _searchViewModel.Fft9Value)
                 {
                     _searchViewModel.Fft9Value = calcMagnitude;
                 }
@@ -329,15 +393,20 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft9Value = 0;
             }
-            if (_array.Length > 372)
+            if (_array.Length > 93)
             {
-                int calcMagnitude = (int)Math.Abs(Math.Sqrt(_array[372] * _array[372] + _array[_array.Length - 372] * _array[_array.Length - 372]) * 300);
+                double[] b = new double[14];
+                Array.Copy(_array, 81, b, 0, 14);
+                double[] c = new double[14];
+                Array.Copy(_array, _array.Length - 93, c, 0, 14);
 
-                if (calcMagnitude > 450)
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _midbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
                 {
-                    _searchViewModel.Fft10Value = 450;
+                    _searchViewModel.Fft10Value = _maxheight;
                 }
-                else
+                else //if (calcMagnitude > _searchViewModel.Fft10Value)
                 {
                     _searchViewModel.Fft10Value = calcMagnitude;
                 }
@@ -360,7 +429,207 @@ namespace Ctms.Applications.Workers
             {
                 _searchViewModel.Fft10Value = 0;
             }
+            if (_array.Length > 104)
+            {
+                double[] b = new double[12];
+                Array.Copy(_array, 94, b, 0, 12);
+                double[] c = new double[12];
+                Array.Copy(_array, _array.Length - 104, c, 0, 12);
 
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _midbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
+                {
+                    _searchViewModel.Fft11Value = _maxheight;
+                }
+                else //if (calcMagnitude > _searchViewModel.Fft11Value)
+                {
+                    _searchViewModel.Fft11Value = calcMagnitude;
+                }
+                //int ms = (int)arr[arr.Length - 1];
+
+                DoubleAnimation interpolate11 = new DoubleAnimation() { From = _searchViewModel.Fft11Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
+
+                Storyboard.SetTarget(interpolate11, _searchViewModel.FftRectangle[10]);
+
+                Storyboard.SetTargetProperty(interpolate11, new PropertyPath(System.Windows.Shapes.Rectangle.HeightProperty));
+
+
+
+                Storyboard sb = new Storyboard();
+                sb.Children.Add(interpolate11);
+                sb.Begin();
+
+            }
+            else
+            {
+                _searchViewModel.Fft11Value = 0;
+            }
+            if (_array.Length > 116)
+            {
+                double[] b = new double[13];
+                Array.Copy(_array, 105, b, 0, 13);
+                double[] c = new double[13];
+                Array.Copy(_array, _array.Length - 116, c, 0, 13);
+
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _highbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
+                {
+                    _searchViewModel.Fft12Value = _maxheight;
+                }
+                else //if (calcMagnitude > _searchViewModel.Fft12Value)
+                {
+                    _searchViewModel.Fft12Value = calcMagnitude;
+                }
+                //int ms = (int)arr[arr.Length - 1];
+
+                DoubleAnimation interpolate12 = new DoubleAnimation() { From = _searchViewModel.Fft12Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
+
+                Storyboard.SetTarget(interpolate12, _searchViewModel.FftRectangle[11]);
+
+                Storyboard.SetTargetProperty(interpolate12, new PropertyPath(System.Windows.Shapes.Rectangle.HeightProperty));
+
+
+
+                Storyboard sb = new Storyboard();
+                sb.Children.Add(interpolate12);
+                sb.Begin();
+
+            }
+            else
+            {
+                _searchViewModel.Fft12Value = 0;
+            }
+            if (_array.Length > 128)
+            {
+                double[] b = new double[13];
+                Array.Copy(_array, 117, b, 0, 13);
+                double[] c = new double[13];
+                Array.Copy(_array, _array.Length - 128, c, 0, 13);
+
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _highbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
+                {
+                    _searchViewModel.Fft13Value = _maxheight;
+                }
+                else //if (calcMagnitude > _searchViewModel.Fft13Value)
+                {
+                    _searchViewModel.Fft13Value = calcMagnitude;
+                }
+                //int ms = (int)arr[arr.Length - 1];
+
+                DoubleAnimation interpolate13 = new DoubleAnimation() { From = _searchViewModel.Fft13Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
+
+                Storyboard.SetTarget(interpolate13, _searchViewModel.FftRectangle[12]);
+
+                Storyboard.SetTargetProperty(interpolate13, new PropertyPath(System.Windows.Shapes.Rectangle.HeightProperty));
+
+
+
+                Storyboard sb = new Storyboard();
+                sb.Children.Add(interpolate13);
+                sb.Begin();
+
+            }
+            else
+            {
+                _searchViewModel.Fft13Value = 0;
+            }
+            if (_array.Length > 139)
+            {
+                double[] b = new double[12];
+                Array.Copy(_array, 129, b, 0, 12);
+                double[] c = new double[12];
+                Array.Copy(_array, _array.Length - 139, c, 0, 12);
+
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _highbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
+                {
+                    _searchViewModel.Fft14Value = _maxheight;
+                }
+                else //if (calcMagnitude > _searchViewModel.Fft14Value)
+                {
+                    _searchViewModel.Fft14Value = calcMagnitude;
+                }
+                //int ms = (int)arr[arr.Length - 1];
+
+                DoubleAnimation interpolate14 = new DoubleAnimation() { From = _searchViewModel.Fft14Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
+
+                Storyboard.SetTarget(interpolate14, _searchViewModel.FftRectangle[13]);
+
+                Storyboard.SetTargetProperty(interpolate14, new PropertyPath(System.Windows.Shapes.Rectangle.HeightProperty));
+
+
+
+                Storyboard sb = new Storyboard();
+                sb.Children.Add(interpolate14);
+                sb.Begin();
+
+            }
+            else
+            {
+                _searchViewModel.Fft14Value = 0;
+            }
+            if (_array.Length > 151)
+            {
+                double[] b = new double[12];
+                Array.Copy(_array, 140, b, 0, 12);
+                double[] c = new double[12];
+                Array.Copy(_array, _array.Length - 151, c, 0, 12);
+
+                int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _highbandMultiplier);
+
+                if (calcMagnitude > _maxheight)
+                {
+                    _searchViewModel.Fft15Value = _maxheight;
+                }
+                else //if (calcMagnitude > _searchViewModel.Fft15Value)
+                {
+                    _searchViewModel.Fft15Value = calcMagnitude;
+                }
+                //int ms = (int)arr[arr.Length - 1];
+
+                DoubleAnimation interpolate15 = new DoubleAnimation() { From = _searchViewModel.Fft15Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
+
+                Storyboard.SetTarget(interpolate15, _searchViewModel.FftRectangle[14]);
+
+                Storyboard.SetTargetProperty(interpolate15, new PropertyPath(System.Windows.Shapes.Rectangle.HeightProperty));
+
+
+
+                Storyboard sb = new Storyboard();
+                sb.Children.Add(interpolate15);
+                sb.Begin();
+
+            }
+            else
+            {
+                _searchViewModel.Fft15Value = 0;
+            }
+        }
+        #endregion
+
+        public double calcMedian(double[] arr)
+        {
+            //Source:https://stackoverflow.com/questions/4140719/i-need-c-sharp-function-that-will-calculate-median/8328226#8328226
+
+            //Framework 2.0 version of this method. there is an easier way in F4        
+            if (arr == null || arr.Length == 0)
+                return 0D;
+
+            //make sure the list is sorted, but use a new array
+            double[] sortedPNumbers = (double[])arr.Clone();
+            arr.CopyTo(sortedPNumbers, 0);
+            Array.Sort(sortedPNumbers);
+
+            //get the median
+            int size = sortedPNumbers.Length;
+            int mid = size / 2;
+            double median = (size % 2 != 0) ? (double)sortedPNumbers[mid] : ((double)sortedPNumbers[mid] + (double)sortedPNumbers[mid - 1]) / 2;
+            return median;
 
         }
     }
