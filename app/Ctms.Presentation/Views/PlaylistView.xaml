@@ -97,6 +97,7 @@
             <s:SurfaceListBox x:Name="surfaceListBox" Margin="0,120,0,80" Background="#000"
                               ItemTemplate="{StaticResource SurfaceListBoxItemDataTemplate}" ItemsSource="{Binding ResultsForPlaylist}"
                               AllowDrop="True"
+                              HorizontalContentAlignment="Left"
                               SelectionChanged="Playlist_SelectionChanged"
                               gestures:Events.HoldGesture="Playlist_HoldGesture"
                               gestures:Events.DoubleTapGesture="surfaceListBox_DoubleTapGesture"

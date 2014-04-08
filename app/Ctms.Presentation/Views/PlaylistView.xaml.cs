@@ -99,69 +99,77 @@ namespace Ctms.Presentation.Views
         //Drag & Drop inside PlaylistView(SurfaceListBox)
         private void Playlist_HoldGesture(object sender, GestureEventArgs e)
         {
-            _viewModel.TrashVisible = true;
-
-            FrameworkElement findSource = e.OriginalSource as FrameworkElement;
-            SurfaceListBoxItem draggedElement = e.TouchDevice.Target as SurfaceListBoxItem;
-            
-            //content.Opacity = 0.5;
-
-            // Find the touched SurfaceListBoxItem object.
-            while (draggedElement == null && findSource != null)
+            if (e.TouchDevice.Captured is SurfaceScrollViewer)
             {
-                if ((draggedElement = findSource as SurfaceListBoxItem) == null)
+                //if touch isn't captured over SurfaceListBoxItem
+                _viewModel.TrashVisible = false;
+            }
+            else
+            {
+                _viewModel.TrashVisible = true;
+
+                FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+                SurfaceListBoxItem draggedElement = e.TouchDevice.Target as SurfaceListBoxItem;
+
+                //content.Opacity = 0.5;
+
+                // Find the touched SurfaceListBoxItem object.
+                while (draggedElement == null && findSource != null)
                 {
-                    findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                    if ((draggedElement = findSource as SurfaceListBoxItem) == null)
+                    {
+                        findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                    }
                 }
-            }
 
-            if (draggedElement == null)
-            {
-                return;
-            }
-
-            // Create the cursor visual.
-            ContentControl cursorVisual = new ContentControl()
-            {
-                Content = draggedElement.DataContext,
-                Style = FindResource("PlaylistItemCursorStyle") as Style
-            };
-
-            // Add a handler. This will enable the application to change the visual cues.
-            SurfaceDragDrop.AddTargetChangedHandler(cursorVisual, OnTargetChanged);
-
-            // Create a list of input devices. Add the touches that
-            // are currently captured within the dragged element and
-            // the current touch (if it isn't already in the list).
-            List<InputDevice> devices = new List<InputDevice>();
-            devices.Add(e.TouchDevice);
-            foreach (TouchDevice touch in draggedElement.TouchesCapturedWithin)
-            {
-                if (touch != e.TouchDevice)
+                if (draggedElement == null)
                 {
-                    devices.Add(touch);
+                    return;
                 }
+
+                // Create the cursor visual.
+                ContentControl cursorVisual = new ContentControl()
+                {
+                    Content = draggedElement.DataContext,
+                    Style = FindResource("PlaylistItemCursorStyle") as Style
+                };
+
+                // Add a handler. This will enable the application to change the visual cues.
+                SurfaceDragDrop.AddTargetChangedHandler(cursorVisual, OnTargetChanged);
+
+                // Create a list of input devices. Add the touches that
+                // are currently captured within the dragged element and
+                // the current touch (if it isn't already in the list).
+                List<InputDevice> devices = new List<InputDevice>();
+                devices.Add(e.TouchDevice);
+                foreach (TouchDevice touch in draggedElement.TouchesCapturedWithin)
+                {
+                    if (touch != e.TouchDevice)
+                    {
+                        devices.Add(touch);
+                    }
+                }
+
+                // Get the drag source object
+                ItemsControl dragSource = ItemsControl.ItemsControlFromItemContainer(draggedElement);
+
+                SurfaceDragCursor startDragOkay =
+                    SurfaceDragDrop.BeginDragDrop(
+                      dragSource,                 // The SurfaceListBox object that the cursor is dragged out from.
+                      draggedElement,             // The SurfaceListBoxItem object that is dragged from the drag source.
+                      cursorVisual,               // The visual element of the cursor.
+                      draggedElement.DataContext, // The data associated with the cursor.
+                      devices,                    // The input devices that start dragging the cursor.
+                      DragDropEffects.Move);      // The allowed drag-and-drop effects of the operation.
+
+                // If the drag began successfully, set e.Handled to true. 
+                // Otherwise SurfaceListBoxItem captures the touch 
+                // and causes the drag operation to fail.
+                e.Handled = (startDragOkay != null);
+
+                //Remove item from list
+                //_viewModel.ResultsForPlaylist.Remove(draggedElement.Content as ResultDataModel);
             }
-
-            // Get the drag source object
-            ItemsControl dragSource = ItemsControl.ItemsControlFromItemContainer(draggedElement);
-
-            SurfaceDragCursor startDragOkay =
-                SurfaceDragDrop.BeginDragDrop(
-                  dragSource,                 // The SurfaceListBox object that the cursor is dragged out from.
-                  draggedElement,             // The SurfaceListBoxItem object that is dragged from the drag source.
-                  cursorVisual,               // The visual element of the cursor.
-                  draggedElement.DataContext, // The data associated with the cursor.
-                  devices,                    // The input devices that start dragging the cursor.
-                  DragDropEffects.Move);      // The allowed drag-and-drop effects of the operation.
-
-            // If the drag began successfully, set e.Handled to true. 
-            // Otherwise SurfaceListBoxItem captures the touch 
-            // and causes the drag operation to fail.
-            e.Handled = (startDragOkay != null);
-
-            //Remove item from list
-            //_viewModel.ResultsForPlaylist.Remove(draggedElement.Content as ResultDataModel);
         }
 
         private void OnTargetChanged(object sender, TargetChangedEventArgs e)

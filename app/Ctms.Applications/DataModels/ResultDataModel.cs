@@ -12,6 +12,7 @@ namespace Ctms.Applications.DataModels
     {
         private Result _result;
         private bool _canDrop = true;
+        private bool _isLoading = false;
 
         public ResultDataModel(string title, string artistName, Track spotifyTrack)
         {
@@ -37,6 +38,12 @@ namespace Ctms.Applications.DataModels
             {
                 return TimeSpan.FromMilliseconds(SpotifyTrack.Duration()).Minutes + ":" + TimeSpan.FromMilliseconds(SpotifyTrack.Duration()).Seconds;
             }
+        }
+
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { _isLoading = value; }
         }
 
         public object DraggedElement { get; set; }

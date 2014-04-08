@@ -10,6 +10,7 @@ using SpotifySharp;
 using Ctms.Applications.DataModels;
 using System.Windows.Media.Animation;
 using System.Windows;
+using System.Diagnostics;
 
 namespace Ctms.Applications.Workers
 {
@@ -141,6 +142,7 @@ namespace Ctms.Applications.Workers
 
         public void JumpToTrack(int index)
         {
+            Debug.WriteLine("TrackIsLoading" + _playlistViewModel.CurrentPlaylist.Track(index).IsLoaded());
             _sessionManager.JumpToTrackInPlaylist(_playlistViewModel.CurrentPlaylist, index);
         }
 

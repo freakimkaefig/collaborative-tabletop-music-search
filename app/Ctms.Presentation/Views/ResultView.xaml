@@ -8,16 +8,18 @@
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    xmlns:gestures="clr-namespace:Blake.NUI.WPF.Gestures;assembly=Blake.NUI.WPF"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:blakenui="clr-namespace:Blake.NUI.WPF.Gestures;assembly=Blake.NUI.WPF"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
 
 
 
     <s:ScatterView Name="MainScatterView" ItemsSource="{Binding Results}" ItemTemplate="{StaticResource ScatterViewItemDataTemplate}"
+                   IsManipulationEnabled="True"
+                   ManipulationStarting="MainScatterView_ManipulationStarting"
                    s:SurfaceDragDrop.DragCanceled="Results_OnDragCanceled"
                    s:SurfaceDragDrop.DragCompleted="Results_OnDragCompleted"
-                   gestures:Events.DoubleTapGesture="Results_DoubleTapGesture"
-                   gestures:Events.HoldGesture="Results_HoldGesture"
-                   PreviewMouseDoubleClick="Results_MouseDoubleClick"/>
+                   blakenui:Events.HoldGesture="Results_HoldGesture">
+    </s:ScatterView>
 </UserControl>
