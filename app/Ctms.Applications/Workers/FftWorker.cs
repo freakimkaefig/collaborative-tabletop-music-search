@@ -49,7 +49,8 @@ namespace Ctms.Applications.Workers
 
         public void Dispatch(double[] arr)
         {
-            
+            //decreasing animation-flickering by only using every 2nd received byte-array 
+            //for visualization
             if (_every2ndTime)
             {
                 _every2ndTime = false;
@@ -73,36 +74,46 @@ namespace Ctms.Applications.Workers
 
             if (_array.Length > 6)
             {
-
+                //split real & imaginary data into 2 arrays
                 double[] b = new double[7];
                 Array.Copy(_array, 0, b, 0, 7);
                 double[] c = new double[7];
                 Array.Copy(_array, _array.Length - 7, c, 0, 7);
 
+                //calculate and use the median of this EQ-bars-range to enhance visualized data
+                //instead of picking single frequencies
                 int calcMagnitude = (int)Math.Abs(Math.Sqrt(calcMedian(b) * calcMedian(b) + calcMedian(c) * calcMedian(c)) * _lowbandMultiplier);
 
+                //check if calculated value is higher than defined max value for the height
+                //of the rectangles
                 if (calcMagnitude > _maxheight)
                 {
                     _searchViewModel.Fft1Value = _maxheight;
                 }
+                //check if the calculated value is higher than the actualheight-value during the 
+                //running animation to decrease flickering of the visualization
                 else if (calcMagnitude > (int)searchView.GetFft1.ActualHeight)
                 {
                     _searchViewModel.Fft1Value = calcMagnitude;
                 }
 
-                //setting the exact duration of the current byte-array causes flickering...
+                //setting the exact duration of the music-snippet received by 
+                //the current byte-array for the animation causes flickering.
+                //used value for the duration is based on (try&error) gained experience
                     //int _duration = (int)_array[_array.Length - 1];
 
+                //set up the animation, which will collapse the EQ-bar smoothly and
+                //add it to the storyboard.
                     DoubleAnimation interpolate1 = new DoubleAnimation() { From = _searchViewModel.Fft1Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
                     Storyboard.SetTarget(interpolate1, _searchViewModel.FftRectangle[0]);
 
+                //Set the Height-Property of the rectangle-EQ-bars as target property
                     Storyboard.SetTargetProperty(interpolate1, new PropertyPath(System.Windows.Shapes.Rectangle.HeightProperty));
 
-
+                //start animation
                     Storyboard sb = new Storyboard();
                     sb.Children.Add(interpolate1);
-                    
                     sb.Begin();
                 
 

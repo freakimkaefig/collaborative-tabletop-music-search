@@ -14,13 +14,12 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
 
 
-
-    <s:ScatterView Name="MainScatterView" ItemsSource="{Binding Results}" ItemTemplate="{StaticResource ScatterViewItemDataTemplate}"
-                   IsManipulationEnabled="True"
-                   ManipulationStarting="MainScatterView_ManipulationStarting"
-                   s:SurfaceDragDrop.DragCanceled="Results_OnDragCanceled"
-                   s:SurfaceDragDrop.DragCompleted="Results_OnDragCompleted"
-                   blakenui:Events.HoldGesture="Results_HoldGesture"
-                   blakenui:Events.DoubleTapGesture="Results_DoubleTapGesture">
-    </s:ScatterView>
+    <Grid>
+        <s:ScatterView Name="MainScatterView" ItemsSource="{Binding Results}" ItemTemplate="{StaticResource ScatterViewItemDataTemplate}"
+                       IsManipulationEnabled="True"
+                       s:SurfaceDragDrop.DragCanceled="Results_OnDragCanceled"
+                       s:SurfaceDragDrop.DragCompleted="Results_OnDragCompleted"
+                       blakenui:Events.DoubleTapGesture="Results_DoubleTapGesture">
+        </s:ScatterView>
+    </Grid>
 </UserControl>

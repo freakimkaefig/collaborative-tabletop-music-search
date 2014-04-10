@@ -15,6 +15,9 @@ namespace Ctms.Applications.DataModels
         private bool _isLoading = false;
         private bool _isPlaying = false;
 
+        private double _stdWidth;
+        private double _stdHeight;
+
         public ResultDataModel(string title, string artistName, Track spotifyTrack)
         {
             _result = new Result();
@@ -59,5 +62,16 @@ namespace Ctms.Applications.DataModels
         }
         public object ClickedElement { get; set; }
         public object ActiveElement { get; set; }
+
+        public double StdWidth
+        {
+            get { return _stdWidth; }
+            set { _stdWidth = value; }
+        }
+        public double StdHeight
+        {
+            get { return _stdHeight; }
+            set { _stdHeight = value; }
+        }
     }
 }

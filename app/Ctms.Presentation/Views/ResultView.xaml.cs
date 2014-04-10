@@ -163,10 +163,5 @@ namespace Ctms.Presentation.Views
 
             _viewModel.PrelistenCommand.Execute((object)data);
         }
-
-        private void MainScatterView_ManipulationStarting(object sender, ManipulationStartingEventArgs e)
-        {
-
-        }
     }
 }
