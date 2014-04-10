@@ -77,8 +77,8 @@ namespace Ctms.Applications.Workers
                 searchObjects.Add(searchObject);
             }
 
-            //var songs = _searchManager.SearchQuery(searchObjects);
-            var songs = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList); //TestTag mit "Rock"
+            var songs = _searchManager.SearchQuery(searchObjects);
+            //var songs = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList); //TestTag mit "Rock"
             var infoId = (int) e.Argument;
             e.Result = new List<object>() { songs, infoId };
         }
