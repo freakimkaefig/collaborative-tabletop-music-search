@@ -70,7 +70,7 @@ namespace Ctms.Applications.Controllers
             _streamingWorker = streamingWorker;
             _playlistWorker = playlistWorker;
             //Commands
-            this._playPauseCommand = new DelegateCommand(_streamingWorker.PlaylistPlayPause, _streamingWorker.CanStream);
+            this._playPauseCommand = new DelegateCommand(_streamingWorker.PlaylistPlayPause, _playlistWorker.CanPlay);
             this._stopCommand = new DelegateCommand(_streamingWorker.StopPlayback, _streamingWorker.Playing);
             this._addTrackCommand = new DelegateCommand((data) => _playlistWorker.AddTrackToPlaylist((object[])data));
             this._removeTrackCommand = new DelegateCommand((index) => _playlistWorker.RemoveTrackFromPlaylist((int)index));
@@ -147,6 +147,11 @@ namespace Ctms.Applications.Controllers
                 {
                     _playlistViewModel.PlayPauseText = "Pause";
                 }
+                UpdateCommands();
+            }
+
+            if (e.PropertyName == "CanPlay")
+            {
                 UpdateCommands();
             }
         }

@@ -34,13 +34,15 @@ namespace MusicStream
         public Action SpotifyLoggedOut;
         public Action<ObservableCollection<Playlist>> ReadyForPlayback;
         public Action<Playlist> PlaylistOpened;
-        public Action PrelistenStarted;
+        public Action<Track> PrelistenStarted;
         public Action PrelistenStopped;
-        public Action PlaybackStarted;
+        public Action<Track> PlaybackStarted;
         public Action PlaybackPaused;
         public Action PlaybackStopped;
         public Action PlaybackEndOfTrack;
         public Action<int> PlaylistTrackRemoved;
+        public Action<Track> PrelistenLoadingReady;
+        public Action<Track> PlaybackLoadingReady;
 
         private string _credentialsBlob = null;
         private object _userdata = null;
@@ -299,7 +301,7 @@ namespace MusicStream
                 _session.PlayerLoad(playlist.Track(index));
                 _session.PlayerPlay(true);
                 _waveOutDevice.Play();
-                PlaybackStarted();
+                PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                 _playlistPlaying = true;
             }
             catch (SpotifyException spotifyException)
@@ -401,7 +403,7 @@ namespace MusicStream
                     _session.PlayerLoad(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                     _session.PlayerPlay(true);
                     _waveOutDevice.Play();
-                    PlaybackStarted();
+                    PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                 }
                 else
                 {
@@ -419,7 +421,7 @@ namespace MusicStream
                 _session.PlayerLoad(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                 _session.PlayerPlay(true);
                 _waveOutDevice.Play();
-                PlaybackStarted();
+                PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
             }
 
             _currentPlaylistTrackPlayedDuration = 0;
@@ -433,7 +435,7 @@ namespace MusicStream
             _session.PlayerSeek((int)_currentPlaylistTrackPlayedDuration);
             _session.PlayerPlay(true);
             _waveOutDevice.Play();
-            PlaybackStarted();
+            PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
         }
 
         /// <summary>
@@ -549,6 +551,15 @@ namespace MusicStream
                     //http://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2
                 }
             }
+
+            if (_playlistPlaying)
+            {
+                PlaybackLoadingReady(_currentPlaylist.Track(_currentPlaylistTrackIndex));
+            }
+            if (_prelistPlaying)
+            {
+                PrelistenLoadingReady(_currentPrelistenTrack);
+            }
         }
 
         public void EndOfTrack(SpotifySession session)
@@ -612,7 +623,7 @@ namespace MusicStream
         {
             //PlaybackStarted();
             CurrentPrelistenTrack = (Track)e.Result;
-            PrelistenStarted();
+            PrelistenStarted(_currentPrelistenTrack);
         }
 
         private void PrelistenStopWorker(object sender, DoWorkEventArgs e)

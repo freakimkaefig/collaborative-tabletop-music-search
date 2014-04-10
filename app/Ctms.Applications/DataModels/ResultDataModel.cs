@@ -13,6 +13,7 @@ namespace Ctms.Applications.DataModels
         private Result _result;
         private bool _canDrop = true;
         private bool _isLoading = false;
+        private bool _isPlaying = false;
 
         public ResultDataModel(string title, string artistName, Track spotifyTrack)
         {
@@ -40,11 +41,8 @@ namespace Ctms.Applications.DataModels
             }
         }
 
-        public bool IsLoading
-        {
-            get { return _isLoading; }
-            set { _isLoading = value; }
-        }
+        public bool IsLoading { get { return _isLoading; } set { _isLoading = value; RaisePropertyChanged("IsLoading"); } }
+        public bool IsPlaying { get { return _isPlaying; } set { _isPlaying = value; RaisePropertyChanged("IsPlaying"); } }
 
         public object DraggedElement { get; set; }
         public double Opacity { get; set; }

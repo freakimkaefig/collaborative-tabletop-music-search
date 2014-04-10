@@ -24,16 +24,15 @@ namespace Ctms.Applications.Workers
         private MusicStreamSessionManager _sessionManager;
         private MenuViewModel _menuViewModel;
         private PlaylistViewModel _playlistViewModel;
+        private InfoWorker _infoWorker;
 
         public Action<MusicStreamSessionManager> StreamingSessionManagerCreated;
         public Action<MusicStreamSessionManager> PlaylistSessionManagerCreated;
         public Action<MusicStreamSessionManager> ResultSessionManagerCreated;
         public Action<MusicStreamSessionManager> FftSessionManagerCreated;
 
-        public string test;
-
         [ImportingConstructor]
-        public MusicStreamAccountWorker(MenuViewModel menuViewModel, PlaylistViewModel playlistViewModel)
+        public MusicStreamAccountWorker(MenuViewModel menuViewModel, PlaylistViewModel playlistViewModel, InfoWorker infoWorker)
         {
             _menuViewModel = menuViewModel;
             _playlistViewModel = playlistViewModel;
@@ -149,18 +148,9 @@ namespace Ctms.Applications.Workers
 
         private void SpotifyError(SpotifyError spotifyError)
         {
-            switch (spotifyError)
+            if (spotifyError != SpotifySharp.SpotifyError.Ok)
             {
-                case SpotifySharp.SpotifyError.Ok:
-                    //no Error
-                    break;
-                case SpotifySharp.SpotifyError.TrackNotPlayable:
-                    //no Error
-                    break;
-                //... switch all errors from SpotifySharp.SpotifyError
-                default:
-                    ReceiveLogMessage("SpotifyError" + spotifyError.ToString());
-                    break;
+                _infoWorker.ShowCommonInfo("SpotifyError", spotifyError.ToString());
             }
         }
 
