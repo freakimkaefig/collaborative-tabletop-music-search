@@ -45,9 +45,9 @@
                     <Viewbox Stretch="UniformToFill">
                         <Rectangle Fill="Yellow" MinHeight="15" MinWidth="0.5" ></Rectangle>
                     </Viewbox>
-                    <Label Content="Loading" Visibility="{Binding IsLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}"/>
-                    <Label Content="Playing" Visibility="{Binding IsPlaying, Converter={x:Static c:BoolToVisibilityConverter.Default}}"/>
                 </UniformGrid>
+                <Label Content="Loading" Visibility="{Binding IsLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Row="3" Grid.Column="0" />
+                <Label Content="Playing" Visibility="{Binding IsPlaying, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Row="3" Grid.Column="1"/>
                 <TextBlock FontSize="12" Padding="10,2,10,2" Margin="0,0,0,0" Background="#79CDCD" TextAlignment="Center" Grid.Column="0" Grid.Row="3" Foreground="White" RenderTransformOrigin="0.5, 0.5" Text="{Binding Result.Song.ArtistName}">
                     <TextBlock.RenderTransform>
                         <RotateTransform Angle="180"/>

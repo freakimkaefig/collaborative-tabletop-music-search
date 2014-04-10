@@ -71,6 +71,11 @@ namespace Ctms.Applications.Workers
         private void PrelistenStopped()
         {
             _playlistViewModel.Prelistening = false;
+            foreach (ResultDataModel result in _resultViewModel.Results)
+            {
+                result.IsLoading = false;
+                result.IsPlaying = false;
+            }
         }
 
         private void PrelistenLoadingReady(Track track)
