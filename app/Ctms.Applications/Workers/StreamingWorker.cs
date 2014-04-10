@@ -20,13 +20,15 @@ namespace Ctms.Applications.Workers
     {
         private BackgroundWorkHelper _backgroundWorkHelper;
         private PlaylistViewModel _playlistViewModel;
+        private ResultViewModel _resultViewModel;
         private MusicStreamAccountWorker _accountWorker;
         private MusicStreamSessionManager _sessionManager;
 
         [ImportingConstructor]
-        public StreamingWorker(PlaylistViewModel playlistViewModel, MusicStreamAccountWorker musicStreamAccountWorker)
+        public StreamingWorker(PlaylistViewModel playlistViewModel, ResultViewModel resultViewModel, MusicStreamAccountWorker musicStreamAccountWorker)
         {
             this._playlistViewModel = playlistViewModel;
+            this._resultViewModel = resultViewModel;
             _accountWorker = musicStreamAccountWorker;
 
             _accountWorker.StreamingSessionManagerCreated = StreamingSessionManagerCreated;
@@ -45,17 +47,48 @@ namespace Ctms.Applications.Workers
             //_sessionManager.GetLoadedTrackCompleted = GetLoadedTrackCompleted;
             _sessionManager.PrelistenStarted = PrelistenStarted;
             _sessionManager.PrelistenStopped = PrelistenStopped;
-            
+            _sessionManager.PrelistenLoadingReady = PrelistenLoadingReady;
         }
 
-        private void PrelistenStarted()
+        private void PrelistenStarted(Track track)
         {
             _playlistViewModel.Prelistening = true;
+            foreach (ResultDataModel result in _resultViewModel.Results)
+            {
+                //Vergleiche Tracks ??? keine ahnung wie!
+                if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
+                {
+                    result.IsLoading = true;
+                }
+                else
+                {
+                    result.IsLoading = false;
+                    result.IsPlaying = false;
+                }
+            }
         }
 
         private void PrelistenStopped()
         {
             _playlistViewModel.Prelistening = false;
+        }
+
+        private void PrelistenLoadingReady(Track track)
+        {
+            foreach (ResultDataModel result in _resultViewModel.Results)
+            {
+                //Vergleiche Tracks ??? keine ahnung wie!
+                if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
+                {
+                    result.IsLoading = false;
+                    result.IsPlaying = true;
+                }
+                else
+                {
+                    result.IsLoading = false;
+                    result.IsPlaying = false;
+                }
+            }
         }
 
         public void PlaylistPlayPause()
@@ -77,6 +110,7 @@ namespace Ctms.Applications.Workers
         {
             //Called when Button "Stop" from PlaylistView clicked
             _sessionManager.PlaylistStop();
+            _playlistViewModel.Playing = false;
         }
 
         //PUBLIC METHODS

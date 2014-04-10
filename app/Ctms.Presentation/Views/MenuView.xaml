@@ -220,7 +220,7 @@
             <s:SurfaceButton Visibility="{Binding IsLoggedIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Command="{Binding LogoutCommand}" Content="{Binding LoginButtonContent}" Margin="0,10,0,0" VerticalAlignment="Bottom"></s:SurfaceButton>
             <s:SurfaceButton Content="Exit" Margin="0,20,0,0" VerticalAlignment="Bottom" Command="{Binding ExitAppCommand}"/>
         </StackPanel>
-        <Grid x:Name="LoginDialog" HorizontalAlignment="Left" Margin="-976,480,0,160" Width="312" Background="#CC000000" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="LoginDialog" HorizontalAlignment="Left" Margin="-976,480,0,160" Width="312" Background="Black" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
         	<Grid.RenderTransform>
         		<TransformGroup>
         			<ScaleTransform/>
@@ -260,7 +260,7 @@
             <!--<Image Height="60" Margin="124,0,124,80" VerticalAlignment="Bottom" Width="60" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}"/>-->
             <Label Content="Logging in... Please wait...." VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,80" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" />
         </Grid>
-        <Grid x:Name="OpenPlaylistDialog" HorizontalAlignment="Left" Margin="-568,80,0,488" Width="308" Background="#CC000000" RenderTransformOrigin="0.5,0.5" Height="Auto" VerticalAlignment="Stretch">
+        <Grid x:Name="OpenPlaylistDialog" HorizontalAlignment="Left" Margin="-568,80,0,488" Width="308" RenderTransformOrigin="0.5,0.5" Height="Auto" VerticalAlignment="Stretch" Background="Black">
         	<Grid.RenderTransform>
         		<TransformGroup>
         			<ScaleTransform/>
