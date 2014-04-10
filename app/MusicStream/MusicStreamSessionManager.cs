@@ -245,12 +245,7 @@ namespace MusicStream
         public void OpenPlaylists(Playlist playlist)
         {
             //logMessages.Enqueue("MusicStreamSessionManager.OpenPlaylists");
-            //_backgroundWorkHelper.DoInBackground(OpenPlaylistWorker, OpenPlaylistCompleted, playlist);
-
-            _playlistListener = new MusicStreamPlaylistListener(this);
-            playlist.AddCallbacks(_playlistListener, Userdata);
-            _currentPlaylist = playlist;
-            PlaylistOpened(playlist);
+            _backgroundWorkHelper.DoInBackground(OpenPlaylistWorker, OpenPlaylistCompleted, playlist);
         }
 
         /// <summary>
@@ -368,6 +363,7 @@ namespace MusicStream
             _bufferedWaveProvider.ClearBuffer();
             _currentPlaylistTrackIndex = 0;
             _currentPlaylistTrackPlayedDuration = 0.0;
+            PlaybackStopped();
         }
 
         public void StopTrack()
@@ -600,6 +596,22 @@ namespace MusicStream
         private void LogoutCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
 
+        }
+
+        //Playlist
+        private void OpenPlaylistWorker(object sender, DoWorkEventArgs e)
+        {
+            Playlist playlist = (Playlist)e.Argument;
+            PlaylistStop();
+
+            _playlistListener = new MusicStreamPlaylistListener(this);
+            playlist.AddCallbacks(_playlistListener, Userdata);
+            _currentPlaylist = playlist;
+            e.Result = playlist;
+        }
+        private void OpenPlaylistCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            PlaylistOpened((Playlist)e.Result);
         }
 
         //Prelisten
