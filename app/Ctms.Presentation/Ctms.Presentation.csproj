@@ -188,6 +188,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\ResultStyleResources.xaml.cs">
+      <DependentUpon>ResultStyleResources.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\IPresentationService.cs" />
     <Compile Include="Views\DetailView.xaml.cs">
       <DependentUpon>DetailView.xaml</DependentUpon>
