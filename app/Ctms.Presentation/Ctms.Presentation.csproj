@@ -282,14 +282,24 @@
   <ItemGroup>
     <Resource Include="Resources\Images\ctms_icon.ico" />
     <Resource Include="Resources\Images\Search\basic-texture.png" />
-    <Resource Include="Resources\Images\Search\record.png" />
     <Resource Include="Resources\Images\Search\tweed.png" />
-    <Resource Include="Resources\Images\Search\maske_dunkel.png" />
     <Resource Include="Resources\Images\Search\record2.png" />
     <Resource Include="Resources\Images\Playlist\plus.png" />
     <Resource Include="Resources\Images\Playlist\playlist.png" />
     <Resource Include="Resources\Images\Playlist\rotate-icon.png" />
     <Resource Include="Resources\Images\Playlist\trash.png" />
+    <Resource Include="Resources\Images\Search\tag-backgr_artist.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Search\tag-backgr_attribute.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Search\tag-backgr_genre.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Search\tag-backgr_title.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>

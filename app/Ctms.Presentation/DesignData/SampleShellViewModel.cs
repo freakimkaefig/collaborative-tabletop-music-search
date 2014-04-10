@@ -55,6 +55,12 @@ namespace Ctms.Presentation.DesignData
             {
                 if (Closed != null) { Closed(this, e); }
             }
+            /*
+            public string GetResourcePath(string name)
+            {
+                return "";
+            }*/
+
         }
     }
 }

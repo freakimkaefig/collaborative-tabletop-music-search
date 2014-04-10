@@ -18,6 +18,7 @@ using MusicSearch.ResponseObjects;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using Ctms.Applications.Common;
 
 namespace Ctms.Applications.Workers
 {
@@ -123,6 +124,9 @@ namespace Ctms.Applications.Workers
                         tagDM.Tag.AssignedKeyword = _tagFactory.CreateKeyword(selectedTagOption.Keyword.Name, selectedTagOption.Keyword.Type);
 
                         SetInputIsVisible(tagDM, true);
+
+                        if (keywordType == KeywordTypes.Artist) tagDM.BackgrImageSource = CommonVal.ImageSource_TagBackgrArtist;
+                        if (keywordType == KeywordTypes.Title) tagDM.BackgrImageSource = CommonVal.ImageSource_TagBackgrTitle;
                     }
                     else if (keywordType == KeywordTypes.Genre)
                     {   // load top genres
@@ -137,9 +141,12 @@ namespace Ctms.Applications.Workers
 
                             tagDM.Tag.TagOptions.Add(genreOption);
                         }
+
+                        tagDM.BackgrImageSource = CommonVal.ImageSource_TagBackgrGenre;
                     }
                     else if (keywordType == KeywordTypes.Attribute)
                     {   // load attributes
+                        tagDM.BackgrImageSource = CommonVal.ImageSource_TagBackgrAttribute;
                     }
 
                     SetKeywordTypesIsVisible(tagDM, false);
@@ -186,21 +193,10 @@ namespace Ctms.Applications.Workers
             // update menu
             _searchVM.UpdateVisuals(tagDM);
         }
-        /*
-        // Confirm current
-        internal void ConfirmBreadcrumb(int tagId)
-        {
-            var tagDM           = _repository.GetTagDMById(tagId);
-            var breadcrumbOptions = tagDM.Tag.BreadcrumbOptions;
-            if (breadcrumbOptions != null && breadcrumbOptions.Any())
-            {
-                var breadcrumbOption = breadcrumbOptions.LastOrDefault();
-                SetConfirmBreadcrumbIsVisible(tagDM, false);
-                AssignKeyword(tagDM, breadcrumbOption);
-                //SelectOption(breadcrumbOption.Id);
-            }
-        }*/
 
+        /// <summary>
+        /// Load artist or title suggestions for a tag
+        /// </summary>
         public void LoadSuggestions(int tagId)
         {
             var tagDM       = _repository.GetTagDMById(tagId);
@@ -239,6 +235,9 @@ namespace Ctms.Applications.Workers
             _searchVM.UpdateVisuals(tagDM);
         }
 
+        /// <summary>
+        /// Do work of getting suggestions for artists in background
+        /// </summary>
         public void GetArtistsSuggestionsInBackgr(object sender, DoWorkEventArgs e)
         {
             var tagDM = (TagDataModel) e.Argument;

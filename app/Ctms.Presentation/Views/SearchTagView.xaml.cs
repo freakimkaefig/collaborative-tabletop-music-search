@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Data;
 using Microsoft.Surface.Presentation.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Ctms.Presentation.Views
 {

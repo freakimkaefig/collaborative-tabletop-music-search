@@ -65,10 +65,12 @@
             <Grid Grid.Row="1" Grid.Column="1"
                   Visibility="{DynamicResource IsMenuVisible}" 
                   Height="{StaticResource PieMenuDiameter}" 
-                  Width="{StaticResource PieMenuDiameter}">
+                  Width="{StaticResource PieMenuDiameter}"
+                  DataContext="{DynamicResource TagDM}">
                 
                 <Grid.Background>
-                    <ImageBrush ImageSource="../../Resources/Images/Search/record2.png" Opacity="1.0"/>
+                    <!--<ImageBrush ImageSource="{StaticResource TitleImage}" Opacity="1.0"/>-->
+                    <ImageBrush ImageSource="{Binding BackgrImageSource}" Opacity="1.0"/>
                 </Grid.Background>
 
                 <Grid.RowDefinitions>
@@ -137,6 +139,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -152,31 +155,47 @@
                                  Command="{Binding SelectAttributeCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"
-                                 />
+                                 >
+                    <s:SurfaceButton.Background>
+                        <ImageBrush ImageSource="../Resources/Images/Search/tag-backgr_attribute.png" Opacity="1.0"/>
+                    </s:SurfaceButton.Background>
+                </s:SurfaceButton>
                 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                                  Content="Genre" 
                                  Grid.Row="0" 
-                                 Grid.Column="1"
+                                 Grid.Column="2"
                                  Command="{Binding SelectGenreCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
-                                 Style="{StaticResource SearchViewBtn}"/>
+                                 Style="{StaticResource SearchViewBtn}">
+                    <s:SurfaceButton.Background>
+                        <ImageBrush ImageSource="../Resources/Images/Search/tag-backgr_genre.png" Opacity="1.0"/>
+                    </s:SurfaceButton.Background>
+                </s:SurfaceButton>
 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                                  Content="Title" 
-                                 Grid.Row="1" 
+                                 Grid.Row="2" 
                                  Grid.Column="0"
                                  Command="{Binding SelectTitleCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
-                                 Style="{StaticResource SearchViewBtn}"/>
-
+                                 Style="{StaticResource SearchViewBtn}">
+                    <s:SurfaceButton.Background>
+                        <ImageBrush ImageSource="../Resources/Images/Search/tag-backgr_title.png" Opacity="1.0"/>
+                    </s:SurfaceButton.Background>
+                </s:SurfaceButton>
+                
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                                  Content="Artist" 
-                                 Grid.Row="1" 
-                                 Grid.Column="1"
+                                 Grid.Row="2" 
+                                 Grid.Column="2"
                                  Command="{Binding SelectArtistCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
-                                 Style="{StaticResource SearchViewBtn}"/>
+                                 Style="{StaticResource SearchViewBtn}">
+                    <s:SurfaceButton.Background>
+                        <ImageBrush ImageSource="../Resources/Images/Search/tag-backgr_artist.png" Opacity="1.0"/>
+                    </s:SurfaceButton.Background>
+                </s:SurfaceButton>
             </Grid>
             <!--//Grid for keyword type selection-->
             
