@@ -60,6 +60,8 @@ namespace Ctms.Applications.Workers
             {
                _playlistViewModel.ResultsForPlaylist.Add(new ResultDataModel(playlist.Track(i).Name(), playlist.Track(i).Artist(0).Name(), playlist.Track(i)));
             }
+
+            _playlistViewModel.CanPlay = true;
         }
 
         private void PlaybackLoadingReady(Track track)
@@ -129,6 +131,8 @@ namespace Ctms.Applications.Workers
         }
 
         //PUBLIC METHODS
+        public bool CanPlay() { return _playlistViewModel.CanPlay; }
+
         public void AddTrackToPlaylist(object[] data)
         {
             ResultDataModel result = (ResultDataModel)data[0];
