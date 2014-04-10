@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Ctms.Presentation.Views.SearchView"
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:p="clr-namespace:Ctms.Presentation.Properties"
@@ -8,6 +8,7 @@
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" x:Class="Ctms.Presentation.Views.SearchView"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
 
@@ -33,83 +34,83 @@
                 Height="50" 
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top" Grid.Column="1" Margin="529.5,133,0,0" />
-            <Rectangle Name="Fft1" Grid.Column="1" HorizontalAlignment="Left" Margin="395,0,1235,0" Width="40" Height="{Binding Fft1Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle x:Name="Fft1" Grid.Column="1" HorizontalAlignment="Left" Margin="395,0,1235,0" Width="50" Height="{Binding Fft1Value}" VerticalAlignment="Center" Fill="DeepSkyBlue" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft2" Grid.Column="1" HorizontalAlignment="Left" Margin="455,0,1175,0" Width="40" Height="{Binding Fft2Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle x:Name="Fft2" Grid.Column="1" HorizontalAlignment="Left" Margin="455,0,1175,0" Width="50" Height="{Binding Fft2Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft3" Grid.Column="1" HorizontalAlignment="Left" Margin="515,0,1115,0" Width="40" Height="{Binding Fft3Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle x:Name="Fft3" Grid.Column="1" HorizontalAlignment="Left" Margin="515,0,1115,0" Width="50" Height="{Binding Fft3Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft4" Grid.Column="1" HorizontalAlignment="Left" Margin="575,0,1055,0" Width="40" Height="{Binding Fft4Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle x:Name="Fft4" Grid.Column="1" HorizontalAlignment="Left" Margin="575,0,1055,0" Width="50" Height="{Binding Fft4Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft5" Grid.Column="1" HorizontalAlignment="Left" Margin="635,0,995,0" Width="40" Height="{Binding Fft5Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle x:Name="Fft5" Grid.Column="1" HorizontalAlignment="Left" Margin="635,0,995,0" Width="50" Height="{Binding Fft5Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft6" Grid.Column="1" HorizontalAlignment="Left" Margin="695,0,935,0" Width="40" Height="{Binding Fft6Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle x:Name="Fft6" Grid.Column="1" HorizontalAlignment="Left" Margin="695,0,935,0" Width="50" Height="{Binding Fft6Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft7" Grid.Column="1" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="#FF43B7F3" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40">
+            <Rectangle x:Name="Fft7" Grid.Column="1" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="#FF00E2FF" VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft8" Grid.Column="1" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="#FF43B7F3" VerticalAlignment="Center" Width="40" HorizontalAlignment="Left">
+            <Rectangle x:Name="Fft8" Grid.Column="1" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="#FF00E2FF" VerticalAlignment="Center" Width="50" HorizontalAlignment="Left" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft9" Grid.Column="1" Margin="875,0,755,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft9Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle x:Name="Fft9" Grid.Column="1" Margin="875,0,755,0" HorizontalAlignment="Left" Width="50" Height="{Binding Fft9Value}" Fill="#FF00E2FF" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft10" Grid.Column="1" Margin="935,0,695,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft10Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle x:Name="Fft10" Grid.Column="1" Margin="935,0,695,0" HorizontalAlignment="Left" Width="50" Height="{Binding Fft10Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft11" Grid.Column="1" Margin="995,0,635,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft11Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            <Rectangle x:Name="Fft11" Grid.Column="1" Margin="995,0,635,0" HorizontalAlignment="Left" Width="50" Height="{Binding Fft11Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft12" Grid.Column="1" Margin="1055,0,575,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft12Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            <Rectangle x:Name="Fft12" Grid.Column="1" Margin="1055,0,575,0" HorizontalAlignment="Left" Width="50" Height="{Binding Fft12Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft13" Grid.Column="1" Margin="1115,0,515,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft13Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            <Rectangle x:Name="Fft13" Grid.Column="1" Margin="1115,0,515,0" HorizontalAlignment="Left" Width="50" Height="{Binding Fft13Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft14" Grid.Column="1" Margin="1175,0,455,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft14Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            <Rectangle x:Name="Fft14" Grid.Column="1" Margin="1175,0,455,0" HorizontalAlignment="Left" Width="50" Height="{Binding Fft14Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle Name="Fft15" Grid.Column="1" Margin="1235,0,395,0" HorizontalAlignment="Right" Width="40" Height="{Binding Fft15Value}" Fill="#FF43B7F3" VerticalAlignment="Center">
+            <Rectangle x:Name="Fft15" Grid.Column="1" Margin="1235,0,395,0" HorizontalAlignment="Left" Width="50" Height="{Binding Fft15Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
                 <Rectangle.Effect>
                     <BlurEffect Radius="15"/>
                 </Rectangle.Effect>
             </Rectangle>
 
-            <Ellipse Name="el1"
+            <Ellipse x:Name="el1"
                    Height="35"
                    Width="35"
                    Fill="Yellow">
@@ -118,7 +119,7 @@
                 </Ellipse.RenderTransform>
 
                 <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="Ellipse.Loaded">   <!--auslösen, wenn 2 Tangibles sich "überschneiden" Radien? -->
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">   <!--auslösen, wenn 2 Tangibles sich "überschneiden" Radien? -->
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="TTransform1"
@@ -141,7 +142,7 @@
                 </Ellipse.Triggers>
             </Ellipse>
             
-            <Ellipse Name="el2"
+            <Ellipse x:Name="el2"
                      Height="35"
                      Width="35"
                      Fill="Green">
@@ -149,7 +150,7 @@
                     <TranslateTransform x:Name="TTransform2" X="0" Y="0"/>
                 </Ellipse.RenderTransform>
                 <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="TTransform2"
@@ -173,7 +174,7 @@
                 </Ellipse.Triggers>
             </Ellipse>
 
-            <Ellipse Name="el3"
+            <Ellipse x:Name="el3"
                      Height="35"
                      Width="35"
                      Fill="Blue">
@@ -181,7 +182,7 @@
                     <TranslateTransform x:Name="TTransform3" X="0" Y="0"/>
                 </Ellipse.RenderTransform>
                 <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="TTransform3"
@@ -205,7 +206,7 @@
                 </Ellipse.Triggers>
             </Ellipse>
 
-            <Ellipse Name="el4"
+            <Ellipse x:Name="el4"
                      Height="35"
                      Width="35"
                      Fill="Black">
@@ -213,7 +214,7 @@
                     <TranslateTransform x:Name="TTransform4" X="0" Y="0"/>
                 </Ellipse.RenderTransform>
                 <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="TTransform4"
@@ -237,7 +238,7 @@
                 </Ellipse.Triggers>
             </Ellipse>
 
-            <Ellipse Name="el5"
+            <Ellipse x:Name="el5"
                      Height="35"
                      Width="35"
                      Fill="Red">
@@ -245,7 +246,7 @@
                     <TranslateTransform x:Name="TTransform5" X="0" Y="0"/>
                 </Ellipse.RenderTransform>
                 <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="TTransform5"
@@ -269,7 +270,7 @@
                 </Ellipse.Triggers>
             </Ellipse>
 
-            <Ellipse Name="el6"
+            <Ellipse x:Name="el6"
                      Height="35"
                      Width="35"
                      Fill="DarkBlue">
@@ -277,7 +278,7 @@
                     <TranslateTransform x:Name="TTransform6" X="0" Y="0"/>
                 </Ellipse.RenderTransform>
                 <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="TTransform6"
@@ -301,7 +302,7 @@
                 </Ellipse.Triggers>
             </Ellipse>
 
-            <Ellipse Name="el7"
+            <Ellipse x:Name="el7"
                      Height="35"
                      Width="35"
                      Fill="DarkGray">
@@ -309,7 +310,7 @@
                     <TranslateTransform x:Name="TTransform7" X="0" Y="0"/>
                 </Ellipse.RenderTransform>
                 <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="TTransform7"
@@ -333,7 +334,7 @@
                 </Ellipse.Triggers>
             </Ellipse>
 
-            <Ellipse Name="el8"
+            <Ellipse x:Name="el8"
                      Height="35"
                      Width="35"
                      Fill="Purple">
@@ -341,7 +342,7 @@
                     <TranslateTransform x:Name="TTransform8" X="0" Y="0"/>
                 </Ellipse.RenderTransform>
                 <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="Ellipse.Loaded">
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="TTransform8"

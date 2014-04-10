@@ -25,6 +25,7 @@ namespace Ctms.Applications.ViewModels
         private bool _isRotate = false;
         private bool _isShuffle = false;
         private bool _isRepeat = false;
+        private bool _canPlay = false;
         private string _playPauseText = "Play";
         private bool _trashVisible = false;
 
@@ -159,6 +160,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _isRepeat = value;
                     RaisePropertyChanged("IsRepeat");
+                }
+            }
+        }
+
+        public bool CanPlay
+        {
+            get { return _canPlay; }
+            set
+            {
+                if (_canPlay != value)
+                {
+                    _canPlay = value;
+                    RaisePropertyChanged("CanPlay");
                 }
             }
         }

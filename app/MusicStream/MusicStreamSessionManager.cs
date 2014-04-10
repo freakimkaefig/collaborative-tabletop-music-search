@@ -34,13 +34,15 @@ namespace MusicStream
         public Action SpotifyLoggedOut;
         public Action<ObservableCollection<Playlist>> ReadyForPlayback;
         public Action<Playlist> PlaylistOpened;
-        public Action PrelistenStarted;
+        public Action<Track> PrelistenStarted;
         public Action PrelistenStopped;
-        public Action PlaybackStarted;
+        public Action<Track> PlaybackStarted;
         public Action PlaybackPaused;
         public Action PlaybackStopped;
         public Action PlaybackEndOfTrack;
         public Action<int> PlaylistTrackRemoved;
+        public Action<Track> PrelistenLoadingReady;
+        public Action<Track> PlaybackLoadingReady;
 
         private string _credentialsBlob = null;
         private object _userdata = null;
@@ -243,12 +245,7 @@ namespace MusicStream
         public void OpenPlaylists(Playlist playlist)
         {
             //logMessages.Enqueue("MusicStreamSessionManager.OpenPlaylists");
-            //_backgroundWorkHelper.DoInBackground(OpenPlaylistWorker, OpenPlaylistCompleted, playlist);
-
-            _playlistListener = new MusicStreamPlaylistListener(this);
-            playlist.AddCallbacks(_playlistListener, Userdata);
-            _currentPlaylist = playlist;
-            PlaylistOpened(playlist);
+            _backgroundWorkHelper.DoInBackground(OpenPlaylistWorker, OpenPlaylistCompleted, playlist);
         }
 
         /// <summary>
@@ -299,7 +296,7 @@ namespace MusicStream
                 _session.PlayerLoad(playlist.Track(index));
                 _session.PlayerPlay(true);
                 _waveOutDevice.Play();
-                PlaybackStarted();
+                PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                 _playlistPlaying = true;
             }
             catch (SpotifyException spotifyException)
@@ -366,6 +363,7 @@ namespace MusicStream
             _bufferedWaveProvider.ClearBuffer();
             _currentPlaylistTrackIndex = 0;
             _currentPlaylistTrackPlayedDuration = 0.0;
+            PlaybackStopped();
         }
 
         public void StopTrack()
@@ -401,7 +399,7 @@ namespace MusicStream
                     _session.PlayerLoad(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                     _session.PlayerPlay(true);
                     _waveOutDevice.Play();
-                    PlaybackStarted();
+                    PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                 }
                 else
                 {
@@ -419,7 +417,7 @@ namespace MusicStream
                 _session.PlayerLoad(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                 _session.PlayerPlay(true);
                 _waveOutDevice.Play();
-                PlaybackStarted();
+                PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
             }
 
             _currentPlaylistTrackPlayedDuration = 0;
@@ -433,7 +431,7 @@ namespace MusicStream
             _session.PlayerSeek((int)_currentPlaylistTrackPlayedDuration);
             _session.PlayerPlay(true);
             _waveOutDevice.Play();
-            PlaybackStarted();
+            PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
         }
 
         /// <summary>
@@ -549,6 +547,15 @@ namespace MusicStream
                     //http://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2
                 }
             }
+
+            if (_playlistPlaying)
+            {
+                PlaybackLoadingReady(_currentPlaylist.Track(_currentPlaylistTrackIndex));
+            }
+            if (_prelistPlaying)
+            {
+                PrelistenLoadingReady(_currentPrelistenTrack);
+            }
         }
 
         public void EndOfTrack(SpotifySession session)
@@ -591,6 +598,22 @@ namespace MusicStream
 
         }
 
+        //Playlist
+        private void OpenPlaylistWorker(object sender, DoWorkEventArgs e)
+        {
+            Playlist playlist = (Playlist)e.Argument;
+            PlaylistStop();
+
+            _playlistListener = new MusicStreamPlaylistListener(this);
+            playlist.AddCallbacks(_playlistListener, Userdata);
+            _currentPlaylist = playlist;
+            e.Result = playlist;
+        }
+        private void OpenPlaylistCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            PlaylistOpened((Playlist)e.Result);
+        }
+
         //Prelisten
         private void PrelistenPlayWorker(object sender, DoWorkEventArgs e)
         {
@@ -612,7 +635,7 @@ namespace MusicStream
         {
             //PlaybackStarted();
             CurrentPrelistenTrack = (Track)e.Result;
-            PrelistenStarted();
+            PrelistenStarted(_currentPrelistenTrack);
         }
 
         private void PrelistenStopWorker(object sender, DoWorkEventArgs e)

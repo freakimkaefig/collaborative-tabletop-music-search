@@ -4,7 +4,9 @@
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:s="http://schemas.microsoft.com/surface/2008"  
     xmlns:c="clr-namespace:Ctms.Presentation.Converters">
-    
+
+    <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
+
     <Style TargetType="s:SurfaceListBoxItem">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Background" Value="#222"/>
@@ -23,7 +25,8 @@
             <Label Content="{Binding Result.Song.ArtistName}" Grid.Column="0" Grid.Row="0"/>
             <Label Content="{Binding Result.Song.Title}" Grid.Column="0" Grid.Row="1"/>
             <Label Content="{Binding Duration}" Grid.Column="1" Grid.Row="0"/>
-            <Label Content="Loading" Visibility="{Binding IsLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Column="1" Grid.Row="1"/>
+            <Label Content="Loading" Visibility="{Binding IsLoading, Converter={StaticResource visibilityConverter}}" Grid.Column="1" Grid.Row="1"/>
+            <Label Content="Playing" Visibility="{Binding IsPlaying, Converter={StaticResource visibilityConverter}}" Grid.Column="1" Grid.Row="1"/>
             <!--<Label Content="{Binding Duration}"/>-->
         </Grid>
     </DataTemplate>

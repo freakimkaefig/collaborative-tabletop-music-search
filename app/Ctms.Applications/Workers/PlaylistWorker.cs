@@ -46,6 +46,7 @@ namespace Ctms.Applications.Workers
             _sessionManager.PlaybackStopped = PlaybackStopped;
             _sessionManager.PlaybackEndOfTrack = EndOfTrack;
             _sessionManager.PlaylistTrackRemoved = PlaylistTrackRemoved;
+            _sessionManager.PlaybackLoadingReady = PlaybackLoadingReady;
         }
 
         private void PlaylistOpened(Playlist playlist)
@@ -59,21 +60,64 @@ namespace Ctms.Applications.Workers
             {
                _playlistViewModel.ResultsForPlaylist.Add(new ResultDataModel(playlist.Track(i).Name(), playlist.Track(i).Artist(0).Name(), playlist.Track(i)));
             }
+
+            _playlistViewModel.CanPlay = true;
         }
 
-        private void PlaybackStarted()
+        private void PlaybackLoadingReady(Track track)
+        {
+            foreach (ResultDataModel result in _playlistViewModel.ResultsForPlaylist)
+            {
+                //Vergleiche Tracks ??? keine ahnung wie!
+                if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
+                {
+                    result.IsLoading = false;
+                    result.IsPlaying = true;
+                }
+                else
+                {
+                    result.IsLoading = false;
+                    result.IsPlaying = false;
+                }
+            }
+        }
+
+        private void PlaybackStarted(Track track)
         {
             _playlistViewModel.Playing = true;
+            foreach (ResultDataModel result in _playlistViewModel.ResultsForPlaylist)
+            {
+                //Vergleiche Tracks ??? keine ahnung wie!
+                if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
+                {
+                    result.IsLoading = true;
+                }
+                else
+                {
+                    result.IsLoading = false;
+                    result.IsPlaying = false;
+                }
+            }
         }
 
         private void PlaybackPaused()
         {
             _playlistViewModel.Playing = false;
+            foreach (ResultDataModel result in _playlistViewModel.ResultsForPlaylist)
+            {
+                result.IsLoading = false;
+                result.IsPlaying = false;
+            }
         }
 
         private void PlaybackStopped()
         {
             _playlistViewModel.Playing = false;
+            foreach (ResultDataModel result in _playlistViewModel.ResultsForPlaylist)
+            {
+                result.IsLoading = false;
+                result.IsPlaying = false;
+            }
         }
 
         private void EndOfTrack()
@@ -87,6 +131,8 @@ namespace Ctms.Applications.Workers
         }
 
         //PUBLIC METHODS
+        public bool CanPlay() { return _playlistViewModel.CanPlay; }
+
         public void AddTrackToPlaylist(object[] data)
         {
             ResultDataModel result = (ResultDataModel)data[0];

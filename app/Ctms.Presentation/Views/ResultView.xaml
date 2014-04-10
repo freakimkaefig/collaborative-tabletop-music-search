@@ -20,6 +20,7 @@
                    ManipulationStarting="MainScatterView_ManipulationStarting"
                    s:SurfaceDragDrop.DragCanceled="Results_OnDragCanceled"
                    s:SurfaceDragDrop.DragCompleted="Results_OnDragCompleted"
-                   blakenui:Events.HoldGesture="Results_HoldGesture">
+                   blakenui:Events.HoldGesture="Results_HoldGesture"
+                   blakenui:Events.DoubleTapGesture="Results_DoubleTapGesture">
     </s:ScatterView>
 </UserControl>
