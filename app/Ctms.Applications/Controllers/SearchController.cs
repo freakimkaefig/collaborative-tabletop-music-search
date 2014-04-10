@@ -52,7 +52,12 @@ namespace Ctms.Applications.Controllers
         //Commands
         private readonly DelegateCommand _startSearchCmd;
         private readonly DelegateCommand _selectOptionCmd;
+        private readonly DelegateCommand _selectAttributeCmd;
+        private readonly DelegateCommand _selectGenreCmd;
+        private readonly DelegateCommand _selectArtistCmd;
+        private readonly DelegateCommand _selectTitleCmd;
         private readonly DelegateCommand _goBreadcrumbCmd;
+        private readonly DelegateCommand _confirmBreadcrumbCmd;
         private readonly DelegateCommand _getSuggestionsCmd;
         private readonly DelegateCommand _editCmd;
         private readonly DelegateCommand _goHomeCmd;
@@ -91,7 +96,18 @@ namespace Ctms.Applications.Controllers
             //Commands
             _startSearchCmd             = new DelegateCommand(_searchWorker.StartSearch, _searchWorker.CanStartSearch);
             _selectOptionCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.SelectOption((int)tagOptionId));
-            _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId));
+            
+            _selectAttributeCmd         = new DelegateCommand(
+                (tagOptionId) => _searchOptionWorker.SelectKeywordType((int)tagOptionId, KeywordTypes.Attribute));
+            _selectGenreCmd             = new DelegateCommand(
+                (tagOptionId) => _searchOptionWorker.SelectKeywordType((int)tagOptionId, KeywordTypes.Genre));
+            _selectArtistCmd            = new DelegateCommand(
+                (tagOptionId) => _searchOptionWorker.SelectKeywordType((int)tagOptionId, KeywordTypes.Artist));
+            _selectTitleCmd             = new DelegateCommand(
+                (tagOptionId) => _searchOptionWorker.SelectKeywordType((int)tagOptionId, KeywordTypes.Title));
+            
+            _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId)); new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId));
+            //_confirmBreadcrumbCmd       = new DelegateCommand((tagId) => _searchOptionWorker.ConfirmBreadcrumb((int)tagId));
             _getSuggestionsCmd          = new DelegateCommand((tagOptionId) => _searchOptionWorker.LoadSuggestions((int)tagOptionId));
             _editCmd                    = new DelegateCommand((tagId) => _searchOptionWorker.EditTag((int)tagId));
             _goHomeCmd                  = new DelegateCommand((tagId) => _searchOptionWorker.GoHome((int)tagId));
@@ -108,10 +124,15 @@ namespace Ctms.Applications.Controllers
             _shellService.SearchTagView = _searchTagVm.View;
 
             // assign commands
-            _searchVm.StartSearchCmd = _startSearchCmd;
+            _searchVm.StartSearchCmd    = _startSearchCmd;
             _searchVm.SelectOptionCmd   = _selectOptionCmd;
+            _searchVm.SelectAttributeCmd= _selectAttributeCmd;
+            _searchVm.SelectGenreCmd    = _selectGenreCmd;
+            _searchVm.SelectArtistCmd   = _selectArtistCmd;
+            _searchVm.SelectTitleCmd    = _selectTitleCmd;
             _searchVm.GetSuggestionsCmd = _getSuggestionsCmd;
-            _searchVm.GoBreadcrumbCmd   = _goBreadcrumbCmd;
+            _searchVm.GoBreadcrumbCmd = _goBreadcrumbCmd;
+            //_searchVm.ConfirmBreadcrumbCmd = _confirmBreadcrumbCmd;
             _searchVm.EditCmd           = _editCmd;
             _searchVm.GoHomeCmd         = _goHomeCmd;
 
@@ -129,7 +150,16 @@ namespace Ctms.Applications.Controllers
                 AddWeakEventListener(tag, TagDMChanged);
             }
         }
+        /*
+        private void SelectKeywordtype(int tagId, string keywordType)
+        {
+            if (keywordType == KeywordTypes.Attribute.ToString())
+            {
+                _searchOptionWorker.SelectKeywordType
+            }
 
+        }
+        */
         private void UpdateCommands()
         {
 

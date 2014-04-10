@@ -67,46 +67,7 @@ namespace Ctms.Applications.Controllers
             _shellService.InfoView = _infoVm.View;
 
             AddWeakEventListener(_infoVm, InfoViewModelPropertyChanged);
-
-            ShowCommonInfo("InfoMain", "InfoSub");
-            ShowTagInfo("InfoMain", "InfoSub", 0);
-            ShowTutorialInfo("InfoMain", "InfoSub");
         }
-
-        private void ShowCommonInfo(string mainText, string subText)
-        {
-            /*
-            var info = _infoFactory.CreateInfoDataModel();
-            info.Info.MainText = mainText;
-            info.Info.SubText = subText;
-            _infoVm.CommonInfos.Add(info);
-             * */
-        }
-
-        private void ShowTagInfo(string mainText, string subText, int tagId)
-        {
-            /*
-            var info = _infoFactory.CreateInfoDataModel();
-            info.IsVisible = true;
-            info.Info.MainText = mainText;
-            info.Info.SubText = subText;
-            info.Info.Position = new Point(200.0, 200.0);
-            _infoVm.CommonInfos.Add(info);
-             * */
-        }
-
-        private void ShowTutorialInfo(string mainText, string subText)
-        {
-            /*
-            var info = _infoFactory.CreateInfoDataModel();
-            info.IsVisible = true;
-            info.Info.MainText = mainText;
-            info.Info.SubText = subText;
-            info.Info.Position = new Point(200.0, 200.0);
-            _infoVm.CommonInfos.Add(info);
-             * */
-        }
-
        
         private void UpdateCommands()
         {

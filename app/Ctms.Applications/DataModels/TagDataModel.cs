@@ -45,6 +45,8 @@ namespace Ctms.Applications.DataModels
         private short lastHandledAngle = 0;
 
         private int activeOptionsIndex;
+        private bool _isKeywordTypesVisible;
+        private bool _isConfirmBreadcrumbVisible;
 
         public int CurrentOptionsIndex { get { return (int)activeOptionsIndex; } }
 
@@ -197,6 +199,38 @@ namespace Ctms.Applications.DataModels
                 {
                     _isEditVisible = value;
                     RaisePropertyChanged("IsEditVisible");
+                }
+            }
+        }
+
+        public bool IsKeywordTypesVisible
+        {
+            get
+            {
+                return _isKeywordTypesVisible;
+            }
+            set
+            {
+                if (_isKeywordTypesVisible != value)
+                {
+                    _isKeywordTypesVisible = value;
+                    RaisePropertyChanged("IsKeywordTypesVisible");
+                }
+            }
+        }
+
+        public bool IsConfirmBreadcrumbVisible
+        {
+            get
+            {
+                return _isConfirmBreadcrumbVisible;
+            }
+            set
+            {
+                if (_isConfirmBreadcrumbVisible != value)
+                {
+                    _isConfirmBreadcrumbVisible = value;
+                    RaisePropertyChanged("IsConfirmBreadcrumbVisible");
                 }
             }
         }

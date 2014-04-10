@@ -236,6 +236,14 @@ namespace Ctms.Applications.Data
             return _searchVm.Tags.SelectMany(t => t.Tag.TagOptions).Distinct().ToList();
         }
 
+        /// <summary>
+        /// Get tag option by tag Id and keywordType
+        /// </summary>
+        public TagOption GetTagOption(int tagId, KeywordTypes type)
+        {
+            return GetTagDMById(tagId).Tag.TagOptions.FirstOrDefault(to => to.Keyword.Type == type && to.Keyword.Name == type.ToString());
+        }
+
         #endregion TagOptions
 
         #region BreadcrumbOptions
