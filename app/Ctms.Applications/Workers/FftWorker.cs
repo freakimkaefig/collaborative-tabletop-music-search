@@ -8,6 +8,7 @@ using Ctms.Applications.ViewModels;
 using System.Windows.Media.Animation;
 using System.Windows;
 using System.Windows.Threading;
+using Ctms.Applications.Views;
 
 namespace Ctms.Applications.Workers
 {
@@ -21,9 +22,9 @@ namespace Ctms.Applications.Workers
         private double[] _array;
         public delegate void UpdateDelegate();
         private int _lowbandMultiplier = 300;
-        private int _midbandMultiplier = 1200;
-        private int _highbandMultiplier = 1500;
-        private int _maxheight = 250;
+        private int _midbandMultiplier = 1400;
+        private int _highbandMultiplier = 1700;
+        private int _maxheight = 300;
         private int _duration = 250;
         private bool _every2ndTime = true;
 
@@ -68,9 +69,11 @@ namespace Ctms.Applications.Workers
 
         public void UpdateVm()
         {
+            var searchView = ((ISearchView)_searchViewModel.View);
+
             if (_array.Length > 6)
             {
-                //Source: https://stackoverflow.com/questions/733243/how-to-copy-part-of-an-array-to-another-array-in-c/733253#733253
+
                 double[] b = new double[7];
                 Array.Copy(_array, 0, b, 0, 7);
                 double[] c = new double[7];
@@ -82,11 +85,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft1Value = _maxheight;
                 }
-                else //if(calcMagnitude > _searchViewModel.Fft1Value)
+                else if (calcMagnitude > (int)searchView.GetFft1.ActualHeight)
                 {
                     _searchViewModel.Fft1Value = calcMagnitude;
                 }
-                
+
+                //setting the exact duration of the current byte-array causes flickering...
                     //int _duration = (int)_array[_array.Length - 1];
 
                     DoubleAnimation interpolate1 = new DoubleAnimation() { From = _searchViewModel.Fft1Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
@@ -120,11 +124,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft2Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft2Value)
+                else if (calcMagnitude > (int)searchView.GetFft2.ActualHeight)
                 {
                     _searchViewModel.Fft2Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate2 = new DoubleAnimation() { From = _searchViewModel.Fft2Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -155,11 +160,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft3Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft3Value)
+                else if (calcMagnitude > (int)searchView.GetFft3.ActualHeight)
                 {
                     _searchViewModel.Fft3Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate3 = new DoubleAnimation() { From = _searchViewModel.Fft3Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -190,11 +196,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft4Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft4Value)
+                else if (calcMagnitude > (int)searchView.GetFft4.ActualHeight)
                 {
                     _searchViewModel.Fft4Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate4 = new DoubleAnimation() { From = _searchViewModel.Fft4Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -226,11 +233,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft5Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft5Value)
+                else if (calcMagnitude > (int)searchView.GetFft5.ActualHeight)
                 {
                     _searchViewModel.Fft5Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate5 = new DoubleAnimation() { From = _searchViewModel.Fft5Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -262,11 +270,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft6Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft6Value)
+                else if (calcMagnitude > (int)searchView.GetFft6.ActualHeight)
                 {
                     _searchViewModel.Fft6Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate6 = new DoubleAnimation() { From = _searchViewModel.Fft6Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -298,11 +307,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft7Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft7Value)
+                else if (calcMagnitude > (int)searchView.GetFft7.ActualHeight)
                 {
                     _searchViewModel.Fft7Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate7 = new DoubleAnimation() { From = _searchViewModel.Fft7Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -334,11 +344,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft8Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft8Value)
+                else if (calcMagnitude > (int)searchView.GetFft8.ActualHeight)
                 {
                     _searchViewModel.Fft8Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate8 = new DoubleAnimation() { From = _searchViewModel.Fft8Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -370,11 +381,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft9Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft9Value)
+                else if (calcMagnitude > (int)searchView.GetFft9.ActualHeight)
                 {
                     _searchViewModel.Fft9Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate9 = new DoubleAnimation() { From = _searchViewModel.Fft9Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -406,11 +418,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft10Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft10Value)
+                else if (calcMagnitude > (int)searchView.GetFft10.ActualHeight)
                 {
                     _searchViewModel.Fft10Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate10 = new DoubleAnimation() { From = _searchViewModel.Fft10Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -442,11 +455,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft11Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft11Value)
+                else if (calcMagnitude > (int)searchView.GetFft11.ActualHeight)
                 {
                     _searchViewModel.Fft11Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate11 = new DoubleAnimation() { From = _searchViewModel.Fft11Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -478,11 +492,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft12Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft12Value)
+                else if (calcMagnitude > (int)searchView.GetFft12.ActualHeight)
                 {
                     _searchViewModel.Fft12Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate12 = new DoubleAnimation() { From = _searchViewModel.Fft12Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -514,11 +529,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft13Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft13Value)
+                else if (calcMagnitude > (int)searchView.GetFft13.ActualHeight)
                 {
                     _searchViewModel.Fft13Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate13 = new DoubleAnimation() { From = _searchViewModel.Fft13Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -550,11 +566,12 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft14Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft14Value)
+                else if (calcMagnitude > (int)searchView.GetFft14.ActualHeight)
                 {
                     _searchViewModel.Fft14Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
+
+                //int _duration = (int)_array[_array.Length - 1];
 
                 DoubleAnimation interpolate14 = new DoubleAnimation() { From = _searchViewModel.Fft14Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
@@ -586,12 +603,13 @@ namespace Ctms.Applications.Workers
                 {
                     _searchViewModel.Fft15Value = _maxheight;
                 }
-                else //if (calcMagnitude > _searchViewModel.Fft15Value)
+                else if (calcMagnitude > (int)searchView.GetFft15.ActualHeight)
                 {
                     _searchViewModel.Fft15Value = calcMagnitude;
                 }
-                //int ms = (int)arr[arr.Length - 1];
 
+                //int _duration = (int)_array[_array.Length - 1];
+                
                 DoubleAnimation interpolate15 = new DoubleAnimation() { From = _searchViewModel.Fft15Value, To = 0, Duration = TimeSpan.FromMilliseconds(_duration) };
 
                 Storyboard.SetTarget(interpolate15, _searchViewModel.FftRectangle[14]);
@@ -614,7 +632,6 @@ namespace Ctms.Applications.Workers
 
         public double calcMedian(double[] arr)
         {
-            //Source:https://stackoverflow.com/questions/4140719/i-need-c-sharp-function-that-will-calculate-median/8328226#8328226
 
             //Framework 2.0 version of this method. there is an easier way in F4        
             if (arr == null || arr.Length == 0)
