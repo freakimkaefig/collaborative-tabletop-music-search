@@ -42,11 +42,12 @@ namespace MusicStream
 
             //Debug.WriteLine("DATA received:\nSamples: "+samples+"\nHänger: "+stutter+"\nFrames: "+frames);
 
+            //BYTE[] to DOUBLE[]
             Double[] preparedFrames = new Double[frames.Length + 1];
             preparedFrames = prepareBytes(channels, sampleRate, frames);
 
 
-            
+            //calculate FFT Data
             _lomontFFT = new Lomont.LomontFFT();
             Double[] framesFFT = _lomontFFT.FFT(preparedFrames, true);
             framesFFT[framesFFT.Length - 1] = howmuchsec;
@@ -55,9 +56,9 @@ namespace MusicStream
         }
 
       
-
-        
-
+        //add normalization? before or after Fft calculation?
+        //see: http://forum.processing.org/two/discussion/1836/how-to-smooth-audio-fft-data/p1
+        //what about channels and sampleRate while preparing byte[] to double[] ?
         public Double[] prepareBytes(int channels, int sampleRate, byte[] frames)
         {
             Double[] data = new Double[frames.Length / 4];

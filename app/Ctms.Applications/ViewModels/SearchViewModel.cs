@@ -59,6 +59,12 @@ namespace Ctms.Applications.ViewModels
         private int _fft15Value = 0;
 
         private List<System.Windows.Shapes.Rectangle> _fftRectangle;
+        private ICommand _selectAttributeCmd;
+        private ICommand _selectArtistCmd;
+        private ICommand _selectSongCmd;
+        private ICommand _selectGenreCmd;
+        private ICommand _selectCurrentBreadcrumb;
+        private ICommand _confirmBreadcrumbCmd;
 
         [ImportingConstructor]
         public SearchViewModel(ISearchView view)
@@ -72,12 +78,6 @@ namespace Ctms.Applications.ViewModels
                 //MICHL: befüllen durch Tangibles die auf dem Tisch stehen!
                 //       Einträge auch wieder löschen, wenn Tangible vom Tisch genommen wird (über originId)
             _searchObjectsList = new List<searchObjects>();
-            _searchObjectsList.Add(new searchObjects
-            {
-                genre = "rock",
-                originId = 1
-
-            });
         }
 
         public List<searchObjects> SearchObjectsList
@@ -467,25 +467,73 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        #endregion Commands  
-
-        public void OnVisualizationAdded(int tagId)
+        public ICommand SelectAttributeCmd
         {
-            AddVisualization.Execute(tagId);
-        }
-
-        public ICommand AddVisualization
-        {
-            get { return _addVisualizationCmd; }
+            get { return _selectAttributeCmd; }
             set
             {
-                if (_addVisualizationCmd != value)
+                if (_selectAttributeCmd != value)
                 {
-                    _addVisualizationCmd = value;
-                    RaisePropertyChanged("AddVisualization");
+                    _selectAttributeCmd = value;
+                    RaisePropertyChanged("SelectAttributeCmd");
                 }
             }
         }
+
+        public ICommand SelectGenreCmd
+        {
+            get { return _selectGenreCmd; }
+            set
+            {
+                if (_selectGenreCmd != value)
+                {
+                    _selectGenreCmd = value;
+                    RaisePropertyChanged("SelectGenreCmd");
+                }
+            }
+        }
+
+        public ICommand SelectArtistCmd
+        {
+            get { return _selectArtistCmd; }
+            set
+            {
+                if (_selectArtistCmd != value)
+                {
+                    _selectArtistCmd = value;
+                    RaisePropertyChanged("SelectArtistCmd");
+                }
+            }
+        }
+
+        public ICommand SelectTitleCmd
+        {
+            get { return _selectSongCmd; }
+            set
+            {
+                if (_selectSongCmd != value)
+                {
+                    _selectSongCmd = value;
+                    RaisePropertyChanged("SelectTitleCmd");
+                }
+            }
+        }
+
+
+        #endregion Commands  
+
+        //public ICommand ConfirmBreadcrumbCmd
+        //{
+        //    get { return _confirmBreadcrumbCmd; }
+        //    set
+        //    {
+        //        if (_confirmBreadcrumbCmd != value)
+        //        {
+        //            _confirmBreadcrumbCmd = value;
+        //            RaisePropertyChanged("ConfirmBreadcrumbCmd");
+        //        }
+        //    }
+        //}
 
         public void UpdateVisuals(TagDataModel tagDM)
         {

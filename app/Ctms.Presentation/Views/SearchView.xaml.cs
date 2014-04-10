@@ -166,8 +166,7 @@ namespace Ctms.Presentation.Views
             var isEditVisible = converter.Convert(tagDM.IsEditVisible, null, null, null);
             searchTagView.Resources["IsEditVisible"] = converter.Convert(tagDM.IsEditVisible, null, null, null);
             searchTagView.Resources["IsMenuVisible"] = converter.Convert(tagDM.IsMenuVisible, null, null, null);
-
-            
+            //searchTagView.Resources["IsConfirmBreadcrumbVisible"] = converter.Convert(tagDM.IsConfirmBreadcrumbVisible, null, null, null);
         }
 
         private static void CalcMenuVisibility(SearchTagView searchTagView, TagDataModel tagDM)
