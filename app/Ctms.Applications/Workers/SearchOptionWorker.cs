@@ -57,6 +57,7 @@ namespace Ctms.Applications.Workers
             foreach (var tagDM in tagDMs)
             {
                 LoadKeywordTypes(tagDM.Id);
+                SetKeywordTypesIsVisible(tagDM, true);
             }
         }
 
@@ -94,15 +95,21 @@ namespace Ctms.Applications.Workers
             tagDM.RefreshLayer();
         }
 
+        public void SelectKeywordType(int tagId, KeywordTypes keywordType)
+        {
+            var tagOption = _repository.GetTagOption(tagId, keywordType);
+            if (tagOption != null) SelectOption(tagOption.Id);
+        }
+
         public void SelectOption(int tagOptionId)
         {
-            var tagDM       = _repository.GetTagDMByTagOption(tagOptionId);
-            var tagId       = tagDM.Id;
-            var tagOption   = _repository.GetTagOptionById(tagOptionId);
-            var keywordType = tagOption.Keyword.Type;
+            var tagDM               = _repository.GetTagDMByTagOption(tagOptionId);
+            var tagId               = tagDM.Id;
+            var selectedTagOption   = _repository.GetTagOptionById(tagOptionId);
+            var keywordType         = selectedTagOption.Keyword.Type;
 
             // add breadcrumb only if the next stop is not assignKeyword
-            if(tagOption.LayerNr != 2) AddBreadcrumb(tagDM, tagOption);
+            if(selectedTagOption.LayerNr != 2) AddBreadcrumb(tagDM, selectedTagOption);
 
             UpdateActiveLayerNumber(tagDM, tagDM.Tag.CurrentLayerNr + 1);
 
@@ -113,14 +120,15 @@ namespace Ctms.Applications.Workers
                     if (keywordType == KeywordTypes.Artist || keywordType == KeywordTypes.Title)
                     {
                         // init selected keyword of tag and set its type
-                        tagDM.Tag.AssignedKeyword = _tagFactory.CreateKeyword(tagOption.Keyword.Name, tagOption.Keyword.Type);
+                        tagDM.Tag.AssignedKeyword = _tagFactory.CreateKeyword(selectedTagOption.Keyword.Name, selectedTagOption.Keyword.Type);
 
                         SetInputIsVisible(tagDM, true);
                     }
-                    if (keywordType == KeywordTypes.Genre)
+                    else if (keywordType == KeywordTypes.Genre)
                     {   // load top genres
                         var genres = _searchManager.getGenres();
 
+                        // load genres into tagoptions
                         foreach (var genre in genres)
                         {
                             var keyword = _tagFactory.CreateKeyword(genre.genre_name, KeywordTypes.Genre);
@@ -134,7 +142,7 @@ namespace Ctms.Applications.Workers
                     {   // load attributes
                     }
 
-                    //_searchVM.UpdateVisuals(tag);
+                    SetKeywordTypesIsVisible(tagDM, false);
 
                     break;
                 }
@@ -145,7 +153,7 @@ namespace Ctms.Applications.Workers
                     if (keywordType == KeywordTypes.Genre)
                     {   // load subgenres
 
-                        var genre = _searchManager.getGenres().FirstOrDefault(g => g.genre_name == tagOption.Keyword.Name);
+                        var genre = _searchManager.getGenres().FirstOrDefault(g => g.genre_name == selectedTagOption.Keyword.Name);
 
                         foreach (var subGenre in genre.Subgenres)
                         {
@@ -155,19 +163,21 @@ namespace Ctms.Applications.Workers
 
                             tagDM.Tag.TagOptions.Add(genreOption);
                         }
+
+                        //SetConfirmBreadcrumbIsVisible(tagDM, true);
                     }
                     else if (keywordType == KeywordTypes.Attribute)
                     {   // load attributes
 
                     }
 
+                    SetKeywordIsVisible(tagDM, false);
+
                     break;
                 }
                 case 3: // ---layer 3---
                 {
-                    AssignKeyword(tagDM, tagOption);
-
-                    tagDM.State = TagDataModel.States.Assigned;
+                    AssignKeyword(tagDM, selectedTagOption);
 
                     break;
                 }
@@ -176,6 +186,20 @@ namespace Ctms.Applications.Workers
             // update menu
             _searchVM.UpdateVisuals(tagDM);
         }
+        /*
+        // Confirm current
+        internal void ConfirmBreadcrumb(int tagId)
+        {
+            var tagDM           = _repository.GetTagDMById(tagId);
+            var breadcrumbOptions = tagDM.Tag.BreadcrumbOptions;
+            if (breadcrumbOptions != null && breadcrumbOptions.Any())
+            {
+                var breadcrumbOption = breadcrumbOptions.LastOrDefault();
+                SetConfirmBreadcrumbIsVisible(tagDM, false);
+                AssignKeyword(tagDM, breadcrumbOption);
+                //SelectOption(breadcrumbOption.Id);
+            }
+        }*/
 
         public void LoadSuggestions(int tagId)
         {
@@ -374,9 +398,11 @@ namespace Ctms.Applications.Workers
             var tagDM = _repository.GetTagDMById(tagId);
             tagDM.Tag.TagOptions.Clear();
 
-            SetInputIsVisible(tagDM, false);
-
             LoadKeywordTypes(tagId);
+
+            SetKeywordTypesIsVisible(tagDM, true);
+            SetKeywordIsVisible(tagDM, false);
+            SetInputIsVisible(tagDM, false);
 
             _searchVM.UpdateVisuals(tagDM);
         }
@@ -411,10 +437,19 @@ namespace Ctms.Applications.Workers
             SetMenuIsVisible(tagDM, false);
             SetKeywordIsVisible(tagDM, true);
             SetEditIsVisible(tagDM, true);
+
+            tagDM.State = TagDataModel.States.Assigned;
         }
 
-
         #region Visibilities
+
+        private void SetKeywordTypesIsVisible(TagDataModel tagDM, bool isKeywordTypeVisible)
+        {
+            // show or hide keyword
+            tagDM.IsKeywordTypesVisible = isKeywordTypeVisible;
+
+            SetMenuIsVisible(tagDM, !isKeywordTypeVisible);
+        }
 
         private void SetInputIsVisible(TagDataModel tagDM, bool visibility)
         {
@@ -435,6 +470,12 @@ namespace Ctms.Applications.Workers
         {
             // show or hide keyword
             tagDM.IsAssignedKeywordVisible = isKeywordVisible;
+        }
+
+        private void SetConfirmBreadcrumbIsVisible(TagDataModel tagDM, bool isConfirmBreadcrumbVisible)
+        {
+            // show or hide keyword
+            tagDM.IsConfirmBreadcrumbVisible = isConfirmBreadcrumbVisible;
         }
 
         #endregion Visibilities

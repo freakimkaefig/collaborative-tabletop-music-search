@@ -132,13 +132,15 @@
             
             
             <!--Grid for keyword type selection-->
-            <!--<Grid Row="1" Column="1">
+            <Grid Row="1" Column="1" DataContext="{DynamicResource TagDM}"
+                Visibility="{Binding IsKeywordTypesVisible, Converter={StaticResource visibilityConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
@@ -148,13 +150,16 @@
                                  Grid.Row="0" 
                                  Grid.Column="0"
                                  Command="{Binding SelectAttributeCmd}" 
-                                 Style="{StaticResource SearchViewBtn}"/>
+                                 CommandParameter="{DynamicResource TagId}"
+                                 Style="{StaticResource SearchViewBtn}"
+                                 />
                 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                                  Content="Genre" 
                                  Grid.Row="0" 
                                  Grid.Column="1"
                                  Command="{Binding SelectGenreCmd}" 
+                                 CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"/>
 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -162,6 +167,7 @@
                                  Grid.Row="1" 
                                  Grid.Column="0"
                                  Command="{Binding SelectTitleCmd}" 
+                                 CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"/>
 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -169,8 +175,9 @@
                                  Grid.Row="1" 
                                  Grid.Column="1"
                                  Command="{Binding SelectArtistCmd}" 
+                                 CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"/>
-            </Grid>-->
+            </Grid>
             <!--//Grid for keyword type selection-->
             
             <!--Start Text Input field-->
@@ -226,6 +233,17 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
+
+
+            <!--<s:SurfaceButton DataContext="{DynamicResource TagDM}"
+                             Content="Confirm" 
+                             HorizontalAlignment="Left" 
+                             Grid.Row="0" 
+                             Grid.Column="2"
+                             Command="{Binding DataContext.ConfirmBreadcrumbCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                             CommandParameter="{Binding Id}"
+                             Visibility="{DynamicResource IsConfirmBreadcrumbVisible}"
+                             Style="{StaticResource SearchViewBtn}"/>-->
             <!--End Menu Controls-->
 
 

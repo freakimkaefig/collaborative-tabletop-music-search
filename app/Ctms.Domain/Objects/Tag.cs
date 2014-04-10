@@ -22,7 +22,7 @@ namespace Ctms.Domain.Objects
         public Tag()
         {
             _tagOptions         = new ObservableCollection<TagOption>();
-            _breadcrumbOptions    = new ObservableCollection<TagOption>();
+            _breadcrumbOptions  = new ObservableCollection<TagOption>();
 
             //_angle = 90.0;
         }
