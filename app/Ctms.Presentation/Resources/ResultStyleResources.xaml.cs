@@ -29,6 +29,8 @@ namespace Ctms.Presentation.Resources
                         if (e.NewSize.Width > result.StdWidth * 2 || e.NewSize.Height > result.StdHeight * 2)
                         {
                             result.IsDetail = true;
+                            scatterViewItem.Height = 300.0;
+                            scatterViewItem.Width = 400.0;
                         }
                     }
                     else
@@ -46,6 +48,8 @@ namespace Ctms.Presentation.Resources
                 //initial rendering | save items standard width/height
                 result.StdWidth = e.NewSize.Width;
                 result.StdHeight = e.NewSize.Height;
+                result.Width = e.NewSize.Width;
+                result.Height = e.NewSize.Height;
             }
         }
     }

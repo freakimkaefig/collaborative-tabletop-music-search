@@ -19,6 +19,8 @@ namespace Ctms.Applications.DataModels
 
         private double _stdWidth;
         private double _stdHeight;
+        private double _width;
+        private double _height;
         private bool _isDetail;
 
         public ResultDataModel(string title, string artistName, Track spotifyTrack)
@@ -51,6 +53,8 @@ namespace Ctms.Applications.DataModels
 
         public double StdWidth { get { return _stdWidth; } set { _stdWidth = value; RaisePropertyChanged("StdWidth"); } }
         public double StdHeight { get { return _stdHeight; } set { _stdHeight = value; RaisePropertyChanged("StdHeight"); } }
+        public double Width { get { return _width; } set { _width = value; RaisePropertyChanged("Width"); } }
+        public double Height { get { return _height; } set { _height = value; RaisePropertyChanged("Height"); } }
         public bool IsDetail { get { return _isDetail; } set { _isDetail = value; RaisePropertyChanged("IsDetail"); } }
     }
 }
