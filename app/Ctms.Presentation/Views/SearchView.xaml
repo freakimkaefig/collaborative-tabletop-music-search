@@ -11,6 +11,269 @@
     xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" x:Class="Ctms.Presentation.Views.SearchView"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
+    <UserControl.Resources>
+        <DataTemplate x:Key="EllipsenTemplate">
+            <Ellipse x:Name="el1"
+                   Height="35"
+                   Width="35"
+                   Fill="Yellow">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform1" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}"/>
+                </Ellipse.RenderTransform>
+
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <!--auslösen, wenn 2 Tangibles sich "überschneiden" / Radien? -->
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform1"
+                                             Storyboard.TargetProperty="X"
+                                             To="600"   
+                                             Duration="0:0:1"
+                                             AutoReverse="True"
+                                             SpeedRatio="0.9"
+                                             RepeatBehavior="Forever"/>
+                                <!--To Property mit Binding an Tangibles binden-->
+                                <DoubleAnimation Storyboard.TargetName="TTransform1"
+                                             Storyboard.TargetProperty="Y"
+                                             To="200"
+                                             Duration="0:0:1"
+                                             AutoReverse="True"
+                                             SpeedRatio="0.9"
+                                             RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <!--<Ellipse x:Name="el2"
+                     Height="35"
+                     Width="35"
+                     Fill="Green">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform2" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform2"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.9"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.8"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform2"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="50"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.8"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse x:Name="el3"
+                     Height="35"
+                     Width="35"
+                     Fill="Blue">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform3" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform3"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.8"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.7"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform3"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="50"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.7"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse x:Name="el4"
+                     Height="35"
+                     Width="35"
+                     Fill="Black">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform4" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform4"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.7"
+                                                 AutoReverse="True"
+                                                 RepeatBehavior="Forever"
+                                                 SpeedRatio="0.6"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform4"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="50"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 RepeatBehavior="Forever"
+                                                 SpeedRatio="0.6"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse x:Name="el5"
+                     Height="35"
+                     Width="35"
+                     Fill="Red">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform5" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform5"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.6"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.5"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform5"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="50"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.5"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse x:Name="el6"
+                     Height="35"
+                     Width="35"
+                     Fill="DarkBlue">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform6" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform6"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.5"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform6"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="50"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse x:Name="el7"
+                     Height="35"
+                     Width="35"
+                     Fill="DarkGray">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform7" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform7"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.4"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform7"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="50"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+
+            <Ellipse x:Name="el8"
+                     Height="35"
+                     Width="35"
+                     Fill="Purple">
+                <Ellipse.RenderTransform>
+                    <TranslateTransform x:Name="TTransform8" X="0" Y="0"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="TTransform8"
+                                                 Storyboard.TargetProperty="X"
+                                                 To="600"
+                                                 Duration="0:0:0.3"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+
+                                <DoubleAnimation Storyboard.TargetName="TTransform8"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="50"
+                                                 Duration="0:0:0.1"
+                                                 AutoReverse="True"
+                                                 SpeedRatio="0.4"
+                                                 RepeatBehavior="Forever"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>-->
+
+        </DataTemplate>
+
+    </UserControl.Resources>
 
     <s:TagVisualizer x:Name="SearchTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
                      VisualizationRemoved="OnVisualizationRemoved" 
@@ -22,11 +285,11 @@
                      >
   
         
-        <Grid Margin="0,0,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
+    <Grid Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
             
             
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
@@ -110,265 +373,21 @@
                 </Rectangle.Effect>
             </Rectangle>
 
-            <Ellipse x:Name="el1"
-                   Height="35"
-                   Width="35"
-                   Fill="Yellow">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform1" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">   <!--auslösen, wenn 2 Tangibles sich "überschneiden" Radien? -->
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform1"
-                                             Storyboard.TargetProperty="X"
-                                             To="600"   
-                                             Duration="0:0:1"
-                                             AutoReverse="True"
-                                             SpeedRatio="0.9"
-                                             RepeatBehavior="Forever"/> <!--To Property mit Binding an Tangibles binden-->
-                                <DoubleAnimation Storyboard.TargetName="TTransform1"
-                                             Storyboard.TargetProperty="Y"
-                                             To="150"
-                                             Duration="0:0:0.1"
-                                             AutoReverse="True"
-                                             SpeedRatio="0.9"
-                                             RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-            
-            <Ellipse x:Name="el2"
-                     Height="35"
-                     Width="35"
-                     Fill="Green">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform2" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform2"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.9"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.8"
-                                                 RepeatBehavior="Forever"/>
-                                
-                                <DoubleAnimation Storyboard.TargetName="TTransform2"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="150"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.8"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el3"
-                     Height="35"
-                     Width="35"
-                     Fill="Blue">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform3" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform3"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.8"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.7"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform3"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="150"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.7"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el4"
-                     Height="35"
-                     Width="35"
-                     Fill="Black">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform4" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform4"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.7"
-                                                 AutoReverse="True"
-                                                 RepeatBehavior="Forever"
-                                                 SpeedRatio="0.6"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform4"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="150"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 RepeatBehavior="Forever"
-                                                 SpeedRatio="0.6"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el5"
-                     Height="35"
-                     Width="35"
-                     Fill="Red">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform5" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform5"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.6"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.5"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform5"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="150"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.5"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el6"
-                     Height="35"
-                     Width="35"
-                     Fill="DarkBlue">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform6" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform6"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.5"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform6"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="150"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el7"
-                     Height="35"
-                     Width="35"
-                     Fill="DarkGray">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform7" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform7"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.4"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform7"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="150"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el8"
-                     Height="35"
-                     Width="35"
-                     Fill="Purple">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform8" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform8"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.3"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform8"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="150"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
+            <ItemsControl ItemTemplate="{DynamicResource EllipsenTemplate}"  
+                        ItemsSource="{Binding Tags}"
+                        Grid.Row="0" 
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
 
         </Grid>
         
     </s:TagVisualizer>
+    
     
 </UserControl>
