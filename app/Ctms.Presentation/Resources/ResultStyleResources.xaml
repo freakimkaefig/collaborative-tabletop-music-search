@@ -67,8 +67,8 @@
                 </Grid.InputBindings>
             </Grid>-->
                 </Grid>
-                <Grid Visibility="Visible">
-                    <Label Content="DetailView"></Label>
+                <Grid Visibility="{Binding IsDetail, Converter={x:Static c:BoolToVisibilityConverter.Default}}">
+                    <Label Content="DetailView" FontSize="36" Foreground="Red"></Label>
                 </Grid>
             </Grid>
         </ContentControl>

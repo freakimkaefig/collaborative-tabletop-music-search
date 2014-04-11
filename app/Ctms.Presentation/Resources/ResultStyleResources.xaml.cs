@@ -26,10 +26,18 @@ namespace Ctms.Presentation.Resources
                     if (e.NewSize.Width > e.PreviousSize.Width || e.NewSize.Height > e.PreviousSize.Height)
                     {
                         //item is getting bigger
+                        if (e.NewSize.Width > result.StdWidth * 2 || e.NewSize.Height > result.StdHeight * 2)
+                        {
+                            result.IsDetail = true;
+                        }
                     }
                     else
                     {
                         //item is getting smaller
+                        if (e.NewSize.Width < result.StdWidth * 2 || e.NewSize.Height < result.StdHeight * 2)
+                        {
+                            result.IsDetail = false;
+                        }
                     }
                 }
             }
