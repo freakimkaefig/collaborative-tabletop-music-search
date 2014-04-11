@@ -47,6 +47,7 @@ namespace Ctms.Applications.DataModels
         private int activeOptionsIndex;
         private bool _isKeywordTypesVisible;
         private bool _isConfirmBreadcrumbVisible;
+        private string _backgrImageSource;
 
         public int CurrentOptionsIndex { get { return (int)activeOptionsIndex; } }
 
@@ -279,6 +280,22 @@ namespace Ctms.Applications.DataModels
                 {
                     _width = value;
                     RaisePropertyChanged("Width");
+                }
+            }
+        }
+
+        public string BackgrImageSource
+        {
+            get
+            {
+                return _backgrImageSource;
+            }
+            set
+            {
+                if (_backgrImageSource != value)
+                {
+                    _backgrImageSource = value;
+                    RaisePropertyChanged("BackgrImageSource");
                 }
             }
         }
