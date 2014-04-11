@@ -29,9 +29,9 @@
         </Grid.RowDefinitions>
         
         <Label Content="DetailView" Grid.Column="0" Grid.Row="0"/>
-        <Button Command="{Binding DoTestCommand}">Button Example</Button>
+        <!--<Button Command="{Binding DoTestCommand}">Button Example</Button>-->
 
-            <TextBlock
+        <TextBlock
             Margin="0,0,0,0"
             TextAlignment="Center"
             Grid.Column="0" 
@@ -46,7 +46,7 @@
             Grid.Column="1" 
             Grid.Row="1"
             Foreground="White"
-            Text="Test123"> <!--{Binding Result/Detail }  getDetails? ? -->
+            Text="Der Titel"> <!--{Binding Result/Detail }  getDetails? ? -->
         </TextBlock>
 
         <TextBlock
@@ -64,7 +64,7 @@
             Grid.Column="1" 
             Grid.Row="2"
             Foreground="White"
-            Text="Test234">
+            Text="Der Artist">
         </TextBlock>
 
         <TextBlock
