@@ -5,12 +5,14 @@ using System.Text;
 using System.Waf.Applications;
 using Ctms.Domain.Objects;
 using SpotifySharp;
+using System.Collections.ObjectModel;
 
 namespace Ctms.Applications.DataModels
 {
     public class ResultDataModel : DataModel
     {
         private Result _result;
+        private ObservableCollection<Tag> _tagInfluences;
         private bool _canDrop = true;
         private bool _isLoading = false;
         private bool _isPlaying = false;
@@ -27,10 +29,13 @@ namespace Ctms.Applications.DataModels
             Result.Song.ArtistName = artistName;
             SpotifyTrack = spotifyTrack;
 
+            _tagInfluences = new ObservableCollection<Tag>();
+
             Opacity = 1.0;
         }
 
         public Result Result { get { return _result; } set { _result = value; } }
+        public ObservableCollection<Tag> TagInfluences { get { return _tagInfluences; } set { _tagInfluences = value; RaisePropertyChanged("TagInfluences"); } }
 
         public Track SpotifyTrack { get; set; }
         public string Duration { get { return TimeSpan.FromMilliseconds(SpotifyTrack.Duration()).Minutes + ":" + TimeSpan.FromMilliseconds(SpotifyTrack.Duration()).Seconds; } }

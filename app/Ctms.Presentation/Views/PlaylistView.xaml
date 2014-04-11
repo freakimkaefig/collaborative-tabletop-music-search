@@ -114,7 +114,9 @@
 			<Label Content="DETAILVIEW kommt hier her" Grid.Column="1" Margin="296,288,232,504"/>
             <!--<TextBox x:Name="textBox" Width="300" Height="500" Grid.Column="1"/>-->
             <s:SurfaceButton Grid.Column="1" HorizontalAlignment="Left" Margin="8,24,0,0" VerticalAlignment="Top" Command="{Binding RotateCommand}">
-                <Image Opacity="1" Width="80" Height="80" Source="../../Resources/Images/Playlist/rotate-icon.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <s:SurfaceButton.Background>
+                    <ImageBrush ImageSource="../Resources/Images/Playlist/rotate-icon.png" Opacity="1.0"/>
+                </s:SurfaceButton.Background>
             </s:SurfaceButton>
             <Label Content="Shuffle" HorizontalAlignment="Right" Height="24" Margin="0,38,96,0" VerticalAlignment="Top" Width="64"/>
             <Label Content="Repeat" HorizontalAlignment="Right" Height="24" Margin="0,38,16,0" VerticalAlignment="Top" Width="64"/>
@@ -122,8 +124,10 @@
                              AllowDrop="True"
                              s:SurfaceDragDrop.DragEnter="PlaylistRemoveDropTarget_DragEnter"
         	                 s:SurfaceDragDrop.DragLeave="PlaylistRemoveDropTarget_DragLeave"
-        	                 s:SurfaceDragDrop.Drop="PlaylistRemoveDropTarget_Drop">     
-                <Image Source="../../Resources/Images/Playlist/trash.png" Width="60"  Height="60"/>
+        	                 s:SurfaceDragDrop.Drop="PlaylistRemoveDropTarget_Drop">
+                <s:SurfaceButton.Background>
+                    <ImageBrush ImageSource="../Resources/Images/Playlist/trash.png" Opacity="1.0"/>
+                </s:SurfaceButton.Background>
             </s:SurfaceButton>
         </Grid>
 		<s:SurfaceButton x:Name="surfaceButton2" Content="SEARCH" Margin="0" VerticalAlignment="Center" Height="80" HorizontalAlignment="Right" Visibility="Hidden">
@@ -138,20 +142,16 @@
                          s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave"
                          s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop"
                          AllowDrop="True">
-            <Image Opacity="1" Width="80" Height="80" Source="../../Resources/Images/Playlist/playlist.png" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-            	<Image.RenderTransform>
-            		<TransformGroup>
-            			<ScaleTransform/>
-            			<SkewTransform/>
-            			<RotateTransform Angle="90"/>
-            			<TranslateTransform/>
-            		</TransformGroup>
-            	</Image.RenderTransform>
-            </Image>
+            <s:SurfaceButton.Background>
+                <ImageBrush ImageSource="../Resources/Images/Playlist/playlist.png"/>
+            </s:SurfaceButton.Background>
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<ei:GoToStateAction StateName="PlaylistViewVisible"/>
 				</i:EventTrigger>
+                <i:EventTrigger EventName="PreviewTouchDown">
+                    <ei:GoToStateAction StateName="PlaylistViewVisible"/>
+                </i:EventTrigger>
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
         <Image Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Panel.ZIndex="0" Margin="0,0,89.5,429"/>
@@ -160,21 +160,17 @@
         	s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave"
         	s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop"
         	AllowDrop="True">
-            <Image Opacity="1" Width="80" Height="80" Source="../../Resources/Images/Playlist/playlist.png" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                <Image.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-90"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Image.RenderTransform>
-            </Image>
+            <s:SurfaceButton.Background>
+                <ImageBrush ImageSource="../Resources/Images/Playlist/playlist.png"/>
+            </s:SurfaceButton.Background>
             <i:Interaction.Triggers>
         		<i:EventTrigger EventName="Click">
         			<ei:GoToStateAction StateName="PlaylistViewVisible"/>
         		</i:EventTrigger>
-        	</i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewTouchDown">
+                    <ei:GoToStateAction StateName="PlaylistViewVisible"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </s:SurfaceButton>
         <Image Name="PlusImageLeft" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="0" Margin="61,562,1799,458"/>
     </Grid>
