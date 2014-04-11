@@ -45,8 +45,12 @@
     
     <!--Start Surrounding Tag Grid-->
     <!--<Grid Name="TagGrid" DataContext="{DynamicResource Tag.Angle}">-->
-    <!--<Grid Name="TagGrid" DataContext="{DynamicResource TagDM}"--> 
-    <Grid Name="TagGrid" >  
+    <!--<Grid Name="TagGrid" DataContext="{DynamicResource TagDM}"-->
+    <Grid Name="TagGrid" DataContext="{DynamicResource TagDM}" RenderTransformOrigin="0.5, 0.5">
+        <Grid.RenderTransform>
+            <RotateTransform Angle="{Binding Tag.Orientation}"  />
+        </Grid.RenderTransform>
+        
         <!-- Start menu -->
         <Grid>
             <Grid.RowDefinitions>
@@ -66,8 +70,11 @@
                   Visibility="{DynamicResource IsMenuVisible}" 
                   Height="{StaticResource PieMenuDiameter}" 
                   Width="{StaticResource PieMenuDiameter}"
-                  DataContext="{DynamicResource TagDM}">
-                
+                  DataContext="{DynamicResource TagDM}" RenderTransformOrigin="0.5, 0.5">
+                <Grid.RenderTransform>
+                    <RotateTransform Angle="{Binding Tag.Animation}"  />
+                </Grid.RenderTransform>
+
                 <Grid.Background>
                     <!--<ImageBrush ImageSource="{StaticResource TitleImage}" Opacity="1.0"/>-->
                     <ImageBrush ImageSource="{Binding BackgrImageSource}" Opacity="1.0"/>
@@ -307,8 +314,9 @@
 
         </Grid>
         <!-- End menu -->
-        
-        
+
+        <!--<ScrollViewer Name="SearchTagViewLog" Content="{Binding SearchTagViewLog}" Height="80" Width="400" ></ScrollViewer>-->
+
     </Grid>
     <!--End Surrounding Tag grid-->
 </s:TagVisualization>

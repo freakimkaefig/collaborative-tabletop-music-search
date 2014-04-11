@@ -25,6 +25,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using Ctms.Presentation.Converters;
 using System.Windows.Media.Animation;
+using Helpers;
 
 namespace Ctms.Presentation.Views
 {
@@ -52,6 +53,8 @@ namespace Ctms.Presentation.Views
         private Rectangle _fft15;
 
         public Dictionary<int, SearchTagView> SearchTagViews;
+
+        private bool added = false;
 
         public SearchView()
         {
@@ -140,6 +143,18 @@ namespace Ctms.Presentation.Views
             UpdateVisual(tagId);
 
             tagDM.Height = (float) searchTagView.ActualHeight;
+
+            if (added == false)
+            {
+                //TimingHelper.SetTimeout(10, Rotate);
+            }
+        }
+
+        private void Rotate()
+        {
+            _viewModel.Tags[0].Tag.Orientation += 2;
+
+            TimingHelper.SetTimeout(10, Rotate);
         }
 
        /* private void UpdateAnimation()
@@ -312,6 +327,13 @@ namespace Ctms.Presentation.Views
 
         private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
         {
+            _viewModel.AddLog("SV: OnVisualizationRemoved");
+
+            var searchTagView = (SearchTagView)e.TagVisualization;
+            var tagId = (int)searchTagView.VisualizedTag.Value;
+            var tagDM = _viewModel.Tags[tagId];
+
+            tagDM.State = TagDataModel.States.Removed;
         }
 
         private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
@@ -327,6 +349,11 @@ namespace Ctms.Presentation.Views
             Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
             Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
             */
+
+            var t = (TouchEventArgs)e;
+            _viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown");
+            _viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
+            _viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
         }
 
         #region UnusedEvents
@@ -334,34 +361,49 @@ namespace Ctms.Presentation.Views
         private void SearchTagVisualizer_GotTouchCapture(object sender, TouchEventArgs e)
         {
             //When tag is placed
-            //MessageBox.Show("SV: SearchTagVisualizer_GotTouchCapture");
+            _viewModel.AddLog("SV: SearchTagVisualizer_GotTouchCapture");
         }
 
         private void SearchTagVisualizer_GotFocus(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("SV: SearchTagVisualizer_GotFocus");
+            _viewModel.AddLog("SV: SearchTagVisualizer_GotFocus");
 
         }
 
         private void SearchTagVisualizer_SourceUpdated(object sender, DataTransferEventArgs e)
         {
-            //MessageBox.Show("SV: SearchTagVisualizer_SourceUpdated");
+            _viewModel.AddLog("SV: SearchTagVisualizer_SourceUpdated");
 
         }
 
         private void SearchTagVisualizer_TouchEnter(object sender, TouchEventArgs e)
         {
             //When tag is placed
-            //MessageBox.Show("SV: SearchTagVisualizer_TouchEnter");
+            _viewModel.AddLog("SV: SearchTagVisualizer_TouchEnter");
 
         }
 
         private void SearchTagVisualizer_TouchDown(object sender, TouchEventArgs e)
         {
-            //MessageBox.Show("SV: SearchTagVisualizer_TouchDown");
+            _viewModel.AddLog("SV: SearchTagVisualizer_TouchDown");
 
         }
 
         #endregion UnusedEvents
+
+        private void SearchTagVisualizer_LostTouchCapture(object sender, TouchEventArgs e)
+        {
+            _viewModel.AddLog("SV: SearchTagVisualizer_LostTouchCapture");
+        }
+
+        private void SearchTagVisualizer_LostFocus(object sender, RoutedEventArgs e)
+        {
+            _viewModel.AddLog("SV: SearchTagVisualizer_LostFocus");
+        }
+
+        public void LogScrollToEnd()
+        {
+            //SearchViewLog.ScrollToEnd();
+        }
     }
 }

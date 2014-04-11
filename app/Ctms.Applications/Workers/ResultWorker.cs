@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MusicSearch.ResponseObjects;
+using MusicSearch.Objects;
 using Ctms.Applications.DataFactories;
 using Ctms.Domain.Objects;
 using Ctms.Applications.ViewModels;

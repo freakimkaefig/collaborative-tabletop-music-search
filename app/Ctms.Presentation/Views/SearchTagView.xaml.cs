@@ -19,7 +19,7 @@ namespace Ctms.Presentation.Views
     /// Interaktionslogik für UserControl1.xaml
     /// </summary>
     [Export(typeof(ISearchTagView))]
-    [PartCreationPolicy(CreationPolicy.NonShared)]
+    [PartCreationPolicy(CreationPolicy.Shared)]
     public partial class SearchTagView : ISearchTagView
     {
         private readonly Lazy<SearchTagViewModel> _lazyVm;
@@ -64,7 +64,7 @@ namespace Ctms.Presentation.Views
             tag.Tag.PositionY   = (short) screenPosition.Y;
 
             // orientate tag to the nearest side of the two long sides
-            tag.Tag.Orientation = tag.Tag.PositionY > windowHeight / 2 ? (short) 180 : (short) 0;
+            tag.Tag.Orientation = tag.Tag.PositionY > (windowHeight / 2) - (tag.Height / 2) ? (short) 0 : (short) 180;
 
             tag.UpdateVisibleOptions();
         }
@@ -73,6 +73,7 @@ namespace Ctms.Presentation.Views
         {
             //_viewModel.Id = e.TagVisualization.VisualizedTag.Value;
             //Tag = e.TagVisualization.VisualizedTag;
+            Debug.WriteLine("STV: SimpleVisualization_Loaded");
         }
 
         private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
@@ -85,20 +86,37 @@ namespace Ctms.Presentation.Views
             Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown");
             Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
             Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
-
-            if (!t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsFingerRecognized())
+            
+            if (!t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
             {   //!! Funktioniert! Taginput wird abgefangen
                 //MessageBox.Show("SV: PieMenuItem_Click if");
-                Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown Handled!");
+                Debug.WriteLine("STV: No finger, no Tag");
                 t.Handled = true;
+            }
+            else if (t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
+            {
+                Debug.WriteLine("STV: Finger, no Tag");
+                //t.Handled = true;
+            }
+            else if (!t.TouchDevice.GetIsFingerRecognized() && t.TouchDevice.GetIsTagRecognized())
+            {
+                Debug.WriteLine("STV: No Finger, but Tag");
+                //t.Handled = true;
+                //t.TouchDevice.
+                //var searchTagView = (SearchTagView)e.TagVisualization;
             }
             else
             {
-                Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown Finger!");
-                //var searchTagView = (SearchTagView)e.TagVisualization;
+                Debug.WriteLine("STV: No Finger, no Tag");
+
             }
         }
 
+
+        public void LogScrollToEnd()
+        {
+            //SearchTagViewLog.ScrollToEnd();
+        }
         
     }
 }

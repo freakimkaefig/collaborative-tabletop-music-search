@@ -16,6 +16,8 @@
                      VisualizationRemoved="OnVisualizationRemoved" 
                      GotTouchCapture="SearchTagVisualizer_GotTouchCapture"
                      GotFocus="SearchTagVisualizer_GotFocus"
+                     LostTouchCapture="SearchTagVisualizer_LostTouchCapture"
+                     LostFocus="SearchTagVisualizer_LostFocus"
                      SourceUpdated="SearchTagVisualizer_SourceUpdated"
                      TouchEnter="SearchTagVisualizer_TouchEnter"
                      TouchDown="SearchTagVisualizer_TouchDown"
@@ -366,7 +368,7 @@
                 </Ellipse.Triggers>
             </Ellipse>
 
-
+            <!--<ScrollViewer Name="SearchViewLog" Content="{Binding SearchViewLog}" Height="400" Width="400" ></ScrollViewer>-->
         </Grid>
         
     </s:TagVisualizer>

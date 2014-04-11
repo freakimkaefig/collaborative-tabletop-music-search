@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Waf.Foundation;
 using Helpers;
+using System.Diagnostics;
 
 namespace Ctms.Domain.Objects
 {
@@ -23,8 +24,6 @@ namespace Ctms.Domain.Objects
         {
             _tagOptions         = new ObservableCollection<TagOption>();
             _breadcrumbOptions  = new ObservableCollection<TagOption>();
-
-            //_angle = 90.0;
         }
 
         public int Id { get; set; }
@@ -64,6 +63,7 @@ namespace Ctms.Domain.Objects
                 if (orientation != value)
                 {
                     orientation = value;
+                    if (value == 180) Debug.WriteLine("180!");
                     RaisePropertyChanged("Orientation");
                 }
             }

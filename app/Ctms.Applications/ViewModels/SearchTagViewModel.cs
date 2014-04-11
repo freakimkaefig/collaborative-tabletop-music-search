@@ -76,5 +76,29 @@ namespace Ctms.Applications.ViewModels
         }
 
         public ISearchTagView MyView { get; set; }
+
+
+        public string SearchTagViewLog
+        {
+            get { return _searchTagViewLog; }
+            set
+            {
+                if (_searchTagViewLog != value)
+                {
+                    _searchTagViewLog = value;
+                    RaisePropertyChanged("SearchTagViewLog");
+                }
+            }
+        }
+
+        private int _logCount;
+        private string _searchTagViewLog;
+
+        public void AddLog(string logMessage)
+        {
+            _logCount++;
+            SearchTagViewLog += _logCount + logMessage + Environment.NewLine;
+            ((ISearchView)View).LogScrollToEnd();
+        }
     }
 }

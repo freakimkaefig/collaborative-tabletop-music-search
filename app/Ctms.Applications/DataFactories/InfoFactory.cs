@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ctms.Domain.Objects;
-using MusicSearch.ResponseObjects;
+using MusicSearch.Objects;
 using Microsoft.Surface.Presentation.Controls;
 using Ctms.Applications.DataModels;
 using Ctms.Applications.Data;

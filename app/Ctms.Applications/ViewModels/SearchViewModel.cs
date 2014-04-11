@@ -65,6 +65,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _selectGenreCmd;
         private ICommand _selectCurrentBreadcrumb;
         private ICommand _confirmBreadcrumbCmd;
+        private string _searchViewLog;
 
         [ImportingConstructor]
         public SearchViewModel(ISearchView view)
@@ -363,6 +364,28 @@ namespace Ctms.Applications.ViewModels
                     RaisePropertyChanged("AddedVisualization");
                 }
             }
+        }
+
+        public string SearchViewLog
+        {
+            get { return _searchViewLog; }
+            set
+            {
+                if (_searchViewLog != value)
+                {
+                    _searchViewLog = value;
+                    RaisePropertyChanged("SearchViewLog");
+                }
+            }
+        }
+
+        private int _logCount;
+
+        public void AddLog(string logMessage)
+        {
+            _logCount++;
+            SearchViewLog += _logCount + logMessage + Environment.NewLine;
+            ((ISearchView)View).LogScrollToEnd();
         }
 
 

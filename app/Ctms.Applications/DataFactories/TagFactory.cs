@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Ctms.Domain.Objects;
-using MusicSearch.ResponseObjects;
+using MusicSearch.Objects;
 using Microsoft.Surface.Presentation.Controls;
 using Ctms.Applications.DataModels;
 using Ctms.Applications.Data;
@@ -43,6 +43,22 @@ namespace Ctms.Applications.DataFactories
         {
             var tagOptions = _repository.GetAllTagOptions();
             var nextFreeId = EntitiesHelper.CalcNextId<TagOption>(tagOptions, (t => t.Id));
+
+            var tagOption = new TagOption(nextFreeId)
+            {
+                Keyword = keyword,
+                LayerNr = layerNumber
+            };
+
+            return tagOption;
+        }
+
+        public TagOption CreateTagOption(string keywordName, KeywordTypes keywordType, int layerNumber, string keywordDescription = null)
+        {
+            var tagOptions = _repository.GetAllTagOptions();
+            var nextFreeId = EntitiesHelper.CalcNextId<TagOption>(tagOptions, (t => t.Id));
+
+            var keyword = CreateKeyword(keywordName, keywordType, keywordDescription);
 
             var tagOption = new TagOption(nextFreeId)
             {

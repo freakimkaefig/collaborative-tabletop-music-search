@@ -16,7 +16,7 @@ using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
 using MusicSearch.Managers;
 using Ctms.Applications.DataFactories;
-using MusicSearch.ResponseObjects;
+using MusicSearch.Objects;
 using Ctms.Domain.Objects;
 using Ctms.Applications.Workers;
 using System.Collections.Generic;

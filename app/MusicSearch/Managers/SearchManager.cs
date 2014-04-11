@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using Helpers;
-using MusicSearch.ResponseObjects;
+using MusicSearch.Objects;
 using Newtonsoft.Json;
 
 namespace MusicSearch.Managers
@@ -25,14 +25,12 @@ namespace MusicSearch.Managers
         List<ResponseContainer.ResponseObj.genres> GenresRC = new List<ResponseContainer.ResponseObj.genres>();
 
         List<String> combinedSearchArtistAttributes = new List<String>();
-        List<String> combinedSearchGenreAttributes = new List<String>();
-
+        List<String> combinedSearchGenreAttributes  = new List<String>();
         
         public SearchManager()
         {
             init();
         }
-
 
         /// <summary>
         /// COMBINED SEARCH QUERY:
@@ -238,18 +236,18 @@ namespace MusicSearch.Managers
         /// GET ATTRIBUTES FOR A COMBINED SEARCH QUERY:
         /// call to receive the attributes that can be set by a user for a combined search query
         /// </summary>
-        /// <param name="artistORgenre">must be "artist" or "genre" to receive the respective attributes
+        /// <param name="attributeType">must be "artist" or "genre" to receive the respective attributes
         /// that can be set by user for that kind of combined search query</param>
         /// <returns>returns a list containing all the possible attributes</returns>
         /// 
-        public List<String> getCombinedSearchAttributes(String artistORgenre)
+        public List<String> getCombinedSearchAttributes(AttributeTypes attributeType)
         {
             //return prefetched lists according to parameter
-            if (artistORgenre == "artist")
+            if (attributeType == AttributeTypes.Artist)
             {
                 return combinedSearchArtistAttributes;
             }
-            else if (artistORgenre == "genre")
+            else if (attributeType == AttributeTypes.Title)
             {
                 return combinedSearchGenreAttributes;
             }
