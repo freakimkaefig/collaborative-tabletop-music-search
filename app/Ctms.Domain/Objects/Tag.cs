@@ -63,7 +63,6 @@ namespace Ctms.Domain.Objects
                 if (orientation != value)
                 {
                     orientation = value;
-                    if (value == 180) Debug.WriteLine("180!");
                     RaisePropertyChanged("Orientation");
                 }
             }

@@ -148,8 +148,8 @@ namespace PieInTheSky
 
         private static void UsernamePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Debug.Print("OldValue: {0}", e.OldValue);
-            Debug.Print("NewValue: {0}", e.NewValue);
+            //Debug.Print("OldValue: {0}", e.OldValue);
+            //Debug.Print("NewValue: {0}", e.NewValue);
 
 
             //Command.Execute(0);

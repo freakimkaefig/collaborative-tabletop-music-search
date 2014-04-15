@@ -40,9 +40,9 @@ namespace MusicSearch.Managers
         /// <param name="list">list containing the searchobjects & their attributes 
         /// according to the specified class</param>
         /// <returns>returns a Response Container with the data fetched from echonest</returns>
-        public List<ResponseContainer.ResponseObj.combinedQuery> combinedSearchQuery(List<combinedSearchObjects> list)
+        public List<ResponseContainer.ResponseObj.combinedQuery> combinedSearchQuery(List<combinedSearchObject> list)
         {
-            foreach (combinedSearchObjects cso in list)
+            foreach (combinedSearchObject cso in list)
             {
                 if (!String.IsNullOrEmpty(cso.artist_id))
                 {
@@ -492,7 +492,7 @@ namespace MusicSearch.Managers
         /// <param name="searchList">contains data specified by user input via tangibles</param>
         /// <returns> 1 Response Container or null per searchlist-entry </returns>
         /// 
-        public List<ResponseContainer.ResponseObj.Song> SearchQuery(List<searchObjects> searchList)
+        public List<ResponseContainer.ResponseObj.Song> SearchQuery(List<searchObject> searchList)
         {
             List<ResponseContainer.ResponseObj.Song> SearchRC = new List<ResponseContainer.ResponseObj.Song>();
 
@@ -644,7 +644,7 @@ namespace MusicSearch.Managers
     /// Inherent classes, needed here and there
     /// </summary>
     /// 
-    public class searchObjects
+    public class searchObject
     {
         public String artist_id { get; set; }
         public String title_id { get; set; }
@@ -652,7 +652,7 @@ namespace MusicSearch.Managers
         public int originId { get; set; }
     }
 
-    public class combinedSearchObjects
+    public class combinedSearchObject
     {
         public String artist_id { get; set; }
         public String[] genre { get; set; }

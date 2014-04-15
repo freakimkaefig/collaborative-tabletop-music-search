@@ -60,6 +60,7 @@
     <Compile Include="DataFactories\SongFactory.cs" />
     <Compile Include="DataModels\ResultDataModel.cs" />
     <Compile Include="DataModels\InfoDataModel.cs" />
+    <Compile Include="DataModels\TagCombinationDataModel.cs" />
     <Compile Include="DataModels\TagDataModel.cs" />
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Data\XmlProvider.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Workers\MusicStreamAccountWorker.cs" />
     <Compile Include="Workers\SearchOptionWorker.cs" />
     <Compile Include="Workers\StreamingWorker.cs" />
+    <Compile Include="Workers\TagCombinationWorker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="log4net">

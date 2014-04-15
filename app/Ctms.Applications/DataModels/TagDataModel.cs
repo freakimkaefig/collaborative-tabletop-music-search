@@ -30,6 +30,12 @@ namespace Ctms.Applications.DataModels
         private bool _isEditVisible = false;
         private float _height;
         private float _width;
+        private short lastHandledAngle = 0;
+        private int activeOptionsIndex;
+        private bool _isKeywordTypesVisible;
+        private bool _isConfirmBreadcrumbVisible;
+        private string _backgrImageSource;
+        private float _confirmCircleOpacity;
 
         public TagDataModel(Tag tag)
         {
@@ -42,13 +48,6 @@ namespace Ctms.Applications.DataModels
 
         // default constructor needed to be usable as dynamic resource in view
         public TagDataModel() { }
-
-        private short lastHandledAngle = 0;
-
-        private int activeOptionsIndex;
-        private bool _isKeywordTypesVisible;
-        private bool _isConfirmBreadcrumbVisible;
-        private string _backgrImageSource;
 
         public int CurrentOptionsIndex { get { return (int)activeOptionsIndex; } }
 
@@ -297,6 +296,30 @@ namespace Ctms.Applications.DataModels
                 {
                     _backgrImageSource = value;
                     RaisePropertyChanged("BackgrImageSource");
+                }
+            }
+        }
+
+        public int CombineCircleDiameter
+        {
+            get
+            {
+                return CommonVal.Tag_CombineCircleDiameter;
+            }
+        }
+
+        public float ConfirmCircleOpacity
+        {
+            get
+            {
+                return _confirmCircleOpacity;
+            }
+            set
+            {
+                if (_confirmCircleOpacity != value)
+                {
+                    _confirmCircleOpacity = value;
+                    RaisePropertyChanged("ConfirmCircleOpacity");
                 }
             }
         }

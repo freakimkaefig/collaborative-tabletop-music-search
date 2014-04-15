@@ -174,6 +174,16 @@ namespace Ctms.Applications.Data
             return _searchVm.Tags;
         }
 
+
+        /// <summary>
+        /// Get all visible tags
+        /// </summary>
+        /// <returns></returns>
+        public ObservableCollection<TagDataModel> GetAllVisibleTagDMs()
+        {
+            return EntitiesHelper.ToObservableCollection<TagDataModel>(_searchVm.Tags.Where(t => t.State != TagDataModel.States.Removed));
+        }
+
         /// <summary>
         /// Get all TagDataModels
         /// </summary>
@@ -196,8 +206,6 @@ namespace Ctms.Applications.Data
         }
 
         #endregion TagDataModels
-
-
 
         #region TagOptions
 
@@ -245,6 +253,49 @@ namespace Ctms.Applications.Data
         }
 
         #endregion TagOptions
+
+
+        #region TagCombinations
+
+        /// <summary>
+        /// Add tag combination data model
+        /// </summary>
+        /// <returns></returns>
+        public ObservableCollection<TagCombinationDataModel> GetAllTagCombinations()
+        {
+            return _searchVm.TagCombinations;
+        }
+
+        /// <summary>
+        /// Add tag combination data model
+        /// </summary>
+        /// <returns></returns>
+        public ObservableCollection<TagCombinationDataModel> GetTagCombinationContainingTags()
+        {
+            //return _searchVm.TagCombinations.Where(t => t.Tags.Contains());
+            return null;
+        }
+
+        /// <summary>
+        /// Add tag combination data model
+        /// </summary>
+        /// <returns></returns>
+        public void AddTagCombination(TagCombinationDataModel tagCombination)
+        {
+            _searchVm.TagCombinations.Add(tagCombination);
+        }
+
+        /// <summary>
+        /// Remove tag combination data model
+        /// </summary>
+        /// <returns></returns>
+        public void RemoveTagCombination(TagCombinationDataModel tagCombination)
+        {
+            _searchVm.TagCombinations.Remove(tagCombination);
+        }
+
+        #endregion TagCombinations
+
 
         #region BreadcrumbOptions
 

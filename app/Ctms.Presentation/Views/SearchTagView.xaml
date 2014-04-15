@@ -50,7 +50,22 @@
         <Grid.RenderTransform>
             <RotateTransform Angle="{Binding Tag.Orientation}"  />
         </Grid.RenderTransform>
-        
+        <!--<Ellipse Height="400" Width="400" Fill="#0f0">
+            <Ellipse.Effect>
+                <BlurEffect Radius="15"/>
+            </Ellipse.Effect>
+        </Ellipse>-->
+        <Ellipse Width="{Binding CombineCircleDiameter}" Height="{Binding CombineCircleDiameter}" 
+                 Stroke="Transparent" 
+                 StrokeThickness="0" 
+                 Fill="White" 
+                 Opacity="{Binding ConfirmCircleOpacity}">
+                 <!--StrokeDashArray="0.5 1.0 0.3">-->
+            <Ellipse.Effect>
+                <BlurEffect Radius="5"/>
+            </Ellipse.Effect>
+        </Ellipse>
+
         <!-- Start menu -->
         <Grid>
             <Grid.RowDefinitions>
@@ -220,7 +235,7 @@
 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                     Content="Ok"
-                    Command="{Binding GetSuggestionsCmd}" 
+                    Command="{Binding ConfirmInputCmd}" 
                     CommandParameter="{DynamicResource TagId}"  
                     Style="{StaticResource SearchViewBtn}"/>
 

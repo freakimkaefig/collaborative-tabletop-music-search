@@ -132,7 +132,7 @@ namespace Ctms.Presentation.Views
             var tagDM = _viewModel.Tags[tagId];
             var pieMenu = searchTagView.PieMenu;
 
-            searchTagView.ViewModel = _viewModel;
+            searchTagView.SearchVm = _viewModel;
 
             if(SearchTagViews.ContainsKey(tagId) == false) SearchTagViews.Add(tagId, searchTagView);
             else
@@ -351,9 +351,9 @@ namespace Ctms.Presentation.Views
             */
 
             var t = (TouchEventArgs)e;
-            _viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown");
-            _viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
-            _viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
+            //_viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown");
+            //_viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
+            //_viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
         }
 
         #region UnusedEvents
@@ -393,12 +393,12 @@ namespace Ctms.Presentation.Views
 
         private void SearchTagVisualizer_LostTouchCapture(object sender, TouchEventArgs e)
         {
-            _viewModel.AddLog("SV: SearchTagVisualizer_LostTouchCapture");
+            //_viewModel.AddLog("SV: SearchTagVisualizer_LostTouchCapture");
         }
 
         private void SearchTagVisualizer_LostFocus(object sender, RoutedEventArgs e)
         {
-            _viewModel.AddLog("SV: SearchTagVisualizer_LostFocus");
+            //_viewModel.AddLog("SV: SearchTagVisualizer_LostFocus");
         }
 
         public void LogScrollToEnd()

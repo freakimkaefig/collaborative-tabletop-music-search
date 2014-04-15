@@ -14,8 +14,6 @@
     
     <UserControl.Resources>
         <DataTemplate x:Key="EllipsenTemplate">
-                     LostTouchCapture="SearchTagVisualizer_LostTouchCapture"
-                     LostFocus="SearchTagVisualizer_LostFocus"
             <Ellipse x:Name="el1"
                    Height="35"
                    Width="35"
@@ -378,7 +376,7 @@
             </Rectangle>
 
             <ItemsControl ItemTemplate="{DynamicResource EllipsenTemplate}"  
-                        ItemsSource="{Binding Tags}"
+                        ItemsSource="{Binding TagCominations}"
                         Grid.Row="0" 
                         Grid.Column="1"
                         Grid.ColumnSpan="2">

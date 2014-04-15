@@ -22,9 +22,9 @@ namespace Ctms.Applications.ViewModels
     {
         private bool        _isValid = true;
         private string      _keywordType;
-        private ICommand    _startSearchCommand;
+        private ICommand    _startSearchCmd;
         private ICommand    _selectOptionCmd;
-        private ICommand    _getSuggestionsCmd;
+        private ICommand    _confirmInputCmd;
         private string      _item1Header;
         private string      _item2Header;
         private int         _mainItemId;
@@ -38,7 +38,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _addVisualizationCmd;
         private ICommand _editCmd;
         private ICommand _fftData;
-        private List<searchObjects> _searchObjectsList;
+        private List<searchObject> _searchObjectsList;
         //private readonly IEnumerable<SearchTagViewModel> _searchTags;
 
         //FFT Values
@@ -78,10 +78,10 @@ namespace Ctms.Applications.ViewModels
             //Testweise hinzufügen eines SearchObjects
                 //MICHL: befüllen durch Tangibles die auf dem Tisch stehen!
                 //       Einträge auch wieder löschen, wenn Tangible vom Tisch genommen wird (über originId)
-            _searchObjectsList = new List<searchObjects>();
+            _searchObjectsList = new List<searchObject>();
         }
 
-        public List<searchObjects> SearchObjectsList
+        public List<searchObject> SearchObjectsList
         {
             get { return _searchObjectsList; }
             set
@@ -353,6 +353,19 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public ObservableCollection<TagCombinationDataModel> TagCombinations
+        {
+            get { return _tagCombinations; }
+            set
+            {
+                if (_tagCombinations != value)
+                {
+                    _tagCombinations = value;
+                    RaisePropertyChanged("TagCombinations");
+                }
+            }
+        }
+
         public bool AddedVisualization
         {
             get { return _addedVisualization; }
@@ -380,6 +393,8 @@ namespace Ctms.Applications.ViewModels
         }
 
         private int _logCount;
+        private ICommand _checkTagPositionsCmd;
+        private ObservableCollection<TagCombinationDataModel> _tagCombinations;
 
         public void AddLog(string logMessage)
         {
@@ -395,14 +410,27 @@ namespace Ctms.Applications.ViewModels
 
         #region Commands
 
-        public ICommand StartSearchCmd
+        public ICommand CheckTagPositionsCmd
         {
-            get { return _startSearchCommand; }
+            get { return _checkTagPositionsCmd; }
             set
             {
-                if (_startSearchCommand != value)
+                if (_checkTagPositionsCmd != value)
                 {
-                    _startSearchCommand = value;
+                    _checkTagPositionsCmd = value;
+                    RaisePropertyChanged("CheckTagPositionsCmd");
+                }
+            }
+        }
+
+        public ICommand StartSearchCmd
+        {
+            get { return _startSearchCmd; }
+            set
+            {
+                if (_startSearchCmd != value)
+                {
+                    _startSearchCmd = value;
                     RaisePropertyChanged("StartSearchCmd");
                 }
             }
@@ -451,15 +479,15 @@ namespace Ctms.Applications.ViewModels
         }
         
 
-        public ICommand GetSuggestionsCmd
+        public ICommand ConfirmInputCmd
         {
-            get { return _getSuggestionsCmd; }
+            get { return _confirmInputCmd; }
             set
             {
-                if (_getSuggestionsCmd != value)
+                if (_confirmInputCmd != value)
                 {
-                    _getSuggestionsCmd = value;
-                    RaisePropertyChanged("GetSuggestionsCmd");
+                    _confirmInputCmd = value;
+                    RaisePropertyChanged("ConfirmInputCmd");
                 }
             }
         }

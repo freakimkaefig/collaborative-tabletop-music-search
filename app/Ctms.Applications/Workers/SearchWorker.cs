@@ -53,11 +53,15 @@ namespace Ctms.Applications.Workers
         public void StartSearch(object sender, DoWorkEventArgs e)
         {
             var tags = _searchViewModel.Tags;
-            var searchObjects = new List<searchObjects>();
+            var searchObjects = new List<searchObject>();
+
+            //!!used tags außer combined tags! sonst doppelte anfrage
             var usedTags = tags.Where(t => t.Tag.AssignedKeyword != null && t.State == TagDataModel.States.Assigned);
+            
+            
             foreach (var tag in usedTags)
             {
-                var searchObject = new searchObjects();
+                var searchObject = new searchObject();
                 searchObject.originId = tag.Id;
 
                 var keyword = tag.Tag.AssignedKeyword;
@@ -74,14 +78,45 @@ namespace Ctms.Applications.Workers
                 {
                     searchObject.genre = keyword.Name;
                 }
+                else if (keyword.Type == KeywordTypes.Attribute)
+                {
+                    
+                }
 
                 searchObjects.Add(searchObject);
+            }
+
+            
+            
+            var combinedSearchObjects = new List<combinedSearchObject>();
+            //var tagCombinations = //getcombined..
+
+            // tagIds, common type, attribute value, 
+            //foreach (var tagCombination in tagCombinations)
+            {
+                var combinedSearchObject = new combinedSearchObject();
+                //combinedSearchObject.originIds.AddRange(...)
+                //if(tagCombination.Type == ...Genre)
+                {
+                    //combinedSearchObject.genre = tagCombination.
+                    //combinedSearchObject.GenreParameter = tagCombination.Val..
+                }
+                //else if (tagCombination.Type == Artist)
+	            {
+		            //...
+	            }
+
+                //combinedSearchObjects.Add(combinedSearchObject);
+
             }
 
             var songs = _searchManager.SearchQuery(searchObjects);
             //var songs = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList); //TestTag mit "Rock"
             var infoId = (int) e.Argument;
             e.Result = new List<object>() { songs, infoId };
+
+
+            //var combinedSongs = _searchManager.combinedSearchQuery();
         }
 
         private void StartSearchCompleted(object sender, RunWorkerCompletedEventArgs e)

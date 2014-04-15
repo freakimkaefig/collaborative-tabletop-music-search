@@ -199,7 +199,15 @@ namespace Ctms.Applications.Workers
                 }
                 case 3: // ---layer 3---
                 {
-                    AssignKeyword(tagDM, selectedTagOption);
+                    if (keywordType == KeywordTypes.Attribute)
+                    {
+                        tagDM.Tag.AssignedKeyword = selectedTagOption.Keyword;
+                        SetInputIsVisible(tagDM, true);
+                    }
+                    else
+                    {
+                        AssignKeyword(tagDM, selectedTagOption);
+                    }
 
                     break;
                 }
@@ -212,7 +220,7 @@ namespace Ctms.Applications.Workers
         /// <summary>
         /// Load artist or title suggestions for a tag
         /// </summary>
-        public void LoadSuggestions(int tagId)
+        public void ConfirmInput(int tagId)
         {
             var tagDM       = _repository.GetTagDMById(tagId);
             var terms       = _repository.GetTagDMById(tagId).InputTerms;
@@ -244,6 +252,10 @@ namespace Ctms.Applications.Workers
                 // get title suggestions in background
                 var backgrWorker = new BackgroundWorkHelper();
                 backgrWorker.DoInBackground(GetTitleSuggestionsInBackgr, GetTitleSuggestionsCompleted, tagDM);
+            }
+            else if (keywordType == KeywordTypes.Attribute)
+            {
+                termKeyword.Description = terms;
             }
             SetInputIsVisible(tagDM, false);
 

@@ -38,10 +38,10 @@ namespace Ctms.Presentation.Views
             windowHeight = (short)Application.Current.MainWindow.ActualHeight;
         }
 
-        public SearchViewModel ViewModel { get; set; }
+        public SearchViewModel SearchVm { get; set; }
 
         // Provides this view's viewmodel
-        private SearchTagViewModel _viewModel { get { return _lazyVm.Value; } }
+        private SearchTagViewModel _searchTagVm { get { return _lazyVm.Value; } }
 
         private void TagVisualization_Moved(object sender, TagVisualizerEventArgs e)
         {
@@ -53,7 +53,7 @@ namespace Ctms.Presentation.Views
             var screenPosition = searchTagView.PointToScreen(new Point(0d, 0d));
 
             // set angle and position of this tag
-            var tag         = ViewModel.Tags[tagId];
+            var tag         = SearchVm.Tags[tagId];
             var trackedTouch = e.TagVisualization.TrackedTouch;
             if (trackedTouch != null)
             {
@@ -66,6 +66,8 @@ namespace Ctms.Presentation.Views
             // orientate tag to the nearest side of the two long sides
             tag.Tag.Orientation = tag.Tag.PositionY > (windowHeight / 2) - (tag.Height / 2) ? (short) 0 : (short) 180;
 
+            SearchVm.CheckTagPositionsCmd.Execute(tag.Id);
+
             tag.UpdateVisibleOptions();
         }
 
@@ -73,7 +75,7 @@ namespace Ctms.Presentation.Views
         {
             //_viewModel.Id = e.TagVisualization.VisualizedTag.Value;
             //Tag = e.TagVisualization.VisualizedTag;
-            Debug.WriteLine("STV: SimpleVisualization_Loaded");
+            //Debug.WriteLine("STV: SimpleVisualization_Loaded");
         }
 
         private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
@@ -83,35 +85,34 @@ namespace Ctms.Presentation.Views
 
             var t = (TouchEventArgs)e;
 
-            Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown");
-            Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
-            Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
+            //Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown");
+            //Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
+            //Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
             
             if (!t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
             {   //!! Funktioniert! Taginput wird abgefangen
                 //MessageBox.Show("SV: PieMenuItem_Click if");
-                Debug.WriteLine("STV: No finger, no Tag");
+                //Debug.WriteLine("STV: No finger, no Tag");
                 t.Handled = true;
             }
             else if (t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
             {
-                Debug.WriteLine("STV: Finger, no Tag");
+                //Debug.WriteLine("STV: Finger, no Tag");
                 //t.Handled = true;
             }
             else if (!t.TouchDevice.GetIsFingerRecognized() && t.TouchDevice.GetIsTagRecognized())
             {
-                Debug.WriteLine("STV: No Finger, but Tag");
+                //Debug.WriteLine("STV: No Finger, but Tag");
                 //t.Handled = true;
                 //t.TouchDevice.
                 //var searchTagView = (SearchTagView)e.TagVisualization;
             }
             else
             {
-                Debug.WriteLine("STV: No Finger, no Tag");
+                //Debug.WriteLine("STV: No Finger, no Tag");
 
             }
         }
-
 
         public void LogScrollToEnd()
         {

@@ -10,9 +10,11 @@ using Ctms.Applications.Data;
 using Helpers;
 using System.Collections.ObjectModel;
 using Ctms.Domain;
+using System.ComponentModel.Composition;
 
 namespace Ctms.Applications.DataFactories
 {
+    //[Export]
     //Provides methods for CRUD-operations on the database-object playlist
     public class TagFactory : BaseFactory
     {
@@ -79,8 +81,14 @@ namespace Ctms.Applications.DataFactories
             return keyword;
         }
 
-        public void Delete()
+        public TagCombinationDataModel CreateTagCombination()
         {
-        }        
+            var tagCombinations = _repository.GetAllTagCombinations();
+            var nextFreeId = EntitiesHelper.CalcNextId<TagCombinationDataModel>(tagCombinations, (t => t.Id));
+
+            var tagCombination = new TagCombinationDataModel(nextFreeId);
+
+            return tagCombination;
+        }      
     }
 }

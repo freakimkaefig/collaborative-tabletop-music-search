@@ -49,6 +49,7 @@ namespace Ctms.Applications.Controllers
         private SearchOptionWorker _searchOptionWorker;
         private ResultWorker _resultWorker;
         private FftWorker _fftWorker;
+        private TagCombinationWorker _tagCombinationWorker;
         //Commands
         private readonly DelegateCommand _startSearchCmd;
         private readonly DelegateCommand _selectOptionCmd;
@@ -58,7 +59,7 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _selectTitleCmd;
         private readonly DelegateCommand _goBreadcrumbCmd;
         private readonly DelegateCommand _confirmBreadcrumbCmd;
-        private readonly DelegateCommand _getSuggestionsCmd;
+        private readonly DelegateCommand _confirmInputCmd;
         private readonly DelegateCommand _editCmd;
         private readonly DelegateCommand _goHomeCmd;
         //Further vars
@@ -66,6 +67,8 @@ namespace Ctms.Applications.Controllers
         private DelegateCommand _selectCircleOptionCmd;
         private IMessageService _messageService;
         private Repository _repository;
+        private DelegateCommand _checkTagPositionsCmd;
+        
 
         [ImportingConstructor]
         public SearchController(
@@ -77,7 +80,8 @@ namespace Ctms.Applications.Controllers
             ResultWorker resultWorker, 
             SearchOptionWorker searchOptionWorker,
             Repository repository,
-            FftWorker fftWorker
+            FftWorker fftWorker,
+            TagCombinationWorker tagCombinationWorker
             )
         {
             _repository                 = repository;
@@ -86,6 +90,7 @@ namespace Ctms.Applications.Controllers
             _resultWorker               = resultWorker;
             _searchOptionWorker         = searchOptionWorker;
             _fftWorker                  = fftWorker;
+            _tagCombinationWorker       = tagCombinationWorker;
             //Services
             _shellService               = shellService;
             _tagVisualizationService    = new SearchTagVisualizationService(searchVm, _repository);
@@ -105,10 +110,10 @@ namespace Ctms.Applications.Controllers
                 (tagOptionId) => _searchOptionWorker.SelectKeywordType((int)tagOptionId, KeywordTypes.Artist));
             _selectTitleCmd             = new DelegateCommand(
                 (tagOptionId) => _searchOptionWorker.SelectKeywordType((int)tagOptionId, KeywordTypes.Title));
-            
+
             _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId)); new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId));
-            //_confirmBreadcrumbCmd       = new DelegateCommand((tagId) => _searchOptionWorker.ConfirmBreadcrumb((int)tagId));
-            _getSuggestionsCmd          = new DelegateCommand((tagOptionId) => _searchOptionWorker.LoadSuggestions((int)tagOptionId));
+            _checkTagPositionsCmd       = new DelegateCommand((tagId) => _tagCombinationWorker.CheckTagPositions((int)tagId));
+            _confirmInputCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.ConfirmInput((int)tagOptionId));
             _editCmd                    = new DelegateCommand((tagId) => _searchOptionWorker.EditTag((int)tagId));
             _goHomeCmd                  = new DelegateCommand((tagId) => _searchOptionWorker.GoHome((int)tagId));
             //Further vars
@@ -130,7 +135,8 @@ namespace Ctms.Applications.Controllers
             _searchVm.SelectGenreCmd    = _selectGenreCmd;
             _searchVm.SelectArtistCmd   = _selectArtistCmd;
             _searchVm.SelectTitleCmd    = _selectTitleCmd;
-            _searchVm.GetSuggestionsCmd = _getSuggestionsCmd;
+            _searchVm.CheckTagPositionsCmd = _checkTagPositionsCmd;
+            _searchVm.ConfirmInputCmd = _confirmInputCmd;
             _searchVm.GoBreadcrumbCmd = _goBreadcrumbCmd;
             //_searchVm.ConfirmBreadcrumbCmd = _confirmBreadcrumbCmd;
             _searchVm.EditCmd           = _editCmd;
@@ -142,6 +148,7 @@ namespace Ctms.Applications.Controllers
             // init workers
             _searchWorker.Initialize(_searchManager);
             _searchOptionWorker.Initialize(_searchManager, _searchVm.Tags);
+            _tagCombinationWorker.Initialize();
 
             // listeners
             AddWeakEventListener(_searchVm, SearchViewModelPropertyChanged);
@@ -186,13 +193,6 @@ namespace Ctms.Applications.Controllers
         /// <param name="e"></param>
         private void SearchViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "")
-            {
-            }
-            if (e.PropertyName == "Fft1Value")
-            {
-
-            }
         }
     }
 }

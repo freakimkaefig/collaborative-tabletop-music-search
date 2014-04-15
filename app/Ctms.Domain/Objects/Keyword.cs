@@ -26,7 +26,7 @@ namespace Ctms.Domain
         
         
         //public string Name { get; set; }
-        public string Description { get; set; }
+        public object Description { get; set; }
 
         public double Weight { get; set; }
 
