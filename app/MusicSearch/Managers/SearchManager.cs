@@ -255,7 +255,7 @@ namespace MusicSearch.Managers
         }
 
 
-        // <summary>
+        /// <summary>
         /// GET DETAIL-INFO:
         /// collects Info about an artist by calling several queries
         /// </summary>
@@ -576,13 +576,15 @@ namespace MusicSearch.Managers
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response for correct formatting
             var newText4 = StringHelper.replacePartialString(cleared, "spotify-WW:track", "spotify:track" , 1000);
+
+            String JSONOriginId = "\'originIDs\': [\'" + ID + "\'], ";
+            newText4 = StringHelper.replacePartialString(newText4, "\'title\'", JSONOriginId + "\'title\'", 1000);
+
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
-            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
 
             for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
                 //add Origin-ID and results to RC
-                JsonConvert.PopulateObject(JSONOriginId, temp.Response.Songs[i]);
                 SearchRC.Add(temp.Response.Songs[i]);
             }
             return SearchRC;

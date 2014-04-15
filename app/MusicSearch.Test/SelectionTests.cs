@@ -114,57 +114,113 @@ namespace MusicSearch.Test
                 ArtistParameter = new List<ArtistParameter>() { new ArtistParameter() { artist_start_year_before = "2010", song_min_hotttnesss = 0.6 } }  
 
             });
-            SearchManager sm = new SearchManager();
-            //var temp = sm.getCombinedSearchAttributes("artist");
+            //SearchManager sm = new SearchManager();
+            SearchQuery(searchListe);
+           
 
-            //var temp = sm.combinedSearchQuery(combinedSearchListe);
-                //combinedSearchQuery(combinedSearchListe);
-
-
-            //String temp = sm.lowerToUpper("lower upper");
-            //var temp = sm.getGenreSuggestions("elec");
-            //var temp2 = sm.getGenres();
-            var temp = sm.getArtistSuggestions(1, "katy");
-
-            //ArtistInfosRC.Add(new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>());
-
-            
-            /*searchListe.Add(new searchObjects
-            {
-                artist_id = "ARH6W4X1187B99274F",
-                originId = 2
-
-            });
-            searchListe.Add(new searchObjects
-            {
-                title_id = "SOFJZMT12A6D4F883D",
-                originId = 3
-
-            });*/
-            
-            //Debug.WriteLine("Reading List...");
-            //Debug.WriteLine("testliste.länge = " + searchListe.Count);
-
-
-            //Vorschlag-Anfrage
-            //sm.SuggestionQuery("artist",1,"Katy P");
-
-            //Such-Anfrage
-            //sm.SearchQuery(searchListe);
-
-            //Detail-View Info's Anfrage
-            //sm.getDetailInfo(null, "ARH6W4X1187B99274F", "123");
-
-            //api key holen
-            //var temp = GetAPIKey();
-            //Debug.WriteLine(temp);
-            
         }
 
         //###################################################
         //###################################################
 
-        
+        public List<ResponseContainer.ResponseObj.Song> SearchQuery(List<searchObjects> searchList)
+        {
+            List<ResponseContainer.ResponseObj.Song> SearchRC = new List<ResponseContainer.ResponseObj.Song>();
+
+            if (searchList != null && searchList.Any())
+            {
+                //traverse list and call respective methods
+                for (int i = 0; i < searchList.Count; i++)
+                {
+                    if (!String.IsNullOrEmpty(searchList[i].artist_id))
+                    {
+                        return SongsByArtistIDQuery(searchList[i].artist_id, searchList[i].originId, SearchRC);
+
+                    }
+                    else if (!String.IsNullOrEmpty(searchList[i].title_id))
+                    {
+                        return SongsByTitleIDQuery(searchList[i].title_id, searchList[i].originId, SearchRC);
+
+                    }
+                    else if (!String.IsNullOrEmpty(searchList[i].genre))
+                    {
+                        return SongsByGenreQuery(searchList[i].genre, searchList[i].originId, SearchRC);
+
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        public List<ResponseContainer.ResponseObj.Song> SongsByGenreQuery(String genre, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
+        {
+            //fix spacing and upper-case letters
+            if (genre.Contains(" "))
+            {
+                genre = genre.Replace(" ", "+");
+            }
+            genre = genre.ToLower();
+
+            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&song_selection=song_hotttnesss-top&variety=1&type=genre-radio&genre=" + genre;
+
+            return LoadOnlineResponse(request, ID, SearchRC);
+        }
+
+
+        public List<ResponseContainer.ResponseObj.Song> SongsByTitleIDQuery(String title_id, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
+        {
+
+            String request = _defaultURL + "song/profile?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&id=" + title_id;
+
+            return LoadOnlineResponse(request, ID, SearchRC);
+        }
+
+
+        public List<ResponseContainer.ResponseObj.Song> SongsByArtistIDQuery(String artist_id, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
+        {
+
+            String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "artist_id=" + artist_id;
+
+            return LoadOnlineResponse(request, ID, SearchRC);
+        }
+
+
+        public List<ResponseContainer.ResponseObj.Song> LoadOnlineResponse(String request, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
+        {
+            String response = HttpRequester.StartRequest(request);
+
+            if (String.IsNullOrEmpty(response))
+            {
+                return null;
+            }
+
+            //transform "\'" to unicode equivalent
+            response = response.Replace("'", "&#39;");
+            return ParseResponse(response, ID, SearchRC);
+        }
+
+
+        public List<ResponseContainer.ResponseObj.Song> ParseResponse(String response, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
+        {
+            //Apostrophes are replaced by HTML unicode
+            var cleared = @"" + response.Replace("\"", "'");
+            //manipulate response for correct formatting
+            var newText4 = StringHelper.replacePartialString(cleared, "spotify-WW:track", "spotify:track", 1000);
+            String JSONOriginId = "\'originIDs\': [\'" + ID + "\'], ";
+            newText4 = StringHelper.replacePartialString(newText4, "\'title\'", JSONOriginId + "\'title\'", 1000);
+
+            //newText4 = newText4.Insert(newText4.Length - 2, JSONOriginId);
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
+
+            for (int i = 0; i < temp.Response.Songs.Count; i++)
+            {
+                //add Origin-ID and results to RC
+                //JsonConvert.PopulateObject(JSONOriginId, temp.Response.Songs[i]);
+                SearchRC.Add(temp.Response.Songs[i]);
+            }
+            return SearchRC;
+        }
 
         //###################################################
         //###################################################

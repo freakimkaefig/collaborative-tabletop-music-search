@@ -86,9 +86,8 @@ namespace MusicSearch.Objects
                 public string Artist_Name { get; set; }
                 public string Title { get; set; }
                 public List<Tracks> tracks { get; set; }
-                public int originId { get; set; }
-                public double song_hotttnesss { get; set; }
-
+                public double song_hotttnesss { get; set; } 
+                public int[] originIDs { get; set; }
                 public Object audio_summary { get; set; }
                            
             }
