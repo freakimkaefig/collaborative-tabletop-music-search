@@ -186,8 +186,7 @@ namespace Ctms.Applications.Workers
                         var attributes = _searchManager.getCombinedSearchAttributes(type);
                         foreach (var attribute in attributes)
                         {
-                            var tagOption = _tagFactory.CreateTagOption(
-                                attribute, KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
+                            var tagOption = _tagFactory.CreateTagOption(attribute.Key, KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
 
                             tagDM.Tag.TagOptions.Add(tagOption);
                         }
