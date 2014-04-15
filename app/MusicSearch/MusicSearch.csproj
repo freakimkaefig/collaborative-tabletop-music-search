@@ -60,7 +60,9 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="Managers\SearchManager.cs" />
+    <Compile Include="Objects\ArtistParameterTypes.cs" />
     <Compile Include="Objects\AttributeTypes.cs" />
+    <Compile Include="Objects\GenreParameterTypes.cs" />
     <Compile Include="Objects\ResponseContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

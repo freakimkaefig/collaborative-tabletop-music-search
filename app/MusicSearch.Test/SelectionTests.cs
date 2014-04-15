@@ -93,7 +93,13 @@ namespace MusicSearch.Test
         //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
         List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
 
-        
+
+        //Dictionaries
+        Dictionary<string, object> combinedSearchArtistAttributes =
+        new Dictionary<string, object>();
+
+        Dictionary<string, object> combinedSearchGenreAttributes =
+        new Dictionary<string, object>();
 
 
         [TestMethod]
@@ -114,57 +120,16 @@ namespace MusicSearch.Test
                 ArtistParameter = new List<ArtistParameter>() { new ArtistParameter() { artist_start_year_before = "2010", song_min_hotttnesss = 0.6 } }  
 
             });
-            SearchManager sm = new SearchManager();
-            //var temp = sm.getCombinedSearchAttributes("artist");
+            //SearchManager sm = new SearchManager();
+           
 
-            //var temp = sm.combinedSearchQuery(combinedSearchListe);
-                //combinedSearchQuery(combinedSearchListe);
-
-
-            //String temp = sm.lowerToUpper("lower upper");
-            //var temp = sm.getGenreSuggestions("elec");
-            //var temp2 = sm.getGenres();
-            var temp = sm.getArtistSuggestions(1, "katy");
-
-            //ArtistInfosRC.Add(new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>());
-
-            
-            /*searchListe.Add(new searchObjects
-            {
-                artist_id = "ARH6W4X1187B99274F",
-                originId = 2
-
-            });
-            searchListe.Add(new searchObjects
-            {
-                title_id = "SOFJZMT12A6D4F883D",
-                originId = 3
-
-            });*/
-            
-            //Debug.WriteLine("Reading List...");
-            //Debug.WriteLine("testliste.länge = " + searchListe.Count);
-
-
-            //Vorschlag-Anfrage
-            //sm.SuggestionQuery("artist",1,"Katy P");
-
-            //Such-Anfrage
-            //sm.SearchQuery(searchListe);
-
-            //Detail-View Info's Anfrage
-            //sm.getDetailInfo(null, "ARH6W4X1187B99274F", "123");
-
-            //api key holen
-            //var temp = GetAPIKey();
-            //Debug.WriteLine(temp);
-            
         }
 
         //###################################################
         //###################################################
 
         
+
 
         //###################################################
         //###################################################

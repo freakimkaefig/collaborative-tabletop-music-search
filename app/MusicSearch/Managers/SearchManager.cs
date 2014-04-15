@@ -24,8 +24,13 @@ namespace MusicSearch.Managers
 
         List<ResponseContainer.ResponseObj.genres> GenresRC = new List<ResponseContainer.ResponseObj.genres>();
 
-        List<String> combinedSearchArtistAttributes = new List<String>();
-        List<String> combinedSearchGenreAttributes  = new List<String>();
+        //Dictionaries
+        Dictionary<string, object> combinedSearchArtistAttributes =
+        new Dictionary<string, object>();
+
+        Dictionary<string, object> combinedSearchGenreAttributes =
+        new Dictionary<string, object>();
+
         
         public SearchManager()
         {
@@ -61,7 +66,7 @@ namespace MusicSearch.Managers
             List<ResponseContainer.ResponseObj.combinedQuery> combinedArtistRC = new List<ResponseContainer.ResponseObj.combinedQuery>();
 
             //basic URL
-            String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&" + "artist_id=" + artist_id;
+            String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&results=100&" + "artist_id=" + artist_id;
 
             //get & add attributes to combined-search-URL
             var properties = ap[0].GetType().GetProperties();
@@ -124,7 +129,7 @@ namespace MusicSearch.Managers
             List<ResponseContainer.ResponseObj.combinedQuery> combinedGenreRC = new List<ResponseContainer.ResponseObj.combinedQuery>();
 
             //basic URL
-            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&type=genre-radio";
+            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&results=100&type=genre-radio";
 
             //Add genre(s) to URL
             for (int i = 0; i < genre.Length; i++)
@@ -201,8 +206,6 @@ namespace MusicSearch.Managers
         public void init()
         {
             //absolute path to genre.txt
-            //!!var lastAppIndex = currentPath.LastIndexOf("app");
-            //!!var newpath = currentPath.Substring(0, currentPath.LastIndexOf("app")) + "app/MusicSearch/files/genres.txt";
             var filePath = "files/genres.txt";
             var genresText = StringHelper.replacePartialString(filePath, "%20", " ", 100);
             //open txt-file & read it
@@ -213,24 +216,85 @@ namespace MusicSearch.Managers
             
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(cleared);
 
+            #region prepare list and dictionaries
+
             for (int i = 0; i < temp.Response.Genres.Count; i++)
             {
                 GenresRC.Add(temp.Response.Genres[i]);
             }
             foreach (var prop in typeof(ArtistParameter).GetProperties())
             {
-                string name = prop.Name;
+                if (prop.Name == ArtistParameterTypes.max_tempo.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.max_tempo.ToString(), new { max = 500.0, min = 0.0, description = "Max. Tempo(BPM)" });
+                }
+                else if (prop.Name == ArtistParameterTypes.min_tempo.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_tempo.ToString(), new { max = 500.0, min = 0.0, description = "Min. Tempo(BPM)" });
+                }
+                else if (prop.Name == ArtistParameterTypes.artist_min_familiarity.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_min_familiarity.ToString(), new { max = 1.0, min = 0.0, description = "Min. familiarity of any song (familiarity to the world)" });
+                }
+                else if (prop.Name == ArtistParameterTypes.artist_start_year_before.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_start_year_before.ToString(), new { max = "present", min = 1970, description = "Earliest start year before ..." });
+                }
+                else if (prop.Name == ArtistParameterTypes.artist_start_year_after.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_start_year_after.ToString(), new { max = "present", min = 1970, description = "Earliest start year after ..." });
+                }
+                else if (prop.Name == ArtistParameterTypes.artist_end_year_before.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_end_year_before.ToString(), new { max = "present", min = 1970, description = "Latest end year before ..." });
+                }
+                else if (prop.Name == ArtistParameterTypes.artist_end_year_after.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_end_year_after.ToString(), new { max = "present", min = 1970, description = "Latest end year after ..." });
+                }
+                else if (prop.Name == ArtistParameterTypes.song_min_hotttnesss.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.song_min_hotttnesss.ToString(), new { max = 1.0, min = 0.0, description = "Minimum hotttnesss of any song" });
+                }
+                else if (prop.Name == ArtistParameterTypes.artist_min_hotttnesss.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_min_hotttnesss.ToString(), new { max = 1.0, min = 0.0, description = "Minimum hotttnesss of any song's artist" });
+                }
+                else if (prop.Name == ArtistParameterTypes.min_danceability.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_danceability.ToString(), new { max = 1.0, min = 0.0, description = "Minimum danceability of any song" });
+                }
+                else if (prop.Name == ArtistParameterTypes.min_energy.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_energy.ToString(), new { max = 1.0, min = 0.0, description = "Minimum energy of any song" });
+                }
+                else if (prop.Name == ArtistParameterTypes.min_liveness.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_liveness.ToString(), new { max = 1.0, min = 0.0, description = "Minimum liveness of any song" });
+                }
+                else if (prop.Name == ArtistParameterTypes.min_acousticness.ToString())
+                {
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_acousticness.ToString(), new { max = 1.0, min = 0.0, description = "Minimum acousticness of any song" });
+                }
 
-                combinedSearchArtistAttributes.Add(name);
             }
             foreach (var prop in typeof(GenreParameter).GetProperties())
             {
-                string name = prop.Name;
-
-                combinedSearchGenreAttributes.Add(name);
+                if (prop.Name == GenreParameterTypes.variety.ToString())
+                {
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.variety.ToString(), new { max = 1.0, min = 0.0, description = "A higher number will allow for more variety in the artists" });
+                }
+                else if (prop.Name == GenreParameterTypes.distribution.ToString())
+                {
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.distribution.ToString(), new { option1 = "focused", option2 = "wandering", description = "Controls the distribution of artists" });
+                }
+                else if (prop.Name == GenreParameterTypes.adventurousness.ToString())
+                {
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.adventurousness.ToString(), new { max = "present", min = 1970, description = "Controls the trade between known music and unknown music" });
+                }
             }
+            #endregion
         }
-
 
         /// <summary>
         /// GET ATTRIBUTES FOR A COMBINED SEARCH QUERY:
@@ -240,7 +304,7 @@ namespace MusicSearch.Managers
         /// that can be set by user for that kind of combined search query</param>
         /// <returns>returns a list containing all the possible attributes</returns>
         /// 
-        public List<String> getCombinedSearchAttributes(AttributeTypes attributeType)
+        public Dictionary<string, object> getCombinedSearchAttributes(AttributeTypes attributeType)
         {
             //return prefetched lists according to parameter
             if (attributeType == AttributeTypes.Artist)
@@ -255,7 +319,7 @@ namespace MusicSearch.Managers
         }
 
 
-        // <summary>
+        /// <summary>
         /// GET DETAIL-INFO:
         /// collects Info about an artist by calling several queries
         /// </summary>
@@ -531,7 +595,7 @@ namespace MusicSearch.Managers
             }
             genre = genre.ToLower();
 
-            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&song_selection=song_hotttnesss-top&variety=1&type=genre-radio&genre=" + genre;
+            String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&song_selection=song_hotttnesss-top&variety=1&type=genre-radio&results=100&genre=" + genre;
 
             return LoadOnlineResponse(request, ID, SearchRC); 
         }
@@ -549,7 +613,7 @@ namespace MusicSearch.Managers
         public List<ResponseContainer.ResponseObj.Song> SongsByArtistIDQuery(String artist_id, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
         {
            
-            String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&" + "artist_id=" + artist_id;
+            String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&bucket=audio_summary&bucket=song_hotttnesss&sort=song_hotttnesss-desc&results=100&" + "artist_id=" + artist_id;
 
             return LoadOnlineResponse(request, ID, SearchRC); 
         }
@@ -576,19 +640,22 @@ namespace MusicSearch.Managers
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response for correct formatting
             var newText4 = StringHelper.replacePartialString(cleared, "spotify-WW:track", "spotify:track" , 1000);
+
+            String JSONOriginId = "\'originIDs\': [\'" + ID + "\'], ";
+            newText4 = StringHelper.replacePartialString(newText4, "\'title\'", JSONOriginId + "\'title\'", 1000);
+
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
-            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
 
             for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
                 //add Origin-ID and results to RC
-                JsonConvert.PopulateObject(JSONOriginId, temp.Response.Songs[i]);
                 SearchRC.Add(temp.Response.Songs[i]);
             }
             return SearchRC;
         }
-        
 
+
+        #region GETTER
         /// <summary>
         /// GETTER-METHODS:
         /// used for frequently requested data
@@ -637,9 +704,14 @@ namespace MusicSearch.Managers
             }
             return GenreSuggestions;
         }
-    }
+
+        
+        #endregion
 
 
+    } //end of SearchManager class
+
+    #region inherent classes
     /// <summary>
     /// Inherent classes, needed here and there
     /// </summary>
@@ -658,7 +730,7 @@ namespace MusicSearch.Managers
         public String[] genre { get; set; }
         public List<int> originIds { get; set; }
 
-        //containing parameters...
+        //lists with the parameters...
         public List<ArtistParameter> ArtistParameter { get; set; }
         public List<GenreParameter> GenreParameter { get; set; }
     }
@@ -669,6 +741,7 @@ namespace MusicSearch.Managers
         public double max_tempo { get; set; }
         public double min_tempo { get; set; }
         public double artist_min_familiarity { get; set; }
+        //the following Strings need to be Strings, because of their max-value "present"
         public String artist_start_year_before { get; set; }
         public String artist_start_year_after { get; set; }
         public String artist_end_year_before { get; set; }
@@ -684,9 +757,11 @@ namespace MusicSearch.Managers
     public class GenreParameter
     {
         //and this.
-        public String song_selection { get; set; }
         public double variety { get; set; }
         public String distribution { get; set; }
         public double adventurousness { get; set; }
     }
-}
+
+    #endregion
+
+} // end of namespace
