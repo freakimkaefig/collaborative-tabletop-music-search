@@ -55,7 +55,7 @@
         <ItemsControl ItemsSource="{Binding TagInfos}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <!--Don't use a background so its transparent and underlying items are clickable-->
+                    <!--Don't use a background so it's transparent and underlying items are clickable-->
                     <Canvas />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>

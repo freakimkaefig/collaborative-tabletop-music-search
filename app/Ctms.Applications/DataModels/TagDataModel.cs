@@ -12,6 +12,7 @@ using Ctms.Applications.Common;
 using Helpers;
 using System.Diagnostics;
 using Ctms.Domain;
+using MusicSearch.Objects;
 
 namespace Ctms.Applications.DataModels
 {
@@ -140,7 +141,7 @@ namespace Ctms.Applications.DataModels
             }
         }
 
-        public ObservableCollection<MusicSearch.ResponseObjects.ResponseContainer.ResponseObj.Suggestion> Suggestions { get; set; }
+        public ObservableCollection<ResponseContainer.ResponseObj.Suggestion> Suggestions { get; set; }
 
         // visualization of this tag
         public TagVisualizationDefinition TagVisDef { get; set; }
@@ -303,7 +304,8 @@ namespace Ctms.Applications.DataModels
         public enum States
         {
             Assigned,
-            Editing            
+            Editing,
+            Removed
         }
     }
 }

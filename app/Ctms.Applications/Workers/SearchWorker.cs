@@ -7,8 +7,9 @@ using MusicSearch.Managers;
 using System.ComponentModel;
 using Ctms.Applications.ViewModels;
 using System.ComponentModel.Composition;
-using MusicSearch.ResponseObjects;
+using MusicSearch.Objects;
 using Ctms.Domain;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Applications.Workers
 {
@@ -53,7 +54,7 @@ namespace Ctms.Applications.Workers
         {
             var tags = _searchViewModel.Tags;
             var searchObjects = new List<searchObjects>();
-            var usedTags = tags.Where(t => t.Tag.AssignedKeyword != null /*&& !String.IsNullOrEmpty(t.Tag.AssignedKeyword.SearchId)*/);
+            var usedTags = tags.Where(t => t.Tag.AssignedKeyword != null && t.State == TagDataModel.States.Assigned);
             foreach (var tag in usedTags)
             {
                 var searchObject = new searchObjects();

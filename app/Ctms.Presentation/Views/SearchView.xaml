@@ -8,38 +8,76 @@
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" x:Class="Ctms.Presentation.Views.SearchView"
+    xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" 
+    x:Class="Ctms.Presentation.Views.SearchView"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
+    
     <UserControl.Resources>
         <DataTemplate x:Key="EllipsenTemplate">
+                   
             <Ellipse x:Name="el1"
-                   Height="35"
-                   Width="35"
-                   Fill="Yellow">
+                   Height="15"
+                   Width="15"
+                   Opacity="0.7"
+                   Fill="#FFFF00">
                 <Ellipse.RenderTransform>
                     <TranslateTransform x:Name="TTransform1" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}"/>
-                </Ellipse.RenderTransform>
-
+                 </Ellipse.RenderTransform>  <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
+                
+                <Ellipse.Effect>
+                    <BlurEffect Radius="5"/>
+                </Ellipse.Effect>
+                
+                
+              
+                
                 <Ellipse.Triggers>
                     <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <!--auslösen, wenn 2 Tangibles sich "überschneiden" / Radien? -->
+                        <!--auslösen, wenn 2 Tangibles sich "überschneiden" / Radien? 
+                        By="200" verschiebt die ganze sache UM 200px und nicht NACH X=200-->
                         <BeginStoryboard>
                             <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="el1"
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="1.0"
+                                    To="0.0"
+                                    Duration="0:0:0.5"
+                                    RepeatBehavior="Forever"/>
+                                
+                                <DoubleAnimation
+                                    Storyboard.TargetName="el1"
+                                    Storyboard.TargetProperty="(Ellipse.Height)"
+                                    Duration="0:0:0.5"
+                                    RepeatBehavior="Forever"
+                                    By="50"
+                                    />
+
+                                <DoubleAnimation
+                                    Storyboard.TargetName="el1"
+                                    Storyboard.TargetProperty="(Ellipse.Width)"
+                                    Duration="0:0:0.5"
+                                    
+                                    RepeatBehavior="Forever"
+                                    By="50"/>
+
                                 <DoubleAnimation Storyboard.TargetName="TTransform1"
                                              Storyboard.TargetProperty="X"
-                                             To="600"   
-                                             Duration="0:0:1"
-                                             AutoReverse="True"
-                                             SpeedRatio="0.9"
-                                             RepeatBehavior="Forever"/>
-                                <!--To Property mit Binding an Tangibles binden-->
+                                             By="200"
+                                             Duration="0:0:0.5"
+                                             
+                                             
+                                             RepeatBehavior="Forever"
+                                                 />
+                                
+                                <!--By Property mit Binding an Tangibles binden-->
                                 <DoubleAnimation Storyboard.TargetName="TTransform1"
                                              Storyboard.TargetProperty="Y"
-                                             To="200"
-                                             Duration="0:0:1"
-                                             AutoReverse="True"
-                                             SpeedRatio="0.9"
+                                             
+                                             Duration="0:0:0.5"
+                                             By="100"
+                                             
                                              RepeatBehavior="Forever"/>
                             </Storyboard>
                         </BeginStoryboard>
@@ -284,7 +322,7 @@
                      TouchDown="SearchTagVisualizer_TouchDown"
                      >
   
-        
+            <!--<ScrollViewer Name="SearchViewLog" Content="{Binding SearchViewLog}" Height="400" Width="400" ></ScrollViewer>-->
     <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>

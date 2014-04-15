@@ -57,11 +57,11 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
-  <ItemGroup>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Managers\SearchManager.cs" />
-    <Compile Include="ResponseObjects\ResponseContainer.cs" />
+    <Compile Include="Objects\AttributeTypes.cs" />
+    <Compile Include="Objects\ResponseContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

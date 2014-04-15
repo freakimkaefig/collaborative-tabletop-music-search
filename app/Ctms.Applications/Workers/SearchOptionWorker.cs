@@ -14,7 +14,7 @@ using Ctms.Applications.DataModels;
 using Ctms.Applications.DataFactories;
 using Ctms.Applications.Views;
 using Ctms.Domain;
-using MusicSearch.ResponseObjects;
+using MusicSearch.Objects;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -146,6 +146,12 @@ namespace Ctms.Applications.Workers
                     }
                     else if (keywordType == KeywordTypes.Attribute)
                     {   // load attributes
+                        var artistTagOption = _tagFactory.CreateTagOption(AttributeTypes.Artist.ToString(), KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
+                        var titleTagOption = _tagFactory.CreateTagOption(AttributeTypes.Title.ToString(), KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
+
+                        tagDM.Tag.TagOptions.Add(artistTagOption);
+                        tagDM.Tag.TagOptions.Add(titleTagOption);
+
                         tagDM.BackgrImageSource = CommonVal.ImageSource_TagBackgrAttribute;
                     }
 
@@ -175,7 +181,16 @@ namespace Ctms.Applications.Workers
                     }
                     else if (keywordType == KeywordTypes.Attribute)
                     {   // load attributes
+                        AttributeTypes type = (AttributeTypes)Enum.Parse(typeof(AttributeTypes), selectedTagOption.Keyword.Name);
 
+                        var attributes = _searchManager.getCombinedSearchAttributes(type);
+                        foreach (var attribute in attributes)
+                        {
+                            var tagOption = _tagFactory.CreateTagOption(
+                                attribute, KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
+
+                            tagDM.Tag.TagOptions.Add(tagOption);
+                        }
                     }
 
                     SetKeywordIsVisible(tagDM, false);
