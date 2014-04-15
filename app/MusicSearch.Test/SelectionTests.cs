@@ -93,7 +93,13 @@ namespace MusicSearch.Test
         //neue Instanz vom ResponseContainer für die Infos des DetailViews pro Artist
         List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
 
-        
+
+        //Dictionaries
+        Dictionary<string, object> combinedSearchArtistAttributes =
+        new Dictionary<string, object>();
+
+        Dictionary<string, object> combinedSearchGenreAttributes =
+        new Dictionary<string, object>();
 
 
         [TestMethod]
@@ -115,7 +121,6 @@ namespace MusicSearch.Test
 
             });
             //SearchManager sm = new SearchManager();
-            
            
 
         }
@@ -123,7 +128,8 @@ namespace MusicSearch.Test
         //###################################################
         //###################################################
 
-       
+        
+
 
         //###################################################
         //###################################################
