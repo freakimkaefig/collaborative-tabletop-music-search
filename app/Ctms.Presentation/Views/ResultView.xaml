@@ -11,15 +11,15 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:blakenui="clr-namespace:Blake.NUI.WPF.Gestures;assembly=Blake.NUI.WPF"
     IsEnabled="{Binding IsEnabled}"
-    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}" Width="1920">
 
 
     <Grid>
         <s:ScatterView Name="MainScatterView" ItemsSource="{Binding Results}" ItemTemplate="{StaticResource ScatterViewItemDataTemplate}"
-                       IsManipulationEnabled="True"
                        s:SurfaceDragDrop.DragCanceled="Results_OnDragCanceled"
                        s:SurfaceDragDrop.DragCompleted="Results_OnDragCompleted"
-                       blakenui:Events.DoubleTapGesture="Results_DoubleTapGesture">
+                       blakenui:Events.DoubleTapGesture="Results_DoubleTapGesture"
+                       s:ScatterViewItem.ContainerDeactivated="Results_ContainerDeactivated" Width="1680" HorizontalAlignment="Center">
         </s:ScatterView>
     </Grid>
 </UserControl>

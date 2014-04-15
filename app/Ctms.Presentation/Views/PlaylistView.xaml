@@ -14,7 +14,8 @@
     xmlns:gestures="clr-namespace:Blake.NUI.WPF.Gestures;assembly=Blake.NUI.WPF"
     x:Class="Ctms.Presentation.Views.PlaylistView"         
     IsEnabled="{Binding IsEnabled}"
-    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
+    Width="1920">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -137,13 +138,9 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
-        <s:SurfaceButton Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="80" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="80"
-                         s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter"
-                         s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave"
-                         s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop"
-                         AllowDrop="True">
+        <s:SurfaceButton Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="120">
             <s:SurfaceButton.Background>
-                <ImageBrush ImageSource="../Resources/Images/Playlist/playlist.png"/>
+                <ImageBrush ImageSource="../Resources/Images/Playlist/playlist-right.png"/>
             </s:SurfaceButton.Background>
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
@@ -154,14 +151,10 @@
                 </i:EventTrigger>
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
-        <Image Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Right" VerticalAlignment="Bottom" Panel.ZIndex="0" Margin="0,0,89.5,429"/>
-        <s:SurfaceButton Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="80" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="80"
-        	s:SurfaceDragDrop.DragEnter="PlaylistAddDropTarget_DragEnter"
-        	s:SurfaceDragDrop.DragLeave="PlaylistAddDropTarget_DragLeave"
-        	s:SurfaceDragDrop.Drop="PlaylistAddDropTarget_Drop"
-        	AllowDrop="True">
+        <Image Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="0" Margin="0,0,110,0"/>
+        <s:SurfaceButton Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="120">
             <s:SurfaceButton.Background>
-                <ImageBrush ImageSource="../Resources/Images/Playlist/playlist.png"/>
+                <ImageBrush ImageSource="../Resources/Images/Playlist/playlist-left.png"/>
             </s:SurfaceButton.Background>
             <i:Interaction.Triggers>
         		<i:EventTrigger EventName="Click">
@@ -172,6 +165,6 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </s:SurfaceButton>
-        <Image Name="PlusImageLeft" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="0" Margin="61,562,1799,458"/>
+        <Image Name="PlusImageLeft" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Left" VerticalAlignment="Center" Panel.ZIndex="0" Margin="110,0,0,0"/>
     </Grid>
 </UserControl>

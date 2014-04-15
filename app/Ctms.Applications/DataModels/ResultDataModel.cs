@@ -13,6 +13,7 @@ namespace Ctms.Applications.DataModels
     {
         private Result _result;
         private ObservableCollection<Tag> _tagInfluences;
+        private bool _canDrag = true;
         private bool _canDrop = true;
         private bool _isLoading = false;
         private bool _isPlaying = false;
@@ -47,6 +48,7 @@ namespace Ctms.Applications.DataModels
 
         public object DraggedElement { get; set; }
         public double Opacity { get; set; }
+        public bool CanDrag { get { return _canDrag; } set { if (_canDrag != value) { _canDrag = value; } } }
         public bool CanDrop { get { return _canDrop; } set { if (_canDrop != value) { _canDrop = value; } } }
         public object ClickedElement { get; set; }
         public object ActiveElement { get; set; }

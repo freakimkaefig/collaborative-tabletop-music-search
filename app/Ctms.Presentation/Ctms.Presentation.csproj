@@ -304,6 +304,8 @@
     <Resource Include="Resources\Images\Search\tag-backgr_title.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\Playlist\playlist-left.png" />
+    <Resource Include="Resources\Images\Playlist\playlist-right.png" />
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>

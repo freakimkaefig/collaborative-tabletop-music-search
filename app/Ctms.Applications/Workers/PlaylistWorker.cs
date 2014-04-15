@@ -21,6 +21,7 @@ namespace Ctms.Applications.Workers
     class PlaylistWorker
     {
         private PlaylistViewModel _playlistViewModel;
+        private ResultViewModel _resultViewModel;
         private MusicStreamAccountWorker _accountWorker;
         private MusicStreamSessionManager _sessionManager;
 
@@ -28,15 +29,16 @@ namespace Ctms.Applications.Workers
         DoubleAnimation fadeOut = new DoubleAnimation() { From = 1, To = 0, Duration = TimeSpan.FromSeconds(2) };
 
         [ImportingConstructor]
-        public PlaylistWorker(PlaylistViewModel playlistViewModel, MusicStreamAccountWorker accountWorker)
+        public PlaylistWorker(PlaylistViewModel playlistViewModel, ResultViewModel resultViewModel, MusicStreamAccountWorker accountWorker)
         {
             _playlistViewModel = playlistViewModel;
+            _resultViewModel = resultViewModel;
             _accountWorker = accountWorker;
 
             _accountWorker.PlaylistSessionManagerCreated = PlaylistSessionManagerCreated;
         }
 
-        //CALLBACK
+        //CALLBACKS
         private void PlaylistSessionManagerCreated(MusicStreamSessionManager sessionManager)
         {
             _sessionManager = sessionManager;
@@ -62,6 +64,7 @@ namespace Ctms.Applications.Workers
             }
 
             _playlistViewModel.CanPlay = true;
+            _resultViewModel.PlaylistOpened = true;
         }
 
         private void PlaybackLoadingReady(Track track)

@@ -6,6 +6,7 @@ using Ctms.Domain.Objects;
 using System.Collections.ObjectModel;
 using SpotifySharp;
 using Ctms.Applications.DataModels;
+using Microsoft.Surface.Presentation.Controls;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -15,9 +16,18 @@ namespace Ctms.Applications.ViewModels
         private bool isValid = true;
         private Result result;
         private string title;
+
+        private SurfaceButton _dropTargetLeft;
+        private SurfaceButton _dropTargetRight;
+        private System.Windows.Controls.Image _plusImageLeft;
+        private System.Windows.Controls.Image _plusImageRight;
+
+        private bool _playlistOpened;
+
         private ICommand selectCommand;
         private ICommand prelistenCommand;
         private ICommand clickedResultCommand;
+        private ICommand _addTrackCommand;
         private ObservableCollection<ResultDataModel> _results;
 
 
@@ -72,6 +82,71 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public SurfaceButton DropTargetLeft
+        {
+            get { return _dropTargetLeft; }
+            set
+            {
+                if (_dropTargetLeft != value)
+                {
+                    _dropTargetLeft = value;
+                    RaisePropertyChanged("DropTargetLeft");
+                }
+            }
+        }
+
+        public SurfaceButton DropTargetRight
+        {
+            get { return _dropTargetRight; }
+            set
+            {
+                if (_dropTargetRight != value)
+                {
+                    _dropTargetRight = value;
+                    RaisePropertyChanged("DropTargetRight");
+                }
+            }
+        }
+
+        public System.Windows.Controls.Image PlusImageLeft
+        {
+            get { return _plusImageLeft; }
+            set
+            {
+                if (_plusImageLeft != value)
+                {
+                    _plusImageLeft = value;
+                    RaisePropertyChanged("PlusImageLeft");
+                }
+            }
+        }
+
+        public System.Windows.Controls.Image PlusImageRight
+        {
+            get { return _plusImageRight; }
+            set
+            {
+                if (_plusImageRight != value)
+                {
+                    _plusImageRight = value;
+                    RaisePropertyChanged("PlusImageRight");
+                }
+            }
+        }
+
+        public bool PlaylistOpened
+        {
+            get { return _playlistOpened; }
+            set
+            {
+                if (_playlistOpened != value)
+                {
+                    _playlistOpened = value;
+                    RaisePropertyChanged("PlaylistOpened");
+                }
+            }
+        }
+
         public ICommand SelectCommand
         {
             get { return selectCommand; }
@@ -112,5 +187,17 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public ICommand AddTrackCommand
+        {
+            get { return _addTrackCommand; }
+            set
+            {
+                if (_addTrackCommand != value)
+                {
+                    _addTrackCommand = value;
+                    RaisePropertyChanged("AddTrackCommand");
+                }
+            }
+        }
     }
 }

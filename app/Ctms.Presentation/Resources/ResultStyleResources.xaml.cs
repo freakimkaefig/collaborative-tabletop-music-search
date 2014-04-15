@@ -14,6 +14,11 @@ namespace Ctms.Presentation.Resources
             FrameworkElement scatterViewItem = e.Source as FrameworkElement;
             ResultDataModel result = scatterViewItem.DataContext as ResultDataModel;
 
+            if (result != null)
+            {
+                result.CanDrag = false;
+            }
+
             if (e.PreviousSize.Height != 0.0 && e.PreviousSize.Width != 0.0)
             {
                 if (e.NewSize.Width == result.StdWidth || e.NewSize.Height == result.StdHeight)
@@ -51,6 +56,11 @@ namespace Ctms.Presentation.Resources
                 result.Width = e.NewSize.Width;
                 result.Height = e.NewSize.Height;
             }
+        }
+
+        private void ResultWrapper_ContainerDeactivated(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement scatterViewItem = e.Source as FrameworkElement;
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Waf.Applications;
 using System.Windows;
+using Microsoft.Surface.Presentation.Controls;
+using System.Windows.Controls;
 
 namespace Ctms.Applications.Views
 {
@@ -11,5 +13,11 @@ namespace Ctms.Applications.Views
     {
         VisualState VisualStateRotate0 { get; set; }
         VisualState VisualStateRotate180 { get; set; }
+
+        SurfaceButton GetDropTargetLeft { get; set; }
+        SurfaceButton GetDropTargetRight { get; set; }
+
+        Image GetPlusImageLeft { get; set; }
+        Image GetPlusImageRight { get; set; }
     }
 }
