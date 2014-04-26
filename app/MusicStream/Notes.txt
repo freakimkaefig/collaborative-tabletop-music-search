@@ -253,3 +253,90 @@ private void Results_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 
             _viewModel.PrelistenCommand.Execute((object)data);
         }
+
+
+
+
+
+private void Results_ContainerDeactivated(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement dropTargetLeft = _viewModel.DropTargetLeft as FrameworkElement;
+            FrameworkElement dropTargetRight = _viewModel.DropTargetRight as FrameworkElement;
+
+            FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+            ScatterViewItem draggedElement = null;
+
+            // Find the ScatterViewItem object that is being touched.
+            while (draggedElement == null && findSource != null)
+            {
+                if ((draggedElement = findSource as ScatterViewItem) == null)
+                {
+                    findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                }
+            }
+
+            if (draggedElement == null)
+            {
+                return;
+            }
+
+            ResultDataModel data = draggedElement.Content as ResultDataModel;
+
+            Rect dropLeftRect = new Rect(dropTargetLeft.Margin.Top, dropTargetLeft.Margin.Left, dropTargetLeft.ActualWidth, dropTargetLeft.ActualHeight);
+            Rect dropRightRect = new Rect(dropTargetRight.Margin.Top, dropTargetRight.Margin.Left, dropTargetRight.ActualWidth, dropTargetRight.ActualHeight);
+
+            Point dragCenter = draggedElement.ActualCenter;
+            double x = dragCenter.X - (draggedElement.ActualWidth / 2);
+            double y = dragCenter.Y - (draggedElement.ActualHeight / 2);
+            Point dragTopLeft = new Point(x, y);
+            Size dragSize = new Size(draggedElement.ActualWidth, draggedElement.ActualHeight);
+            Rect dragRect = new Rect(dragTopLeft, dragSize);
+
+            bool left = GetRectOfObject(dropTargetLeft).IntersectsWith(GetRectOfObject(draggedElement));
+            bool right = GetRectOfObject(dropTargetRight).IntersectsWith(GetRectOfObject(draggedElement));
+        }
+
+        private Rect GetRectOfObject(FrameworkElement element)
+        {
+            Rect rectangleBounds = new Rect();
+            rectangleBounds = element.RenderTransform.TransformBounds(new Rect(element.Margin.Left, element.Margin.Top, element.Width, element.Height));
+            return rectangleBounds;
+        }
+
+
+
+
+/* Results Drag&Drop alt */
+//Drag & Drop from ResultView(ScatterView) to PlaylistView(SurfaceButton)
+        private void PlaylistAddDropTarget_DragEnter(object sender, SurfaceDragDropEventArgs e)
+        {
+            e.Cursor.Visual.Tag = "DragEnter";
+        }
+
+        private void PlaylistAddDropTarget_DragLeave(object sender, SurfaceDragDropEventArgs e)
+        {
+            e.Cursor.Visual.Tag = null;
+        }
+
+        private void PlaylistAddDropTarget_Drop(object sender, SurfaceDragDropEventArgs e)
+        {
+            FrameworkElement frameworkElement = sender as FrameworkElement;
+            
+            Image animatedImage = null;
+
+            if (frameworkElement.Name == "DropTargetLeft")
+            {
+                animatedImage = PlusImageLeft;
+            }
+            else if (frameworkElement.Name == "DropTargetRight")
+            {
+                animatedImage = PlusImageRight;
+            }
+
+            object[] data = new object[]
+            {
+                e.Cursor.Data as ResultDataModel,
+                animatedImage as Image,
+            };
+            _viewModel.AddTrackCommand.Execute(data);
+        }

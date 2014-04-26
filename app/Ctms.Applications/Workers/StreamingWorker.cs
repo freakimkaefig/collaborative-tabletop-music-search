@@ -31,6 +31,12 @@ namespace Ctms.Applications.Workers
             this._resultViewModel = resultViewModel;
             _accountWorker = musicStreamAccountWorker;
 
+            _resultViewModel.DropTargetLeft = _playlistViewModel.GetDropTargetLeft();
+            _resultViewModel.DropTargetRight = _playlistViewModel.GetDropTargetRight();
+
+            _resultViewModel.PlusImageLeft = _playlistViewModel.GetPlusImageLeft();
+            _resultViewModel.PlusImageRight = _playlistViewModel.GetPlusImageRight();
+
             _accountWorker.StreamingSessionManagerCreated = StreamingSessionManagerCreated;
         }
 

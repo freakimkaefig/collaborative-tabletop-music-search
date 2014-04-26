@@ -14,6 +14,11 @@ namespace Ctms.Presentation.Resources
             FrameworkElement scatterViewItem = e.Source as FrameworkElement;
             ResultDataModel result = scatterViewItem.DataContext as ResultDataModel;
 
+            if (result != null)
+            {
+                result.CanDrag = false;
+            }
+
             if (e.PreviousSize.Height != 0.0 && e.PreviousSize.Width != 0.0)
             {
                 if (e.NewSize.Width == result.StdWidth || e.NewSize.Height == result.StdHeight)
@@ -26,10 +31,20 @@ namespace Ctms.Presentation.Resources
                     if (e.NewSize.Width > e.PreviousSize.Width || e.NewSize.Height > e.PreviousSize.Height)
                     {
                         //item is getting bigger
+                        if (e.NewSize.Width > result.StdWidth * 2 || e.NewSize.Height > result.StdHeight * 2)
+                        {
+                            result.IsDetail = true;
+                            scatterViewItem.Height = 300.0;
+                            scatterViewItem.Width = 400.0;
+                        }
                     }
                     else
                     {
                         //item is getting smaller
+                        if (e.NewSize.Width < result.StdWidth * 2 || e.NewSize.Height < result.StdHeight * 2)
+                        {
+                            result.IsDetail = false;
+                        }
                     }
                 }
             }
@@ -38,7 +53,14 @@ namespace Ctms.Presentation.Resources
                 //initial rendering | save items standard width/height
                 result.StdWidth = e.NewSize.Width;
                 result.StdHeight = e.NewSize.Height;
+                result.Width = e.NewSize.Width;
+                result.Height = e.NewSize.Height;
             }
+        }
+
+        private void ResultWrapper_ContainerDeactivated(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement scatterViewItem = e.Source as FrameworkElement;
         }
     }
 }
