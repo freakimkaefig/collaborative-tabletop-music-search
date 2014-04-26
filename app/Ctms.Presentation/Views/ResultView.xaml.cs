@@ -229,5 +229,50 @@ namespace Ctms.Presentation.Views
                 }
             }
         }
+
+        private void MainScatterView_ContainerManipulationStarted(object sender, ContainerManipulationStartedEventArgs e)
+        {
+            FrameworkElement scatterViewItem = e.OriginalSource as FrameworkElement;
+            ResultDataModel result = scatterViewItem.DataContext as ResultDataModel;
+        }
+
+        private void MainScatterView_ContainerManipulationDelta(object sender, ContainerManipulationDeltaEventArgs e)
+        {
+            FrameworkElement scatterViewItem = e.OriginalSource as FrameworkElement;
+            ResultDataModel result = scatterViewItem.DataContext as ResultDataModel;
+            double scaleFactor = e.ScaleFactor;
+            double offset = 300.0;
+
+            if (scatterViewItem.ActualWidth >= result.StdWidth && scatterViewItem.ActualHeight >= result.StdHeight)
+            {
+                result.Width = scatterViewItem.ActualWidth;
+                result.Height = scatterViewItem.ActualHeight;
+
+                if (scatterViewItem.ActualHeight > result.StdHeight + offset || scatterViewItem.ActualWidth > result.StdWidth + offset)
+                {
+                    result.IsDetail = true;
+                }
+                else
+                {
+                    result.IsDetail = false;
+                }
+            }
+            else
+            {
+                scatterViewItem.Width = result.StdWidth;
+                scatterViewItem.Height = result.StdHeight;
+            }
+        }
+
+        private void MainScatterView_ContainerManipulationCompleted(object sender, ContainerManipulationCompletedEventArgs e)
+        {
+            FrameworkElement scatterViewItem = e.OriginalSource as FrameworkElement;
+            ResultDataModel result = scatterViewItem.DataContext as ResultDataModel;
+
+            if (e.ScaleFactor > 1.4)
+            {
+                result.IsDetail = true;
+            }
+        }
     }
 }

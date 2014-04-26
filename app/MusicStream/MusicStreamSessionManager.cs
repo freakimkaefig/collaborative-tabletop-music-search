@@ -207,17 +207,34 @@ namespace MusicStream
         /// <returns></returns>
         public Track CheckTrackAvailability(string spotifyTrackId)
         {
-            Track track = Link.CreateFromString(spotifyTrackId).AsTrack();
-            if (Track.GetAvailability(_session, track) == TrackAvailability.Available && Track.GetPlayable(_session, track) != null)
+            Link link = Link.CreateFromString(spotifyTrackId);
+            if (link != null)
             {
-                return Track.GetPlayable(_session, track);
+                Track track = link.AsTrack();
+
+                if (track != null)
+                {
+                    if (Track.GetAvailability(_session, track) == TrackAvailability.Available && Track.GetPlayable(_session, track) != null)
+                    {
+                        return Track.GetPlayable(_session, track);
+                    }
+                    else
+                    {
+                        var avail = Track.GetAvailability(_session, track);
+                        //logMessages.Enqueue("Track unavailable: " + spotifyTrackId);
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
-                var avail = Track.GetAvailability(_session, track);
-                //logMessages.Enqueue("Track unavailable: " + spotifyTrackId);
                 return null;
             }
+            
         }
 
         /// <summary>

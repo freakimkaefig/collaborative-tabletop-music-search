@@ -19,7 +19,11 @@
                        s:SurfaceDragDrop.DragCanceled="Results_OnDragCanceled"
                        s:SurfaceDragDrop.DragCompleted="Results_OnDragCompleted"
                        blakenui:Events.DoubleTapGesture="Results_DoubleTapGesture"
-                       s:ScatterViewItem.ContainerDeactivated="Results_ContainerDeactivated" Width="1680" HorizontalAlignment="Center">
+                       s:ScatterViewItem.ContainerDeactivated="Results_ContainerDeactivated"
+                       s:ScatterContentControlBase.ContainerManipulationStarted="MainScatterView_ContainerManipulationStarted"
+                       s:ScatterContentControlBase.ContainerManipulationDelta="MainScatterView_ContainerManipulationDelta"
+                       s:ScatterContentControlBase.ContainerManipulationCompleted="MainScatterView_ContainerManipulationCompleted"
+                       Width="1920" HorizontalAlignment="Center">
         </s:ScatterView>
     </Grid>
 </UserControl>

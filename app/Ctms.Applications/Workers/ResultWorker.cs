@@ -57,13 +57,20 @@ namespace Ctms.Applications.Workers
                     _resultViewModel.Results.Clear();
                     for (int i = 0; i < response.Count; i++)
                     {
-                        for (int j = 0; j < response[i].tracks.Count; j++)
+                        if (_resultViewModel.Results.Count < 10)
                         {
-                            if (_sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id) != null)
+                            for (int j = 0; j < response[i].tracks.Count; j++)
                             {
-                                _resultViewModel.Results.Add(new ResultDataModel(response[i].Title, response[i].Artist_Name, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id)));
-                                j = response[i].tracks.Count;
+                                if (_sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id) != null)
+                                {
+                                    _resultViewModel.Results.Add(new ResultDataModel(response[i].Title, response[i].Artist_Name, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id)));
+                                    j = response[i].tracks.Count;
+                                }
                             }
+                        }
+                        else
+                        {
+                            return;
                         }
                     }
 
