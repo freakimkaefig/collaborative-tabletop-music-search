@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="play" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<DrawingGroup ClipGeometry="F1 M 0,0L 53.3427,0L 53.3427,53.3427L 0,53.3427L 0,0 Z ">
+						<DrawingGroup.Children>
+							<GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M 36.2728,25.5875L 22.3075,17.4435C 21.0355,16.7008 20.0088,17.2941 20.0168,18.7661L 20.0875,34.9315C 20.0941,36.4021 21.1341,37.0021 22.4101,36.2648L 36.2675,28.2648C 37.5408,27.5288 37.5435,26.3301 36.2728,25.5875 Z M 37.3381,45.1448C 27.1355,51.0368 14.0875,47.5408 8.1968,37.3381C 2.3048,27.1341 5.80213,14.0861 16.0048,8.19678C 26.2075,2.30481 39.2555,5.80078 45.1461,16.0048C 51.0368,26.2075 47.5408,39.2542 37.3381,45.1448 Z M 49.7648,13.3381C 42.4035,0.583435 26.0915,-3.78723 13.3381,3.57813C 0.583466,10.9408 -3.78587,27.2501 3.57813,40.0048C 10.9408,52.7581 27.2501,57.1288 40.0048,49.7648C 52.7581,42.3995 57.1315,26.0914 49.7648,13.3381 Z "/>
+						</DrawingGroup.Children>
+					</DrawingGroup>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>
