@@ -22,7 +22,7 @@
         <Setter Property="Foreground" Value="#0fc" />
     </Style>-->
     <DataTemplate x:Key="ScatterViewItemDataTemplate">
-        <ContentControl SizeChanged="ResultWrapper_SizeChanged" s:ScatterViewItem.ContainerDeactivated="ResultWrapper_ContainerDeactivated" Width="200" Height="150" MinWidth="200" MinHeight="150" MaxWidth="600" MaxHeight="600">
+        <ContentControl Width="{Binding Width}" Height="{Binding Height}" MinWidth="200" MinHeight="150" MaxWidth="600" MaxHeight="600">
             <Grid Name="ResultWrapper" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto">
                 <Grid Name="ResultGrid" Margin="0,0,0,0" Visibility="{Binding IsDetail, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}"
                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
