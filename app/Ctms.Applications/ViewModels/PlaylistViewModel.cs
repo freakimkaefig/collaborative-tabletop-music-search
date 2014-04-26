@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using SpotifySharp;
 using Ctms.Applications.DataModels;
 using System.Windows;
+using Microsoft.Surface.Presentation.Controls;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -29,10 +30,14 @@ namespace Ctms.Applications.ViewModels
         private string _playPauseText = "Play";
         private bool _trashVisible = false;
 
+        private SurfaceButton _dropTargetLeft;
+        private SurfaceButton _dropTargetRight;
+        private System.Windows.Controls.Image _plusImageLeft;
+        private System.Windows.Controls.Image _plusImageRight;
+
         //Commands
         private ICommand _playPauseCommand;
         private ICommand _stopCommand;
-        private ICommand _addTrackCommand;
         private ICommand _removeTrackCommand;
         private ICommand _jumpToTrackCommand;
         private ICommand _rotateCommand;
@@ -49,6 +54,12 @@ namespace Ctms.Applications.ViewModels
         {
             _view = view;
             _playlistResults = new ObservableCollection<ResultDataModel>();
+
+            _dropTargetLeft = _view.GetDropTargetLeft;
+            _dropTargetRight = _view.GetDropTargetRight;
+
+            _plusImageLeft = _view.GetPlusImageLeft;
+            _plusImageRight = _view.GetPlusImageRight;
         }
 
 
@@ -67,6 +78,26 @@ namespace Ctms.Applications.ViewModels
             }
             
             VisualStateManager.GoToState((FrameworkElement)_view, visualState.Name, true);
+        }
+
+        public SurfaceButton GetDropTargetLeft()
+        {
+            return _dropTargetLeft;
+        }
+
+        public SurfaceButton GetDropTargetRight()
+        {
+            return _dropTargetRight;
+        }
+
+        public System.Windows.Controls.Image GetPlusImageLeft()
+        {
+            return _plusImageLeft;
+        }
+
+        public System.Windows.Controls.Image GetPlusImageRight()
+        {
+            return _plusImageRight;
         }
 
         #region Properties
@@ -255,19 +286,6 @@ namespace Ctms.Applications.ViewModels
                 {
                     _stopCommand = value;
                     RaisePropertyChanged("StopCommand");
-                }
-            }
-        }
-
-        public ICommand AddTrackCommand
-        {
-            get { return _addTrackCommand; }
-            set
-            {
-                if (_addTrackCommand != value)
-                {
-                    _addTrackCommand = value;
-                    RaisePropertyChanged("AddTrackCommand");
                 }
             }
         }

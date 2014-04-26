@@ -37,15 +37,17 @@ namespace Ctms.Applications.Controllers
         private ResultViewModel _resultViewModel;
         //Workers
         private StreamingWorker _streamingWorker;
+        private PlaylistWorker _playlistWorker;
         //Commands
         //private readonly DelegateCommand selectOptionCommand;
         private readonly DelegateCommand _prelistenCommand;
+        private readonly DelegateCommand _addTrackCommand;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public ResultController(CompositionContainer container, IShellService shellService, EntityService entityService,
-            ResultViewModel resultViewModel, StreamingWorker streamingWorker)
+            ResultViewModel resultViewModel, StreamingWorker streamingWorker, PlaylistWorker playlistWorker)
         {
             this.container = container;
             //Services
@@ -55,8 +57,10 @@ namespace Ctms.Applications.Controllers
             this._resultViewModel = resultViewModel;
             //Workers
             this._streamingWorker = streamingWorker;
+            this._playlistWorker = playlistWorker;
             //Commands
             this._prelistenCommand = new DelegateCommand((result) => _streamingWorker.Prelisten((ResultDataModel)result));
+            this._addTrackCommand = new DelegateCommand((data) => _playlistWorker.AddTrackToPlaylist((object[])data));
             //this.selectOptionCommand = new DelegateCommand(chooseResult, CanSelectResult);
         }
 
@@ -65,6 +69,7 @@ namespace Ctms.Applications.Controllers
             //Commands
             //_resultViewModel.SelectCommand = selectCommand;
             _resultViewModel.PrelistenCommand = _prelistenCommand;
+            _resultViewModel.AddTrackCommand = _addTrackCommand;
             //Views
             shellService.ResultView = _resultViewModel.View;
             //Listeners

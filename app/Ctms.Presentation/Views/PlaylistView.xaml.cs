@@ -34,6 +34,12 @@ namespace Ctms.Presentation.Views
         private VisualState _rotate180;
         private VisualState _rotate0;
 
+        private SurfaceButton _dropTargetLeft;
+        private SurfaceButton _dropTargetRight;
+
+        private Image _plusImageLeft;
+        private Image _plusImageRight;
+
         private FrameworkElement _trashBin;
 
         public PlaylistView()
@@ -47,48 +53,24 @@ namespace Ctms.Presentation.Views
             Events.RegisterGestureEventSupport(this);
 
             _trashBin = TrashBin;
+
+            _dropTargetLeft = DropTargetLeft;
+            _dropTargetRight = DropTargetRight;
+
+            _plusImageLeft = PlusImageLeft;
+            _plusImageRight = PlusImageRight;
         }
 
         public VisualState VisualStateRotate0 { get { return _rotate0; } set { } }
         public VisualState VisualStateRotate180 { get { return _rotate180; } set { } }
 
+        public SurfaceButton GetDropTargetLeft { get { return _dropTargetLeft; } set { } }
+        public SurfaceButton GetDropTargetRight { get { return _dropTargetRight; } set { } }
+
+        public Image GetPlusImageLeft { get { return _plusImageLeft; } set { } }
+        public Image GetPlusImageRight { get { return _plusImageRight; } set { } }
+
         private PlaylistViewModel _viewModel { get { return _lazyVm.Value; } }
-
-
-        //Drag & Drop from ResultView(ScatterView) to PlaylistView(SurfaceButton)
-        private void PlaylistAddDropTarget_DragEnter(object sender, SurfaceDragDropEventArgs e)
-        {
-            e.Cursor.Visual.Tag = "DragEnter";
-        }
-
-        private void PlaylistAddDropTarget_DragLeave(object sender, SurfaceDragDropEventArgs e)
-        {
-            e.Cursor.Visual.Tag = null;
-        }
-
-        private void PlaylistAddDropTarget_Drop(object sender, SurfaceDragDropEventArgs e)
-        {
-            FrameworkElement frameworkElement = sender as FrameworkElement;
-
-            
-            Image animatedImage = null;
-
-            if (frameworkElement.Name == "DropTargetLeft")
-            {
-                animatedImage = PlusImageLeft;
-            }
-            else if (frameworkElement.Name == "DropTargetRight")
-            {
-                animatedImage = PlusImageRight;
-            }
-
-            object[] data = new object[]
-            {
-                e.Cursor.Data as ResultDataModel,
-                animatedImage as Image,
-            };
-            _viewModel.AddTrackCommand.Execute(data);
-        }
 
         private void surfaceListBox_DoubleTapGesture(object sender, GestureEventArgs e)
         {
@@ -303,36 +285,6 @@ namespace Ctms.Presentation.Views
 
             object[] data = new object[] { removeIndex, (insertIndex) };
             _viewModel.ReorderTrackCommand.Execute(data);
-
-            //Res.Add(e.Cursor.Data as DataItem);
-
-            //
-            //int index = _viewModel.ResultsForPlaylist.IndexOf(droppedItem);
-            //SurfaceListBox target = e.Cursor.CurrentTarget as SurfaceListBox;
-            //SurfaceListBoxItem targetItem = FindAncestor((DependencyObject)e.OriginalSource);
-
-            //if(overlayElement
-            //Point currentPosition = (Point)e.Cursor.GetPosition((IInputElement)this);
-
-            /*
-            int removedIdx = listbox1.Items.IndexOf(droppedData);
-            int targetIdx = listbox1.Items.IndexOf(target);
-
-            if (removedIdx < targetIdx)
-            {
-                _empList.Insert(targetIdx + 1, droppedData);
-                _empList.RemoveAt(removedIdx);
-            }
-            else
-            {
-                int remIdx = removedIdx + 1;
-                if (_empList.Count + 1 > remIdx)
-                {
-                    _empList.Insert(targetIdx, droppedData);
-                    _empList.RemoveAt(remIdx);
-                }
-            }
-             * */
         }
 
         private void PlaylistRemoveDropTarget_DragOver(object sender, SurfaceDragDropEventArgs e)
