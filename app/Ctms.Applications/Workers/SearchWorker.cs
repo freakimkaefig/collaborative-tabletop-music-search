@@ -50,6 +50,12 @@ namespace Ctms.Applications.Workers
             backgrWorker.DoInBackground(StartSearch, StartSearchCompleted, loadingInfoId);
         }
 
+        public void LoadDetails(ResultDataModel result)
+        {
+            _backgroundWorker.DoInBackground(LoadDetailsWorker, LoadDetailsCompleted, result);
+        }
+
+        //Background worker methods
         public void StartSearch(object sender, DoWorkEventArgs e)
         {
             var tags = _searchViewModel.Tags;
@@ -136,6 +142,29 @@ namespace Ctms.Applications.Workers
 
                 _resultWorker.RefreshResults(resultSongs);
                 _infoWorker.ConfirmCommonInfo(loadingInfoId);
+            }
+        }
+
+        private void LoadDetailsWorker(object sender, DoWorkEventArgs e)
+        {
+            ResultDataModel result = (ResultDataModel)e.Argument;
+            e.Result = new List<object>() { _searchManager.getArtistInfo(result.Result.Song.ArtistName, "0"), result };
+        }
+        private void LoadDetailsCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                _infoWorker.ShowCommonInfo("Cancelled lookup for by user", "", "Ok");
+            }
+            if (e.Error != null)
+            {
+                _infoWorker.ShowCommonInfo("Lookup for detail has failed", e.Error.Message, "Ok");
+            }
+            else
+            {
+                List<ResponseContainer.ResponseObj.ArtistInfo> resultDetails = (List<ResponseContainer.ResponseObj.ArtistInfo>)(((List<object>)e.Result)[0]);
+                ResultDataModel result = (ResultDataModel)(((List<object>)e.Result)[1]);
+                _resultWorker.RefreshDetails(resultDetails, result);
             }
         }
     }

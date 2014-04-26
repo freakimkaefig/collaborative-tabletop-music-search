@@ -67,6 +67,10 @@ namespace Ctms.Applications.ViewModels
         private ICommand _confirmBreadcrumbCmd;
         private string _searchViewLog;
 
+        private int _logCount;
+        private ICommand _checkTagPositionsCmd;
+        private ObservableCollection<TagCombinationDataModel> _tagCombinations;
+
         [ImportingConstructor]
         public SearchViewModel(ISearchView view)
             : base(view)
@@ -392,10 +396,6 @@ namespace Ctms.Applications.ViewModels
                 }
             }
         }
-
-        private int _logCount;
-        private ICommand _checkTagPositionsCmd;
-        private ObservableCollection<TagCombinationDataModel> _tagCombinations;
 
         public void AddLog(string logMessage)
         {

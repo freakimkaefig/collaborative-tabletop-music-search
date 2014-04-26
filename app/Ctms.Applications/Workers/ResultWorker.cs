@@ -85,5 +85,12 @@ namespace Ctms.Applications.Workers
                 }
             }
         }
+
+        public void RefreshDetails(List<ResponseContainer.ResponseObj.ArtistInfo> response, ResultDataModel result)
+        {
+            String city = response[0].artist_location.ToString();
+            String biography = response[0].biographies[0].ToString();
+            result.Detail = new Detail(city, biography);
+        }
     }
 }
