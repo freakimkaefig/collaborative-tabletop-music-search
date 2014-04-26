@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="pause" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<DrawingGroup ClipGeometry="F1 M 0,0L 53.3427,0L 53.3427,53.3427L 0,53.3427L 0,0 Z ">
+						<DrawingGroup.Children>
+							<GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M 32.0045,18.6714C 30.5325,18.6714 29.3379,19.8648 29.3379,21.3381L 29.3379,32.0048C 29.3379,33.4755 30.5325,34.6714 32.0045,34.6714C 33.4765,34.6714 34.6712,33.4768 34.6712,32.0048L 34.6712,21.3381C 34.6712,19.8635 33.4765,18.6714 32.0045,18.6714 Z M 37.3379,45.1448C 27.1365,51.0368 14.0872,47.5408 8.19787,37.3381C 2.30587,27.1341 5.8032,14.0861 16.0045,8.19678C 26.2072,2.30481 39.2552,5.80078 45.1459,16.0048C 51.0365,26.2075 47.5405,39.2542 37.3379,45.1448 Z M 49.7645,13.3381C 42.4032,0.583435 26.0912,-3.78723 13.3379,3.57813C 0.584533,10.9408 -3.78613,27.2501 3.5792,40.0048C 10.9419,52.7581 27.2512,57.1288 40.0045,49.7648C 52.7579,42.3995 57.1299,26.0914 49.7645,13.3381 Z M 21.3379,18.6714C 19.8659,18.6714 18.6712,19.8648 18.6712,21.3381L 18.6712,32.0048C 18.6712,33.4755 19.8659,34.6714 21.3379,34.6714C 22.8099,34.6714 24.0045,33.4755 24.0045,32.0048L 24.0045,21.3381C 24.0045,19.8635 22.8099,18.6714 21.3379,18.6714 Z "/>
+						</DrawingGroup.Children>
+					</DrawingGroup>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>
