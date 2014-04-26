@@ -6,7 +6,7 @@ using System.Text;
 namespace Ctms.Applications.Common
 {
     //Contains static values and enums
-    class CommonVal
+    public class CommonVal
     {
         /*
          * State variables

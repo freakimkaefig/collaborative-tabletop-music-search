@@ -23,7 +23,7 @@ namespace Ctms.Applications.DataFactories
         {
         }
         
-        public TagDataModel CreateTagDataModel(TagVisualizationDefinition tagVisDef, int id)
+        public TagDataModel CreateTagDataModel(int id, TagVisualizationDefinition tagVisDef = null)
         {
             // create Tag
             Tag tag = new Tag()
@@ -81,12 +81,13 @@ namespace Ctms.Applications.DataFactories
             return keyword;
         }
 
-        public TagCombinationDataModel CreateTagCombination()
+        public TagCombinationDataModel CreateTagCombination(KeywordTypes keywordType)
         {
             var tagCombinations = _repository.GetAllTagCombinations();
             var nextFreeId = EntitiesHelper.CalcNextId<TagCombinationDataModel>(tagCombinations, (t => t.Id));
 
             var tagCombination = new TagCombinationDataModel(nextFreeId);
+            tagCombination.CombinationType = keywordType;
 
             return tagCombination;
         }      

@@ -20,8 +20,6 @@ namespace Ctms.Applications.Data
     //Provides methods to retain filtered and unfiltered data from the entity service. Uses LINQ to filter data.
     public class Repository : Model
     {
-        private EntityService _entityService;
-
         private SearchViewModel     _searchVm;
         private DetailViewModel     _detailVm;
         private MenuViewModel       _menuVm;
@@ -32,12 +30,10 @@ namespace Ctms.Applications.Data
         private SearchManager       _searchManager;
 
         [ImportingConstructor]
-        public Repository(EntityService entityService, SearchViewModel searchVm, DetailViewModel detailVm,
+        public Repository(SearchViewModel searchVm, DetailViewModel detailVm,
             MenuViewModel menuVm, PlaylistViewModel playlistVm, ResultViewModel resultVm, SearchTagViewModel searchTagVm,
             InfoViewModel infoVm, ShellViewModel shellVm)
         {
-            _entityService = entityService;
-
             _searchVm       = searchVm;
             _detailVm       = detailVm;
             _menuVm         = menuVm;
@@ -179,9 +175,9 @@ namespace Ctms.Applications.Data
         /// Get all visible tags
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<TagDataModel> GetAllVisibleTagDMs()
+        public IEnumerable<TagDataModel> GetAddedTagDMs()
         {
-            return EntitiesHelper.ToObservableCollection<TagDataModel>(_searchVm.Tags.Where(t => t.State != TagDataModel.States.Removed));
+            return _searchVm.Tags.Where(t => t.State != TagDataModel.States.Removed);
         }
 
         /// <summary>

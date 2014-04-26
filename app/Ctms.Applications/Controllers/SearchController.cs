@@ -112,7 +112,7 @@ namespace Ctms.Applications.Controllers
                 (tagOptionId) => _searchOptionWorker.SelectKeywordType((int)tagOptionId, KeywordTypes.Title));
 
             _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId)); new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId));
-            _checkTagPositionsCmd       = new DelegateCommand((tagId) => _tagCombinationWorker.CheckTagPositions((int)tagId));
+            _checkTagPositionsCmd       = new DelegateCommand((tagId) => _tagCombinationWorker.CheckMovedTagCombi((int)tagId));
             _confirmInputCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.ConfirmInput((int)tagOptionId));
             _editCmd                    = new DelegateCommand((tagId) => _searchOptionWorker.EditTag((int)tagId));
             _goHomeCmd                  = new DelegateCommand((tagId) => _searchOptionWorker.GoHome((int)tagId));
@@ -157,16 +157,7 @@ namespace Ctms.Applications.Controllers
                 AddWeakEventListener(tag, TagDMChanged);
             }
         }
-        /*
-        private void SelectKeywordtype(int tagId, string keywordType)
-        {
-            if (keywordType == KeywordTypes.Attribute.ToString())
-            {
-                _searchOptionWorker.SelectKeywordType
-            }
 
-        }
-        */
         private void UpdateCommands()
         {
 

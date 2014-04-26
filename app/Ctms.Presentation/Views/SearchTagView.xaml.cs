@@ -12,6 +12,7 @@ using System.Windows.Data;
 using Microsoft.Surface.Presentation.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Presentation.Views
 {
@@ -66,7 +67,10 @@ namespace Ctms.Presentation.Views
             // orientate tag to the nearest side of the two long sides
             tag.Tag.Orientation = tag.Tag.PositionY > (windowHeight / 2) - (tag.Height / 2) ? (short) 0 : (short) 180;
 
-            SearchVm.CheckTagPositionsCmd.Execute(tag.Id);
+            if (tag.State == TagDataModel.States.Assigned)
+            {
+                SearchVm.CheckTagPositionsCmd.Execute(tag.Id);
+            }
 
             tag.UpdateVisibleOptions();
         }

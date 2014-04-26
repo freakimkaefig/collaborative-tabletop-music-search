@@ -142,12 +142,8 @@ namespace Ctms.Presentation.Views
 
             UpdateVisual(tagId);
 
-            tagDM.Height = (float) searchTagView.ActualHeight;
-
-            if (added == false)
-            {
-                //TimingHelper.SetTimeout(10, Rotate);
-            }
+            tagDM.Height    = (float)searchTagView.ActualHeight;
+            tagDM.State     = TagDataModel.States.Editing;
         }
 
         private void Rotate()
@@ -156,18 +152,6 @@ namespace Ctms.Presentation.Views
 
             TimingHelper.SetTimeout(10, Rotate);
         }
-
-       /* private void UpdateAnimation()
-        {
-            try
-            {
-                //Storyboard sb = (Storyboard)Application.Current.Resources["Tests"];
-                //animation.BeginStoryboard(sb);
-            }
-            catch (Exception)
-            {
-            }
-        }*/
 
         private void UpdateResources(SearchTagView searchTagView, int tagId, TagDataModel tagDM)
         {
@@ -181,7 +165,6 @@ namespace Ctms.Presentation.Views
             var isEditVisible = converter.Convert(tagDM.IsEditVisible, null, null, null);
             searchTagView.Resources["IsEditVisible"] = converter.Convert(tagDM.IsEditVisible, null, null, null);
             searchTagView.Resources["IsMenuVisible"] = converter.Convert(tagDM.IsMenuVisible, null, null, null);
-            //searchTagView.Resources["IsConfirmBreadcrumbVisible"] = converter.Convert(tagDM.IsConfirmBreadcrumbVisible, null, null, null);
         }
 
         private static void CalcMenuVisibility(SearchTagView searchTagView, TagDataModel tagDM)
@@ -194,8 +177,6 @@ namespace Ctms.Presentation.Views
 
         public void UpdateVisual(int tagId)
         {
-            //if (SearchTagViews.ContainsKey(tagId) == false) SearchTagViews.Add(tagId, null);
-
             UpdateMenuItems(tagId);
             UpdateResources(SearchTagViews[tagId], tagId, _viewModel.Tags[tagId]);
             CalcMenuVisibility(SearchTagViews[tagId], _viewModel.Tags[tagId]);
@@ -209,8 +190,6 @@ namespace Ctms.Presentation.Views
                 item.InvalidateProperty(PieMenuItem.SubHeaderProperty);
             }
             pieMenu.InvalidateVisual();
-
-           // UpdateAnimation();
         }
 
         /// <summary>

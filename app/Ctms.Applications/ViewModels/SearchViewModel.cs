@@ -79,6 +79,7 @@ namespace Ctms.Applications.ViewModels
                 //MICHL: befüllen durch Tangibles die auf dem Tisch stehen!
                 //       Einträge auch wieder löschen, wenn Tangible vom Tisch genommen wird (über originId)
             _searchObjectsList = new List<searchObject>();
+            _tagCombinations = new ObservableCollection<TagCombinationDataModel>();
         }
 
         public List<searchObject> SearchObjectsList

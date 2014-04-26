@@ -376,7 +376,7 @@
             </Rectangle>
 
             <ItemsControl ItemTemplate="{DynamicResource EllipsenTemplate}"  
-                        ItemsSource="{Binding TagCominations}"
+                        ItemsSource="{Binding TagCombinations}"
                         Grid.Row="0" 
                         Grid.Column="1"
                         Grid.ColumnSpan="2">

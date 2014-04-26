@@ -11,6 +11,7 @@ using Ctms.Applications.Common;
 using Ctms.Domain.Objects;
 using Ctms.Applications.DataFactories;
 using Ctms.Applications.Data;
+using Ctms.Applications.DataModels;
 
 namespace Ctms.Applications.Services
 {
@@ -52,7 +53,8 @@ namespace Ctms.Applications.Services
         {
             var factory = new TagFactory(_repository);
 
-            var tagDm = factory.CreateTagDataModel(tagVisDef, id);
+            var tagDm = factory.CreateTagDataModel(id, tagVisDef);
+            tagDm.State = TagDataModel.States.Removed;
 
             _repository.AddTagDMs(tagDm);
 
