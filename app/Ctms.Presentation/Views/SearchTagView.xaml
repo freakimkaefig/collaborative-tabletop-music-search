@@ -18,7 +18,6 @@
     PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
     Moved="TagVisualization_Moved"
                     >
-
     <!--DataContext="{DynamicResource TagDM}"-->
     
     <s:TagVisualization.Resources>
@@ -244,15 +243,22 @@
 
             <!--Start Menu Controls-->
             <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                             Content="Reset" 
                              HorizontalAlignment="Left" 
                              Grid.Row="0" 
                              Grid.Column="0"
                              Command="{Binding GoHomeCmd}" 
                              CommandParameter="{DynamicResource TagId}"
                              Visibility="{DynamicResource IsMenuVisible}"
-                             Style="{StaticResource SearchViewBtn}"/>
-
+                             Style="{StaticResource SearchViewBtn}"
+                             Background="{StaticResource ResourceKey=home}"
+                             />
+    
+            <!--<Rectangle Grid.Row="0" 
+                   Grid.Column="0"
+                   Fill="{StaticResource ResourceKey=tagHome}" 
+                   Stroke="DarkGray" 
+                      />-->
+            
             <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                              Content="Edit" 
                              HorizontalAlignment="Left" 

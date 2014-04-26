@@ -10,6 +10,7 @@
         <ResourceDictionary Source="ResultStyleResources.xaml"/>
         <ResourceDictionary Source="SearchStyleResources.xaml"/>
         <ResourceDictionary Source="InfoStyleResources.xaml"/>
+        <ResourceDictionary Source="Images/Search/home.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
