@@ -234,9 +234,7 @@
 
                 <s:SurfaceButton DataContext="{DynamicResource TagDM}"
                     Visibility="{Binding IsInputControlVisible, Converter={StaticResource visibilityConverter}}"
-                    Content="-" 
-                    Width="20"
-                    Command="{Binding LowerInputCmd}" 
+                    Command="{Binding DataContext.LowerInputCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                     CommandParameter="{DynamicResource TagId}" 
                     Background="{StaticResource ResourceKey=minus}"   />
 
@@ -244,11 +242,9 @@
                     Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
                     Width="{StaticResource InputLength}" />
                 
-                <s:SurfaceButton DataContext="{DynamicResource TagDM}"
+                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                     Visibility="{Binding IsInputControlVisible, Converter={StaticResource visibilityConverter}}"
-                    Content="+" 
-                    Width="20"
-                    Command="{Binding RaiseInputCmd}" 
+                    Command="{Binding DataContext.RaiseInputCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                     CommandParameter="{DynamicResource TagId}"
                     Background="{StaticResource ResourceKey=plus}" />
 

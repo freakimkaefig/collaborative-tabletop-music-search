@@ -7,9 +7,9 @@ namespace MusicSearch.Objects
 {
     public class AttributeObj
     {
-        public object min { get; set; }
-        public object max { get; set; }
-        public object description { get; set; }
+        public int min { get; set; }
+        public int max { get; set; }
+        public string description { get; set; }
         public string option1 { get; set; }
         public string option2 { get; set; }
     }

@@ -123,6 +123,15 @@ namespace Ctms.Applications.Data
         }
 
         /// <summary>
+        /// Remove info from tag
+        /// </summary>
+        public void RemoveTagInfoById(int tagId)
+        {
+            var tagInfo = GetTagInfoById(tagId);
+            _infoVm.TagInfos.Remove(tagInfo);
+        }
+
+        /// <summary>
         /// Get all tag infos
         /// </summary>
         public InfoDataModel GetTutorialInfoById(int tagId)

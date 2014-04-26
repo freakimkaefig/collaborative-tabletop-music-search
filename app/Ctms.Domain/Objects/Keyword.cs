@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Waf.Foundation;
+using MusicSearch.Objects;
 
 namespace Ctms.Domain
 {
@@ -23,7 +24,10 @@ namespace Ctms.Domain
         public string SearchId { get; set; }
 
         public KeywordTypes Type { get; protected set; }
-        
+
+        public AttributeTypes AttributeType { get; set; }
+
+        public string Key { get; set; }
         
         //public string Name { get; set; }
         public object Description { get; set; }

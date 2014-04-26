@@ -26,5 +26,26 @@ namespace Helpers
         {
             return (((x & (~x + 1)) == x) && (x > 0));
         }
+
+
+        /// <summary>
+        /// Try to parse a string to an integer
+        /// </summary>
+        /// <param name="value">The value to parse</param>
+        /// <see cref="http://msdn.microsoft.com/de-de/library/f02979c7(v=vs.110).aspx"/>
+        public static int TryToParseStringToInt(string value)
+        {
+            int number;
+            bool result = Int32.TryParse(value, out number);
+            if (result)
+            {
+                return number;
+            }
+            else
+            {
+                if (value == null) value = "";
+                throw new Exception("Conversion of string to int failed");
+            }
+        }
     }
 }

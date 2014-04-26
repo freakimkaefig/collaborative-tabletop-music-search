@@ -147,7 +147,18 @@ namespace Ctms.Applications.DataModels
         public TagVisualizationDefinition TagVisDef { get; set; }
 
         // terms that are inserted for artist/title search
-        public string InputTerms { get { return _inputTerms; } set { _inputTerms = value; } }
+        public string InputTerms
+        { 
+            get 
+            { 
+                return _inputTerms; 
+            } 
+            set 
+            {
+                _inputTerms = value;
+                RaisePropertyChanged("InputTerms");
+            } 
+        }
 
         // is input field visible
         public bool IsInputVisible 

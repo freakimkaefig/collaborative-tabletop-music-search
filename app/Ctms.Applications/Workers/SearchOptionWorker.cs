@@ -176,18 +176,17 @@ namespace Ctms.Applications.Workers
 
                             tagDM.Tag.TagOptions.Add(genreOption);
                         }
-
-                        //SetConfirmBreadcrumbIsVisible(tagDM, true);
                     }
                     else if (keywordType == KeywordTypes.Attribute)
                     {   // load attributes
-                        AttributeTypes type = (AttributeTypes)Enum.Parse(typeof(AttributeTypes), selectedTagOption.Keyword.Name);
+                        var attributeType = (AttributeTypes)Enum.Parse(typeof(AttributeTypes), selectedTagOption.Keyword.Name);
 
-                        var attributes = _searchManager.getCombinedSearchAttributes(type);
+                        var attributes = _searchManager.getCombinedSearchAttributes(attributeType);
                         foreach (var attribute in attributes)
                         {
-                            var tagOption = _tagFactory.CreateTagOption(attribute.Key, KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
-
+                            var tagOption = _tagFactory.CreateTagOption(attribute.Value.description, KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
+                            tagOption.Keyword.Key = attribute.Key;
+                            tagOption.Keyword.AttributeType = attributeType;
                             tagDM.Tag.TagOptions.Add(tagOption);
                         }
                     }
@@ -201,20 +200,43 @@ namespace Ctms.Applications.Workers
                     if (keywordType == KeywordTypes.Attribute)
                     {
                         tagDM.Tag.AssignedKeyword = selectedTagOption.Keyword;
+                        
                         SetInputIsVisible(tagDM, true);
                         SetInputControlIsVisible(tagDM, true);
+
+                        var attribute = GetAttributeObj(tagDM.Tag.AssignedKeyword);
+                        if (attribute != null)
+                        {
+                            ShowRangeHint(attribute, tagId);
+                            return;
+                        }
                     }
                     else
                     {
                         AssignKeyword(tagDM, selectedTagOption);
                     }
-
                     break;
                 }
             }
 
             // update menu
             _searchVM.UpdateVisuals(tagDM);
+        }
+
+        public AttributeObj GetAttributeObj(Keyword keyword)
+        {
+            var attributes      = _searchManager.getCombinedSearchAttributes(keyword.AttributeType);
+            if (attributes.ContainsKey(keyword.Key))
+            {
+                return attributes[keyword.Key];
+            }
+            else return null;
+        }
+
+        public void ShowRangeHint(AttributeObj attribute, int tagId)
+        {
+            var range = String.Format("[{0}-{1}]", attribute.min, attribute.max);
+            _infoWorker.ShowTagInfo("Invalid input", "Please choose a valid value of the range " + range, tagId);//!! hint to valid values?           
         }
 
         /// <summary>
@@ -256,6 +278,17 @@ namespace Ctms.Applications.Workers
             else if (keywordType == KeywordTypes.Attribute)
             {
                 termKeyword.Description = terms;
+                
+                var attribute = GetAttributeObj(termKeyword);
+                if(attribute != null)
+                {
+                    if(attribute.option1 != null) 
+                        // set option1 as default
+                        tagDM.InputTerms = attribute.option1; 
+                    else
+                        // set min as default
+                        tagDM.InputTerms = attribute.min.ToString(); 
+                }
                 SetInputControlIsVisible(tagDM, false);
             }
             SetInputIsVisible(tagDM, false);
@@ -263,33 +296,77 @@ namespace Ctms.Applications.Workers
             _searchVM.UpdateVisuals(tagDM);
         }
 
-        /// <summary>
-        /// Lower the value in input field for attribute selection
-        /// </summary>
-        public void LowerInput(int tagId)
+        public void EditInput(int tagId, string editType)
         {
-            var tagDM       = _repository.GetTagDMById(tagId);
-            var terms       = _repository.GetTagDMById(tagId).InputTerms;
+            // read values
+            var tagDM = _repository.GetTagDMById(tagId);
+            var terms = _repository.GetTagDMById(tagId).InputTerms;
+
             var keywordType = tagDM.Tag.AssignedKeyword.Type;
+            var keywordKey = tagDM.Tag.AssignedKeyword.Key;
             var keywordName = tagDM.Tag.AssignedKeyword.Name;
+            var attributeType = tagDM.Tag.AssignedKeyword.AttributeType;
 
-            var type = (AttributeTypes)Enum.Parse(typeof(AttributeTypes), keywordName);
+            // get attributes of current attribute type
+            var attributes = _searchManager.getCombinedSearchAttributes(attributeType);
 
-            var attributes = _searchManager.getCombinedSearchAttributes(type);
-            if (attributes.ContainsKey(keywordName) == true)
-            {
-                var attribute = attributes[keywordName];
-                var min = ((object[])attribute)[1];
-                var description = ((object[])attribute)[2];
+            // test if key is existent in dictionary
+            if (attributes.ContainsKey(keywordKey) == true)
+            {   // read values
+                var attribute = attributes[keywordKey];
+
+                if (attribute != null)
+                {
+                    var description = attribute.description;
+
+                    // check if option1 and option2 are defined or min and max
+                    if (attribute.option1 != null && attribute.option2 != null)
+                    {   // there is only a binary option choice                        
+                        var option1 = attribute.option1;
+                        var option2 = attribute.option2;
+
+                        if (editType == "Lower" && terms == option2)
+                        {   // set input to lower option
+                            tagDM.InputTerms = option1;
+                            _repository.RemoveTagInfoById(tagId);
+                        }
+                        else if (editType == "Raise" && terms == option1)
+                        {   // set input to higher option
+                            tagDM.InputTerms = option2;
+                            _repository.RemoveTagInfoById(tagId);                         
+                        }
+                    }
+                    else
+                    {   // min and max are defined
+                        var min = attribute.min;
+                        var max = attribute.max;
+
+                        int termsNr;
+                        try
+                        {
+                            // convert string to int
+                            termsNr = NumberHelper.TryToParseStringToInt(terms);
+                        }
+                        catch (Exception)
+                        {
+                            ShowRangeHint(attribute, tagId);
+                            return;
+                        }
+
+                        if (editType == "Lower" && termsNr > min)
+                        {   // lower input number
+                            termsNr--;
+                            _repository.RemoveTagInfoById(tagId);
+                        }
+                        else if (editType == "Raise" && termsNr < max)
+                        {   // raise input number
+                            termsNr++;
+                            _repository.RemoveTagInfoById(tagId);
+                        }
+                        tagDM.InputTerms = termsNr.ToString();
+                    }
+                }
             }
-        }
-
-        /// <summary>
-        /// Rais the value in input field for attribute selection
-        /// </summary>
-        public void RaiseInput(int tagId)
-        {
-
         }
 
         /// <summary>

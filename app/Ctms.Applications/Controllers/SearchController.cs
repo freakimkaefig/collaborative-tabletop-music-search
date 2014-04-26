@@ -116,9 +116,9 @@ namespace Ctms.Applications.Controllers
 
             _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId)); new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId));
             _checkTagPositionsCmd       = new DelegateCommand((tagId) => _tagCombinationWorker.CheckMovedTagCombi((int)tagId));
-            _confirmInputCmd = new DelegateCommand((tagId) => _searchOptionWorker.ConfirmInput((int)tagId));
-            _lowerInputCmd = new DelegateCommand((tagId) => _searchOptionWorker.ConfirmInput((int)tagId));
-            _raiseInputCmd = new DelegateCommand((tagOptionId) => _searchOptionWorker.ConfirmInput((int)tagOptionId));
+            _confirmInputCmd            = new DelegateCommand((tagId) => _searchOptionWorker.ConfirmInput((int)tagId));
+            _lowerInputCmd              = new DelegateCommand((tagId) => _searchOptionWorker.EditInput((int)tagId, "Lower"));
+            _raiseInputCmd              = new DelegateCommand((tagId) => _searchOptionWorker.EditInput((int)tagId, "Raise"));
             
             _editCmd                    = new DelegateCommand((tagId) => _searchOptionWorker.EditTag((int)tagId));
             _goHomeCmd                  = new DelegateCommand((tagId) => _searchOptionWorker.GoHome((int)tagId));
@@ -142,8 +142,10 @@ namespace Ctms.Applications.Controllers
             _searchVm.SelectArtistCmd   = _selectArtistCmd;
             _searchVm.SelectTitleCmd    = _selectTitleCmd;
             _searchVm.CheckTagPositionsCmd = _checkTagPositionsCmd;
-            _searchVm.ConfirmInputCmd = _confirmInputCmd;
-            _searchVm.GoBreadcrumbCmd = _goBreadcrumbCmd;
+            _searchVm.ConfirmInputCmd   = _confirmInputCmd;
+            _searchVm.LowerInputCmd     = _lowerInputCmd;
+            _searchVm.RaiseInputCmd     = _raiseInputCmd;
+            _searchVm.GoBreadcrumbCmd   = _goBreadcrumbCmd;
             //_searchVm.ConfirmBreadcrumbCmd = _confirmBreadcrumbCmd;
             _searchVm.EditCmd           = _editCmd;
             _searchVm.GoHomeCmd         = _goHomeCmd;

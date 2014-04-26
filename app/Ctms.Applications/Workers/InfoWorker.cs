@@ -102,6 +102,7 @@ namespace Ctms.Applications.Workers
 	        {
                 info.Info.PositionY = tagDm.Tag.PositionY + tagDm.Height;
 	        }
+            _repository.RemoveTagInfoById(tagId);
             _infoVm.TagInfos.Add(info);
         }
 
