@@ -23,19 +23,28 @@
     <s:TagVisualization.Resources>
         <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
         <DataTemplate x:Key="BreadcrumbTemplate">
-            <s:SurfaceButton Content="{Binding Keyword.Name}" 
-                             Command="{Binding DataContext.GoBreadcrumbCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                             CommandParameter="{Binding Id}" 
-                             Grid.Row="2" 
-                             Grid.ColumnSpan="3"
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Center"
-                             Visibility="{DynamicResource IsMenuVisible}"  
-                             Style="{StaticResource BreadcrumbBtn}">                             
+            <Grid Grid.Row="2" Grid.ColumnSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Rectangle Fill="{StaticResource ResourceKey=arrowRight}" Width="10" Height="10" Grid.Column="0"
+                                 Visibility="{DynamicResource IsMenuVisible}"  />
+                <s:SurfaceButton Content="{Binding Keyword.Name}" 
+                                 Command="{Binding DataContext.GoBreadcrumbCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                 CommandParameter="{Binding Id}" 
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Visibility="{DynamicResource IsMenuVisible}"  
+                                 Style="{StaticResource BreadcrumbBtn}" Grid.Column="1">
                     <s:SurfaceButton.RenderTransform>
                         <RotateTransform Angle="0" />
                     </s:SurfaceButton.RenderTransform>
-            </s:SurfaceButton>
+                </s:SurfaceButton>
+            </Grid>
         </DataTemplate>
         <sys:Double x:Key="PieMenuDiameter">240</sys:Double>
         <sys:Double x:Key="OuterLength">50</sys:Double>
@@ -49,11 +58,6 @@
         <Grid.RenderTransform>
             <RotateTransform Angle="{Binding Tag.Orientation}"  />
         </Grid.RenderTransform>
-        <!--<Ellipse Height="400" Width="400" Fill="#0f0">
-            <Ellipse.Effect>
-                <BlurEffect Radius="15"/>
-            </Ellipse.Effect>
-        </Ellipse>-->
         <Ellipse Width="{Binding CombineCircleDiameter}" Height="{Binding CombineCircleDiameter}" 
                  Stroke="Transparent" 
                  StrokeThickness="0" 
@@ -233,7 +237,8 @@
                     Content="-" 
                     Width="20"
                     Command="{Binding LowerInputCmd}" 
-                    CommandParameter="{DynamicResource TagId}"   />
+                    CommandParameter="{DynamicResource TagId}" 
+                    Background="{StaticResource ResourceKey=minus}"   />
 
                 <s:SurfaceTextBox DataContext="{DynamicResource TagDM}"
                     Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
@@ -244,13 +249,14 @@
                     Content="+" 
                     Width="20"
                     Command="{Binding RaiseInputCmd}" 
-                    CommandParameter="{DynamicResource TagId}"  />
+                    CommandParameter="{DynamicResource TagId}"
+                    Background="{StaticResource ResourceKey=plus}" />
 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                    Content="Ok"
                     Command="{Binding ConfirmInputCmd}" 
                     CommandParameter="{DynamicResource TagId}"  
-                    Style="{StaticResource SearchViewBtn}"/>
+                    Style="{StaticResource SearchViewBtn}"
+                    Background="{StaticResource ResourceKey=checkmark}" />
 
             </StackPanel>
             <!--End Text Input field-->
@@ -268,14 +274,14 @@
                              />
     
             <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                             Content="Edit" 
                              HorizontalAlignment="Left" 
                              Grid.Row="2" 
                              Grid.Column="0"
                              Command="{Binding EditCmd}" 
                              CommandParameter="{DynamicResource TagId}"
                              Visibility="{DynamicResource IsEditVisible}"
-                             Style="{StaticResource SearchViewBtn}"/>
+                             Style="{StaticResource SearchViewBtn}"
+                             Background="{StaticResource ResourceKey=edit}"/>
 
             <ItemsControl ItemTemplate="{DynamicResource BreadcrumbTemplate}"  
                         ItemsSource="{DynamicResource BreadcrumbOptions}"
@@ -288,19 +294,6 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-
-
-            <!--<s:SurfaceButton DataContext="{DynamicResource TagDM}"
-                             Content="Confirm" 
-                             HorizontalAlignment="Left" 
-                             Grid.Row="0" 
-                             Grid.Column="2"
-                             Command="{Binding DataContext.ConfirmBreadcrumbCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                             CommandParameter="{Binding Id}"
-                             Visibility="{DynamicResource IsConfirmBreadcrumbVisible}"
-                             Style="{StaticResource SearchViewBtn}"/>-->
-            <!--End Menu Controls-->
-
 
             <!-- Start Assigned keyword-->
             <TextBlock 
