@@ -38,16 +38,19 @@ namespace Ctms.Applications.Controllers
         //Workers
         private StreamingWorker _streamingWorker;
         private PlaylistWorker _playlistWorker;
+        private SearchWorker _searchWorker;
+        
         //Commands
         //private readonly DelegateCommand selectOptionCommand;
         private readonly DelegateCommand _prelistenCommand;
         private readonly DelegateCommand _addTrackCommand;
+        private readonly DelegateCommand _loadDetailsCommand;
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public ResultController(CompositionContainer container, IShellService shellService, EntityService entityService,
-            ResultViewModel resultViewModel, StreamingWorker streamingWorker, PlaylistWorker playlistWorker)
+            ResultViewModel resultViewModel, StreamingWorker streamingWorker, PlaylistWorker playlistWorker, SearchWorker searchWorker)
         {
             this.container = container;
             //Services
@@ -58,9 +61,11 @@ namespace Ctms.Applications.Controllers
             //Workers
             this._streamingWorker = streamingWorker;
             this._playlistWorker = playlistWorker;
+            this._searchWorker = searchWorker;
             //Commands
             this._prelistenCommand = new DelegateCommand((result) => _streamingWorker.Prelisten((ResultDataModel)result));
             this._addTrackCommand = new DelegateCommand((data) => _playlistWorker.AddTrackToPlaylist((object[])data));
+            this._loadDetailsCommand = new DelegateCommand((result) => _searchWorker.LoadDetails((ResultDataModel)result));
             //this.selectOptionCommand = new DelegateCommand(chooseResult, CanSelectResult);
         }
 
@@ -70,6 +75,7 @@ namespace Ctms.Applications.Controllers
             //_resultViewModel.SelectCommand = selectCommand;
             _resultViewModel.PrelistenCommand = _prelistenCommand;
             _resultViewModel.AddTrackCommand = _addTrackCommand;
+            _resultViewModel.LoadDetailsCommand = _loadDetailsCommand;
             //Views
             shellService.ResultView = _resultViewModel.View;
             //Listeners
