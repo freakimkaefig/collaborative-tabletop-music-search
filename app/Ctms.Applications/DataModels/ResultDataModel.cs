@@ -12,6 +12,7 @@ namespace Ctms.Applications.DataModels
     public class ResultDataModel : DataModel
     {
         private Result _result;
+        private Detail _detail;
         private ObservableCollection<Tag> _tagInfluences;
         private bool _canDrag = true;
         private bool _canDrop = true;
@@ -35,9 +36,15 @@ namespace Ctms.Applications.DataModels
             _tagInfluences = new ObservableCollection<Tag>();
 
             Opacity = 1.0;
+
+            _stdWidth = 200.0;
+            _width = _stdWidth;
+            _stdHeight = 150.0;
+            _height = _stdHeight;
         }
 
         public Result Result { get { return _result; } set { _result = value; } }
+        public Detail Detail { get { return _detail; } set { _detail = value; RaisePropertyChanged("Detail"); } }
         public ObservableCollection<Tag> TagInfluences { get { return _tagInfluences; } set { _tagInfluences = value; RaisePropertyChanged("TagInfluences"); } }
 
         public Track SpotifyTrack { get; set; }
@@ -57,6 +64,6 @@ namespace Ctms.Applications.DataModels
         public double StdHeight { get { return _stdHeight; } set { _stdHeight = value; RaisePropertyChanged("StdHeight"); } }
         public double Width { get { return _width; } set { _width = value; RaisePropertyChanged("Width"); } }
         public double Height { get { return _height; } set { _height = value; RaisePropertyChanged("Height"); } }
-        public bool IsDetail { get { return _isDetail; } set { _isDetail = value; RaisePropertyChanged("IsDetail"); } }
+        public bool IsDetail { get { return _isDetail; } set { if (_isDetail != value) { _isDetail = value; RaisePropertyChanged("IsDetail"); } } }
     }
 }

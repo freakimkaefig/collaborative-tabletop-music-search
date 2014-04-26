@@ -22,7 +22,7 @@
                    Opacity="0.7"
                    Fill="#FFFF00">
                 <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform1" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}"/>
+                    <TranslateTransform x:Name="TTransform1" X="300" Y="300"/>
                  </Ellipse.RenderTransform>  <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
                 
                 <Ellipse.Effect>
@@ -58,27 +58,21 @@
                                     Storyboard.TargetName="el1"
                                     Storyboard.TargetProperty="(Ellipse.Width)"
                                     Duration="0:0:0.5"
-                                    
                                     RepeatBehavior="Forever"
-                                    By="50"/>
+                                    By="50" />
 
                                 <DoubleAnimation Storyboard.TargetName="TTransform1"
                                              Storyboard.TargetProperty="X"
-                                             By="200"
+                                             By="{Binding Tags[0].Tag.PositionX}"
                                              Duration="0:0:0.5"
-                                             
-                                             
-                                             RepeatBehavior="Forever"
-                                                 />
+                                             RepeatBehavior="Forever" />
                                 
                                 <!--By Property mit Binding an Tangibles binden-->
                                 <DoubleAnimation Storyboard.TargetName="TTransform1"
                                              Storyboard.TargetProperty="Y"
-                                             
                                              Duration="0:0:0.5"
-                                             By="100"
-                                             
-                                             RepeatBehavior="Forever"/>
+                                             By="{Binding Tags[0].Tag.PositionY}"
+                                             RepeatBehavior="Forever" />
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
@@ -414,7 +408,7 @@
             <ItemsControl ItemTemplate="{DynamicResource EllipsenTemplate}"  
                         ItemsSource="{Binding TagCombinations}"
                         Grid.Row="0" 
-                        Grid.Column="1"
+                        Grid.Column="0"
                         Grid.ColumnSpan="2">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

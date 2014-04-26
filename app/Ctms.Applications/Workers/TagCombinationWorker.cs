@@ -92,8 +92,6 @@ namespace Ctms.Applications.Workers
                                 combiWithMovedTag = CreateTagCombi(movedTag, compareTag, possibleCombiType);
 
                                 _repository.AddTagCombination(combiWithMovedTag);
-                                //_searchViewModel.TagCombinations = new ObservableCollection<TagCombinationDataModel>
-                                //    (_searchViewModel.TagCombinations);
 
                                 // update calculation of center
                                 UpdateCenter(combiWithMovedTag.Tags);
