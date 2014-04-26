@@ -24,6 +24,7 @@ using Ctms.Applications.DataModels;
 using Ctms.Applications.Data;
 using System.Collections.Specialized;
 using Ctms.Applications.Common;
+using System.Collections.ObjectModel;
 
 
 namespace Ctms.Applications.Controllers
@@ -156,6 +157,43 @@ namespace Ctms.Applications.Controllers
             {   // add listener to each tag
                 AddWeakEventListener(tag, TagDMChanged);
             }
+            /*
+            _searchVm.TagCombinations.Add(new TagCombinationDataModel(20)
+            {
+                CenterX = 200,
+                CenterY = 200,
+                Tags = new ObservableCollection<TagDataModel>()
+                {
+                    new TagDataModel()
+                    {
+                        Tag = new Tag()
+                        {
+                            PositionX = 150,
+                            PositionY = 150
+                        }
+                    }
+                }
+            });*/
+            
+            _searchVm.TagCombinations = new ObservableCollection<TagCombinationDataModel>()
+            {
+                new TagCombinationDataModel(20)
+                {
+                    CenterX = 200,
+                    CenterY = 200,
+                    Tags = new ObservableCollection<TagDataModel>()
+                    {
+                        new TagDataModel()
+                        {
+                            Tag = new Tag()
+                            {
+                                PositionX = 150,
+                                PositionY = 150
+                            }
+                        }
+                    }
+                }
+            };
         }
 
         private void UpdateCommands()
