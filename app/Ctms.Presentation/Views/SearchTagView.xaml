@@ -227,10 +227,24 @@
                         HorizontalAlignment="Center"
                         Grid.Row="2"
                         Grid.ColumnSpan="3">
-                
+
+                <s:SurfaceButton DataContext="{DynamicResource TagDM}"
+                    Visibility="{Binding IsInputControlVisible, Converter={StaticResource visibilityConverter}}"
+                    Content="-" 
+                    Width="20"
+                    Command="{Binding LowerInputCmd}" 
+                    CommandParameter="{DynamicResource TagId}"   />
+
                 <s:SurfaceTextBox DataContext="{DynamicResource TagDM}"
                     Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
                     Width="{StaticResource InputLength}" />
+                
+                <s:SurfaceButton DataContext="{DynamicResource TagDM}"
+                    Visibility="{Binding IsInputControlVisible, Converter={StaticResource visibilityConverter}}"
+                    Content="+" 
+                    Width="20"
+                    Command="{Binding RaiseInputCmd}" 
+                    CommandParameter="{DynamicResource TagId}"  />
 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                     Content="Ok"
@@ -253,12 +267,6 @@
                              Background="{StaticResource ResourceKey=home}"
                              />
     
-            <!--<Rectangle Grid.Row="0" 
-                   Grid.Column="0"
-                   Fill="{StaticResource ResourceKey=tagHome}" 
-                   Stroke="DarkGray" 
-                      />-->
-            
             <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                              Content="Edit" 
                              HorizontalAlignment="Left" 

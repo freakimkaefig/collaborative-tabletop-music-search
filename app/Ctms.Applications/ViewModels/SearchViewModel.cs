@@ -70,6 +70,8 @@ namespace Ctms.Applications.ViewModels
         private int _logCount;
         private ICommand _checkTagPositionsCmd;
         private ObservableCollection<TagCombinationDataModel> _tagCombinations;
+        private ICommand _lowerInputCmd;
+        private ICommand _raiseInputCmd;
 
         [ImportingConstructor]
         public SearchViewModel(ISearchView view)
@@ -489,6 +491,32 @@ namespace Ctms.Applications.ViewModels
                 {
                     _confirmInputCmd = value;
                     RaisePropertyChanged("ConfirmInputCmd");
+                }
+            }
+        }
+
+        public ICommand LowerInputCmd
+        {
+            get { return _lowerInputCmd; }
+            set
+            {
+                if (_lowerInputCmd != value)
+                {
+                    _lowerInputCmd = value;
+                    RaisePropertyChanged("LowerInputCmd");
+                }
+            }
+        }
+
+        public ICommand RaiseInputCmd
+        {
+            get { return _raiseInputCmd; }
+            set
+            {
+                if (_raiseInputCmd != value)
+                {
+                    _raiseInputCmd = value;
+                    RaisePropertyChanged("RaiseInputCmd");
                 }
             }
         }

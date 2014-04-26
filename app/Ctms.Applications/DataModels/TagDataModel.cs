@@ -36,6 +36,7 @@ namespace Ctms.Applications.DataModels
         private bool _isConfirmBreadcrumbVisible;
         private string _backgrImageSource;
         private float _confirmCircleOpacity;
+        private bool _isInputControlVisible;
 
         public TagDataModel(Tag tag)
         {
@@ -160,6 +161,20 @@ namespace Ctms.Applications.DataModels
                 _isInputVisible = value;
                 RaisePropertyChanged("IsInputVisible");
             } 
+        }
+
+        // is input control visible
+        public bool IsInputControlVisible
+        {
+            get
+            {
+                return _isInputControlVisible;
+            }
+            set
+            {
+                _isInputControlVisible = value;
+                RaisePropertyChanged("IsInputControlVisible");
+            }
         }
 
         public bool IsAssignedKeywordVisible

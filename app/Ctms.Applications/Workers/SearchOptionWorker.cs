@@ -202,6 +202,7 @@ namespace Ctms.Applications.Workers
                     {
                         tagDM.Tag.AssignedKeyword = selectedTagOption.Keyword;
                         SetInputIsVisible(tagDM, true);
+                        SetInputControlIsVisible(tagDM, true);
                     }
                     else
                     {
@@ -255,10 +256,40 @@ namespace Ctms.Applications.Workers
             else if (keywordType == KeywordTypes.Attribute)
             {
                 termKeyword.Description = terms;
+                SetInputControlIsVisible(tagDM, false);
             }
             SetInputIsVisible(tagDM, false);
 
             _searchVM.UpdateVisuals(tagDM);
+        }
+
+        /// <summary>
+        /// Lower the value in input field for attribute selection
+        /// </summary>
+        public void LowerInput(int tagId)
+        {
+            var tagDM       = _repository.GetTagDMById(tagId);
+            var terms       = _repository.GetTagDMById(tagId).InputTerms;
+            var keywordType = tagDM.Tag.AssignedKeyword.Type;
+            var keywordName = tagDM.Tag.AssignedKeyword.Name;
+
+            var type = (AttributeTypes)Enum.Parse(typeof(AttributeTypes), keywordName);
+
+            var attributes = _searchManager.getCombinedSearchAttributes(type);
+            if (attributes.ContainsKey(keywordName) == true)
+            {
+                var attribute = attributes[keywordName];
+                var min = ((object[])attribute)[1];
+                var description = ((object[])attribute)[2];
+            }
+        }
+
+        /// <summary>
+        /// Rais the value in input field for attribute selection
+        /// </summary>
+        public void RaiseInput(int tagId)
+        {
+
         }
 
         /// <summary>
@@ -428,6 +459,7 @@ namespace Ctms.Applications.Workers
             SetKeywordTypesIsVisible(tagDM, true);
             SetKeywordIsVisible(tagDM, false);
             SetInputIsVisible(tagDM, false);
+            SetInputControlIsVisible(tagDM, false);
 
             _searchVM.UpdateVisuals(tagDM);
         }
@@ -479,6 +511,11 @@ namespace Ctms.Applications.Workers
         private void SetInputIsVisible(TagDataModel tagDM, bool visibility)
         {
             tagDM.IsInputVisible = visibility;
+        }
+
+        private void SetInputControlIsVisible(TagDataModel tagDM, bool visibility)
+        {
+            tagDM.IsInputControlVisible = visibility;
         }
 
         private void SetMenuIsVisible(TagDataModel tagDM, bool visibility)

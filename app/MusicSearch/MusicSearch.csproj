@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Managers\SearchManager.cs" />
     <Compile Include="Objects\ArtistParameterTypes.cs" />
+    <Compile Include="Objects\AttributeObj.cs" />
     <Compile Include="Objects\AttributeTypes.cs" />
     <Compile Include="Objects\GenreParameterTypes.cs" />
     <Compile Include="Objects\ResponseContainer.cs" />

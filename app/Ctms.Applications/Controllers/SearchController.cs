@@ -61,6 +61,8 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _goBreadcrumbCmd;
         private readonly DelegateCommand _confirmBreadcrumbCmd;
         private readonly DelegateCommand _confirmInputCmd;
+        private readonly DelegateCommand _lowerInputCmd;
+        private readonly DelegateCommand _raiseInputCmd;
         private readonly DelegateCommand _editCmd;
         private readonly DelegateCommand _goHomeCmd;
         //Further vars
@@ -114,7 +116,10 @@ namespace Ctms.Applications.Controllers
 
             _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId)); new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId));
             _checkTagPositionsCmd       = new DelegateCommand((tagId) => _tagCombinationWorker.CheckMovedTagCombi((int)tagId));
-            _confirmInputCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.ConfirmInput((int)tagOptionId));
+            _confirmInputCmd = new DelegateCommand((tagId) => _searchOptionWorker.ConfirmInput((int)tagId));
+            _lowerInputCmd = new DelegateCommand((tagId) => _searchOptionWorker.ConfirmInput((int)tagId));
+            _raiseInputCmd = new DelegateCommand((tagOptionId) => _searchOptionWorker.ConfirmInput((int)tagOptionId));
+            
             _editCmd                    = new DelegateCommand((tagId) => _searchOptionWorker.EditTag((int)tagId));
             _goHomeCmd                  = new DelegateCommand((tagId) => _searchOptionWorker.GoHome((int)tagId));
             //Further vars
