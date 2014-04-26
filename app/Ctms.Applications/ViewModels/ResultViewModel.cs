@@ -28,6 +28,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand prelistenCommand;
         private ICommand clickedResultCommand;
         private ICommand _addTrackCommand;
+        private ICommand _loadDetailsCommand;
         private ObservableCollection<ResultDataModel> _results;
 
 
@@ -196,6 +197,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _addTrackCommand = value;
                     RaisePropertyChanged("AddTrackCommand");
+                }
+            }
+        }
+
+        public ICommand LoadDetailsCommand
+        {
+            get { return _loadDetailsCommand; }
+            set
+            {
+                if (_loadDetailsCommand != value)
+                {
+                    _loadDetailsCommand = value;
+                    RaisePropertyChanged("LoadDetailsCommand");
                 }
             }
         }

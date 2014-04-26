@@ -250,7 +250,11 @@ namespace Ctms.Presentation.Views
 
                 if (scatterViewItem.ActualHeight > result.StdHeight + offset || scatterViewItem.ActualWidth > result.StdWidth + offset)
                 {
-                    result.IsDetail = true;
+                    if (!result.IsDetail)
+                    {
+                        result.IsDetail = true;
+                        _viewModel.LoadDetailsCommand.Execute(result);
+                    }
                 }
                 else
                 {
