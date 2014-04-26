@@ -91,6 +91,10 @@ namespace Ctms.Applications.Workers
                                 Console.WriteLine("CreateTagCombi");
                                 combiWithMovedTag = CreateTagCombi(movedTag, compareTag, possibleCombiType);
 
+                                _repository.AddTagCombination(combiWithMovedTag);
+                                //_searchViewModel.TagCombinations = new ObservableCollection<TagCombinationDataModel>
+                                //    (_searchViewModel.TagCombinations);
+
                                 // update calculation of center
                                 UpdateCenter(combiWithMovedTag.Tags);
                             }
@@ -246,39 +250,59 @@ namespace Ctms.Applications.Workers
             return tagCombi;
         }
 
+
+        /// <summary>
+        /// Calculate centroid of the polygon of tags. Optimized for performance
+        /// </summary>
+        /// <param name="tags">All tags that form the polygon</param>
+        /// <returns>The centroid as point</returns>
         public Point UpdateCenter(ObservableCollection<TagDataModel> tags)
         {
-            //throw new NotImplementedException();
-            // area = 1/2 * (sum of [(x1 * y2 - x2 * y1) + (x2 * y3 - x3 * y2)...])
-
-            var area        = 0.0F;
-            var centroidX   = 0.0F;
-            var centroidY   = 0.0F;
-            byte i          = 0;
-            var crossDiff   = 0.0F;
-
-            // calculate interim steps for all tag positions
+            var area = 0.0F;
+            var sumX = 0.0F;
+            var sumY = 0.0F;
+            var crossDiff = 0.0F;
+            byte i = 0;
+            short x0;
+            short y0;
+            short x1;
+            short y1;
+            
+            // calculate interim steps for all tag positions            
             for (i = 0; i < tags.Count-1; i++)
-            {   
-                crossDiff   = tags[i].Tag.PositionX * tags[i+1].Tag.PositionY - tags[i+1].Tag.PositionX * tags[i].Tag.PositionY;
-                area        += crossDiff;
-                centroidX   += (tags[i].Tag.PositionX + tags[i + 1].Tag.PositionY) * crossDiff;
-                centroidY   += (tags[i].Tag.PositionY + tags[i + 1].Tag.PositionX) * crossDiff;
-            }
-            if (area != 0.0)
             {
-                centroidX = (1 / (3 * area)) * centroidX;
-                centroidY = (1 / (3 * area)) * centroidY;
+                x0 = tags[i].Tag.PositionX;
+                y0 = tags[i].Tag.PositionY;
+                x1 = tags[i + 1].Tag.PositionX;
+                y1 = tags[i + 1].Tag.PositionY;
 
-                return new Point(centroidX, centroidY);
+                crossDiff   = x0 * y1 - x1 * y0;
+                area        += crossDiff;
+                sumX   += (x0 + x1) * crossDiff;
+                sumY   += (y0 + y1) * crossDiff;
+            }
+
+            // calc last connection
+            x0 = tags[tags.Count - 1].Tag.PositionX;
+            y0 = tags[tags.Count - 1].Tag.PositionY;
+            x1 = tags[0].Tag.PositionX;
+            y1 = tags[0].Tag.PositionY;
+            
+            crossDiff = x0 * y1 - x1 * y0;
+            area += crossDiff;
+            sumX += (x0 + x1) * crossDiff;
+            sumY += (y0 + y1) * crossDiff;
+
+            if (area != 0.0)
+            {   // calculate center x and y and return it
+                return new Point((1 / (3.0F * area)) * sumX, (1 / (3.0F * area)) * sumY);
             }
             else
-            {   // area is 0. all tags are positioned in one line.
-
-            }
-            return new Point(0, 0);
-            // centroid = (1/(6*area)) * (sum of [(x1 + 2x) * (x1 * y 2 - x2 * y1)...])
-            //var centroidX = (1/(6*area)) * 
+            {   // area is 0. all tags are positioned in one line. 
+                // this case can be ignored at first because the probability is very low and
+                // such a order won't stay for a long time.
+                return new Point(sumX / 6, sumY / 6);
+            } 
         }
 
     }
