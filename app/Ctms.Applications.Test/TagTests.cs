@@ -53,8 +53,8 @@ namespace Ctms.Applications.Test
             _tagCombinationWorker = new TagCombinationWorker(null, _repository, null);
             var point = _tagCombinationWorker.UpdateCenter(Tags);
 
-            Assert.IsTrue(point.X == 100);
-            Assert.IsTrue(point.Y == 96.667);
+            Assert.IsTrue((int)point.X == 100, "x is not 100. it's " + point.X);
+            Assert.IsTrue((int)point.Y == 96, "x is not 96. it's " + (int)point.Y);
         }
         
         [ClassCleanup]
