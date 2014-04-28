@@ -32,7 +32,7 @@ namespace Ctms.Domain
         //public string Name { get; set; }
         public object Description { get; set; }
 
-        public double Weight { get; set; }
+        public object AttributeValue { get; set; }
 
         public string Name
         {

@@ -37,6 +37,7 @@ namespace Ctms.Applications.DataModels
         private string _backgrImageSource;
         private float _confirmCircleOpacity;
         private bool _isInputControlVisible;
+        private bool _isCircleMenuVisible;
 
         public TagDataModel(Tag tag)
         {
@@ -211,6 +212,19 @@ namespace Ctms.Applications.DataModels
             {
                 _isMenuVisible = value;
                 RaisePropertyChanged("IsMenuVisible");
+            }
+        }
+
+        public bool IsCircleMenuVisible
+        {
+            get
+            {
+                return _isCircleMenuVisible;
+            }
+            set
+            {
+                _isCircleMenuVisible = value;
+                RaisePropertyChanged("IsCircleMenuVisible");
             }
         }
 

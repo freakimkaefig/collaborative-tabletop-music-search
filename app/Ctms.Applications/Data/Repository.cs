@@ -73,37 +73,20 @@ namespace Ctms.Applications.Data
 
 
         #region Infos
-        /*
-        /// <summary>
-        /// Get all common infos
-        /// </summary>
+
         public ObservableCollection<InfoDataModel> GetAllCommonInfos()
         {
             return _infoVm.CommonInfos;
         }
 
-        /// <summary>
-        /// Get all tag infos
-        /// </summary>
-        public ObservableCollection<InfoDataModel> GetAllTagInfos()
+        public ObservableCollection<TagInfoDataModel> GetAllTagInfos()
         {
             return _infoVm.TagInfos;
         }
 
-        /// <summary>
-        /// Get all tutorial infos
-        /// </summary>
         public ObservableCollection<InfoDataModel> GetAllTutorialInfos()
         {
             return _infoVm.TutorialInfos;
-        }
-        */
-        public ObservableCollection<InfoDataModel> GetAllInfos(InfoTypes type)
-        {
-            if (type == InfoTypes.CommonInfo) return _infoVm.CommonInfos;
-            else if (type == InfoTypes.TagInfo) return _infoVm.TagInfos;
-            else if (type == InfoTypes.TutorialInfo) return _infoVm.TutorialInfos;
-            else return null;
         }
 
         /// <summary>
@@ -115,11 +98,20 @@ namespace Ctms.Applications.Data
         }
 
         /// <summary>
+        /// Remove common info
+        /// </summary>
+        public void RemoveCommonInfoById(int infoId)
+        {
+            var commonInfo = GetCommonInfoById(infoId);
+            _infoVm.CommonInfos.Remove(commonInfo);
+        }
+
+        /// <summary>
         /// Get all tag infos
         /// </summary>
-        public InfoDataModel GetTagInfoById(int tagId)
+        public TagInfoDataModel GetTagInfoByTagId(int tagId)
         {
-            return _infoVm.TagInfos.FirstOrDefault(i => i.Info.Id == tagId);
+            return _infoVm.TagInfos.FirstOrDefault(i => i.TagId == tagId);
         }
 
         /// <summary>
@@ -127,7 +119,7 @@ namespace Ctms.Applications.Data
         /// </summary>
         public void RemoveTagInfoById(int tagId)
         {
-            var tagInfo = GetTagInfoById(tagId);
+            var tagInfo = GetTagInfoByTagId(tagId);
             _infoVm.TagInfos.Remove(tagInfo);
         }
 
@@ -137,6 +129,15 @@ namespace Ctms.Applications.Data
         public InfoDataModel GetTutorialInfoById(int tagId)
         {
             return _infoVm.TutorialInfos.FirstOrDefault(i => i.Info.Id == tagId);
+        }
+
+        /// <summary>
+        /// Remove tutorial info
+        /// </summary>
+        public void RemoveTutorialInfoById(int infoId)
+        {
+            var tutInfo = GetTutorialInfoById(infoId);
+            _infoVm.TutorialInfos.Remove(tutInfo);
         }
 
         #endregion Infos

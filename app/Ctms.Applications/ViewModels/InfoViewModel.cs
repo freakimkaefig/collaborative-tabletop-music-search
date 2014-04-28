@@ -17,7 +17,7 @@ namespace Ctms.Applications.ViewModels
     {
         private bool isValid = true;
         private ObservableCollection<InfoDataModel> _commonInfos;
-        private ObservableCollection<InfoDataModel> _tagInfos;
+        private ObservableCollection<TagInfoDataModel> _tagInfos;
         private ObservableCollection<InfoDataModel> _tutorialInfos;
         private ICommand _confirmCommonInfoCmd;
         private ICommand _confirmTagInfoCmd;
@@ -28,7 +28,7 @@ namespace Ctms.Applications.ViewModels
             : base(view)
         {
             _commonInfos = new ObservableCollection<InfoDataModel>();
-            _tagInfos = new ObservableCollection<InfoDataModel>();
+            _tagInfos = new ObservableCollection<TagInfoDataModel>();
             _tutorialInfos = new ObservableCollection<InfoDataModel>();
         }
 
@@ -50,7 +50,7 @@ namespace Ctms.Applications.ViewModels
 
         public ObservableCollection<InfoDataModel> CommonInfos { get { return _commonInfos; } }
 
-        public ObservableCollection<InfoDataModel> TagInfos { get { return _tagInfos; } }
+        public ObservableCollection<TagInfoDataModel> TagInfos { get { return _tagInfos; } }
 
         public ObservableCollection<InfoDataModel> TutorialInfos { get { return _tutorialInfos; } }
 

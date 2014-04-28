@@ -24,6 +24,7 @@ namespace Ctms.Applications.DataModels
         private bool _isVisible = false;
         private bool _isConfirmable;
         private string _confirmText;
+        private int _tagId;
 
         public InfoDataModel(Info info)
         {
@@ -77,6 +78,5 @@ namespace Ctms.Applications.DataModels
                 RaisePropertyChanged("ConfirmText");
             }
         }
-
     }
 }

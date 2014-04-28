@@ -29,14 +29,14 @@ namespace Helpers
 
 
         /// <summary>
-        /// Try to parse a string to an integer
+        /// Try to parse a string to a double
         /// </summary>
         /// <param name="value">The value to parse</param>
         /// <see cref="http://msdn.microsoft.com/de-de/library/f02979c7(v=vs.110).aspx"/>
-        public static int TryToParseStringToInt(string value)
+        public static double TryToParseStringToDouble(string value)
         {
-            int number;
-            bool result = Int32.TryParse(value, out number);
+            double number;
+            bool result = Double.TryParse(value, out number);
             if (result)
             {
                 return number;
@@ -44,7 +44,7 @@ namespace Helpers
             else
             {
                 if (value == null) value = "";
-                throw new Exception("Conversion of string to int failed");
+                throw new Exception("Conversion of string to double failed");
             }
         }
     }

@@ -44,37 +44,36 @@ namespace Ctms.Applications.Workers
 
         public void ConfirmCommonInfo(int infoId)
         {
-            _repository.GetAllInfos(InfoTypes.CommonInfo).Remove(_repository.GetCommonInfoById(infoId));
+            _repository.GetAllCommonInfos().Remove(_repository.GetCommonInfoById(infoId));
         }
 
-        public void ConfirmTagInfo(int infoId)
+        public void ConfirmTagInfo(int tagId)
         {
-            _repository.GetAllInfos(InfoTypes.TagInfo).Remove(_repository.GetTagInfoById(infoId));
+            _repository.GetAllTagInfos().Remove(_repository.GetTagInfoByTagId(tagId));
         }
 
         public void ConfirmTutorialInfo(int infoId)
         {
-            _repository.GetAllInfos(InfoTypes.TutorialInfo).Remove(_repository.GetTutorialInfoById(infoId));
-        }
-
-        public InfoDataModel CreateInfo(string mainText, string subText, InfoTypes infotype)
-        {
-            var info = _infoFactory.CreateInfoDm(mainText, subText, infotype);
-            info.IsVisible = true;
-            info.Info.MainText = mainText;
-            info.Info.SubText = subText;
-
-            return info;
+            _repository.GetAllTutorialInfos().Remove(_repository.GetTutorialInfoById(infoId));
         }
 
         public int ShowCommonInfo(string mainText, string subText, string confirmText = null)
         {
-            var info = CreateInfo(mainText, subText, InfoTypes.CommonInfo);
+            var info = _infoFactory.CreateCommonInfo(mainText, subText);
+
+            info.IsVisible = true;
+            info.Info.MainText = mainText;
+            info.Info.SubText = subText;
 
             CalcButtons(confirmText, info);
             _infoVm.CommonInfos.Add(info);
 
             return info.Info.Id;
+        }
+
+        public void RemoveCommonInfo(int infoId)
+        {
+            _repository.RemoveCommonInfoById(infoId);
         }
 
         private static void CalcButtons(string confirmText, InfoDataModel info)
@@ -88,10 +87,11 @@ namespace Ctms.Applications.Workers
 
         public void ShowTagInfo(string mainText, string subText, int tagId, string confirmText = null)
         {
-            var info = CreateInfo(mainText, subText, InfoTypes.TagInfo);
+            var info = _infoFactory.CreateTagInfo(mainText, subText, tagId);
 
             var tagDm = _repository.GetTagDMById(tagId);
-            //!!better to position info the side?
+
+            //!!better to position info at the side?
             var infoHeight = 80.0F;//!!read->set globally
             info.Info.PositionX = tagDm.Tag.PositionX;
             if (_shellVm.WindowHeight < tagDm.Tag.PositionY + tagDm.Height + infoHeight)
@@ -102,15 +102,25 @@ namespace Ctms.Applications.Workers
 	        {
                 info.Info.PositionY = tagDm.Tag.PositionY + tagDm.Height;
 	        }
-            _repository.RemoveTagInfoById(tagId);
+            RemoveTagInfo(tagId);
             _infoVm.TagInfos.Add(info);
+        }
+
+        public void RemoveTagInfo(int tagId)
+        {
+            _repository.RemoveTagInfoById(tagId);
         }
 
         public void ShowTutorialInfo(string mainText, string subText)
         {
-            var info = CreateInfo(mainText, subText, InfoTypes.TutorialInfo);
+            var info = _infoFactory.CreateTutorialInfo(mainText, subText);
 
             _infoVm.TutorialInfos.Add(info);
+        }
+
+        public void RemoveTutorialInfo(int infoId)
+        {
+            _repository.RemoveTutorialInfoById(infoId);
         }
 
     }

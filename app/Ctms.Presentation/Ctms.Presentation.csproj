@@ -373,6 +373,21 @@
     </Resource>
     <Resource Include="Resources\Images\Playlist\playlist-left.png" />
     <Resource Include="Resources\Images\Playlist\playlist-right.png" />
+    <Resource Include="Resources\Images\Search\artistTangible.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Common\background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Search\genreTangible.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Search\vinylTangible.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Search\genreTangible2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>

@@ -125,7 +125,7 @@
                     Background="Transparent"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Visibility="{DynamicResource IsMenuVisible}">
+                    Visibility="{DynamicResource IsCircleMenuVisible}">
                     <!-- placeholder item for correct calculation of PieMenuItem size -->
                     <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
                                         Command="" Background="#0000" />
@@ -241,8 +241,8 @@
                 <s:SurfaceTextBox DataContext="{DynamicResource TagDM}"
                     Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
                     Width="{StaticResource InputLength}" />
-                
-                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+
+                <s:SurfaceButton DataContext="{DynamicResource TagDM}"
                     Visibility="{Binding IsInputControlVisible, Converter={StaticResource visibilityConverter}}"
                     Command="{Binding DataContext.RaiseInputCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                     CommandParameter="{DynamicResource TagId}"

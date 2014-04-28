@@ -165,6 +165,7 @@ namespace Ctms.Presentation.Views
             var isEditVisible = converter.Convert(tagDM.IsEditVisible, null, null, null);
             searchTagView.Resources["IsEditVisible"] = converter.Convert(tagDM.IsEditVisible, null, null, null);
             searchTagView.Resources["IsMenuVisible"] = converter.Convert(tagDM.IsMenuVisible, null, null, null);
+            searchTagView.Resources["IsCircleMenuVisible"] = converter.Convert(tagDM.IsCircleMenuVisible, null, null, null);
         }
 
         private static void CalcMenuVisibility(SearchTagView searchTagView, TagDataModel tagDM)
@@ -237,7 +238,7 @@ namespace Ctms.Presentation.Views
                     backgroundHex = "#5888";
                     textHex = "#ffff";
                 }
-                backgroundHex = "#0000";
+                backgroundHex = "#5000";
 
                 var backgroundColor = (Brush)(new BrushConverter().ConvertFrom(backgroundHex));
                 var textColor = (Brush)(new BrushConverter().ConvertFrom(textHex));

@@ -20,6 +20,7 @@
                 <GradientStop Color="#003" Offset="1.0" />
             </RadialGradientBrush.GradientStops>
         </RadialGradientBrush>
+        <!--<ImageBrush ImageSource="../Resources/Images/Common/background.png"/>-->
     </Window.Background>
     
     <Grid Margin="0,0,0,0" Name="ShellGrid">

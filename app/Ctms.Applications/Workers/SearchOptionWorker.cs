@@ -22,6 +22,27 @@ using Ctms.Applications.Common;
 
 namespace Ctms.Applications.Workers
 {
+    /*
+        This worker controls the control flow of the tangibles' options.
+        It separates the possible options into layers.
+        There are four different keyword types: artist, title, genre, attribute.
+        The control flows for artist and title are the same, but for genre and attribute different.
+        This is an overview of the flow through the layers:
+        
+        layer0 | load types (artist, title, genre, attribute)
+     
+                artist&title    |   genre       |  attribute     
+        layer1 | show input     | showTopGenres | showAttrType
+        layer2 | loadSuggestions| showSubGenres | showAttributes
+        layer3 | assignSugg.    | assignGenre   | showInput
+        layer4 | -              | -             | confirmInput    
+     
+        TagOptions are all options that are displayed in the circle and can be selected 
+        during the control flow. They contain keywords from which one will be assigned to a tag.
+        
+    */
+
+
     [Export]
     public class SearchOptionWorker
     {
@@ -112,6 +133,9 @@ namespace Ctms.Applications.Workers
             // add breadcrumb only if the next stop is not assignKeyword
             if(selectedTagOption.LayerNr != 2) AddBreadcrumb(tagDM, selectedTagOption);
 
+            // remove previously shown infos
+            _infoWorker.RemoveTagInfo(tagId);
+
             UpdateActiveLayerNumber(tagDM, tagDM.Tag.CurrentLayerNr + 1);
 
             switch (tagDM.Tag.CurrentLayerNr)
@@ -122,11 +146,12 @@ namespace Ctms.Applications.Workers
                     {
                         // init selected keyword of tag and set its type
                         tagDM.Tag.AssignedKeyword = _tagFactory.CreateKeyword(selectedTagOption.Keyword.Name, selectedTagOption.Keyword.Type);
+                        tagDM.InputTerms = "";
 
-                        SetInputIsVisible(tagDM, true);
+                        SetIsInputVisible(tagDM, true);
 
                         if (keywordType == KeywordTypes.Artist) tagDM.BackgrImageSource = CommonVal.ImageSource_TagBackgrArtist;
-                        if (keywordType == KeywordTypes.Title) tagDM.BackgrImageSource = CommonVal.ImageSource_TagBackgrTitle;
+                        if (keywordType == KeywordTypes.Title) tagDM.BackgrImageSource  = CommonVal.ImageSource_TagBackgrTitle;
                     }
                     else if (keywordType == KeywordTypes.Genre)
                     {   // load top genres
@@ -186,12 +211,15 @@ namespace Ctms.Applications.Workers
                         {
                             var tagOption = _tagFactory.CreateTagOption(attribute.Value.description, KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
                             tagOption.Keyword.Key = attribute.Key;
+                            if (tagOption.Keyword.Key == null) 
+                            { 
+                            }
                             tagOption.Keyword.AttributeType = attributeType;
                             tagDM.Tag.TagOptions.Add(tagOption);
                         }
                     }
 
-                    SetKeywordIsVisible(tagDM, false);
+                    SetIsKeywordVisible(tagDM, false);
 
                     break;
                 }
@@ -201,14 +229,20 @@ namespace Ctms.Applications.Workers
                     {
                         tagDM.Tag.AssignedKeyword = selectedTagOption.Keyword;
                         
-                        SetInputIsVisible(tagDM, true);
-                        SetInputControlIsVisible(tagDM, true);
+                        SetIsInputVisible(tagDM, true);
+                        SetIsInputControlVisible(tagDM, true);
+                        SetIsMenuVisible(tagDM, false, true);
 
+                        // get assigned attribute obj
                         var attribute = GetAttributeObj(tagDM.Tag.AssignedKeyword);
+
+                        // set default value
+                        if (attribute.option1 != null) tagDM.InputTerms = attribute.option1;
+                        else tagDM.InputTerms = attribute.min.ToString();
+
                         if (attribute != null)
                         {
-                            ShowRangeHint(attribute, tagId);
-                            return;
+                            ShowAttributeRangeHint(true, attribute, tagId);
                         }
                     }
                     else
@@ -218,7 +252,6 @@ namespace Ctms.Applications.Workers
                     break;
                 }
             }
-
             // update menu
             _searchVM.UpdateVisuals(tagDM);
         }
@@ -233,10 +266,35 @@ namespace Ctms.Applications.Workers
             else return null;
         }
 
-        public void ShowRangeHint(AttributeObj attribute, int tagId)
+        /// <summary>
+        /// Show a hint for this tagOption's valid attribute input range
+        /// </summary>
+        /// <param name="isInputInvalid">Is input not valid</param>
+        /// <param name="attribute">The attribute</param>
+        /// <param name="tagId">The concerning tag</param>
+        public void ShowAttributeRangeHint(bool isInputValid, AttributeObj attribute, int tagId)
         {
-            var range = String.Format("[{0}-{1}]", attribute.min, attribute.max);
-            _infoWorker.ShowTagInfo("Invalid input", "Please choose a valid value of the range " + range, tagId);//!! hint to valid values?           
+            string min;
+            string max;
+            string range;
+
+            if (attribute.option1 != null)
+            {   // binary min/max
+                min = attribute.option1;
+                max = attribute.option2;
+                range = String.Format("{0}-{1}", min, max);
+            }
+            else
+            {   // numeric min/max
+                min = attribute.min.ToString();
+                max = attribute.max.ToString();
+                range = String.Format("{0} or {1}", min, max);
+            }
+
+            // if given input is invalid mark info as warning
+            var mainText = isInputValid == false ? "Invalid input" : "";
+
+            _infoWorker.ShowTagInfo(mainText, "Choose a value of " + range, tagId);         
         }
 
         /// <summary>
@@ -248,12 +306,31 @@ namespace Ctms.Applications.Workers
             var terms       = _repository.GetTagDMById(tagId).InputTerms;
             var keywordType = tagDM.Tag.AssignedKeyword.Type;
 
-            var termKeyword   = _tagFactory.CreateKeyword(terms, keywordType);
-            var termTagOption = _tagFactory.CreateTagOption(termKeyword, tagDM.Tag.CurrentLayerNr);
+            // remove previously shown infos
+            _infoWorker.RemoveTagInfo(tagDM.Id);
 
-            _repository.AddTagOption(tagDM, termTagOption);
+            Keyword termKeyword;
+            TagOption termTagOption;
+            if (keywordType == KeywordTypes.Attribute)
+            {
+                //!! Todo. What? Nothing?
+                termKeyword = tagDM.Tag.AssignedKeyword;
+                termTagOption = _tagFactory.CreateTagOption(termKeyword, tagDM.Tag.CurrentLayerNr);
 
-            AddBreadcrumb(tagDM, termTagOption);
+                _repository.AddTagOption(tagDM, termTagOption);
+
+                AddBreadcrumb(tagDM, termTagOption);
+            }
+            else
+            {
+                termKeyword = _tagFactory.CreateKeyword(terms, keywordType);
+                //var termKeyword     = tagDM.Tag.AssignedKeyword;
+                termTagOption = _tagFactory.CreateTagOption(termKeyword, tagDM.Tag.CurrentLayerNr);
+
+                _repository.AddTagOption(tagDM, termTagOption);
+            
+                AddBreadcrumb(tagDM, termTagOption);
+            }
 
             UpdateActiveLayerNumber(tagDM, tagDM.Tag.CurrentLayerNr + 1);
 
@@ -282,18 +359,72 @@ namespace Ctms.Applications.Workers
                 var attribute = GetAttributeObj(termKeyword);
                 if(attribute != null)
                 {
-                    if(attribute.option1 != null) 
+                    // if input is invalid break method execution
+                    var isInputValid = IsAttributeInputValid(tagDM, attribute, terms);
+                    if (isInputValid == false) return;
+
+                    if (attribute.option1 != null)
                         // set option1 as default
-                        tagDM.InputTerms = attribute.option1; 
+                        tagDM.Tag.AssignedKeyword.AttributeValue = attribute.option1;
                     else
                         // set min as default
-                        tagDM.InputTerms = attribute.min.ToString(); 
+                        tagDM.Tag.AssignedKeyword.AttributeValue = attribute.min;
                 }
-                SetInputControlIsVisible(tagDM, false);
+                SetIsInputControlVisible(tagDM, false);
+
+                AssignKeyword(tagDM, termTagOption);
             }
-            SetInputIsVisible(tagDM, false);
+            SetIsInputVisible(tagDM, false);
 
             _searchVM.UpdateVisuals(tagDM);
+        }
+
+        private bool IsAttributeInputValid(TagDataModel tagDM, AttributeObj attribute, object terms)
+        {
+            if(attribute.option1 != null)
+            {
+                if ((string) terms != attribute.option1 && (string) terms != attribute.option2)
+                {
+                    ShowAttributeRangeHint(false, attribute, tagDM.Id);
+                    return false;
+                }
+            }
+            else
+            {   // min and max are defined
+                var min = attribute.min;
+                var max = attribute.max;
+
+                double termsNr;
+                if (terms is string) termsNr = ConvertInputToDouble(tagDM, attribute, (string)terms);
+                else termsNr = (double) terms;
+
+                if (termsNr < min)
+                {   // input is too low
+                    ShowAttributeRangeHint(false, attribute, tagDM.Id);
+                    return false;
+                }
+                else if (termsNr > max)
+                {   // input is too high
+                    ShowAttributeRangeHint(false, attribute, tagDM.Id);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private double ConvertInputToDouble(TagDataModel tagDM, AttributeObj attribute, string terms)
+        {
+            double termsNr;
+            try
+            {   // convert string to int
+                termsNr = NumberHelper.TryToParseStringToDouble(terms);
+                return termsNr;
+            }
+            catch (Exception)
+            {
+                ShowAttributeRangeHint(false, attribute, tagDM.Id);
+                return 0;
+            }
         }
 
         public void EditInput(int tagId, string editType)
@@ -306,6 +437,9 @@ namespace Ctms.Applications.Workers
             var keywordKey = tagDM.Tag.AssignedKeyword.Key;
             var keywordName = tagDM.Tag.AssignedKeyword.Name;
             var attributeType = tagDM.Tag.AssignedKeyword.AttributeType;
+
+            // remove previously shown infos
+            _infoWorker.RemoveTagInfo(tagId);
 
             // get attributes of current attribute type
             var attributes = _searchManager.getCombinedSearchAttributes(attributeType);
@@ -328,41 +462,41 @@ namespace Ctms.Applications.Workers
                         if (editType == "Lower" && terms == option2)
                         {   // set input to lower option
                             tagDM.InputTerms = option1;
-                            _repository.RemoveTagInfoById(tagId);
+                            _infoWorker.RemoveTagInfo(tagId);
                         }
                         else if (editType == "Raise" && terms == option1)
                         {   // set input to higher option
                             tagDM.InputTerms = option2;
-                            _repository.RemoveTagInfoById(tagId);                         
+                            _infoWorker.RemoveTagInfo(tagId);                         
+                        }
+                        else
+                        {
+                            ShowAttributeRangeHint(false, attribute, tagId);
                         }
                     }
                     else
-                    {   // min and max are defined
-                        var min = attribute.min;
-                        var max = attribute.max;
+                    {   // numberic min and max are defined
+                        var termsNr = ConvertInputToDouble(tagDM, attribute, terms);
 
-                        int termsNr;
-                        try
-                        {
-                            // convert string to int
-                            termsNr = NumberHelper.TryToParseStringToInt(terms);
-                        }
-                        catch (Exception)
-                        {
-                            ShowRangeHint(attribute, tagId);
-                            return;
-                        }
-
-                        if (editType == "Lower" && termsNr > min)
-                        {   // lower input number
+                        if (editType == "Lower" && IsAttributeInputValid(tagDM, attribute, (termsNr - 1)))
+                        {   // lower is valid
                             termsNr--;
-                            _repository.RemoveTagInfoById(tagId);
+
+                            // remove previously shown infos
+                            _infoWorker.RemoveTagInfo(tagId);
                         }
-                        else if (editType == "Raise" && termsNr < max)
-                        {   // raise input number
+                        else if (editType == "Raise" && IsAttributeInputValid(tagDM, attribute, (termsNr + 1)))
+                        {   // raise is valid
                             termsNr++;
-                            _repository.RemoveTagInfoById(tagId);
+
+                            // remove previously shown infos
+                            _infoWorker.RemoveTagInfo(tagId);
                         }
+                        else
+                        {   // lower and raise aren't valid. show warning.
+                            ShowAttributeRangeHint(false, attribute, tagId);
+                        }
+                        // update input field terms on UI
                         tagDM.InputTerms = termsNr.ToString();
                     }
                 }
@@ -414,7 +548,7 @@ namespace Ctms.Applications.Workers
                     _repository.AddTagOption(tagDM, tagOption);
                 }
 
-                SetInputIsVisible(tagDM, false);
+                SetIsInputVisible(tagDM, false);
 
                 _searchVM.UpdateVisuals(tagDM);
             }
@@ -462,7 +596,7 @@ namespace Ctms.Applications.Workers
                     _repository.AddTagOption(tagDM, tagOption);
                 }
 
-                SetInputIsVisible(tagDM, false);
+                SetIsInputVisible(tagDM, false);
 
                 _searchVM.UpdateVisuals(tagDM);
             }
@@ -531,12 +665,15 @@ namespace Ctms.Applications.Workers
             var tagDM = _repository.GetTagDMById(tagId);
             tagDM.Tag.TagOptions.Clear();
 
+            // remove previously shown infos
+            _infoWorker.RemoveTagInfo(tagId);
+
             LoadKeywordTypes(tagId);
 
             SetKeywordTypesIsVisible(tagDM, true);
-            SetKeywordIsVisible(tagDM, false);
-            SetInputIsVisible(tagDM, false);
-            SetInputControlIsVisible(tagDM, false);
+            SetIsKeywordVisible(tagDM, false);
+            SetIsInputVisible(tagDM, false);
+            SetIsInputControlVisible(tagDM, false);
 
             _searchVM.UpdateVisuals(tagDM);
         }
@@ -548,9 +685,12 @@ namespace Ctms.Applications.Workers
 
             tagDM.State = TagDataModel.States.Editing;
 
-            SetMenuIsVisible(tagDM, true);
-            SetEditIsVisible(tagDM, false);
-            SetKeywordIsVisible(tagDM, false);
+            // remove previously shown infos
+            _infoWorker.RemoveTagInfo(tagId);
+
+            SetIsMenuVisible(tagDM, true);
+            SetIsEditVisible(tagDM, false);
+            SetIsKeywordVisible(tagDM, false);
 
             // set last layer
             UpdateActiveLayerNumber(tagDM, tagDM.Tag.CurrentLayerNr - 1);
@@ -567,10 +707,13 @@ namespace Ctms.Applications.Workers
             // assign keyword to tag
             tagDM.Tag.AssignedKeyword = tagOption.Keyword;
 
+            // remove previously shown infos
+            _infoWorker.RemoveTagInfo(tagDM.Id);
+
             // show keyword
-            SetMenuIsVisible(tagDM, false);
-            SetKeywordIsVisible(tagDM, true);
-            SetEditIsVisible(tagDM, true);
+            SetIsMenuVisible(tagDM, false);
+            SetIsKeywordVisible(tagDM, true);
+            SetIsEditVisible(tagDM, true);
 
             tagDM.State = TagDataModel.States.Assigned;
         }
@@ -582,30 +725,31 @@ namespace Ctms.Applications.Workers
             // show or hide keyword
             tagDM.IsKeywordTypesVisible = isKeywordTypeVisible;
 
-            SetMenuIsVisible(tagDM, !isKeywordTypeVisible);
+            SetIsMenuVisible(tagDM, !isKeywordTypeVisible);
         }
 
-        private void SetInputIsVisible(TagDataModel tagDM, bool visibility)
+        private void SetIsInputVisible(TagDataModel tagDM, bool visibility)
         {
             tagDM.IsInputVisible = visibility;
         }
 
-        private void SetInputControlIsVisible(TagDataModel tagDM, bool visibility)
+        private void SetIsInputControlVisible(TagDataModel tagDM, bool visibility)
         {
             tagDM.IsInputControlVisible = visibility;
         }
 
-        private void SetMenuIsVisible(TagDataModel tagDM, bool visibility)
+        private void SetIsMenuVisible(TagDataModel tagDM, bool visibility, bool onlyCircleMenu = false)
         {
-            tagDM.IsMenuVisible = visibility;
+            if(onlyCircleMenu == false) tagDM.IsMenuVisible = visibility;
+            tagDM.IsCircleMenuVisible = visibility;
         }
 
-        private void SetEditIsVisible(TagDataModel tagDM, bool visibility)
+        private void SetIsEditVisible(TagDataModel tagDM, bool visibility)
         {
             tagDM.IsEditVisible = visibility;
         }
 
-        private void SetKeywordIsVisible(TagDataModel tagDM, bool isKeywordVisible)
+        private void SetIsKeywordVisible(TagDataModel tagDM, bool isKeywordVisible)
         {
             // show or hide keyword
             tagDM.IsAssignedKeywordVisible = isKeywordVisible;
