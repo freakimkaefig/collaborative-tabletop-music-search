@@ -186,16 +186,24 @@ namespace Ctms.Applications.Controllers
             {
                 new TagCombinationDataModel(20)
                 {
-                    CenterX = 200,
-                    CenterY = 200,
+                    CenterX = 500,
+                    CenterY = -200,
                     Tags = new ObservableCollection<TagDataModel>()
                     {
                         new TagDataModel()
                         {
                             Tag = new Tag()
                             {
-                                PositionX = 150,
+                                PositionX = 300,
                                 PositionY = 150
+                            }
+                        },                        
+                        new TagDataModel()
+                        {
+                            Tag = new Tag()
+                            {
+                                PositionX = 350,
+                                PositionY = 350
                             }
                         }
                     }

@@ -640,14 +640,14 @@ namespace PieInTheSky
                                 new Typeface(menu_item.FontFamily, menu_item.FontStyle, menu_item.FontWeight, menu_item.FontStretch),
                                 menu_item.FontSize,
                                 menu_item.Foreground);
-
+                /*
                 FormattedText headerShadow = new FormattedText(header,
                                 CultureInfo.CurrentCulture,
                                 FlowDirection.LeftToRight,
                                 new Typeface(menu_item.FontFamily, menu_item.FontStyle, menu_item.FontWeight, menu_item.FontStretch),
                                 menu_item.FontSize + 2,
                                 Brushes.Black);
-
+                */
                 var boxLength = 0.0;
                 if (RotateTextAngle == -90.0 || RotateTextAngle == 270.0)
                 {   // text is displayed viewing away from the center
@@ -663,11 +663,11 @@ namespace PieInTheSky
                 headerText.MaxTextWidth = boxLength;
                 headerText.MaxTextHeight = menu_item.FontSize + 10;
                 headerText.Trimming = TextTrimming.CharacterEllipsis;
-
+                /*
                 headerShadow.MaxTextWidth = boxLength;
                 headerShadow.MaxTextHeight = menu_item.FontSize + 10;
                 headerShadow.Trimming = TextTrimming.CharacterEllipsis;
-
+                */
                 subHeaderText.MaxTextWidth = boxLength;
                 subHeaderText.MaxTextHeight = menu_item.FontSize + 10;
                 subHeaderText.Trimming = TextTrimming.CharacterEllipsis;
@@ -708,7 +708,7 @@ namespace PieInTheSky
                 if (this.RotateTextAngle != 90.0) defaultTextRotation = this.RotateTextAngle;
 
                 if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + defaultTextRotation, center.X, center.Y));
-                drawingContext.DrawText(headerShadow, headerTextPoint);
+                //drawingContext.DrawText(headerShadow, headerTextPoint);
                 drawingContext.DrawText(headerText, headerTextPoint);
                 drawingContext.DrawText(subHeaderText, subTextPoint);
                 if (this.RotateText) drawingContext.Pop();
