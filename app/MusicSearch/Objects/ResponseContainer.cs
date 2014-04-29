@@ -58,14 +58,32 @@ namespace MusicSearch.Objects
                 public List<Object> biographies { get; set; }
                 public List<Object> years_active { get; set; }
                 public List<Object> video { get; set; }
-                public Object urls { get; set; }    //TO LIST!
                 public List<Object> images { get; set; }
                 public List<Object> news { get; set; }
-                public Object artist_location { get; set; }     // TO LIST!
                 public int originId { get; set; }
 
                 public List<ArtistInfo.ArtistSong> ArtistSongs { get; set; }
                 public List<ArtistInfo.SimilarArtist> SimilarArtists { get; set; }
+                public List<ArtistInfo.ArtistLocation> artist_location { get; set; }
+                public List<ArtistInfo.Url> Urls { get; set; }
+
+                public class ArtistLocation
+                {
+                    public String city { get; set; }
+                    public String region { get; set; }
+                    public String location { get; set; }
+                    public String country { get; set; }
+                }
+
+                public class Url
+                {
+                    public String official_url { get; set; }
+                    public String lastfm_url { get; set; }
+                    public String twitter_url { get; set; }
+                    public String myspace_url { get; set; }
+                    public String wikipedia_url { get; set; }
+                    public String mb_url { get; set; }
+                }
 
                 public class SimilarArtist
                 {
