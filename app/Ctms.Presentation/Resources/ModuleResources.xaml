@@ -12,9 +12,12 @@
         <ResourceDictionary Source="InfoStyleResources.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/addToPlaylist.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/arrowRight.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/artist.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/checkmark.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/edit.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/error.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/gear.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/genre.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/home.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/info.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/minus.xaml"/>
@@ -24,6 +27,7 @@
         <ResourceDictionary Source="Images/Common/icons/plus.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/repeat.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/rotate.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/titel.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/shuffle.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/stop.xaml"/>
     </ResourceDictionary.MergedDictionaries>

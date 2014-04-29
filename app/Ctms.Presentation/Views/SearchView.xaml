@@ -14,341 +14,7 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     
     <UserControl.Resources>
-        <DataTemplate x:Key="TagTemplate" x:Name="TagTemplate">
-            <Ellipse x:Name="el1"
-                   Height="15"
-                   Width="15"
-                   Opacity="0.7"
-                   Fill="#FFFF00">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform1" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.LayoutTransform>
-                    <ScaleTransform x:Name="MyAnimatedScaleTransform" ScaleX="1" ScaleY="1" />
-                </Ellipse.LayoutTransform>
-                
-                <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
-                <Ellipse.Effect>
-                    <BlurEffect Radius="5"/>
-                </Ellipse.Effect>
-
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <!--auslösen, wenn 2 Tangibles sich "überschneiden" / Radien? 
-                        By="200" verschiebt die ganze sache UM 200px und nicht NACH X=200-->
-                        <BeginStoryboard>
-                            <Storyboard RepeatBehavior="Forever" Duration="0:0:1" >
-                                <DoubleAnimation
-                                    Storyboard.TargetName="el1"
-                                    Storyboard.TargetProperty="Opacity"
-                                    From="1.0"
-                                    To="1.0"
-                                    Duration="0:0:0.8"/>
-
-                                <!--<DoubleAnimation
-                                    Storyboard.TargetName="el1"
-                                    Storyboard.TargetProperty="Opacity"
-                                    From="1.0"
-                                    To="0.0"
-                                    BeginTime="0:0:0.8"
-                                    Duration="0:0:0.2"/>-->
-
-                                <!--<DoubleAnimation
-                                    Storyboard.TargetName="el1"
-                                    Storyboard.TargetProperty="(Ellipse.Height)"
-                                    BeginTime="0:0:0.8"
-                                    Duration="0:0:0.2"
-                                    By="50" />
-
-                                <DoubleAnimation
-                                    Storyboard.TargetName="el1"
-                                    Storyboard.TargetProperty="(Ellipse.Width)"
-                                    BeginTime="0:0:0.8"
-                                    Duration="0:0:0.2"
-                                    By="50" />-->
-
-                                <DoubleAnimation
-                                    Storyboard.TargetName="MyAnimatedScaleTransform"
-                                    Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
-                                    To="3.0" BeginTime="0:0:8" Duration="0:0:2"
-                                     />
-                                <DoubleAnimation
-                                    Storyboard.TargetName="MyAnimatedScaleTransform"
-                                    Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
-                                    To="3.0" BeginTime="0:0:8" Duration="0:0:2"
-                                     />
-
-                                <!--<DoubleAnimation
-                                    Storyboard.TargetName="TTransform1"
-                                    Storyboard.TargetProperty="X"
-                                    To="((Ellipse.Width)/2)"
-                                    BeginTime="0:0:0.8"
-                                    Duration="0:0:0.2" />
-
-                                <DoubleAnimation
-                                    Storyboard.TargetName="TTransform1"
-                                    Storyboard.TargetProperty="Y"
-                                    To="((Ellipse.Height)/2)"
-                                    BeginTime="0:0:0.8"
-                                    Duration="0:0:0.2" />-->
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform1"
-                                             Storyboard.TargetProperty="X"
-                                             To="{Binding DataContext.CenterX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                                             Duration="0:0:1" />
-
-                                <!--By Property mit Binding an Tangibles binden-->
-                                <DoubleAnimation Storyboard.TargetName="TTransform1"
-                                             Storyboard.TargetProperty="Y"
-                                             Duration="0:0:1"
-                                             To="{Binding DataContext.CenterY, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-        </DataTemplate>
-
-        <DataTemplate x:Key="CombinationTemplate" x:Name="CombinationTemplate">
-
-            <ItemsControl ItemTemplate="{DynamicResource TagTemplate}"  
-                        ItemsSource="{Binding Tags}"
-                        Grid.Row="0" 
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            
-            
-            <!--<Ellipse x:Name="el2"
-                     Height="35"
-                     Width="35"
-                     Fill="Green">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform2" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform2"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.9"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.8"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform2"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="50"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.8"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el3"
-                     Height="35"
-                     Width="35"
-                     Fill="Blue">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform3" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform3"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.8"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.7"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform3"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="50"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.7"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el4"
-                     Height="35"
-                     Width="35"
-                     Fill="Black">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform4" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform4"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.7"
-                                                 AutoReverse="True"
-                                                 RepeatBehavior="Forever"
-                                                 SpeedRatio="0.6"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform4"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="50"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 RepeatBehavior="Forever"
-                                                 SpeedRatio="0.6"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el5"
-                     Height="35"
-                     Width="35"
-                     Fill="Red">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform5" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform5"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.6"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.5"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform5"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="50"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.5"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el6"
-                     Height="35"
-                     Width="35"
-                     Fill="DarkBlue">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform6" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform6"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.5"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform6"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="50"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el7"
-                     Height="35"
-                     Width="35"
-                     Fill="DarkGray">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform7" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform7"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.4"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform7"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="50"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>
-
-            <Ellipse x:Name="el8"
-                     Height="35"
-                     Width="35"
-                     Fill="Purple">
-                <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform8" X="0" Y="0"/>
-                </Ellipse.RenderTransform>
-                <Ellipse.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="TTransform8"
-                                                 Storyboard.TargetProperty="X"
-                                                 To="600"
-                                                 Duration="0:0:0.3"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-
-                                <DoubleAnimation Storyboard.TargetName="TTransform8"
-                                                 Storyboard.TargetProperty="Y"
-                                                 To="50"
-                                                 Duration="0:0:0.1"
-                                                 AutoReverse="True"
-                                                 SpeedRatio="0.4"
-                                                 RepeatBehavior="Forever"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Ellipse.Triggers>
-            </Ellipse>-->
-
-        </DataTemplate>
+        
 
     </UserControl.Resources>
 
@@ -362,106 +28,214 @@
                      >
   
             <!--<ScrollViewer Name="SearchViewLog" Content="{Binding SearchViewLog}" Height="400" Width="400" ></ScrollViewer>-->
-    <Grid Margin="0,0,0,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
-            
-            
+        <Grid Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
                 Width="100" 
                 Height="50" 
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top" Grid.Column="1" Margin="529.5,133,0,0" />
-            <Rectangle x:Name="Fft1" Grid.Column="1" HorizontalAlignment="Center" Margin="395,0,1235,0" Width="47" Height="{Binding Fft1Value}" VerticalAlignment="Center" Fill="DeepSkyBlue" Opacity="0.75">
+                VerticalAlignment="Top" Margin="529.5,133,0,0" />
+            <Rectangle x:Name="Fft1" HorizontalAlignment="Center" Margin="395,0,1235,0" 
+                       Width="47" Height="{Binding Fft1Value}" VerticalAlignment="Center" 
+                       Fill="DeepSkyBlue" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft2" Grid.Column="1" HorizontalAlignment="Center" Margin="455,0,1175,0" Width="47" Height="{Binding Fft2Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft2"  HorizontalAlignment="Center" Margin="455,0,1175,0" Width="47" Height="{Binding Fft2Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft3" Grid.Column="1" HorizontalAlignment="Center" Margin="515,0,1115,0" Width="47" Height="{Binding Fft3Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft3" HorizontalAlignment="Center" Margin="515,0,1115,0" Width="47" Height="{Binding Fft3Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft4" Grid.Column="1" HorizontalAlignment="Center" Margin="575,0,1055,0" Width="47" Height="{Binding Fft4Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft4" HorizontalAlignment="Center" Margin="575,0,1055,0" Width="47" Height="{Binding Fft4Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft5" Grid.Column="1" HorizontalAlignment="Center" Margin="635,0,995,0" Width="47" Height="{Binding Fft5Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft5" HorizontalAlignment="Center" Margin="635,0,995,0" Width="47" Height="{Binding Fft5Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft6" Grid.Column="1" HorizontalAlignment="Center" Margin="695,0,935,0" Width="47" Height="{Binding Fft6Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft6" HorizontalAlignment="Center" Margin="695,0,935,0" Width="47" Height="{Binding Fft6Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft7" Grid.Column="1" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="#FF00E2FF" VerticalAlignment="Center" HorizontalAlignment="Center" Width="47" Opacity="0.75">
+            <Rectangle x:Name="Fft7" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="#FF00E2FF" VerticalAlignment="Center" HorizontalAlignment="Center" Width="47" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft8" Grid.Column="1" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="#FF00E2FF" VerticalAlignment="Center" Width="47" HorizontalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft8" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="#FF00E2FF" VerticalAlignment="Center" Width="47" HorizontalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft9" Grid.Column="1" Margin="875,0,755,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft9Value}" Fill="#FF00E2FF" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft9" Margin="875,0,755,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft9Value}" Fill="#FF00E2FF" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft10" Grid.Column="1" Margin="935,0,695,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft10Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft10" Margin="935,0,695,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft10Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft11" Grid.Column="1" Margin="995,0,635,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft11Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft11" Margin="995,0,635,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft11Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft12" Grid.Column="1" Margin="1055,0,575,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft12Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft12" Margin="1055,0,575,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft12Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft13" Grid.Column="1" Margin="1115,0,515,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft13Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft13" Margin="1115,0,515,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft13Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft14" Grid.Column="1" Margin="1175,0,455,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft14Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft14" Margin="1175,0,455,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft14Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft15" Grid.Column="1" Margin="1235,0,395,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft15Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft15" Margin="1235,0,395,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft15Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
                 <Rectangle.Effect>
                     <BlurEffect Radius="15"/>
                 </Rectangle.Effect>
             </Rectangle>
 
-            <ItemsControl ItemTemplate="{DynamicResource CombinationTemplate}"  
-                        ItemsSource="{Binding TagCombinations}"
-                        Grid.Row="0" 
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding TagCombinations}" 
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                        >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <ItemsControl ItemsSource="{Binding Tags}" Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" >
+                                <!--<ItemsControl.ItemsPanel>-->
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate >
+                                        <Ellipse x:Name="el1"
+                                           Height="15"
+                                           Width="15"
+                                           Opacity="0.7"
+                                           Fill="#afff">
+                                            <Ellipse.RenderTransform>
+                                                <!--<TranslateTransform x:Name="TTransform" X="0" Y="0"/>-->
+                                                <TranslateTransform x:Name="TTransform" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}" />
+                                            </Ellipse.RenderTransform>
+                                            <!--<Ellipse.LayoutTransform>
+                                                <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
+                                            </Ellipse.LayoutTransform>-->
 
+                                            <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
+                                            <Ellipse.Effect>
+                                                <BlurEffect Radius="5"/>
+                                            </Ellipse.Effect>
+
+                                            <Ellipse.Triggers>
+                                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                                    <!--auslösen, wenn 2 Tangibles sich "überschneiden" / Radien? 
+                                By="200" verschiebt die ganze sache UM 200px und nicht NACH X=200-->
+                                                    <BeginStoryboard>
+                                                        <Storyboard RepeatBehavior="Forever" Duration="0:0:1" >
+
+                                                            <DoubleAnimation
+                                            Storyboard.TargetName="el1"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="1.0"
+                                            To="1.0"
+                                            Duration="0:0:0.8"/>
+
+                                                            <DoubleAnimation
+                                            Storyboard.TargetName="el1"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="1.0"
+                                            To="0.5"
+                                            BeginTime="0:0:0.8"
+                                            Duration="0:0:0.2"/>
+
+                                                            <!--<DoubleAnimation
+                                            Storyboard.TargetName="el1"
+                                            Storyboard.TargetProperty="(Ellipse.Height)"
+                                            BeginTime="0:0:0.8"
+                                            Duration="0:0:0.2"
+                                            By="50" />
+
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="el1"
+                                            Storyboard.TargetProperty="(Ellipse.Width)"
+                                            BeginTime="0:0:0.8"
+                                            Duration="0:0:0.2"
+                                            By="50" />-->
+
+                                                            <!--<DoubleAnimation
+                                            Storyboard.TargetName="ScaleTransform"
+                                            Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+                                            To="10.0" BeginTime="0:0:8" Duration="0:0:2"
+                                             />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ScaleTransform"
+                                            Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+                                            To="10.0" BeginTime="0:0:8" Duration="0:0:2"
+                                             />-->
+
+                                                            <!--<DoubleAnimation
+                                            Storyboard.TargetName="TTransform"
+                                            Storyboard.TargetProperty="X"
+                                            To="((Ellipse.Width)/2)"
+                                            BeginTime="0:0:0.8"
+                                            Duration="0:0:0.2" />
+
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="TTransform"
+                                            Storyboard.TargetProperty="Y"
+                                            To="((Ellipse.Height)/2)"
+                                            BeginTime="0:0:0.8"
+                                            Duration="0:0:0.2" />-->
+
+                                                            <DoubleAnimation Storyboard.TargetName="TTransform"
+                                                     Storyboard.TargetProperty="X"
+                                                     Duration="0:0:1" 
+                                             
+                                                     To="{Binding DataContext.CenterX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"/>
+                                                            <!--To="{Binding DataContext.CenterX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>-->
+                                                            <!--To="300"/>-->
+
+                                                            <!--By Property mit Binding an Tangibles binden-->
+                                                            <DoubleAnimation Storyboard.TargetName="TTransform"
+                                                     Storyboard.TargetProperty="Y"
+                                                     Duration="0:0:1"
+                                                     To="{Binding DataContext.CenterY, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"/>
+                                                            <!--To="{Binding DataContext.CenterY, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>-->
+                                                            <!--To="300"/>-->
+
+
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Ellipse.Triggers>
+                                        </Ellipse>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
         
     </s:TagVisualizer>

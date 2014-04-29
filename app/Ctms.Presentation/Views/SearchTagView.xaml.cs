@@ -64,10 +64,15 @@ namespace Ctms.Presentation.Views
             tag.Tag.PositionX   = (short) screenPosition.X;
             tag.Tag.PositionY   = (short) screenPosition.Y;
 
+            if ((int)tag.Tag.PositionX == 0)
+            {
+
+            }
+
             // orientate tag to the nearest side of the two long sides
             tag.Tag.Orientation = tag.Tag.PositionY > (windowHeight / 2) - (tag.Height / 2) ? (short) 0 : (short) 180;
 
-            if (tag.State == TagDataModel.States.Assigned)
+            if (tag.AssignState == TagDataModel.AssignStates.Assigned)
             {
                 SearchVm.CheckTagPositionsCmd.Execute(tag.Id);
             }

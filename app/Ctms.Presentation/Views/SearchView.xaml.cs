@@ -143,7 +143,8 @@ namespace Ctms.Presentation.Views
             UpdateVisual(tagId);
 
             tagDM.Height    = (float)searchTagView.ActualHeight;
-            tagDM.State     = TagDataModel.States.Editing;
+
+            tagDM.ExistenceState = TagDataModel.ExistenceStates.Added;
         }
 
         private void Rotate()
@@ -313,7 +314,7 @@ namespace Ctms.Presentation.Views
             var tagId = (int)searchTagView.VisualizedTag.Value;
             var tagDM = _viewModel.Tags[tagId];
 
-            tagDM.State = TagDataModel.States.Removed;
+            tagDM.ExistenceState = TagDataModel.ExistenceStates.Removed;
         }
 
         private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
