@@ -690,7 +690,7 @@ namespace Ctms.Applications.Workers
         {
             var tagDM = _repository.GetTagDMById(tagId);
 
-            tagDM.State = TagDataModel.States.Editing;
+            tagDM.AssignState = TagDataModel.AssignStates.Editing;
 
             // remove previously shown infos
             _infoWorker.RemoveTagInfo(tagId);
@@ -722,7 +722,7 @@ namespace Ctms.Applications.Workers
             SetIsKeywordVisible(tagDM, true);
             SetIsEditVisible(tagDM, true);
 
-            tagDM.State = TagDataModel.States.Assigned;
+            tagDM.AssignState = TagDataModel.AssignStates.Assigned;
         }
 
         #region Visibilities

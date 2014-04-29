@@ -12,29 +12,69 @@ using Ctms.Applications.ViewModels;
 using Ctms.Domain;
 using System.Collections.ObjectModel;
 using Ctms.Applications.Workers;
+using Ctms.Domain.Objects;
 
 namespace Ctms.Applications.Test
 {
     [TestClass]
     public class TagTests : BasicTests
     {
-        private static ObservableCollection<TagDataModel> Tags;
+        private static ObservableCollection<TagDataModel> DataModels;
+        private static ObservableCollection<Tag> Tags;
+        private static ObservableCollection<TagOption> TagOptions;
+        private static ObservableCollection<Keyword> Keywords;
+        private static ObservableCollection<TagCombinationDataModel> TagCombinations;
 
         [ClassInitialize]
         public static void Init(TestContext textContext)
         {
             //BasicTests.Initialize();
-            
-            Tags = new ObservableCollection<TagDataModel>();
+
+            DataModels = new ObservableCollection<TagDataModel>();
             _repository = new Repository(null, null, null, null, null, null, null, null);
             _tagFactory = new TagFactory(_repository);
 
             
+
+            TagCombinations = new ObservableCollection<TagCombinationDataModel>()
+            {
+                new TagCombinationDataModel(20)
+                {
+                    Tags = new ObservableCollection<TagDataModel>()
+                    {
+                        new TagDataModel()
+                        {
+                            Tag = new Tag()
+                            {
+                                PositionX = 100,
+                                PositionY = 100
+                            }
+                        },                        
+                        new TagDataModel()
+                        {
+                            Tag = new Tag()
+                            {
+                                PositionX = 120,
+                                PositionY = 130
+                            }
+                        },                        
+                        new TagDataModel()
+                        {
+                            Tag = new Tag()
+                            {
+                                PositionX = 80,
+                                PositionY = 60
+                            }
+                        }
+                    }
+                }
+            };
         }
 
         [TestMethod]
         public void CalcCenter()
         {
+            /*
             var tag = _tagFactory.CreateTagDataModel(0);
             tag.Tag.PositionX = 100;
             tag.Tag.PositionY = 100;
@@ -49,14 +89,47 @@ namespace Ctms.Applications.Test
             tag3.Tag.PositionX = 80;
             tag3.Tag.PositionY = 60;
             Tags.Add(tag3);
+            */
+
+            var tagCombination = new TagCombinationDataModel(20)
+            {
+                Tags = new ObservableCollection<TagDataModel>()
+                {
+                    new TagDataModel()
+                    {
+                        Tag = new Tag()
+                        {
+                            PositionX = 100,
+                            PositionY = 100
+                        }
+                    },                        
+                    new TagDataModel()
+                    {
+                        Tag = new Tag()
+                        {
+                            PositionX = 120,
+                            PositionY = 130
+                        }
+                    },                        
+                    new TagDataModel()
+                    {
+                        Tag = new Tag()
+                        {
+                            PositionX = 80,
+                            PositionY = 60
+                        }
+                    }
+                }
+            };
 
             _tagCombinationWorker = new TagCombinationWorker(null, _repository, null);
-            var point = _tagCombinationWorker.UpdateCenter(Tags);
+
+            var point = _tagCombinationWorker.UpdateCenter(tagCombination);
 
             Assert.IsTrue((int)point.X == 100, "x is not 100. it's " + point.X);
             Assert.IsTrue((int)point.Y == 96, "x is not 96. it's " + (int)point.Y);
         }
-        
+
         [ClassCleanup]
         public static void Cleanup()
         {

@@ -54,7 +54,6 @@ namespace Ctms.Applications.Services
             var factory = new TagFactory(_repository);
 
             var tagDm = factory.CreateTagDataModel(id, tagVisDef);
-            tagDm.State = TagDataModel.States.Removed;
 
             _repository.AddTagDMs(tagDm);
 

@@ -22,7 +22,7 @@ namespace Ctms.Applications.DataModels
     public class TagDataModel : DataModel
     {
         private Tag _tag;
-        private States _state;
+        private ExistenceStates _existenceState;
         private string _inputTerms;
         private bool _isInputVisible;
         private bool _isAssignedKeywordVisible;
@@ -39,6 +39,7 @@ namespace Ctms.Applications.DataModels
         private bool _isInputControlVisible;
         private bool _isCircleMenuVisible;
         private string _inputTypeHint;
+        private AssignStates _assignState;
 
         public TagDataModel(Tag tag)
         {
@@ -46,7 +47,8 @@ namespace Ctms.Applications.DataModels
 
             _tag        = tag;
             _inputTerms = "";
-            _state      = States.Editing;
+            _existenceState = ExistenceStates.Removed;
+            _assignState    = AssignStates.Editing;
         }
 
         // default constructor needed to be usable as dynamic resource in view
@@ -277,18 +279,34 @@ namespace Ctms.Applications.DataModels
             }
         }
 
-        public States State
+        public ExistenceStates ExistenceState
         {
             get
             {
-                return _state;
+                return _existenceState;
             }
             set
             {
-                if (_state != value)
+                if (_existenceState != value)
                 {
-                    _state = value;
-                    RaisePropertyChanged("State");
+                    _existenceState = value;
+                    RaisePropertyChanged("ExistenceState");
+                }
+            }
+        }
+
+        public AssignStates AssignState
+        {
+            get
+            {
+                return _assignState;
+            }
+            set
+            {
+                if (_assignState != value)
+                {
+                    _assignState = value;
+                    RaisePropertyChanged("AssignState");
                 }
             }
         }
@@ -381,11 +399,16 @@ namespace Ctms.Applications.DataModels
             }
         }
 
-        public enum States
+        public enum ExistenceStates
+        {
+            Added,
+            Removed
+        }
+
+        public enum AssignStates
         {
             Assigned,
-            Editing,
-            Removed
+            Editing
         }
     }
 }

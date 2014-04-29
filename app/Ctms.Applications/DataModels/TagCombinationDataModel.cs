@@ -44,11 +44,9 @@ namespace Ctms.Applications.DataModels
             get { return _centerX; }
             set
             {
-                if (_centerX != value)
-                {
-                    _centerX = value;
-                    RaisePropertyChanged("CenterX");
-                }
+                _centerX = value;
+                //Console.WriteLine("set CenterX: " + _centerX + ", id: " + _id + ", count tags: " + _tags.Count);
+                RaisePropertyChanged("CenterX");
             }
         }
 
@@ -57,11 +55,9 @@ namespace Ctms.Applications.DataModels
             get { return _centerY; }
             set
             {
-                if (_centerY != value)
-                {
-                    _centerY = value;
-                    RaisePropertyChanged("CenterY");
-                }
+                _centerY = value;
+                //Console.WriteLine("set CenterY: " + _centerY + ", id: " + _id + ", count tags: " + _tags.Count);
+                RaisePropertyChanged("CenterY");
             }
         }
 

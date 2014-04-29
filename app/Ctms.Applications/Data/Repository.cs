@@ -187,7 +187,26 @@ namespace Ctms.Applications.Data
         /// <returns></returns>
         public IEnumerable<TagDataModel> GetAddedTagDMs()
         {
-            return _searchVm.Tags.Where(t => t.State != TagDataModel.States.Removed);
+            return _searchVm.Tags.Where(t => t.ExistenceState == TagDataModel.ExistenceStates.Added);
+        }
+
+        /// <summary>
+        /// Get all assigned tags
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<TagDataModel> GetAssignedTagDMs()
+        {
+            return _searchVm.Tags.Where(t => t.AssignState == TagDataModel.AssignStates.Assigned);
+        }
+
+        /// <summary>
+        /// Get all added and assigned tags
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<TagDataModel> GetAddedAndAssignedTagDMs()
+        {
+            return _searchVm.Tags.Where(t => t.ExistenceState == TagDataModel.ExistenceStates.Added
+                && t.AssignState == TagDataModel.AssignStates.Assigned);
         }
 
         /// <summary>

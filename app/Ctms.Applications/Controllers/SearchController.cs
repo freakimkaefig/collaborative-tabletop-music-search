@@ -181,29 +181,29 @@ namespace Ctms.Applications.Controllers
                     }
                 }
             });*/
-            
+
             _searchVm.TagCombinations = new ObservableCollection<TagCombinationDataModel>()
             {
                 new TagCombinationDataModel(20)
                 {
-                    CenterX = 500,
-                    CenterY = -200,
+                    CenterX = 300,
+                    CenterY = 300,
                     Tags = new ObservableCollection<TagDataModel>()
                     {
                         new TagDataModel()
                         {
                             Tag = new Tag()
                             {
-                                PositionX = 300,
-                                PositionY = 150
+                                PositionX = 200,
+                                PositionY = 400
                             }
                         },                        
                         new TagDataModel()
                         {
                             Tag = new Tag()
                             {
-                                PositionX = 350,
-                                PositionY = 350
+                                PositionX = 400,
+                                PositionY = 200
                             }
                         }
                     }

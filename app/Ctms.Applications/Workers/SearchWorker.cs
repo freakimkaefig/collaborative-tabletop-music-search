@@ -10,12 +10,14 @@ using System.ComponentModel.Composition;
 using MusicSearch.Objects;
 using Ctms.Domain;
 using Ctms.Applications.DataModels;
+using Ctms.Applications.Data;
 
 namespace Ctms.Applications.Workers
 {
     [Export]
     public class SearchWorker
     {
+        private Repository _repository;
         private BackgroundWorkHelper _backgroundWorker;
         private SearchManager _searchManager;
         private ResultWorker _resultWorker;
@@ -23,8 +25,9 @@ namespace Ctms.Applications.Workers
         private SearchViewModel _searchViewModel;
 
         [ImportingConstructor]
-        public SearchWorker(SearchViewModel searchViewModel, ResultWorker resultWorker, InfoWorker infoWorker)
+        public SearchWorker(Repository repository, SearchViewModel searchViewModel, ResultWorker resultWorker, InfoWorker infoWorker)
         {
+            _repository = repository;
             //ViewModels
             _searchViewModel = searchViewModel;
             //Workers
@@ -62,8 +65,7 @@ namespace Ctms.Applications.Workers
             var searchObjects = new List<searchObject>();
 
             //!!used tags außer combined tags! sonst doppelte anfrage
-            var usedTags = tags.Where(t => t.Tag.AssignedKeyword != null && t.State == TagDataModel.States.Assigned);
-            
+            var usedTags = _repository.GetAssignedTagDMs();
             
             foreach (var tag in usedTags)
             {

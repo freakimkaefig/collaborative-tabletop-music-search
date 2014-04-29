@@ -57,10 +57,11 @@ namespace Ctms.Applications.Workers
             var movedTag    = _repository.GetTagDMById(movedTagId);
 
             // break method if tag state is not assigend
-            if (movedTag.State != TagDataModel.States.Assigned) return;
+            if (movedTag.AssignState != TagDataModel.AssignStates.Assigned
+                && movedTag.ExistenceState != TagDataModel.ExistenceStates.Added) return;
 
             var tagCombis   = _repository.GetAllTagCombinations();
-            var compareTags = _repository.GetAddedTagDMs().Where(t => t.Id != movedTag.Id && t.State == TagDataModel.States.Assigned);
+            var compareTags = _repository.GetAddedAndAssignedTagDMs().Where(t => t.Id != movedTag.Id);
 
             // check combination
             foreach (var compareTag in compareTags)
@@ -91,10 +92,33 @@ namespace Ctms.Applications.Workers
                                 Console.WriteLine("CreateTagCombi");
                                 combiWithMovedTag = CreateTagCombi(movedTag, compareTag, possibleCombiType);
 
-                                SetCenter(combiWithMovedTag);
+                                //UpdateCenter(combiWithMovedTag);
 
-                                _repository.AddTagCombination(combiWithMovedTag);
+                                //_repository.AddTagCombination(combiWithMovedTag);
 
+                                //var center = CalculateCenter(combiWithMovedTag);
+                                //combiWithMovedTag.CenterX = 500;
+                                //combiWithMovedTag.CenterY = 500;
+
+                                _searchViewModel.TagCombinations = new ObservableCollection<TagCombinationDataModel>()
+                                {
+                                    combiWithMovedTag
+                                };
+
+                                // update calculation of center
+                                UpdateCenter(combiWithMovedTag);
+
+                                /*
+                                Console.WriteLine("combiWithMovedTag.CenterX: " + combiWithMovedTag.CenterX);
+                                Console.WriteLine("combiWithMovedTag.CenterY: " + combiWithMovedTag.CenterY);
+                                Console.WriteLine("combiWithMovedTag.Tags[0].Tag.PositionX: " 
+                                    + combiWithMovedTag.Tags[0].Tag.PositionX);
+                                Console.WriteLine("combiWithMovedTag.Tags[0].Tag.PositionY: " 
+                                    + combiWithMovedTag.Tags[0].Tag.PositionY);
+                                Console.WriteLine("combiWithMovedTag.Tags[1].Tag.PositionX: "
+                                    + combiWithMovedTag.Tags[1].Tag.PositionX);
+                                Console.WriteLine("combiWithMovedTag.Tags[1].Tag.PositionY: "
+                                    + combiWithMovedTag.Tags[1].Tag.PositionY);*/
                             }
                             else
                             {   // a combi with the tag to compare is existing -> add
@@ -102,7 +126,7 @@ namespace Ctms.Applications.Workers
                                 combiWithCompareTag.Tags.Add(movedTag);
 
                                 // update calculation of center
-                                UpdateCenter(combiWithCompareTag.Tags);
+                                UpdateCenter(combiWithCompareTag);
                             }
                         }
 
@@ -116,8 +140,16 @@ namespace Ctms.Applications.Workers
                             combiWithMovedTag.Tags.Add(movedTag);
 
                             // update calculation of center
-                            UpdateCenter(combiWithMovedTag.Tags);
+                            UpdateCenter(combiWithMovedTag);
                         }
+                    }
+                    else if (combiWithMovedTag != null)
+                    {
+                        UpdateCenter(combiWithMovedTag);
+                    }
+                    else if (combiWithCompareTag != null)
+                    {
+                        UpdateCenter(combiWithMovedTag);
                     }
                 }
                 // distance is bigger than radius for combination
@@ -139,17 +171,19 @@ namespace Ctms.Applications.Workers
                     }
 
                     // update calculation of center
-                    UpdateCenter(combiWithMovedTag.Tags);
+                    UpdateCenter(combiWithMovedTag);
                 }
             }
         }
 
-        private void SetCenter(TagCombinationDataModel combiWithMovedTag)
+        public Point UpdateCenter(TagCombinationDataModel combi)
         {
             // update calculation of center
-            var centerPoint = UpdateCenter(combiWithMovedTag.Tags);
-            combiWithMovedTag.CenterX = centerPoint.X;
-            combiWithMovedTag.CenterY = centerPoint.Y;
+            var centerPoint = CalculateCenter(combi);
+            combi.CenterX = centerPoint.X;
+            combi.CenterY = centerPoint.Y;
+
+            return centerPoint;
         }
 
         /// <summary>
@@ -262,53 +296,70 @@ namespace Ctms.Applications.Workers
         /// </summary>
         /// <param name="tags">All tags that form the polygon</param>
         /// <returns>The centroid as point</returns>
-        public Point UpdateCenter(ObservableCollection<TagDataModel> tags)
+        public Point CalculateCenter(TagCombinationDataModel tagCombi)
         {
-            var area = 0.0F;
-            var sumX = 0.0F;
-            var sumY = 0.0F;
-            var crossDiff = 0.0F;
-            byte i = 0;
-            short x0;
-            short y0;
-            short x1;
-            short y1;
-            
-            // calculate interim steps for all tag positions            
-            for (i = 0; i < tags.Count-1; i++)
+            var tags = tagCombi.Tags;
+
+            if (tags.Count > 2)
             {
-                x0 = tags[i].Tag.PositionX;
-                y0 = tags[i].Tag.PositionY;
-                x1 = tags[i + 1].Tag.PositionX;
-                y1 = tags[i + 1].Tag.PositionY;
+                var area = 0.0F;
+                var sumX = 0.0F;
+                var sumY = 0.0F;
+                var crossDiff = 0.0F;
+                byte i = 0;
+                short x0;
+                short y0;
+                short x1;
+                short y1;
 
-                crossDiff   = x0 * y1 - x1 * y0;
-                area        += crossDiff;
-                sumX   += (x0 + x1) * crossDiff;
-                sumY   += (y0 + y1) * crossDiff;
+                // calculate interim steps for all tag positions            
+                for (i = 0; i < tags.Count - 1; i++)
+                {
+                    x0 = tags[i].Tag.PositionX;
+                    y0 = tags[i].Tag.PositionY;
+                    x1 = tags[i + 1].Tag.PositionX;
+                    y1 = tags[i + 1].Tag.PositionY;
+
+                    crossDiff = x0 * y1 - x1 * y0;
+                    area += crossDiff;
+                    sumX += (x0 + x1) * crossDiff;
+                    sumY += (y0 + y1) * crossDiff;
+                }
+
+                // calc last connection
+                x0 = tags[tags.Count - 1].Tag.PositionX;
+                y0 = tags[tags.Count - 1].Tag.PositionY;
+                x1 = tags[0].Tag.PositionX;
+                y1 = tags[0].Tag.PositionY;
+
+                crossDiff = x0 * y1 - x1 * y0;
+                area += crossDiff;
+                sumX += (x0 + x1) * crossDiff;
+                sumY += (y0 + y1) * crossDiff;
+
+                if (area != 0.0)
+                {   // calculate center x and y and return it
+                    return new Point((1 / (3.0F * area)) * sumX, (1 / (3.0F * area)) * sumY);
+                }
+                else
+                {
+                    // area is 0. all tags are positioned in one line. 
+                    // this case can be ignored at first because the probability is very low and
+                    // such a order won't stay for a long time. Just use the last known center
+                    return new Point(tagCombi.CenterX, tagCombi.CenterY);
+                }
             }
+            else if(tags.Count == 2)
+            {  // calculate center of two tangibles: x = (x1+x2)/2                
+                var xSum = tags[0].Tag.PositionX + tags[1].Tag.PositionX;
+                var ySum = tags[0].Tag.PositionY + tags[1].Tag.PositionY;
 
-            // calc last connection
-            x0 = tags[tags.Count - 1].Tag.PositionX;
-            y0 = tags[tags.Count - 1].Tag.PositionY;
-            x1 = tags[0].Tag.PositionX;
-            y1 = tags[0].Tag.PositionY;
-            
-            crossDiff = x0 * y1 - x1 * y0;
-            area += crossDiff;
-            sumX += (x0 + x1) * crossDiff;
-            sumY += (y0 + y1) * crossDiff;
-
-            if (area != 0.0)
-            {   // calculate center x and y and return it
-                return new Point((1 / (3.0F * area)) * sumX, (1 / (3.0F * area)) * sumY);
+                return new Point(xSum / (float) tags.Count, ySum / (float) tags.Count);
             }
             else
-            {   // area is 0. all tags are positioned in one line. 
-                // this case can be ignored at first because the probability is very low and
-                // such a order won't stay for a long time.
-                return new Point(sumX / 6, sumY / 6);
-            } 
+            {   // 0 or 1 tag in combi. Not valid for this method.
+                throw new Exception("This method needs 2 or more tags to calculate the center");
+            }
         }
 
     }
