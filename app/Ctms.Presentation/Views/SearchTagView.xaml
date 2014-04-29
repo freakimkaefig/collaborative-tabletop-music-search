@@ -181,18 +181,27 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
-                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                                 Content="Attribute" 
-                                 Grid.Row="0" 
-                                 Grid.Column="0"
+                <!--<Grid>
+                    
+                    
+                </Grid>-->
+                <Grid
+                    Grid.Row="0" 
+                    Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                                 Grid.Row="0"
                                  Command="{Binding SelectAttributeCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"
                                  Background="{StaticResource ResourceKey=gear}"
-                                 >
-                </s:SurfaceButton>
-                
+                                 />
+                    <TextBlock Text="Attribute" HorizontalAlignment="Center"
+                               Grid.Row="1" />
+                </Grid>
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                                  Content="Genre" 
                                  Grid.Row="0" 
@@ -203,7 +212,7 @@
                                  Background="{StaticResource ResourceKey=genre}"
                                  >
                 </s:SurfaceButton>
-
+                
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                                  Content="Title" 
                                  Grid.Row="2" 

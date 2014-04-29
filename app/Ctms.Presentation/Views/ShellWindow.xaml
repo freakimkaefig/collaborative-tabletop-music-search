@@ -11,7 +11,7 @@
     WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"> <!--Topmost="True">-->
 
     <Window.Background>
-        <RadialGradientBrush
+        <!--<RadialGradientBrush
             GradientOrigin="0.5,0.5"
             Center="0.5,0.5" 
             RadiusX="0.5" RadiusY="0.5">
@@ -19,8 +19,8 @@
                 <GradientStop Color="#046" Offset="0" />
                 <GradientStop Color="#003" Offset="1.0" />
             </RadialGradientBrush.GradientStops>
-        </RadialGradientBrush>
-        <!--<ImageBrush ImageSource="../Resources/Images/Common/background.png"/>-->
+        </RadialGradientBrush>-->
+        <ImageBrush ImageSource="../Resources/Images/Common/background.png"/>
     </Window.Background>
     
     <Grid Margin="0,0,0,0" Name="ShellGrid">
