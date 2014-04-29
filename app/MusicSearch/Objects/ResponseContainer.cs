@@ -58,10 +58,10 @@ namespace MusicSearch.Objects
                 public List<Object> biographies { get; set; }
                 public List<Object> years_active { get; set; }
                 public List<Object> video { get; set; }
-                public Object urls { get; set; }
+                public Object urls { get; set; }    //TO LIST!
                 public List<Object> images { get; set; }
                 public List<Object> news { get; set; }
-                public Object artist_location { get; set; }
+                public Object artist_location { get; set; }     // TO LIST!
                 public int originId { get; set; }
 
                 public List<ArtistInfo.ArtistSong> ArtistSongs { get; set; }
