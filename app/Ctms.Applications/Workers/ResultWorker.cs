@@ -64,6 +64,11 @@ namespace Ctms.Applications.Workers
                                 if (_sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id) != null)
                                 {
                                     _resultViewModel.Results.Add(new ResultDataModel(response[i].Title, response[i].Artist_Name, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id)));
+                                    ResultDataModel result = _resultViewModel.Results.Last();
+                                    result.OriginIds = response[i].originIDs;
+                                    result.Result.Song.ArtistId = response[i].Artist_Id;
+                                    result.Result.Response = response[i];
+
                                     j = response[i].tracks.Count;
                                 }
                             }

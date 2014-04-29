@@ -6,11 +6,13 @@ using System.Waf.Applications;
 using Ctms.Domain.Objects;
 using SpotifySharp;
 using System.Collections.ObjectModel;
+using MusicSearch.Objects;
 
 namespace Ctms.Applications.DataModels
 {
     public class ResultDataModel : DataModel
     {
+        private int[] _originIds;
         private Result _result;
         private Detail _detail;
         private ObservableCollection<Tag> _tagInfluences;
@@ -31,18 +33,20 @@ namespace Ctms.Applications.DataModels
             Result.Song = new Song();
             Result.Song.Title = title;
             Result.Song.ArtistName = artistName;
+
             SpotifyTrack = spotifyTrack;
 
             _tagInfluences = new ObservableCollection<Tag>();
 
             Opacity = 1.0;
 
-            _stdWidth = 200.0;
+            _stdWidth = 150.0;
             _width = _stdWidth;
-            _stdHeight = 150.0;
+            _stdHeight = 75.0;
             _height = _stdHeight;
         }
 
+        public int[] OriginIds { get { return _originIds; } set { _originIds = value; } }
         public Result Result { get { return _result; } set { _result = value; } }
         public Detail Detail { get { return _detail; } set { _detail = value; RaisePropertyChanged("Detail"); } }
         public ObservableCollection<Tag> TagInfluences { get { return _tagInfluences; } set { _tagInfluences = value; RaisePropertyChanged("TagInfluences"); } }

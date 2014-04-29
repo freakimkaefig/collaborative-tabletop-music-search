@@ -229,9 +229,7 @@
         			<TranslateTransform/>
         		</TransformGroup>
         	</Grid.RenderTransform>
-            <s:SurfaceButton HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Command="{Binding RotateLoginDialogCommand}" Height="60" Width="60">
-                <Image Opacity="1" Width="60" Height="60" Source="../../Resources/Images/Playlist/rotate-icon.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </s:SurfaceButton>
+            <s:SurfaceButton HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Command="{Binding RotateLoginDialogCommand}" Height="60" Width="60" Background="{StaticResource ResourceKey=rotate}"/>
         	<TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18.667"><Run Language="de-de" Text="Login to Spotify"/></TextBlock>
         	<TextBlock HorizontalAlignment="Left" Margin="20,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="de-de" Text="Username"/></TextBlock>
         	<TextBlock HorizontalAlignment="Left" Margin="20,152,0,152.04" TextWrapping="Wrap"><Run Language="de-de" Text="Password"/></TextBlock>
@@ -269,9 +267,7 @@
         			<TranslateTransform/>
         		</TransformGroup>
         	</Grid.RenderTransform>
-            <s:SurfaceButton HorizontalAlignment="Left" Margin="248,0,0,0" VerticalAlignment="Top" Command="{Binding RotateOpenPlaylistCommand}" Width="60" Height="60">
-                <Image Opacity="1" Width="60" Height="60" Source="../../Resources/Images/Playlist/rotate-icon.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </s:SurfaceButton>
+            <s:SurfaceButton HorizontalAlignment="Left" Margin="248,0,0,0" VerticalAlignment="Top" Command="{Binding RotateOpenPlaylistCommand}" Width="60" Height="60" Background="{StaticResource ResourceKey=rotate}"/>
             <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18.667"><Run Language="de-de" Text="Choose Playlist"/></TextBlock>
             <s:SurfaceListBox ItemsSource="{Binding Playlists}" Margin="0,80,0,0" Height="368" VerticalAlignment="Top" Width="308">
                 <s:SurfaceListBox.ItemTemplate>
@@ -307,9 +303,7 @@
         			<TranslateTransform/>
         		</TransformGroup>
         	</Grid.RenderTransform>
-            <s:SurfaceButton HorizontalAlignment="Left" Margin="396,0,0,0" VerticalAlignment="Top" Command="{Binding RotateCreatePlaylistCommand}" Width="60" Height="60">
-                <Image Opacity="1" Width="60" Height="60" Source="../../Resources/Images/Playlist/rotate-icon.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </s:SurfaceButton>
+            <s:SurfaceButton HorizontalAlignment="Left" Margin="396,0,0,0" VerticalAlignment="Top" Command="{Binding RotateCreatePlaylistCommand}" Width="60" Height="60" Background="{StaticResource ResourceKey=rotate}"/>
             <s:SurfaceTextBox x:Name="PlaylistNameInput" Margin="24,92,24,94" TextWrapping="Wrap" Text=""/>
         	<TextBlock Height="24" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Center"><Run Language="de-de" Text="Give it a name"/></TextBlock>
         	<s:SurfaceButton Content="Cancel" Height="24.834" Margin="24,0,0,24" VerticalAlignment="Bottom" HorizontalAlignment="Left">
