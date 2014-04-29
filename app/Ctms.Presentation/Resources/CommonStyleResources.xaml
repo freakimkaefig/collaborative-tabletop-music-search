@@ -12,18 +12,21 @@
             Setters: Multiple elements that define style properties.
             StaticResource: Use of custom predefined common values like color.
     -->
-
+    
     <!--Common color definitions-->
     <SolidColorBrush x:Key="DefaultTextBrush" Color="#fff"/>
     <SolidColorBrush x:Key="DefaultForegroundBrush" Color="#fff"/>
-    <FontFamily x:Key="DefaultFontFamily">Cambria</FontFamily>
+    <!--<FontFamily x:Key="DefaultFontFamily">Cambria</FontFamily>-->
     <!--<Color x:Key="123">#AABBCC</Color>
     <Color x:Key="ActiveTestRowBrushColor">#04859E</Color>-->
+
+    
 
 
     <!--Basic styles from which other styles can derive-->
     <Style x:Key="CommonStyle" TargetType="FrameworkElement">
         <Setter Property="Margin" Value="2" />
+        <Setter Property="TextElement.FontFamily" Value="Fonts/#Open Sans Light" />
     </Style>
     
     <!--Common TargetType styles-->

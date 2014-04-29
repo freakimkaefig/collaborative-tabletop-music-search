@@ -336,7 +336,7 @@ namespace MusicSearch.Managers
         /// <param name="originID">ID of the tangible responsible for the call</param>
         /// <returns>a formatted Response Container filled with the collected info</returns>
         /// 
-        public void getDetailInfo(String artist_name, String artist_id, String originID)
+        public List<ResponseContainer.ResponseObj.ArtistInfo> getDetailInfo(String artist_name, String artist_id)
         {
             //check if artist-name or artist-id is available
             if (!String.IsNullOrEmpty(artist_id))
@@ -351,24 +351,30 @@ namespace MusicSearch.Managers
                 String name = splitted[27].ToString();
 
                 //do a query by that artist-name
-                getArtistInfo(name, originID);
+                return getArtistInfo(name);
             }
             else if (!String.IsNullOrEmpty(artist_name))
             {
                 //directly do a query by artist_name
-                getArtistInfo(artist_name, originID);
+                return getArtistInfo(artist_name);
             }
+            return null;
            }
 
-
-        public List<ResponseContainer.ResponseObj.ArtistInfo> getArtistInfo(String artist,String ID)
+        /// <summary>
+        /// gathers infos about the artist. Hint: FB id anhängen, z.B.: "http://www.facebook.com/profile.php?id=6979332244"
+        /// </summary>
+        /// <param name="artist"></param>
+        /// <returns>ArtistInfosRC</returns>
+        /// 
+        public List<ResponseContainer.ResponseObj.ArtistInfo> getArtistInfo(String artist)
         {
             List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
 
-                /* 
-                 * FB-Seite:
-                 * gibt "facebook:artist:6979332244" zurück, seite lautet dann http://www.facebook.com/profile.php?id=6979332244
-                 */
+            /* 
+             * FB-Seite:
+             * gibt "facebook:artist:6979332244" zurück, seite lautet dann http://www.facebook.com/profile.php?id=6979332244
+             */
             //fix spacing and upper-case letters
             if (artist.Contains(" "))
             {
@@ -377,7 +383,7 @@ namespace MusicSearch.Managers
             artist = artist.ToLower();
 
             //build first query (basic information about the artist)
-            String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=terms&bucket=id:facebook&bucket=artist_location&bucket=biographies&bucket=years_active&bucket=video&bucket=urls&bucket=blogs&bucket=reviews&bucket=images&bucket=news&sort=hotttnesss-desc&results=1&name=" + artist;
+            String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=terms&bucket=id:facebook&bucket=biographies&bucket=years_active&bucket=video&bucket=blogs&bucket=reviews&bucket=images&bucket=news&sort=hotttnesss-desc&results=1&name=" + artist;
             String response = HttpRequester.StartRequest(request);
             if (String.IsNullOrEmpty(response))
             {
@@ -389,17 +395,22 @@ namespace MusicSearch.Managers
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
             var newText = StringHelper.replacePartialString(cleared, "artists", "ArtistInfos", 1);
+            newText = StringHelper.replacePartialString(newText, "foreign_id", "facebookId", 1000);
+            newText = StringHelper.replacePartialString(newText, "facebook:artist:", "", 1000);
+
+
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            //add Origin-IDs
-            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
-            JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistInfos[0]);
+            //Origin-IDs not needed since the implementation of (this) method-calls 
+            //allow to distinguish their origin
+            //String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
+            //JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistInfos[0]);
             //add first artist-info-results to RC
             ArtistInfosRC.Add(temp.Response.ArtistInfos[0]);
-            
+
             //build 2nd query (songs of the artist)
             String request2 = _defaultURL + "artist/songs?" + "api_key=" + GetAPIKey() + "&format=json&results=100&name=" + artist;
             String response2 = HttpRequester.StartRequest(request2);
-            if (String.IsNullOrEmpty(response))
+            if (String.IsNullOrEmpty(response2))
             {
                 return null;
             }
@@ -412,7 +423,7 @@ namespace MusicSearch.Managers
             newText2 = newText2.Insert(newText2.LastIndexOf("}") - 1, "}]");
             var newText3 = StringHelper.replacePartialString(newText2, "id", "title_id", 100);
             var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(newText3);
-            //Initialise first inner list of RC
+            //Initialise inner list of RC
             ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
             //add further artist-info-results to inner list of RC
             for (int i = 0; i < temp2.Response.ArtistInfos[0].ArtistSongs.Count; i++)
@@ -423,7 +434,7 @@ namespace MusicSearch.Managers
             //build 3rd query (similiar artists)
             String request3 = _defaultURL + "artist/similar?" + "api_key=" + GetAPIKey() + "&format=json&bucket=familiarity&min_familiarity=0.7&name=" + artist;
             String response3 = HttpRequester.StartRequest(request3);
-            if (String.IsNullOrEmpty(response))
+            if (String.IsNullOrEmpty(response3))
             {
                 return null;
             }
@@ -435,7 +446,7 @@ namespace MusicSearch.Managers
             newText4 = newText4.Insert(newText4.LastIndexOf("}") - 1, "}]");
             var newText5 = StringHelper.replacePartialString(newText4, "id", "artist_id", 100);
             var temp3 = JsonConvert.DeserializeObject<ResponseContainer>(newText5);
-            //Initialise second inner list of RC
+            //Initialise inner list of RC
             ArtistInfosRC[0].SimilarArtists = new List<ResponseContainer.ResponseObj.ArtistInfo.SimilarArtist>();
             //add remaining artist-info-results to second inner list of RC
             for (int i = 0; i < temp3.Response.ArtistInfos[0].SimilarArtists.Count; i++)
@@ -445,6 +456,61 @@ namespace MusicSearch.Managers
             //order results of second inner list descending by familiarity
             ArtistInfosRC[0].SimilarArtists = ArtistInfosRC[0].SimilarArtists.OrderByDescending(a => a.familiarity).ToList();
 
+            //build 4th query (urls)
+            String request4 = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&results=1&name=" + artist + "&bucket=urls&sort=hotttnesss-desc";
+            String response4 = HttpRequester.StartRequest(request4);
+            if (String.IsNullOrEmpty(response4))
+            {
+                return null;
+            }
+            //transform "\'" to unicode equivalent
+            response4 = response4.Replace("'", "&#39;");
+            var cleared4 = @"" + response4.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            //manipulate response to receive results in RC
+            var newText6 = StringHelper.replacePartialString(cleared4, "artists", "ArtistInfos", 1);
+            var newText7 = StringHelper.replacePartialString(newText6, "\'urls\': {", "\'Urls\': [{", 1);
+            var newText8 = StringHelper.replacePartialString(newText7, "html\'},", "html\'}],", 1);
+            //var newText8 = newText7.Remove(newText7.LastIndexOf("}") - 3);
+            //newText8 = newText8.Insert(newText8.LastIndexOf("}"), "]}]}");
+            //var newText7 = StringHelper.replacePartialString(newText6, "id", "artist_id", 100);
+            var temp4 = JsonConvert.DeserializeObject<ResponseContainer>(newText8);
+
+            //Initialise inner list of RC
+            ArtistInfosRC[0].Urls = new List<ResponseContainer.ResponseObj.ArtistInfo.Url>();
+            //add remaining artist-info-results to second inner list of RC
+            for (int i = 0; i < temp4.Response.ArtistInfos[0].Urls.Count; i++)
+            {
+                ArtistInfosRC[0].Urls.Add(temp4.Response.ArtistInfos[0].Urls[i]);
+            }
+
+            //build 5th request (artist location)
+            String request5 = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&results=1&name=" + artist + "&bucket=artist_location&sort=hotttnesss-desc";
+            String response5 = HttpRequester.StartRequest(request5);
+            if (String.IsNullOrEmpty(response5))
+            {
+                return null;
+            }
+            //transform "\'" to unicode equivalent
+            response5 = response5.Replace("'", "&#39;");
+            var cleared5 = @"" + response5.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
+            //manipulate response to receive results in RC
+            var newText9 = StringHelper.replacePartialString(cleared5, "artists", "ArtistInfos", 1);
+            var newText10 = StringHelper.replacePartialString(newText9, "\'artist_location\': {", "\'artist_location\': [{", 1);
+            var newText11 = newText10.Insert(newText10.LastIndexOf("\'},") + 2, "]");
+            //var newText8 = newText7.Remove(newText7.LastIndexOf("}") - 3);
+            //newText8 = newText8.Insert(newText8.LastIndexOf("}"), "]}]}");
+            //var newText7 = StringHelper.replacePartialString(newText6, "id", "artist_id", 100);
+            var temp5 = JsonConvert.DeserializeObject<ResponseContainer>(newText11);
+
+            //Initialise inner list of RC
+            ArtistInfosRC[0].artist_location = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistLocation>();
+            //add remaining artist-info-results to second inner list of RC
+            for (int i = 0; i < temp5.Response.ArtistInfos[0].artist_location.Count; i++)
+            {
+                ArtistInfosRC[0].artist_location.Add(temp5.Response.ArtistInfos[0].artist_location[i]);
+            }
+
+            //reutrn gathered results
             return ArtistInfosRC;
         }
 

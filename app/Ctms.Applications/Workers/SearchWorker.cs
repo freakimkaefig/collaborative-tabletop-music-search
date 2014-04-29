@@ -150,7 +150,9 @@ namespace Ctms.Applications.Workers
         private void LoadDetailsWorker(object sender, DoWorkEventArgs e)
         {
             ResultDataModel result = (ResultDataModel)e.Argument;
-            e.Result = new List<object>() { _searchManager.getArtistInfo(result.Result.Song.ArtistName, "0"), result };
+            String artistName = result.Result.Song.ArtistName;
+            String artistId = result.Result.Song.ArtistId;
+            //e.Result = new List<object>() { _searchManager.getDetailInfo(artistName, artistId), result };
         }
         private void LoadDetailsCompleted(object sender, RunWorkerCompletedEventArgs e)
         {

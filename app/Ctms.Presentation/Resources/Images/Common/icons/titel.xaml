@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="titel" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M 477.843,393.988L 2.87393,449.894">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="5.33334" MiterLimit="2.75" Brush="#FF010303"/>
+						</GeometryDrawing.Pen>
+					</GeometryDrawing>
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M 479.637,295.452L 3.88097,359.069">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="5.33334" MiterLimit="2.75" Brush="#FF010303"/>
+						</GeometryDrawing.Pen>
+					</GeometryDrawing>
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M 480.509,198.827L 3.05724,264.467">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="5.33334" MiterLimit="2.75" Brush="#FF010303"/>
+						</GeometryDrawing.Pen>
+					</GeometryDrawing>
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M 481.333,98.9336L 3.70055,166.338">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="5.33334" MiterLimit="2.75" Brush="#FF010303"/>
+						</GeometryDrawing.Pen>
+					</GeometryDrawing>
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M 480.932,2.66666L 2.66666,76.248">
+						<GeometryDrawing.Pen>
+							<Pen Thickness="5.33334" MiterLimit="2.75" Brush="#FF010303"/>
+						</GeometryDrawing.Pen>
+					</GeometryDrawing>
+					<GeometryDrawing Brush="#FF575756" Geometry="F1 M 61.6548,397.143C 72.8711,439.58 123.701,431.531 123.701,431.531C 154.574,424.896 171.141,396.453 171.141,396.453C 171.141,396.453 166.549,178.79 169.721,171.042C 172.892,163.293 353.116,145.412 353.116,145.412C 357.75,165.349 358.748,323.781 354.285,330.894C 350.051,337.642 335.543,320.707 312.366,322.141C 312.366,322.141 263.48,332.11 259.203,368.848C 256.87,407.507 309.053,409.754 309.053,409.754C 358.619,405.578 367.405,368.811 367.405,368.811C 367.405,368.811 371.558,107.941 365.721,101.537C 359.884,95.1331 166.188,121.471 159.784,127.308C 153.381,133.145 164.441,355.276 157.368,357.253C 150.296,359.229 147.003,347.657 106.437,349.201C 65.871,350.744 61.6548,397.143 61.6548,397.143 Z "/>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

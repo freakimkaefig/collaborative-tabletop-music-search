@@ -168,9 +168,6 @@ namespace Ctms.Presentation.Views
         {
             if (_viewModel.PlaylistOpened == true)
             {
-                FrameworkElement dropTargetLeft = _viewModel.DropTargetLeft as FrameworkElement;
-                FrameworkElement dropTargetRight = _viewModel.DropTargetRight as FrameworkElement;
-
                 ScatterView scatterView = e.Source as ScatterView;
 
                 FrameworkElement findSource = e.OriginalSource as FrameworkElement;
@@ -190,17 +187,9 @@ namespace Ctms.Presentation.Views
                     return;
                 }
 
-                Rect dropLeftBounds = VisualTreeHelper.GetDescendantBounds(dropTargetLeft);
-                Rect dropRightBounds = VisualTreeHelper.GetDescendantBounds(dropTargetRight);
-                Rect dragRect = VisualTreeHelper.GetDescendantBounds(draggedElement);
+                int onDropTarget = isOnDropTarget(scatterView, draggedElement);
 
-                GeneralTransform transformLeft = scatterView.TransformToVisual(dropTargetLeft);
-                GeneralTransform transformRight = scatterView.TransformToVisual(dropTargetRight);
-
-                bool leftC = dropLeftBounds.Contains(transformLeft.Transform(draggedElement.ActualCenter));
-                bool rightC = dropRightBounds.Contains(transformRight.Transform(draggedElement.ActualCenter));
-
-                if (dropLeftBounds.Contains(transformLeft.Transform(draggedElement.ActualCenter)))
+                if (onDropTarget == 1)
                 {
                     ResultDataModel result = draggedElement.Content as ResultDataModel;
 
@@ -214,7 +203,7 @@ namespace Ctms.Presentation.Views
                     draggedElement.Visibility = System.Windows.Visibility.Collapsed;
                 }
 
-                if (dropRightBounds.Contains(transformRight.Transform(draggedElement.ActualCenter)))
+                if (onDropTarget == 2)
                 {
                     ResultDataModel result = draggedElement.Content as ResultDataModel;
 
@@ -238,7 +227,24 @@ namespace Ctms.Presentation.Views
 
         private void MainScatterView_ContainerManipulationDelta(object sender, ContainerManipulationDeltaEventArgs e)
         {
-            FrameworkElement scatterViewItem = e.OriginalSource as FrameworkElement;
+            ScatterView scatterView = e.Source as ScatterView;
+            FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+            ScatterViewItem scatterViewItem = null;
+
+            // Find the ScatterViewItem object that is being touched.
+            while (scatterViewItem == null && findSource != null)
+            {
+                if ((scatterViewItem = findSource as ScatterViewItem) == null)
+                {
+                    findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                }
+            }
+            
+            if (scatterViewItem == null)
+            {
+                return;
+            }
+
             ResultDataModel result = scatterViewItem.DataContext as ResultDataModel;
             double scaleFactor = e.ScaleFactor;
             double offset = 300.0;
@@ -266,6 +272,19 @@ namespace Ctms.Presentation.Views
                 scatterViewItem.Width = result.StdWidth;
                 scatterViewItem.Height = result.StdHeight;
             }
+
+
+            if (e.HorizontalChange != 0 || e.VerticalChange != 0 || e.RotationalChange != 0)
+            {
+                if (_viewModel.PlaylistOpened && isOnDropTarget(scatterView, scatterViewItem) != 0)
+                {
+                    scatterViewItem.Opacity = 0.5;
+                }
+                else
+                {
+                    scatterViewItem.Opacity = 1.0;
+                }
+            }
         }
 
         private void MainScatterView_ContainerManipulationCompleted(object sender, ContainerManipulationCompletedEventArgs e)
@@ -277,6 +296,37 @@ namespace Ctms.Presentation.Views
             {
                 result.IsDetail = true;
             }
+        }
+
+        private int isOnDropTarget(ScatterView scatterView, ScatterViewItem draggedElement)
+        {
+            FrameworkElement dropTargetLeft = _viewModel.DropTargetLeft as FrameworkElement;
+            FrameworkElement dropTargetRight = _viewModel.DropTargetRight as FrameworkElement;
+
+            Rect dropLeftBounds = VisualTreeHelper.GetDescendantBounds(dropTargetLeft);
+            Rect dropRightBounds = VisualTreeHelper.GetDescendantBounds(dropTargetRight);
+            Rect dragRect = VisualTreeHelper.GetDescendantBounds(draggedElement);
+
+            GeneralTransform transformLeft = scatterView.TransformToVisual(dropTargetLeft);
+            GeneralTransform transformRight = scatterView.TransformToVisual(dropTargetRight);
+
+            bool leftC = dropLeftBounds.Contains(transformLeft.Transform(draggedElement.ActualCenter));
+            bool rightC = dropRightBounds.Contains(transformRight.Transform(draggedElement.ActualCenter));
+
+            if (leftC)
+            {
+                return 1;
+            }
+
+            else if (rightC)
+            {
+                return 2;
+            }
+            else
+            {
+                return 0;
+            }
+            
         }
     }
 }

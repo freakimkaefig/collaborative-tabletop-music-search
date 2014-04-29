@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DrawingBrush x:Key="genre" Stretch="Uniform"/>
+	<DrawingBrush x:Key="genre2" Stretch="Uniform">
+		<DrawingBrush.Drawing>
+			<DrawingGroup>
+				<DrawingGroup.Children>
+					<DrawingGroup ClipGeometry="F1 M 0,1.90735e-005L 642.52,1.90735e-005L 642.52,642.52L 0,642.52L 0,1.90735e-005 Z ">
+						<DrawingGroup.Children>
+							<GeometryDrawing Brush="#801F1B2C" Geometry="F1 M 219.425,158.273C 219.425,158.273 219.823,142.642 215.065,137.642C 210.305,132.642 190.763,144.079 190.763,144.079L 219.425,158.273 Z "/>
+							<GeometryDrawing Brush="#80F0C134" Geometry="F1 M 191.133,167.926C 191.133,167.926 250.029,194.96 253.362,187.413C 256.695,179.864 209.75,152.364 209.75,152.364C 209.75,152.364 141.417,121.53 137.25,126.53C 133.083,131.53 191.133,167.926 191.133,167.926 Z "/>
+							<GeometryDrawing Brush="#80A9A9AA" Geometry="F1 M 181.266,187.413L 194.612,170.553L 187.99,165.553L 175.044,184.877L 181.266,187.413 Z "/>
+							<GeometryDrawing Brush="#80616160" Geometry="F1 M 184.753,263.471C 184.753,263.471 187.597,262.916 187.946,261.665C 188.294,260.416 186.487,252.499 186.487,252.499L 181.695,252.22L 178.779,198.471C 178.779,198.471 184.406,196.525 184.753,193.471C 185.099,190.416 180.099,185.033 175.862,184.877C 171.625,184.72 165.791,186.596 165.029,190.137C 164.334,199.165 172.529,199.72 172.529,199.72L 175.862,252.429L 170.378,252.637C 170.378,252.637 170.065,260.536 170.862,262.221C 171.659,263.905 175.862,263.471 175.862,263.471"/>
+							<GeometryDrawing Brush="#80A9A9AA" Geometry="F1 M 196.208,439.997L 184.752,263.47L 175.862,263.47L 190.446,442.363L 196.208,439.997 Z "/>
+							<GeometryDrawing Brush="#80A9A9AA" Geometry="F1 M 275.029,500.14L 226.141,464.585L 197.807,501.252L 165.029,476.806L 121.141,521.806L 117.807,518.658L 187.253,442.364L 192.111,448.054L 170.029,472.221L 192.807,487.364L 192.111,448.054L 197.945,447.637L 200.586,482.085L 218.362,462.364L 197.945,447.637L 203.362,442.364L 278.362,492.221L 275.029,500.14 Z "/>
+							<GeometryDrawing Brush="#80A9A9AA" Geometry="F1 M 196.766,440.622L 144.195,484.996L 144.195,478.606L 192.32,434.512L 196.766,440.622 Z "/>
+							<GeometryDrawing Brush="#80A9A9AA" Geometry="F1 M 184.753,448.611L 203.362,448.611L 203.362,373.054L 196.13,367.221L 196.209,439.997L 184.753,448.611 Z "/>
+							<GeometryDrawing Brush="#802D2C29" Geometry="F1 M 203.362,373.054C 203.362,373.054 223.362,380.554 243.778,382.221C 264.195,383.887 307.946,367.221 307.946,367.221L 307.946,279.303C 307.946,279.303 263.982,283.887 246.589,283.054C 229.195,282.221 196.13,273.611 196.13,273.611L 196.13,367.221L 203.362,373.054 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" LineJoin="Round" Brush="#80E0E0DE"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FF060F11" Geometry="F1 M 136.451,485.142C 136.451,481.616 138.737,478.754 141.557,478.754C 144.377,478.754 146.664,481.616 146.664,485.142C 146.664,488.669 144.377,491.53 141.557,491.53C 138.737,491.53 136.451,488.669 136.451,485.142 Z "/>
+							<GeometryDrawing Brush="#FF060F11" Geometry="F1 M 112.701,521.809C 112.701,518.282 114.987,515.421 117.807,515.421C 120.627,515.421 122.914,518.282 122.914,521.809C 122.914,525.336 120.627,528.197 117.807,528.197C 114.987,528.197 112.701,525.336 112.701,521.809 Z "/>
+							<GeometryDrawing Brush="#FF060F11" Geometry="F1 M 273.255,498.611C 273.255,495.083 275.542,492.221 278.362,492.221C 281.182,492.221 283.469,495.083 283.469,498.611C 283.469,502.138 281.182,504.997 278.362,504.997C 275.542,504.997 273.255,502.138 273.255,498.611 Z "/>
+							<GeometryDrawing Brush="#FFF6E1CC" Geometry="F1 M 307.945,279.304C 306.904,284.72 287.115,283.457 250.864,283.153C 214.612,282.845 197.44,279.171 196.131,273.611C 194.82,268.053 202.945,259.929 236.904,257.429C 270.863,254.929 308.987,273.888 307.945,279.304 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" LineJoin="Round" Brush="#FFBEC3BE"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FF1F1B2C" Geometry="F1 M 531.303,174.103C 531.303,174.103 530.902,158.473 535.663,153.473C 540.423,148.473 559.962,159.91 559.962,159.91L 531.303,174.103 Z "/>
+							<GeometryDrawing Brush="#FFF0C134" Geometry="F1 M 559.592,183.757C 559.592,183.757 500.699,210.79 497.366,203.244C 494.032,195.694 540.978,168.194 540.978,168.194C 540.978,168.194 609.311,137.361 613.478,142.361C 617.644,147.361 559.592,183.757 559.592,183.757 Z "/>
+							<GeometryDrawing Brush="#FFA9A9AA" Geometry="F1 M 569.462,203.244L 556.116,186.384L 562.736,181.384L 575.686,200.708L 569.462,203.244 Z "/>
+							<GeometryDrawing Brush="#FF616160" Geometry="F1 M 565.975,279.301C 565.975,279.301 563.131,278.747 562.782,277.496C 562.434,276.247 564.241,268.329 564.241,268.329L 569.033,268.051L 571.949,214.301C 571.949,214.301 566.325,212.356 565.975,209.301C 565.626,206.247 570.626,200.864 574.866,200.708C 579.103,200.551 584.937,202.427 585.699,205.968C 586.394,214.996 578.199,215.551 578.199,215.551L 574.866,268.26L 580.35,268.468C 580.35,268.468 580.663,276.367 579.866,278.052C 579.069,279.736 574.866,279.301 574.866,279.301"/>
+							<GeometryDrawing Brush="#FFA9A9AA" Geometry="F1 M 554.519,455.827L 565.975,279.301L 574.866,279.301L 560.282,458.194L 554.519,455.827 Z "/>
+							<GeometryDrawing Brush="#FFA9A9AA" Geometry="F1 M 479.033,509.304L 524.585,480.416L 552.918,517.083L 585.699,492.637L 629.585,537.637L 632.918,534.489L 563.475,458.195L 558.617,463.885L 580.699,488.052L 557.918,503.195L 558.617,463.885L 552.783,463.468L 550.142,497.916L 532.366,478.195L 552.783,463.468L 547.366,458.195L 475.699,501.385L 479.033,509.304 Z "/>
+							<GeometryDrawing Brush="#FFA9A9AA" Geometry="F1 M 553.96,456.452L 606.533,500.827L 606.533,494.436L 558.408,450.343L 553.96,456.452 Z "/>
+							<GeometryDrawing Brush="#FFA9A9AA" Geometry="F1 M 565.975,464.442L 547.366,464.442L 547.366,388.885L 554.598,383.051L 554.519,455.827L 565.975,464.442 Z "/>
+							<GeometryDrawing Brush="#FF2D2C29" Geometry="F1 M 547.366,388.885C 547.366,388.885 527.366,396.385 506.95,398.051C 486.533,399.718 442.782,383.051 442.782,383.051L 442.782,295.134C 442.782,295.134 486.746,299.718 504.139,298.885C 521.533,298.051 554.598,289.442 554.598,289.442L 554.598,383.051L 547.366,388.885 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" LineJoin="Round" Brush="#FFE0E0DE"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FF060F11" Geometry="F1 M 614.28,500.973C 614.28,497.446 611.991,494.585 609.168,494.585C 606.351,494.585 604.064,497.446 604.064,500.973C 604.064,504.5 606.351,507.361 609.168,507.361C 611.991,507.361 614.28,504.5 614.28,500.973 Z "/>
+							<GeometryDrawing Brush="#FF060F11" Geometry="F1 M 638.03,537.64C 638.03,534.113 635.741,531.252 632.918,531.252C 630.101,531.252 627.814,534.113 627.814,537.64C 627.814,541.166 630.101,544.028 632.918,544.028C 635.741,544.028 638.03,541.166 638.03,537.64 Z "/>
+							<GeometryDrawing Brush="#FF060F11" Geometry="F1 M 480.806,507.775C 480.806,504.247 478.517,501.385 475.699,501.385C 472.879,501.385 470.59,504.247 470.59,507.775C 470.59,511.302 472.879,514.161 475.699,514.161C 478.517,514.161 480.806,511.302 480.806,507.775 Z "/>
+							<GeometryDrawing Brush="#FFF6E1CC" Geometry="F1 M 442.783,295.135C 443.824,300.551 463.611,299.288 499.867,298.984C 536.116,298.676 553.288,295.001 554.597,289.441C 555.908,283.884 547.783,275.76 513.824,273.26C 479.865,270.76 441.741,289.719 442.783,295.135 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" LineJoin="Round" Brush="#FFBEC3BE"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FFF6E2C7" Geometry="F1 M 375.508,311.247C 339.06,310.465 318.92,308.471 321.141,301.249C 323.363,294.028 359.096,287.053 378.639,287.247C 398.183,287.44 429.305,291.932 430.029,300.971C 430.753,310.007 411.956,312.028 375.508,311.247 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" LineJoin="Round" Brush="#FF828D93"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FF7A7A7B" Geometry="F1 M 432.786,353.085C 430.841,356.976 386.112,362.91 366.672,362.304C 347.229,361.7 318.341,357.252 316.953,353.085C 315.562,348.918 321.038,306.616 321.038,306.616C 321.038,306.616 348.898,313.085 371.953,313.642C 395.008,314.2 430.841,308.088 430.841,308.088C 430.841,308.088 434.729,349.197 432.786,353.085 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" LineJoin="Round" Brush="#FFBEC3BE"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FFF7D4B1" Geometry="F1 M 285.029,472.221C 285.029,422.513 325.323,382.221 375.029,382.221C 424.737,382.221 465.029,422.513 465.029,472.221C 465.029,521.929 424.737,562.221 375.029,562.221C 325.323,562.221 285.029,521.929 285.029,472.221 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="2.66667" MiterLimit="2.75" Brush="#FF9FB1B8"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FF232021" Geometry="F1 M 287.161,491.749C 287.161,491.749 266.508,461.219 268.747,442.08C 268.747,442.08 271.992,373.211 341.973,362.348C 411.956,351.487 440.675,410.653 440.675,410.653C 440.675,410.653 413.065,383.611 375.028,382.221C 375.028,382.221 331.501,378.331 304.001,416.943C 275.389,465.831 287.161,491.749 287.161,491.749 Z "/>
+							<GeometryDrawing Brush="#FF666661" Geometry="F1 M 297.628,524.153L 268.748,551.804L 262.529,547.221L 294.294,518.658L 297.628,524.153 Z "/>
+							<GeometryDrawing Brush="#FF060F11" Geometry="F1 M 258.362,553.726C 258.362,550.195 260.649,547.335 263.469,547.335C 266.289,547.335 268.575,550.195 268.575,553.726C 268.575,557.25 266.289,560.111 263.469,560.111C 260.649,560.111 258.362,557.25 258.362,553.726 Z "/>
+							<GeometryDrawing Brush="#FF666661" Geometry="F1 M 455.586,519.58L 483.062,549.916L 478.479,556.132L 451.971,525.553L 455.586,519.58 Z "/>
+							<GeometryDrawing Brush="#FF060F11" Geometry="F1 M 484.982,560.299C 481.455,560.299 478.594,558.015 478.594,555.192C 478.594,552.372 481.455,550.085 484.982,550.085C 488.508,550.085 491.37,552.372 491.37,555.192C 491.37,558.015 488.508,560.299 484.982,560.299 Z "/>
+							<GeometryDrawing Brush="#FF333332" Geometry="F1 M 341.974,362.348C 341.974,362.348 339.75,285.395 338.083,277.914C 336.417,270.431 327.807,268.468 327.807,268.468L 297.807,300.991C 297.807,300.991 302.25,267.934 270.307,247.1C 240.583,229.046 215.065,241.546 215.065,241.546L 256.695,184.876C 256.695,184.876 325.305,189.879 340.583,243.488L 335.029,260.155C 335.029,260.155 345.859,266.546 347.25,271.822C 348.641,277.098 348.917,362.348 348.917,362.348L 341.974,362.348 Z "/>
+							<GeometryDrawing Brush="#FF333332" Geometry="F1 M 363.914,362.348C 363.914,362.348 366.141,285.398 367.807,277.914C 369.474,270.431 378.083,268.468 378.083,268.468L 406.133,300.991C 412.914,279.854 423.097,254.944 435.362,247.848C 459.198,234.056 488.878,240.991 488.878,240.991L 449.195,184.876C 449.195,184.876 380.586,189.879 365.307,243.488L 370.862,260.155C 370.862,260.155 360.029,266.546 358.643,271.822C 357.247,277.098 356.977,362.348 356.977,362.348L 363.914,362.348 Z "/>
+							<GeometryDrawing Brush="#FFF6E1CC" Geometry="F1 M 297.807,300.991C 283.917,312.937 246.695,287.934 246.695,287.934C 246.695,287.934 206.597,258.171 216.695,240.713C 226.794,223.257 268.575,247.855 268.575,247.855C 268.575,247.855 306.695,269.325 297.807,300.991 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFBEC3BE"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FFF6E1CC" Geometry="F1 M 406.133,300.991C 420.023,312.937 457.245,287.937 457.245,287.937C 457.245,287.937 497.343,258.171 487.245,240.713C 477.149,223.257 435.365,247.855 435.365,247.855C 435.365,247.855 397.245,269.325 406.133,300.991 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFBEC3BE"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FFD19028" Geometry="F1 M 366.816,185.971C 375.358,181.179 346.816,145.973 346.816,145.973L 324.316,112.223L 318.691,116.181L 341.608,155.14C 341.608,155.14 358.275,190.763 366.816,185.971 Z "/>
+							<GeometryDrawing Brush="#FFDD9F6C" Geometry="F1 M 274.108,86.8665C 274.108,104.784 289.032,119.306 307.441,119.306C 325.853,119.306 340.775,104.784 340.775,86.8665C 340.775,68.9451 325.853,54.4212 307.441,54.4212C 289.032,54.4212 274.108,68.9451 274.108,86.8665 Z "/>
+							<GeometryDrawing Brush="#FFFDD852" Geometry="F1 M 329.634,111.064C 329.634,111.064 341.457,99.0977 340.774,82.9083C 339.107,71.2417 331.713,64.6323 331.713,64.6323C 313.951,44.9283 287.65,60.759 287.65,60.759C 287.65,60.759 324.317,63.0564 328.899,75.7644C 333.483,88.4736 329.634,111.064 329.634,111.064 Z "/>
+							<GeometryDrawing Brush="#FF3B342E" Geometry="F1 M 329.634,111.064C 329.634,111.064 333.691,98.6817 332.233,87.223C 330.774,75.7644 327.233,74.307 323.483,69.0977C 319.733,63.8897 313.274,58.8897 305.15,57.431C 297.025,55.9737 287.65,60.759 287.65,60.759C 290.15,63.4683 304.317,63.4737 304.317,63.4737C 304.317,63.4737 317.858,66.5977 320.358,70.9736C 322.858,75.3483 313.691,78.4736 314.941,83.6817C 316.191,88.8897 327.858,93.8897 327.233,98.2644C 326.607,102.64 319.525,105.974 318.066,108.264C 316.607,110.556 316.191,116.182 318.274,117.015C 320.358,117.848 329.634,111.064 329.634,111.064 Z "/>
+							<GeometryDrawing Brush="#FFB14A2E" Geometry="F1 M 310.1,65.1346L 292.234,82.9079L 288.691,81.8066L 306.179,63.9492L 310.1,65.1346 Z "/>
+							<GeometryDrawing Brush="#FFB14A2E" Geometry="F1 M 290.775,90.5565C 291.191,92.8485 287.024,95.1405 284.316,94.5152C 281.608,93.8898 284.316,87.1192 284.316,87.1192C 286.816,86.5977 290.359,88.2644 290.775,90.5565 Z "/>
+							<GeometryDrawing Brush="#FF121B13" Geometry="F1 M 290.806,82.4602C 290.806,82.4602 294.733,84.7229 293.691,88.6815C 292.65,92.6402 287.65,87.4842 287.65,87.4842C 287.65,87.4842 283.945,87.5175 284.778,84.5749C 285.611,81.6242 290.806,82.4602 290.806,82.4602 Z "/>
+							<GeometryDrawing Brush="#FFF49525" Geometry="F1 M 90.3763,611.412C 160.658,621.136 165.658,577.712 165.658,577.712C 165.658,577.712 177.043,553.636 135.376,495.579C 142.603,470.024 144.564,465.295 146.35,455.721C 148.642,443.431 117.043,444.191 109.824,441.969C 102.603,439.745 98.4363,413.636 98.4363,413.636C 84.8243,402.803 44.5429,416.969 44.5429,416.969C 44.5429,416.969 30.3789,438.357 32.6029,450.303C 34.8243,462.245 43.9909,468.912 43.9909,480.857C 43.9909,492.803 16.7696,526.691 18.4363,543.079C 18.4363,543.079 20.1003,601.691 90.3763,611.412 Z "/>
+							<GeometryDrawing Brush="#FF763D31" Geometry="F1 M 157.212,595.17C 157.212,595.17 179.27,588.003 182.603,561.654C 185.936,535.303 154.27,493.912 152.324,486.412C 150.376,478.912 166.491,446.691 158.991,439.746C 151.491,432.803 134.27,433.912 124.824,431.691C 115.376,429.47 115.379,413.636 113.436,408.636C 111.491,403.636 102.046,400.579 96.7696,400.024C 91.4909,399.47 44.5429,416.97 44.5429,416.97C 44.5429,416.97 93.7829,411.555 96.5589,414.055C 99.3349,416.555 102.324,437.246 106.77,440.858C 111.21,444.47 133.712,444.191 143.436,449.191C 153.158,454.191 134.543,483.87 135.376,495.579C 136.21,507.29 166.079,544.67 166.636,561.654C 167.194,578.636 157.212,595.17 157.212,595.17 Z "/>
+							<GeometryDrawing Brush="#FF775B19" Geometry="F1 M 127.603,561.654L 54.2695,551.69L 54.2695,541.63L 127.603,550.023L 127.603,561.654 Z "/>
+							<GeometryDrawing Geometry="F1 M 65.1003,476.139C 65.1003,463.253 75.5456,452.805 88.4336,452.805C 101.322,452.805 111.767,463.253 111.767,476.139C 111.767,489.027 101.322,499.472 88.4336,499.472C 75.5456,499.472 65.1003,489.027 65.1003,476.139 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="4" MiterLimit="2.75" Brush="#FF775B19"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FF5C461E" Geometry="F1 M 71.7669,476.139C 71.7669,466.933 79.2309,459.472 88.4336,459.472C 97.6363,459.472 105.1,466.933 105.1,476.139C 105.1,485.344 97.6363,492.805 88.4336,492.805C 79.2309,492.805 71.7669,485.344 71.7669,476.139 Z "/>
+							<GeometryDrawing Brush="#FF755341" Geometry="F1 M 100.629,464.805L 95.6569,258.103L 101.768,252.269L 108.157,194.769C 108.157,194.769 102.324,185.6 90.6569,185.879C 78.9903,186.163 72.0436,194.212 72.0436,194.212L 70.9343,252.545L 76.2223,464.805L 100.629,464.805 Z ">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FF775B19"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Brush="#FFD1D2B0" Geometry="F1 M 69.9596,245.165L 67.7409,245.165L 67.7409,237.665L 69.9596,238.362L 69.9596,240.305L 104.96,239.471L 105.52,235.998L 108.157,236.831L 108.157,245.862L 103.853,245.862L 104.269,242.665L 69.9596,243.498L 69.9596,245.165 Z "/>
+							<GeometryDrawing Brush="#FFD1D2B0" Geometry="F1 M 70.9336,232.665L 68.7096,232.665L 68.7096,225.165L 70.9336,225.862L 70.9336,227.805L 105.934,226.971L 106.491,223.498L 109.127,224.331L 109.127,233.362L 104.824,233.362L 105.24,230.165L 70.9336,230.998L 70.9336,232.665 Z "/>
+							<GeometryDrawing Brush="#FFD1D2B0" Geometry="F1 M 71.5585,219.055L 69.3345,219.055L 69.3345,211.555L 71.5585,212.25L 71.5585,214.195L 106.559,213.362L 107.116,209.889L 109.752,210.722L 109.752,219.75L 105.449,219.75L 105.865,216.555L 71.5585,217.389L 71.5585,219.055 Z "/>
+							<GeometryDrawing Geometry="F1 M 101.074,459.472L 75.5196,459.472">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 101.074,452.805L 75.5196,452.805">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 100.501,447.805L 75.2413,447.805">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 100.501,441.139L 75.2413,441.139">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 100.501,432.805L 74.824,432.805">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 100.501,425.081L 74.824,424.576">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 100.501,415.201L 74.2667,415.201">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 99.6836,404.055L 74.2676,403.534">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 98.8607,391.355L 73.85,391.355">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 99.6809,380.612L 73.4463,380.612">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 98.8633,369.467L 73.4473,368.945">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 98.0404,356.764L 73.0297,356.764">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 98.4049,346.034L 72.1703,346.034">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 97.5872,334.889L 72.1712,334.367">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 96.7643,322.188L 71.7536,322.188">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 97.5847,311.446L 71.35,311.446">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 96.7669,300.3L 71.3509,299.779">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 95.944,287.597L 70.9333,287.597">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 96.3528,275.092L 70.9368,274.57">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 95.5325,262.389L 70.5192,262.389">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD8A507"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 75.5195,214.821L 74.2675,228.43L 75.5195,240.93L 79.3328,551.642">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD1D2B0"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 84.0585,552.206L 80.1105,243.253L 80.1105,230.78">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD1D2B0"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 85.2852,217.055L 85.2852,230.651L 84.8785,240.93L 88.4332,552.805">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD1D2B0"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 92.72,553.462L 89.5427,240.931L 91.132,228.431">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD1D2B0"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+							<GeometryDrawing Geometry="F1 M 97.5847,228.43L 92.7207,240.93L 98.0407,553.461">
+								<GeometryDrawing.Pen>
+									<Pen Thickness="1.33333" MiterLimit="2.75" Brush="#FFD1D2B0"/>
+								</GeometryDrawing.Pen>
+							</GeometryDrawing>
+						</DrawingGroup.Children>
+					</DrawingGroup>
+				</DrawingGroup.Children>
+			</DrawingGroup>
+		</DrawingBrush.Drawing>
+	</DrawingBrush>
+</ResourceDictionary>

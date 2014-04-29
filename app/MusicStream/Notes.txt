@@ -340,3 +340,75 @@ private void Results_ContainerDeactivated(object sender, RoutedEventArgs e)
             };
             _viewModel.AddTrackCommand.Execute(data);
         }
+
+
+
+
+
+
+
+		private void Results_ContainerDeactivated(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.PlaylistOpened == true)
+            {
+                FrameworkElement dropTargetLeft = _viewModel.DropTargetLeft as FrameworkElement;
+                FrameworkElement dropTargetRight = _viewModel.DropTargetRight as FrameworkElement;
+
+                ScatterView scatterView = e.Source as ScatterView;
+
+                FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+                ScatterViewItem draggedElement = null;
+
+                // Find the ScatterViewItem object that is being touched.
+                while (draggedElement == null && findSource != null)
+                {
+                    if ((draggedElement = findSource as ScatterViewItem) == null)
+                    {
+                        findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                    }
+                }
+
+                if (draggedElement == null)
+                {
+                    return;
+                }
+
+                Rect dropLeftBounds = VisualTreeHelper.GetDescendantBounds(dropTargetLeft);
+                Rect dropRightBounds = VisualTreeHelper.GetDescendantBounds(dropTargetRight);
+                Rect dragRect = VisualTreeHelper.GetDescendantBounds(draggedElement);
+
+                GeneralTransform transformLeft = scatterView.TransformToVisual(dropTargetLeft);
+                GeneralTransform transformRight = scatterView.TransformToVisual(dropTargetRight);
+
+                bool leftC = dropLeftBounds.Contains(transformLeft.Transform(draggedElement.ActualCenter));
+                bool rightC = dropRightBounds.Contains(transformRight.Transform(draggedElement.ActualCenter));
+
+                if (dropLeftBounds.Contains(transformLeft.Transform(draggedElement.ActualCenter)))
+                {
+                    ResultDataModel result = draggedElement.Content as ResultDataModel;
+
+                    object[] data = new object[]
+                    {
+                        draggedElement.Content as ResultDataModel,
+                        _viewModel.PlusImageLeft as Image,
+                    };
+
+                    _viewModel.AddTrackCommand.Execute(data);
+                    draggedElement.Visibility = System.Windows.Visibility.Collapsed;
+                }
+
+                if (dropRightBounds.Contains(transformRight.Transform(draggedElement.ActualCenter)))
+                {
+                    ResultDataModel result = draggedElement.Content as ResultDataModel;
+
+                    object[] data = new object[]
+                    {
+                        draggedElement.Content as ResultDataModel,
+                        _viewModel.PlusImageRight as Image,
+                    };
+
+                    _viewModel.AddTrackCommand.Execute(data);
+                    draggedElement.Visibility = System.Windows.Visibility.Collapsed;
+                }
+            }
+        }
