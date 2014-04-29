@@ -34,8 +34,6 @@ namespace Ctms.Applications.Test
             _repository = new Repository(null, null, null, null, null, null, null, null);
             _tagFactory = new TagFactory(_repository);
 
-            
-
             TagCombinations = new ObservableCollection<TagCombinationDataModel>()
             {
                 new TagCombinationDataModel(20)
@@ -70,6 +68,16 @@ namespace Ctms.Applications.Test
                 }
             };
         }
+        /*
+        private void LoadKeywords()
+        {
+            foreach(var 
+        }
+
+        private void LoadTagOptions()
+        {
+
+        }*/
 
         [TestMethod]
         public void CalcCenter()

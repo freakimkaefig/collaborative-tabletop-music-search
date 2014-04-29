@@ -189,10 +189,8 @@
                                  Command="{Binding SelectAttributeCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"
+                                 Background="{StaticResource ResourceKey=gear}"
                                  >
-                    <s:SurfaceButton.Background>
-                        <ImageBrush ImageSource="../Resources/Images/Search/tag-backgr_attribute.png" Opacity="1.0"/>
-                    </s:SurfaceButton.Background>
                 </s:SurfaceButton>
                 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -201,10 +199,9 @@
                                  Grid.Column="2"
                                  Command="{Binding SelectGenreCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
-                                 Style="{StaticResource SearchViewBtn}">
-                    <s:SurfaceButton.Background>
-                        <ImageBrush ImageSource="../Resources/Images/Search/tag-backgr_genre.png" Opacity="1.0"/>
-                    </s:SurfaceButton.Background>
+                                 Style="{StaticResource SearchViewBtn}"
+                                 Background="{StaticResource ResourceKey=genre}"
+                                 >
                 </s:SurfaceButton>
 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -213,10 +210,9 @@
                                  Grid.Column="0"
                                  Command="{Binding SelectTitleCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
-                                 Style="{StaticResource SearchViewBtn}">
-                    <s:SurfaceButton.Background>
-                        <ImageBrush ImageSource="../Resources/Images/Search/tag-backgr_title.png" Opacity="1.0"/>
-                    </s:SurfaceButton.Background>
+                                 Style="{StaticResource SearchViewBtn}"
+                                 Background="{StaticResource ResourceKey=titel}"
+                                 >
                 </s:SurfaceButton>
                 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -225,10 +221,9 @@
                                  Grid.Column="2"
                                  Command="{Binding SelectArtistCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
-                                 Style="{StaticResource SearchViewBtn}">
-                    <s:SurfaceButton.Background>
-                        <ImageBrush ImageSource="../Resources/Images/Search/tag-backgr_artist.png" Opacity="1.0"/>
-                    </s:SurfaceButton.Background>
+                                 Style="{StaticResource SearchViewBtn}"
+                                 Background="{StaticResource ResourceKey=artist}"
+                                 >
                 </s:SurfaceButton>
             </Grid>
             <!--//Grid for keyword type selection-->
