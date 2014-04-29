@@ -10,6 +10,7 @@ using System.ComponentModel.Composition;
 using Ctms.Applications.DataModels;
 using SpotifySharp;
 using MusicStream;
+using System.Collections.ObjectModel;
 
 namespace Ctms.Applications.Workers
 {
@@ -93,9 +94,55 @@ namespace Ctms.Applications.Workers
 
         public void RefreshDetails(List<ResponseContainer.ResponseObj.ArtistInfo> response, ResultDataModel result)
         {
-            String city = response[0].artist_location.ToString();
-            String biography = response[0].biographies[0].ToString();
-            result.Detail = new Detail(city, biography);
+            var r = response[0];
+            Detail d = new Detail();
+
+            //About
+            d.Name = r.name;
+            d.Biography = r.biographies[0].text;
+            d.City = r.artist_location[0].location;
+            d.Image = new ArtistImage();
+            d.Image.ImageUrl = r.images[0].url;
+            d.Genres = new List<String>();
+            for (var i = 0; i < r.terms.Count; i++)
+            {
+                d.Genres.Add(r.terms[i].name);
+                if (i == 3) break;
+            }
+
+            //News
+            d.News = new ObservableCollection<ArtistNews>();
+            for (var i = 0; i < r.news.Count; i++)
+            {
+                ArtistNews news = new ArtistNews();
+                news.Title = r.news[i].name;
+                news.Summary = r.news[i].summary;
+                news.Url = r.news[i].url;
+                d.News.Add(news);
+            }
+
+            //Media
+            d.Images = new List<ArtistImage>();
+            for (var i = 0; i < r.images.Count; i++)
+            {
+                ArtistImage image = new ArtistImage();
+                image.ImageUrl = r.images[i].url;
+                d.Images.Add(image);
+            }
+            d.Videos = new List<ArtistVideo>();
+            for (var i = 0; i < r.video.Count; i++)
+            {
+                ArtistVideo video = new ArtistVideo();
+                video.Title = r.video[i].title;
+                video.VideoUrl = r.video[i].url;
+                video.PreviewUrl = r.video[i].image_url;
+            }
+
+            //Reviews
+
+            //Songs
+
+            result.Detail = d;
         }
     }
 }

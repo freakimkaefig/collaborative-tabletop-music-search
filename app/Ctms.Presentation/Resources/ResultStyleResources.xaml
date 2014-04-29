@@ -22,7 +22,7 @@
         <Setter Property="Foreground" Value="#0fc" />
     </Style>-->
     <DataTemplate x:Key="ScatterViewItemDataTemplate">
-        <ContentControl Width="{Binding Width}" Height="{Binding Height}" MinWidth="150" MinHeight="100" MaxWidth="600" MaxHeight="600">
+        <ContentControl Width="{Binding Width}" Height="{Binding Height}" MinWidth="150" MinHeight="100">
             <Grid Name="ResultWrapper" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto">
                 <Grid Name="ResultGrid" Margin="0,0,0,0" Visibility="{Binding IsDetail, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}"
                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -65,14 +65,63 @@
             </Grid>-->
                 </Grid>
                 <Grid Name="DetailView" Visibility="{Binding IsDetail, Converter={x:Static c:BoolToVisibilityConverter.Default}}">
-                    <Label Content="DetailView" FontSize="36" Foreground="Red"></Label>
-                    <TextBlock Text="{Binding Detail.City}"/>
-                    <TextBlock Text="{Binding Detail.Biography}"/>
+                    <TabControl Margin="20">
+                        <TabItem Header="About" Background="#222" Foreground="#ddd" FontSize="20">
+                            <s:SurfaceScrollViewer Background="#222" Foreground="#ddd" HorizontalScrollBarVisibility="Disabled">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="{Binding Detail.Image.ImageUrl}" Width="120" Height="120"/>
+                                    <TextBlock Text="{Binding Detail.Name}" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding Detail.City}" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding Detail.Genres, Converter={x:Static c:ListToStringConverter.Default}}" Grid.Row="2" Grid.Column="1"/>
+                                    <TextBlock Text="Biography" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                    <TextBlock Width="Auto" Text="{Binding Detail.Biography}" TextWrapping="Wrap" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                </Grid>
+                            </s:SurfaceScrollViewer>
+                        </TabItem>
+                        <TabItem Header="News" Background="#222" Foreground="#ddd" FontSize="20">
+                            <s:SurfaceListBox ItemTemplate="{DynamicResource DetailViewArtistNews}" ItemsSource="{Binding Detail.News}" Background="#222"/>
+                        </TabItem>
+                        <TabItem Header="Media" Background="#222" Foreground="#ddd" FontSize="20">
+                            <Label Content="Media"/>
+                        </TabItem>
+                        <TabItem Header="Reviews" Background="#222" Foreground="#ddd" FontSize="20">
+                            <Label Content="Reviews"/>
+                        </TabItem>
+                        <TabItem Header="Songs" Background="#222" Foreground="#ddd" FontSize="20">
+                            <Label Content="Songs"/>
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </Grid>
         </ContentControl>
     </DataTemplate>
-    
+
+    <DataTemplate x:Key="DetailViewArtistNews">
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Background="#222">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Title}" FontWeight="Bold" TextWrapping="Wrap" Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" Grid.Column="0" Grid.Row="1"/>
+        </Grid>
+    </DataTemplate>
+
     <Style TargetType="{x:Type s:ScatterViewItem}">
         <Setter Property="Background" Value="#222" />
         <Setter Property="BorderThickness" Value="0" />

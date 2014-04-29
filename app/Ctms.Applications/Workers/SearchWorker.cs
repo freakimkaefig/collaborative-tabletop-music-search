@@ -152,7 +152,7 @@ namespace Ctms.Applications.Workers
             ResultDataModel result = (ResultDataModel)e.Argument;
             String artistName = result.Result.Song.ArtistName;
             String artistId = result.Result.Song.ArtistId;
-            //e.Result = new List<object>() { _searchManager.getDetailInfo(artistName, artistId), result };
+            e.Result = new List<object>() { _searchManager.getDetailInfo(artistName, artistId), result };
         }
         private void LoadDetailsCompleted(object sender, RunWorkerCompletedEventArgs e)
         {

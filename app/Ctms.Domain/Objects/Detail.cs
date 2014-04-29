@@ -2,21 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace Ctms.Domain.Objects
 {
     public class Detail
     {
-        private String _city;
-        private String _biography;
-
-        public Detail(String city, String biography)
+        public Detail()
         {
-            _city = city;
-            _biography = biography;
+
         }
 
-        public String City { get { return _city; } set { _city = value; } }
-        public String Biography { get { return _biography; } set { _biography = value; } }
+        //About tab
+        public String Name { get; set; }
+        public ArtistImage Image { get; set; }
+        public String City { get; set; }
+        public String Biography { get; set; }
+        public List<String> Genres { get; set; }
+
+        //News
+        public ObservableCollection<ArtistNews> News { get; set; }
+
+        //Media
+        public List<ArtistImage> Images { get; set; }
+        public List<ArtistVideo> Videos { get; set; }
+
+        //Reviews
+
+        //Songs
     }
 }

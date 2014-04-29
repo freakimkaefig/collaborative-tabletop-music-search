@@ -260,6 +260,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DefaultStringConverter.cs" />
     <Compile Include="Converters\InverseBoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\ListToStringConverter.cs" />
     <Compile Include="DataStore\DataStore\DataStore.xaml.cs">
       <DependentUpon>DataStore.xaml</DependentUpon>
     </Compile>

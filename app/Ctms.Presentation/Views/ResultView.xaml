@@ -23,7 +23,6 @@
                        s:ScatterContentControlBase.ContainerManipulationStarted="MainScatterView_ContainerManipulationStarted"
                        s:ScatterContentControlBase.ContainerManipulationDelta="MainScatterView_ContainerManipulationDelta"
                        s:ScatterContentControlBase.ContainerManipulationCompleted="MainScatterView_ContainerManipulationCompleted"
-                       Width="1920" HorizontalAlignment="Center">
-        </s:ScatterView>
+                       Width="1920" HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>
