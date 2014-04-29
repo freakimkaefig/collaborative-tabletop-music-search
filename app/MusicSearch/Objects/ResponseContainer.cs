@@ -49,24 +49,81 @@ namespace MusicSearch.Objects
 
             public class ArtistInfo
             {
-                public List<Object> terms { get; set; }
+                public List<ArtistInfo.Terms> terms { get; set; }
                 public String name { get; set; }
-                public List<Object> foreign_ids { get; set; }
-                public List<Object> blogs { get; set; }
+                public List<ArtistInfo.ForeignIds> facebookIds { get; set; }
+                public List<ArtistInfo.Blog> blogs { get; set; }
                 public String id { get; set; }
-                public List<Object> reviews { get; set; }
-                public List<Object> biographies { get; set; }
-                public List<Object> years_active { get; set; }
-                public List<Object> video { get; set; }
-                public List<Object> images { get; set; }
-                public List<Object> news { get; set; }
-                public int originId { get; set; }
+                public List<ArtistInfo.Review> reviews { get; set; }
+                public List<ArtistInfo.Biography> biographies { get; set; }
+                public List<ArtistInfo.YearsActive> years_active { get; set; }
+                public List<ArtistInfo.Video> video { get; set; }
+                public List<ArtistInfo.Image> images { get; set; }
+                public List<ArtistInfo.News> news { get; set; }
 
                 public List<ArtistInfo.ArtistSong> ArtistSongs { get; set; }
                 public List<ArtistInfo.SimilarArtist> SimilarArtists { get; set; }
                 public List<ArtistInfo.ArtistLocation> artist_location { get; set; }
                 public List<ArtistInfo.Url> Urls { get; set; }
 
+                public class News
+                {
+                    public String summary { get; set; }
+                    public String name { get; set; }
+                    public String url { get; set; }
+                }
+
+                public class Image
+                {
+                    public String url { get; set; }
+                }
+
+                public class Video
+                {
+                    public String title { get; set; }
+                    public String image_url { get; set; }
+                    public String url { get; set; }
+                }
+
+                public class YearsActive
+                {
+                    public String start { get; set; }
+                }
+
+                public class Biography
+                {
+                    public String text { get; set; }
+                    public String url { get; set; }
+                }
+                
+                public class Review
+                {
+                    public String name { get; set; }
+                    public String release { get; set; }
+                    public String url { get; set; }
+                    public String summary { get; set; }
+                }
+
+                public class Blog
+                {
+                    public String name { get; set; }
+                    public String url { get; set; }
+                    public String date_posted { get; set; }
+                    public String summary { get; set; }
+                }
+
+                public class ForeignIds
+                {
+                    public String facebookId { get; set; }
+                }
+
+                public class Terms
+                {
+                    public Double frequency { get; set; }
+                    public Double weight { get; set; }
+                    public String name { get; set; }
+                }
+                
                 public class ArtistLocation
                 {
                     public String city { get; set; }

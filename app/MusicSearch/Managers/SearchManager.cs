@@ -361,7 +361,12 @@ namespace MusicSearch.Managers
             return null;
            }
 
-
+        /// <summary>
+        /// gathers infos about the artist. Hint: FB id anhängen, z.B.: "http://www.facebook.com/profile.php?id=6979332244"
+        /// </summary>
+        /// <param name="artist"></param>
+        /// <returns>ArtistInfosRC</returns>
+        /// 
         public List<ResponseContainer.ResponseObj.ArtistInfo> getArtistInfo(String artist)
         {
             List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
@@ -390,6 +395,10 @@ namespace MusicSearch.Managers
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
             var newText = StringHelper.replacePartialString(cleared, "artists", "ArtistInfos", 1);
+            newText = StringHelper.replacePartialString(newText, "foreign_id", "facebookId", 1000);
+            newText = StringHelper.replacePartialString(newText, "facebook:artist:", "", 1000);
+
+
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             //Origin-IDs not needed since the implementation of (this) method-calls 
             //allow to distinguish their origin
