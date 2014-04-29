@@ -44,17 +44,17 @@ namespace Ctms.Applications.Workers
 
         public void ConfirmCommonInfo(int infoId)
         {
-            _repository.GetAllCommonInfos().Remove(_repository.GetCommonInfoById(infoId));
+            _repository.RemoveCommonInfoById(infoId);
         }
 
         public void ConfirmTagInfo(int tagId)
         {
-            _repository.GetAllTagInfos().Remove(_repository.GetTagInfoByTagId(tagId));
+            _repository.RemoveTagInfoById(tagId);
         }
 
         public void ConfirmTutorialInfo(int infoId)
         {
-            _repository.GetAllTutorialInfos().Remove(_repository.GetTutorialInfoById(infoId));
+            _repository.RemoveTutorialInfoById(infoId);
         }
 
         public int ShowCommonInfo(string mainText, string subText, string confirmText = null)

@@ -14,71 +14,117 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     
     <UserControl.Resources>
-        <DataTemplate x:Key="EllipsenTemplate">
-                   
+        <DataTemplate x:Key="TagTemplate" x:Name="TagTemplate">
             <Ellipse x:Name="el1"
                    Height="15"
                    Width="15"
                    Opacity="0.7"
                    Fill="#FFFF00">
                 <Ellipse.RenderTransform>
-                    <TranslateTransform x:Name="TTransform1" X="100" Y="100"/>
-                 </Ellipse.RenderTransform>  <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
-                
+                    <TranslateTransform x:Name="TTransform1" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}"/>
+                </Ellipse.RenderTransform>
+                <Ellipse.LayoutTransform>
+                    <ScaleTransform x:Name="MyAnimatedScaleTransform"  ScaleX="1" ScaleY="1"  />
+                </Ellipse.LayoutTransform>
+                <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
+
                 <Ellipse.Effect>
                     <BlurEffect Radius="5"/>
                 </Ellipse.Effect>
-                
-                
-              
-                
+
+
                 <Ellipse.Triggers>
                     <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                         <!--auslösen, wenn 2 Tangibles sich "überschneiden" / Radien? 
                         By="200" verschiebt die ganze sache UM 200px und nicht NACH X=200-->
                         <BeginStoryboard>
-                            <Storyboard>
+                            <Storyboard RepeatBehavior="Forever" Duration="0:0:2.5" >
                                 <DoubleAnimation
                                     Storyboard.TargetName="el1"
                                     Storyboard.TargetProperty="Opacity"
                                     From="1.0"
+                                    To="1.0"
+                                    Duration="0:0:0.8"/>
+
+                                <!--<DoubleAnimation
+                                    Storyboard.TargetName="el1"
+                                    Storyboard.TargetProperty="Opacity"
+                                    From="1.0"
                                     To="0.0"
-                                    Duration="0:0:0.5"
-                                    RepeatBehavior="Forever"/>
-                                
-                                <DoubleAnimation
+                                    BeginTime="0:0:0.8"
+                                    Duration="0:0:0.2"/>-->
+
+                                <!--<DoubleAnimation
                                     Storyboard.TargetName="el1"
                                     Storyboard.TargetProperty="(Ellipse.Height)"
-                                    Duration="0:0:0.5"
-                                    RepeatBehavior="Forever"
-                                    By="50"
-                                    />
+                                    BeginTime="0:0:0.8"
+                                    Duration="0:0:0.2"
+                                    By="50" />
 
                                 <DoubleAnimation
                                     Storyboard.TargetName="el1"
                                     Storyboard.TargetProperty="(Ellipse.Width)"
-                                    Duration="0:0:0.5"
-                                    RepeatBehavior="Forever"
-                                    By="50" />
+                                    BeginTime="0:0:0.8"
+                                    Duration="0:0:0.2"
+                                    By="50" />-->
+
+                                <DoubleAnimation
+                                    Storyboard.TargetName="MyAnimatedScaleTransform"
+                                    Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+                                    To="3.0" BeginTime="0:0:8" Duration="0:0:2"
+                                     />
+                                <DoubleAnimation
+                                    Storyboard.TargetName="MyAnimatedScaleTransform"
+                                    Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+                                    To="3.0" BeginTime="0:0:8" Duration="0:0:2"
+                                     />
+
+                                <!--<DoubleAnimation
+                                    Storyboard.TargetName="TTransform1"
+                                    Storyboard.TargetProperty="X"
+                                    To="((Ellipse.Width)/2)"
+                                    BeginTime="0:0:0.8"
+                                    Duration="0:0:0.2" />
+
+                                <DoubleAnimation
+                                    Storyboard.TargetName="TTransform1"
+                                    Storyboard.TargetProperty="Y"
+                                    To="((Ellipse.Height)/2)"
+                                    BeginTime="0:0:0.8"
+                                    Duration="0:0:0.2" />-->
 
                                 <DoubleAnimation Storyboard.TargetName="TTransform1"
                                              Storyboard.TargetProperty="X"
-                                             By="500"
-                                             Duration="0:0:0.5"
-                                             RepeatBehavior="Forever" />
-                                
+                                             To="{Binding DataContext.CenterX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                             Duration="0:0:2" />
+
                                 <!--By Property mit Binding an Tangibles binden-->
                                 <DoubleAnimation Storyboard.TargetName="TTransform1"
                                              Storyboard.TargetProperty="Y"
-                                             Duration="0:0:0.5"
-                                             By="500"
-                                             RepeatBehavior="Forever" />
+                                             Duration="0:0:2"
+                                             To="{Binding DataContext.CenterY, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
                 </Ellipse.Triggers>
             </Ellipse>
+        </DataTemplate>
 
+        <DataTemplate x:Key="CombinationTemplate" x:Name="CombinationTemplate">
+
+            <ItemsControl ItemTemplate="{DynamicResource TagTemplate}"  
+                        ItemsSource="{Binding Tags}"
+                        Grid.Row="0" 
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            
+            
             <!--<Ellipse x:Name="el2"
                      Height="35"
                      Width="35"
@@ -405,7 +451,7 @@
                 </Rectangle.Effect>
             </Rectangle>
 
-            <ItemsControl ItemTemplate="{DynamicResource EllipsenTemplate}"  
+            <ItemsControl ItemTemplate="{DynamicResource CombinationTemplate}"  
                         ItemsSource="{Binding TagCombinations}"
                         Grid.Row="0" 
                         Grid.Column="0"

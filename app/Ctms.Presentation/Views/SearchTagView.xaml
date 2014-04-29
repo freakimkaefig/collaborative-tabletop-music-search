@@ -16,8 +16,7 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
     Loaded="SimpleVisualization_Loaded"
     PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
-    Moved="TagVisualization_Moved"
-                    >
+    Moved="TagVisualization_Moved">
     <!--DataContext="{DynamicResource TagDM}"-->
     
     <s:TagVisualization.Resources>
@@ -153,7 +152,17 @@
                                         Command="" Background="#0000"/>
                 </ps:PieMenu>
                 <!--End PieMenu with tag options-->
-
+                
+                <Label  
+                    DataContext="{DynamicResource TagDM}" 
+                    Name="InputType" Content="{Binding InputTypeHint}" 
+                    Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="20"
+                    FontSize="14"
+                    Grid.Row="0" Grid.Column="0" Foreground="White"/>
+                
             </Grid>
             <!--//Grid for PieMenu-->
             

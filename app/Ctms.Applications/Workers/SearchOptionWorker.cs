@@ -125,33 +125,36 @@ namespace Ctms.Applications.Workers
 
         public void SelectOption(int tagOptionId)
         {
-            var tagDM               = _repository.GetTagDMByTagOption(tagOptionId);
-            var tagId               = tagDM.Id;
+            var tagDm               = _repository.GetTagDMByTagOption(tagOptionId);
+            var tagId               = tagDm.Id;
             var selectedTagOption   = _repository.GetTagOptionById(tagOptionId);
             var keywordType         = selectedTagOption.Keyword.Type;
 
             // add breadcrumb only if the next stop is not assignKeyword
-            if(selectedTagOption.LayerNr != 2) AddBreadcrumb(tagDM, selectedTagOption);
+            if (keywordType != KeywordTypes.Attribute && selectedTagOption.LayerNr != 2)
+                AddBreadcrumb(tagDm, selectedTagOption);
+            else if (keywordType == KeywordTypes.Attribute && selectedTagOption.LayerNr != 3)
+                AddBreadcrumb(tagDm, selectedTagOption);
 
             // remove previously shown infos
             _infoWorker.RemoveTagInfo(tagId);
 
-            UpdateActiveLayerNumber(tagDM, tagDM.Tag.CurrentLayerNr + 1);
+            UpdateActiveLayerNumber(tagDm, tagDm.Tag.CurrentLayerNr + 1);
 
-            switch (tagDM.Tag.CurrentLayerNr)
+            switch (tagDm.Tag.CurrentLayerNr)
             {
                 case 1: // ---layer 1---
                 {
                     if (keywordType == KeywordTypes.Artist || keywordType == KeywordTypes.Title)
                     {
                         // init selected keyword of tag and set its type
-                        tagDM.Tag.AssignedKeyword = _tagFactory.CreateKeyword(selectedTagOption.Keyword.Name, selectedTagOption.Keyword.Type);
-                        tagDM.InputTerms = "";
+                        tagDm.Tag.AssignedKeyword = _tagFactory.CreateKeyword(selectedTagOption.Keyword.Name, selectedTagOption.Keyword.Type);
+                        tagDm.InputTerms = "";
 
-                        SetIsInputVisible(tagDM, true);
+                        SetIsInputVisible(tagDm, true, keywordType.ToString());
 
-                        if (keywordType == KeywordTypes.Artist) tagDM.BackgrImageSource = CommonVal.ImageSource_TagBackgrArtist;
-                        if (keywordType == KeywordTypes.Title) tagDM.BackgrImageSource  = CommonVal.ImageSource_TagBackgrTitle;
+                        if (keywordType == KeywordTypes.Artist) tagDm.BackgrImageSource = CommonVal.ImageSource_TagBackgrArtist;
+                        if (keywordType == KeywordTypes.Title) tagDm.BackgrImageSource  = CommonVal.ImageSource_TagBackgrTitle;
                     }
                     else if (keywordType == KeywordTypes.Genre)
                     {   // load top genres
@@ -162,25 +165,25 @@ namespace Ctms.Applications.Workers
                         {
                             var keyword = _tagFactory.CreateKeyword(genre.genre_name, KeywordTypes.Genre);
 
-                            var genreOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
+                            var genreOption = _tagFactory.CreateTagOption(keyword, tagDm.Tag.CurrentLayerNr);
 
-                            tagDM.Tag.TagOptions.Add(genreOption);
+                            tagDm.Tag.TagOptions.Add(genreOption);
                         }
 
-                        tagDM.BackgrImageSource = CommonVal.ImageSource_TagBackgrGenre;
+                        tagDm.BackgrImageSource = CommonVal.ImageSource_TagBackgrGenre;
                     }
                     else if (keywordType == KeywordTypes.Attribute)
                     {   // load attributes
-                        var artistTagOption = _tagFactory.CreateTagOption(AttributeTypes.Artist.ToString(), KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
-                        var titleTagOption = _tagFactory.CreateTagOption(AttributeTypes.Title.ToString(), KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
+                        var artistTagOption = _tagFactory.CreateTagOption(AttributeTypes.Artist.ToString(), KeywordTypes.Attribute, tagDm.Tag.CurrentLayerNr);
+                        var titleTagOption = _tagFactory.CreateTagOption(AttributeTypes.Title.ToString(), KeywordTypes.Attribute, tagDm.Tag.CurrentLayerNr);
 
-                        tagDM.Tag.TagOptions.Add(artistTagOption);
-                        tagDM.Tag.TagOptions.Add(titleTagOption);
+                        tagDm.Tag.TagOptions.Add(artistTagOption);
+                        tagDm.Tag.TagOptions.Add(titleTagOption);
 
-                        tagDM.BackgrImageSource = CommonVal.ImageSource_TagBackgrAttribute;
+                        tagDm.BackgrImageSource = CommonVal.ImageSource_TagBackgrAttribute;
                     }
 
-                    SetKeywordTypesIsVisible(tagDM, false);
+                    SetKeywordTypesIsVisible(tagDm, false);
 
                     break;
                 }
@@ -197,9 +200,9 @@ namespace Ctms.Applications.Workers
                         {
                             var keyword = _tagFactory.CreateKeyword(subGenre.name, KeywordTypes.Genre);
 
-                            var genreOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
+                            var genreOption = _tagFactory.CreateTagOption(keyword, tagDm.Tag.CurrentLayerNr);
 
-                            tagDM.Tag.TagOptions.Add(genreOption);
+                            tagDm.Tag.TagOptions.Add(genreOption);
                         }
                     }
                     else if (keywordType == KeywordTypes.Attribute)
@@ -209,17 +212,17 @@ namespace Ctms.Applications.Workers
                         var attributes = _searchManager.getCombinedSearchAttributes(attributeType);
                         foreach (var attribute in attributes)
                         {
-                            var tagOption = _tagFactory.CreateTagOption(attribute.Value.description, KeywordTypes.Attribute, tagDM.Tag.CurrentLayerNr);
+                            var tagOption = _tagFactory.CreateTagOption(attribute.Value.description, KeywordTypes.Attribute, tagDm.Tag.CurrentLayerNr);
                             tagOption.Keyword.Key = attribute.Key;
                             if (tagOption.Keyword.Key == null) 
                             { 
                             }
                             tagOption.Keyword.AttributeType = attributeType;
-                            tagDM.Tag.TagOptions.Add(tagOption);
+                            tagDm.Tag.TagOptions.Add(tagOption);
                         }
                     }
 
-                    SetIsKeywordVisible(tagDM, false);
+                    SetIsKeywordVisible(tagDm, false);
 
                     break;
                 }
@@ -227,18 +230,19 @@ namespace Ctms.Applications.Workers
                 {
                     if (keywordType == KeywordTypes.Attribute)
                     {
-                        tagDM.Tag.AssignedKeyword = selectedTagOption.Keyword;
+                        tagDm.Tag.AssignedKeyword = selectedTagOption.Keyword;
                         
-                        SetIsInputVisible(tagDM, true);
-                        SetIsInputControlVisible(tagDM, true);
-                        SetIsMenuVisible(tagDM, false, true);
+                        SetIsInputVisible(tagDm, true, tagDm.Tag.AssignedKeyword.Name);
+                        SetIsInputControlVisible(tagDm, true);
+                        SetIsMenuVisible(tagDm, false, true);
 
                         // get assigned attribute obj
-                        var attribute = GetAttributeObj(tagDM.Tag.AssignedKeyword);
+                        var attribute = GetAttributeObj(tagDm.Tag.AssignedKeyword);
 
                         // set default value
-                        if (attribute.option1 != null) tagDM.InputTerms = attribute.option1;
-                        else tagDM.InputTerms = attribute.min.ToString();
+                        if (attribute.option1 != null) tagDm.InputTerms = attribute.option1;
+                        else tagDm.InputTerms = attribute.min.ToString();
+
 
                         if (attribute != null)
                         {
@@ -247,13 +251,13 @@ namespace Ctms.Applications.Workers
                     }
                     else
                     {
-                        AssignKeyword(tagDM, selectedTagOption);
+                        AssignKeyword(tagDm, selectedTagOption);
                     }
                     break;
                 }
             }
             // update menu
-            _searchVM.UpdateVisuals(tagDM);
+            _searchVM.UpdateVisuals(tagDm);
         }
 
         public AttributeObj GetAttributeObj(Keyword keyword)
@@ -656,6 +660,9 @@ namespace Ctms.Applications.Workers
             RemovePreviousBreadcrumbs(tagDM);
             RemovePreviousOptions(tagDM);
 
+            SetIsInputVisible(tagDM, false);
+            SetIsInputControlVisible(tagDM, false);
+
             //_searchVM.UpdateVisuals(tag);
             SelectOption(breadcrumbOption.Id);
         }
@@ -728,9 +735,11 @@ namespace Ctms.Applications.Workers
             SetIsMenuVisible(tagDM, !isKeywordTypeVisible);
         }
 
-        private void SetIsInputVisible(TagDataModel tagDM, bool visibility)
+        private void SetIsInputVisible(TagDataModel tagDM, bool visibility, string inputTypeHint = null)
         {
             tagDM.IsInputVisible = visibility;
+
+            tagDM.InputTypeHint = inputTypeHint != null ? inputTypeHint : "";
         }
 
         private void SetIsInputControlVisible(TagDataModel tagDM, bool visibility)

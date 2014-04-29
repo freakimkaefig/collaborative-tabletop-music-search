@@ -91,10 +91,10 @@ namespace Ctms.Applications.Workers
                                 Console.WriteLine("CreateTagCombi");
                                 combiWithMovedTag = CreateTagCombi(movedTag, compareTag, possibleCombiType);
 
+                                SetCenter(combiWithMovedTag);
+
                                 _repository.AddTagCombination(combiWithMovedTag);
 
-                                // update calculation of center
-                                UpdateCenter(combiWithMovedTag.Tags);
                             }
                             else
                             {   // a combi with the tag to compare is existing -> add
@@ -142,6 +142,14 @@ namespace Ctms.Applications.Workers
                     UpdateCenter(combiWithMovedTag.Tags);
                 }
             }
+        }
+
+        private void SetCenter(TagCombinationDataModel combiWithMovedTag)
+        {
+            // update calculation of center
+            var centerPoint = UpdateCenter(combiWithMovedTag.Tags);
+            combiWithMovedTag.CenterX = centerPoint.X;
+            combiWithMovedTag.CenterY = centerPoint.Y;
         }
 
         /// <summary>

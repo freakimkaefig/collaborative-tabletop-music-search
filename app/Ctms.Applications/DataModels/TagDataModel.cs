@@ -38,6 +38,7 @@ namespace Ctms.Applications.DataModels
         private float _confirmCircleOpacity;
         private bool _isInputControlVisible;
         private bool _isCircleMenuVisible;
+        private string _inputTypeHint;
 
         public TagDataModel(Tag tag)
         {
@@ -360,6 +361,22 @@ namespace Ctms.Applications.DataModels
                 {
                     _confirmCircleOpacity = value;
                     RaisePropertyChanged("ConfirmCircleOpacity");
+                }
+            }
+        }
+
+        public string InputTypeHint
+        {
+            get
+            {
+                return _inputTypeHint;
+            }
+            set
+            {
+                if (_inputTypeHint != value)
+                {
+                    _inputTypeHint = value;
+                    RaisePropertyChanged("InputTypeHint");
                 }
             }
         }

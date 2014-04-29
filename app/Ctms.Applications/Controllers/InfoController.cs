@@ -38,7 +38,9 @@ namespace Ctms.Applications.Controllers
         //ViewModels
         private InfoViewModel _infoVm;
         //Commands
+        private readonly DelegateCommand _confirmCommonInfoCmd;
         private readonly DelegateCommand _confirmTagInfoCmd;
+        private readonly DelegateCommand _confirmTutorialInfoCmd;
         //Further vars
         private Repository _repository;
         private InfoWorker _infoWorker;
@@ -57,7 +59,9 @@ namespace Ctms.Applications.Controllers
             _infoVm         = infoViewModel;
             _infoWorker     = infoWorker;
             //Commands
-            _confirmTagInfoCmd = new DelegateCommand((tagId) => _infoWorker.ConfirmTagInfo((int)tagId));
+            _confirmCommonInfoCmd   = new DelegateCommand((infoId) => _infoWorker.ConfirmCommonInfo((int)infoId));
+            _confirmTagInfoCmd      = new DelegateCommand((tagId) => _infoWorker.ConfirmTagInfo((int)tagId));
+            _confirmTutorialInfoCmd = new DelegateCommand((infoId) => _infoWorker.ConfirmTutorialInfo((int)infoId));
             //Further vars
             _repository = repository;
         }
