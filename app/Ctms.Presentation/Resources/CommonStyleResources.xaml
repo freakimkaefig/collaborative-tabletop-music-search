@@ -14,8 +14,8 @@
     -->
     
     <!--Common color definitions-->
-    <SolidColorBrush x:Key="DefaultTextBrush" Color="#fff"/>
-    <SolidColorBrush x:Key="DefaultForegroundBrush" Color="#fff"/>
+    <SolidColorBrush x:Key="DefaultTextBrush" Color="#ddd"/>
+    <SolidColorBrush x:Key="DefaultForegroundBrush" Color="#ddd"/>
     <!--<FontFamily x:Key="DefaultFontFamily">Cambria</FontFamily>-->
     <!--<Color x:Key="123">#AABBCC</Color>
     <Color x:Key="ActiveTestRowBrushColor">#04859E</Color>-->
@@ -35,11 +35,11 @@
     <Style TargetType="Grid" BasedOn="{StaticResource CommonStyle}">
     </Style>
     <Style TargetType="Button" BasedOn="{StaticResource CommonStyle}">
-        <Setter Property="Foreground" Value="#fff" />
+        <Setter Property="Foreground" Value="#ddd" />
         <Setter Property="Background" Value="#222" />
     </Style>
     <Style TargetType="s:SurfaceButton" BasedOn="{StaticResource CommonStyle}">
-        <Setter Property="Foreground" Value="#fff" />
+        <Setter Property="Foreground" Value="#ddd" />
         <Setter Property="Background" Value="#222" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -48,11 +48,11 @@
         <Setter Property="Foreground" Value="{StaticResource DefaultTextBrush}" />
     </Style>
     <Style TargetType="TextBlock" BasedOn="{StaticResource CommonStyle}">
-        <Setter Property="Foreground" Value="#fff" />
+        <Setter Property="Foreground" Value="#ddd" />
     </Style>  
     <Style TargetType="TextBox">
-        <Setter Property="Foreground" Value="#fff"/>
-        <Setter Property="Background" Value="#555"/>
+        <Setter Property="Foreground" Value="#ddd"/>
+        <Setter Property="Background" Value="#222"/>
     </Style>
 
     <!--Key styles-->
