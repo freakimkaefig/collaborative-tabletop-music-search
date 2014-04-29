@@ -214,7 +214,7 @@ namespace MusicStream
 
                 if (track != null)
                 {
-                    if (Track.GetAvailability(_session, track) == TrackAvailability.Available && Track.GetPlayable(_session, track) != null)
+                    if (Track.GetAvailability(_session, track) == TrackAvailability.Available || Track.GetPlayable(_session, track) != null)
                     {
                         return Track.GetPlayable(_session, track);
                     }

@@ -114,11 +114,7 @@
             <s:SurfaceButton Command="{Binding RepeatCommand}" Content="{Binding IsRepeat}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="38" Margin="0,66,16,0"/>
 			<Label Content="DETAILVIEW kommt hier her" Grid.Column="1" Margin="296,288,232,504"/>
             <!--<TextBox x:Name="textBox" Width="300" Height="500" Grid.Column="1"/>-->
-            <s:SurfaceButton Grid.Column="1" HorizontalAlignment="Left" Margin="8,24,0,0" VerticalAlignment="Top" Command="{Binding RotateCommand}">
-                <s:SurfaceButton.Background>
-                    <ImageBrush ImageSource="../Resources/Images/Playlist/rotate-icon.png" Opacity="1.0"/>
-                </s:SurfaceButton.Background>
-            </s:SurfaceButton>
+            <s:SurfaceButton Grid.Column="1" HorizontalAlignment="Left" Margin="8,24,0,0" VerticalAlignment="Top" Command="{Binding RotateCommand}" Background="{StaticResource ResourceKey=rotate}" />
             <Label Content="Shuffle" HorizontalAlignment="Right" Height="24" Margin="0,38,96,0" VerticalAlignment="Top" Width="64"/>
             <Label Content="Repeat" HorizontalAlignment="Right" Height="24" Margin="0,38,16,0" VerticalAlignment="Top" Width="64"/>
             <s:SurfaceButton Name="TrashBin" VerticalAlignment="Bottom" Visibility="{Binding TrashVisible, Converter={x:Static c:BoolToVisibilityConverter.Default}}"
@@ -127,7 +123,7 @@
         	                 s:SurfaceDragDrop.DragLeave="PlaylistRemoveDropTarget_DragLeave"
         	                 s:SurfaceDragDrop.Drop="PlaylistRemoveDropTarget_Drop">
                 <s:SurfaceButton.Background>
-                    <ImageBrush ImageSource="../Resources/Images/Playlist/trash.png" Opacity="1.0"/>
+                    <ImageBrush ImageSource="../Resources/Images/Playlist/trash.png" Stretch="Uniform" Opacity="1.0"/>
                 </s:SurfaceButton.Background>
             </s:SurfaceButton>
         </Grid>
@@ -138,10 +134,7 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
-        <s:SurfaceButton Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="120">
-            <s:SurfaceButton.Background>
-                <ImageBrush ImageSource="../Resources/Images/Playlist/playlist-right.png"/>
-            </s:SurfaceButton.Background>
+        <s:SurfaceButton Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="120" Background="{StaticResource ResourceKey=playlist}">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<ei:GoToStateAction StateName="PlaylistViewVisible"/>
@@ -152,10 +145,7 @@
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
         <Image Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="0" Margin="0,0,110,0"/>
-        <s:SurfaceButton Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="120">
-            <s:SurfaceButton.Background>
-                <ImageBrush ImageSource="../Resources/Images/Playlist/playlist-left.png"/>
-            </s:SurfaceButton.Background>
+        <s:SurfaceButton Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="120" Background="{StaticResource ResourceKey=playlist}">
             <i:Interaction.Triggers>
         		<i:EventTrigger EventName="Click">
         			<ei:GoToStateAction StateName="PlaylistViewVisible"/>

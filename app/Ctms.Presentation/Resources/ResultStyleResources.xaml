@@ -22,7 +22,7 @@
         <Setter Property="Foreground" Value="#0fc" />
     </Style>-->
     <DataTemplate x:Key="ScatterViewItemDataTemplate">
-        <ContentControl Width="{Binding Width}" Height="{Binding Height}" MinWidth="200" MinHeight="150" MaxWidth="600" MaxHeight="600">
+        <ContentControl Width="{Binding Width}" Height="{Binding Height}" MinWidth="150" MinHeight="100" MaxWidth="600" MaxHeight="600">
             <Grid Name="ResultWrapper" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto">
                 <Grid Name="ResultGrid" Margin="0,0,0,0" Visibility="{Binding IsDetail, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}"
                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -33,8 +33,8 @@
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock FontSize="14" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" Background="#222" TextAlignment="Center" Grid.Row="0" Foreground="White" Text="{Binding Result.Song.Title}" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock FontSize="12" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0" Background="#222" TextAlignment="Center" Grid.Row="1" Foreground="White" Text="{Binding Result.Song.ArtistName}" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock FontSize="14" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0" Background="#222" TextAlignment="Center" Grid.Row="0" Foreground="White" Text="{Binding Result.Song.Title}" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock FontSize="12" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0" Background="#222" TextAlignment="Center" Grid.Row="1" Foreground="White" Text="{Binding Result.Song.ArtistName}" TextTrimming="CharacterEllipsis"/>
                     <UniformGrid Grid.Row="2" Rows="1" Columns="3">
                         <Viewbox Stretch="Fill">
                             <Rectangle Fill="Blue" MinHeight="15" MinWidth="0.5"></Rectangle>
@@ -48,12 +48,12 @@
                     </UniformGrid>
                     <Label Content="Loading" Visibility="{Binding IsLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Row="3" Grid.Column="0" />
                     <Label Content="Playing" Visibility="{Binding IsPlaying, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Row="3" Grid.Column="1"/>
-                    <TextBlock FontSize="12" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" Background="#222" TextAlignment="Center" Grid.Row="3" Foreground="White" RenderTransformOrigin="0.5, 0.5" Text="{Binding Result.Song.ArtistName}" TextTrimming="CharacterEllipsis">
+                    <TextBlock FontSize="12" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0" Background="#222" TextAlignment="Center" Grid.Row="3" Foreground="White" RenderTransformOrigin="0.5, 0.5" Text="{Binding Result.Song.ArtistName}" TextTrimming="CharacterEllipsis">
                     <TextBlock.RenderTransform>
                         <RotateTransform Angle="180"/>
                     </TextBlock.RenderTransform>
                     </TextBlock>
-                    <TextBlock FontSize="14" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" Background="#222" TextAlignment="Center" RenderTransformOrigin="0.5, 0.5" Grid.Row="4" Foreground="White" Text="{Binding Result.Song.Title}" TextTrimming="CharacterEllipsis">
+                    <TextBlock FontSize="14" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0" Background="#222" TextAlignment="Center" RenderTransformOrigin="0.5, 0.5" Grid.Row="4" Foreground="White" Text="{Binding Result.Song.Title}" TextTrimming="CharacterEllipsis">
                     <TextBlock.RenderTransform>
                         <RotateTransform Angle="180"/>
                     </TextBlock.RenderTransform>
@@ -74,7 +74,8 @@
     </DataTemplate>
     
     <Style TargetType="{x:Type s:ScatterViewItem}">
-        
+        <Setter Property="Background" Value="#222" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
     
     <DataTemplate x:Key="TagInfluences">
