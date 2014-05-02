@@ -56,47 +56,47 @@
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft4" HorizontalAlignment="Center" Margin="575,0,1055,0" Width="47" Height="{Binding Fft4Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft4" HorizontalAlignment="Center" Margin="575,0,1055,0" Width="47" Height="{Binding Fft4Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft5" HorizontalAlignment="Center" Margin="635,0,995,0" Width="47" Height="{Binding Fft5Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft5" HorizontalAlignment="Center" Margin="635,0,995,0" Width="47" Height="{Binding Fft5Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft6" HorizontalAlignment="Center" Margin="695,0,935,0" Width="47" Height="{Binding Fft6Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft6" HorizontalAlignment="Center" Margin="695,0,935,0" Width="47" Height="{Binding Fft6Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft7" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="#FF00E2FF" VerticalAlignment="Center" HorizontalAlignment="Center" Width="47" Opacity="0.75">
+            <Rectangle x:Name="Fft7" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" HorizontalAlignment="Center" Width="47" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft8" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="#FF00E2FF" VerticalAlignment="Center" Width="47" HorizontalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft8" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Width="47" HorizontalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft9" Margin="875,0,755,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft9Value}" Fill="#FF00E2FF" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft9" Margin="875,0,755,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft9Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft10" Margin="935,0,695,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft10Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft10" Margin="935,0,695,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft10Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft11" Margin="995,0,635,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft11Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft11" Margin="995,0,635,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft11Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
             </Rectangle>
-            <Rectangle x:Name="Fft12" Margin="1055,0,575,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft12Value}" Fill="#FF43CBE5" VerticalAlignment="Center" Opacity="0.75">
+            <Rectangle x:Name="Fft12" Margin="1055,0,575,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft12Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
             	<Rectangle.Effect>
             		<BlurEffect Radius="15"/>
             	</Rectangle.Effect>
