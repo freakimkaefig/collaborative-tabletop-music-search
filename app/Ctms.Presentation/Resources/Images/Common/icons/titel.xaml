@@ -4,32 +4,32 @@
 		<DrawingBrush.Drawing>
 			<DrawingGroup>
 				<DrawingGroup.Children>
-					<GeometryDrawing Brush="#FF000000" Geometry="F1 M 477.843,393.988L 2.87393,449.894">
+					<GeometryDrawing Geometry="F1 M 576.653,396.655L 5.58254,452.56">
 						<GeometryDrawing.Pen>
-							<Pen Thickness="5.33334" MiterLimit="2.75" Brush="#FF010303"/>
+							<Pen Thickness="10.6667" MiterLimit="2.75" Brush="#80ADADAC"/>
 						</GeometryDrawing.Pen>
 					</GeometryDrawing>
-					<GeometryDrawing Brush="#FF000000" Geometry="F1 M 479.637,295.452L 3.88097,359.069">
+					<GeometryDrawing Geometry="F1 M 578.811,298.118L 6.79334,361.736">
 						<GeometryDrawing.Pen>
-							<Pen Thickness="5.33334" MiterLimit="2.75" Brush="#FF010303"/>
+							<Pen Thickness="10.6667" MiterLimit="2.75" Brush="#80ADADAC"/>
 						</GeometryDrawing.Pen>
 					</GeometryDrawing>
-					<GeometryDrawing Brush="#FF000000" Geometry="F1 M 480.509,198.827L 3.05724,264.467">
+					<GeometryDrawing Geometry="F1 M 579.859,201.493L 5.80294,267.133">
 						<GeometryDrawing.Pen>
-							<Pen Thickness="5.33334" MiterLimit="2.75" Brush="#FF010303"/>
+							<Pen Thickness="10.6667" MiterLimit="2.75" Brush="#80ADADAC"/>
 						</GeometryDrawing.Pen>
 					</GeometryDrawing>
-					<GeometryDrawing Brush="#FF000000" Geometry="F1 M 481.333,98.9336L 3.70055,166.338">
+					<GeometryDrawing Geometry="F1 M 580.85,101.6L 6.5764,169.004">
 						<GeometryDrawing.Pen>
-							<Pen Thickness="5.33334" MiterLimit="2.75" Brush="#FF010303"/>
+							<Pen Thickness="10.6667" MiterLimit="2.75" Brush="#80ADADAC"/>
 						</GeometryDrawing.Pen>
 					</GeometryDrawing>
-					<GeometryDrawing Brush="#FF000000" Geometry="F1 M 480.932,2.66666L 2.66666,76.248">
+					<GeometryDrawing Geometry="F1 M 580.367,5.33331L 5.33334,78.9146">
 						<GeometryDrawing.Pen>
-							<Pen Thickness="5.33334" MiterLimit="2.75" Brush="#FF010303"/>
+							<Pen Thickness="10.6667" MiterLimit="2.75" Brush="#80ADADAC"/>
 						</GeometryDrawing.Pen>
 					</GeometryDrawing>
-					<GeometryDrawing Brush="#FF575756" Geometry="F1 M 61.6548,397.143C 72.8711,439.58 123.701,431.531 123.701,431.531C 154.574,424.896 171.141,396.453 171.141,396.453C 171.141,396.453 166.549,178.79 169.721,171.042C 172.892,163.293 353.116,145.412 353.116,145.412C 357.75,165.349 358.748,323.781 354.285,330.894C 350.051,337.642 335.543,320.707 312.366,322.141C 312.366,322.141 263.48,332.11 259.203,368.848C 256.87,407.507 309.053,409.754 309.053,409.754C 358.619,405.578 367.405,368.811 367.405,368.811C 367.405,368.811 371.558,107.941 365.721,101.537C 359.884,95.1331 166.188,121.471 159.784,127.308C 153.381,133.145 164.441,355.276 157.368,357.253C 150.296,359.229 147.003,347.657 106.437,349.201C 65.871,350.744 61.6548,397.143 61.6548,397.143 Z "/>
+					<GeometryDrawing Brush="#80696969" Geometry="F1 M 106.307,394.6C 117.64,438.6 170.307,430.6 170.307,430.6C 202.307,423.934 230.307,394.6 230.307,394.6C 230.307,394.6 226.973,169.267 230.307,161.267C 233.64,153.267 405.64,131.934 405.64,131.934C 410.307,152.6 410.307,316.6 405.64,323.934C 401.213,330.891 390.307,317.267 366.307,318.6C 366.307,318.6 315.64,328.6 310.973,366.6C 308.307,406.6 362.307,409.267 362.307,409.267C 413.64,405.267 426.973,367.267 426.973,367.267C 426.973,367.267 432.973,97.2669 426.973,90.6003C 420.973,83.9336 216.307,109.934 209.64,115.934C 202.973,121.934 212.973,351.934 205.64,353.934C 198.307,355.934 194.973,343.934 152.973,345.267C 110.973,346.6 106.307,394.6 106.307,394.6 Z "/>
 				</DrawingGroup.Children>
 			</DrawingGroup>
 		</DrawingBrush.Drawing>
