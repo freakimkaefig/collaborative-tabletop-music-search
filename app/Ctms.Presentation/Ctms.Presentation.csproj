@@ -416,6 +416,10 @@
     <Resource Include="Resources\Images\Search\genreTangible2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\Common\subwoofer_background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Resources\Images\Search\tag-brackgr.png" />
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>

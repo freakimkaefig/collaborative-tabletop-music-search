@@ -38,10 +38,10 @@ namespace Ctms.Applications.Common
         public static string Path_ApplicationsFilesPath { get; set; }
         public static string Path_ViewsPath             { get; set; }
 
-        public static string ImageSource_TagBackgrArtist    = "../Resources/Images/Search/genreTangible2.png";
-        public static string ImageSource_TagBackgrTitle     = "../Resources/Images/Search/genreTangible2.png";
-        public static string ImageSource_TagBackgrAttribute = "../Resources/Images/Search/genreTangible2.png";
-        public static string ImageSource_TagBackgrGenre     = "../Resources/Images/Search/genreTangible2.png";
+        public static string ImageSource_TagBackgrArtist = "../Resources/Images/Search/tag-brackgr.png";
+        public static string ImageSource_TagBackgrTitle = "../Resources/Images/Search/tag-brackgr.png";
+        public static string ImageSource_TagBackgrAttribute = "../Resources/Images/Search/tag-brackgr.png";
+        public static string ImageSource_TagBackgrGenre = "../Resources/Images/Search/tag-brackgr.png";
 
         public static Dictionary<int, string> TagColors = new Dictionary<int, string>()
         {
