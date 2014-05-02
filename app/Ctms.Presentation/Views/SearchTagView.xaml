@@ -121,7 +121,6 @@
                     RotateText="True"
                     RotateTextAngle="0"
                     Rotation="150"
-                    MenuSector="240"
                     Background="Transparent"
                     Grid.Row="0"
                     Grid.Column="0"
@@ -131,7 +130,7 @@
                                         Command="" Background="#0000" />
                 </ps:PieMenu>
 
-                <ps:PieMenu 
+                <!--<ps:PieMenu 
                     x:Name="PieMenuMain"
                     Canvas.Left="100"
                     Canvas.Top="100"
@@ -148,11 +147,11 @@
                     Background="Transparent"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Visibility="{DynamicResource IsMenuVisible}">
+                    Visibility="{DynamicResource IsMenuVisible}">-->
                     <!-- placeholder item for correct calculation of PieMenuItem size -->
-                    <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
+                    <!--<ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
                                         Command="" Background="#0000"/>
-                </ps:PieMenu>
+                </ps:PieMenu>-->
                 <!--End PieMenu with tag options-->
                 
                 <Label  

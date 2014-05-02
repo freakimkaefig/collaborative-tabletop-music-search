@@ -200,15 +200,15 @@ namespace Ctms.Presentation.Views
         public void UpdateMenuItems(int tagId)
         {
             var pieMenu = SearchTagViews[tagId].PieMenu;
-            var pieMenuMain = SearchTagViews[tagId].PieMenuMain;
+            //var pieMenuMain = SearchTagViews[tagId].PieMenuMain;
             var tagDM = _viewModel.Tags[tagId];
 
             var pieMenuItems    = (ItemCollection)pieMenu.Items;
-            var pieMenuMainItem = (ItemCollection)pieMenuMain.Items;
+            //var pieMenuMainItem = (ItemCollection)pieMenuMain.Items;
 
             // remove inserted items (when initializing this is the placeholder item)
             pieMenuItems.Clear();
-            pieMenuMainItem.Clear();
+            //pieMenuMainItem.Clear();
 
             var options = tagDM.VisibleOptions;
 
@@ -294,18 +294,18 @@ namespace Ctms.Presentation.Views
                 commandBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 pieMenuItem.SetBinding(PieMenuItem.CommandProperty, commandBinding);
 
-                if (i == 0)
+                //if (i == 0)
                 {   // Add item to main pie menu with one big option
-                    pieMenuMain.Items.Add(pieMenuItem);
+                    //pieMenuMain.Items.Add(pieMenuItem);
                 }
-                else
+                //else
                 {   // add item to pie menu with multiple small options
                     pieMenu.Items.Add(pieMenuItem);
                 }
             }
 
             pieMenu.InvalidateVisual();
-            pieMenuMain.InvalidateVisual();
+            //pieMenuMain.InvalidateVisual();
         }
 
         private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
