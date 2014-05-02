@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:c="clr-namespace:Ctms.Presentation.Converters"
+    xmlns:gif="http://wpfanimatedgif.codeplex.com"
     mc:Ignorable="d"
     WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"> <!--Topmost="True">-->
 
@@ -21,12 +22,17 @@
             </RadialGradientBrush.GradientStops>
         </RadialGradientBrush>-->
         <ImageBrush ImageSource="../Resources/Images/Common/icons/subwoofer_background3.png"/>
+        
     </Window.Background>
     
     <Grid Margin="0,0,0,0" Name="ShellGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+        
+        <!--<Image gif:ImageBehavior.AnimatedSource="../Resources/Images/Common/icons/subwoofer_background2.gif" 
+            Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top"
+               />-->
 
         <ContentControl Content="{Binding ShellService.SearchView}" Grid.Column="0"/>
         <ContentControl Content="{Binding ShellService.ResultView}" Grid.Column="0"/>

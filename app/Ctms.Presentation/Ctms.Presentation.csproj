@@ -81,6 +81,7 @@
     </None>
     <DesignTimeOnly Include="DataStore\DataStore\DataStore.xsd" />
     <None Include="Ctms.Presentation_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -345,6 +346,9 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="WpfAnimatedGif">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.4\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ctms.Applications\Ctms.Applications.csproj">
@@ -428,7 +432,12 @@
     <Resource Include="Resources\Images\Common\icons\subwoofer_background3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Resources\Images\Search\tag-brackgr.png" />
+    <Resource Include="Resources\Images\Common\icons\subwoofer_background2.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Search\tag-backgr.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>

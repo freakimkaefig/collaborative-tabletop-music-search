@@ -68,6 +68,8 @@
             </Ellipse.Effect>
         </Ellipse>
 
+        
+
         <!-- Start menu -->
         <Grid>
             <Grid.RowDefinitions>
@@ -347,7 +349,16 @@
         <!-- End menu -->
 
         <!--<ScrollViewer Name="SearchTagViewLog" Content="{Binding SearchTagViewLog}" Height="80" Width="400" ></ScrollViewer>-->
-
+        <Ellipse Width="60" Height="60" 
+                 Stroke="#0f0" 
+                 StrokeThickness="5" 
+                 Fill="Transparent" 
+                 Opacity="1.0">
+            <!--StrokeDashArray="0.5 1.0 0.3">-->
+            <Ellipse.Effect>
+                <BlurEffect Radius="5"/>
+            </Ellipse.Effect>
+        </Ellipse>
     </Grid>
     <!--End Surrounding Tag grid-->
 </s:TagVisualization>
