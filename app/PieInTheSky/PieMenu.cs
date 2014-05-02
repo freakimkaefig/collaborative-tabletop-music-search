@@ -582,51 +582,19 @@ namespace PieInTheSky
                 }
                 
                 //var background_brush = Brushes.Transparent;
-                var border_brush = Brushes.Gray;
-
-                //Brush border_brush = menu_item.BorderBrush;
-                //if (border_brush == null) border_brush = this.BorderBrush;
+                //var border_brush = (Brush)(new BrushConverter().ConvertFrom("#171815"));
+                var border_brush = menu_item.BorderBrush;
 
                 // Draw the geometry representing the menu item
                 drawingContext.DrawGeometry(background_brush, new Pen(border_brush, menu_item.BorderThickness.Left), geometry);
 
                 // Get header of menu item as string and make a formatted text based on properties of menu item
-                //var header      = ((String)menu_item.Keyword.Name);
-                //var subHeader   = ((String) menu_item.Keyword.Description);
-
                 var header = ((String)menu_item.Header);
                 var subHeader = ((String)menu_item.SubHeader);
 
                 header      = header == null ? "" : header;
                 subHeader   = subHeader == null ? "" : subHeader;
-                /*
-                var fontFamiliy = new FontFamily("Arial");
-                var fontStyle   = new FontStyle();
-                var fontWeight  = new FontWeight();
-                var fontStretch = new FontStretch();
-                var fontSize    = pieMenuItem.FontSize;
-                var foreground  = brush;
-
-                // add line break
-                var itemText = header + Environment.NewLine + subHeader;
-
-                //if(header == null || subHeader == null) continue;
-                FormattedText headerText = new FormattedText(header,
-                                CultureInfo.CurrentCulture,
-                                FlowDirection.LeftToRight,
-                                new Typeface(fontFamiliy, fontStyle, fontWeight, fontStretch),
-                                fontSize,
-                                foreground);
-
-                FormattedText subHeaderText = new FormattedText(subHeader,
-                                CultureInfo.CurrentCulture,
-                                FlowDirection.LeftToRight,
-                                new Typeface(fontFamiliy, fontStyle, fontWeight, fontStretch),
-                                fontSize,
-                                foreground);
-                */
-                ///*
-                //if(header == null || subHeader == null) continue;
+                
                 FormattedText headerText = new FormattedText(header,
                                 CultureInfo.CurrentCulture,
                                 FlowDirection.LeftToRight,
@@ -640,14 +608,7 @@ namespace PieInTheSky
                                 new Typeface(menu_item.FontFamily, menu_item.FontStyle, menu_item.FontWeight, menu_item.FontStretch),
                                 menu_item.FontSize,
                                 menu_item.Foreground);
-                /*
-                FormattedText headerShadow = new FormattedText(header,
-                                CultureInfo.CurrentCulture,
-                                FlowDirection.LeftToRight,
-                                new Typeface(menu_item.FontFamily, menu_item.FontStyle, menu_item.FontWeight, menu_item.FontStretch),
-                                menu_item.FontSize + 2,
-                                Brushes.Black);
-                */
+
                 var boxLength = 0.0;
                 if (RotateTextAngle == -90.0 || RotateTextAngle == 270.0)
                 {   // text is displayed viewing away from the center
@@ -663,11 +624,7 @@ namespace PieInTheSky
                 headerText.MaxTextWidth = boxLength;
                 headerText.MaxTextHeight = menu_item.FontSize + 10;
                 headerText.Trimming = TextTrimming.CharacterEllipsis;
-                /*
-                headerShadow.MaxTextWidth = boxLength;
-                headerShadow.MaxTextHeight = menu_item.FontSize + 10;
-                headerShadow.Trimming = TextTrimming.CharacterEllipsis;
-                */
+
                 subHeaderText.MaxTextWidth = boxLength;
                 subHeaderText.MaxTextHeight = menu_item.FontSize + 10;
                 subHeaderText.Trimming = TextTrimming.CharacterEllipsis;
@@ -676,9 +633,7 @@ namespace PieInTheSky
                 var innerMargin  = 0.0;
 
                 var headerTextPosX = 0.0;
-                //var headerTextPosX = center.X - headerText.Width;
                 var subTextPosX = 0.0;
-                //var subTextPosX = center.X - subHeaderText.Width;
 
                 if (menu_item.CenterTextVertically == true)
                 {
@@ -708,108 +663,11 @@ namespace PieInTheSky
                 if (this.RotateTextAngle != 90.0) defaultTextRotation = this.RotateTextAngle;
 
                 if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + defaultTextRotation, center.X, center.Y));
-                //drawingContext.DrawText(headerShadow, headerTextPoint);
                 drawingContext.DrawText(headerText, headerTextPoint);
                 drawingContext.DrawText(subHeaderText, subTextPoint);
                 if (this.RotateText) drawingContext.Pop();
             }
-        }
-
-        //!! Not used right now
-        private void DrawRectanglePart(ItemsControl items_control, int level, double width, double height, double sector, DrawingContext drawingContext)
-        {
-            // Create a blue and a black Brush
-            SolidColorBrush backgrBrush = new SolidColorBrush();
-            backgrBrush.Color = Color.FromArgb(0, 255, 255, 255);
-            SolidColorBrush borderBrush = new SolidColorBrush();
-            borderBrush.Color = Colors.White;
-
-            var fontBrush = new SolidColorBrush();
-            fontBrush.Color = Colors.White;
-
-            //new ImageBrush(new Uri(@"Resources/Images/Searh/basic-texture.png", UriKind.Absolute));
-            /*
-            var imageBrush = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri(@"C:/Git/Uni/CTMS/ASE/app/Ctms.Presentation/Resources/Images/Search/record.png", UriKind.Absolute))
-            };
-            */
-            //var rect = new System.Windows.Rect();
-            var rect = new Rect();
-            rect.X = 0;
-            rect.Y = Radius;
-            rect.Width = Radius * 2;
-            rect.Height = Radius;
-
-            var cornerRadius = new CornerRadius(0, 0, 40, 40);
-
-            //double x = _size / 2.0;
-
-            // Coordinates of center of (full) menu
-            double x = _size / 2.0;
-            double y = _size / 2.0;
-
-            //Point center = new Point(20, 20);
-
-
-            //PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;
-            //String header = (String)menu_item.Header;
-            var mainTextContent    = "Smack My Bitch Up";
-            var subTextContent     = "Prodigy";
-
-            //String header = (String)menu_item.Header;
-            //if (mainText == null) { mainText = "Item 1 (Pie Menu.cs)"; };
-
-            var leftMargin = Radius;
-            var topMargin = InnerRadius + 25.0;
-            var fontSize = 11.0;
-            var subToMainDistance = fontSize + 5.0;
-
-            Point mainTextPoint = new Point(rect.X + leftMargin, rect.Y + topMargin);
-            Point subTextPoint  = new Point(rect.X + leftMargin, rect.Y + topMargin + subToMainDistance);
-
-            //var menu_item = new MenuItem();
-
-            var fontFamily = new FontFamily("Verdana");
-            var fontStyle = new FontStyle();
-            var fontWeight = new FontWeight();
-            var fontStretch = new FontStretch();
-
-            var typeFace = new Typeface(fontFamily, fontStyle, fontWeight, fontStretch);
-
-            FormattedText mainText = new FormattedText(mainTextContent,
-                                CultureInfo.CurrentCulture,
-                                FlowDirection.LeftToRight,
-                                typeFace,
-                                fontSize,
-                                fontBrush);
-
-            mainText.TextAlignment = TextAlignment.Center;
-
-            FormattedText subText = new FormattedText(subTextContent,
-                                CultureInfo.CurrentCulture,
-                                FlowDirection.LeftToRight,
-                                typeFace,
-                                fontSize,
-                                fontBrush);
-
-            subText.TextAlignment = TextAlignment.Center;
-
-            //if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + defaultTextRotation, center.X, center.Y));
-            drawingContext.DrawText(mainText, mainTextPoint);
-            drawingContext.DrawText(subText, subTextPoint);
-
-            //drawingContext.DrawRoundedRectangle(blueBrush, new Pen(blackBrush, 1), rect, 5, 20);
-
-            RoundedRectangle.DrawMyRoundedRectangle(drawingContext, backgrBrush, new Pen(borderBrush, 0), rect, cornerRadius);
-
-
-            // Draw the geometry representing the menu item
-            //drawingContext.DrawGeometry(blueBrush, new Pen(blackBrush, menu_item.BorderThickness.Left), geometry);
-            //drawingContext.DrawRectangle(blueBrush, new Pen(blackBrush, 1), rect);
-        }
-
-        
+        }        
 
         private Point CalculatePoint(double centerX, double centerY, double angle, double radius)
         {

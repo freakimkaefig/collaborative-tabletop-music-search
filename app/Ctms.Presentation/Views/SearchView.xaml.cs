@@ -223,7 +223,7 @@ namespace Ctms.Presentation.Views
                 option              = options[i];
                 var backgroundHex   = "";
                 var textHex         = "";
-
+                /*
                 if ((tagDM.CurrentOptionsIndex + i) % 3 == 0) 
                 {
                     backgroundHex = "#5000";
@@ -238,8 +238,9 @@ namespace Ctms.Presentation.Views
                 {
                     backgroundHex = "#5888";
                     textHex = "#ffff";
-                }
-                backgroundHex = "#5000";
+                }*/
+                backgroundHex = "#0000";
+                textHex = "#fff";
 
                 var backgroundColor = (Brush)(new BrushConverter().ConvertFrom(backgroundHex));
                 var textColor = (Brush)(new BrushConverter().ConvertFrom(textHex));
@@ -247,7 +248,8 @@ namespace Ctms.Presentation.Views
                 var pieMenuItem = new PieMenuItem()
                 {
                     Id = option.Id,
-                    BorderThickness = new Thickness(0.0),
+                    BorderThickness = new Thickness(1),
+                    BorderBrush = (Brush)(new BrushConverter().ConvertFrom("#171815")),
                     Foreground = textColor,
                     Background = backgroundColor,
                     CenterTextVertically = true
