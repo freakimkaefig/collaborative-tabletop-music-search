@@ -425,6 +425,9 @@
     <Resource Include="Resources\Images\Common\icons\subwoofer_background2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\Common\icons\subwoofer_background3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\Images\Search\tag-brackgr.png" />
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
