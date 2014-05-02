@@ -25,6 +25,7 @@ namespace PieInTheSky
         public static readonly DependencyProperty MenuSectorProperty;
         public static readonly DependencyProperty SelectedBackgroundProperty;
         public static readonly DependencyProperty RotationProperty;
+        public static readonly DependencyProperty MainAngleProperty;
         public static readonly DependencyProperty RotateTextProperty;
         public static readonly DependencyProperty RotateTextAngleProperty;
         public static readonly DependencyProperty AdditionalTextProperty;
@@ -123,6 +124,19 @@ namespace PieInTheSky
         }
 
         [Bindable(true)]
+        public double MainAngle
+        {
+            get
+            {
+                return (double)base.GetValue(PieMenu.MainAngleProperty);
+            }
+            set
+            {
+                base.SetValue(PieMenu.MainAngleProperty, value);
+            }
+        }
+
+        [Bindable(true)]
         public bool RotateText
         {
             get
@@ -191,6 +205,7 @@ namespace PieInTheSky
             PieMenu.MenuSectorProperty = DependencyProperty.Register("MenuSector", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(360.0));
             PieMenu.SelectedBackgroundProperty = DependencyProperty.Register("SelectedBackground", typeof(Brush), typeof(PieMenu), new FrameworkPropertyMetadata(Brushes.Gray));
             PieMenu.RotationProperty = DependencyProperty.Register("Rotation", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(0.0));
+            PieMenu.MainAngleProperty = DependencyProperty.Register("MainAngle", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(360.0));
             PieMenu.RotateTextProperty = DependencyProperty.Register("RotateText", typeof(bool), typeof(PieMenu), new FrameworkPropertyMetadata(true));
             PieMenu.RotateTextAngleProperty = DependencyProperty.Register("RotateTextAngle", typeof(double), typeof(PieMenu), new FrameworkPropertyMetadata(90.0));
             PieMenu.AdditionalTextProperty = DependencyProperty.Register("AdditionalText", typeof(string), typeof(PieMenu), new FrameworkPropertyMetadata(""));
@@ -521,10 +536,14 @@ namespace PieInTheSky
             if (inner_radius < SectorGap) inner_radius = SectorGap;
             double outer_radius = Radius + (Radius - InnerRadius + Gap) * level;
 
-            double mainAngle = Radius;
+            // read angle
+            var startAngle = 150.0;
+
+            // main angle is set by pieMenu xaml
+            double mainAngle = MainAngle;
             double smallAngle;
-            // Draw the text as name of menu item
-            // Added rotation angle adjustment of text
+
+            // rotation angle adjustment of text
             var textRotation = 0.0;
             var mainTextRotation = -90.0;
 
@@ -535,19 +554,20 @@ namespace PieInTheSky
             }
             else if (count == 2)
             {
+                // set start angle to bottom
+                startAngle = 90.0;
+
                 smallAngle = 180.0;
                 mainAngle = 180.0;
+                textRotation = -180.0;
+                mainTextRotation = 0.0;                
             }
-            else
-            {
-                smallAngle = 360.0;
+            else //count is 1
+            {   
+                smallAngle = 359.9;
+                mainAngle = 359.9;
+                startAngle = -90.0;
             }
-
-            // Calculate the inner and outer arc of each menu item
-            //double inner_angle = (full_sector - inner_gap_angle * c) / count;
-            //double outer_angle = (full_sector - outer_gap_angle * c) / count;
-            //double inner_angle = ((full_sector - inner_gap_angle * c) - mainAngle) / (count-1);
-            //double outer_angle = ((full_sector - outer_gap_angle * c) - mainAngle) / (count-1);
 
             // draw each menu item 
             for (byte i = 0; i < count; i++)
@@ -555,26 +575,19 @@ namespace PieInTheSky
                 // Get the menu item to extract properties
                 PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;   
 
-                /*
                 // calculate the boundaries of menu item as angle of the inner and outer arcs
-                double start_inner_angle = angle + i * (full_sector / count) + inner_gap_angle / 2.0;
-                double end_inner_angle = start_inner_angle + (full_sector / count) - inner_gap_angle;
-                double start_outer_angle = angle + i * (full_sector / count) + outer_gap_angle / 2.0;
-                double end_outer_angle = start_outer_angle + (full_sector / count) - outer_gap_angle;
-                */
-
-                // calculate the boundaries of menu item as angle of the inner and outer arcs
-                double start_inner_angle = angle + i * smallAngle;
-                double end_inner_angle = start_inner_angle + smallAngle;
-                double start_outer_angle = angle + i * smallAngle;
-                double end_outer_angle = start_outer_angle + smallAngle;
+                double start_inner_angle    = startAngle + i * smallAngle;
+                double end_inner_angle      = start_inner_angle + smallAngle;
+                double start_outer_angle    = startAngle + i * smallAngle;
+                double end_outer_angle      = start_outer_angle + smallAngle;
                 
                 if (i == count - 1)
-                {   // last part is reached (main part)
+                {   // main (last) part is reached. override specific variables
                     end_inner_angle = start_inner_angle + mainAngle;
                     end_outer_angle = start_outer_angle + mainAngle;
                     this.RotateTextAngle = -90.0;
                 }
+
                 /*
                 Console.WriteLine("angel: " + angle);
                 Console.WriteLine("full_sector: " + full_sector);
@@ -582,6 +595,7 @@ namespace PieInTheSky
                 Console.WriteLine("end_inner_angle: " + end_inner_angle);
                 Console.WriteLine("start_outer_angle: " + start_outer_angle);
                 */
+
                 // remeber the boundaries (as sector angles) of the menu item
                 _sectors[level].Add(new Tuple<double, double>(start_outer_angle, end_outer_angle));
                
@@ -630,9 +644,6 @@ namespace PieInTheSky
                 header      = header == null ? "" : header;
                 subHeader   = subHeader == null ? "" : subHeader;
 
-                if (i == 0) menu_item.Foreground = (Brush)(new BrushConverter().ConvertFrom("#f00"));
-                if (i == count-1) menu_item.Foreground = (Brush)(new BrushConverter().ConvertFrom("#00f"));
-
                 FormattedText headerText = new FormattedText(header,
                                 CultureInfo.CurrentCulture,
                                 FlowDirection.LeftToRight,
@@ -648,35 +659,39 @@ namespace PieInTheSky
                                 menu_item.Foreground);
 
                 var boxLength = 0.0;
-                if (RotateTextAngle == -90.0 || RotateTextAngle == 270.0)
-                {   // text is displayed viewing away from the center
-                    //!! Länge aus Umfang berechnen?
-                    boxLength = 120.0;
-                }
-                else
-	            {
-                    boxLength = Radius - InnerRadius;
-	            }
-
-                // calculate maximum width for text and cut too long texts with "..."
-                headerText.MaxTextWidth = boxLength;
-                headerText.MaxTextHeight = menu_item.FontSize + 10;
-                headerText.Trimming = TextTrimming.CharacterEllipsis;
-
-                subHeaderText.MaxTextWidth = boxLength;
-                subHeaderText.MaxTextHeight = menu_item.FontSize + 10;
-                subHeaderText.Trimming = TextTrimming.CharacterEllipsis;
-
                 var bottomMargin = 0.0;
-                var innerMargin  = 0.0;
+                var textMargin = 10.0F;
 
-                var headerTextPosX = 0.0;
-                var subTextPosX = 0.0;
+                if (count > 2 && i == count-1)
+                {
+                    boxLength = 170.0F;
+                }
+                else if (count == 2)
+                {
+                    boxLength = 100.0F;
+                }
+                else //count is 1
+                {
+                    boxLength = Radius - InnerRadius - 15.0F;
+                }
 
                 if (menu_item.CenterTextVertically == true)
                 {
                     bottomMargin = 10.0;
                 }
+
+                // calculate maximum width for text and cut too long texts with "..."
+                headerText.MaxTextWidth = boxLength;
+                headerText.MaxTextHeight = menu_item.FontSize + textMargin;
+                headerText.Trimming = TextTrimming.CharacterEllipsis;
+
+                subHeaderText.MaxTextWidth = boxLength;
+                subHeaderText.MaxTextHeight = menu_item.FontSize + textMargin;
+                subHeaderText.Trimming = TextTrimming.CharacterEllipsis;
+
+                var innerMargin  = 0.0;
+                var headerTextPosX = 0.0;
+                var subTextPosX = 0.0;
 
                 if (menu_item.CenterTextHorizontal == true)
                 {   // center text horizontally
@@ -704,7 +719,10 @@ namespace PieInTheSky
 
                 if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + textRotation, center.X, center.Y));
                 drawingContext.DrawText(headerText, headerTextPoint);
-                drawingContext.DrawText(subHeaderText, subTextPoint);
+
+                if(i == count - 1)// draw description only if this is the main part (enough space)
+                    drawingContext.DrawText(subHeaderText, subTextPoint);
+
                 if (this.RotateText) drawingContext.Pop();
             }
         }        

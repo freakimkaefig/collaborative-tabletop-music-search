@@ -17,7 +17,6 @@
     Loaded="SimpleVisualization_Loaded"
     PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
     Moved="TagVisualization_Moved">
-    <!--DataContext="{DynamicResource TagDM}"-->
     
     <s:TagVisualization.Resources>
         <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
@@ -31,7 +30,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Rectangle Fill="{StaticResource ResourceKey=arrowRight}" Width="10" Height="10" Grid.Column="0"
-                                 Visibility="{DynamicResource IsMenuVisible}"  />
+                                 Visibility="{DynamicResource IsMenuVisible}" />
                 <s:SurfaceButton Content="{Binding Keyword.Name}" 
                                  Command="{Binding DataContext.GoBreadcrumbCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                  CommandParameter="{Binding Id}" 
@@ -50,9 +49,7 @@
         <sys:Double x:Key="InputLength">180</sys:Double>
     </s:TagVisualization.Resources>
     
-    <!--Start Surrounding Tag Grid-->
-    <!--<Grid Name="TagGrid" DataContext="{DynamicResource Tag.Angle}">-->
-    <!--<Grid Name="TagGrid" DataContext="{DynamicResource TagDM}"-->
+    <!--Surrounding Tag Grid-->
     <Grid Name="TagGrid" DataContext="{DynamicResource TagDM}" RenderTransformOrigin="0.5, 0.5">
         <Grid.RenderTransform>
             <RotateTransform Angle="{Binding Tag.Orientation}"  />
@@ -62,13 +59,10 @@
                  StrokeThickness="0" 
                  Fill="White" 
                  Opacity="{Binding ConfirmCircleOpacity}">
-                 <!--StrokeDashArray="0.5 1.0 0.3">-->
             <Ellipse.Effect>
                 <BlurEffect Radius="5"/>
             </Ellipse.Effect>
         </Ellipse>
-
-        
 
         <!-- Start menu -->
         <Grid>
@@ -86,7 +80,7 @@
 
             <!--Grid for PieMenu-->
             <Grid Grid.Row="1" Grid.Column="1"
-                  Visibility="{DynamicResource IsMenuVisible}" 
+                  Visibility="{DynamicResource IsCircleMenuVisible}" 
                   Height="{StaticResource PieMenuDiameter}" 
                   Width="{StaticResource PieMenuDiameter}"
                   DataContext="{DynamicResource TagDM}" RenderTransformOrigin="0.5, 0.5">
@@ -94,10 +88,9 @@
                     <RotateTransform Angle="{Binding Tag.Animation}"  />
                 </Grid.RenderTransform>
 
-                <Grid.Background>
-                    <!--<ImageBrush ImageSource="{StaticResource TitleImage}" Opacity="1.0"/>-->
+                <!--<Grid.Background>
                     <ImageBrush ImageSource="{Binding BackgrImageSource}" Opacity="1.0"/>
-                </Grid.Background>
+                </Grid.Background>-->
 
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -106,7 +99,11 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                
+
+                <Image Source="{Binding BackgrImageSource}" Opacity="1.0"  
+                       Height="{StaticResource PieMenuDiameter}" 
+                        Width="{StaticResource PieMenuDiameter}"/>
+
                 <!--Start PieMenu with tag options-->
                 <ps:PieMenu 
                     x:Name="PieMenu"
@@ -120,7 +117,8 @@
                     InnerRadius="33"
                     RotateText="True"
                     RotateTextAngle="0"
-                    Rotation="150"
+                    Rotation="120"
+                    MainAngle="120"
                     Background="Transparent"
                     Grid.Row="0"
                     Grid.Column="0"
@@ -129,50 +127,13 @@
                     <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
                                         Command="" Background="#0000" />
                 </ps:PieMenu>
-
-                <!--<ps:PieMenu 
-                    x:Name="PieMenuMain"
-                    Canvas.Left="100"
-                    Canvas.Top="100"
-                    SelectedBackground="#7399"
-                    SectorGap="0"
-                    Foreground="White"
-                    Gap="0"
-                    Radius="120"
-                    InnerRadius="33"
-                    RotateText="False"
-                    RotateTextAngle="-90"
-                    Rotation="30"
-                    MenuSector="120"
-                    Background="Transparent"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Visibility="{DynamicResource IsMenuVisible}">-->
-                    <!-- placeholder item for correct calculation of PieMenuItem size -->
-                    <!--<ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
-                                        Command="" Background="#0000"/>
-                </ps:PieMenu>-->
-                <!--End PieMenu with tag options-->
-                
-                <Label  
-                    DataContext="{DynamicResource TagDM}" 
-                    Name="InputType" Content="{Binding InputTypeHint}" 
-                    Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Margin="20"
-                    FontSize="14"
-                    Grid.Row="0" Grid.Column="0" Foreground="White"/>
-                
             </Grid>
             <!--//Grid for PieMenu-->
-            
-            
+
             <!--Grid for keyword type selection-->
             <Grid Row="1" Column="1" DataContext="{DynamicResource TagDM}"
                 Visibility="{Binding IsKeywordTypesVisible, Converter={StaticResource visibilityConverter}}">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
@@ -180,169 +141,197 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <!--<Grid>
-                    
-                    
-                </Grid>-->
-                <Grid
-                    Grid.Row="0" 
-                    Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                                 Grid.Row="0"
-                                 Command="{Binding SelectAttributeCmd}" 
-                                 CommandParameter="{DynamicResource TagId}"
-                                 Style="{StaticResource SearchViewBtn}"
-                                 Background="{StaticResource ResourceKey=gear}"
-                                 />
-                    <TextBlock Text="Attribute" HorizontalAlignment="Center"
-                               Grid.Row="1" />
-                </Grid>
+                
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                                 Content="Genre" 
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Command="{Binding SelectAttributeCmd}" 
+                                CommandParameter="{DynamicResource TagId}"
+                                Style="{StaticResource SearchViewBtn}"
+                                Background="{StaticResource ResourceKey=gear2}"
+                                />
+                
+                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                                  Grid.Row="0" 
-                                 Grid.Column="2"
+                                 Grid.Column="1"
                                  Command="{Binding SelectGenreCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"
-                                 Background="{StaticResource ResourceKey=genre}"
+                                 Background="{StaticResource ResourceKey=genre2}"
                                  >
                 </s:SurfaceButton>
                 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                                 Content="Title" 
-                                 Grid.Row="2" 
+                                 Grid.Row="1" 
                                  Grid.Column="0"
                                  Command="{Binding SelectTitleCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"
-                                 Background="{StaticResource ResourceKey=titel}"
+                                 Background="{StaticResource ResourceKey=title2}"
                                  >
                 </s:SurfaceButton>
                 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                                 Content="Artist" 
-                                 Grid.Row="2" 
-                                 Grid.Column="2"
+                                 Grid.Row="1" 
+                                 Grid.Column="1"
                                  Command="{Binding SelectArtistCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"
-                                 Background="{StaticResource ResourceKey=artist}"
+                                 Background="{StaticResource ResourceKey=artist2}"
                                  >
                 </s:SurfaceButton>
             </Grid>
             <!--//Grid for keyword type selection-->
-            
-            <!--Start Text Input field-->
-            <StackPanel DataContext="{DynamicResource TagDM}" 
+
+            <!--Input and hint-->
+            <Grid Name="InputGrid" Row="1" ColumnSpan="3" DataContext="{DynamicResource TagDM}"
+                Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="155"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="1" Grid.ColumnSpan="3" >
+                    <Grid.Background>
+                        <SolidColorBrush Color="#5000"/>
+                    </Grid.Background>                    
+                    <TextBlock  
+                        DataContext="{DynamicResource TagDM}" 
+                        Name="InputType" Text="{Binding InputTypeHint}" 
                         Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}"
-                        Orientation="Horizontal"   
                         HorizontalAlignment="Center"
-                        Grid.Row="2"
-                        Grid.ColumnSpan="3">
+                        VerticalAlignment="Center"
+                        Margin="5"
+                        TextWrapping="Wrap"
+                        TextTrimming="CharacterEllipsis"
+                        FontSize="13"/>
+                </Grid>
+                
+                <!--Input field-->
+                <Grid DataContext="{DynamicResource TagDM}" 
+                            Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Grid.Row="2"
+                            Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <s:SurfaceButton DataContext="{DynamicResource TagDM}"
+                        Visibility="{Binding IsInputControlVisible, Converter={StaticResource visibilityConverter}}"
+                        Command="{Binding DataContext.LowerInputCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                        CommandParameter="{DynamicResource TagId}" 
+                        Background="{StaticResource ResourceKey=minus}"   
+                        Grid.Column="0"      
+                        />
 
-                <s:SurfaceButton DataContext="{DynamicResource TagDM}"
-                    Visibility="{Binding IsInputControlVisible, Converter={StaticResource visibilityConverter}}"
-                    Command="{Binding DataContext.LowerInputCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                    CommandParameter="{DynamicResource TagId}" 
-                    Background="{StaticResource ResourceKey=minus}"   />
+                    <s:SurfaceTextBox DataContext="{DynamicResource TagDM}"
+                        Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
+                        Width="{StaticResource InputLength}" 
+                        Grid.Column="1" 
+                        Padding="0"
+                        FontSize="14"
+                        Height="25"
+                        Style="{StaticResource CommonStyle}"
+                        />
 
-                <s:SurfaceTextBox DataContext="{DynamicResource TagDM}"
-                    Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
-                    Width="{StaticResource InputLength}" />
+                    <s:SurfaceButton DataContext="{DynamicResource TagDM}"
+                        Visibility="{Binding IsInputControlVisible, Converter={StaticResource visibilityConverter}}"
+                        Command="{Binding DataContext.RaiseInputCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                        CommandParameter="{DynamicResource TagId}"
+                        Background="{StaticResource ResourceKey=plus}" 
+                        Grid.Column="2" 
+                        />
 
-                <s:SurfaceButton DataContext="{DynamicResource TagDM}"
-                    Visibility="{Binding IsInputControlVisible, Converter={StaticResource visibilityConverter}}"
-                    Command="{Binding DataContext.RaiseInputCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                    CommandParameter="{DynamicResource TagId}"
-                    Background="{StaticResource ResourceKey=plus}" />
+                    <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                        Command="{Binding ConfirmInputCmd}" 
+                        CommandParameter="{DynamicResource TagId}"  
+                        Style="{StaticResource SearchViewBtn}"
+                        Background="{StaticResource ResourceKey=checkmark}" 
+                        Grid.Column="3" 
+                        />
 
-                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                    Command="{Binding ConfirmInputCmd}" 
-                    CommandParameter="{DynamicResource TagId}"  
-                    Style="{StaticResource SearchViewBtn}"
-                    Background="{StaticResource ResourceKey=checkmark}" />
-
-            </StackPanel>
-            <!--End Text Input field-->
+                </Grid>
+                <!--//Input field-->
+                
+            </Grid>
+            <!--//Input and hint-->
 
             <!--Start Menu Controls-->
-            <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                             HorizontalAlignment="Left" 
-                             Grid.Row="0" 
-                             Grid.Column="0"
-                             Command="{Binding GoHomeCmd}" 
-                             CommandParameter="{DynamicResource TagId}"
-                             Visibility="{DynamicResource IsMenuVisible}"
-                             Style="{StaticResource SearchViewBtn}"
-                             Background="{StaticResource ResourceKey=home}"
-                             />
-    
-            <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
-                             HorizontalAlignment="Left" 
-                             Grid.Row="2" 
-                             Grid.Column="0"
-                             Command="{Binding EditCmd}" 
-                             CommandParameter="{DynamicResource TagId}"
-                             Visibility="{DynamicResource IsEditVisible}"
-                             Style="{StaticResource SearchViewBtn}"
-                             Background="{StaticResource ResourceKey=edit}"/>
+                <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                                 HorizontalAlignment="Left" 
+                                 Grid.Row="2" 
+                                 Grid.Column="0"
+                                 Command="{Binding EditCmd}" 
+                                 CommandParameter="{DynamicResource TagId}"
+                                 Visibility="{DynamicResource IsEditVisible}"
+                                 Style="{StaticResource SearchViewBtn}"
+                                 Background="{StaticResource ResourceKey=edit}"/>
 
-            <ItemsControl ItemTemplate="{DynamicResource BreadcrumbTemplate}"  
-                        ItemsSource="{DynamicResource BreadcrumbOptions}"
-                        Grid.Row="0" 
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-
-            <!-- Start Assigned keyword-->
-            <TextBlock 
-                DataContext="{DynamicResource TagDM}"
-                Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                Text="{Binding Tag.AssignedKeyword.Name, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource AssignedKeyword}"
-                Grid.ColumnSpan="3"
-                Grid.Row="1"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Center"
-                RenderTransformOrigin="0.5, 0.5">
-                <TextBlock.RenderTransform>
-                    <RotateTransform Angle="180" />
-                </TextBlock.RenderTransform>
-            </TextBlock>
-            <TextBlock 
-                DataContext="{DynamicResource TagDM}"
-                Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                Text="{Binding Tag.AssignedKeyword.Name, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource AssignedKeyword}"
-                Grid.ColumnSpan="3"
-                Grid.Row="1"
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-            />
-            <!-- End Assigned keyword-->
+                <!--Breadcrumb-->
+                    <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
+                                     HorizontalAlignment="Left" 
+                                     Grid.Row="0" 
+                                     Grid.Column="0"
+                                     Command="{Binding GoHomeCmd}" 
+                                     CommandParameter="{DynamicResource TagId}"
+                                     Visibility="{DynamicResource IsMenuVisible}"
+                                     Style="{StaticResource SearchViewBtn}"
+                                     Background="{StaticResource ResourceKey=home}"
+                                     />
             
-            <!--Angle-->
-            <!--<TextBlock 
-                DataContext="{DynamicResource TagDM}"
-                Text="{Binding Tag.Angle, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                Grid.Column="0"
-                Grid.Row="1"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Right"
-            />-->
-            <!--Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"-->
-            <!--//Angle-->
+                    <ItemsControl ItemTemplate="{DynamicResource BreadcrumbTemplate}"  
+                                ItemsSource="{DynamicResource BreadcrumbOptions}"
+                                Grid.Row="0" 
+                                Grid.Column="1"
+                                Grid.ColumnSpan="2">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                <!--//Breadcrumb-->
+
+                <!-- Start Assigned keyword-->
+                    <TextBlock 
+                        DataContext="{DynamicResource TagDM}"
+                        Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                        Text="{Binding Tag.AssignedKeyword.Name, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource AssignedKeyword}"
+                        Grid.ColumnSpan="3"
+                        Grid.Row="1"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        RenderTransformOrigin="0.5, 0.5">
+                        <TextBlock.RenderTransform>
+                            <RotateTransform Angle="180" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+            
+                    <TextBlock 
+                        DataContext="{DynamicResource TagDM}"
+                        Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                        Text="{Binding Tag.AssignedKeyword.Name, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource AssignedKeyword}"
+                        Grid.ColumnSpan="3"
+                        Grid.Row="1"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center"
+                    />
+                <!-- End Assigned keyword-->
 
         </Grid>
         <!-- End menu -->

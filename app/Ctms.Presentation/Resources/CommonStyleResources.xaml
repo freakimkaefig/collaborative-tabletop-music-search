@@ -44,6 +44,8 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
+    <Style TargetType="s:SurfaceTextBox" BasedOn="{StaticResource CommonStyle}">
+    </Style>
     <Style TargetType="Label" BasedOn="{StaticResource CommonStyle}">
         <Setter Property="Foreground" Value="{StaticResource DefaultTextBrush}" />
     </Style>

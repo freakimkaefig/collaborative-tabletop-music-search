@@ -255,16 +255,29 @@ namespace Ctms.Presentation.Views
                     CenterTextVertically = true
                 };
 
-                if (i == 0)
+                if (options.Count == 1)
                 {
-                    pieMenuItem.FontSize = 16;
+                    pieMenuItem.FontSize = 14;
                     pieMenuItem.CenterTextHorizontal = true;
                 }
-                else
-	            {
-                    pieMenuItem.FontSize = 13;
-                    pieMenuItem.CenterTextHorizontal = false;
-	            }
+                else if (options.Count == 2)
+                {
+                    pieMenuItem.FontSize = 14;
+                    pieMenuItem.CenterTextHorizontal = true;
+                }
+                else if(options.Count >= 3)
+                {
+                    if (i == 0)
+                    {
+                        pieMenuItem.FontSize = 14;
+                        pieMenuItem.CenterTextHorizontal = true;
+                    }
+                    else
+                    {
+                        pieMenuItem.FontSize = 12;
+                        pieMenuItem.CenterTextHorizontal = false;
+                    }                    
+                }
 
                 // Id binding
                 Binding idBinding = new Binding("Id");
