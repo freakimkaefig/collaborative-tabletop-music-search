@@ -502,7 +502,7 @@ namespace PieInTheSky
         private void DrawCircle(ItemsControl items_control, int level, double angle, double sector, DrawingContext drawingContext)
         {
             // Make sure sector is limited to available place
-            double full_sector = Math.Min(sector, 360.0);//!!Auch auf 180.0?
+            double full_sector = Math.Min(sector, 360.0);
 
             // find number of menu items at current level
             // return if none
@@ -582,7 +582,6 @@ namespace PieInTheSky
                 }
                 
                 //var background_brush = Brushes.Transparent;
-                //var border_brush = (Brush)(new BrushConverter().ConvertFrom("#171815"));
                 var border_brush = menu_item.BorderBrush;
 
                 // Draw the geometry representing the menu item
@@ -594,7 +593,10 @@ namespace PieInTheSky
 
                 header      = header == null ? "" : header;
                 subHeader   = subHeader == null ? "" : subHeader;
-                
+
+                //if (i == 0) menu_item.Foreground = (Brush)(new BrushConverter().ConvertFrom("#f00"));
+                //if (i == count-1) menu_item.Foreground = (Brush)(new BrushConverter().ConvertFrom("#00f"));
+
                 FormattedText headerText = new FormattedText(header,
                                 CultureInfo.CurrentCulture,
                                 FlowDirection.LeftToRight,
