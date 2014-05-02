@@ -521,28 +521,67 @@ namespace PieInTheSky
             if (inner_radius < SectorGap) inner_radius = SectorGap;
             double outer_radius = Radius + (Radius - InnerRadius + Gap) * level;
 
-            // Sector gap is given as a length. Find the angle giving this gap on inner and outer radius
-            double inner_gap_angle;
-            if (inner_radius == 0) inner_gap_angle = 0;
-            else inner_gap_angle = 2.0 * Math.Asin(SectorGap / (2.0 * inner_radius)) * 360.0 / (2.0 * Math.PI);
-            double outer_gap_angle = 2.0 * Math.Asin(SectorGap / (2.0 * outer_radius)) * 360.0 / (2.0 * Math.PI);
+            double mainAngle = Radius;
+            double smallAngle;
+            // Draw the text as name of menu item
+            // Added rotation angle adjustment of text
+            var textRotation = 0.0;
+            var mainTextRotation = -90.0;
 
-            // numbers of sector gaps (one more if we are using full circle)
-            int c = (full_sector < 360.0 ? count - 1 : count);
+            // calc angle for the small parts (subtract angle for main part and divide by number of small parts)
+            if (count > 2)
+            {
+                smallAngle = (360.0 - mainAngle) / (count - 1.0);
+            }
+            else if (count == 2)
+            {
+                smallAngle = 180.0;
+                mainAngle = 180.0;
+            }
+            else
+            {
+                smallAngle = 360.0;
+            }
 
             // Calculate the inner and outer arc of each menu item
-            double inner_angle = (full_sector - inner_gap_angle * c) / count;
-            double outer_angle = (full_sector - outer_gap_angle * c) / count;
+            //double inner_angle = (full_sector - inner_gap_angle * c) / count;
+            //double outer_angle = (full_sector - outer_gap_angle * c) / count;
+            //double inner_angle = ((full_sector - inner_gap_angle * c) - mainAngle) / (count-1);
+            //double outer_angle = ((full_sector - outer_gap_angle * c) - mainAngle) / (count-1);
 
             // draw each menu item 
-            for (int i = 0; i < count; i++)
+            for (byte i = 0; i < count; i++)
             {
+                // Get the menu item to extract properties
+                PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;   
+
+                /*
                 // calculate the boundaries of menu item as angle of the inner and outer arcs
                 double start_inner_angle = angle + i * (full_sector / count) + inner_gap_angle / 2.0;
                 double end_inner_angle = start_inner_angle + (full_sector / count) - inner_gap_angle;
                 double start_outer_angle = angle + i * (full_sector / count) + outer_gap_angle / 2.0;
                 double end_outer_angle = start_outer_angle + (full_sector / count) - outer_gap_angle;
+                */
 
+                // calculate the boundaries of menu item as angle of the inner and outer arcs
+                double start_inner_angle = angle + i * smallAngle;
+                double end_inner_angle = start_inner_angle + smallAngle;
+                double start_outer_angle = angle + i * smallAngle;
+                double end_outer_angle = start_outer_angle + smallAngle;
+                
+                if (i == count - 1)
+                {   // last part is reached (main part)
+                    end_inner_angle = start_inner_angle + mainAngle;
+                    end_outer_angle = start_outer_angle + mainAngle;
+                    this.RotateTextAngle = -90.0;
+                }
+                /*
+                Console.WriteLine("angel: " + angle);
+                Console.WriteLine("full_sector: " + full_sector);
+                Console.WriteLine("start_inner_angle: " + start_inner_angle);
+                Console.WriteLine("end_inner_angle: " + end_inner_angle);
+                Console.WriteLine("start_outer_angle: " + start_outer_angle);
+                */
                 // remeber the boundaries (as sector angles) of the menu item
                 _sectors[level].Add(new Tuple<double, double>(start_outer_angle, end_outer_angle));
                
@@ -568,9 +607,6 @@ namespace PieInTheSky
                 // Create geometry object and add the figure
                 PathGeometry geometry = new PathGeometry();
                 geometry.Figures.Add(pathFigure);
-
-                // Get the menu item to extract properties
-                PieMenuItem menu_item = items_control.Items[i] as PieMenuItem;               
                 
                 // find color for backgound and border 
                 Brush background_brush = menu_item.Background;
@@ -594,8 +630,8 @@ namespace PieInTheSky
                 header      = header == null ? "" : header;
                 subHeader   = subHeader == null ? "" : subHeader;
 
-                //if (i == 0) menu_item.Foreground = (Brush)(new BrushConverter().ConvertFrom("#f00"));
-                //if (i == count-1) menu_item.Foreground = (Brush)(new BrushConverter().ConvertFrom("#00f"));
+                if (i == 0) menu_item.Foreground = (Brush)(new BrushConverter().ConvertFrom("#f00"));
+                if (i == count-1) menu_item.Foreground = (Brush)(new BrushConverter().ConvertFrom("#00f"));
 
                 FormattedText headerText = new FormattedText(header,
                                 CultureInfo.CurrentCulture,
@@ -661,10 +697,12 @@ namespace PieInTheSky
 
                 // Draw the text as name of menu item
                 // Added rotation angle adjustment of text
-                var defaultTextRotation = 90.0;
-                if (this.RotateTextAngle != 90.0) defaultTextRotation = this.RotateTextAngle;
+                //var defaultTextRotation = 90.0;
+                //if (this.RotateTextAngle != 90.0) defaultTextRotation = this.RotateTextAngle;
+                if (i == count - 1) 
+                    textRotation = mainTextRotation;
 
-                if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + defaultTextRotation, center.X, center.Y));
+                if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + textRotation, center.X, center.Y));
                 drawingContext.DrawText(headerText, headerTextPoint);
                 drawingContext.DrawText(subHeaderText, subTextPoint);
                 if (this.RotateText) drawingContext.Pop();
