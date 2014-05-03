@@ -265,7 +265,12 @@ namespace Ctms.Presentation.Views
                     pieMenuItem.FontSize = 14;
                     pieMenuItem.CenterTextHorizontal = true;
                 }
-                else if(options.Count >= 3)
+                else if (options.Count == 3)
+                {
+                    pieMenuItem.FontSize = 14;
+                    pieMenuItem.CenterTextHorizontal = true;
+                }
+                else if (options.Count >= 3)
                 {
                     if (i == 0)
                     {
@@ -276,7 +281,7 @@ namespace Ctms.Presentation.Views
                     {
                         pieMenuItem.FontSize = 12;
                         pieMenuItem.CenterTextHorizontal = false;
-                    }                    
+                    }
                 }
 
                 // Id binding
@@ -287,14 +292,14 @@ namespace Ctms.Presentation.Views
                 pieMenuItem.SetBinding(PieMenuItem.IdProperty, idBinding);
 
                 // Header binding
-                Binding headerBinding = new Binding("Keyword.Name");
+                Binding headerBinding = new Binding("Keyword.DisplayName");
                 headerBinding.Source = option;
                 headerBinding.NotifyOnSourceUpdated = true;
                 headerBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 pieMenuItem.SetBinding(PieMenuItem.HeaderProperty, headerBinding);
 
                 // SubHeader binding
-                Binding subHeaderBinding = new Binding("Keyword.Description");
+                Binding subHeaderBinding = new Binding("Keyword.DisplayDescription");
                 subHeaderBinding.Source = option;
                 subHeaderBinding.NotifyOnSourceUpdated = true;
                 subHeaderBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;

@@ -548,9 +548,13 @@ namespace PieInTheSky
             var mainTextRotation = -90.0;
 
             // calc angle for the small parts (subtract angle for main part and divide by number of small parts)
-            if (count > 2)
+            if (count > 3)
             {
                 smallAngle = (360.0 - mainAngle) / (count - 1.0);
+            }
+            else if (count == 3)
+            {
+                smallAngle = mainAngle;
             }
             else if (count == 2)
             {
@@ -581,7 +585,7 @@ namespace PieInTheSky
                 double start_outer_angle    = startAngle + i * smallAngle;
                 double end_outer_angle      = start_outer_angle + smallAngle;
                 
-                if (i == count - 1)
+                if (i == count - 1 || count == 3)
                 {   // main (last) part is reached. override specific variables
                     end_inner_angle = start_inner_angle + mainAngle;
                     end_outer_angle = start_outer_angle + mainAngle;
@@ -662,7 +666,7 @@ namespace PieInTheSky
                 var bottomMargin = 0.0;
                 var textMargin = 10.0F;
 
-                if (count > 2 && i == count-1)
+                if (count > 2 && i == count-1 || count == 3)
                 {
                     boxLength = 170.0F;
                 }
@@ -714,13 +718,13 @@ namespace PieInTheSky
                 // Added rotation angle adjustment of text
                 //var defaultTextRotation = 90.0;
                 //if (this.RotateTextAngle != 90.0) defaultTextRotation = this.RotateTextAngle;
-                if (i == count - 1) 
+                if (i == count - 1 || count == 3) 
                     textRotation = mainTextRotation;
 
                 if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + textRotation, center.X, center.Y));
                 drawingContext.DrawText(headerText, headerTextPoint);
 
-                if(i == count - 1)// draw description only if this is the main part (enough space)
+                if (i == count - 1 || count == 3)// draw description only if this is the main part (enough space)
                     drawingContext.DrawText(subHeaderText, subTextPoint);
 
                 if (this.RotateText) drawingContext.Pop();

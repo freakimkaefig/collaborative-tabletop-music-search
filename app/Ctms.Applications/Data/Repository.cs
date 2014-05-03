@@ -274,7 +274,7 @@ namespace Ctms.Applications.Data
         /// </summary>
         public TagOption GetTagOption(int tagId, KeywordTypes type)
         {
-            return GetTagDMById(tagId).Tag.TagOptions.FirstOrDefault(to => to.Keyword.Type == type && to.Keyword.Name == type.ToString());
+            return GetTagDMById(tagId).Tag.TagOptions.FirstOrDefault(to => to.Keyword.KeywordType == type && to.Keyword.DisplayName == type.ToString());
         }
 
         #endregion TagOptions
@@ -296,6 +296,16 @@ namespace Ctms.Applications.Data
         /// </summary>
         /// <returns></returns>
         public ObservableCollection<TagCombinationDataModel> GetTagCombinationContainingTags()
+        {
+            //return _searchVm.TagCombinations.Where(t => t.Tags.Contains());
+            return null;
+        }
+
+        /// <summary>
+        /// Add tag combination data model
+        /// </summary>
+        /// <returns></returns>
+        public ObservableCollection<TagCombinationDataModel> GetUncombinedTags()
         {
             //return _searchVm.TagCombinations.Where(t => t.Tags.Contains());
             return null;
