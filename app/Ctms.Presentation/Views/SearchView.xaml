@@ -35,10 +35,8 @@
 
 
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
-                Width="100" 
-                Height="50" 
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top" Margin="529.5,133,0,0" />
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" Margin="0,0,0,0" />
             <Rectangle x:Name="Fft1" HorizontalAlignment="Center" Margin="395,0,1235,0" 
                        Width="47" Height="{Binding Fft1Value}" VerticalAlignment="Center" 
                        Fill="DeepSkyBlue" Opacity="0.75">
