@@ -695,6 +695,8 @@ namespace MusicSearch.Managers
                 return null;
             }
 
+            //transform "\'" to unicode equivalent
+            response = response.Replace("'", "&#39;");
             return ParseResponse(response, ID, SearchRC);
         }
 
