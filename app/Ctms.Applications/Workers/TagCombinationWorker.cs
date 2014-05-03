@@ -60,7 +60,7 @@ namespace Ctms.Applications.Workers
             if (movedTag.AssignState != TagDataModel.AssignStates.Assigned
                 && movedTag.ExistenceState != TagDataModel.ExistenceStates.Added) return;
 
-            var tagCombis   = _repository.GetAllTagCombinations();
+            var tagCombis   = _repository.GetTagCombinations();
             var compareTags = _repository.GetAddedAndAssignedTagDMs().Where(t => t.Id != movedTag.Id);
 
             // check combination
