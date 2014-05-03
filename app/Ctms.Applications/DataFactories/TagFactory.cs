@@ -11,6 +11,7 @@ using Helpers;
 using System.Collections.ObjectModel;
 using Ctms.Domain;
 using System.ComponentModel.Composition;
+using Ctms.Applications.Common;
 
 namespace Ctms.Applications.DataFactories
 {
@@ -35,7 +36,8 @@ namespace Ctms.Applications.DataFactories
             TagDataModel newTag = new TagDataModel(tag)
             {
                 // add reference to TagVisualizationDefinition
-                TagVisDef = tagVisDef
+                TagVisDef = tagVisDef,
+                TagColor = CommonVal.TagColors[tag.Id]
             };
 
             return newTag;

@@ -22,7 +22,7 @@ namespace Ctms.Applications.Common
         }
 
         //Values
-        public const int Tag_MaxNumber              = 12;
+        public const int Tag_MaxNumber              = 6;
         public const int Tag_VisibleOptionsCount    = 10;
         public const int Tag_OptionsStepAngle       = 10;
         public const int Tag_CombineCircleDiameter  = 350;
@@ -45,9 +45,12 @@ namespace Ctms.Applications.Common
 
         public static Dictionary<int, string> TagColors = new Dictionary<int, string>()
         {
-            { 1, "Red" },
-            { 2, "Blue" },
-            { 3, "Yellow" }
+            { 0, "#0f0" },
+            { 1, "#00f" },
+            { 2, "#f00" },
+            { 3, "#ff0" },
+            { 4, "#0ff" },
+            { 5, "#f0f" }
         };
 
     }
