@@ -36,7 +36,6 @@ namespace Ctms.Applications.Workers
             //Helpers
             _backgroundWorker = new BackgroundWorkHelper();
         }
-
             
         public void Initialize(SearchManager searchManager)
         {
@@ -61,11 +60,39 @@ namespace Ctms.Applications.Workers
         //Background worker methods
         public void StartSearch(object sender, DoWorkEventArgs e)
         {
-            _infoWorker.ShowCommonInfo("Lookup for detail has failed", "TestMessage", "Ok");
-            return;
+            //_infoWorker.ShowCommonInfo("Lookup for detail has failed", "TestMessage", "Ok");
+            //return;
 
             var tags = _searchViewModel.Tags;
+
+            var combinedSearchObjects = new List<combinedSearchObject>();
             var searchObjects = new List<searchObject>();
+
+            // do search for combined tags
+            //var combinedTags = _repository.GetTagCombinationContainingTags(
+            // search for uncombined tags
+
+
+            //var tagCombinations = //getcombined..
+
+            // tagIds, common type, attribute value, 
+            //foreach (var tagCombination in tagCombinations)
+            {
+                var combinedSearchObject = new combinedSearchObject();
+                //combinedSearchObject.originIds.AddRange(...)
+                //if(tagCombination.Type == ...Genre)
+                {
+                    //combinedSearchObject.genre = tagCombination.
+                    //combinedSearchObject.GenreParameter = tagCombination.Val..
+                }
+                //else if (tagCombination.Type == Artist)
+                {
+                    //...
+                }
+
+                //combinedSearchObjects.Add(combinedSearchObject);
+
+            }
 
             //!!used tags außer combined tags! sonst doppelte anfrage
             var usedTags = _repository.GetAssignedTagDMs();
@@ -91,7 +118,7 @@ namespace Ctms.Applications.Workers
                 }
                 else if (keyword.KeywordType == KeywordTypes.Attribute)
                 {
-                    
+                    //searchObject.
                 }
 
                 searchObjects.Add(searchObject);
@@ -99,27 +126,7 @@ namespace Ctms.Applications.Workers
 
             
             
-            var combinedSearchObjects = new List<combinedSearchObject>();
-            //var tagCombinations = //getcombined..
-
-            // tagIds, common type, attribute value, 
-            //foreach (var tagCombination in tagCombinations)
-            {
-                var combinedSearchObject = new combinedSearchObject();
-                //combinedSearchObject.originIds.AddRange(...)
-                //if(tagCombination.Type == ...Genre)
-                {
-                    //combinedSearchObject.genre = tagCombination.
-                    //combinedSearchObject.GenreParameter = tagCombination.Val..
-                }
-                //else if (tagCombination.Type == Artist)
-	            {
-		            //...
-	            }
-
-                //combinedSearchObjects.Add(combinedSearchObject);
-
-            }
+            
 
             var songs = _searchManager.SearchQuery(searchObjects);
             //var songs = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList); //TestTag mit "Rock"

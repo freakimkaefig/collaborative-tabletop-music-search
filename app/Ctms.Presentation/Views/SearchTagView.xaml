@@ -132,6 +132,7 @@
                 <!--<Image                         
                        Visibility="{Binding IsLoadingInfoVisible, Converter={StaticResource visibilityConverter}}"
                        Style="{StaticResource LoadingImageSource}"
+                        Source="{StaticResource LoadingInfoIcon}"
                        Height="{StaticResource PieMenuDiameter}" 
                        Width="{StaticResource PieMenuDiameter}"/>-->
             </Grid>

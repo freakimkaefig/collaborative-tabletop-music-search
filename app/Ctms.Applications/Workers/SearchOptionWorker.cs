@@ -689,8 +689,12 @@ namespace Ctms.Applications.Workers
             tagDM.Tag.CurrentLayerNr = currentLayerNr;
 
             // remove options of higher layers
-            RemovePreviousBreadcrumbs(tagDM);
-            RemovePreviousOptions(tagDM);
+            if (tagDM.Tag.AssignedKeyword.KeywordType != KeywordTypes.Title
+                && tagDM.Tag.AssignedKeyword.KeywordType != KeywordTypes.Artist)
+            {
+                RemovePreviousBreadcrumbs(tagDM);
+                RemovePreviousOptions(tagDM);
+            }           
 
             SetIsInputVisible(tagDM, false);
             SetIsInputControlVisible(tagDM, false);

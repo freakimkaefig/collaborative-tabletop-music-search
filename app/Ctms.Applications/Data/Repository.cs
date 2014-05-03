@@ -305,6 +305,16 @@ namespace Ctms.Applications.Data
         /// Add tag combination data model
         /// </summary>
         /// <returns></returns>
+        public ObservableCollection<TagCombinationDataModel> GetUncombinedTags()
+        {
+            //return _searchVm.TagCombinations.Where(t => t.Tags.Contains());
+            return null;
+        }
+
+        /// <summary>
+        /// Add tag combination data model
+        /// </summary>
+        /// <returns></returns>
         public void AddTagCombination(TagCombinationDataModel tagCombination)
         {
             _searchVm.TagCombinations.Add(tagCombination);
