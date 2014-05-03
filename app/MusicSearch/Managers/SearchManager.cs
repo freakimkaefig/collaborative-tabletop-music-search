@@ -242,47 +242,47 @@ namespace MusicSearch.Managers
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_min_familiarity.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_min_familiarity.ToString(), new AttributeObj() { max = 1, min = 0, description = "Min. familiarity of any song (familiarity to the world)" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_min_familiarity.ToString(), new AttributeObj() { max = 1, min = 0, description = "Min. familiarity" });
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_start_year_before.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_start_year_before.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Earliest start year before ..." });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_start_year_before.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Start year before ..." });
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_start_year_after.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_start_year_after.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Earliest start year after ..." });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_start_year_after.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Start year after ..." });
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_end_year_before.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_end_year_before.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Latest end year before ..." });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_end_year_before.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "End year before ..." });
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_end_year_after.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_end_year_after.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Latest end year after ..." });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_end_year_after.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "End year after ..." });
                 }
                 else if (prop.Name == ArtistParameterTypes.song_min_hotttnesss.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.song_min_hotttnesss.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum hotttnesss of any song" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.song_min_hotttnesss.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum hotttnesss" });
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_min_hotttnesss.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_min_hotttnesss.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum hotttnesss of any song's artist" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_min_hotttnesss.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum hotttnesss" });
                 }
                 else if (prop.Name == ArtistParameterTypes.min_danceability.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_danceability.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum danceability of any song" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_danceability.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum danceability" });
                 }
                 else if (prop.Name == ArtistParameterTypes.min_energy.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_energy.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum energy of any song" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_energy.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum energy" });
                 }
                 else if (prop.Name == ArtistParameterTypes.min_liveness.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_liveness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum liveness of any song" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_liveness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum liveness" });
                 }
                 else if (prop.Name == ArtistParameterTypes.min_acousticness.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_acousticness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum acousticness of any song" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_acousticness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum acousticness" });
                 }
 
             }
@@ -290,15 +290,15 @@ namespace MusicSearch.Managers
             {
                 if (prop.Name == GenreParameterTypes.variety.ToString())
                 {
-                    combinedSearchGenreAttributes.Add(GenreParameterTypes.variety.ToString(), new AttributeObj() { max = 1, min = 0, description = "A higher number will allow for more variety in the artists" });
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.variety.ToString(), new AttributeObj() { max = 1, min = 0, description = "Higher number = more variety in the artists" });
                 }
                 else if (prop.Name == GenreParameterTypes.distribution.ToString())
                 {
-                    combinedSearchGenreAttributes.Add(GenreParameterTypes.distribution.ToString(), new AttributeObj() { option1 = "focused", option2 = "wandering", description = "Controls the distribution of artists" });
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.distribution.ToString(), new AttributeObj() { option1 = "focused", option2 = "wandering", description = "Controls distribution of artists" });
                 }
                 else if (prop.Name == GenreParameterTypes.adventurousness.ToString())
                 {
-                    combinedSearchGenreAttributes.Add(GenreParameterTypes.adventurousness.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Controls the trade between known music and unknown music" });
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.adventurousness.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Trade between known & unknown music" });
                 }
             }
             #endregion
