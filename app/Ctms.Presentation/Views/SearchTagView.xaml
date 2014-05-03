@@ -134,13 +134,6 @@
                        Visibility="{Binding IsLoadingInfoVisible, Converter={StaticResource visibilityConverter}}"
                        Height="80" Width="80"
                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
-<!--Source="{StaticResource LoadingInfoIcon}"-->
-                <!--<Image gif:ImageBehavior.AnimatedSource="../Resources/Images/Common/loadingCircle.gif" 
-                     Height="80" 
-                     Width="80"
-                     Opacity="0.5"
-                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                />-->
                 
                 <!--Grid.Row="0" Grid.Column="0"-->
             </Grid>
@@ -321,71 +314,62 @@
                     </ItemsControl>
                 <!--//Breadcrumb-->
 
-                <!-- Start Assigned keyword-->
-            <Grid   Grid.ColumnSpan="3" Grid.Row="1"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-                       >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <!--Assigned keyword-->
+                <!--Rotated assigned keyword-->
+                    <Grid   Grid.ColumnSpan="3" Grid.Row="1"
+                            VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+                               >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"
-                        HorizontalAlignment="Center"
-                        DataContext="{DynamicResource TagDM}"
-                        Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                        Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                        TextWrapping="Wrap"
-                        Style="{StaticResource AssignedKeyword}"
-                        RenderTransformOrigin="0.5, 0.5"
-                        Width="Auto">
-                        <TextBlock.RenderTransform>
-                            <RotateTransform Angle="180" />
-                        </TextBlock.RenderTransform>
-                </TextBlock>
-                <!--<TextBlock Grid.Row="1"
-                        HorizontalAlignment="Center"
-                        DataContext="{DynamicResource TagDM}"
-                        Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                        Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                        TextWrapping="Wrap"
-                        Style="{StaticResource AssignedKeyword}"
-                        RenderTransformOrigin="0.5, 0.5"
-                        Width="Auto">
-                        <TextBlock.RenderTransform>
-                            <RotateTransform Angle="180" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>-->
-            </Grid>
+                        <TextBlock Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                DataContext="{DynamicResource TagDM}"
+                                Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                                Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                                TextWrapping="Wrap"
+                                Style="{StaticResource AssignedKeyword}"
+                                RenderTransformOrigin="0.5, 0.5"
+                                Width="Auto">
+                                <TextBlock.RenderTransform>
+                                    <RotateTransform Angle="180" />
+                                </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Grid>
+                <!--//Rotated assigned keyword-->
             
-            <Grid Grid.ColumnSpan="3" Grid.Row="1"
-                    VerticalAlignment="Top" HorizontalAlignment="Stretch" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                <!--Not rotated assigned keyword-->
+                    <Grid Grid.ColumnSpan="3" Grid.Row="1"
+                            VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                <TextBlock  Grid.Row="0"
-                            HorizontalAlignment="Center"
-                            DataContext="{DynamicResource TagDM}"
-                            Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                            Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                            TextWrapping="Wrap"
-                            Style="{StaticResource AssignedKeyword}"
-                            Width="Auto"
-                        />
+                        <TextBlock  Grid.Row="0"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{DynamicResource TagDM}"
+                                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                                    Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource AssignedKeyword}"
+                                    Width="Auto"
+                                />
 
-                <!--<TextBlock  Grid.Row="1"
-                            HorizontalAlignment="Center"
-                            DataContext="{DynamicResource TagDM}"
-                            Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                            Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                            TextWrapping="Wrap"
-                            Style="{StaticResource AssignedKeyword}"
-                            Width="Auto"
-                        />-->
-            </Grid>
-                <!-- End Assigned keyword-->
+                        <!--<TextBlock  Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{DynamicResource TagDM}"
+                                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                                    Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource AssignedKeyword}"
+                                    Width="Auto"
+                                />-->
+                    </Grid>
+                <!--//Not rotated assigned keyword-->
+            <!--//Assigned keyword-->
 
         </Grid>
         <!-- End menu -->

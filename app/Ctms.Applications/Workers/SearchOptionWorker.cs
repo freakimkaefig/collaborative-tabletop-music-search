@@ -498,14 +498,23 @@ namespace Ctms.Applications.Workers
 
                         if (editType == "Lower" && IsAttributeInputValid(tagDM, attribute, (termsNr - 1)))
                         {   // lower is valid
-                            termsNr--;
+                            if (attribute.max == 1.0 && IsAttributeInputValid(tagDM, attribute, (termsNr - 0.1)))
+                            {   // range is 0.0 till 1.0 -> small steps
+                                termsNr -= 0.1;
+                            }
+                            else if (IsAttributeInputValid(tagDM, attribute, (termsNr - 1)))
+                                termsNr--; // large steps
 
                             // remove previously shown infos
                             _infoWorker.RemoveTagInfo(tagId);
                         }
-                        else if (editType == "Raise" && IsAttributeInputValid(tagDM, attribute, (termsNr + 1)))
+                        else if (editType == "Raise")
                         {   // raise is valid
-                            termsNr++;
+                            if (attribute.max == 1.0 && IsAttributeInputValid(tagDM, attribute, (termsNr + 0.1)))
+                                // range is 0.0 till 1.0 -> small steps
+                                termsNr += 0.1;
+                            else if (IsAttributeInputValid(tagDM, attribute, (termsNr + 1)))
+                                termsNr++; // large steps
 
                             // remove previously shown infos
                             _infoWorker.RemoveTagInfo(tagId);
@@ -515,7 +524,7 @@ namespace Ctms.Applications.Workers
                             ShowAttributeRangeHint(false, attribute, tagId);
                         }
                         // update input field terms on UI
-                        tagDM.InputTerms = termsNr.ToString();
+                        tagDM.InputTerms = termsNr.ToString().Replace(",", ".");
                     }
                 }
             }
