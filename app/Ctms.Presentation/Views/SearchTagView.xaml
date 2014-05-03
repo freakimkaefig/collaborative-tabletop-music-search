@@ -280,13 +280,13 @@
             <!--Start Menu Controls-->
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
                                  HorizontalAlignment="Left" 
-                                 Grid.Row="2" 
-                                 Grid.Column="0"
+                                 Grid.Row="1" 
+                                 Grid.Column="1"
                                  Command="{Binding EditCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
                                  Visibility="{DynamicResource IsEditVisible}"
                                  Style="{StaticResource SearchViewBtn}"
-                                 Background="{StaticResource ResourceKey=edit}"/>
+                                 Background="{StaticResource ResourceKey=edit}" Margin="29.999,96.333,0,95.667"/>
 
                 <!--Breadcrumb-->
                     <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -383,7 +383,7 @@
         <!-- End menu -->
 
         <!--<ScrollViewer Name="SearchTagViewLog" Content="{Binding SearchTagViewLog}" Height="80" Width="400" ></ScrollViewer>-->
-        <Ellipse Width="60" Height="60" 
+        <Ellipse Width="70" Height="70" 
                  Stroke="#0f0" 
                  StrokeThickness="5" 
                  Fill="Transparent" 

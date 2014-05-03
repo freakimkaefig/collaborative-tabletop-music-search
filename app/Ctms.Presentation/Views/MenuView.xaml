@@ -220,7 +220,7 @@
             <s:SurfaceButton Visibility="{Binding IsLoggedIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Command="{Binding LogoutCommand}" Content="{Binding LoginButtonContent}" Margin="0,10,0,0" VerticalAlignment="Bottom"></s:SurfaceButton>
             <s:SurfaceButton Content="Exit" Margin="0,20,0,0" VerticalAlignment="Bottom" Command="{Binding ExitAppCommand}"/>
         </StackPanel>
-        <Grid x:Name="LoginDialog" HorizontalAlignment="Left" Margin="-976,480,0,160" Width="312" Background="Black" Height="Auto" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="LoginDialog" HorizontalAlignment="Left" Margin="-976,480,0,160" Width="312" Background="Black" Height="380" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
         	<Grid.RenderTransform>
         		<TransformGroup>
         			<ScaleTransform/>
@@ -229,13 +229,13 @@
         			<TranslateTransform/>
         		</TransformGroup>
         	</Grid.RenderTransform>
-            <s:SurfaceButton HorizontalAlignment="Right" Margin="0" VerticalAlignment="Top" Command="{Binding RotateLoginDialogCommand}" Height="60" Width="60" Background="{StaticResource ResourceKey=rotate}"/>
-        	<TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18.667"><Run Language="de-de" Text="Login to Spotify"/></TextBlock>
+            <s:SurfaceButton HorizontalAlignment="Right" Margin="0,14,14,0" VerticalAlignment="Top" Command="{Binding RotateLoginDialogCommand}" Height="60" Width="60" Background="{StaticResource ResourceKey=rotate}"/>
+        	<TextBlock Margin="74.58,30,106.58,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"><Run Language="de-de" Text="Login to Spotify"/></TextBlock>
         	<TextBlock HorizontalAlignment="Left" Margin="20,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="de-de" Text="Username"/></TextBlock>
-        	<TextBlock HorizontalAlignment="Left" Margin="20,152,0,152.04" TextWrapping="Wrap"><Run Language="de-de" Text="Password"/></TextBlock>
+        	<TextBlock HorizontalAlignment="Left" Margin="20,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="de-de" Text="Password"/></TextBlock>
         	<s:SurfaceTextBox x:Name="SpotifyUsernameInput" Margin="20,91.96,24,0" TextWrapping="Wrap" Text="{Binding SpotifyUsernameInput}" VerticalAlignment="Top" IsEnabled="{Binding LoginDialogEnabled}"/>
-        	<s:SurfacePasswordBox x:Name="SpotifyPasswordInput" Height="23" Margin="20,176,24,162" IsEnabled="{Binding LoginDialogEnabled}"/>
-        	<s:SurfaceButton Content="Cancel" Margin="24,0,0,24" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="80" Command="{Binding CancelLoginCommand}">
+        	<s:SurfacePasswordBox x:Name="SpotifyPasswordInput" VerticalAlignment="Top" Margin="20,176,24,162" IsEnabled="{Binding LoginDialogEnabled}"/>
+        	<s:SurfaceButton Content="Cancel" Margin="24,310,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Command="{Binding CancelLoginCommand}">
         		<i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewTouchDown">
                         <ei:GoToStateAction StateName="LoginDialogInvisible"/>
@@ -245,7 +245,7 @@
         			</i:EventTrigger>
         		</i:Interaction.Triggers>
         	</s:SurfaceButton>
-        	<s:SurfaceButton Content="Login" Margin="0,0,24,24" VerticalAlignment="Bottom" IsEnabled="{Binding LoginDialogEnabled}" HorizontalAlignment="Right" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=SpotifyPasswordInput}" Width="76">
+        	<s:SurfaceButton Content="Login" Margin="0,310,24,0" VerticalAlignment="Top" IsEnabled="{Binding LoginDialogEnabled}" HorizontalAlignment="Right" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=SpotifyPasswordInput}" Width="76">
         		<!--<i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewTouchDown">
                         <ei:GoToStateAction StateName="LoginDialogInvisible"/>
@@ -256,7 +256,7 @@
         		</i:Interaction.Triggers>-->
         	</s:SurfaceButton>
             <!--<Image Height="60" Margin="124,0,124,80" VerticalAlignment="Bottom" Width="60" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}"/>-->
-            <Label Content="Logging in... Please wait...." VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,80" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" />
+            <Label Content="Logging in... Please wait...." VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,260,0,0" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" />
         </Grid>
         <Grid x:Name="OpenPlaylistDialog" HorizontalAlignment="Left" Margin="-568,80,0,488" Width="308" RenderTransformOrigin="0.5,0.5" Height="Auto" VerticalAlignment="Stretch" Background="Black">
         	<Grid.RenderTransform>
@@ -267,8 +267,8 @@
         			<TranslateTransform/>
         		</TransformGroup>
         	</Grid.RenderTransform>
-            <s:SurfaceButton HorizontalAlignment="Left" Margin="248,0,0,0" VerticalAlignment="Top" Command="{Binding RotateOpenPlaylistCommand}" Width="60" Height="60" Background="{StaticResource ResourceKey=rotate}"/>
-            <TextBlock Margin="0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18.667"><Run Language="de-de" Text="Choose Playlist"/></TextBlock>
+            <s:SurfaceButton HorizontalAlignment="Left" Margin="237,14,0,0" VerticalAlignment="Top" Command="{Binding RotateOpenPlaylistCommand}" Width="60" Height="60" Background="{StaticResource ResourceKey=rotate}"/>
+            <TextBlock Margin="77.21,30,107.21,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"><Run Language="de-de" Text="Choose Playlist"/></TextBlock>
             <s:SurfaceListBox ItemsSource="{Binding Playlists}" Margin="0,80,0,0" Height="368" VerticalAlignment="Top" Width="308">
                 <s:SurfaceListBox.ItemTemplate>
                     <DataTemplate>
@@ -286,7 +286,7 @@
                     </DataTemplate>
                 </s:SurfaceListBox.ItemTemplate>
             </s:SurfaceListBox>
-            <s:SurfaceButton Content="Cancel" Height="24.834" Margin="8,0,0,8" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <s:SurfaceButton Content="Cancel" Height="24.834" Margin="23,0,0,23" VerticalAlignment="Bottom" HorizontalAlignment="Left">
             	<i:Interaction.Triggers>
             		<i:EventTrigger EventName="Click">
             			<ei:GoToStateAction StateName="OpenPlaylistDialogInvisible"/>
@@ -303,9 +303,9 @@
         			<TranslateTransform/>
         		</TransformGroup>
         	</Grid.RenderTransform>
-            <s:SurfaceButton HorizontalAlignment="Left" Margin="396,0,0,0" VerticalAlignment="Top" Command="{Binding RotateCreatePlaylistCommand}" Width="60" Height="60" Background="{StaticResource ResourceKey=rotate}"/>
+            <s:SurfaceButton HorizontalAlignment="Left" Margin="382,14,0,0" VerticalAlignment="Top" Command="{Binding RotateCreatePlaylistCommand}" Width="60" Height="60" Background="{StaticResource ResourceKey=rotate}"/>
             <s:SurfaceTextBox x:Name="PlaylistNameInput" Margin="24,92,24,94" TextWrapping="Wrap" Text=""/>
-        	<TextBlock Height="24" Margin="0,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Center"><Run Language="de-de" Text="Give it a name"/></TextBlock>
+        	<TextBlock Height="24" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Center"><Run Language="de-de" Text="Give it a name"/></TextBlock>
         	<s:SurfaceButton Content="Cancel" Height="24.834" Margin="24,0,0,24" VerticalAlignment="Bottom" HorizontalAlignment="Left">
         		<i:Interaction.Triggers>
         			<i:EventTrigger EventName="PreviewTouchDown">
