@@ -389,7 +389,8 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            
+            //transform "\'" to unicode equivalent
+            response = response.Replace("'", "&#39;");
             //Apostrophes are replaced by HTML unicode
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
@@ -414,7 +415,7 @@ namespace MusicSearch.Managers
                 return null;
             }
             //transform "\'" to unicode equivalent
-            //response2 = response2.Replace("'", "&#39;");
+            response2 = response2.Replace("'", "&#39;");
             //Apostrophes are replaced by HTML unicode
             var cleared2 = @"" + response2.Replace("\"", "'");
             //manipulate response to receive results in RC
@@ -437,7 +438,8 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            
+            //transform "\'" to unicode equivalent
+            response3 = response3.Replace("'", "&#39;");
             var cleared3 = @"" + response3.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //manipulate response to receive results in RC
             var newText4 = StringHelper.replacePartialString(cleared3, "artists", "ArtistInfos\': [{\'SimilarArtists", 1);
@@ -461,7 +463,8 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            
+            //transform "\'" to unicode equivalent
+            response4 = response4.Replace("'", "&#39;");
             var cleared4 = @"" + response4.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //manipulate response to receive results in RC
             var newText6 = StringHelper.replacePartialString(cleared4, "artists", "ArtistInfos", 1);
@@ -487,7 +490,8 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            
+            //transform "\'" to unicode equivalent
+            response5 = response5.Replace("'", "&#39;");
             var cleared5 = @"" + response5.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //manipulate response to receive results in RC
             var newText9 = StringHelper.replacePartialString(cleared5, "artists", "ArtistInfos", 1);
@@ -538,7 +542,8 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            
+            //transform "\'" to unicode equivalent
+            response = response.Replace("'", "&#39;");
             //Apostrophes are replaced by HTML unicode
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive correct results in RC
@@ -590,7 +595,9 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-                        
+            //transform "\'" to unicode equivalent
+            response = response.Replace("'", "&#39;");
+            
             //Apostrophes are replaced by HTML unicode
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive correct results in RC
