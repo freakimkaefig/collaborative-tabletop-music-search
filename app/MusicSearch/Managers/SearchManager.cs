@@ -396,6 +396,8 @@ namespace MusicSearch.Managers
             //manipulate response to receive results in RC
             var newText = StringHelper.replacePartialString(cleared, "artists", "ArtistInfos", 1);
             newText = StringHelper.replacePartialString(newText, "foreign_id", "facebookId", 1000);
+            newText = StringHelper.replacePartialString(newText, "<span>", "", 10000);
+            newText = StringHelper.replacePartialString(newText, "</span>", "", 10000);
             newText = StringHelper.replacePartialString(newText, "facebook:artist:", "", 1000);
 
 
