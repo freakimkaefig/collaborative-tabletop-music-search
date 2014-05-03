@@ -34,9 +34,9 @@
             </Grid.ColumnDefinitions>
 
 
-            <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" Margin="0,0,0,0" />
+            <s:SurfaceButton Command="{Binding StartSearchCmd}" 
+                HorizontalAlignment="Center" Height="100" Width="100"
+                VerticalAlignment="Center" Margin="-6,6,0,0" Background="{StaticResource ResourceKey=searchButton}"/>
             <Rectangle x:Name="Fft1" HorizontalAlignment="Center" Margin="395,0,1235,0" 
                        Width="47" Height="{Binding Fft1Value}" VerticalAlignment="Center" 
                        Fill="DeepSkyBlue" Opacity="0.75">

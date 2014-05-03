@@ -125,7 +125,7 @@
                 </s:SurfaceButton.Background>
             </s:SurfaceButton>
         </Grid>
-		<s:SurfaceButton x:Name="surfaceButton2" Content="SEARCH" Margin="0" VerticalAlignment="Center" Height="80" HorizontalAlignment="Right" Visibility="Hidden">
+		<s:SurfaceButton x:Name="surfaceButton2" Margin="0" VerticalAlignment="Center" Height="90" Width="120" HorizontalAlignment="Right" Visibility="Hidden" Background="{StaticResource ResourceKey=search}">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<ei:GoToStateAction StateName="PlaylistViewInvisible"/>

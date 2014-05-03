@@ -157,7 +157,7 @@
                                 Command="{Binding SelectAttributeCmd}" 
                                 CommandParameter="{DynamicResource TagId}"
                                 Style="{StaticResource SearchViewBtn}"
-                                Background="{StaticResource ResourceKey=gear2}"
+                                Background="{StaticResource ResourceKey=gear2}" Margin="3,3,-2,-2"
                                 />
                 
                 <s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -166,7 +166,7 @@
                                  Command="{Binding SelectGenreCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"
-                                 Background="{StaticResource ResourceKey=genre2}"
+                                 Background="{StaticResource ResourceKey=genre2}" Margin="3,3,-2,-2"
                                  >
                 </s:SurfaceButton>
                 
@@ -176,7 +176,7 @@
                                  Command="{Binding SelectTitleCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"
-                                 Background="{StaticResource ResourceKey=title2}"
+                                 Background="{StaticResource ResourceKey=title2}" Margin="3,3,-2,-2"
                                  >
                 </s:SurfaceButton>
                 
@@ -186,7 +186,7 @@
                                  Command="{Binding SelectArtistCmd}" 
                                  CommandParameter="{DynamicResource TagId}"
                                  Style="{StaticResource SearchViewBtn}"
-                                 Background="{StaticResource ResourceKey=artist2}"
+                                 Background="{StaticResource ResourceKey=artist2}" Margin="3,3,-2,-2"
                                  >
                 </s:SurfaceButton>
             </Grid>
@@ -329,11 +329,7 @@
                         Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                         TextWrapping="Wrap"
                         Style="{StaticResource AssignedKeyword}"
-                        RenderTransformOrigin="0.5, 0.5"
                         Width="Auto">
-                        <TextBlock.RenderTransform>
-                            <RotateTransform Angle="180" />
-                        </TextBlock.RenderTransform>
                 </TextBlock>
                 <!--<TextBlock Grid.Row="1"
                         HorizontalAlignment="Center"
@@ -364,8 +360,12 @@
                             Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                             TextWrapping="Wrap"
                             Style="{StaticResource AssignedKeyword}"
-                            Width="Auto"
-                        />
+                        	RenderTransformOrigin="0.5, 0.5"
+                            Width="Auto">
+                        <TextBlock.RenderTransform>
+                            <RotateTransform Angle="180" />
+                        </TextBlock.RenderTransform>
+               </TextBlock>
 
                 <!--<TextBlock  Grid.Row="1"
                             HorizontalAlignment="Center"
@@ -383,7 +383,7 @@
         <!-- End menu -->
 
         <!--<ScrollViewer Name="SearchTagViewLog" Content="{Binding SearchTagViewLog}" Height="80" Width="400" ></ScrollViewer>-->
-        <Ellipse Width="70" Height="70" 
+        <Ellipse Width="60" Height="60" 
                  Stroke="#0f0" 
                  StrokeThickness="5" 
                  Fill="Transparent" 
