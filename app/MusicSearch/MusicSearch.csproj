@@ -57,7 +57,9 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="obj\" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Managers\SearchManager.cs" />
     <Compile Include="Objects\ArtistParameterTypes.cs" />

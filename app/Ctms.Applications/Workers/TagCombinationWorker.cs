@@ -60,7 +60,7 @@ namespace Ctms.Applications.Workers
             if (movedTag.AssignState != TagDataModel.AssignStates.Assigned
                 && movedTag.ExistenceState != TagDataModel.ExistenceStates.Added) return;
 
-            var tagCombis   = _repository.GetAllTagCombinations();
+            var tagCombis   = _repository.GetTagCombinations();
             var compareTags = _repository.GetAddedAndAssignedTagDMs().Where(t => t.Id != movedTag.Id);
 
             // check combination
@@ -204,8 +204,8 @@ namespace Ctms.Applications.Workers
             TagCombinationDataModel movedCombi, 
             TagCombinationDataModel compareCombi)
         {
-            var movedTagType   = movedTagDm.Tag.AssignedKeyword.Type;
-            var compareTagType = compareTagDm.Tag.AssignedKeyword.Type;
+            var movedTagType   = movedTagDm.Tag.AssignedKeyword.KeywordType;
+            var compareTagType = compareTagDm.Tag.AssignedKeyword.KeywordType;
 
             var resultType1 = GetPossibleCombiTypeFromOneSide(movedCombi, movedTagType, compareTagType);
             var resultType2 = GetPossibleCombiTypeFromOneSide(compareCombi, compareTagType, movedTagType);
@@ -227,7 +227,7 @@ namespace Ctms.Applications.Workers
 
                 if (combi1.CombinationType == KeywordTypes.Genre
                     && (tag2Type == KeywordTypes.Genre || tag2Type == KeywordTypes.Attribute)
-                    && combi1.Tags.Where(t => t.Tag.AssignedKeyword.Type == KeywordTypes.Genre).Count() <= 5)
+                    && combi1.Tags.Where(t => t.Tag.AssignedKeyword.KeywordType == KeywordTypes.Genre).Count() <= 5)
                 {   // existing genre combi can be combined with genre (if not more than 5) or attribute
                     // base type is genre
                     return KeywordTypes.Genre;

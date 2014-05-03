@@ -32,6 +32,8 @@
         <ResourceDictionary Source="Images/Common/icons/rotate.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/titel.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/title2.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/search.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/searchButton.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/shuffle.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/stop.xaml"/>
     </ResourceDictionary.MergedDictionaries>

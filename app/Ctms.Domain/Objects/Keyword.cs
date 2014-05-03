@@ -10,39 +10,61 @@ namespace Ctms.Domain
     // A keyword can be 
     public class Keyword : Model
     {
-        private string _name;
+        private string _displayName;
+        private object _displayDescription;
+        private object _value;
 
-        public Keyword(int id, string name, KeywordTypes type)
+        public Keyword(int id, string displayName, KeywordTypes type)
         {
             Id      = id;
-            Name    = name;
-            Type    = type;
+            DisplayName    = displayName;
+            KeywordType    = type;
         }
 
         public int Id { get; set; }
 
-        public string SearchId { get; set; }
+        public string Key { get; set; }
 
-        public KeywordTypes Type { get; protected set; }
+        public KeywordTypes KeywordType { get; protected set; }
 
         public AttributeTypes AttributeType { get; set; }
-
-        public string Key { get; set; }
         
         //public string Name { get; set; }
-        public object Description { get; set; }
-
-        public object AttributeValue { get; set; }
-
-        public string Name
+        public object DisplayDescription
         {
-            get { return _name; }
+            get { return _displayDescription; }
             set
             {
-                if (_name != value)
+                if (_displayDescription != value)
                 {
-                    _name = value;
-                    RaisePropertyChanged("Name");
+                    _displayDescription = value;
+                    RaisePropertyChanged("DisplayDescription");
+                }
+            }
+        }
+
+        public object Value
+        {
+            get { return _value; }
+            set
+            {
+                if (_value != value)
+                {
+                    _value = value;
+                    RaisePropertyChanged("Value");
+                }
+            }
+        }
+
+        public string DisplayName
+        {
+            get { return _displayName; }
+            set
+            {
+                if (_displayName != value)
+                {
+                    _displayName = value;
+                    RaisePropertyChanged("DisplayName");
                 }
             }
         }

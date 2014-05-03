@@ -36,7 +36,6 @@ namespace Ctms.Applications.Workers
             //Helpers
             _backgroundWorker = new BackgroundWorkHelper();
         }
-
             
         public void Initialize(SearchManager searchManager)
         {
@@ -64,12 +63,40 @@ namespace Ctms.Applications.Workers
         //Background worker methods
         public void StartSearch(object sender, DoWorkEventArgs e)
         {
-            var tags = _searchViewModel.Tags;
+            var combinedResults = DoCombinedSearch();
+
+            //!! todo: get and parse combined results and create results
+            var uncombinedSongs = DoUncombinedSearch();
+
+            //!! todo: add uncombinedSongs
+            var allSongs = uncombinedSongs;
+
+            var infoId = (int)e.Argument;
+            e.Result = new List<object>() { allSongs, infoId };
+        }
+
+        private List<ResponseContainer.ResponseObj.combinedQuery> DoCombinedSearch()
+        {
+            var combinedSearchObjects = new List<combinedSearchObject>();
+
+            // do search for uncombined tags
+            foreach (var tag in _repository.GetUncombinedTags())
+            {
+                //!!
+            }
+
+            var songs = _searchManager.combinedSearchQuery(combinedSearchObjects);
+
+            return songs;
+        }
+
+        private List<ResponseContainer.ResponseObj.Song> DoUncombinedSearch()
+        {
             var searchObjects = new List<searchObject>();
 
             //!!used tags außer combined tags! sonst doppelte anfrage
             var usedTags = _repository.GetAssignedTagDMs();
-            
+
             foreach (var tag in usedTags)
             {
                 var searchObject = new searchObject();
@@ -77,57 +104,29 @@ namespace Ctms.Applications.Workers
 
                 var keyword = tag.Tag.AssignedKeyword;
 
-                if (keyword.Type == KeywordTypes.Artist)
+                if (keyword.KeywordType == KeywordTypes.Artist)
                 {
-                    searchObject.artist_id = keyword.SearchId;
+                    searchObject.artist_id = keyword.Key;
                 }
-                else if (keyword.Type == KeywordTypes.Title)
+                else if (keyword.KeywordType == KeywordTypes.Title)
                 {
-                    searchObject.title_id = keyword.SearchId;
+                    searchObject.title_id = keyword.Key;
                 }
-                else if (keyword.Type == KeywordTypes.Genre)
+                else if (keyword.KeywordType == KeywordTypes.Genre)
                 {
-                    searchObject.genre = keyword.Name;
+                    searchObject.genre = keyword.DisplayName;
                 }
-                else if (keyword.Type == KeywordTypes.Attribute)
+                else if (keyword.KeywordType == KeywordTypes.Attribute)
                 {
-                    
+                    //searchObject.
                 }
 
                 searchObjects.Add(searchObject);
             }
 
-            
-            
-            var combinedSearchObjects = new List<combinedSearchObject>();
-            //var tagCombinations = //getcombined..
-
-            // tagIds, common type, attribute value, 
-            //foreach (var tagCombination in tagCombinations)
-            {
-                var combinedSearchObject = new combinedSearchObject();
-                //combinedSearchObject.originIds.AddRange(...)
-                //if(tagCombination.Type == ...Genre)
-                {
-                    //combinedSearchObject.genre = tagCombination.
-                    //combinedSearchObject.GenreParameter = tagCombination.Val..
-                }
-                //else if (tagCombination.Type == Artist)
-	            {
-		            //...
-	            }
-
-                //combinedSearchObjects.Add(combinedSearchObject);
-
-            }
-
             var songs = _searchManager.SearchQuery(searchObjects);
-            //var songs = _searchManager.SearchQuery(_searchViewModel.SearchObjectsList); //TestTag mit "Rock"
-            var infoId = (int) e.Argument;
-            e.Result = new List<object>() { songs, infoId };
 
-
-            //var combinedSongs = _searchManager.combinedSearchQuery();
+            return songs;
         }
 
         private void StartSearchCompleted(object sender, RunWorkerCompletedEventArgs e)

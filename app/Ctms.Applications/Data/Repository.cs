@@ -274,7 +274,7 @@ namespace Ctms.Applications.Data
         /// </summary>
         public TagOption GetTagOption(int tagId, KeywordTypes type)
         {
-            return GetTagDMById(tagId).Tag.TagOptions.FirstOrDefault(to => to.Keyword.Type == type && to.Keyword.Name == type.ToString());
+            return GetTagDMById(tagId).Tag.TagOptions.FirstOrDefault(to => to.Keyword.KeywordType == type && to.Keyword.DisplayName == type.ToString());
         }
 
         #endregion TagOptions
@@ -286,19 +286,27 @@ namespace Ctms.Applications.Data
         /// Add tag combination data model
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<TagCombinationDataModel> GetAllTagCombinations()
+        public ObservableCollection<TagCombinationDataModel> GetTagCombinations()
         {
             return _searchVm.TagCombinations;
         }
 
         /// <summary>
-        /// Add tag combination data model
+        /// Get all tags that are in tag combinations
         /// </summary>
         /// <returns></returns>
-        public ObservableCollection<TagCombinationDataModel> GetTagCombinationContainingTags()
+        public IEnumerable<TagDataModel> GetCombinedTags()
         {
-            //return _searchVm.TagCombinations.Where(t => t.Tags.Contains());
-            return null;
+            return EntitiesHelper.ToObservableCollection<TagDataModel>(_searchVm.TagCombinations.SelectMany(tc => tc.Tags));
+        }
+
+        /// <summary>
+        /// Get all tags that are not in a tag combination
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<TagDataModel> GetUncombinedTags()
+        {
+            return _searchVm.Tags.Except(GetCombinedTags());
         }
 
         /// <summary>

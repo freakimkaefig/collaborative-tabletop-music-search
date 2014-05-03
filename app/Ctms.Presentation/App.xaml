@@ -6,6 +6,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/ModuleResources.xaml"/>
+                <ResourceDictionary Source="Resources/Images/Common/icons/search.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Workaround for a WPF bug that implicit styles must not be nested in merged dictionaries three levels deep or deeper. -->
