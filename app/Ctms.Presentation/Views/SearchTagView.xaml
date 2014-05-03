@@ -118,7 +118,6 @@
                     RotateText="True"
                     RotateTextAngle="0"
                     Rotation="120"
-                    MainAngle="120"
                     Background="Transparent"
                     Grid.Row="0"
                     Grid.Column="0"

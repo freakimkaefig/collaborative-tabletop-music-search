@@ -4,63 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Ctms.Applications.DataModels;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using Ctms.Domain.Objects;
+using System.Windows.Media.Imaging;
 
 namespace Ctms.Presentation.Resources
 {
-    public partial class ResultStyleResources
+    public partial class ResultStyleResources : ResourceDictionary
     {
-        private void ResultWrapper_SizeChanged(object sender, SizeChangedEventArgs e)
+        private int _pagerCounter = 0;
+
+        public ResultStyleResources()
         {
-            FrameworkElement scatterViewItem = e.Source as FrameworkElement;
-            ResultDataModel result = scatterViewItem.DataContext as ResultDataModel;
+            InitializeComponent();
+        }
 
-            if (e.PreviousSize.Height == 0.0 && e.PreviousSize.Width == 0.0)
-            {
-                result.StdWidth = e.NewSize.Width;
-                result.StdHeight = e.NewSize.Height;
-                result.Width = e.NewSize.Width;
-                result.Height = e.NewSize.Height;
-            }
-
-            /*
-            if (e.PreviousSize.Height != 0.0 && e.PreviousSize.Width != 0.0)
-            {
-                if (e.NewSize.Width == result.StdWidth || e.NewSize.Height == result.StdHeight)
-                {
-
-                }
-                else
-                {
-                    //not initial rendering
-                    if (e.NewSize.Width > e.PreviousSize.Width || e.NewSize.Height > e.PreviousSize.Height)
-                    {
-                        //item is getting bigger
-                        if (e.NewSize.Width > result.StdWidth * 2 || e.NewSize.Height > result.StdHeight * 2)
-                        {
-                            result.IsDetail = true;
-                            scatterViewItem.Height = 300.0;
-                            scatterViewItem.Width = 400.0;
-                        }
-                    }
-                    else
-                    {
-                        //item is getting smaller
-                        if (e.NewSize.Width < result.StdWidth * 2 || e.NewSize.Height < result.StdHeight * 2)
-                        {
-                            result.IsDetail = false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                //initial rendering | save items standard width/height
-                result.StdWidth = e.NewSize.Width;
-                result.StdHeight = e.NewSize.Height;
-                result.Width = e.NewSize.Width;
-                result.Height = e.NewSize.Height;
-            }
-            */
+        private void TabItem_TouchDown(object sender, TouchEventArgs e)
+        {
+            TabItem tab = sender as TabItem;
+            TabControl control = tab.Parent as TabControl;
+            control.SelectedItem = tab;
+            e.Handled = true;
         }
     }
 }

@@ -11,6 +11,7 @@ using Ctms.Applications.DataModels;
 using SpotifySharp;
 using MusicStream;
 using System.Collections.ObjectModel;
+using Helpers;
 
 namespace Ctms.Applications.Workers
 {
@@ -99,10 +100,21 @@ namespace Ctms.Applications.Workers
 
             //About
             d.Name = r.name;
-            d.Biography = r.biographies[0].text;
+
+            for (var i = 0; i < r.biographies.Count; i++)
+            {
+                if (r.biographies[i].text.Length > 500)
+                {
+                    d.Biography = cleanText(r.biographies[i].text);
+                    break;
+                }
+            }
+            
             d.City = r.artist_location[0].location;
+
             d.Image = new ArtistImage();
             d.Image.ImageUrl = r.images[0].url;
+
             d.Genres = new List<String>();
             for (var i = 0; i < r.terms.Count; i++)
             {
@@ -115,34 +127,62 @@ namespace Ctms.Applications.Workers
             for (var i = 0; i < r.news.Count; i++)
             {
                 ArtistNews news = new ArtistNews();
-                news.Title = r.news[i].name;
-                news.Summary = r.news[i].summary;
+                news.Title = cleanText(r.news[i].name);
+                news.Summary = cleanText(r.news[i].summary);
                 news.Url = r.news[i].url;
                 d.News.Add(news);
             }
 
             //Media
-            d.Images = new List<ArtistImage>();
+            d.Images = new ObservableCollection<ArtistImage>();
             for (var i = 0; i < r.images.Count; i++)
             {
                 ArtistImage image = new ArtistImage();
                 image.ImageUrl = r.images[i].url;
                 d.Images.Add(image);
             }
-            d.Videos = new List<ArtistVideo>();
+            d.Videos = new ObservableCollection<ArtistVideo>();
             for (var i = 0; i < r.video.Count; i++)
             {
                 ArtistVideo video = new ArtistVideo();
-                video.Title = r.video[i].title;
+                video.Title = cleanText(r.video[i].title);
                 video.VideoUrl = r.video[i].url;
                 video.PreviewUrl = r.video[i].image_url;
+                d.Videos.Add(video);
             }
 
             //Reviews
+            d.Reviews = new ObservableCollection<ArtistReview>();
+            for (var i = 0; i < r.reviews.Count; i++)
+            {
+                ArtistReview review = new ArtistReview();
+                review.Name = cleanText(r.reviews[i].name);
+                review.Release = cleanText(r.reviews[i].release);
+                review.Summary = cleanText(r.reviews[i].summary);
+                review.Url = r.reviews[i].url;
+                d.Reviews.Add(review);
+            }
 
             //Songs
+            d.Songs = new ObservableCollection<String>();
+            for (var i = 0; i < r.ArtistSongs.Count; i++)
+            {
+                d.Songs.Add(cleanText(r.ArtistSongs[i].title));
+            }
 
             result.Detail = d;
+            result.IsDetailLoading = false;
+            result.IsDetailLoaded = true;
+        }
+
+        private String cleanText(String text)
+        {
+            String temp = text;
+            temp = StringHelper.replacePartialString(temp, "&#34;", "\"", 10000);
+            temp = StringHelper.replacePartialString(temp, "&quot;", "\"", 10000);
+            temp = StringHelper.replacePartialString(temp, "&#38;", "&", 10000);
+            temp = StringHelper.replacePartialString(temp, "&#39;", "'", 10000);
+            return temp;
         }
     }
 }
