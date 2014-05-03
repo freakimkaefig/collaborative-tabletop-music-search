@@ -242,47 +242,47 @@ namespace MusicSearch.Managers
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_min_familiarity.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_min_familiarity.ToString(), new AttributeObj() { max = 1, min = 0, description = "Min. familiarity of any song (familiarity to the world)" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_min_familiarity.ToString(), new AttributeObj() { max = 1, min = 0, description = "Min. familiarity" });
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_start_year_before.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_start_year_before.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Earliest start year before ..." });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_start_year_before.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Start year before ..." });
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_start_year_after.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_start_year_after.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Earliest start year after ..." });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_start_year_after.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Start year after ..." });
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_end_year_before.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_end_year_before.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Latest end year before ..." });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_end_year_before.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "End year before ..." });
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_end_year_after.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_end_year_after.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Latest end year after ..." });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_end_year_after.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "End year after ..." });
                 }
                 else if (prop.Name == ArtistParameterTypes.song_min_hotttnesss.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.song_min_hotttnesss.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum hotttnesss of any song" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.song_min_hotttnesss.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum hotttnesss" });
                 }
                 else if (prop.Name == ArtistParameterTypes.artist_min_hotttnesss.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_min_hotttnesss.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum hotttnesss of any song's artist" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.artist_min_hotttnesss.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum hotttnesss" });
                 }
                 else if (prop.Name == ArtistParameterTypes.min_danceability.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_danceability.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum danceability of any song" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_danceability.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum danceability" });
                 }
                 else if (prop.Name == ArtistParameterTypes.min_energy.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_energy.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum energy of any song" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_energy.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum energy" });
                 }
                 else if (prop.Name == ArtistParameterTypes.min_liveness.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_liveness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum liveness of any song" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_liveness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum liveness" });
                 }
                 else if (prop.Name == ArtistParameterTypes.min_acousticness.ToString())
                 {
-                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_acousticness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum acousticness of any song" });
+                    combinedSearchArtistAttributes.Add(ArtistParameterTypes.min_acousticness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Minimum acousticness" });
                 }
 
             }
@@ -290,15 +290,15 @@ namespace MusicSearch.Managers
             {
                 if (prop.Name == GenreParameterTypes.variety.ToString())
                 {
-                    combinedSearchGenreAttributes.Add(GenreParameterTypes.variety.ToString(), new AttributeObj() { max = 1, min = 0, description = "A higher number will allow for more variety in the artists" });
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.variety.ToString(), new AttributeObj() { max = 1, min = 0, description = "Higher number = more variety in the artists" });
                 }
                 else if (prop.Name == GenreParameterTypes.distribution.ToString())
                 {
-                    combinedSearchGenreAttributes.Add(GenreParameterTypes.distribution.ToString(), new AttributeObj() { option1 = "focused", option2 = "wandering", description = "Controls the distribution of artists" });
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.distribution.ToString(), new AttributeObj() { option1 = "focused", option2 = "wandering", description = "Controls distribution of artists" });
                 }
                 else if (prop.Name == GenreParameterTypes.adventurousness.ToString())
                 {
-                    combinedSearchGenreAttributes.Add(GenreParameterTypes.adventurousness.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Controls the trade between known music and unknown music" });
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.adventurousness.ToString(), new AttributeObj() { max = DateTime.Now.Year, min = 1970, description = "Trade between known & unknown music" });
                 }
             }
             #endregion
@@ -389,8 +389,7 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            //transform "\'" to unicode equivalent
-            response = response.Replace("'", "&#39;");
+            
             //Apostrophes are replaced by HTML unicode
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
@@ -415,7 +414,7 @@ namespace MusicSearch.Managers
                 return null;
             }
             //transform "\'" to unicode equivalent
-            response2 = response2.Replace("'", "&#39;");
+            //response2 = response2.Replace("'", "&#39;");
             //Apostrophes are replaced by HTML unicode
             var cleared2 = @"" + response2.Replace("\"", "'");
             //manipulate response to receive results in RC
@@ -438,8 +437,7 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            //transform "\'" to unicode equivalent
-            response3 = response3.Replace("'", "&#39;");
+            
             var cleared3 = @"" + response3.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //manipulate response to receive results in RC
             var newText4 = StringHelper.replacePartialString(cleared3, "artists", "ArtistInfos\': [{\'SimilarArtists", 1);
@@ -463,8 +461,7 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            //transform "\'" to unicode equivalent
-            response4 = response4.Replace("'", "&#39;");
+            
             var cleared4 = @"" + response4.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //manipulate response to receive results in RC
             var newText6 = StringHelper.replacePartialString(cleared4, "artists", "ArtistInfos", 1);
@@ -490,8 +487,7 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            //transform "\'" to unicode equivalent
-            response5 = response5.Replace("'", "&#39;");
+            
             var cleared5 = @"" + response5.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //manipulate response to receive results in RC
             var newText9 = StringHelper.replacePartialString(cleared5, "artists", "ArtistInfos", 1);
@@ -542,8 +538,7 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            //transform "\'" to unicode equivalent
-            response = response.Replace("'", "&#39;");
+            
             //Apostrophes are replaced by HTML unicode
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive correct results in RC
@@ -595,9 +590,7 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            //transform "\'" to unicode equivalent
-            response = response.Replace("'", "&#39;");
-            
+                        
             //Apostrophes are replaced by HTML unicode
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive correct results in RC
@@ -702,8 +695,6 @@ namespace MusicSearch.Managers
                 return null;
             }
 
-            //transform "\'" to unicode equivalent
-            response = response.Replace("'", "&#39;");
             return ParseResponse(response, ID, SearchRC);
         }
 
