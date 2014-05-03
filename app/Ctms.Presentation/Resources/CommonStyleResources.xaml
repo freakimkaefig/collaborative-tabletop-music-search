@@ -57,6 +57,12 @@
         <Setter Property="Background" Value="#222"/>
     </Style>
 
+    <Style x:Key="LoadingInfoStyle" TargetType="Image">
+        <Setter Property="Source" Value="Images/Common/loading.gif" />
+    </Style>
+
+    <BitmapImage x:Key="LoadingInfoIcon" UriSource="Images/Common/icons/loading.gif" />
+
     <!--Key styles-->
     <!--<Style x:Key="GreenButtonStyle" TargetType="Button">
         <Setter Property="Foreground" Value="Green" />

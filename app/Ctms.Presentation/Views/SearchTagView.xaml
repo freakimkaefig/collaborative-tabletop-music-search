@@ -31,7 +31,7 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle Fill="{StaticResource ResourceKey=arrowRight}" Width="10" Height="10" Grid.Column="0"
                                  Visibility="{DynamicResource IsMenuVisible}" />
-                <s:SurfaceButton Content="{Binding Keyword.Name}" 
+                <s:SurfaceButton Content="{Binding Keyword.DisplayName}" 
                                  Command="{Binding DataContext.GoBreadcrumbCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                  CommandParameter="{Binding Id}" 
                                  HorizontalAlignment="Center"
@@ -45,6 +45,7 @@
             </Grid>
         </DataTemplate>
         <sys:Double x:Key="PieMenuDiameter">240</sys:Double>
+        <sys:Double x:Key="AssignedDiameter">240</sys:Double>
         <sys:Double x:Key="OuterLength">50</sys:Double>
         <sys:Double x:Key="InputLength">180</sys:Double>
     </s:TagVisualization.Resources>
@@ -127,6 +128,13 @@
                     <ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
                                         Command="" Background="#0000" />
                 </ps:PieMenu>
+
+                <!--<Image                         
+                       Visibility="{Binding IsLoadingInfoVisible, Converter={StaticResource visibilityConverter}}"
+                       Style="{StaticResource LoadingImageSource}"
+                        Source="{StaticResource LoadingInfoIcon}"
+                       Height="{StaticResource PieMenuDiameter}" 
+                       Width="{StaticResource PieMenuDiameter}"/>-->
             </Grid>
             <!--//Grid for PieMenu-->
 
@@ -306,31 +314,69 @@
                 <!--//Breadcrumb-->
 
                 <!-- Start Assigned keyword-->
-                    <TextBlock 
+            <Grid   Grid.ColumnSpan="3" Grid.Row="1"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+                       >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                        HorizontalAlignment="Center"
                         DataContext="{DynamicResource TagDM}"
                         Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                        Text="{Binding Tag.AssignedKeyword.Name, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        TextWrapping="Wrap"
                         Style="{StaticResource AssignedKeyword}"
-                        Grid.ColumnSpan="3"
-                        Grid.Row="1"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                        RenderTransformOrigin="0.5, 0.5">
+                        RenderTransformOrigin="0.5, 0.5"
+                        Width="Auto">
                         <TextBlock.RenderTransform>
                             <RotateTransform Angle="180" />
                         </TextBlock.RenderTransform>
-                    </TextBlock>
-            
-                    <TextBlock 
+                </TextBlock>
+                <!--<TextBlock Grid.Row="1"
+                        HorizontalAlignment="Center"
                         DataContext="{DynamicResource TagDM}"
                         Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                        Text="{Binding Tag.AssignedKeyword.Name, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        TextWrapping="Wrap"
                         Style="{StaticResource AssignedKeyword}"
-                        Grid.ColumnSpan="3"
-                        Grid.Row="1"
-                        VerticalAlignment="Bottom"
-                        HorizontalAlignment="Center"
-                    />
+                        RenderTransformOrigin="0.5, 0.5"
+                        Width="Auto">
+                        <TextBlock.RenderTransform>
+                            <RotateTransform Angle="180" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>-->
+            </Grid>
+            
+            <Grid Grid.ColumnSpan="3" Grid.Row="1"
+                    VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock  Grid.Row="0"
+                            HorizontalAlignment="Center"
+                            DataContext="{DynamicResource TagDM}"
+                            Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                            Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap"
+                            Style="{StaticResource AssignedKeyword}"
+                            Width="Auto"
+                        />
+
+                <!--<TextBlock  Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            DataContext="{DynamicResource TagDM}"
+                            Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                            Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap"
+                            Style="{StaticResource AssignedKeyword}"
+                            Width="Auto"
+                        />-->
+            </Grid>
                 <!-- End Assigned keyword-->
 
         </Grid>

@@ -68,8 +68,15 @@ namespace Ctms.Applications.Controllers
 
         public void Initialize()
         {
+            //Views
             _shellService.InfoView = _infoVm.View;
 
+            //Commands
+            _infoVm.ConfirmCommonInfoCmd    = _confirmCommonInfoCmd;
+            _infoVm.ConfirmTagInfoCmd       = _confirmTagInfoCmd;
+            _infoVm.ConfirmTutorialInfoCmd  = _confirmTutorialInfoCmd;
+
+            //Listeners
             AddWeakEventListener(_infoVm, InfoViewModelPropertyChanged);
         }
        

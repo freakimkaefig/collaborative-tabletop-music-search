@@ -40,6 +40,7 @@ namespace Ctms.Applications.DataModels
         private bool _isCircleMenuVisible;
         private string _inputTypeHint;
         private AssignStates _assignState;
+        private bool _isLoadingInfoVisible;
 
         public TagDataModel(Tag tag)
         {
@@ -108,7 +109,7 @@ namespace Ctms.Applications.DataModels
             var names = "";
             foreach (var option in VisibleOptions)
             {
-                names += option.Keyword.Name + " ";
+                names += option.Keyword.DisplayName + " ";
             }
             Debug.WriteLine(names);
         }
@@ -275,6 +276,22 @@ namespace Ctms.Applications.DataModels
                 {
                     _isConfirmBreadcrumbVisible = value;
                     RaisePropertyChanged("IsConfirmBreadcrumbVisible");
+                }
+            }
+        }
+
+        public bool IsLoadingInfoVisible
+        {
+            get
+            {
+                return _isLoadingInfoVisible;
+            }
+            set
+            {
+                if (_isLoadingInfoVisible != value)
+                {
+                    _isLoadingInfoVisible = value;
+                    RaisePropertyChanged("IsLoadingInfoVisible");
                 }
             }
         }
