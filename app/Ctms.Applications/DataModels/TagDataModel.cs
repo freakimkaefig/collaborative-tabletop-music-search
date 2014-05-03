@@ -41,6 +41,7 @@ namespace Ctms.Applications.DataModels
         private string _inputTypeHint;
         private AssignStates _assignState;
         private bool _isLoadingInfoVisible;
+        private string _tagColor;
 
         public TagDataModel(Tag tag)
         {
@@ -412,6 +413,22 @@ namespace Ctms.Applications.DataModels
                 {
                     _inputTypeHint = value;
                     RaisePropertyChanged("InputTypeHint");
+                }
+            }
+        }
+
+        public string TagColor
+        {
+            get
+            {
+                return _tagColor;
+            }
+            set
+            {
+                if (_tagColor != value)
+                {
+                    _tagColor = value;
+                    RaisePropertyChanged("TagColor");
                 }
             }
         }

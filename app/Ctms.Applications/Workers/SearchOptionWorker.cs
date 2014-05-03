@@ -498,14 +498,23 @@ namespace Ctms.Applications.Workers
 
                         if (editType == "Lower" && IsAttributeInputValid(tagDM, attribute, (termsNr - 1)))
                         {   // lower is valid
-                            termsNr--;
+                            if (attribute.max == 1.0 && IsAttributeInputValid(tagDM, attribute, (termsNr - 0.1)))
+                            {   // range is 0.0 till 1.0 -> small steps
+                                termsNr -= 0.1;
+                            }
+                            else if (IsAttributeInputValid(tagDM, attribute, (termsNr - 1)))
+                                termsNr--; // large steps
 
                             // remove previously shown infos
                             _infoWorker.RemoveTagInfo(tagId);
                         }
-                        else if (editType == "Raise" && IsAttributeInputValid(tagDM, attribute, (termsNr + 1)))
+                        else if (editType == "Raise")
                         {   // raise is valid
-                            termsNr++;
+                            if (attribute.max == 1.0 && IsAttributeInputValid(tagDM, attribute, (termsNr + 0.1)))
+                                // range is 0.0 till 1.0 -> small steps
+                                termsNr += 0.1;
+                            else if (IsAttributeInputValid(tagDM, attribute, (termsNr + 1)))
+                                termsNr++; // large steps
 
                             // remove previously shown infos
                             _infoWorker.RemoveTagInfo(tagId);
@@ -515,7 +524,7 @@ namespace Ctms.Applications.Workers
                             ShowAttributeRangeHint(false, attribute, tagId);
                         }
                         // update input field terms on UI
-                        tagDM.InputTerms = termsNr.ToString();
+                        tagDM.InputTerms = termsNr.ToString().Replace(",", ".");
                     }
                 }
             }
@@ -578,7 +587,7 @@ namespace Ctms.Applications.Workers
 
                 _searchVM.UpdateVisuals(tagDM);
             }
-            SetIsLoadingInfoVisible(tagDM, true);
+            SetIsLoadingInfoVisible(tagDM, false);
         }
 
         public void GetTitleSuggestionsInBackgr(object sender, DoWorkEventArgs e)
@@ -587,6 +596,8 @@ namespace Ctms.Applications.Workers
 
             // set result to tagDM if backgr work cancelles/throws an error
             e.Result = tagDM;
+
+            SetIsLoadingInfoVisible(tagDM, true);   
 
             e.Result = _searchManager.getTitleSuggestions(tagDM.Id, tagDM.InputTerms);
         }
@@ -633,7 +644,7 @@ namespace Ctms.Applications.Workers
 
                 _searchVM.UpdateVisuals(tagDM);
             }
-            SetIsLoadingInfoVisible(tagDM, true);
+            SetIsLoadingInfoVisible(tagDM, false);
         }
 
         /// <summary>
@@ -671,7 +682,6 @@ namespace Ctms.Applications.Workers
             }
         }
 
-
         /// <summary>
         /// Go to option of breadcrumb and update items
         /// </summary>
@@ -682,23 +692,23 @@ namespace Ctms.Applications.Workers
             var tagOptions          = tagDM.Tag.TagOptions;
             var breadcrumbOption    = _repository.GetTagOptionById(breadcrumbOptionId);
 
-            // update current LayerNr
-            var currentLayerNr = breadcrumbOption.LayerNr;
-            tagDM.Tag.CurrentLayerNr = currentLayerNr;
+            // do nothing if breadcrumb option of the last layer would be selected
+            // (would repeat last select option and load currently displayed data again)
+            if (breadcrumbOption.LayerNr < tagDM.Tag.CurrentLayerNr - 1)
+            {   
+                // update current LayerNr
+                tagDM.Tag.CurrentLayerNr = breadcrumbOption.LayerNr;
 
-            // remove options of higher layers
-            if (tagDM.Tag.AssignedKeyword.KeywordType != KeywordTypes.Title
-                && tagDM.Tag.AssignedKeyword.KeywordType != KeywordTypes.Artist)
-            {
+                // remove options of higher layers
                 RemovePreviousBreadcrumbs(tagDM);
                 RemovePreviousOptions(tagDM);
-            }           
 
-            SetIsInputVisible(tagDM, false);
-            SetIsInputControlVisible(tagDM, false);
+                SetIsInputVisible(tagDM, false);
+                SetIsInputControlVisible(tagDM, false);
 
-            //_searchVM.UpdateVisuals(tag);
-            SelectOption(breadcrumbOption.Id);
+                //_searchVM.UpdateVisuals(tag);
+                SelectOption(breadcrumbOption.Id);
+            }
         }
 
         public void GoHome(int tagId)

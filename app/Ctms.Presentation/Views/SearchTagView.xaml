@@ -129,12 +129,13 @@
                                         Command="" Background="#0000" />
                 </ps:PieMenu>
 
-                <!--<Image                         
+                <Image        
+                       Style="{StaticResource LoadingCircleInverted}"
                        Visibility="{Binding IsLoadingInfoVisible, Converter={StaticResource visibilityConverter}}"
-                       Style="{StaticResource LoadingImageSource}"
-                        Source="{StaticResource LoadingInfoIcon}"
-                       Height="{StaticResource PieMenuDiameter}" 
-                       Width="{StaticResource PieMenuDiameter}"/>-->
+                       Height="80" Width="80"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                
+                <!--Grid.Row="0" Grid.Column="0"-->
             </Grid>
             <!--//Grid for PieMenu-->
 
@@ -313,53 +314,43 @@
                     </ItemsControl>
                 <!--//Breadcrumb-->
 
-                <!-- Start Assigned keyword-->
-            <Grid   Grid.ColumnSpan="3" Grid.Row="1"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-                       >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <!--Assigned keyword-->
+                <!--Rotated assigned keyword-->
+                    <Grid   Grid.ColumnSpan="3" Grid.Row="1"
+                            VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+                               >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"
-                        HorizontalAlignment="Center"
-                        DataContext="{DynamicResource TagDM}"
-                        Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                        Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                        TextWrapping="Wrap"
-                        Style="{StaticResource AssignedKeyword}"
-                        Width="Auto">
-                </TextBlock>
-                <!--<TextBlock Grid.Row="1"
-                        HorizontalAlignment="Center"
-                        DataContext="{DynamicResource TagDM}"
-                        Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                        Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                        TextWrapping="Wrap"
-                        Style="{StaticResource AssignedKeyword}"
-                        RenderTransformOrigin="0.5, 0.5"
-                        Width="Auto">
-                        <TextBlock.RenderTransform>
-                            <RotateTransform Angle="180" />
-                        </TextBlock.RenderTransform>
-                    </TextBlock>-->
-            </Grid>
+                        <TextBlock Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                DataContext="{DynamicResource TagDM}"
+                                Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                                Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                                TextWrapping="Wrap"
+                                Style="{StaticResource AssignedKeyword}"
+                                Width="Auto">
+                        </TextBlock>
+                    </Grid>
+                <!--//Rotated assigned keyword-->
             
-            <Grid Grid.ColumnSpan="3" Grid.Row="1"
-                    VerticalAlignment="Top" HorizontalAlignment="Stretch" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                <!--Not rotated assigned keyword-->
+                    <Grid Grid.ColumnSpan="3" Grid.Row="1"
+                            VerticalAlignment="Top" HorizontalAlignment="Stretch" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                <TextBlock  Grid.Row="0"
-                            HorizontalAlignment="Center"
-                            DataContext="{DynamicResource TagDM}"
-                            Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                            Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                            TextWrapping="Wrap"
-                            Style="{StaticResource AssignedKeyword}"
+                        <TextBlock  Grid.Row="0"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{DynamicResource TagDM}"
+                                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                                    Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource AssignedKeyword}"
                         	RenderTransformOrigin="0.5, 0.5"
                             Width="Auto">
                         <TextBlock.RenderTransform>
@@ -367,32 +358,34 @@
                         </TextBlock.RenderTransform>
                </TextBlock>
 
-                <!--<TextBlock  Grid.Row="1"
-                            HorizontalAlignment="Center"
-                            DataContext="{DynamicResource TagDM}"
-                            Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                            Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                            TextWrapping="Wrap"
-                            Style="{StaticResource AssignedKeyword}"
-                            Width="Auto"
-                        />-->
-            </Grid>
-                <!-- End Assigned keyword-->
+                        <!--<TextBlock  Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    DataContext="{DynamicResource TagDM}"
+                                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                                    Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap"
+                                    Style="{StaticResource AssignedKeyword}"
+                                    Width="Auto"
+                                />-->
+                    </Grid>
+                <!--//Not rotated assigned keyword-->
+            <!--//Assigned keyword-->
 
         </Grid>
         <!-- End menu -->
 
-        <!--<ScrollViewer Name="SearchTagViewLog" Content="{Binding SearchTagViewLog}" Height="80" Width="400" ></ScrollViewer>-->
-        <Ellipse Width="60" Height="60" 
-                 Stroke="#0f0" 
+        <!--Tag color circle-->
+        <Ellipse 
+                 DataContext="{DynamicResource TagDM}"
+                 Width="70" Height="70" 
+                 Stroke="{Binding TagColor}"
                  StrokeThickness="5" 
-                 Fill="Transparent" 
-                 Opacity="1.0">
-            <!--StrokeDashArray="0.5 1.0 0.3">-->
+                 Fill="{x:Null}">
             <Ellipse.Effect>
                 <BlurEffect Radius="5"/>
             </Ellipse.Effect>
         </Ellipse>
+        <!--//Tag color circle-->
     </Grid>
     <!--End Surrounding Tag grid-->
 </s:TagVisualization>
