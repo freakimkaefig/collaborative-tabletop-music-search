@@ -274,7 +274,7 @@ namespace Ctms.Applications.Data
         /// </summary>
         public TagOption GetTagOption(int tagId, KeywordTypes type)
         {
-            return GetTagDMById(tagId).Tag.TagOptions.FirstOrDefault(to => to.Keyword.Type == type && to.Keyword.Name == type.ToString());
+            return GetTagDMById(tagId).Tag.TagOptions.FirstOrDefault(to => to.Keyword.KeywordType == type && to.Keyword.DisplayName == type.ToString());
         }
 
         #endregion TagOptions

@@ -8,6 +8,6 @@ namespace MusicSearch.Objects
     public enum AttributeTypes
     {
         Artist,
-        Title
+        Genre
     }
 }

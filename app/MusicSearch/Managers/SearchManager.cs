@@ -319,7 +319,7 @@ namespace MusicSearch.Managers
             {
                 return combinedSearchArtistAttributes;
             }
-            else if (attributeType == AttributeTypes.Title)
+            else if (attributeType == AttributeTypes.Genre)
             {
                 return combinedSearchGenreAttributes;
             }

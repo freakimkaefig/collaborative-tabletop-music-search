@@ -61,6 +61,9 @@ namespace Ctms.Applications.Workers
         //Background worker methods
         public void StartSearch(object sender, DoWorkEventArgs e)
         {
+            _infoWorker.ShowCommonInfo("Lookup for detail has failed", "TestMessage", "Ok");
+            return;
+
             var tags = _searchViewModel.Tags;
             var searchObjects = new List<searchObject>();
 
@@ -74,19 +77,19 @@ namespace Ctms.Applications.Workers
 
                 var keyword = tag.Tag.AssignedKeyword;
 
-                if (keyword.Type == KeywordTypes.Artist)
+                if (keyword.KeywordType == KeywordTypes.Artist)
                 {
-                    searchObject.artist_id = keyword.SearchId;
+                    searchObject.artist_id = keyword.Key;
                 }
-                else if (keyword.Type == KeywordTypes.Title)
+                else if (keyword.KeywordType == KeywordTypes.Title)
                 {
-                    searchObject.title_id = keyword.SearchId;
+                    searchObject.title_id = keyword.Key;
                 }
-                else if (keyword.Type == KeywordTypes.Genre)
+                else if (keyword.KeywordType == KeywordTypes.Genre)
                 {
-                    searchObject.genre = keyword.Name;
+                    searchObject.genre = keyword.DisplayName;
                 }
-                else if (keyword.Type == KeywordTypes.Attribute)
+                else if (keyword.KeywordType == KeywordTypes.Attribute)
                 {
                     
                 }

@@ -133,7 +133,7 @@ namespace Ctms.Applications.Workers
             var tagDm               = _repository.GetTagDMByTagOption(tagOptionId);
             var tagId               = tagDm.Id;
             var selectedTagOption   = _repository.GetTagOptionById(tagOptionId);
-            var keywordType         = selectedTagOption.Keyword.Type;
+            var keywordType         = selectedTagOption.Keyword.KeywordType;
 
             // add breadcrumb only if the next stop is not assignKeyword
             if (keywordType != KeywordTypes.Attribute && selectedTagOption.LayerNr != 2)
@@ -155,7 +155,7 @@ namespace Ctms.Applications.Workers
                     if (keywordType == KeywordTypes.Artist || keywordType == KeywordTypes.Title)
                     {
                         // init selected keyword of tag and set its type
-                        tagDm.Tag.AssignedKeyword = _tagFactory.CreateKeyword(selectedTagOption.Keyword.Name, selectedTagOption.Keyword.Type);
+                        tagDm.Tag.AssignedKeyword = _tagFactory.CreateKeyword(selectedTagOption.Keyword.DisplayName, selectedTagOption.Keyword.KeywordType);
                         tagDm.InputTerms = "";
 
                         var hint = "Type \"" + keywordType.ToString() + "\" here";
@@ -187,9 +187,9 @@ namespace Ctms.Applications.Workers
                     else if (keywordType == KeywordTypes.Attribute)
                     {   // load attributes
                         var artistTagOption = _tagFactory.CreateTagOption(AttributeTypes.Artist.ToString(), KeywordTypes.Attribute, tagDm.Tag.CurrentLayerNr);
-                        var titleTagOption = _tagFactory.CreateTagOption(AttributeTypes.Title.ToString(), KeywordTypes.Attribute, tagDm.Tag.CurrentLayerNr);
-
                         tagDm.Tag.TagOptions.Add(artistTagOption);
+
+                        var titleTagOption = _tagFactory.CreateTagOption(AttributeTypes.Genre.ToString(), KeywordTypes.Attribute, tagDm.Tag.CurrentLayerNr);
                         tagDm.Tag.TagOptions.Add(titleTagOption);
 
                         tagDm.BackgrImageSource = CommonVal.ImageSource_TagBackgrAttribute;
@@ -206,7 +206,7 @@ namespace Ctms.Applications.Workers
                     if (keywordType == KeywordTypes.Genre)
                     {   // load subgenres
 
-                        var genre = _searchManager.getGenres().FirstOrDefault(g => g.genre_name == selectedTagOption.Keyword.Name);
+                        var genre = _searchManager.getGenres().FirstOrDefault(g => g.genre_name == selectedTagOption.Keyword.DisplayName);
 
                         foreach (var subGenre in genre.Subgenres)
                         {
@@ -221,16 +221,13 @@ namespace Ctms.Applications.Workers
                     }
                     else if (keywordType == KeywordTypes.Attribute)
                     {   // load attributes
-                        var attributeType = (AttributeTypes)Enum.Parse(typeof(AttributeTypes), selectedTagOption.Keyword.Name);
+                        var attributeType = (AttributeTypes)Enum.Parse(typeof(AttributeTypes), selectedTagOption.Keyword.DisplayName);
 
                         var attributes = _searchManager.getCombinedSearchAttributes(attributeType);
                         foreach (var attribute in attributes)
                         {
                             var tagOption = _tagFactory.CreateTagOption(attribute.Value.description, KeywordTypes.Attribute, tagDm.Tag.CurrentLayerNr);
                             tagOption.Keyword.Key = attribute.Key;
-                            if (tagOption.Keyword.Key == null) 
-                            { 
-                            }
                             tagOption.Keyword.AttributeType = attributeType;
                             tagDm.Tag.TagOptions.Add(tagOption);
                         }
@@ -248,7 +245,7 @@ namespace Ctms.Applications.Workers
                     {
                         tagDm.Tag.AssignedKeyword = selectedTagOption.Keyword;
 
-                        var hint = "Define \"" + tagDm.Tag.AssignedKeyword.Name + "\" here";
+                        var hint = "Define \"" + tagDm.Tag.AssignedKeyword.DisplayName + "\" here";
                         SetIsInputVisible(tagDm, true, hint);
                         SetIsInputControlVisible(tagDm, true);
                         SetIsMenuVisible(tagDm, true);
@@ -326,32 +323,22 @@ namespace Ctms.Applications.Workers
         {
             var tagDm       = _repository.GetTagDMById(tagId);
             var terms       = _repository.GetTagDMById(tagId).InputTerms;
-            var keywordType = tagDm.Tag.AssignedKeyword.Type;
+            var keywordType = tagDm.Tag.AssignedKeyword.KeywordType;
 
             // remove previously shown infos
             _infoWorker.RemoveTagInfo(tagDm.Id);
 
-            Keyword termKeyword;
-            TagOption termTagOption;
-            if (keywordType == KeywordTypes.Attribute)
+            Keyword keyword;
+            TagOption tagOption;
+
+            if(keywordType == KeywordTypes.Artist || keywordType == KeywordTypes.Title)
             {
-                //!! Todo. What? Nothing?
-                termKeyword = tagDm.Tag.AssignedKeyword;
-                termTagOption = _tagFactory.CreateTagOption(termKeyword, tagDm.Tag.CurrentLayerNr);
+                keyword = _tagFactory.CreateKeyword(terms, keywordType);
+                tagOption = _tagFactory.CreateTagOption(keyword, tagDm.Tag.CurrentLayerNr);
 
-                _repository.AddTagOption(tagDm, termTagOption);
-
-                AddBreadcrumb(tagDm, termTagOption);
-            }
-            else
-            {
-                termKeyword = _tagFactory.CreateKeyword(terms, keywordType);
-                //var termKeyword     = tagDM.Tag.AssignedKeyword;
-                termTagOption = _tagFactory.CreateTagOption(termKeyword, tagDm.Tag.CurrentLayerNr);
-
-                _repository.AddTagOption(tagDm, termTagOption);
+                _repository.AddTagOption(tagDm, tagOption);
             
-                AddBreadcrumb(tagDm, termTagOption);
+                AddBreadcrumb(tagDm, tagOption);
             }
 
             UpdateActiveLayerNumber(tagDm, tagDm.Tag.CurrentLayerNr + 1);
@@ -367,8 +354,9 @@ namespace Ctms.Applications.Workers
                 // get artist suggestions in background
                 var backgrWorker = new BackgroundWorkHelper();
                 backgrWorker.DoInBackground(GetArtistsSuggestionsInBackgr, GetArtistsSuggestionsCompleted, tagDm);
-                
+
                 SetIsCircleMenuVisible(tagDm, true);
+                SetIsInputVisible(tagDm, false);
             }
             else if (keywordType == KeywordTypes.Title)
             {
@@ -377,31 +365,35 @@ namespace Ctms.Applications.Workers
                 backgrWorker.DoInBackground(GetTitleSuggestionsInBackgr, GetTitleSuggestionsCompleted, tagDm);
 
                 SetIsCircleMenuVisible(tagDm, true);
+                SetIsInputVisible(tagDm, false);
             }
             else if (keywordType == KeywordTypes.Attribute)
             {
-                termKeyword.Description = terms;
+                tagDm.Tag.AssignedKeyword.Value = terms != null ? terms : "";
+
+                // set values of keyword
+                keyword = _tagFactory.CreateKeyword(
+                    tagDm.Tag.AssignedKeyword.DisplayName,
+                    tagDm.Tag.AssignedKeyword.KeywordType, 
+                    tagDm.Tag.AssignedKeyword.Value.ToString()
+                );
+                keyword.AttributeType = tagDm.Tag.AssignedKeyword.AttributeType;
+                keyword.DisplayDescription = terms;
+                keyword.Key = tagDm.Tag.AssignedKeyword.Key;
+
+                // creat tagOption for this keyword
+                tagOption = _tagFactory.CreateTagOption(keyword, tagDm.Tag.CurrentLayerNr);
                 
-                var attribute = GetAttributeObj(termKeyword);
-                if(attribute != null)
+                // if input is valid assign keyword, else show hint that input is valid
+                var attribute = GetAttributeObj(keyword);
+                if (attribute != null && IsAttributeInputValid(tagDm, attribute, terms))
                 {
-                    // if input is invalid break method execution
-                    var isInputValid = IsAttributeInputValid(tagDm, attribute, terms);
-                    if (isInputValid == false) return;
+                    SetIsInputControlVisible(tagDm, false);
+                    SetIsInputVisible(tagDm, false);
 
-                    if (attribute.option1 != null)
-                        // set option1 as default
-                        tagDm.Tag.AssignedKeyword.AttributeValue = attribute.option1;
-                    else
-                        // set min as default
-                        tagDm.Tag.AssignedKeyword.AttributeValue = attribute.min;
+                    AssignKeyword(tagDm, tagOption);
                 }
-                SetIsInputControlVisible(tagDm, false);
-
-                AssignKeyword(tagDm, termTagOption);
             }
-            SetIsInputVisible(tagDm, false);
-
             _searchVM.UpdateVisuals(tagDm);
         }
 
@@ -459,9 +451,9 @@ namespace Ctms.Applications.Workers
             var tagDM = _repository.GetTagDMById(tagId);
             var terms = _repository.GetTagDMById(tagId).InputTerms;
 
-            var keywordType     = tagDM.Tag.AssignedKeyword.Type;
+            var keywordType     = tagDM.Tag.AssignedKeyword.KeywordType;
             var keywordKey      = tagDM.Tag.AssignedKeyword.Key;
-            var keywordName     = tagDM.Tag.AssignedKeyword.Name;
+            var keywordName     = tagDM.Tag.AssignedKeyword.DisplayName;
             var attributeType   = tagDM.Tag.AssignedKeyword.AttributeType;
 
             // remove previously shown infos
@@ -536,11 +528,21 @@ namespace Ctms.Applications.Workers
         {
             var tagDM = (TagDataModel) e.Argument;
 
+            // set result to tagDM if backgr work cancelles/throws an error
+            e.Result = tagDM;
+
+            SetIsLoadingInfoVisible(tagDM, true);            
+
             e.Result = _searchManager.getArtistSuggestions(tagDM.Id, tagDM.InputTerms);
         }
 
         private void GetArtistsSuggestionsCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            TagDataModel tagDM = null;
+
+            // if result has been cancelled or thrown an error result is just the tagDM
+            if(e.Result is TagDataModel) tagDM = (TagDataModel) e.Result;
+
             if (e.Cancelled)
             {
             }
@@ -551,7 +553,6 @@ namespace Ctms.Applications.Workers
             {
                 var suggestions = (List<ResponseContainer.ResponseObj.ArtistSuggestion>) e.Result;
 
-                TagDataModel tagDM = null;
                 var firstSuggestion = suggestions.FirstOrDefault();
                 if (suggestions != null && suggestions.Any())
                 {
@@ -565,30 +566,38 @@ namespace Ctms.Applications.Workers
                 for (var i = 0; i < suggestions.Count; i++)
                 {
                     // create keyword out of this suggestion
-                    var keyword = _tagFactory.CreateKeyword(suggestions[i].name, tagDM.Tag.AssignedKeyword.Type);
-                    keyword.SearchId = suggestions[i].id;
+                    var keyword = _tagFactory.CreateKeyword(suggestions[i].name, tagDM.Tag.AssignedKeyword.KeywordType);
+                    keyword.Key = suggestions[i].id;
 
                     // create option with this keyword
                     var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
 
                     _repository.AddTagOption(tagDM, tagOption);
                 }
-
                 SetIsInputVisible(tagDM, false);
 
                 _searchVM.UpdateVisuals(tagDM);
             }
+            SetIsLoadingInfoVisible(tagDM, true);
         }
 
         public void GetTitleSuggestionsInBackgr(object sender, DoWorkEventArgs e)
         {
             var tagDM = (TagDataModel)e.Argument;
 
+            // set result to tagDM if backgr work cancelles/throws an error
+            e.Result = tagDM;
+
             e.Result = _searchManager.getTitleSuggestions(tagDM.Id, tagDM.InputTerms);
         }
 
         private void GetTitleSuggestionsCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            TagDataModel tagDM = null;
+
+            // if result has been cancelled or thrown an error result is just the tagDM
+            if (e.Result is TagDataModel) tagDM = (TagDataModel)e.Result;
+
             if (e.Cancelled)
             {
             }
@@ -599,7 +608,6 @@ namespace Ctms.Applications.Workers
             {
                 var suggestions = (List<ResponseContainer.ResponseObj.TitleSuggestion>)e.Result;
 
-                TagDataModel tagDM = null;
                 var firstSuggestion = suggestions.FirstOrDefault();
                 if (suggestions != null && suggestions.Any())
                 {
@@ -613,21 +621,21 @@ namespace Ctms.Applications.Workers
                 for (var i = 0; i < suggestions.Count; i++)
                 {
                     // create keyword out of this suggestion
-                    var keyword = _tagFactory.CreateKeyword(suggestions[i].title, tagDM.Tag.AssignedKeyword.Type);
-                    keyword.SearchId = suggestions[i].id;
+                    var keyword = _tagFactory.CreateKeyword(suggestions[i].title, tagDM.Tag.AssignedKeyword.KeywordType);
+                    keyword.Key = suggestions[i].id;
 
-                    keyword.Name = "testName,testName,testName,testName,testName,testName";
+                    keyword.DisplayName = "testName,testName,testName,testName,testName,testName";
 
                     // create option with this keyword
                     var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
 
                     _repository.AddTagOption(tagDM, tagOption);
                 }
-
                 SetIsInputVisible(tagDM, false);
 
                 _searchVM.UpdateVisuals(tagDM);
             }
+            SetIsLoadingInfoVisible(tagDM, true);
         }
 
         /// <summary>
@@ -727,10 +735,10 @@ namespace Ctms.Applications.Workers
             SetIsEditVisible(tagDm, false);
             SetIsKeywordVisible(tagDm, false);
 
-            if (tagDm.Tag.AssignedKeyword.Type == KeywordTypes.Attribute)
+            if (tagDm.Tag.AssignedKeyword.KeywordType == KeywordTypes.Attribute)
             {
                 SetIsCircleMenuVisible(tagDm, false);
-                SetIsInputVisible(tagDm, true);
+                SetIsInputVisible(tagDm, true, "Define \"" + tagDm.Tag.AssignedKeyword.DisplayName + "\" here");
                 SetIsInputControlVisible(tagDm, true);
             }
 
@@ -804,9 +812,15 @@ namespace Ctms.Applications.Workers
             tagDM.IsAssignedKeywordVisible = isKeywordVisible;
         }
 
+        private void SetIsLoadingInfoVisible(TagDataModel tagDM, bool isLoadingHintVisible)
+        {
+            // show or hide loading info
+            tagDM.IsLoadingInfoVisible = isLoadingHintVisible;
+        }
+
         private void SetConfirmBreadcrumbIsVisible(TagDataModel tagDM, bool isConfirmBreadcrumbVisible)
         {
-            // show or hide keyword
+            // show or hide breadcrumb
             tagDM.IsConfirmBreadcrumbVisible = isConfirmBreadcrumbVisible;
         }
 
