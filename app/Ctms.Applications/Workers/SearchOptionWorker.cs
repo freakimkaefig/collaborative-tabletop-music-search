@@ -624,8 +624,6 @@ namespace Ctms.Applications.Workers
                     var keyword = _tagFactory.CreateKeyword(suggestions[i].title, tagDM.Tag.AssignedKeyword.KeywordType);
                     keyword.Key = suggestions[i].id;
 
-                    keyword.DisplayName = "testName,testName,testName,testName,testName,testName";
-
                     // create option with this keyword
                     var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
 
