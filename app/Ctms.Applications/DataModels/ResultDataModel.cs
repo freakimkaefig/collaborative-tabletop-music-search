@@ -7,6 +7,7 @@ using Ctms.Domain.Objects;
 using SpotifySharp;
 using System.Collections.ObjectModel;
 using MusicSearch.Objects;
+using System.ComponentModel;
 
 namespace Ctms.Applications.DataModels
 {
@@ -25,7 +26,9 @@ namespace Ctms.Applications.DataModels
         private double _stdHeight;
         private double _width;
         private double _height;
-        private bool _isDetail;
+        private bool _isDetail = false;
+        private bool _isDetailLoading = false;
+        private bool _isDetailLoaded = false;
 
         public ResultDataModel(string title, string artistName, Track spotifyTrack)
         {
@@ -69,5 +72,7 @@ namespace Ctms.Applications.DataModels
         public double Width { get { return _width; } set { _width = value; RaisePropertyChanged("Width"); } }
         public double Height { get { return _height; } set { _height = value; RaisePropertyChanged("Height"); } }
         public bool IsDetail { get { return _isDetail; } set { if (_isDetail != value) { _isDetail = value; RaisePropertyChanged("IsDetail"); } } }
+        public bool IsDetailLoading { get { return _isDetailLoading; } set { if (_isDetailLoading != value) { _isDetailLoading = value; RaisePropertyChanged("IsDetailLoading"); } } }
+        public bool IsDetailLoaded { get { return _isDetailLoaded; } set { if (_isDetailLoaded != value) { _isDetailLoaded = value; RaisePropertyChanged("IsDetailLoaded"); } } }
     }
 }

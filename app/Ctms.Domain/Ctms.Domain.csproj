@@ -76,6 +76,7 @@
     <Compile Include="CtmsEntities.cs" />
     <Compile Include="Objects\ArtistImage.cs" />
     <Compile Include="Objects\ArtistNews.cs" />
+    <Compile Include="Objects\ArtistReview.cs" />
     <Compile Include="Objects\ArtistVideo.cs" />
     <Compile Include="Objects\Detail.cs" />
     <Compile Include="Objects\Info.cs" />

@@ -54,7 +54,10 @@ namespace Ctms.Applications.Workers
 
         public void LoadDetails(ResultDataModel result)
         {
-            _backgroundWorker.DoInBackground(LoadDetailsWorker, LoadDetailsCompleted, result);
+            if (!result.IsDetailLoaded)
+            {
+                _backgroundWorker.DoInBackground(LoadDetailsWorker, LoadDetailsCompleted, result);
+            }
         }
 
         //Background worker methods
@@ -149,6 +152,7 @@ namespace Ctms.Applications.Workers
         private void LoadDetailsWorker(object sender, DoWorkEventArgs e)
         {
             ResultDataModel result = (ResultDataModel)e.Argument;
+            result.IsDetailLoading = true;
             String artistName = result.Result.Song.ArtistName;
             String artistId = result.Result.Song.ArtistId;
             e.Result = new List<object>() { _searchManager.getDetailInfo(artistName, artistId), result };

@@ -95,6 +95,8 @@
 
     </UserControl.Resources>
     
+   
+
     <s:TagVisualizer x:Name="SearchTagVisualizer" Width="1920" Height="1080" VisualizationAdded="OnVisualizationAdded"                      
                      VisualizationRemoved="OnVisualizationRemoved" 
                      GotTouchCapture="SearchTagVisualizer_GotTouchCapture"
@@ -109,6 +111,83 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
+
+<<<<<<< HEAD
+            <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" Margin="0,0,0,0" />
+            <Rectangle x:Name="Fft1" HorizontalAlignment="Center" Margin="395,0,1235,0" 
+                       Width="47" Height="{Binding Fft1Value}" VerticalAlignment="Center" 
+                       Fill="DeepSkyBlue" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft2"  HorizontalAlignment="Center" Margin="455,0,1175,0" Width="47" Height="{Binding Fft2Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft3" HorizontalAlignment="Center" Margin="515,0,1115,0" Width="47" Height="{Binding Fft3Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft4" HorizontalAlignment="Center" Margin="575,0,1055,0" Width="47" Height="{Binding Fft4Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft5" HorizontalAlignment="Center" Margin="635,0,995,0" Width="47" Height="{Binding Fft5Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft6" HorizontalAlignment="Center" Margin="695,0,935,0" Width="47" Height="{Binding Fft6Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft7" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" HorizontalAlignment="Center" Width="47" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft8" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Width="47" HorizontalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft9" Margin="875,0,755,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft9Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft10" Margin="935,0,695,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft10Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft11" Margin="995,0,635,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft11Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft12" Margin="1055,0,575,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft12Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft13" Margin="1115,0,515,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft13Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft14" Margin="1175,0,455,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft14Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+=======
 
             <s:SurfaceButton Command="{Binding StartSearchCmd}" 
                 HorizontalAlignment="Center" Height="100" Width="100"
@@ -125,9 +204,9 @@
             			<TranslateTransform X="-95.372" Y="239.351"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft2" Margin="866.499,255.666,0,0" Height="10" Fill="#7200032B" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120">
             	<Rectangle.RenderTransform>
@@ -138,9 +217,9 @@
             			<TranslateTransform X="-184.487" Y="184.45"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft3" Margin="0,241.672,815.162,0" Height="10" Fill="#72000743" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
             	<Rectangle.RenderTransform>
@@ -151,9 +230,9 @@
             			<TranslateTransform X="-244.039" Y="94.232"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft4" Margin="0,280.335,699.499,0" Height="10" Fill="#59000B5A" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
             	<Rectangle.RenderTransform>
@@ -164,9 +243,9 @@
             			<TranslateTransform X="-259.562" Y="-14.265"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft5" Margin="0,361.667,607.166,0" Height="10" Fill="#5900148D" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
             	<Rectangle.RenderTransform>
@@ -177,9 +256,9 @@
             			<TranslateTransform X="-228.034" Y="-118.303"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft6" Margin="0,468.333,547.833,0" Height="10" Fill="#59001FC6" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
             	<Rectangle.RenderTransform>
@@ -190,9 +269,9 @@
             			<TranslateTransform X="-166.641" Y="-192.387"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft7" Margin="0,594.666,547.168,0" Fill="#590029E9" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" Height="10" VerticalAlignment="Top">
             	<Rectangle.RenderTransform>
@@ -203,9 +282,9 @@
             			<TranslateTransform X="-72.98" Y="-243.027"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft8" Margin="0,715.33,583.162,0" Height="10" Fill="#59003FFF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
             	<Rectangle.RenderTransform>
@@ -216,9 +295,9 @@
             			<TranslateTransform X="18.23" Y="-257.915"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft9" Margin="0,809.999,663.751,0" Height="10" Fill="#59004BF3" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
             	<Rectangle.RenderTransform>
@@ -229,9 +308,9 @@
             			<TranslateTransform X="112.046" Y="-231.583"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft10" Margin="0,865.084,792.25,0" Height="10" Fill="#59005AFF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
             	<Rectangle.RenderTransform>
@@ -242,9 +321,9 @@
             			<TranslateTransform X="195.972" Y="-173.101"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft11" Margin="872.5,844,0,0" Height="10" Fill="#590069FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120">
             	<Rectangle.RenderTransform>
@@ -255,9 +334,9 @@
             			<TranslateTransform X="252.701" Y="-63.212"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft12" Margin="761.501,771.332,0,0" Height="10" Fill="#590078FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="120" HorizontalAlignment="Left">
             	<Rectangle.RenderTransform>
@@ -268,9 +347,9 @@
             			<TranslateTransform X="252.52" Y="57.092"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft13" Margin="694.498,660.003,0,0" Height="10" Fill="#590087FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120">
             	<Rectangle.RenderTransform>
@@ -281,9 +360,9 @@
             			<TranslateTransform X="197.992" Y="164.952"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft14" Margin="667.498,542.001,0,0" Height="10" Fill="#590096FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120">
             	<Rectangle.RenderTransform>
@@ -294,9 +373,10 @@
             			<TranslateTransform X="114.145" Y="229.963"/>
             		</TransformGroup>
             	</Rectangle.RenderTransform>
-                <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
-                </Rectangle.Effect>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+>>>>>>> 425ac9d55139eec15163960cb678527c3df02ea8
             </Rectangle>
             <Rectangle x:Name="Fft15" Margin="697.831,419.998,0,0" Height="10" Fill="#5900A5FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120">
             	<Rectangle.RenderTransform>
