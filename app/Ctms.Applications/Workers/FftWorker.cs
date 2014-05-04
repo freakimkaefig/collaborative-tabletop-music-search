@@ -24,8 +24,8 @@ namespace Ctms.Applications.Workers
         private int _lowbandMultiplier = 300;
         private int _midbandMultiplier = 1400;
         private int _highbandMultiplier = 1700;
-        private int _maxheight = 300;
-        private int _duration = 250;
+        private int _maxheight = 150;
+        private int _duration = 450;
         private bool _every2ndTime = true;
 
 
