@@ -126,7 +126,6 @@ namespace Ctms.Presentation.Views
         private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
         {
             // Every time tag is placed its visualization must be initiated again (is lost after tag remove)
-
             var searchTagView = (SearchTagView)e.TagVisualization;
             var tagId = (int)searchTagView.VisualizedTag.Value;
             var tagDM = _viewModel.Tags[tagId];
@@ -142,13 +141,19 @@ namespace Ctms.Presentation.Views
 
             UpdateVisual(tagId);
 
-            tagDM.Height    = (float)searchTagView.ActualHeight;
+            tagDM.Height        = (float)searchTagView.ActualHeight;
+            tagDM.Width         = (float)searchTagView.ActualWidth;
+
+            var screenPosition  = searchTagView.PointToScreen(new Point(0d, 0d));
+            tagDM.Tag.PositionX = (short)(screenPosition.X + tagDM.Width / 2);
+            tagDM.Tag.PositionY = (short)(screenPosition.Y + tagDM.Height / 2);
 
             tagDM.ExistenceState = TagDataModel.ExistenceStates.Added;
         }
 
         private void Rotate()
         {
+            throw new NotImplementedException();
             _viewModel.Tags[0].Tag.Orientation += 2;
 
             TimingHelper.SetTimeout(10, Rotate);
@@ -326,6 +331,70 @@ namespace Ctms.Presentation.Views
             //pieMenuMain.InvalidateVisual();
         }
 
+        public void CreateEllipse()
+        {
+
+        }
+
+        public void UpdateStoryboard(int combiId)
+        {
+            /*
+            var itemControls = FindVisualChildren<ItemsControl>(this);
+            var storyboards = FindVisualChildren<Storyboard>(this);
+            var beginStoryboards = FindVisualChildren<BeginStoryboard>(this);
+            var doubleAnimations = FindVisualChildren<DoubleAnimation>(this);
+
+            Storyboard storyboardResource = this.Resources["TagCombiStoryboard"] as Storyboard;
+
+            //var ellipse = this.Resources["EllipseAnimation"] as Ellipse;
+            //storyboardResource.Begin(combiEll);
+
+            var tagCombinationItems = TagCombinationsControl.Items;
+            //var childControls = FindVisualChildren<Grid>(this);
+            //var childControls3 = FindVisualChildren<Ellipse>(this);
+
+            storyboardResource.Begin(el1);
+            */
+        }
+
+        private childItem FindVisualChild<childItem>(DependencyObject obj)
+            where childItem : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is childItem)
+                    return (childItem)child;
+                else
+                {
+                    childItem childOfChild = FindVisualChild<childItem>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
+        }
+
+        public IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+
         private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
         {
             _viewModel.AddLog("SV: OnVisualizationRemoved");
@@ -335,6 +404,9 @@ namespace Ctms.Presentation.Views
             var tagDM = _viewModel.Tags[tagId];
 
             tagDM.ExistenceState = TagDataModel.ExistenceStates.Removed;
+
+            // remove tag from possible combinations
+            _viewModel.RemoveTagFromCombi.Execute(tagId);
         }
 
         private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
@@ -405,6 +477,68 @@ namespace Ctms.Presentation.Views
         public void LogScrollToEnd()
         {
             //SearchViewLog.ScrollToEnd();
+        }
+
+        private void combiTag_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Storyboard storyboardResource = this.Resources["TagCombiStoryboard"] as Storyboard;
+            storyboardResource.Completed -= (p, s) => PlayCombiAnimation(null);
+        }
+
+        private void combiTag_Loaded(object sender, RoutedEventArgs e)
+        {
+            var grid = sender as Grid;
+
+            // get ellipse by name
+            var ellipse = grid.FindName("combiEll") as Ellipse;
+
+            // get the combi's id which is hidden in the textblock as text
+            var combiId = Int32.Parse(((TextBlock)grid.FindName("HiddenTagCombiId")).Text);
+            var combi = _viewModel.TagCombinations.FirstOrDefault(tc => tc.Id == combiId);
+
+            // get storyboard resource
+            Storyboard storyboardResource = this.Resources["TagCombiStoryboard"] as Storyboard;
+
+            var parameters = new Tuple<Storyboard, Ellipse, TagCombinationDataModel>(storyboardResource, ellipse, combi);
+
+            storyboardResource.Completed += (p, s) => PlayCombiAnimation(parameters);
+
+            PlayCombiAnimation(parameters);
+        }
+
+        private void PlayCombiAnimation(Tuple<Storyboard, Ellipse, TagCombinationDataModel> parameters)
+        {
+            var storyboard  = parameters.Item1;
+            var ellipse     = parameters.Item2;
+            var combi       = parameters.Item3;
+
+            storyboard.Stop(ellipse);
+            storyboard.Seek(ellipse, TimeSpan.FromSeconds(0), TimeSeekOrigin.BeginTime);
+
+            // loop through animation elements of storyboard
+            var animationElements = storyboard.Children;
+            foreach (var animationElement in animationElements)
+            {
+                if (animationElement.Name == "XTransform")
+                {
+                    var xTransform = animationElement as DoubleAnimation;
+
+                    if (ellipse.DataContext is TagDataModel)
+                        xTransform.From = ((TagDataModel)ellipse.DataContext).Tag.PositionX;
+
+                    xTransform.To = combi.CenterX;
+                }
+                else if (animationElement.Name == "YTransform")
+                {
+                    var yTransform = animationElement as DoubleAnimation;
+
+                    if (ellipse.DataContext is TagDataModel)
+                        yTransform.From = ((TagDataModel)ellipse.DataContext).Tag.PositionY;
+
+                    yTransform.To = combi.CenterY;
+                }
+            }
+            storyboard.Begin(ellipse, true);
         }
     }
 }

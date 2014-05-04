@@ -45,13 +45,14 @@
             </Grid>
         </DataTemplate>
         <sys:Double x:Key="PieMenuDiameter">240</sys:Double>
-        <sys:Double x:Key="AssignedDiameter">240</sys:Double>
         <sys:Double x:Key="OuterLength">50</sys:Double>
         <sys:Double x:Key="InputLength">180</sys:Double>
     </s:TagVisualization.Resources>
     
     <!--Surrounding Tag Grid-->
-    <Grid Name="TagGrid" DataContext="{DynamicResource TagDM}" RenderTransformOrigin="0.5, 0.5">
+    <Grid Name="TagGrid" 
+          DataContext="{DynamicResource TagDM}" RenderTransformOrigin="0.5, 0.5">
+
         <Grid.RenderTransform>
             <RotateTransform Angle="{Binding Tag.Orientation}"  />
         </Grid.RenderTransform>

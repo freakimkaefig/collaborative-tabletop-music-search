@@ -72,6 +72,7 @@ namespace Ctms.Applications.ViewModels
         private ObservableCollection<TagCombinationDataModel> _tagCombinations;
         private ICommand _lowerInputCmd;
         private ICommand _raiseInputCmd;
+        private ICommand _removeTagFromCombi;
 
         [ImportingConstructor]
         public SearchViewModel(ISearchView view)
@@ -81,9 +82,6 @@ namespace Ctms.Applications.ViewModels
             _searchView = view;
             _searchView.InitializeRectangles();
 
-            //Testweise hinzufügen eines SearchObjects
-                //MICHL: befüllen durch Tangibles die auf dem Tisch stehen!
-                //       Einträge auch wieder löschen, wenn Tangible vom Tisch genommen wird (über originId)
             _searchObjectsList = new List<searchObject>();
             _tagCombinations = new ObservableCollection<TagCombinationDataModel>();
         }
@@ -426,6 +424,19 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public ICommand RemoveTagFromCombi
+        {
+            get { return _removeTagFromCombi; }
+            set
+            {
+                if (_removeTagFromCombi != value)
+                {
+                    _removeTagFromCombi = value;
+                    RaisePropertyChanged("RemoveTagFromCombi");
+                }
+            }
+        }
+
         public ICommand StartSearchCmd
         {
             get { return _startSearchCmd; }
@@ -599,25 +610,32 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-
         #endregion Commands  
 
-        //public ICommand ConfirmBreadcrumbCmd
-        //{
-        //    get { return _confirmBreadcrumbCmd; }
-        //    set
-        //    {
-        //        if (_confirmBreadcrumbCmd != value)
-        //        {
-        //            _confirmBreadcrumbCmd = value;
-        //            RaisePropertyChanged("ConfirmBreadcrumbCmd");
-        //        }
-        //    }
-        //}
+
+
+        #region methods
 
         public void UpdateVisuals(TagDataModel tagDM)
         {
             _searchView.UpdateVisual(tagDM.Id);
         }
+
+        public void UpdateStoryboard(int combiId)
+        {
+            _searchView.UpdateStoryboard(combiId);
+        }
+
+        /// <summary>
+        /// Raise Property Changed from outside. This is needed for observablecollections that don't
+        /// update. (e.g. after using LINQ adding/removing items doesn't raispropertychanged anymore)
+        /// </summary>
+        /// <param name="propName">Name of the property</param>
+        public void RaisePropertyChangedManually(string propName)
+        {
+            RaisePropertyChanged(propName);
+        }
+
+        #endregion methods
     }
 }

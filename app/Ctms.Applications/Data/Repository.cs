@@ -292,6 +292,15 @@ namespace Ctms.Applications.Data
         }
 
         /// <summary>
+        /// Add tag combination data model
+        /// </summary>
+        /// <returns></returns>
+        public TagCombinationDataModel GetTagCombiWithTag(TagDataModel tag)
+        {
+            return _searchVm.TagCombinations.FirstOrDefault(tc => tc.Tags.Contains(tag));
+        }
+
+        /// <summary>
         /// Get all tags that are in tag combinations
         /// </summary>
         /// <returns></returns>
@@ -316,6 +325,7 @@ namespace Ctms.Applications.Data
         public void AddTagCombination(TagCombinationDataModel tagCombination)
         {
             _searchVm.TagCombinations.Add(tagCombination);
+            _searchVm.RaisePropertyChangedManually("TagCombinations");
         }
 
         /// <summary>
@@ -325,6 +335,7 @@ namespace Ctms.Applications.Data
         public void RemoveTagCombination(TagCombinationDataModel tagCombination)
         {
             _searchVm.TagCombinations.Remove(tagCombination);
+            _searchVm.RaisePropertyChangedManually("TagCombinations");
         }
 
         #endregion TagCombinations

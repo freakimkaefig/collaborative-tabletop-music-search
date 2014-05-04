@@ -72,8 +72,8 @@ namespace Ctms.Domain.Objects
         {
             get { return _positionY; }
             set
-            {
-                if (_positionY != value)
+            {   // optimize performance by limiting update rate
+                if (Math.Abs(_positionY - value) > 15)
                 {
                     _positionY = value;
                     RaisePropertyChanged("PositionY");
@@ -85,8 +85,8 @@ namespace Ctms.Domain.Objects
         {
             get { return _positionX; }
             set
-            {
-                if (_positionX != value)
+            {   // optimize performance by limiting update rate
+                if (Math.Abs(_positionX - value) > 15)
                 {
                     _positionX = value;
                     RaisePropertyChanged("PositionX");

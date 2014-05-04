@@ -94,13 +94,13 @@ namespace Ctms.Applications.Workers
             //!!better to position info at the side?
             var infoHeight = 80.0F;//!!read->set globally
             info.Info.PositionX = tagDm.Tag.PositionX;
-            if (_shellVm.WindowHeight < tagDm.Tag.PositionY + tagDm.Height + infoHeight)
+            if (_shellVm.WindowHeight < tagDm.Tag.PositionY + tagDm.Height / 2.0 + infoHeight)
             {
-                info.Info.PositionY = tagDm.Tag.PositionY - infoHeight;
+                info.Info.PositionY = tagDm.Tag.PositionY - infoHeight / 2.0F;
             }
             else
 	        {
-                info.Info.PositionY = tagDm.Tag.PositionY + tagDm.Height;
+                info.Info.PositionY = tagDm.Tag.PositionY + tagDm.Height / 2.0F;
 	        }
             RemoveTagInfo(tagId);
             _infoVm.TagInfos.Add(info);

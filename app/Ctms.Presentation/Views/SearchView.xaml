@@ -15,8 +15,87 @@
     
     <UserControl.Resources>
         
+        <Storyboard x:Key="TagCombiStoryboard"  Duration="0:0:1" Name="TagCombiStoryboard"
+                     x:Shared="False"
+                    >
+            <!--RepeatBehavior="1"-->
+            <DoubleAnimation
+                Name="OpacityHold"
+                Storyboard.TargetName="combiEll"
+                Storyboard.TargetProperty="Opacity"
+                From="1.0"
+                To="1.0"
+                Duration="0:0:0.8"/>
+
+            <DoubleAnimation
+                Name="OpacityFade"
+                Storyboard.TargetName="combiEll"
+                Storyboard.TargetProperty="Opacity"
+                From="1.0"
+                To="0.5"
+                BeginTime="0:0:0.8"
+                Duration="0:0:0.2"/>
+
+                <!--<DoubleAnimation
+                Storyboard.TargetName="combiEll"
+                Storyboard.TargetProperty="(Ellipse.Height)"
+                BeginTime="0:0:0.8"
+                Duration="0:0:0.2"
+                By="50" />
+
+                <DoubleAnimation
+                Storyboard.TargetName="combiEll"
+                Storyboard.TargetProperty="(Ellipse.Width)"
+                BeginTime="0:0:0.8"
+                Duration="0:0:0.2"
+                By="50" />-->
+
+                <!--<DoubleAnimation
+                Storyboard.TargetName="ScaleTransform"
+                Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+                To="10.0" BeginTime="0:0:8" Duration="0:0:2"
+                    />
+                <DoubleAnimation
+                Storyboard.TargetName="ScaleTransform"
+                Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+                To="10.0" BeginTime="0:0:8" Duration="0:0:2"
+                    />-->
+
+                <!--<DoubleAnimation
+                Storyboard.TargetName="TTransform"
+                Storyboard.TargetProperty="X"
+                To="((Ellipse.Width))"
+                BeginTime="0:0:0.8"
+                Duration="0:0:0.2" />
+
+                <DoubleAnimation
+                Storyboard.TargetName="TTransform"
+                Storyboard.TargetProperty="Y"
+                To="((Ellipse.Height))"
+                BeginTime="0:0:0.8"
+                Duration="0:0:0.2" />-->
+
+            <DoubleAnimation 
+                Name="XTransform"                
+                Storyboard.TargetName="TTransform"
+                Storyboard.TargetProperty="X"
+                Duration="0:0:1" 
+                             />
+                <!--To="{Binding DataContext.CenterX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>-->
+               
+
+                <!--By Property mit Binding an Tangibles binden-->
+            <DoubleAnimation 
+                Name="YTransform"   
+                Storyboard.TargetName="TTransform"
+                Storyboard.TargetProperty="Y"
+                Duration="0:0:1">
+            </DoubleAnimation>
+        </Storyboard>
 
     </UserControl.Resources>
+    
+   
 
     <s:TagVisualizer x:Name="SearchTagVisualizer" Width="Auto" Height="Auto" VisualizationAdded="OnVisualizationAdded"                      
                      VisualizationRemoved="OnVisualizationRemoved" 
@@ -33,81 +112,80 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-
             <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" Margin="0,0,0,0" />
             <Rectangle x:Name="Fft1" HorizontalAlignment="Center" Margin="395,0,1235,0" 
                        Width="47" Height="{Binding Fft1Value}" VerticalAlignment="Center" 
                        Fill="DeepSkyBlue" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft2"  HorizontalAlignment="Center" Margin="455,0,1175,0" Width="47" Height="{Binding Fft2Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft3" HorizontalAlignment="Center" Margin="515,0,1115,0" Width="47" Height="{Binding Fft3Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft4" HorizontalAlignment="Center" Margin="575,0,1055,0" Width="47" Height="{Binding Fft4Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft5" HorizontalAlignment="Center" Margin="635,0,995,0" Width="47" Height="{Binding Fft5Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft6" HorizontalAlignment="Center" Margin="695,0,935,0" Width="47" Height="{Binding Fft6Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft7" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" HorizontalAlignment="Center" Width="47" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft8" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Width="47" HorizontalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft9" Margin="875,0,755,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft9Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft10" Margin="935,0,695,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft10Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft11" Margin="995,0,635,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft11Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft12" Margin="1055,0,575,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft12Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft13" Margin="1115,0,515,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft13Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft14" Margin="1175,0,455,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft14Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
-            	<Rectangle.Effect>
-            		<BlurEffect Radius="15"/>
-            	</Rectangle.Effect>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft15" Margin="1235,0,395,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft15Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
                 <Rectangle.Effect>
@@ -115,121 +193,47 @@
                 </Rectangle.Effect>
             </Rectangle>
 
-            <ItemsControl ItemsSource="{Binding TagCombinations}" 
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                        >
+            <ItemsControl 
+                Name="TagCombinationsControl"
+                ItemsSource="{Binding TagCombinations}" 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                    >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <ItemsControl ItemsSource="{Binding Tags}" Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" >
-                                <!--<ItemsControl.ItemsPanel>-->
+                            <ItemsControl Name="TagCombinationTagsControl"
+                                ItemsSource="{Binding Tags}" 
+                                Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" >
+                                
                                 <ItemsControl.ItemTemplate>
-                                    <DataTemplate >
-                                        <Ellipse x:Name="el1"
-                                           Height="15"
-                                           Width="15"
-                                           Opacity="0.7"
-                                           Fill="#afff">
-                                            <Ellipse.RenderTransform>
-                                                <!--<TranslateTransform x:Name="TTransform" X="0" Y="0"/>-->
-                                                <TranslateTransform x:Name="TTransform" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}" />
-                                            </Ellipse.RenderTransform>
-                                            <!--<Ellipse.LayoutTransform>
-                                                <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
-                                            </Ellipse.LayoutTransform>-->
-
-                                            <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
-                                            <Ellipse.Effect>
-                                                <BlurEffect Radius="5"/>
-                                            </Ellipse.Effect>
-
-                                            <Ellipse.Triggers>
-                                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                                                    <!--auslösen, wenn 2 Tangibles sich "überschneiden" / Radien? 
-                                By="200" verschiebt die ganze sache UM 200px und nicht NACH X=200-->
-                                                    <BeginStoryboard>
-                                                        <Storyboard RepeatBehavior="Forever" Duration="0:0:1" >
-
-                                                            <DoubleAnimation
-                                            Storyboard.TargetName="el1"
-                                            Storyboard.TargetProperty="Opacity"
-                                            From="1.0"
-                                            To="1.0"
-                                            Duration="0:0:0.8"/>
-
-                                                            <DoubleAnimation
-                                            Storyboard.TargetName="el1"
-                                            Storyboard.TargetProperty="Opacity"
-                                            From="1.0"
-                                            To="0.5"
-                                            BeginTime="0:0:0.8"
-                                            Duration="0:0:0.2"/>
-
-                                                            <!--<DoubleAnimation
-                                            Storyboard.TargetName="el1"
-                                            Storyboard.TargetProperty="(Ellipse.Height)"
-                                            BeginTime="0:0:0.8"
-                                            Duration="0:0:0.2"
-                                            By="50" />
-
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="el1"
-                                            Storyboard.TargetProperty="(Ellipse.Width)"
-                                            BeginTime="0:0:0.8"
-                                            Duration="0:0:0.2"
-                                            By="50" />-->
-
-                                                            <!--<DoubleAnimation
-                                            Storyboard.TargetName="ScaleTransform"
-                                            Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
-                                            To="10.0" BeginTime="0:0:8" Duration="0:0:2"
-                                             />
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="ScaleTransform"
-                                            Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
-                                            To="10.0" BeginTime="0:0:8" Duration="0:0:2"
-                                             />-->
-
-                                                            <!--<DoubleAnimation
-                                            Storyboard.TargetName="TTransform"
-                                            Storyboard.TargetProperty="X"
-                                            To="((Ellipse.Width)/2)"
-                                            BeginTime="0:0:0.8"
-                                            Duration="0:0:0.2" />
-
-                                        <DoubleAnimation
-                                            Storyboard.TargetName="TTransform"
-                                            Storyboard.TargetProperty="Y"
-                                            To="((Ellipse.Height)/2)"
-                                            BeginTime="0:0:0.8"
-                                            Duration="0:0:0.2" />-->
-
-                                                            <DoubleAnimation Storyboard.TargetName="TTransform"
-                                                     Storyboard.TargetProperty="X"
-                                                     Duration="0:0:1" 
-                                             
-                                                     To="{Binding DataContext.CenterX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"/>
-                                                            <!--To="{Binding DataContext.CenterX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>-->
-                                                            <!--To="300"/>-->
-
-                                                            <!--By Property mit Binding an Tangibles binden-->
-                                                            <DoubleAnimation Storyboard.TargetName="TTransform"
-                                                     Storyboard.TargetProperty="Y"
-                                                     Duration="0:0:1"
-                                                     To="{Binding DataContext.CenterY, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"/>
-                                                            <!--To="{Binding DataContext.CenterY, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>-->
-                                                            <!--To="300"/>-->
-
-
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </EventTrigger>
-                                            </Ellipse.Triggers>
-                                        </Ellipse>
+                                    <DataTemplate>
+                                        <Grid Loaded="combiTag_Loaded" Unloaded="combiTag_Unloaded">
+                                            
+                                            <TextBlock 
+                                                Name="HiddenTagCombiId"
+                                                Text="{Binding DataContext.Id, 
+                                                RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}"
+                                                Visibility="Hidden"
+                                                />
+                                            <Ellipse Name="combiEll"
+                                                Height="15"
+                                                Width="15"
+                                                Opacity="0.7"
+                                                Fill="#afff">
+                                                <Ellipse.RenderTransform>
+                                                    <TranslateTransform x:Name="TTransform" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}" />
+                                                </Ellipse.RenderTransform>
+                                                    <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
+                                                <Ellipse.Effect>
+                                                    <BlurEffect Radius="5"/>
+                                                </Ellipse.Effect>
+                                            </Ellipse>
+                                        </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

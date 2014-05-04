@@ -36,6 +36,7 @@ namespace Helpers
         public static double TryToParseStringToDouble(string value)
         {
             double number;
+            //Resolve localization problems with comma and point separated decimals.
             value = value.Replace(".", ",");
             bool result = Double.TryParse(value, out number);
             if (result)

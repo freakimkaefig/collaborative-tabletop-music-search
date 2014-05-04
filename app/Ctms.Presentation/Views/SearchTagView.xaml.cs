@@ -61,13 +61,8 @@ namespace Ctms.Presentation.Views
                 tag.Tag.Angle = (short)trackedTouch.GetOrientation(this);
             }
 
-            tag.Tag.PositionX   = (short) screenPosition.X;
-            tag.Tag.PositionY   = (short) screenPosition.Y;
-
-            if ((int)tag.Tag.PositionX == 0)
-            {
-
-            }
+            tag.Tag.PositionX   = (short) (screenPosition.X + tag.Width / 2);
+            tag.Tag.PositionY   = (short) (screenPosition.Y + tag.Height / 2);
 
             // orientate tag to the nearest side of the two long sides
             tag.Tag.Orientation = tag.Tag.PositionY > (windowHeight / 2) - (tag.Height / 2) ? (short) 0 : (short) 180;

@@ -496,7 +496,7 @@ namespace Ctms.Applications.Workers
                     {   // numberic min and max are defined
                         var termsNr = ConvertInputToDouble(tagDM, attribute, terms);
 
-                        if (editType == "Lower" && IsAttributeInputValid(tagDM, attribute, (termsNr - 1)))
+                        if (editType == "Lower")
                         {   // lower is valid
                             if (attribute.max == 1.0 && IsAttributeInputValid(tagDM, attribute, (termsNr - 0.1)))
                             {   // range is 0.0 till 1.0 -> small steps
@@ -523,7 +523,7 @@ namespace Ctms.Applications.Workers
                         {   // lower and raise aren't valid. show warning.
                             ShowAttributeRangeHint(false, attribute, tagId);
                         }
-                        // update input field terms on UI
+                        // update input field terms. Resolve localization problems with comma and point separated decimals.
                         tagDM.InputTerms = termsNr.ToString().Replace(",", ".");
                     }
                 }
@@ -563,13 +563,14 @@ namespace Ctms.Applications.Workers
                 var suggestions = (List<ResponseContainer.ResponseObj.ArtistSuggestion>) e.Result;
 
                 var firstSuggestion = suggestions.FirstOrDefault();
-                if (suggestions != null && suggestions.Any())
+
+                if (suggestions == null && !suggestions.Any() && !String.IsNullOrEmpty(suggestions.FirstOrDefault().name))// no suggestions retrieved
+                {
+                    _infoWorker.ShowTagInfo("No artists found", "Please adjust your terms", tagDM.Id, "Ok");
+                }
+                else 
                 {
                     tagDM = _repository.GetTagDMById(suggestions.FirstOrDefault().originId);
-                    if(String.IsNullOrEmpty(suggestions.FirstOrDefault().name))
-                    {
-                        _infoWorker.ShowTagInfo("No artists found", "Please adjust your terms", tagDM.Id, "Ok");
-                    }
                 }
 
                 for (var i = 0; i < suggestions.Count; i++)
@@ -620,29 +621,30 @@ namespace Ctms.Applications.Workers
                 var suggestions = (List<ResponseContainer.ResponseObj.TitleSuggestion>)e.Result;
 
                 var firstSuggestion = suggestions.FirstOrDefault();
-                if (suggestions != null && suggestions.Any())
+
+                if (suggestions == null && !suggestions.Any() && !String.IsNullOrEmpty(suggestions.FirstOrDefault().title))// no suggestions retrieved
+                {
+                    _infoWorker.ShowTagInfo("No titles found", "Please adjust your terms", tagDM.Id, "Ok");
+                }
+                else
                 {
                     tagDM = _repository.GetTagDMById(suggestions.FirstOrDefault().originId);
-                    if (String.IsNullOrEmpty(suggestions.FirstOrDefault().title))
+                    
+                    for (var i = 0; i < suggestions.Count; i++)
                     {
-                        _infoWorker.ShowTagInfo("No titles found", "Please adjust your terms", tagDM.Id, "Ok");
+                        // create keyword out of this suggestion
+                        var keyword = _tagFactory.CreateKeyword(suggestions[i].title, tagDM.Tag.AssignedKeyword.KeywordType);
+                        keyword.Key = suggestions[i].id;
+
+                        // create option with this keyword
+                        var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
+
+                        _repository.AddTagOption(tagDM, tagOption);
                     }
+                    SetIsInputVisible(tagDM, false);
+
+                    _searchVM.UpdateVisuals(tagDM);
                 }
-
-                for (var i = 0; i < suggestions.Count; i++)
-                {
-                    // create keyword out of this suggestion
-                    var keyword = _tagFactory.CreateKeyword(suggestions[i].title, tagDM.Tag.AssignedKeyword.KeywordType);
-                    keyword.Key = suggestions[i].id;
-
-                    // create option with this keyword
-                    var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
-
-                    _repository.AddTagOption(tagDM, tagOption);
-                }
-                SetIsInputVisible(tagDM, false);
-
-                _searchVM.UpdateVisuals(tagDM);
             }
             SetIsLoadingInfoVisible(tagDM, false);
         }

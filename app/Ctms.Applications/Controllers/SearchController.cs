@@ -71,6 +71,7 @@ namespace Ctms.Applications.Controllers
         private IMessageService _messageService;
         private Repository _repository;
         private DelegateCommand _checkTagPositionsCmd;
+        private DelegateCommand _removeTagFromCombi;
         
 
         [ImportingConstructor]
@@ -116,6 +117,7 @@ namespace Ctms.Applications.Controllers
 
             _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId)); new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId));
             _checkTagPositionsCmd       = new DelegateCommand((tagId) => _tagCombinationWorker.CheckMovedTagCombi((int)tagId));
+            _removeTagFromCombi         = new DelegateCommand((tagId) => _tagCombinationWorker.RemoveTagFromCombi((int)tagId));
             _confirmInputCmd            = new DelegateCommand((tagId) => _searchOptionWorker.ConfirmInput((int)tagId));
             _lowerInputCmd              = new DelegateCommand((tagId) => _searchOptionWorker.EditInput((int)tagId, "Lower"));
             _raiseInputCmd              = new DelegateCommand((tagId) => _searchOptionWorker.EditInput((int)tagId, "Raise"));
@@ -142,6 +144,7 @@ namespace Ctms.Applications.Controllers
             _searchVm.SelectArtistCmd   = _selectArtistCmd;
             _searchVm.SelectTitleCmd    = _selectTitleCmd;
             _searchVm.CheckTagPositionsCmd = _checkTagPositionsCmd;
+            _searchVm.RemoveTagFromCombi = _removeTagFromCombi;
             _searchVm.ConfirmInputCmd   = _confirmInputCmd;
             _searchVm.LowerInputCmd     = _lowerInputCmd;
             _searchVm.RaiseInputCmd     = _raiseInputCmd;
@@ -164,24 +167,14 @@ namespace Ctms.Applications.Controllers
             {   // add listener to each tag
                 AddWeakEventListener(tag, TagDMChanged);
             }
-            /*
-            _searchVm.TagCombinations.Add(new TagCombinationDataModel(20)
-            {
-                CenterX = 200,
-                CenterY = 200,
-                Tags = new ObservableCollection<TagDataModel>()
-                {
-                    new TagDataModel()
-                    {
-                        Tag = new Tag()
-                        {
-                            PositionX = 150,
-                            PositionY = 150
-                        }
-                    }
-                }
-            });*/
 
+            //!!remove
+            //InitExampleTagCombinations();
+            //_searchVm.UpdateStoryboard(0);
+        }
+
+        private void InitExampleTagCombinations()
+        {
             _searchVm.TagCombinations = new ObservableCollection<TagCombinationDataModel>()
             {
                 new TagCombinationDataModel(20)
@@ -204,6 +197,30 @@ namespace Ctms.Applications.Controllers
                             {
                                 PositionX = 400,
                                 PositionY = 200
+                            }
+                        }
+                    }
+                },
+                new TagCombinationDataModel(21)
+                {
+                    CenterX = 400,
+                    CenterY = 400,
+                    Tags = new ObservableCollection<TagDataModel>()
+                    {
+                        new TagDataModel()
+                        {
+                            Tag = new Tag()
+                            {
+                                PositionX = 300,
+                                PositionY = 500
+                            }
+                        },                        
+                        new TagDataModel()
+                        {
+                            Tag = new Tag()
+                            {
+                                PositionX = 500,
+                                PositionY = 300
                             }
                         }
                     }
