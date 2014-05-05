@@ -140,6 +140,7 @@ namespace MusicSearch.Objects
                     public String myspace_url { get; set; }
                     public String wikipedia_url { get; set; }
                     public String mb_url { get; set; }
+                    public String name { get; set; }
                 }
 
                 public class SimilarArtist
