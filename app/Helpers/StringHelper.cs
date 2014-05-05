@@ -26,7 +26,15 @@ namespace Helpers
         {
             var regex = new Regex(Regex.Escape(replaceable));
             var newTerm = regex.Replace(term, substitute, thisOften);
-            return newTerm;
+            if (newTerm != null)
+            {
+                return newTerm;
+            }
+            else
+            {
+                return term;
+            }
+            
         }
 
     }

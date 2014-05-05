@@ -26,6 +26,8 @@ namespace Ctms.Applications.DataModels
         private double _stdHeight;
         private double _width;
         private double _height;
+        private double _innerWidth;
+        private double _innerHeight;
         private bool _isDetail = false;
         private bool _isDetailLoading = false;
         private bool _isDetailLoaded = false;
@@ -69,8 +71,10 @@ namespace Ctms.Applications.DataModels
 
         public double StdWidth { get { return _stdWidth; } set { _stdWidth = value; RaisePropertyChanged("StdWidth"); } }
         public double StdHeight { get { return _stdHeight; } set { _stdHeight = value; RaisePropertyChanged("StdHeight"); } }
-        public double Width { get { return _width; } set { _width = value; RaisePropertyChanged("Width"); } }
-        public double Height { get { return _height; } set { _height = value; RaisePropertyChanged("Height"); } }
+        public double Width { get { return _width; } set { _width = value; InnerWidth = _width - 62.0; RaisePropertyChanged("Width"); } }
+        public double Height { get { return _height; } set { _height = value; InnerHeight = _height - 50.0; RaisePropertyChanged("Height"); } }
+        public double InnerWidth { get { return _innerWidth; } set { _innerWidth = value; RaisePropertyChanged("InnerWidth"); } }
+        public double InnerHeight { get { return _innerHeight; } set { _innerHeight = value; RaisePropertyChanged("InnerHeight"); } }
         public bool IsDetail { get { return _isDetail; } set { if (_isDetail != value) { _isDetail = value; RaisePropertyChanged("IsDetail"); } } }
         public bool IsDetailLoading { get { return _isDetailLoading; } set { if (_isDetailLoading != value) { _isDetailLoading = value; RaisePropertyChanged("IsDetailLoading"); } } }
         public bool IsDetailLoaded { get { return _isDetailLoaded; } set { if (_isDetailLoaded != value) { _isDetailLoaded = value; RaisePropertyChanged("IsDetailLoaded"); } } }
