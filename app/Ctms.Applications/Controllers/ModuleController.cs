@@ -15,6 +15,7 @@ using System.Data.EntityClient;
 using System.Data.Common;
 using System.Diagnostics;
 using Ctms.Applications.Views;
+using Ctms.Applications.Workers;
 
 namespace Ctms.Applications.Controllers
 {
@@ -41,13 +42,15 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand    exitCommand;
         //Furthers vars
         private SearchTagVisualizationService _tagVisualitationService;
+        //Workers
+        private InfoWorker infoWorker;
 
         [ImportingConstructor]
         public ModuleController(IMessageService messageService, IPresentationService presentationService,
             IEntityController entityController, ResultController resultController, SearchController searchController, 
             PlaylistController playlistController, DetailController detailController, MenuController menuController,
             InfoController infoController,
-            ShellService shellService, ShellViewModel shellViewModel)
+            ShellService shellService, ShellViewModel shellViewModel, InfoWorker infoWorker)
         {
             presentationService.InitializeCultures();
             //Controller
@@ -68,6 +71,8 @@ namespace Ctms.Applications.Controllers
             //Events & Commands
             this.shellViewModel.Closing += ShellViewModelClosing;
             this.exitCommand = new DelegateCommand(Close);
+            //Workers
+            this.infoWorker = infoWorker;
         }
 
         public void Initialize()
@@ -81,11 +86,20 @@ namespace Ctms.Applications.Controllers
             detailController.Initialize();
             menuController.Initialize();
             infoController.Initialize();
+
+            HandleException(new Exception("EEYYY"));
         }
 
         public void Run()
         {
             shellViewModel.Show();
+        }
+
+        public void HandleException(Exception exception)
+        {
+            string errorMessage = string.Format("An unhandled exception occurred: {0}", exception.Message, exception.StackTrace);
+
+            infoWorker.ShowCommonInfo("Error occurred", errorMessage, "Ok");            
         }
 
         public void Shutdown()

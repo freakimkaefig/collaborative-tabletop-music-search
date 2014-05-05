@@ -20,6 +20,7 @@ namespace Ctms.Presentation
         private AggregateCatalog catalog;
         private CompositionContainer container;
         private IEnumerable<IModuleController> moduleControllers;
+        private static IModuleController myModuleController;
 
 
         static App()
@@ -56,13 +57,11 @@ namespace Ctms.Presentation
 
             //ModuleController gets loaded. If no controller found check the contstructor arguments
             moduleControllers = container.GetExportedValues<IModuleController>();
-            //moduleControllers = container.GetExportedValues<Controller>();
+            myModuleController = moduleControllers.FirstOrDefault();
+
             foreach (IModuleController moduleController in moduleControllers) { moduleController.Initialize(); }
             foreach (IModuleController moduleController in moduleControllers) { moduleController.Run(); }
 
-            //throw new Exception("Halts Maul");
-            //string errorMessage = string.Format("An unhandled exception occurred: {0}", "Halts Maul - Fehler 66");
-            //MessageBox.Show("Eeeh, du! Halts Maul", "Error", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -80,12 +79,12 @@ namespace Ctms.Presentation
             e.Handled = true;
         }
 
-        private static void AppDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void AppDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             HandleException(e.ExceptionObject as Exception, e.IsTerminating);
         }
 
-        private static void HandleException(Exception e, bool isTerminating)
+        private void HandleException(Exception e, bool isTerminating)
         {
             if (e == null) { return; }
 
@@ -93,13 +92,7 @@ namespace Ctms.Presentation
 
             if (!isTerminating)
             {
-                //MessageBox.Show(string.Format(CultureInfo.CurrentCulture,
-                //        "Unknown Error", e.ToString())
-                //    , ApplicationInfo.ProductName, MessageBoxButton.OK, MessageBoxImage.Error);
-
-                string errorMessage = string.Format("An unhandled exception occurred: {0}", e.Message, e.StackTrace);
-                MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        
+                myModuleController.HandleException(e);
             }
         }
     }

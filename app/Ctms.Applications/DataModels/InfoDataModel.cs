@@ -25,6 +25,7 @@ namespace Ctms.Applications.DataModels
         private bool _isConfirmable;
         private string _confirmText;
         private int _tagId;
+        private bool _isLoadingVisible;
 
         public InfoDataModel(Info info)
         {
@@ -49,6 +50,19 @@ namespace Ctms.Applications.DataModels
                 _isVisible = value;
                 RaisePropertyChanged("IsVisible");
             } 
+        }
+
+        public bool IsLoadingVisible
+        {
+            get { return _isLoadingVisible; }
+            set
+            {
+                if (_isLoadingVisible != value)
+                {
+                    _isLoadingVisible = value;
+                    RaisePropertyChanged("IsLoadingVisible");
+                }
+            }
         }
 
         // is info confirmable

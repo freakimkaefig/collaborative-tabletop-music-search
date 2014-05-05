@@ -40,7 +40,7 @@ namespace Ctms.Applications.Workers
 
         public void Initialize()
         {
-            ShowCommonInfo("AAAh", "oooh", "Confirm?");
+            //ShowCommonInfo("AAAh", "oooh", "Confirm?");
         }
 
         public void ConfirmCommonInfo(int infoId)
@@ -59,13 +59,14 @@ namespace Ctms.Applications.Workers
         }
 
 
-        public int ShowCommonInfo(string mainText, string subText, string confirmText = null)
+        public int ShowCommonInfo(string mainText, string subText, string confirmText = null, bool isLoading = false)
         {
             var info = _infoFactory.CreateCommonInfo(mainText, subText);
 
             info.IsVisible = true;
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
+            info.IsLoadingVisible = isLoading;
 
             CalcButtons(confirmText, info);
             _infoVm.CommonInfos.Add(info);
