@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:waf="http://waf.codeplex.com/schemas"
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
-    xmlns:s="http://schemas.microsoft.com/surface/2008"         
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
@@ -102,6 +102,7 @@
                               SelectionChanged="Playlist_SelectionChanged"
                               gestures:Events.HoldGesture="Playlist_HoldGesture"
                               gestures:Events.DoubleTapGesture="surfaceListBox_DoubleTapGesture"
+                              gestures:Events.TapGesture="Playlist_TapGesture"
                               s:SurfaceDragDrop.DragCanceled="Playlist_OnDragCanceled"
                               s:SurfaceDragDrop.DragCompleted="Playlist_OnDragCompleted"
                               s:SurfaceDragDrop.DragOver="Playlist_OnDragOver"
@@ -112,7 +113,72 @@
             <s:SurfaceButton Command="{Binding StopCommand}" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Margin="323.5,24,0,0"/>
             <s:SurfaceButton Command="{Binding ShuffleCommand}" Content="{Binding IsShuffle}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="64" Margin="0,24,268.5,0"/>
             <s:SurfaceButton Command="{Binding RepeatCommand}" Content="{Binding IsRepeat}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="64" Margin="0,24,188.5,0"/>
-			<Label Content="DETAILVIEW kommt hier her" Grid.Column="1" Margin="296,288,232,504"/>
+            <Grid Grid.Column="1" Name="PlaylistDetailView" Visibility="{Binding CurrentTrack.IsDetail, Converter={x:Static c:BoolToVisibilityConverter.Default}}">
+                <Grid Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Background="#222">
+                    <Label Content="LOADING..." FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Grid>
+                <Grid Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}">
+                    <TabControl Margin="20">
+                        <TabItem Header="About" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
+                            <s:SurfaceScrollViewer Background="#222" Foreground="#ddd" HorizontalScrollBarVisibility="Disabled">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="{Binding CurrentTrack.Detail.Image.ImageUrl}" Width="Auto" Height="Auto" Margin="10" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"/>
+                                    <TextBlock Text="{Binding CurrentTrack.Detail.Name}" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding CurrentTrack.Detail.City}" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding CurrentTrack.Detail.Genres, Converter={x:Static c:ListToStringConverter.Default}}" Grid.Row="2" Grid.Column="1"/>
+                                    <TextBlock Text="Biography" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                    <TextBlock Width="Auto" Text="{Binding CurrentTrack.Detail.Biography}" TextWrapping="Wrap" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                </Grid>
+                            </s:SurfaceScrollViewer>
+                        </TabItem>
+                        <TabItem Header="News" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
+                            <s:SurfaceListBox ItemTemplate="{DynamicResource DetailViewArtistNews}" ItemsSource="{Binding CurrentTrack.Detail.News}"
+                                              Background="#222" HorizontalContentAlignment="Stretch"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                        </TabItem>
+                        <TabItem Header="Media" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
+                            <Grid Background="#222">
+                                <StackPanel Margin="0" Orientation="Horizontal" VerticalAlignment="Bottom">
+                                    <Grid x:Name="ImagePagerGrid">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Image x:Name="ImageContainer" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Uniform" Source="{Binding ElementName=ImagePager, Path=SelectedItem.ImageUrl}"/>
+                                        <s:SurfaceListBox Name="ImagePager" Margin="0" Background="Transparent"
+                                                 ItemsPanel="{DynamicResource ImagesItemsPanel}"
+                                                 ItemContainerStyle="{DynamicResource ImagesItemContainerStyle}"
+                                                 ItemsSource="{Binding CurrentTrack.Detail.Images}"
+                                                 Width="{Binding CurrentTrack.InnerWidth}" HorizontalAlignment="Center" Grid.Row="1"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Reviews" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
+                            <s:SurfaceListBox ItemTemplate="{DynamicResource DetailViewArtistReviews}" ItemsSource="{Binding CurrentTrack.Detail.Reviews}"
+                                              Background="#222" HorizontalContentAlignment="Stretch"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                        </TabItem>
+                        <TabItem Header="Songs" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
+                            <s:SurfaceListBox ItemTemplate="{DynamicResource DetailViewArtistSongs}" ItemsSource="{Binding CurrentTrack.Detail.Songs}"
+                                              Background="#222" HorizontalContentAlignment="Stretch"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Grid>
             <!--<TextBox x:Name="textBox" Width="300" Height="500" Grid.Column="1"/>-->
             <s:SurfaceButton HorizontalAlignment="Right" Margin="0,24,-32,0" VerticalAlignment="Top" Width="64" Height="64" Command="{Binding RotateCommand}" Background="{StaticResource ResourceKey=rotate}" />
             <s:SurfaceButton Name="TrashBin" VerticalAlignment="Bottom" Height="50" Visibility="{Binding TrashVisible, Converter={x:Static c:BoolToVisibilityConverter.Default}}"

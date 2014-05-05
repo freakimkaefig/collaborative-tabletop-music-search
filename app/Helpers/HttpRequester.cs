@@ -27,6 +27,8 @@ namespace Helpers
                 try
                 {
                     // throws 404 or other exception?
+                    //fix special exception while searching for genre "r&b"
+                    address = StringHelper.replacePartialString(address, "r&b", "r%26b", 100);
                     response = client.DownloadString(address);
                 }
                 catch (Exception ex)

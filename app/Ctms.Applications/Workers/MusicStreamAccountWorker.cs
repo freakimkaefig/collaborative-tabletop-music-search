@@ -151,7 +151,7 @@ namespace Ctms.Applications.Workers
         {
             if (spotifyError != SpotifySharp.SpotifyError.Ok)
             {
-                _infoWorker.ShowCommonInfo("SpotifyError", spotifyError.ToString());
+                _infoWorker.ShowCommonInfo("SpotifyError", spotifyError.ToString(), "OK");
             }
         }
 

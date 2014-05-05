@@ -35,6 +35,8 @@ namespace Ctms.Applications.ViewModels
         private System.Windows.Controls.Image _plusImageLeft;
         private System.Windows.Controls.Image _plusImageRight;
 
+        private ResultDataModel _currentTrack;
+
         //Commands
         private ICommand _playPauseCommand;
         private ICommand _stopCommand;
@@ -256,6 +258,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _trashVisible = value;
                     RaisePropertyChanged("TrashVisible");
+                }
+            }
+        }
+
+        public ResultDataModel CurrentTrack
+        {
+            get { return _currentTrack; }
+            set
+            {
+                if (_currentTrack != value)
+                {
+                    _currentTrack = value;
+                    RaisePropertyChanged("CurrentTrack");
                 }
             }
         }

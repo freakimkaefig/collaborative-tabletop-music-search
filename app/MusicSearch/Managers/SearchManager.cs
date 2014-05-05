@@ -736,8 +736,20 @@ namespace MusicSearch.Managers
         /// GETTER-METHODS:
         /// used for frequently requested data
         /// </summary>
-        /// <returns>each method returns often used data</returns>
-        /// 
+        
+        public String getSpotifyId(String str)
+        {
+            String request = _defaultURL + "song/profile?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&id=" + str;
+            String response = HttpRequester.StartRequest(request);
+            response = response.Replace("'", "&#39;");
+
+            string sub = response.Substring(response.IndexOf("spotify-WW:track:") + 17);
+            int index = sub.IndexOf("\", \"id\":");
+            string result = sub.Substring(0, index);
+
+            return result;
+        }
+
         private String GetAPIKey()
         {
             if (String.IsNullOrEmpty(apiKey))

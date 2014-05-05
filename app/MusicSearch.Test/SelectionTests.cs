@@ -120,6 +120,8 @@ namespace MusicSearch.Test
                 ArtistParameter = new List<ArtistParameter>() { new ArtistParameter() { artist_start_year_before = "2010", song_min_hotttnesss = 0.6 } }  
 
             });
+            //String echonestId = "SOASWGB1374082C09C";
+            //var temp = getSpotifyId(echonestId);
             //SearchManager sm = new SearchManager();
             //var temp = getArtistInfo("U2");
         }
