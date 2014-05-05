@@ -62,9 +62,9 @@
                 <Grid Visibility="{Binding IsDetailLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Background="#222">
                     <Label Content="LOADING..." FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Grid>
-                <Grid Name="DetailView" Visibility="{Binding IsDetailLoaded, Converter={x:Static c:BoolToVisibilityConverter.Default}}">
+                <Grid Name="DetailView" Visibility="{Binding IsDetail, Converter={x:Static c:BoolToVisibilityConverter.Default}}">
                     <TabControl Margin="20">
-                        <TabItem Header="About" Background="#222" Foreground="#ddd" FontSize="14">
+                        <TabItem Header="About" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
                             <s:SurfaceScrollViewer Background="#222" Foreground="#ddd" HorizontalScrollBarVisibility="Disabled">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -88,30 +88,35 @@
                                 </Grid>
                             </s:SurfaceScrollViewer>
                         </TabItem>
-                        <TabItem Header="News" Background="#222" Foreground="#ddd" FontSize="14">
+                        <TabItem Header="News" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
                             <s:SurfaceListBox ItemTemplate="{DynamicResource DetailViewArtistNews}" ItemsSource="{Binding Detail.News}"
                                               Background="#222" HorizontalContentAlignment="Stretch"
                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
                         </TabItem>
-                        <TabItem Header="Media" Background="#222" Foreground="#ddd" FontSize="14">
+                        <TabItem Header="Media" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
                             <Grid Background="#222">
-                                <Image x:Name="ImageContainer" Width="Auto" Height="Auto" Stretch="Uniform" Source="{Binding ElementName=ImagePager, Path=SelectedItem.ImageUrl}"/>
                                 <StackPanel Margin="0" Orientation="Horizontal" VerticalAlignment="Bottom">
                                     <Grid x:Name="ImagePagerGrid">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Image x:Name="ImageContainer" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Uniform" Source="{Binding ElementName=ImagePager, Path=SelectedItem.ImageUrl}"/>
                                         <s:SurfaceListBox Name="ImagePager" Margin="0" Background="Transparent"
                                                  ItemsPanel="{DynamicResource ImagesItemsPanel}"
                                                  ItemContainerStyle="{DynamicResource ImagesItemContainerStyle}"
-                                                 ItemsSource="{Binding Detail.Images}"/>
+                                                 ItemsSource="{Binding Detail.Images}"
+                                                 Width="{Binding InnerWidth}" HorizontalAlignment="Center" Grid.Row="1"/>
                                     </Grid>
                                 </StackPanel>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Reviews" Background="#222" Foreground="#ddd" FontSize="14">
+                        <TabItem Header="Reviews" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
                             <s:SurfaceListBox ItemTemplate="{DynamicResource DetailViewArtistReviews}" ItemsSource="{Binding Detail.Reviews}"
                                               Background="#222" HorizontalContentAlignment="Stretch"
                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
                         </TabItem>
-                        <TabItem Header="Songs" Background="#222" Foreground="#ddd" FontSize="14">
+                        <TabItem Header="Songs" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
                             <s:SurfaceListBox ItemTemplate="{DynamicResource DetailViewArtistSongs}" ItemsSource="{Binding Detail.Songs}"
                                               Background="#222" HorizontalContentAlignment="Stretch"
                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
@@ -121,6 +126,21 @@
             </Grid>
         </ContentControl>
     </DataTemplate>
+    
+    <!-- Style for TabControl -->
+    <Style TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="#222"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <!-- DataTemplate for News items in DetailView -->
     <DataTemplate x:Key="DetailViewArtistNews">

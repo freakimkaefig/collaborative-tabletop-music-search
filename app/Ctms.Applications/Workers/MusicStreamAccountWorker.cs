@@ -36,6 +36,7 @@ namespace Ctms.Applications.Workers
         {
             _menuViewModel = menuViewModel;
             _playlistViewModel = playlistViewModel;
+            _infoWorker = infoWorker;
         }
 
         //Getter

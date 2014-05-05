@@ -247,14 +247,14 @@ namespace Ctms.Presentation.Views
 
             ResultDataModel result = scatterViewItem.DataContext as ResultDataModel;
             double scaleFactor = e.ScaleFactor;
-            double offset = 300.0;
+            double offset = 2.0;
 
             if (scatterViewItem.ActualWidth >= result.StdWidth && scatterViewItem.ActualHeight >= result.StdHeight)
             {
                 result.Width = scatterViewItem.ActualWidth;
                 result.Height = scatterViewItem.ActualHeight;
 
-                if (scatterViewItem.ActualHeight > result.StdHeight + offset || scatterViewItem.ActualWidth > result.StdWidth + offset)
+                if (scatterViewItem.ActualHeight > result.StdHeight * offset && scatterViewItem.ActualWidth > result.StdWidth * offset)
                 {
                     if (!result.IsDetail)
                     {
@@ -269,8 +269,8 @@ namespace Ctms.Presentation.Views
             }
             else
             {
-                scatterViewItem.Width = result.StdWidth;
-                scatterViewItem.Height = result.StdHeight;
+                result.Width = result.StdWidth;
+                result.Height = result.StdHeight;
             }
 
 
