@@ -310,5 +310,18 @@ namespace Ctms.Presentation.Views
 
             _viewModel.RemoveTrackCommand.Execute(removeIndex);
         }
+
+        private void Playlist_TapGesture(object sender, GestureEventArgs e)
+        {
+            _viewModel.CurrentTrack = _viewModel.ResultsForPlaylist[surfaceListBox.SelectedIndex];
+        }
+
+        private void TabItem_TouchDown(object sender, TouchEventArgs e)
+        {
+            TabItem tab = sender as TabItem;
+            TabControl control = tab.Parent as TabControl;
+            control.SelectedItem = tab;
+            e.Handled = true;
+        }
     }
 }
