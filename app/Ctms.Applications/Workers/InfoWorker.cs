@@ -40,6 +40,7 @@ namespace Ctms.Applications.Workers
 
         public void Initialize()
         {
+            ShowCommonInfo("AAAh", "oooh", "Confirm?");
         }
 
         public void ConfirmCommonInfo(int infoId)
@@ -56,6 +57,7 @@ namespace Ctms.Applications.Workers
         {
             _repository.RemoveTutorialInfoById(infoId);
         }
+
 
         public int ShowCommonInfo(string mainText, string subText, string confirmText = null)
         {
@@ -90,17 +92,18 @@ namespace Ctms.Applications.Workers
             var info = _infoFactory.CreateTagInfo(mainText, subText, tagId);
 
             var tagDm = _repository.GetTagDMById(tagId);
-
+            var tagPosY = tagDm.Tag.PositionY;
+            var tagPosX = tagDm.Tag.PositionX;
             //!!better to position info at the side?
             var infoHeight = 80.0F;//!!read->set globally
-            info.Info.PositionX = tagDm.Tag.PositionX;
-            if (_shellVm.WindowHeight < tagDm.Tag.PositionY + tagDm.Height / 2.0 + infoHeight)
+            info.Info.PositionX = tagPosX;
+            if (_shellVm.WindowHeight < tagPosY + tagDm.Height / 2.0 + infoHeight)
             {
-                info.Info.PositionY = tagDm.Tag.PositionY - infoHeight / 2.0F;
+                info.Info.PositionY = tagPosY - infoHeight / 2.0F;
             }
             else
 	        {
-                info.Info.PositionY = tagDm.Tag.PositionY + tagDm.Height / 2.0F;
+                info.Info.PositionY = tagPosY + tagDm.Height / 2.0F;
 	        }
             RemoveTagInfo(tagId);
             _infoVm.TagInfos.Add(info);

@@ -58,8 +58,12 @@
         <Setter Property="Background" Value="#222"/>
     </Style>
 
-    <Style x:Key="LoadingCircleInverted" TargetType="Image">
+    <Style x:Key="LoadingCircle" TargetType="Image">
         <Setter Property="gif:ImageBehavior.AnimatedSource" Value="../Resources/Images/Common/loadingCircle.gif" />
+    </Style>
+    
+    <Style x:Key="LoadingCircleInverted" TargetType="Image">
+        <Setter Property="gif:ImageBehavior.AnimatedSource" Value="../Resources/Images/Common/loadingCircleInverted.gif" />
     </Style>
 
     <!--Key styles-->

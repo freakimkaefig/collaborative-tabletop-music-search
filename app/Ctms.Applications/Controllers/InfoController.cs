@@ -76,6 +76,8 @@ namespace Ctms.Applications.Controllers
             _infoVm.ConfirmTagInfoCmd       = _confirmTagInfoCmd;
             _infoVm.ConfirmTutorialInfoCmd  = _confirmTutorialInfoCmd;
 
+            _infoWorker.Initialize();
+
             //Listeners
             AddWeakEventListener(_infoVm, InfoViewModelPropertyChanged);
         }

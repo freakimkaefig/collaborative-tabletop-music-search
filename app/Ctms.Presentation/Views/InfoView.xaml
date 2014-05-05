@@ -29,23 +29,59 @@
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Style="{StaticResource CommonInfoGrid}" IsHitTestVisible="True">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
-                        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" TextWrapping="Wrap" />
-                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Stretch"
-                                         Command="{Binding DataContext.ConfirmCommonInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                                         CommandParameter="{Binding Info.Id}"
-                                         Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"/>
+                        <Grid Style="{StaticResource CommonInfoGrid}" IsHitTestVisible="True" Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition  />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
+                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" TextWrapping="Wrap" />
+                            <Image Grid.Row="2" Grid.ColumnSpan="3"  
+                               Style="{StaticResource LoadingCircle}"
+                               Height="40" Width="40"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <s:SurfaceButton Grid.Row="3" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Stretch"
+                                             Command="{Binding DataContext.ConfirmCommonInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                             CommandParameter="{Binding Info.Id}"
+                                             Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"/>
+                        </Grid>
+                        <Grid Style="{StaticResource CommonInfoGrid}" IsHitTestVisible="True" RenderTransformOrigin="0.5,0.5"  Grid.Row="0">
+                            <Grid.RenderTransform>
+                                <RotateTransform Angle="180"/>
+                            </Grid.RenderTransform>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
+                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" TextWrapping="Wrap" />
+                            <Image Grid.Row="2" Grid.ColumnSpan="3"  
+                               Style="{StaticResource LoadingCircle}"
+                               Height="40" Width="40"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <s:SurfaceButton Grid.Row="3" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Stretch"
+                                             Command="{Binding DataContext.ConfirmCommonInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                             CommandParameter="{Binding Info.Id}"
+                                             Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"/>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -66,7 +102,7 @@
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                                     Duration="00:00:02"
-                                                    BeginTime="00:00:01"
+                                                    BeginTime="00:00:03"
                                                     From="1"
                                                     To="0" />
                                 </Storyboard>

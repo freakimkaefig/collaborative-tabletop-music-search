@@ -466,10 +466,13 @@
     <Resource Include="Resources\Images\Common\icons\vinylTangible3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Images\Common\loadingCircle.gif">
+    <Resource Include="Resources\Images\Common\loadingCircleInverted.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\Common\icons\vinylTangible4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Common\loadingCircle.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="Resources\Images\tweed.png" />
