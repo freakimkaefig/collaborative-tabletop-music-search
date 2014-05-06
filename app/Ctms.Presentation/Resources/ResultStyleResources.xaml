@@ -1,4 +1,4 @@
-﻿<ResourceDictionary xmlns:my="clr-namespace:Awesomium.Windows.Controls;assembly=Awesomium.Windows.Controls" 
+﻿<ResourceDictionary 
     x:Class="Ctms.Presentation.Resources.ResultStyleResources"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -87,11 +87,7 @@
                                         <TextBlock Text="{Binding Detail.Genres, Converter={x:Static c:ListToStringConverter.Default}}" Grid.Row="2" Grid.Column="1"/>
                                         <TextBlock Text="Biography" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"/>
                                         <TextBlock Width="Auto" Text="{Binding Detail.Biography}" TextWrapping="Wrap" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
-                                        <my:WebControl Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
-                                                       Width="{Binding InnerWidth}" Height="600"
-                                                       Source="http://www.google.com"
-                                                       ViewType="Offscreen"
-                                                       NavigationInfo="Verbose"/>
+                                        
                                     </Grid>
                                 </s:SurfaceScrollViewer>
                             </TabItem>
