@@ -202,15 +202,15 @@ namespace PieInTheSky
 
         public void OnClick()
         {
-            if (Command != null && Command.CanExecute(null))//!!
+            if (Command != null && Command.CanExecute(Id))
             {
                 Command.Execute(Id);
             }
-
+            /*
             if (Click != null)
             {
                 Click(this, new RoutedEventArgs());
-            }
+            }*/
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

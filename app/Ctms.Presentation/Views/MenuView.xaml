@@ -257,7 +257,7 @@
         		</i:Interaction.Triggers>-->
         	</s:SurfaceButton>
             <!--<Image Height="60" Margin="124,0,124,80" VerticalAlignment="Bottom" Width="60" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}"/>-->
-            <Image Height="60" Width="60" VerticalAlignment="Center" Style="{StaticResource LoadingCircle}" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" />
+            <!--<Image Height="60" Width="60" VerticalAlignment="Center" Style="{StaticResource LoadingCircle}" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" />-->
             <Label Content="Logging in... Please wait...." VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,260,0,0" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" />
         </Grid>
         <Grid x:Name="OpenPlaylistDialog" HorizontalAlignment="Left" Margin="-568,80,0,488" Width="308" RenderTransformOrigin="0.5,0.5" Height="Auto" VerticalAlignment="Stretch" Background="Black">
