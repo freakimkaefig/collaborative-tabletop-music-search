@@ -101,18 +101,18 @@ namespace Ctms.Applications.Workers
 
                 if (distance < CommonVal.Tag_CombineCircleDiameter)
                 {   // distance is inside combi radius
-                    DevLogger.Log("distance < CommonVal.Tag_CombineCircleDiameter ");
+                    Log("distance < CommonVal.Tag_CombineCircleDiameter ");
                     if (combiWithMovedTag == null)
                     {   // movedTag not combined with any tags right now
-                        DevLogger.Log("combiWithMovedTag == null");
+                        Log("combiWithMovedTag == null");
                         var possibleCombiType = GetPossibleCombiType(movedTag, compareTag, combiWithMovedTag, combiWithCompareTag);
 
                         if (possibleCombiType != KeywordTypes.None)
                         {   // movedTag and compareTag can be combined
-                            DevLogger.Log("possibleCombiType != KeywordTypes.None ");
+                            Log("possibleCombiType != KeywordTypes.None ");
                             if (combiWithCompareTag == null)
                             {   // no combi of movedTag or compareTag with any other tags right now -> create new 
-                                DevLogger.Log("combiWithCompareTag == null > create new ");
+                                Log("combiWithCompareTag == null > create new ");
 
                                 combiWithMovedTag = CreateTagCombi(movedTag, compareTag, possibleCombiType);
                                 
@@ -121,25 +121,25 @@ namespace Ctms.Applications.Workers
 
                                 _repository.AddTagCombination(combiWithMovedTag);
 
-                                //DevLogger.Log("count of combis: " + _searchViewModel.TagCombinations.Count);
-                                //DevLogger.Log("count of tags in combis: " 
+                                //Log("count of combis: " + _searchViewModel.TagCombinations.Count);
+                                //Log("count of tags in combis: " 
                                 //    + _searchViewModel.TagCombinations.SelectMany(t => t.Tags).Count());
 
                                 /*
-                                DevLogger.Log("combiWithMovedTag.CenterX: " + combiWithMovedTag.CenterX);
-                                DevLogger.Log("combiWithMovedTag.CenterY: " + combiWithMovedTag.CenterY);
-                                DevLogger.Log("combiWithMovedTag.Tags[0].Tag.PositionX: " 
+                                Log("combiWithMovedTag.CenterX: " + combiWithMovedTag.CenterX);
+                                Log("combiWithMovedTag.CenterY: " + combiWithMovedTag.CenterY);
+                                Log("combiWithMovedTag.Tags[0].Tag.PositionX: " 
                                     + combiWithMovedTag.Tags[0].Tag.PositionX);
-                                DevLogger.Log("combiWithMovedTag.Tags[0].Tag.PositionY: " 
+                                Log("combiWithMovedTag.Tags[0].Tag.PositionY: " 
                                     + combiWithMovedTag.Tags[0].Tag.PositionY);
-                                DevLogger.Log("combiWithMovedTag.Tags[1].Tag.PositionX: "
+                                Log("combiWithMovedTag.Tags[1].Tag.PositionX: "
                                     + combiWithMovedTag.Tags[1].Tag.PositionX);
-                                DevLogger.Log("combiWithMovedTag.Tags[1].Tag.PositionY: "
+                                Log("combiWithMovedTag.Tags[1].Tag.PositionY: "
                                     + combiWithMovedTag.Tags[1].Tag.PositionY);*/
                             }
                             else
                             {   // a combi with the tag to compare is existing -> add
-                                DevLogger.Log("combiWithCompareTag != null -> Add to compare combi ");
+                                Log("combiWithCompareTag != null -> Add to compare combi ");
                                 combiWithCompareTag.Tags.Add(movedTag);
 
                                 // update calculation of center
@@ -150,12 +150,12 @@ namespace Ctms.Applications.Workers
                     }
                     else if (combiWithCompareTag == null)
                     {   // movedTag is combined, but compareTag not -> add compareTag to movedTag combie
-                        DevLogger.Log("combiWithCompareTag == null ");
+                        Log("combiWithCompareTag == null ");
                         var possibleCombiType = GetPossibleCombiType(movedTag, compareTag, combiWithMovedTag, combiWithCompareTag);
                         if (possibleCombiType != KeywordTypes.None)
                         {   // movedTag and compareTag can be combined
                             combiWithMovedTag.Tags.Add(movedTag);
-                            DevLogger.Log("possibleCombiType != KeywordTypes.None > add ");
+                            Log("possibleCombiType != KeywordTypes.None > add ");
 
                             // update calculation of center
                             UpdateCenter(combiWithMovedTag);
@@ -163,23 +163,23 @@ namespace Ctms.Applications.Workers
                     }
                     else if (combiWithMovedTag != null)
                     {
-                        DevLogger.Log("combiWithMovedTag != null > update center ");
+                        Log("combiWithMovedTag != null > update center ");
                         UpdateCenter(combiWithMovedTag);
                     }
                     else if (combiWithCompareTag != null)
                     {
-                        DevLogger.Log("combiWithCompareTag != null > update center ");
+                        Log("combiWithCompareTag != null > update center ");
                         UpdateCenter(combiWithCompareTag);
                     }
                 }
                 // distance is bigger than radius for combination
                 else if (combiWithMovedTag != null)
                 {   // tag is in a combi -> remove from combi
-                    DevLogger.Log("combiWithMovedTag != null > update center ");
+                    Log("combiWithMovedTag != null > update center ");
 
                     if (combiWithMovedTag.Tags.Count <= 2)
                     {
-                        DevLogger.Log("combiWithMovedTag.Tags.Count <= 2 > update center ");
+                        Log("combiWithMovedTag.Tags.Count <= 2 > update center ");
                         // remove combi from repository
                         _repository.RemoveTagCombination(combiWithMovedTag);
 
@@ -189,7 +189,7 @@ namespace Ctms.Applications.Workers
                     }
                     else
                     {
-                        DevLogger.Log("combiWithMovedTag.Tags.Count > 2 > remove from combiWithMovedtag ");
+                        Log("combiWithMovedTag.Tags.Count > 2 > remove from combiWithMovedtag ");
                         combiWithMovedTag.Tags.Remove(movedTag);
                     }
 
@@ -197,6 +197,11 @@ namespace Ctms.Applications.Workers
                     UpdateCenter(combiWithMovedTag);
                 }
             }
+        }
+
+        private static void Log(string message)
+        {
+            //DevLogger.Log(message);
         }
 
         public Point UpdateCenter(TagCombinationDataModel combi)
@@ -209,7 +214,7 @@ namespace Ctms.Applications.Workers
             //_searchVm.RaisePropertyChangedManually("TagCombinations");
 
             _searchVm.UpdateStoryboard(combi.Id);//!!
-            //DevLogger.Log("UpdateCenter, centerX: " + combi.CenterX + ", centerY: " + combi.CenterY);
+            //Log("UpdateCenter, centerX: " + combi.CenterX + ", centerY: " + combi.CenterY);
 
             return centerPoint;
         }
@@ -290,14 +295,14 @@ namespace Ctms.Applications.Workers
 
         private static void LogDistanceCalc(TagDataModel movedTag, TagDataModel compareTag, int xDistance, int yDistance, double distance)
         {
-            DevLogger.Log("movedTag.Tag.PositionX: " + movedTag.Tag.PositionX);
-            DevLogger.Log("movedTag.Tag.PositionY: " + movedTag.Tag.PositionY);
-            DevLogger.Log("compareTag.Tag.PositionX: " + compareTag.Tag.PositionX);
-            DevLogger.Log("compareTag.Tag.PositionY: " + compareTag.Tag.PositionY);
-            DevLogger.Log("yDistance: " + yDistance);
-            DevLogger.Log("xDistance: " + xDistance);
-            DevLogger.Log("distance: " + distance);
-            DevLogger.Log("distance: " + distance);
+            Log("movedTag.Tag.PositionX: " + movedTag.Tag.PositionX);
+            Log("movedTag.Tag.PositionY: " + movedTag.Tag.PositionY);
+            Log("compareTag.Tag.PositionX: " + compareTag.Tag.PositionX);
+            Log("compareTag.Tag.PositionY: " + compareTag.Tag.PositionY);
+            Log("yDistance: " + yDistance);
+            Log("xDistance: " + xDistance);
+            Log("distance: " + distance);
+            Log("distance: " + distance);
         }
 
         private TagCombinationDataModel CreateTagCombi(TagDataModel movedTag, TagDataModel compareTag, KeywordTypes type)

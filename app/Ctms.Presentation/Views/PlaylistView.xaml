@@ -115,7 +115,7 @@
             <s:SurfaceButton Command="{Binding RepeatCommand}" Content="{Binding IsRepeat}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="64" Margin="0,24,188.5,0"/>
             <Grid Grid.Column="1" Name="PlaylistDetailView" Margin="2,2,100,2">
                 <Grid Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Background="#00222222" Margin="2">
-                    <Image Style="{StaticResource LoadingCircle}" MaxWidth="100" MaxHeight="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <!--<Image Style="{StaticResource LoadingCircle}" MaxWidth="100" MaxHeight="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                 </Grid>
                 <Grid Width="850" Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}">
                     <TabControl Margin="20">
