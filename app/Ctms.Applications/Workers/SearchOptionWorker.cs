@@ -53,10 +53,11 @@ namespace Ctms.Applications.Workers
         private SearchManager _searchManager;
         private TagFactory _tagFactory;
         private InfoWorker _infoWorker;
+        private TagCombinationWorker _tagCombinationWorker;
 
         [ImportingConstructor]
         public SearchOptionWorker(SearchViewModel searchVM, SearchTagViewModel searchTagVm, IMessageService messageService,
-            Repository repository, InfoWorker infoWorker)
+            Repository repository, InfoWorker infoWorker, TagCombinationWorker tagCombinationWorker)
         {
             //ViewModels
             _searchVM = searchVM;
@@ -69,6 +70,7 @@ namespace Ctms.Applications.Workers
 
             //Other vars
             _infoWorker = infoWorker;
+            _tagCombinationWorker = tagCombinationWorker;
         }
 
         public void Initialize(SearchManager searchManager, ObservableCollection<TagDataModel> tagDMs)
@@ -174,6 +176,7 @@ namespace Ctms.Applications.Workers
                         foreach (var genre in genres)
                         {
                             var keyword = _tagFactory.CreateKeyword(genre.genre_name, KeywordTypes.Genre);
+                            keyword.Key = genre.genre_name;
 
                             var genreOption = _tagFactory.CreateTagOption(keyword, tagDm.Tag.CurrentLayerNr);
 
@@ -211,6 +214,7 @@ namespace Ctms.Applications.Workers
                         foreach (var subGenre in genre.Subgenres)
                         {
                             var keyword = _tagFactory.CreateKeyword(subGenre.name, KeywordTypes.Genre);
+                            keyword.Key = subGenre.name;
 
                             var genreOption = _tagFactory.CreateTagOption(keyword, tagDm.Tag.CurrentLayerNr);
 
@@ -557,27 +561,29 @@ namespace Ctms.Applications.Workers
             }
             else if (e.Error != null)
             {
+                _infoWorker.ShowCommonInfo("An error occurred while searching for artist suggestions",
+                       e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
             }
             else
             {
-                var suggestions = (List<ResponseContainer.ResponseObj.ArtistSuggestion>) e.Result;
+                var artists = (List<ResponseContainer.ResponseObj.ArtistSuggestion>) e.Result;
 
-                var firstSuggestion = suggestions.FirstOrDefault();
+                var firstSuggestion = artists.FirstOrDefault();
 
-                if (suggestions == null && !suggestions.Any() && !String.IsNullOrEmpty(suggestions.FirstOrDefault().name))// no suggestions retrieved
-                {
+                if (artists == null || !artists.Any() || !String.IsNullOrEmpty(artists.FirstOrDefault().name))
+                {   // no suggestions retrieved
                     _infoWorker.ShowTagInfo("No artists found", "Please adjust your terms", tagDM.Id, "Ok");
                 }
                 else 
                 {
-                    tagDM = _repository.GetTagDMById(suggestions.FirstOrDefault().originId);
+                    tagDM = _repository.GetTagDMById(artists.FirstOrDefault().originId);
                 }
 
-                for (var i = 0; i < suggestions.Count; i++)
+                for (var i = 0; i < artists.Count; i++)
                 {
                     // create keyword out of this suggestion
-                    var keyword = _tagFactory.CreateKeyword(suggestions[i].name, tagDM.Tag.AssignedKeyword.KeywordType);
-                    keyword.Key = suggestions[i].id;
+                    var keyword = _tagFactory.CreateKeyword(artists[i].name, tagDM.Tag.AssignedKeyword.KeywordType);
+                    keyword.Key = artists[i].id;
 
                     // create option with this keyword
                     var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
@@ -615,26 +621,29 @@ namespace Ctms.Applications.Workers
             }
             else if (e.Error != null)
             {
+                _infoWorker.ShowCommonInfo("An error occurred while searching for title suggestions", 
+                    e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
             }
             else
             {
-                var suggestions = (List<ResponseContainer.ResponseObj.TitleSuggestion>)e.Result;
+                var titles = (List<ResponseContainer.ResponseObj.TitleSuggestion>)e.Result;
 
-                var firstSuggestion = suggestions.FirstOrDefault();
+                var firstSuggestion = titles.FirstOrDefault();
 
-                if (suggestions == null && !suggestions.Any() && !String.IsNullOrEmpty(suggestions.FirstOrDefault().title))// no suggestions retrieved
-                {
+                if (titles == null || !titles.Any() || !String.IsNullOrEmpty(titles.FirstOrDefault().title))
+                {   // no suggestions retrieved
                     _infoWorker.ShowTagInfo("No titles found", "Please adjust your terms", tagDM.Id, "Ok");
                 }
                 else
                 {
-                    tagDM = _repository.GetTagDMById(suggestions.FirstOrDefault().originId);
+                    tagDM = _repository.GetTagDMById(titles.FirstOrDefault().originId);
                     
-                    for (var i = 0; i < suggestions.Count; i++)
+                    for (var i = 0; i < titles.Count; i++)
                     {
                         // create keyword out of this suggestion
-                        var keyword = _tagFactory.CreateKeyword(suggestions[i].title, tagDM.Tag.AssignedKeyword.KeywordType);
-                        keyword.Key = suggestions[i].id;
+                        var keyword = _tagFactory.CreateKeyword(titles[i].title, tagDM.Tag.AssignedKeyword.KeywordType);
+                        keyword.Key = titles[i].id;
+                        keyword.DisplayDescription = titles[i].artist_name;
 
                         // create option with this keyword
                         var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
@@ -756,10 +765,14 @@ namespace Ctms.Applications.Workers
                 SetIsInputControlVisible(tagDm, true);
             }
 
+            //_tagCombi
+
             // set last layer
             UpdateActiveLayerNumber(tagDm, tagDm.Tag.CurrentLayerNr - 1);
 
             _searchVM.UpdateVisuals(tagDm);
+
+            _tagCombinationWorker.CheckCombisForTag(tagId);
         }
 
 
@@ -781,6 +794,8 @@ namespace Ctms.Applications.Workers
             SetIsEditVisible(tagDm, true);
 
             tagDm.AssignState = TagDataModel.AssignStates.Assigned;
+
+            _tagCombinationWorker.CheckCombisForTag(tagDm.Id);
         }
 
         #region Visibilities

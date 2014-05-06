@@ -27,6 +27,10 @@ namespace Ctms.Applications.DataModels
         private int _tagId;
         private bool _isLoadingVisible;
         private TagDataModel _tag;
+        private bool _isCancellable;
+        private Action<List<object>> _confirmAction;
+        private Action<List<object>> _cancellableAction;
+        private string _cancelText;
 
         public InfoDataModel(Info info)
         {
@@ -93,7 +97,21 @@ namespace Ctms.Applications.DataModels
             }
         }
 
-        // is info confirmable
+        // is info cancellable
+        public bool IsCancellable
+        {
+            get
+            {
+                return _isCancellable;
+            }
+            set
+            {
+                _isCancellable = value;
+                RaisePropertyChanged("IsCancellable");
+            }
+        }
+
+        // text for confirm button
         public string ConfirmText
         {
             get
@@ -106,5 +124,28 @@ namespace Ctms.Applications.DataModels
                 RaisePropertyChanged("ConfirmText");
             }
         }
+
+        // text for cancel button
+        public string CancelText
+        {
+            get
+            {
+                return _cancelText;
+            }
+            set
+            {
+                _cancelText = value;
+                RaisePropertyChanged("CancelText");
+            }
+        }
+
+        public Action<List<object>> ConfirmAction { get; set; }
+
+        public Action<List<object>> CancelAction { get; set; }
+
+        public List<object> ConfirmParameters { get; set; }
+
+        public List<object> CancelParameters { get; set; }
+
     }
 }

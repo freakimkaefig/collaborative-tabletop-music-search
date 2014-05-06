@@ -16,6 +16,8 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
     Loaded="SimpleVisualization_Loaded"
     PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
+    TouchDown="MyTagVisualization_TouchDown"
+    TouchUp="MyTagVisualization_TouchUp"
     Moved="TagVisualization_Moved"
                     >
     

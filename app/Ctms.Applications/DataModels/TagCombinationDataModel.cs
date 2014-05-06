@@ -5,6 +5,7 @@ using System.Text;
 using System.Waf.Applications;
 using System.Collections.ObjectModel;
 using Ctms.Domain;
+using Ctms.Domain.Objects;
 
 namespace Ctms.Applications.DataModels
 {
@@ -18,7 +19,7 @@ namespace Ctms.Applications.DataModels
         private double _centerX;
         private double _centerY;
         private int _id;
-        private KeywordTypes _combinationType;
+        private CombinationTypes _combinationType;
 
         public TagCombinationDataModel(int id)
         {
@@ -81,7 +82,7 @@ namespace Ctms.Applications.DataModels
             }
         }
 
-        public KeywordTypes CombinationType
+        public CombinationTypes CombinationType
         {
             get { return _combinationType; }
             set

@@ -626,6 +626,12 @@ namespace Ctms.Applications.ViewModels
             _searchView.UpdateStoryboard(combiId);
         }
 
+        public void OnVisualizationRemoved(TagDataModel tagDm)
+        {
+            // remove tag from possible combinations
+            RemoveTagFromCombi.Execute(tagDm.Id);            
+        }
+
         /// <summary>
         /// Raise Property Changed from outside. This is needed for observablecollections that don't
         /// update. (e.g. after using LINQ adding/removing items doesn't raispropertychanged anymore)

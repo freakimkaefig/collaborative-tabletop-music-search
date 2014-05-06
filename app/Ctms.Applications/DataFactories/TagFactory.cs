@@ -83,13 +83,13 @@ namespace Ctms.Applications.DataFactories
             return keyword;
         }
 
-        public TagCombinationDataModel CreateTagCombination(KeywordTypes keywordType)
+        public TagCombinationDataModel CreateTagCombination(CombinationTypes combiType)
         {
             var tagCombinations = _repository.GetTagCombinations();
             var nextFreeId = EntitiesHelper.CalcNextId<TagCombinationDataModel>(tagCombinations, (t => t.Id));
 
             var tagCombination = new TagCombinationDataModel(nextFreeId);
-            tagCombination.CombinationType = keywordType;
+            tagCombination.CombinationType = combiType;
 
             return tagCombination;
         }      

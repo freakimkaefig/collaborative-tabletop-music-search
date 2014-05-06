@@ -53,7 +53,7 @@ namespace MusicSearch.Managers
                 {
                     return combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
                 }
-                else if (!String.IsNullOrEmpty(cso.genre[0].ToString()))
+                else if (cso.genre != null && cso.genre.Any() && !String.IsNullOrEmpty(cso.genre[0].ToString()))
                 {
                     return combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
                 }
@@ -147,26 +147,33 @@ namespace MusicSearch.Managers
                 request += "&genre=" + genre[i].ToString();
             }
 
-            //get & add attributes to combined-search-URL by using reflection
-            var properties = gp[0].GetType().GetProperties();
-            foreach (var prop in properties)
+            if (gp != null && gp.Any())
             {
-                string name = prop.Name;
-                var propValue = prop.GetValue(gp[0], null);
-                if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
+                //get & add attributes to combined-search-URL by using reflection
+                var properties = gp[0].GetType().GetProperties();
+                foreach (var prop in properties)
                 {
-                    //check if values are correctly formated, if not fix them
-                    if (propValue.ToString().Contains(","))
+                    string name = prop.Name;
+                    var propValue = prop.GetValue(gp[0], null);
+                    if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
                     {
-                        propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
-                    }
-                    if (propValue.ToString() == DateTime.Now.Year.ToString())
-                    {
-                        propValue = "present";
-                    }
-                    request += "&" + name + "=" + propValue.ToString();
+                        //check if values are correctly formated, if not fix them
+                        if (propValue.ToString().Contains(","))
+                        {
+                            propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
+                        }
+                        if (propValue.ToString() == DateTime.Now.Year.ToString())
+                        {
+                            propValue = "present";
+                        }
+                        request += "&" + name + "=" + propValue.ToString();
 
+                    }
                 }
+            }
+            else
+            {
+
             }
 
             //JSON response delivered as string
@@ -178,7 +185,7 @@ namespace MusicSearch.Managers
             //Apostrophes are replaced by HTML unicode
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
-            var newText = StringHelper.replacePartialString(cleared, "songs", "CombinedGenres", 1);
+            var responseString = StringHelper.replacePartialString(cleared, "songs", "CombinedGenres", 1);
             //Add Origin-IDs to each result
             String OriginIDS = "\'originIDs\': [";
 
@@ -195,10 +202,10 @@ namespace MusicSearch.Managers
 
             }
             OriginIDS += "], ";
-            newText = StringHelper.replacePartialString(newText, "\'title\'", OriginIDS + "\'title\'", 1000);
+            responseString = StringHelper.replacePartialString(responseString, "\'title\'", OriginIDS + "\'title\'", 1000);
 
             //convert response (JSON) in RC-instance
-            var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(responseString);
             for (int i = 0; i < temp.Response.combinedQueries.Count; i++)
             {
                 combinedGenreRC.Add(temp.Response.combinedQueries[i]);

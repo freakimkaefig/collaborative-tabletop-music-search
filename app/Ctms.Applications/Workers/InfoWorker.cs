@@ -40,12 +40,21 @@ namespace Ctms.Applications.Workers
 
         public void Initialize()
         {
-            //ShowCommonInfo("AAAh", "oooh", "Confirm?");
+            /*
+            ShowCommonInfo("AAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAh",
+                "ooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohoooh", 
+                "Confirm", "Cancel", true);
+            //*/
         }
 
-        public void ConfirmCommonInfo(int infoId)
+        public void ConfirmCommonInfo(int commonInfoId)
         {
-            _repository.RemoveCommonInfoById(infoId);
+            var info = _repository.GetCommonInfoById(commonInfoId);
+
+            if (info != null && info.ConfirmAction != null && info.ConfirmParameters != null)
+                info.ConfirmAction.Invoke(info.ConfirmParameters);
+
+            _repository.RemoveCommonInfoById(commonInfoId);
         }
 
         public void ConfirmTagInfo(int tagId)
@@ -58,8 +67,19 @@ namespace Ctms.Applications.Workers
             _repository.RemoveTutorialInfoById(infoId);
         }
 
+        public void CancelCommonInfo(int commonInfoId)
+        {
+            var info = _repository.GetCommonInfoById(commonInfoId);
 
-        public int ShowCommonInfo(string mainText, string subText, string confirmText = null, bool isLoading = false)
+            if (info != null && info.CancelAction != null && info.CancelParameters != null) 
+                info.CancelAction.Invoke(info.CancelParameters);
+
+            _repository.RemoveCommonInfoById(commonInfoId);
+        }
+
+
+        public int ShowCommonInfo(string mainText, string subText, string confirmText = null, string cancelText = null, bool isLoading = false,
+            Action<List<object>> confirmAction = null, Action<List<object>> cancelAction = null)
         {
             var info = _infoFactory.CreateCommonInfo(mainText, subText);
 
@@ -67,24 +87,28 @@ namespace Ctms.Applications.Workers
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
             info.IsLoadingVisible = isLoading;
+            info.ConfirmAction  = confirmAction;
+            info.CancelAction   = cancelAction;
 
-            CalcButtons(confirmText, info);
+            CalcButtons(confirmText, cancelText, info);
             _infoVm.CommonInfos.Add(info);
 
             return info.Info.Id;
         }
 
-        public void RemoveCommonInfo(int infoId)
-        {
-            _repository.RemoveCommonInfoById(infoId);
-        }
+        
 
-        private static void CalcButtons(string confirmText, InfoDataModel info)
+        private static void CalcButtons(string confirmText, string cancelText, InfoDataModel info)
         {
             if (confirmText != null)
             {
                 info.IsConfirmable = true;
                 info.ConfirmText = confirmText;
+            }
+            if (cancelText != null)
+            {
+                info.IsCancellable = true;
+                info.CancelText = cancelText;
             }
         }
 
