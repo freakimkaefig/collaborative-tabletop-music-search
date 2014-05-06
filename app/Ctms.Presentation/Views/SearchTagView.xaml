@@ -16,7 +16,8 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
     Loaded="SimpleVisualization_Loaded"
     PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
-    Moved="TagVisualization_Moved">
+    Moved="TagVisualization_Moved"
+                    >
     
     <s:TagVisualization.Resources>
         <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
@@ -238,7 +239,7 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    
+
                     <s:SurfaceButton DataContext="{DynamicResource TagDM}"
                         Visibility="{Binding IsInputControlVisible, Converter={StaticResource visibilityConverter}}"
                         Command="{Binding DataContext.LowerInputCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
@@ -247,7 +248,8 @@
                         Grid.Column="0"      
                         />
 
-                    <s:SurfaceTextBox DataContext="{DynamicResource TagDM}"
+                    <s:SurfaceTextBox Name="InputTextBox"
+                        DataContext="{DynamicResource TagDM}"
                         Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
                         Width="{StaticResource InputLength}" 
                         Grid.Column="1" 

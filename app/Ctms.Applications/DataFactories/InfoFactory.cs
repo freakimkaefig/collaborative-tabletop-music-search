@@ -46,10 +46,12 @@ namespace Ctms.Applications.DataFactories
 
             // create info
             var info = new TagInfo(nextFreeId, mainText, subText);
+            var tag = _repository.GetTagDMById(tagId);
 
             // create TagDataModel wrapper for tag
             var newInfo = new TagInfoDataModel(info)
             {
+                Tag = tag,
                 TagId = tagId,
                 Info = info
             };

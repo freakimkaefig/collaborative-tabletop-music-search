@@ -16,6 +16,7 @@ using System.Data.Common;
 using System.Diagnostics;
 using Ctms.Applications.Views;
 using Ctms.Applications.Workers;
+using Ctms.Applications.DevHelper;
 
 namespace Ctms.Applications.Controllers
 {
@@ -95,9 +96,13 @@ namespace Ctms.Applications.Controllers
 
         public void HandleException(Exception exception)
         {
-            string errorMessage = string.Format("An unhandled exception occurred: {0}", exception.Message, exception.StackTrace);
+            string errorMessage = string.Format("An unhandled exception occurred: {0}{1}{2}{3}{4}{5}", 
+                exception.Message, Environment.NewLine, 
+                exception.StackTrace, Environment.NewLine, 
+                exception.InnerException, Environment.NewLine);
 
-            infoWorker.ShowCommonInfo("Error occurred", errorMessage, "Ok");            
+            infoWorker.ShowCommonInfo("Error occurred", errorMessage, "Ok");
+            DevLogger.Log(errorMessage);
         }
 
         public void Shutdown()

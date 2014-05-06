@@ -26,6 +26,7 @@ namespace Ctms.Applications.DataModels
         private string _confirmText;
         private int _tagId;
         private bool _isLoadingVisible;
+        private TagDataModel _tag;
 
         public InfoDataModel(Info info)
         {
@@ -37,6 +38,19 @@ namespace Ctms.Applications.DataModels
         public InfoDataModel() { }
 
         public Info Info { get; set; }
+
+        public TagDataModel Tag
+        {
+            get
+            {
+                return _tag;
+            }
+            set
+            {
+                _tag = value;
+                RaisePropertyChanged("Tag");
+            }
+        }
         
         // is info visible
         public bool IsVisible 
