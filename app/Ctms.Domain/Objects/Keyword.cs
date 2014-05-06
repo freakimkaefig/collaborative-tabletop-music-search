@@ -11,6 +11,8 @@ namespace Ctms.Domain
     public class Keyword : Model
     {
         private string _displayName;
+        private string _displayNameFirst;
+        private string _displayNameSecond;
         private object _displayDescription;
         private object _value;
 
@@ -65,6 +67,32 @@ namespace Ctms.Domain
                 {
                     _displayName = value;
                     RaisePropertyChanged("DisplayName");
+                }
+            }
+        }
+
+        public string DisplayNameFirst
+        {
+            get { return _displayNameFirst; }
+            set
+            {
+                if (_displayNameFirst != value)
+                {
+                    _displayNameFirst = value;
+                    RaisePropertyChanged("DisplayNameFirst");
+                }
+            }
+        }
+
+        public string DisplayNameSecond
+        {
+            get { return _displayNameSecond; }
+            set
+            {
+                if (_displayNameSecond != value)
+                {
+                    _displayNameSecond = value;
+                    RaisePropertyChanged("DisplayNameSecond");
                 }
             }
         }

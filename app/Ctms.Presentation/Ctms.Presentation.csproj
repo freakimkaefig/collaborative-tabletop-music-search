@@ -337,8 +337,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Awesomium.Core, Version=1.7.4.2, Culture=neutral, PublicKeyToken=e1a0d7c8071a5214" />
-    <Reference Include="Awesomium.Windows.Controls, Version=1.7.4.2, Culture=neutral, PublicKeyToken=7a34e179b8b61c39" />
     <Reference Include="Blake.NUI.WPF, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Blake.NUI\Blake.NUI.WPF.dll</HintPath>
