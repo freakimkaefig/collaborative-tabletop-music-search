@@ -20,6 +20,7 @@ using Microsoft.Surface.Presentation;
 using Ctms.Domain.Objects;
 using Ctms.Applications.DataModels;
 using Blake.NUI.WPF.Gestures;
+using Microsoft.Surface;
 
 namespace Ctms.Presentation.Views
 {

@@ -182,6 +182,8 @@ namespace Ctms.Applications.Workers
             temp = StringHelper.replacePartialString(temp, "&quot;", "\"", 10000);
             temp = StringHelper.replacePartialString(temp, "&#38;", "&", 10000);
             temp = StringHelper.replacePartialString(temp, "&#39;", "'", 10000);
+            temp = StringHelper.replacePartialString(temp, "\t", "", 100000);
+            temp = StringHelper.replacePartialString(temp, "\n", "", 10000);
             return temp;
         }
     }

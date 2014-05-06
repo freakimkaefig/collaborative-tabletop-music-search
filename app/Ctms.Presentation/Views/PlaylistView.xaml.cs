@@ -314,6 +314,7 @@ namespace Ctms.Presentation.Views
         private void Playlist_TapGesture(object sender, GestureEventArgs e)
         {
             _viewModel.CurrentTrack = _viewModel.ResultsForPlaylist[surfaceListBox.SelectedIndex];
+            _viewModel.LoadDetailsCommand.Execute(_viewModel.ResultsForPlaylist[surfaceListBox.SelectedIndex]);
         }
 
         private void TabItem_TouchDown(object sender, TouchEventArgs e)

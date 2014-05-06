@@ -369,6 +369,7 @@
     <Reference Include="System.Windows.Interactivity" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationClient" />
     <Reference Include="WindowsBase" />
     <Reference Include="WpfAnimatedGif, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WpfAnimatedGif.1.4.4\lib\net\WpfAnimatedGif.dll</HintPath>
