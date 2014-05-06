@@ -50,12 +50,16 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" 
+                            <s:SurfaceScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="3" >
+                                <WrapPanel Orientation="Vertical">
+                            <TextBlock 
                                        Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Center" 
                                        TextWrapping="Wrap" FontSize="16"/>
-                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" 
+                            <TextBlock 
                                        Text="{Binding Info.SubText}" FontWeight="Bold"  HorizontalAlignment="Center" 
                                        TextWrapping="Wrap" />
+                                </WrapPanel>
+                            </s:SurfaceScrollViewer>
                             <Image Grid.Row="2" Grid.ColumnSpan="3"  
                                Style="{StaticResource LoadingCircle}"
                                Height="40" Width="40"
@@ -85,12 +89,16 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" 
+                            <s:SurfaceScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="3" >
+                                <WrapPanel Orientation="Vertical">
+                                    <TextBlock  
                                        Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Center" 
                                        TextWrapping="Wrap" FontSize="16"/>
-                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" 
+                                    <TextBlock 
                                        Text="{Binding Info.SubText}" FontWeight="Bold" HorizontalAlignment="Center"  
                                        TextWrapping="Wrap" />
+                                </WrapPanel>
+                            </s:SurfaceScrollViewer>
                             <Image Grid.Row="2" Grid.ColumnSpan="3"  
                                    Style="{StaticResource LoadingCircle}"
                                    Height="40" Width="40"
