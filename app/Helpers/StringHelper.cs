@@ -24,9 +24,14 @@ namespace Helpers
 
         public static String replacePartialString(String term, String replaceable, String substitute, int thisOften)
         {
+            var newTerm = "";
             var regex = new Regex(Regex.Escape(replaceable));
-            var newTerm = regex.Replace(term, substitute, thisOften);
-            if (newTerm != null)
+            if(term != null && substitute != null && thisOften >= 0)
+            {
+                newTerm = regex.Replace(term, substitute, thisOften);
+            }
+            
+            if (newTerm != null && newTerm != "")
             {
                 return newTerm;
             }

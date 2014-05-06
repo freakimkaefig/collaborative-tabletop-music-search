@@ -402,10 +402,12 @@ namespace MusicSearch.Managers
 
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            //Origin-IDs not needed since the implementation of (this) method-calls 
-            //allow to distinguish their origin
-            //String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
-            //JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistInfos[0]);
+            
+            /*List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
+          .GroupBy(p => p.title)
+          .Select(g => g.First())
+          .ToList();*/
+
             //add first artist-info-results to RC
             ArtistInfosRC.Add(temp.Response.ArtistInfos[0]);
 
@@ -426,33 +428,21 @@ namespace MusicSearch.Managers
             var newText3 = StringHelper.replacePartialString(newText2, "id", "title_id", 100);
             var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(newText3);
 
-
-            //var temp123 = temp2.Response.ArtistInfos[0].ArtistSongs.Distinct().ToList();
-
+            //remove duplicate list-entries
+            List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
+          .GroupBy(p => p.title)
+          .Select(g => g.First())
+          .ToList();
 
             //Initialise inner list of RC
             ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
             //add further artist-info-results to inner list of RC
-            for (int i = 0; i < temp2.Response.ArtistInfos[0].ArtistSongs.Count; i++)
+            for (int i = 0; i < filtertedList.Count; i++)
             {
-                ArtistInfosRC[0].ArtistSongs.Add(temp2.Response.ArtistInfos[0].ArtistSongs[i]);
+                ArtistInfosRC[0].ArtistSongs.Add(filtertedList[i]);
             }
 
             ArtistInfosRC[0].ArtistSongs = ArtistInfosRC[0].ArtistSongs.OrderBy(a => a.title).ToList();
-
-            /*for (int i = 0; i < ArtistInfosRC[0].ArtistSongs.Count;)
-            {
-                if (i + 1 < ArtistInfosRC[0].ArtistSongs.Count)
-                {
-                    if (ArtistInfosRC[0].ArtistSongs[i].title.ToLower() == ArtistInfosRC[0].ArtistSongs[i + 1].title.ToLower())
-                        ArtistInfosRC[0].ArtistSongs.RemoveAt(i);
-                    else
-                        i++;
-                }
-            }*/
-            
-
-            //list1 = lst.ToList();
 
             //build 3rd query (similiar artists)
             String request3 = _defaultURL + "artist/similar?" + "api_key=" + GetAPIKey() + "&format=json&bucket=familiarity&min_familiarity=0.7&name=" + artist;
