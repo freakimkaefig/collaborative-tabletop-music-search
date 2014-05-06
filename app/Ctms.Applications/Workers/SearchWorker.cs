@@ -46,7 +46,7 @@ namespace Ctms.Applications.Workers
 
         public void StartSearch()
         {
-            var loadingInfoId = _infoWorker.ShowCommonInfo("Loading results...", "Please wait a moment");
+            var loadingInfoId = _infoWorker.ShowCommonInfo("Loading results...", "Please wait a moment", "Ok", true);
 
             var backgrWorker = new BackgroundWorkHelper();
             backgrWorker.DoInBackground(StartSearch, StartSearchCompleted, loadingInfoId);

@@ -29,59 +29,91 @@
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid Margin="80">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <Grid Style="{StaticResource CommonInfoGrid}" IsHitTestVisible="True" Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition  />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
-                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" TextWrapping="Wrap" />
-                            <Image Grid.Row="2" Grid.ColumnSpan="3"  
-                               Style="{StaticResource LoadingCircle}"
-                               Height="40" Width="40"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <s:SurfaceButton Grid.Row="3" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Stretch"
-                                             Command="{Binding DataContext.ConfirmCommonInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                                             CommandParameter="{Binding Info.Id}"
-                                             Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"/>
-                        </Grid>
+                        
                         <Grid Style="{StaticResource CommonInfoGrid}" IsHitTestVisible="True" RenderTransformOrigin="0.5,0.5"  Grid.Row="0">
                             <Grid.RenderTransform>
                                 <RotateTransform Angle="180"/>
                             </Grid.RenderTransform>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
-                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" TextWrapping="Wrap" />
-                            <Image Grid.Row="2" Grid.ColumnSpan="3"  
+                            <s:SurfaceScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="3" >
+                                <WrapPanel Orientation="Vertical">
+                            <TextBlock 
+                                       Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Center" 
+                                       TextWrapping="Wrap" FontSize="16"/>
+                            <TextBlock 
+                                       Text="{Binding Info.SubText}" FontWeight="Bold"  HorizontalAlignment="Center" 
+                                       TextWrapping="Wrap" />
+                                </WrapPanel>
+                            </s:SurfaceScrollViewer>
+                            <!--<Image Grid.Row="2" Grid.ColumnSpan="3"  
                                Style="{StaticResource LoadingCircle}"
                                Height="40" Width="40"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <s:SurfaceButton Grid.Row="3" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Stretch"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Visibility="{Binding IsLoadingVisible, Converter={StaticResource visibilityConverter}}"
+                                             />-->
+                            <s:SurfaceButton Grid.Row="3" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" 
+                                             HorizontalAlignment="Center"
                                              Command="{Binding DataContext.ConfirmCommonInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                              CommandParameter="{Binding Info.Id}"
-                                             Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"/>
+                                             Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"
+                                             Width="Auto"
+                                              />
                         </Grid>
+
+                        <Rectangle HorizontalAlignment="Stretch" Fill="#ccc" Height="1" Grid.Row="1"/>
+
+                        <Grid Style="{StaticResource CommonInfoGrid}" IsHitTestVisible="True" Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <s:SurfaceScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="3" >
+                                <WrapPanel Orientation="Vertical">
+                                    <TextBlock  
+                                       Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Center" 
+                                       TextWrapping="Wrap" FontSize="16"/>
+                                    <TextBlock 
+                                       Text="{Binding Info.SubText}" FontWeight="Bold" HorizontalAlignment="Center"  
+                                       TextWrapping="Wrap" />
+                                </WrapPanel>
+                            </s:SurfaceScrollViewer>
+                            <!--<Image Grid.Row="2" Grid.ColumnSpan="3"  
+                                   Style="{StaticResource LoadingCircle}"
+                                   Height="40" Width="40"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Visibility="{Binding IsLoadingVisible, Converter={StaticResource visibilityConverter}}"
+                                   />-->                            
+                            <s:SurfaceButton Grid.Row="3" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" 
+                                             HorizontalAlignment="Center"
+                                             Command="{Binding DataContext.ConfirmCommonInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                             CommandParameter="{Binding Info.Id}"              
+                                             Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"
+                                             Width="Auto"
+                                              />
+                        </Grid>
+                        
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -120,6 +152,11 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
+                        
+                        <Grid.RenderTransform>
+                            <RotateTransform Angle="{Binding Tag.Tag.Orientation}"/>
+                        </Grid.RenderTransform>
+                        
                         <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
                         <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
                         <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Center"

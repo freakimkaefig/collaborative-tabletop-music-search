@@ -46,6 +46,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _reorderTrackCommand;
         private ICommand _shuffleCommand;
         private ICommand _repeatCommand;
+        private ICommand _loadDetailsCommand;
         //
         private Playlist _currentPlaylist = null;
         private ObservableCollection<ResultDataModel> _playlistResults;
@@ -379,6 +380,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _repeatCommand = value;
                     RaisePropertyChanged("RepeatCommand");
+                }
+            }
+        }
+
+        public ICommand LoadDetailsCommand
+        {
+            get { return _loadDetailsCommand; }
+            set
+            {
+                if (_loadDetailsCommand != value)
+                {
+                    _loadDetailsCommand = value;
+                    RaisePropertyChanged("LoadDetailsCommand");
                 }
             }
         }

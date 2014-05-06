@@ -24,5 +24,11 @@ namespace System.Waf.Applications
         /// Shutdown the module controller.
         /// </summary>
         void Shutdown();
+
+        /// <summary>
+        /// Handle exception
+        /// </summary>
+        /// <param name="exception"></param>
+        void HandleException(Exception exception);
     }
 }

@@ -777,7 +777,7 @@ namespace MusicSearch.Managers
             if (String.IsNullOrEmpty(apiKey))
             {
                 //open&read xml-file
-                XDocument doc = XDocument.Load(currentPath.Substring(0, currentPath.LastIndexOf("app")) + "app/MusicSearch/files/config.xml");
+                XDocument doc = XDocument.Load("files/config.xml");
                 XElement el = doc.Element("apikey");
                 apiKey = (String)el;
             }

@@ -42,6 +42,7 @@ namespace Ctms.Applications.Controllers
         //Worker
         private StreamingWorker _streamingWorker;
         private PlaylistWorker _playlistWorker;
+        private SearchWorker _searchWorker;
         //Commands
         private readonly DelegateCommand _playPauseCommand;
         private readonly DelegateCommand _stopCommand;
@@ -51,13 +52,14 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _reorderTrackCommand;
         private readonly DelegateCommand _shuffleCommand;
         private readonly DelegateCommand _repeatCommand;
+        private readonly DelegateCommand _loadDetailsCommand;
 
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 
         [ImportingConstructor]
         public PlaylistController(CompositionContainer container, IShellService shellService, EntityService entityService,
-            PlaylistViewModel playlistViewModel, StreamingWorker streamingWorker, PlaylistWorker playlistWorker)
+            PlaylistViewModel playlistViewModel, StreamingWorker streamingWorker, PlaylistWorker playlistWorker, SearchWorker searchWorker)
         {
             this.container = container;
             //Services
@@ -68,6 +70,7 @@ namespace Ctms.Applications.Controllers
             //Worker
             _streamingWorker = streamingWorker;
             _playlistWorker = playlistWorker;
+            _searchWorker = searchWorker;
             //Commands
             this._playPauseCommand = new DelegateCommand(_streamingWorker.PlaylistPlayPause, _playlistWorker.CanPlay);
             this._stopCommand = new DelegateCommand(_streamingWorker.StopPlayback, _streamingWorker.Playing);
@@ -77,6 +80,7 @@ namespace Ctms.Applications.Controllers
             this._reorderTrackCommand = new DelegateCommand((data) => _playlistWorker.ReorderTrack((object[])data));
             this._shuffleCommand = new DelegateCommand(_playlistWorker.ToggleShuffle, _streamingWorker.CanStream);
             this._repeatCommand = new DelegateCommand(_playlistWorker.ToggleRepeat, _streamingWorker.CanStream);
+            this._loadDetailsCommand = new DelegateCommand((result) => _searchWorker.LoadDetails((ResultDataModel)result));
         }
 
         public void Initialize()
@@ -91,6 +95,7 @@ namespace Ctms.Applications.Controllers
             _playlistViewModel.ReorderTrackCommand = _reorderTrackCommand;
             _playlistViewModel.ShuffleCommand = _shuffleCommand;
             _playlistViewModel.RepeatCommand = _repeatCommand;
+            _playlistViewModel.LoadDetailsCommand = _loadDetailsCommand;
             AddWeakEventListener(_playlistViewModel, PlaylistViewModelPropertyChanged);
 
             shellService.PlaylistView = _playlistViewModel.View;

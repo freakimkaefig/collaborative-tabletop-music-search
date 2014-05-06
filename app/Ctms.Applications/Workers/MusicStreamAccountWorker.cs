@@ -124,6 +124,7 @@ namespace Ctms.Applications.Workers
             else
             {
                 //Notify user to login to spotify
+                _infoWorker.ShowCommonInfo("Spotify Login", "You have to login to Spotify", "Ok");
             }
         }
 
@@ -136,6 +137,7 @@ namespace Ctms.Applications.Workers
             else
             {
                 //Notify user to login to spotify
+                _infoWorker.ShowCommonInfo("Spotify Login", "You have to login to Spotify", "Ok");
             }
         }
 
@@ -151,7 +153,7 @@ namespace Ctms.Applications.Workers
         {
             if (spotifyError != SpotifySharp.SpotifyError.Ok)
             {
-                _infoWorker.ShowCommonInfo("SpotifyError", spotifyError.ToString(), "OK");
+                _infoWorker.ShowCommonInfo("SpotifyError", spotifyError.ToString(), "Ok");
             }
         }
 

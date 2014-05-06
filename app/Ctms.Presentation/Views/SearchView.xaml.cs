@@ -26,6 +26,7 @@ using System.ComponentModel;
 using Ctms.Presentation.Converters;
 using System.Windows.Media.Animation;
 using Helpers;
+using WPFKeyboard.Keyboard;
 
 namespace Ctms.Presentation.Views
 {
@@ -56,6 +57,9 @@ namespace Ctms.Presentation.Views
 
         private bool added = false;
 
+        //private TextBox focusedElement;
+        //private KeyboardController keyboard;
+
         public SearchView()
         {
             InitializeComponent();
@@ -77,6 +81,9 @@ namespace Ctms.Presentation.Views
             _fft13 = Fft13;
             _fft14 = Fft14;
             _fft15 = Fft15;
+
+            //focusedElement = this.KeyboardInput;
+            //initKeyboard(); 
 
         }
 
@@ -144,9 +151,10 @@ namespace Ctms.Presentation.Views
             tagDM.Height        = (float)searchTagView.ActualHeight;
             tagDM.Width         = (float)searchTagView.ActualWidth;
 
-            var screenPosition  = searchTagView.PointToScreen(new Point(0d, 0d));
-            tagDM.Tag.PositionX = (short)(screenPosition.X + tagDM.Width / 2);
-            tagDM.Tag.PositionY = (short)(screenPosition.Y + tagDM.Height / 2);
+            //var screenPosition  = searchTagView.PointToScreen(new Point(0d, 0d));
+            var screenPosition  = searchTagView.Center;
+            tagDM.Tag.PositionX = (short)(screenPosition.X);
+            tagDM.Tag.PositionY = (short)(screenPosition.Y);
 
             tagDM.ExistenceState = TagDataModel.ExistenceStates.Added;
         }
@@ -540,5 +548,70 @@ namespace Ctms.Presentation.Views
             }
             storyboard.Begin(ellipse, true);
         }
+        /*
+        private void initKeyboard()
+        {
+            keyboard = this.CustomKeyboard;
+            keyboard.setFocusedElement(focusedElement);
+
+            //OPTIONAL
+            //keyboard.setCustomKeyboardListener(this);
+        }
+
+        /// <summary>
+        /// only for demonstration
+        /// </summary>
+        /// <returns></returns>
+        public TextBox getFocusedElement()
+        {
+            return focusedElement;
+        }
+
+        /// <summary>
+        /// an element with no caret needed is focused
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotFocusableElement_TouchDown(object sender, TouchEventArgs e)
+        {
+            focusedElement = null;
+            keyboard.setFocusedElement(focusedElement);
+        }
+
+        private void TextBox_TouchUp(object sender, TouchEventArgs e)
+        {
+            focusedElement = sender as TextBox;
+            keyboard.setFocusedElement(focusedElement);
+        }
+        */
+        /*
+         * COMPLETELY OPTIONAL -> only if you want to knwo which key was pressed
+         */
+        /*
+        /// <summary>
+        /// normal key/ new line/ space was pressed
+        /// </summary>
+        /// <param name="key">key (can be parsed in char) or "\n" or " "</param>
+        public void typedKey(string key)
+        {
+
+        }
+
+        /// <summary>
+        /// backspace was typed
+        /// </summary>
+        public void typedBackSpace()
+        {
+
+        }
+
+        /// <summary>
+        /// one of the arrows was typed
+        /// </summary>
+        /// <param name="arrowIndex"> -1 for left-arrow; 1 for right arrow</param>
+        public void typedArrow(int arrowIndex)
+        {
+
+        }*/
     }
 }

@@ -11,6 +11,7 @@ using Ctms.Applications.DataModels;
 using System.Windows.Media.Animation;
 using System.Windows;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Ctms.Applications.Workers
 {
@@ -23,17 +24,20 @@ namespace Ctms.Applications.Workers
         private PlaylistViewModel _playlistViewModel;
         private ResultViewModel _resultViewModel;
         private MusicStreamAccountWorker _accountWorker;
+        private InfoWorker _infoWorker;
+
         private MusicStreamSessionManager _sessionManager;
 
         DoubleAnimation fadeIn = new DoubleAnimation() { From = 0, To = 1, Duration = TimeSpan.FromSeconds(1) };
         DoubleAnimation fadeOut = new DoubleAnimation() { From = 1, To = 0, Duration = TimeSpan.FromSeconds(2) };
 
         [ImportingConstructor]
-        public PlaylistWorker(PlaylistViewModel playlistViewModel, ResultViewModel resultViewModel, MusicStreamAccountWorker accountWorker)
+        public PlaylistWorker(PlaylistViewModel playlistViewModel, ResultViewModel resultViewModel, MusicStreamAccountWorker accountWorker, InfoWorker infoWorker)
         {
             _playlistViewModel = playlistViewModel;
             _resultViewModel = resultViewModel;
             _accountWorker = accountWorker;
+            _infoWorker = infoWorker;
 
             _accountWorker.PlaylistSessionManagerCreated = PlaylistSessionManagerCreated;
         }
@@ -65,6 +69,8 @@ namespace Ctms.Applications.Workers
 
             _playlistViewModel.CanPlay = true;
             _resultViewModel.PlaylistOpened = true;
+
+            int info = _infoWorker.ShowCommonInfo("Playlist opened", "You successfully opened the playlist '" + playlist.Name() + "'", "Ok");
         }
 
         private void PlaybackLoadingReady(Track track)

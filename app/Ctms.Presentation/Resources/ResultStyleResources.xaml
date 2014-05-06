@@ -61,7 +61,7 @@
                 </Grid>
                 <Grid Name="DetailView" Visibility="{Binding IsDetail, Converter={x:Static c:BoolToVisibilityConverter.Default}}">
                     <Grid Visibility="{Binding IsDetailLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Background="#222">
-                        <Label Content="LOADING..." FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <!--<Image Style="{StaticResource LoadingCircle}" MaxWidth="100" MaxHeight="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                     </Grid>
                     <Grid Visibility="{Binding IsDetailLoading, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}">
                         <TabControl Margin="20">
@@ -168,10 +168,17 @@
 
     <DataTemplate x:Key="DetailViewArtistSongs">
         <Grid VerticalAlignment="Top" Background="#444" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding}" FontSize="14" TextWrapping="Wrap" Grid.Row="0" Padding="10"/>
+            <TextBlock Text="{Binding}" FontSize="14" TextWrapping="Wrap" Grid.Row="0" Grid.Column="0" Padding="10"/>
+            <s:SurfaceButton Content="Prelisten" Click="SurfaceButton_Click" Grid.Row="0" Grid.Column="1"/>
+            <s:SurfaceButton Content="Add to playlist" Grid.Row="0" Grid.Column="2"/>
         </Grid>
     </DataTemplate>
 

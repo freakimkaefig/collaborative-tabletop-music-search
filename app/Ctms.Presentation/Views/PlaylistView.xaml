@@ -113,11 +113,11 @@
             <s:SurfaceButton Command="{Binding StopCommand}" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Margin="323.5,24,0,0"/>
             <s:SurfaceButton Command="{Binding ShuffleCommand}" Content="{Binding IsShuffle}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="64" Margin="0,24,268.5,0"/>
             <s:SurfaceButton Command="{Binding RepeatCommand}" Content="{Binding IsRepeat}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="64" Margin="0,24,188.5,0"/>
-            <Grid Grid.Column="1" Name="PlaylistDetailView" Visibility="{Binding CurrentTrack.IsDetail, Converter={x:Static c:BoolToVisibilityConverter.Default}}">
-                <Grid Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Background="#222">
-                    <Label Content="LOADING..." FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Grid Grid.Column="1" Name="PlaylistDetailView" Margin="2,2,100,2">
+                <Grid Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Background="#00222222" Margin="2">
+                    <!--<Image Style="{StaticResource LoadingCircle}" MaxWidth="100" MaxHeight="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                 </Grid>
-                <Grid Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}">
+                <Grid Width="850" Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}">
                     <TabControl Margin="20">
                         <TabItem Header="About" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
                             <s:SurfaceScrollViewer Background="#222" Foreground="#ddd" HorizontalScrollBarVisibility="Disabled">
@@ -135,10 +135,10 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Image Source="{Binding CurrentTrack.Detail.Image.ImageUrl}" Width="Auto" Height="Auto" Margin="10" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"/>
-                                    <TextBlock Text="{Binding CurrentTrack.Detail.Name}" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding CurrentTrack.Detail.City}" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding CurrentTrack.Detail.Genres, Converter={x:Static c:ListToStringConverter.Default}}" Grid.Row="2" Grid.Column="1"/>
-                                    <TextBlock Text="Biography" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                    <TextBlock Text="{Binding CurrentTrack.Detail.Name}" FontSize="20" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding CurrentTrack.Detail.City}" FontSize="16" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding CurrentTrack.Detail.Genres, Converter={x:Static c:ListToStringConverter.Default}}" FontSize="16" Grid.Row="2" Grid.Column="1"/>
+                                    <TextBlock Text="Biography" FontSize="18" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"/>
                                     <TextBlock Width="Auto" Text="{Binding CurrentTrack.Detail.Biography}" TextWrapping="Wrap" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
                                 </Grid>
                             </s:SurfaceScrollViewer>
@@ -156,12 +156,13 @@
                                             <RowDefinition Height="1*"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        <Image x:Name="ImageContainer" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Uniform" Source="{Binding ElementName=ImagePager, Path=SelectedItem.ImageUrl}"/>
+                                        <Image MaxHeight="900" MaxWidth="800" x:Name="ImageContainer" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Uniform" Source="{Binding ElementName=ImagePager, Path=SelectedItem.ImageUrl}"/>
                                         <s:SurfaceListBox Name="ImagePager" Margin="0" Background="Transparent"
                                                  ItemsPanel="{DynamicResource ImagesItemsPanel}"
                                                  ItemContainerStyle="{DynamicResource ImagesItemContainerStyle}"
                                                  ItemsSource="{Binding CurrentTrack.Detail.Images}"
-                                                 Width="{Binding CurrentTrack.InnerWidth}" HorizontalAlignment="Center" Grid.Row="1"/>
+                                                 HorizontalAlignment="Stretch" Grid.Row="1"
+                                                 Width="800"/>
                                     </Grid>
                                 </StackPanel>
                             </Grid>
@@ -180,7 +181,7 @@
                 </Grid>
             </Grid>
             <!--<TextBox x:Name="textBox" Width="300" Height="500" Grid.Column="1"/>-->
-            <s:SurfaceButton HorizontalAlignment="Right" Margin="0,24,-32,0" VerticalAlignment="Top" Width="64" Height="64" Command="{Binding RotateCommand}" Background="{StaticResource ResourceKey=rotate}" />
+            <s:SurfaceButton HorizontalAlignment="Right" Margin="0,24,8,0" VerticalAlignment="Top" Width="64" Height="64" Command="{Binding RotateCommand}" Background="{StaticResource ResourceKey=rotate}" />
             <s:SurfaceButton Name="TrashBin" VerticalAlignment="Bottom" Height="50" Visibility="{Binding TrashVisible, Converter={x:Static c:BoolToVisibilityConverter.Default}}"
                              AllowDrop="True"
                              s:SurfaceDragDrop.DragEnter="PlaylistRemoveDropTarget_DragEnter"

@@ -40,7 +40,7 @@ namespace Ctms.Applications.Workers
 
         public void Initialize()
         {
-            ShowCommonInfo("AAAh", "oooh", "Confirm?");
+            //ShowCommonInfo("AAAh", "oooh", "Confirm?");
         }
 
         public void ConfirmCommonInfo(int infoId)
@@ -59,13 +59,14 @@ namespace Ctms.Applications.Workers
         }
 
 
-        public int ShowCommonInfo(string mainText, string subText, string confirmText = null)
+        public int ShowCommonInfo(string mainText, string subText, string confirmText = null, bool isLoading = false)
         {
             var info = _infoFactory.CreateCommonInfo(mainText, subText);
 
             info.IsVisible = true;
             info.Info.MainText = mainText;
             info.Info.SubText = subText;
+            info.IsLoadingVisible = isLoading;
 
             CalcButtons(confirmText, info);
             _infoVm.CommonInfos.Add(info);
@@ -94,15 +95,16 @@ namespace Ctms.Applications.Workers
             var tagDm = _repository.GetTagDMById(tagId);
             var tagPosY = tagDm.Tag.PositionY;
             var tagPosX = tagDm.Tag.PositionX;
-            //!!better to position info at the side?
-            var infoHeight = 80.0F;//!!read->set globally
-            info.Info.PositionX = tagPosX;
+
+            var infoHeight = 80.0F;
+            info.Info.PositionX = tagPosX - tagDm.Width / 2.0F;
+
             if (_shellVm.WindowHeight < tagPosY + tagDm.Height / 2.0 + infoHeight)
-            {
-                info.Info.PositionY = tagPosY - infoHeight / 2.0F;
+            {   // place the info below the tag because there's space
+                info.Info.PositionY = tagPosY - infoHeight / 2.0F - infoHeight;
             }
             else
-	        {
+            {   // place the info above the tag because below there's no space
                 info.Info.PositionY = tagPosY + tagDm.Height / 2.0F;
 	        }
             RemoveTagInfo(tagId);
