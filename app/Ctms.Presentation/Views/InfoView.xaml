@@ -144,6 +144,11 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
+                        
+                        <Grid.RenderTransform>
+                            <RotateTransform Angle="{Binding Tag.Tag.Orientation}"/>
+                        </Grid.RenderTransform>
+                        
                         <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
                         <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
                         <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Center"

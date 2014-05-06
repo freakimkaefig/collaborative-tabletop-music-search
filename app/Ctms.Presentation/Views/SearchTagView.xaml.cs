@@ -13,6 +13,7 @@ using Microsoft.Surface.Presentation.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Ctms.Applications.DataModels;
+using WPFKeyboard.Keyboard;
 
 namespace Ctms.Presentation.Views
 {
@@ -28,6 +29,9 @@ namespace Ctms.Presentation.Views
         private int count = 0;
 
         private short windowHeight;
+
+        private TextBox focusedElement;
+        private KeyboardController keyboard;
 
         public SearchTagView()
         {

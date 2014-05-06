@@ -11,7 +11,10 @@
     xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" 
     x:Class="Ctms.Presentation.Views.SearchView"
     IsEnabled="{Binding IsEnabled}"
-    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
+    
+    xmlns:ckeyboard="clr-namespace:WPFKeyboard.Keyboard;assembly=WPFKeyboard"
+    >
     
     <UserControl.Resources>
         
@@ -364,6 +367,11 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            
+            <!--<s:SurfaceTextBox Name="KeyboardInput" Height="50" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
+
+            <!-- keyboard -->
+            <!--<ckeyboard:KeyboardController x:Name="CustomKeyboard"  Margin="0,150,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
         </Grid>
         
     </s:TagVisualizer>

@@ -97,9 +97,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="files\config.xml">
+    <Content Include="files\config.xml">
       <SubType>Designer</SubType>
-    </Resource>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="files\genres.txt">
