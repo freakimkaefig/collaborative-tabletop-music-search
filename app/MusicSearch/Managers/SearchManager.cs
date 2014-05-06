@@ -440,7 +440,7 @@ namespace MusicSearch.Managers
 
             ArtistInfosRC[0].ArtistSongs = ArtistInfosRC[0].ArtistSongs.OrderBy(a => a.title).ToList();
 
-            for (int i = 0; i < ArtistInfosRC[0].ArtistSongs.Count;)
+            /*for (int i = 0; i < ArtistInfosRC[0].ArtistSongs.Count;)
             {
                 if (i + 1 < ArtistInfosRC[0].ArtistSongs.Count)
                 {
@@ -449,7 +449,7 @@ namespace MusicSearch.Managers
                     else
                         i++;
                 }
-            }
+            }*/
             
 
             //list1 = lst.ToList();
