@@ -369,6 +369,7 @@
     <Reference Include="System.Windows.Interactivity" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationClient" />
     <Reference Include="WindowsBase" />
     <Reference Include="WpfAnimatedGif, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WpfAnimatedGif.1.4.4\lib\net\WpfAnimatedGif.dll</HintPath>
@@ -386,6 +387,10 @@
     <ProjectReference Include="..\Helpers\Helpers.csproj">
       <Project>{D529C6B5-B1B8-4837-918E-FBF777B36F11}</Project>
       <Name>Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\TestKeyboard\WPFKeyboard.csproj">
+      <Project>{6F9A4470-BFAF-4FD8-AF3B-AC2E629B4CBB}</Project>
+      <Name>WPFKeyboard</Name>
     </ProjectReference>
     <ProjectReference Include="..\libs\WpfApplicationFramework\WpfApplicationFramework.csproj">
       <Project>{27B67DFE-0BF1-4435-B036-E4C083EAEA03}</Project>
