@@ -14,8 +14,6 @@ namespace Ctms.Presentation.Resources
 {
     public partial class ResultStyleResources : ResourceDictionary
     {
-        private int _pagerCounter = 0;
-
         public ResultStyleResources()
         {
             InitializeComponent();

@@ -47,7 +47,7 @@ namespace Ctms.Applications.DataModels
 
             _stdWidth = 150.0;
             _width = _stdWidth;
-            _stdHeight = 75.0;
+            _stdHeight = 100.0;
             _height = _stdHeight;
         }
 
