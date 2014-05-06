@@ -66,6 +66,7 @@
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Data\XmlProvider.cs" />
     <Compile Include="DevHelper\DevDataProvider.cs" />
+    <Compile Include="DevHelper\DevLogger.cs" />
     <Compile Include="Handlers\TagHandler.cs" />
     <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\SearchTagViewModel.cs">

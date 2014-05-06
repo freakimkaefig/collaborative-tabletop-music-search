@@ -144,9 +144,10 @@ namespace Ctms.Presentation.Views
             tagDM.Height        = (float)searchTagView.ActualHeight;
             tagDM.Width         = (float)searchTagView.ActualWidth;
 
-            var screenPosition  = searchTagView.PointToScreen(new Point(0d, 0d));
-            tagDM.Tag.PositionX = (short)(screenPosition.X + tagDM.Width / 2);
-            tagDM.Tag.PositionY = (short)(screenPosition.Y + tagDM.Height / 2);
+            //var screenPosition  = searchTagView.PointToScreen(new Point(0d, 0d));
+            var screenPosition  = searchTagView.Center;
+            tagDM.Tag.PositionX = (short)(screenPosition.X);
+            tagDM.Tag.PositionY = (short)(screenPosition.Y);
 
             tagDM.ExistenceState = TagDataModel.ExistenceStates.Added;
         }

@@ -51,18 +51,18 @@ namespace Ctms.Presentation.Views
             var searchTagView   = (SearchTagView)e.TagVisualization;
             var tagId           = (int)searchTagView.VisualizedTag.Value;
 
-            var screenPosition = searchTagView.PointToScreen(new Point(0d, 0d));
+            var screenPosition = searchTagView.Center;
 
             // set angle and position of this tag
             var tag         = SearchVm.Tags[tagId];
-            var trackedTouch = e.TagVisualization.TrackedTouch;
+                var trackedTouch = e.TagVisualization.TrackedTouch;
             if (trackedTouch != null)
             {
                 tag.Tag.Angle = (short)trackedTouch.GetOrientation(this);
             }
 
-            tag.Tag.PositionX   = (short) (screenPosition.X + tag.Width / 2);
-            tag.Tag.PositionY   = (short) (screenPosition.Y + tag.Height / 2);
+            tag.Tag.PositionX   = (short) (screenPosition.X);
+            tag.Tag.PositionY   = (short) (screenPosition.Y);
 
             // orientate tag to the nearest side of the two long sides
             tag.Tag.Orientation = tag.Tag.PositionY > (windowHeight / 2) - (tag.Height / 2) ? (short) 0 : (short) 180;
