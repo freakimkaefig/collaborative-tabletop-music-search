@@ -86,8 +86,6 @@ namespace Ctms.Applications.Controllers
             detailController.Initialize();
             menuController.Initialize();
             infoController.Initialize();
-
-            HandleException(new Exception("EEYYY"));
         }
 
         public void Run()

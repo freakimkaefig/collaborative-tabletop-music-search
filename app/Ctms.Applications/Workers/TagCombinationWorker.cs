@@ -92,7 +92,7 @@ namespace Ctms.Applications.Workers
                 var yDistance   = movedTag.Tag.PositionY - compareTag.Tag.PositionY;
                 var distance    = Math.Sqrt(Math.Pow(xDistance, 2.0) + Math.Pow(yDistance, 2.0));
 
-                //LogDistanceCalc(movedTag, compareTag, xDistance, yDistance, distance);
+                LogDistanceCalc(movedTag, compareTag, xDistance, yDistance, distance);
 
                 // get tag combination if there's one for this tag
                 var combiWithMovedTag   = tagCombis.FirstOrDefault(tc => tc.Tags.Contains(movedTag));
