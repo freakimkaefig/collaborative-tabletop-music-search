@@ -12,6 +12,7 @@ using SpotifySharp;
 using MusicStream;
 using System.Collections.ObjectModel;
 using Helpers;
+using Ctms.Applications.DevHelper;
 
 namespace Ctms.Applications.Workers
 {
@@ -59,6 +60,7 @@ namespace Ctms.Applications.Workers
                     _resultViewModel.Results.Clear();
                     for (int i = 0; i < response.Count; i++)
                     {
+                        DevLogger.Log("Received Track: " + response[i].Artist_Name + " | " + response[i].Title + " | Origin:" + response[i].originIDs + "\n");
                         if (_resultViewModel.Results.Count < 10)
                         {
                             for (int j = 0; j < response[i].tracks.Count; j++)
