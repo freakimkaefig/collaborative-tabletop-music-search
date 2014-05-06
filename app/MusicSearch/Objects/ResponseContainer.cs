@@ -165,7 +165,11 @@ namespace MusicSearch.Objects
                 public double song_hotttnesss { get; set; } 
                 public int[] originIDs { get; set; }
                 public Object audio_summary { get; set; }
-                           
+
+                public string ToString()
+                {
+                    return Artist_Name + " - " + Title + " - Origin:" + String.Join("", new List<int>(originIDs).ConvertAll(i => i.ToString()).ToArray()); ;
+                }
             }
 
             public class combinedQuery

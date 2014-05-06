@@ -124,7 +124,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft2" Margin="860.163,250.331,0,0" Height="0" Fill="#FF00032B" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -137,7 +137,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft3" Margin="0,238.337,816.496,0" Height="0" Fill="#FF000743" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -150,7 +150,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft4" Margin="0,275.666,699.499,0" Height="0" Fill="#FF000B5A" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -163,7 +163,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft5" Margin="0,358.332,609.167,0" Height="0" Fill="#FF00148D" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -176,7 +176,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft6" Margin="0,461.663,545.832,0" Height="0" Fill="#FF001FC6" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -189,7 +189,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft7" Margin="0,591.331,537.83,0" Fill="#FF0029E9" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" Height="0" VerticalAlignment="Top" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -202,7 +202,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft8" Margin="0,715.997,570.489,0" Height="0" Fill="#FF003FFF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -215,7 +215,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft9" Margin="0,811.333,656.414,0" Height="0" Fill="#FF004BF3" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -228,7 +228,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft10" Margin="0,869.753,784.246,0" Height="0" Fill="#FF005AFF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -241,7 +241,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft11" Margin="874.168,843.002,0,0" Height="0" Fill="#FF0069FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -254,7 +254,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft12" Margin="761.501,771,0,0" Height="0" Fill="#FF0078FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="120" HorizontalAlignment="Left" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -267,7 +267,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft13" Margin="692.83,662.005,0,0" Height="0" Fill="#FF0087FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -280,7 +280,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft14" Margin="664.163,545.336,0,0" Height="0" Fill="#FF0096FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -293,7 +293,7 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
             <Rectangle x:Name="Fft15" Margin="691.828,419.998,0,0" Height="0" Fill="#FF00A5FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
@@ -306,16 +306,16 @@
             		</TransformGroup>
             	</Rectangle.RenderTransform>
                 <Rectangle.Effect>
-                    <BlurEffect Radius="15"/>
+                    <BlurEffect Radius="30"/>
                 </Rectangle.Effect>
             </Rectangle>
-        	<Ellipse x:Name="Hilfskreis" Margin="648,228,653,233" Visibility="Visible" Opacity="0.395">
+        	<Ellipse x:Name="Hilfskreis" Margin="648,228,605,178" Visibility="Visible" Opacity="0.5">
         		<Ellipse.Fill>
         			<RadialGradientBrush>
         				<GradientStop Color="Black" Offset="1"/>
         				<GradientStop Color="White"/>
-        				<GradientStop Color="#FF636363" Offset="0.35"/>
-        				<GradientStop Color="#FF121212" Offset="0.825"/>
+        				<GradientStop Color="#FF636363" Offset="0.284"/>
+        				<GradientStop Color="#FF121212" Offset="0.496"/>
         			</RadialGradientBrush>
         		</Ellipse.Fill>
         	</Ellipse>

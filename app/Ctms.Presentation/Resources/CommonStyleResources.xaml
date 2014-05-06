@@ -30,6 +30,10 @@
         <Setter Property="TextElement.FontFamily" Value="Fonts/#Open Sans Light" />
     </Style>
     
+    <Style x:Key="OpenSansCondensed">
+        <Setter Property="TextElement.FontFamily" Value="Fonts/#Open Sans Condensed Light"/>
+    </Style>
+    
     <!--Common TargetType styles-->
     <Style TargetType="StackPanel" BasedOn="{StaticResource CommonStyle}">
     </Style>

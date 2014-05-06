@@ -71,6 +71,9 @@ namespace Ctms.Applications.Workers
 
             //!! todo: add uncombinedSongs
             var allSongs = uncombinedSongs;
+            /*for (var i = 0; i < allSongs.Count; i++) {
+                DevHelper.DevLogger.Log("SearchWorker:74 - " + allSongs[i].ToString());
+            }*/
 
             var infoId = (int)e.Argument;
             e.Result = new List<object>() { allSongs, infoId };

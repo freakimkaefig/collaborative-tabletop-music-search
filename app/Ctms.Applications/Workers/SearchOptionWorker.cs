@@ -784,6 +784,28 @@ namespace Ctms.Applications.Workers
             // assign keyword to tag
             tagDm.Tag.AssignedKeyword = tagOption.Keyword;
 
+            //Cutting Keyword in two pieces for displaying in circle
+            /*
+            tagDm.Tag.AssignedKeyword.DisplayName = "01234567890123456789";
+            if (tagDm.Tag.AssignedKeyword.DisplayName.Count() > 14)
+            {
+                tagDm.Tag.AssignedKeyword.DisplayNameFirst = tagDm.Tag.AssignedKeyword.DisplayName.Substring(0, 14);
+                if (tagDm.Tag.AssignedKeyword.DisplayName.Count() > 30)
+                {
+                    tagDm.Tag.AssignedKeyword.DisplayNameSecond = tagDm.Tag.AssignedKeyword.DisplayName.Substring(14, 16) + "...";
+                }
+                else
+                {
+                    tagDm.Tag.AssignedKeyword.DisplayNameSecond = tagDm.Tag.AssignedKeyword.DisplayName.Substring(14, tagDm.Tag.AssignedKeyword.DisplayName.Count() - 14);
+                }
+            }
+            else
+            {
+                tagDm.Tag.AssignedKeyword.DisplayNameFirst = tagDm.Tag.AssignedKeyword.DisplayName;
+                tagDm.Tag.AssignedKeyword.DisplayNameSecond = "";
+            }
+            */
+
             // remove previously shown infos
             _infoWorker.RemoveTagInfo(tagDm.Id);
 

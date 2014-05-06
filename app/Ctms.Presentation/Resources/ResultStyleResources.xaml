@@ -22,7 +22,7 @@
         <Setter Property="Foreground" Value="#0fc" />
     </Style>-->
     <DataTemplate x:Key="ScatterViewItemDataTemplate">
-        <ContentControl Width="{Binding Width}" Height="{Binding Height}">
+        <ContentControl Width="{Binding Width}" Height="{Binding Height}" RenderTransformOrigin="0,0">
             <Grid Name="ResultWrapper" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto">
                 <Grid Name="ResultGrid" Margin="0,0,0,0" Visibility="{Binding IsDetail, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}"
                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -73,6 +73,7 @@
                                             <ColumnDefinition Width="2*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>

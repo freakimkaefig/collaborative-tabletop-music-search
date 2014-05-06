@@ -293,7 +293,7 @@ namespace Ctms.Presentation.Views
             FrameworkElement scatterViewItem = e.OriginalSource as FrameworkElement;
             ResultDataModel result = scatterViewItem.DataContext as ResultDataModel;
 
-            if (e.ScaleFactor > 1.4)
+            if (e.ScaleFactor > 1.5)
             {
                 result.IsDetail = true;
             }

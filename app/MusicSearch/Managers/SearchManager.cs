@@ -409,10 +409,12 @@ namespace MusicSearch.Managers
 
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            //Origin-IDs not needed since the implementation of (this) method-calls 
-            //allow to distinguish their origin
-            //String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
-            //JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistInfos[0]);
+            
+            /*List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
+          .GroupBy(p => p.title)
+          .Select(g => g.First())
+          .ToList();*/
+
             //add first artist-info-results to RC
             ArtistInfosRC.Add(temp.Response.ArtistInfos[0]);
 
@@ -432,13 +434,22 @@ namespace MusicSearch.Managers
             newText2 = newText2.Insert(newText2.LastIndexOf("}") - 1, "}]");
             var newText3 = StringHelper.replacePartialString(newText2, "id", "title_id", 100);
             var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(newText3);
+
+            //remove duplicate list-entries
+            List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
+          .GroupBy(p => p.title)
+          .Select(g => g.First())
+          .ToList();
+
             //Initialise inner list of RC
             ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
             //add further artist-info-results to inner list of RC
-            for (int i = 0; i < temp2.Response.ArtistInfos[0].ArtistSongs.Count; i++)
+            for (int i = 0; i < filtertedList.Count; i++)
             {
-                ArtistInfosRC[0].ArtistSongs.Add(temp2.Response.ArtistInfos[0].ArtistSongs[i]);
+                ArtistInfosRC[0].ArtistSongs.Add(filtertedList[i]);
             }
+
+            ArtistInfosRC[0].ArtistSongs = ArtistInfosRC[0].ArtistSongs.OrderBy(a => a.title).ToList();
 
             //build 3rd query (similiar artists)
             String request3 = _defaultURL + "artist/similar?" + "api_key=" + GetAPIKey() + "&format=json&bucket=familiarity&min_familiarity=0.7&name=" + artist;
@@ -478,7 +489,8 @@ namespace MusicSearch.Managers
             //manipulate response to receive results in RC
             var newText6 = StringHelper.replacePartialString(cleared4, "artists", "ArtistInfos", 1);
             var newText7 = StringHelper.replacePartialString(newText6, "\'urls\': {", "\'Urls\': [{", 1);
-            var newText8 = StringHelper.replacePartialString(newText7, "html\'},", "html\'}],", 1);
+            //var newText8 = StringHelper.replacePartialString(newText7, "html\'},", "html\'}],", 1);
+            var newText8 = StringHelper.replacePartialString(newText7, ", \'name\':", "], \'name\':", 1);
             //var newText8 = newText7.Remove(newText7.LastIndexOf("}") - 3);
             //newText8 = newText8.Insert(newText8.LastIndexOf("}"), "]}]}");
             //var newText7 = StringHelper.replacePartialString(newText6, "id", "artist_id", 100);
