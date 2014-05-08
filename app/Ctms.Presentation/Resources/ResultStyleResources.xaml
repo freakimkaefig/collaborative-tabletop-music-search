@@ -43,28 +43,21 @@
                             <RotateTransform Angle="180"/>
                         </TextBlock.RenderTransform>
                     </TextBlock>
-                    <ItemsControl ItemsSource="{Binding OriginColors}">
+                    <ItemsControl ItemsSource="{Binding OriginColors}" Grid.Row="2" >
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <UniformGrid Grid.Row="2" Rows="1" Columns="3"></UniformGrid>
+                                <UniformGrid Grid.Row="2" Rows="1" 
+                                             Columns="{Binding DataContext.OriginColorsCount, 
+                                                        RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"
+                                             ></UniformGrid>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <!--<TextBlock Text="AAAAAHHHHHH" Foreground="#f00"/>-->
-                                <Viewbox Stretch="UniformToFill">
-                                    <Rectangle Fill="#f00" Width="30" MinHeight="15"></Rectangle>
-                                </Viewbox>
+                                <Rectangle Fill="{Binding}" Height="2"></Rectangle>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <!--
-                    <Viewbox Stretch="UniformToFill">
-                            <Rectangle Fill="Red" MinHeight="15" MinWidth="0.5"></Rectangle>
-                        </Viewbox>
-                        <Viewbox Stretch="UniformToFill">
-                            <Rectangle Fill="Yellow" MinHeight="15" MinWidth="0.5" ></Rectangle>
-                        </Viewbox>-->
                     <Label Content="Loading" Visibility="{Binding IsLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Row="3" Grid.Column="0" />
                     <Label Content="Playing" Visibility="{Binding IsPlaying, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Row="3" Grid.Column="1"/>
                     <TextBlock FontSize="12" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0" Background="#222" TextAlignment="Center" Grid.Row="3" Foreground="White" RenderTransformOrigin="0.5, 0.5" Text="{Binding Result.Song.ArtistName}" TextTrimming="CharacterEllipsis"></TextBlock>

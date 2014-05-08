@@ -53,7 +53,8 @@ namespace Ctms.Applications.DataModels
         }
 
         public int[] OriginIds { get { return _originIds; } set { _originIds = value; } }
-        public ObservableCollection<String> OriginColors { get { return _originColors; } set { _originColors = value; RaisePropertyChanged("OriginColors"); } }
+        public ObservableCollection<String> OriginColors { get { return _originColors; } set { _originColors = value; RaisePropertyChanged("OriginColors"); RaisePropertyChanged("OriginColorsCount"); } }
+        public int OriginColorsCount { get { return OriginColors.Count; } }
         public Result Result { get { return _result; } set { _result = value; } }
         public Detail Detail { get { return _detail; } set { _detail = value; RaisePropertyChanged("Detail"); } }
         public ObservableCollection<Tag> TagInfluences { get { return _tagInfluences; } set { _tagInfluences = value; RaisePropertyChanged("TagInfluences"); } }
