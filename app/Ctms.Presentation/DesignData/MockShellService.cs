@@ -17,5 +17,6 @@ namespace Ctms.Presentation.DesignData
         public object SearchView    { get; set; }
         public object SearchTagView { get; set; }
         public object InfoView      { get; set; }
+        public object ResultStyleResources { get; set; }
     }
 }

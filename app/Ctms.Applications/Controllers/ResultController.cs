@@ -17,6 +17,7 @@ using System.ComponentModel.Composition.Hosting;
 using Ctms.Applications.Views;
 using Ctms.Applications.Workers;
 using Ctms.Applications.DataModels;
+using System.Windows;
 
 
 namespace Ctms.Applications.Controllers
@@ -80,6 +81,8 @@ namespace Ctms.Applications.Controllers
             shellService.ResultView = _resultViewModel.View;
             //Listeners
             AddWeakEventListener(_resultViewModel, ResultViewModelPropertyChanged);
+
+            _resultViewModel.PrelistenAction = _searchWorker.PrelistenTrackFromDetailView;
         }
 
         private void UpdateCommands()
@@ -89,15 +92,16 @@ namespace Ctms.Applications.Controllers
 
         private void ResultViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Result")
+            if (e.PropertyName == "PrelistenAction")
             {
-                UpdateCommands();
+                
             }
 
-            if (e.PropertyName == "Results")
+            if (e.PropertyName == "AddToPlaylistAction")
             {
-                UpdateCommands();
+                //
             }
+            UpdateCommands();
         }
     }
 }

@@ -35,17 +35,27 @@
                     </Grid.RowDefinitions>
                     <TextBlock FontSize="14" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0" Background="#222" TextAlignment="Center" Grid.Row="0" Foreground="White" Text="{Binding Result.Song.Title}" TextTrimming="CharacterEllipsis"/>
                     <TextBlock FontSize="12" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0" Background="#222" TextAlignment="Center" Grid.Row="1" Foreground="White" Text="{Binding Result.Song.ArtistName}" TextTrimming="CharacterEllipsis"/>
-                    <UniformGrid Grid.Row="2" Rows="1" Columns="3">
-                        <Viewbox Stretch="Fill">
-                            <Rectangle Fill="Blue" MinHeight="15" MinWidth="0.5"></Rectangle>
-                        </Viewbox>
-                        <Viewbox Stretch="UniformToFill">
+                    <ItemsControl ItemsSource="{Binding OriginColors}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Grid.Row="2" Rows="1" Columns="3"></UniformGrid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Viewbox Stretch="UniformToFill">
+                                    <Rectangle Fill="{Binding}" MinHeight="15"></Rectangle>
+                                </Viewbox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <!--
+                    <Viewbox Stretch="UniformToFill">
                             <Rectangle Fill="Red" MinHeight="15" MinWidth="0.5"></Rectangle>
                         </Viewbox>
                         <Viewbox Stretch="UniformToFill">
                             <Rectangle Fill="Yellow" MinHeight="15" MinWidth="0.5" ></Rectangle>
-                        </Viewbox>
-                    </UniformGrid>
+                        </Viewbox>-->
                     <Label Content="Loading" Visibility="{Binding IsLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Row="3" Grid.Column="0" />
                     <Label Content="Playing" Visibility="{Binding IsPlaying, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Row="3" Grid.Column="1"/>
                     <TextBlock FontSize="12" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0" Background="#222" TextAlignment="Center" Grid.Row="3" Foreground="White" RenderTransformOrigin="0.5, 0.5" Text="{Binding Result.Song.ArtistName}" TextTrimming="CharacterEllipsis">

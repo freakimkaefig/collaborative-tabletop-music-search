@@ -68,6 +68,11 @@ namespace Ctms.Applications.Workers
             }
         }
 
+        public void PrelistenTrackFromDetailView(String trackId)
+        {
+            _backgroundWorker.DoInBackground(PrelistenTrackFromDetailViewWorker, PrelistenTrackFromDetailViewCompleted, trackId);
+        }
+
         //Background worker methods
         public void StartSearch(object sender, DoWorkEventArgs e)
         {
@@ -258,9 +263,18 @@ namespace Ctms.Applications.Workers
             }
             else
             {
-                var resultSongs     = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
+                var resultSongs = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
 
-                _resultWorker.RefreshResults(resultSongs);
+                if (resultSongs == null || !resultSongs.Any())
+                {
+                    _infoWorker.ShowCommonInfo("No results", 
+                        "Your search query didn't return any results. Your keywords may be too distinct. Change them and try again.",
+                        "Ok");
+                }
+                else
+                {
+                    _resultWorker.RefreshResults(resultSongs);
+                }
             }
         }
 
@@ -288,6 +302,15 @@ namespace Ctms.Applications.Workers
                 ResultDataModel result = (ResultDataModel)(((List<object>)e.Result)[1]);
                 _resultWorker.RefreshDetails(resultDetails, result);
             }
+        }
+
+        private void PrelistenTrackFromDetailViewWorker(object sender, DoWorkEventArgs e)
+        {
+            e.Result = _searchManager.getSpotifyId((String)e.Argument);
+        }
+        private void PrelistenTrackFromDetailViewCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            _resultWorker.PrelistenFromDetailView((String)e.Result);
         }
     }
 }

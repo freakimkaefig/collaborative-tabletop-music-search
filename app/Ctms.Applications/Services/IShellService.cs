@@ -20,5 +20,7 @@ namespace Ctms.Applications.Services
         object MenuView { get; set; }
 
         object InfoView { get; set; }
+
+        object ResultStyleResources { get; set; }
     }
 }

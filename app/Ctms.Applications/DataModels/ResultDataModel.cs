@@ -31,6 +31,7 @@ namespace Ctms.Applications.DataModels
         private bool _isDetail = false;
         private bool _isDetailLoading = false;
         private bool _isDetailLoaded = false;
+        private ObservableCollection<String> _originColors;
 
         public ResultDataModel(string title, string artistName, Track spotifyTrack)
         {
@@ -52,6 +53,7 @@ namespace Ctms.Applications.DataModels
         }
 
         public int[] OriginIds { get { return _originIds; } set { _originIds = value; } }
+        public ObservableCollection<String> OriginColors { get { return _originColors; } set { _originColors = value; RaisePropertyChanged("OriginColors"); } }
         public Result Result { get { return _result; } set { _result = value; } }
         public Detail Detail { get { return _detail; } set { _detail = value; RaisePropertyChanged("Detail"); } }
         public ObservableCollection<Tag> TagInfluences { get { return _tagInfluences; } set { _tagInfluences = value; RaisePropertyChanged("TagInfluences"); } }
