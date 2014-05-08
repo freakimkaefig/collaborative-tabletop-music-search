@@ -178,8 +178,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding}" FontSize="14" TextWrapping="Wrap" Grid.Row="0" Grid.Column="0" Padding="10"/>
-            <s:SurfaceButton Content="Prelisten" Click="SurfaceButton_Click" Grid.Row="0" Grid.Column="1"/>
-            <s:SurfaceButton Content="Add to playlist" Grid.Row="0" Grid.Column="2"/>
+            <!--<s:SurfaceButton Content="Prelisten" Grid.Row="0" Grid.Column="1"/>
+            <s:SurfaceButton Content="Add to playlist" Grid.Row="0" Grid.Column="2"/>-->
         </Grid>
     </DataTemplate>
 

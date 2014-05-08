@@ -20,7 +20,6 @@ namespace MusicSearch.Objects
             public List<TitleSuggestion> TitleSuggestions { get; set; }
             public List<ArtistInfo> ArtistInfos { get; set; }
             public List<genres> Genres { get; set; }
-            public List<combinedQuery> combinedQueries { get; set; }
 
 
             public class StatusObj
@@ -170,15 +169,6 @@ namespace MusicSearch.Objects
                 {
                     return Artist_Name + " - " + Title + " - Origin:" + String.Join("", new List<int>(originIDs).ConvertAll(i => i.ToString()).ToArray()); ;
                 }
-            }
-
-            public class combinedQuery
-            {
-                public string Artist_Id { get; set; }
-                public string Artist_Name { get; set; }
-                public string Title { get; set; }
-                public List<Tracks> tracks { get; set; }
-                public String[] originIDs { get; set; }
             }
 
             public class Tracks

@@ -84,7 +84,7 @@ namespace Ctms.Applications.Workers
         /// Do search for tag combinations
         /// </summary>
         /// <returns></returns>
-        private List<ResponseContainer.ResponseObj.combinedQuery> DoCombinedSearch(DoWorkEventArgs e)
+        private List<ResponseContainer.ResponseObj.Song> DoCombinedSearch(DoWorkEventArgs e)
         {
             var combinedSearchObjects = new List<combinedSearchObject>();
 
