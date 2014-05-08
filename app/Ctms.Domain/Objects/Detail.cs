@@ -31,6 +31,6 @@ namespace Ctms.Domain.Objects
         public ObservableCollection<ArtistReview> Reviews { get; set; }
 
         //Songs
-        public ObservableCollection<String> Songs { get; set; }
+        public ObservableCollection<ArtistSong> Songs { get; set; }
     }
 }

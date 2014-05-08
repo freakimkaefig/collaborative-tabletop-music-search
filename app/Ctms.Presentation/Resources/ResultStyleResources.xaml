@@ -177,9 +177,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="{Binding}" FontSize="14" TextWrapping="Wrap" Grid.Row="0" Grid.Column="0" Padding="10"/>
-            <!--<s:SurfaceButton Content="Prelisten" Grid.Row="0" Grid.Column="1"/>
-            <s:SurfaceButton Content="Add to playlist" Grid.Row="0" Grid.Column="2"/>-->
+            <TextBlock Text="{Binding Title}" FontSize="14" TextWrapping="Wrap" Grid.Row="0" Grid.Column="0" Padding="10"/>
+            <s:SurfaceButton Content="Prelisten" Grid.Row="0" Grid.Column="1" Click="SongList_Prelisten_Click"/>
+            <s:SurfaceButton Content="Add to playlist" Grid.Row="0" Grid.Column="2" Click="SongList_AddToPlaylist_Click"/>
         </Grid>
     </DataTemplate>
 

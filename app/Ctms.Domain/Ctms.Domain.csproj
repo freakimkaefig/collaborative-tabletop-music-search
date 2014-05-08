@@ -77,6 +77,7 @@
     <Compile Include="Objects\ArtistImage.cs" />
     <Compile Include="Objects\ArtistNews.cs" />
     <Compile Include="Objects\ArtistReview.cs" />
+    <Compile Include="Objects\ArtistSong.cs" />
     <Compile Include="Objects\ArtistVideo.cs" />
     <Compile Include="Objects\CombinationTypes.cs" />
     <Compile Include="Objects\Detail.cs" />
