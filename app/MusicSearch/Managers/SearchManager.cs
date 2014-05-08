@@ -45,7 +45,7 @@ namespace MusicSearch.Managers
         /// <param name="list">list containing the searchobjects & their attributes 
         /// according to the specified class</param>
         /// <returns>returns a Response Container with the data fetched from echonest</returns>
-        public List<ResponseContainer.ResponseObj.combinedQuery> combinedSearchQuery(List<combinedSearchObject> list)
+        public List<ResponseContainer.ResponseObj.Song> combinedSearchQuery(List<combinedSearchObject> list)
         {
             foreach (combinedSearchObject cso in list)
             {
@@ -61,9 +61,9 @@ namespace MusicSearch.Managers
             return null;
         }
 
-        public List<ResponseContainer.ResponseObj.combinedQuery> combinedArtistQuery(List<int> IDs, String artist_id, List<ArtistParameter> ap)
+        public List<ResponseContainer.ResponseObj.Song> combinedArtistQuery(List<int> IDs, String artist_id, List<ArtistParameter> ap)
         {
-            List<ResponseContainer.ResponseObj.combinedQuery> combinedArtistRC = new List<ResponseContainer.ResponseObj.combinedQuery>();
+            List<ResponseContainer.ResponseObj.Song> combinedArtistRC = new List<ResponseContainer.ResponseObj.Song>();
 
             //basic URL
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&results=100&" + "artist_id=" + artist_id;
@@ -120,17 +120,17 @@ namespace MusicSearch.Managers
 
             //convert response (JSON) in RC-instance
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            for (int i = 0; i < temp.Response.combinedQueries.Count; i++)
+            for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
-                combinedArtistRC.Add(temp.Response.combinedQueries[i]);
+                combinedArtistRC.Add(temp.Response.Songs[i]);
             }
             return combinedArtistRC;
         }
 
 
-        public List<ResponseContainer.ResponseObj.combinedQuery> combinedGenreQuery(List<int> IDs, String[] genre, List<GenreParameter> gp)
+        public List<ResponseContainer.ResponseObj.Song> combinedGenreQuery(List<int> IDs, String[] genre, List<GenreParameter> gp)
         {
-            List<ResponseContainer.ResponseObj.combinedQuery> combinedGenreRC = new List<ResponseContainer.ResponseObj.combinedQuery>();
+            List<ResponseContainer.ResponseObj.Song> combinedGenreRC = new List<ResponseContainer.ResponseObj.Song>();
 
             //basic URL
             String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&results=100&type=genre-radio";
@@ -146,7 +146,7 @@ namespace MusicSearch.Managers
                 genre[i] = genre[i].ToLower();
                 request += "&genre=" + genre[i].ToString();
             }
-
+            //check for parameter
             if (gp != null && gp.Any())
             {
                 //get & add attributes to combined-search-URL by using reflection
@@ -183,9 +183,16 @@ namespace MusicSearch.Managers
                 return null;
             }
             //Apostrophes are replaced by HTML unicode
+
+
+
+            response = response.Replace("'", "&#39;");
+
+
+
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
-            var responseString = StringHelper.replacePartialString(cleared, "songs", "CombinedGenres", 1);
+            var responseString = StringHelper.replacePartialString(cleared, "songs", "Songs", 1);
             //Add Origin-IDs to each result
             String OriginIDS = "\'originIDs\': [";
 
@@ -206,9 +213,9 @@ namespace MusicSearch.Managers
 
             //convert response (JSON) in RC-instance
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(responseString);
-            for (int i = 0; i < temp.Response.combinedQueries.Count; i++)
+            for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
-                combinedGenreRC.Add(temp.Response.combinedQueries[i]);
+                combinedGenreRC.Add(temp.Response.Songs[i]);
             }
 
             return combinedGenreRC;
