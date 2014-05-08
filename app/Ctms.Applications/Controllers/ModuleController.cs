@@ -96,10 +96,9 @@ namespace Ctms.Applications.Controllers
 
         public void HandleException(Exception exception)
         {
-            string errorMessage = string.Format("An unhandled exception occurred: {0}{1}{2}{3}{4}{5}", 
+            string errorMessage = string.Format("An unhandled exception occurred: {0}{1}{2}{3}{4}{5}", exception.InnerException, Environment.NewLine,
                 exception.Message, Environment.NewLine, 
-                exception.StackTrace, Environment.NewLine, 
-                exception.InnerException, Environment.NewLine);
+                exception.StackTrace, Environment.NewLine);
 
             infoWorker.ShowCommonInfo("Error occurred", errorMessage, "Ok");
             DevLogger.Log(errorMessage);

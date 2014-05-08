@@ -98,7 +98,7 @@ namespace Ctms.Applications.Controllers
             //check internet-connection
             if (!CheckForInternetConnection())
             {
-                _infoWorker.ShowCommonInfo("__________________________\nNo Internet Connection.", "", "OK");
+                _infoWorker.ShowCommonInfo("__________________________\nWarning!\nNo Internet Connection.\nApplication won't work properly.", "", "OK");
             }
 
         }
