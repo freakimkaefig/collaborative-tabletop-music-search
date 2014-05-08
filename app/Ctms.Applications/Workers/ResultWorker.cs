@@ -108,7 +108,7 @@ namespace Ctms.Applications.Workers
             {
                 if (r.biographies[i].text.Length > 500)
                 {
-                    d.Biography = cleanText(r.biographies[i].text);
+                    d.Biography = StringHelper.cleanText(r.biographies[i].text);
                     break;
                 }
             }
@@ -130,8 +130,8 @@ namespace Ctms.Applications.Workers
             for (var i = 0; i < r.news.Count; i++)
             {
                 ArtistNews news = new ArtistNews();
-                news.Title = cleanText(r.news[i].name);
-                news.Summary = cleanText(r.news[i].summary);
+                news.Title = StringHelper.cleanText(r.news[i].name);
+                news.Summary = StringHelper.cleanText(r.news[i].summary);
                 news.Url = r.news[i].url;
                 d.News.Add(news);
             }
@@ -148,7 +148,7 @@ namespace Ctms.Applications.Workers
             for (var i = 0; i < r.video.Count; i++)
             {
                 ArtistVideo video = new ArtistVideo();
-                video.Title = cleanText(r.video[i].title);
+                video.Title = StringHelper.cleanText(r.video[i].title);
                 video.VideoUrl = r.video[i].url;
                 video.PreviewUrl = r.video[i].image_url;
                 d.Videos.Add(video);
@@ -159,35 +159,26 @@ namespace Ctms.Applications.Workers
             for (var i = 0; i < r.reviews.Count; i++)
             {
                 ArtistReview review = new ArtistReview();
-                review.Name = cleanText(r.reviews[i].name);
-                review.Release = cleanText(r.reviews[i].release);
-                review.Summary = cleanText(r.reviews[i].summary);
+                review.Name = StringHelper.cleanText(r.reviews[i].name);
+                review.Release = StringHelper.cleanText(r.reviews[i].release);
+                review.Summary = StringHelper.cleanText(r.reviews[i].summary);
                 review.Url = r.reviews[i].url;
                 d.Reviews.Add(review);
             }
 
             //Songs
-            d.Songs = new ObservableCollection<String>();
+            d.Songs = new ObservableCollection<ArtistSong>();
             for (var i = 0; i < r.ArtistSongs.Count; i++)
             {
-                d.Songs.Add(cleanText(r.ArtistSongs[i].title));
+                ArtistSong song = new ArtistSong();
+                song.Title = StringHelper.cleanText(r.ArtistSongs[i].title);
+                song.TrackId = r.ArtistSongs[i].title_id;
+                d.Songs.Add(song);
             }
 
             result.Detail = d;
             result.IsDetailLoading = false;
             result.IsDetailLoaded = true;
-        }
-
-        private String cleanText(String text)
-        {
-            String temp = text;
-            temp = StringHelper.replacePartialString(temp, "&#34;", "\"", 10000);
-            temp = StringHelper.replacePartialString(temp, "&quot;", "\"", 10000);
-            temp = StringHelper.replacePartialString(temp, "&#38;", "&", 10000);
-            temp = StringHelper.replacePartialString(temp, "&#39;", "'", 10000);
-            temp = StringHelper.replacePartialString(temp, "\t", "", 100000);
-            temp = StringHelper.replacePartialString(temp, "\n", "", 10000);
-            return temp;
         }
     }
 }
