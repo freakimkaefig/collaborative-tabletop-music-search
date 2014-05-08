@@ -305,19 +305,19 @@ namespace Ctms.Applications.Workers
             {   // binary min/max
                 min = attribute.option1;
                 max = attribute.option2;
-                range = String.Format("{0}-{1}", min, max);
+                range = String.Format("{0} or {1}", min, max);
             }
             else
             {   // numeric min/max
                 min = attribute.min.ToString();
                 max = attribute.max.ToString();
-                range = String.Format("{0} or {1}", min, max);
+                range = String.Format("between {0} and {1}", min, max);
             }
 
             // if given input is invalid mark info as warning
             var mainText = isInputValid == false ? "Invalid input" : "";
 
-            _infoWorker.ShowTagInfo(mainText, "Choose a value of " + range, tagId);         
+            _infoWorker.ShowTagInfo(mainText, "Choose a value " + range, tagId);         
         }
 
         /// <summary>

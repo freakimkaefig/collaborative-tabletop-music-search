@@ -95,15 +95,6 @@ namespace Ctms.Applications.Workers
                 // collect tagIds to state the origin of combined search query
                 combinedSearchObject.originIds = combi.Tags.Select(t => t.Tag.Id).ToList();
 
-                // add all origin ids
-                //if (combinedSearchObject.originIds != null)
-                //    combinedSearchObject.originIds.AddRange(combi.Tags.Select(t => t.Id));
-
-                //var filteredList = combinedSearchObject.originIds.Distinct().ToList();
-                                     /* .GroupBy(p => p.)
-                                      .Select(g => g.First())
-                                      .ToList();*/
-
                 // get combi and copy relevant values to search object
                 ParseCombi(combi, combinedSearchObject, combi.CombinationType);
 
@@ -111,15 +102,9 @@ namespace Ctms.Applications.Workers
                 combinedSearchObjects.Add(combinedSearchObject);
             }
 
-            try
-            {
-                var songs = _searchManager.combinedSearchQuery(combinedSearchObjects);
-                return songs;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            var songs = _searchManager.combinedSearchQuery(combinedSearchObjects);
+
+            return songs;
         }
 
 
