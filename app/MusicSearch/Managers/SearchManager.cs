@@ -89,7 +89,6 @@ namespace MusicSearch.Managers
                 }
             }
 
-            Debug.WriteLine("request: " + request);
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
             if (String.IsNullOrEmpty(response))
@@ -503,13 +502,14 @@ namespace MusicSearch.Managers
             var cleared4 = @"" + response4.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //manipulate response to receive results in RC
             var newText6 = StringHelper.replacePartialString(cleared4, "artists", "ArtistInfos", 1);
-            var newText7 = StringHelper.replacePartialString(newText6, "\'urls\': {", "\'Urls\': [{", 1);
-            //var newText8 = StringHelper.replacePartialString(newText7, "html\'},", "html\'}],", 1);
-            var newText8 = StringHelper.replacePartialString(newText7, ", \'name\':", "], \'name\':", 1);
-            //var newText8 = newText7.Remove(newText7.LastIndexOf("}") - 3);
-            //newText8 = newText8.Insert(newText8.LastIndexOf("}"), "]}]}");
-            //var newText7 = StringHelper.replacePartialString(newText6, "id", "artist_id", 100);
-            var temp4 = JsonConvert.DeserializeObject<ResponseContainer>(newText8);
+
+            if (newText6.Contains("urls"))
+            {
+                newText6 = StringHelper.replacePartialString(newText6, "\'urls\': {", "\'Urls\': [{", 1);
+                newText6 = StringHelper.replacePartialString(newText6, ", \'name\':", "], \'name\':", 1);
+            }
+            
+            var temp4 = JsonConvert.DeserializeObject<ResponseContainer>(newText6);
 
             //Initialise inner list of RC
             ArtistInfosRC[0].Urls = new List<ResponseContainer.ResponseObj.ArtistInfo.Url>();
@@ -535,12 +535,12 @@ namespace MusicSearch.Managers
             var cleared5 = @"" + response5.Replace("\"", "'");//Apostrophes are replaced by HTML unicode
             //manipulate response to receive results in RC
             var newText9 = StringHelper.replacePartialString(cleared5, "artists", "ArtistInfos", 1);
-            var newText10 = StringHelper.replacePartialString(newText9, "\'artist_location\': {", "\'artist_location\': [{", 1);
-            var newText11 = newText10.Insert(newText10.LastIndexOf("\'},") + 2, "]");
-            //var newText8 = newText7.Remove(newText7.LastIndexOf("}") - 3);
-            //newText8 = newText8.Insert(newText8.LastIndexOf("}"), "]}]}");
-            //var newText7 = StringHelper.replacePartialString(newText6, "id", "artist_id", 100);
-            var temp5 = JsonConvert.DeserializeObject<ResponseContainer>(newText11);
+            if (newText9.Contains("artist_location"))
+            {
+                newText9 = StringHelper.replacePartialString(newText9, "\'artist_location\': {", "\'artist_location\': [{", 1);
+                newText9 = newText9.Insert(newText9.LastIndexOf("\'},") + 2, "]");
+            }
+            var temp5 = JsonConvert.DeserializeObject<ResponseContainer>(newText9);
 
             //Initialise inner list of RC
             ArtistInfosRC[0].artist_location = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistLocation>();
@@ -628,7 +628,6 @@ namespace MusicSearch.Managers
             if (term.Contains(" "))
             {
                 term = term.Replace(" ", "+");
-                Debug.WriteLine("fixed term-spacing to: " + term);
             }
             term = term.ToLower();
 
