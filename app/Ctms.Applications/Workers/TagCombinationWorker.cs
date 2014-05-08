@@ -11,7 +11,7 @@ using MusicSearch.Objects;
 using Ctms.Domain;
 using Ctms.Applications.DataModels;
 using Ctms.Applications.Data;
-using Ctms.Applications.Common;
+using Ctms.Applications.Common; 
 using Ctms.Applications.DataFactories;
 using Ctms.Applications.DevHelper;
 using System.Collections.ObjectModel;
@@ -44,6 +44,7 @@ namespace Ctms.Applications.Workers
 
         public void Initialize()
         {
+
         }
 
         public bool CanStartSearch() { return _searchVm.IsValid; }
