@@ -68,7 +68,11 @@ namespace Ctms.Applications.Workers
                             {
                                 if (_sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id) != null)
                                 {
-                                    _resultViewModel.Results.Add(new ResultDataModel(response[i].Title, response[i].Artist_Name, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id)));
+                                    //remove unwanted chars/expressions
+                                    String name = StringHelper.cleanText(response[i].Artist_Name);
+                                    String title = StringHelper.cleanText(response[i].Title);
+
+                                    _resultViewModel.Results.Add(new ResultDataModel(title, name, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id)));
                                     ResultDataModel result = _resultViewModel.Results.Last();
                                     result.OriginIds = response[i].originIDs;
                                     result.Result.Song.ArtistId = response[i].Artist_Id;
