@@ -16,6 +16,7 @@ using Ctms.Applications.DataFactories;
 using Ctms.Applications.DevHelper;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Ctms.Domain.Objects;
 
 namespace Ctms.Applications.Workers
 {
@@ -61,7 +62,7 @@ namespace Ctms.Applications.Workers
                 if (remainingTag != null)
                 {
                     // calculate if remaining tags can still be combined
-                    CheckMovedTagCombi(remainingTag.Id);
+                    CheckCombisForTag(remainingTag.Id);
                 }
             }
         }
@@ -70,18 +71,32 @@ namespace Ctms.Applications.Workers
         /// Check if tag is in combi distance to others.
         /// No tag can be in more than one tag combi, so check combinations with others
         /// </summary>
-        /// <param name="movedTagId"></param>
-        public void CheckMovedTagCombi(int movedTagId)
+        /// <param name="myTagId"></param>
+        public void CheckCombisForTag(int myTagId)
         {
             // get moved tag and calculate position
-            var movedTag    = _repository.GetTagDMById(movedTagId);
+            var myTag    = _repository.GetTagDMById(myTagId);
 
             // break method if tag state is not assigend
-            if (movedTag.AssignState != TagDataModel.AssignStates.Assigned
-                && movedTag.ExistenceState != TagDataModel.ExistenceStates.Added) return;
+            if (myTag.AssignState == TagDataModel.AssignStates.Editing || myTag.ExistenceState == TagDataModel.ExistenceStates.Removed)
+            {
+                var combi = _repository.GetTagCombiWithTag(myTag);
+                if (combi != null && combi.Tags.Count >= 3)
+                {
+                    combi.Tags.Remove(myTag);
+                    CheckCombisForTag(combi.Tags.FirstOrDefault().Id);
+                    return;
+                }
+                else if (combi != null && combi.Tags.Count == 2)
+                {
+                    _repository.RemoveTagCombination(combi);
+                    return;
+                }
+            }
+
 
             var tagCombis   = _repository.GetTagCombinations();
-            var compareTags = _repository.GetAddedAndAssignedTagDMs().Where(t => t.Id != movedTag.Id);
+            var compareTags = _repository.GetAddedAndAssignedTagDMs().Where(t => t.Id != myTag.Id);
 
             //!!remove
             //var time = DateTime.Now.Minute + " " + DateTime.Now.Second + " " + DateTime.Now.Millisecond;
@@ -89,37 +104,39 @@ namespace Ctms.Applications.Workers
             // check combination
             foreach (var compareTag in compareTags)
             {   // calculate distance of tags (a² + b² = c²)
-                var xDistance   = movedTag.Tag.PositionX - compareTag.Tag.PositionX;
-                var yDistance   = movedTag.Tag.PositionY - compareTag.Tag.PositionY;
+                var xDistance   = myTag.Tag.PositionX - compareTag.Tag.PositionX;
+                var yDistance   = myTag.Tag.PositionY - compareTag.Tag.PositionY;
                 var distance    = Math.Sqrt(Math.Pow(xDistance, 2.0) + Math.Pow(yDistance, 2.0));
 
                 //LogDistanceCalc(movedTag, compareTag, xDistance, yDistance, distance);
 
                 // get tag combination if there's one for this tag
-                var combiWithMovedTag   = tagCombis.FirstOrDefault(tc => tc.Tags.Contains(movedTag));
+                var combiWithMyTag   = tagCombis.FirstOrDefault(tc => tc.Tags.Contains(myTag));
                 var combiWithCompareTag = tagCombis.FirstOrDefault(tc => tc.Tags.Contains(compareTag));
 
                 if (distance < CommonVal.Tag_CombineCircleDiameter)
                 {   // distance is inside combi radius
                     Log("distance < CommonVal.Tag_CombineCircleDiameter ");
-                    if (combiWithMovedTag == null)
+                    if (combiWithMyTag == null)
                     {   // movedTag not combined with any tags right now
                         Log("combiWithMovedTag == null");
-                        var possibleCombiType = GetPossibleCombiType(movedTag, compareTag, combiWithMovedTag, combiWithCompareTag);
+                        var possibleCombiType = GetPossibleCombiType(myTag, compareTag, combiWithMyTag, combiWithCompareTag);
 
-                        if (possibleCombiType != KeywordTypes.None)
+                        if (possibleCombiType != CombinationTypes.None)
                         {   // movedTag and compareTag can be combined
                             Log("possibleCombiType != KeywordTypes.None ");
                             if (combiWithCompareTag == null)
                             {   // no combi of movedTag or compareTag with any other tags right now -> create new 
                                 Log("combiWithCompareTag == null > create new ");
 
-                                combiWithMovedTag = CreateTagCombi(movedTag, compareTag, possibleCombiType);
+                                combiWithMyTag = CreateTagCombi(myTag, compareTag, possibleCombiType);
                                 
                                 // update calculation of center
-                                UpdateCenter(combiWithMovedTag);
+                                UpdateCenter(combiWithMyTag);
 
-                                _repository.AddTagCombination(combiWithMovedTag);
+                                _repository.AddTagCombination(combiWithMyTag);
+
+                                UpdateRadiusCircle(myTag, compareTag, true);
 
                                 //Log("count of combis: " + _searchViewModel.TagCombinations.Count);
                                 //Log("count of tags in combis: " 
@@ -140,31 +157,34 @@ namespace Ctms.Applications.Workers
                             else
                             {   // a combi with the tag to compare is existing -> add
                                 Log("combiWithCompareTag != null -> Add to compare combi ");
-                                combiWithCompareTag.Tags.Add(movedTag);
+                                combiWithCompareTag.Tags.Add(myTag);
 
                                 // update calculation of center
                                 UpdateCenter(combiWithCompareTag);
+
+                                UpdateRadiusCircle(myTag, compareTag, true);
                             }
                         }
-
                     }
                     else if (combiWithCompareTag == null)
                     {   // movedTag is combined, but compareTag not -> add compareTag to movedTag combie
                         Log("combiWithCompareTag == null ");
-                        var possibleCombiType = GetPossibleCombiType(movedTag, compareTag, combiWithMovedTag, combiWithCompareTag);
-                        if (possibleCombiType != KeywordTypes.None)
+                        var possibleCombiType = GetPossibleCombiType(myTag, compareTag, combiWithMyTag, combiWithCompareTag);
+                        if (possibleCombiType != CombinationTypes.None)
                         {   // movedTag and compareTag can be combined
-                            combiWithMovedTag.Tags.Add(movedTag);
+                            combiWithMyTag.Tags.Add(myTag);
                             Log("possibleCombiType != KeywordTypes.None > add ");
 
                             // update calculation of center
-                            UpdateCenter(combiWithMovedTag);
+                            UpdateCenter(combiWithMyTag);
+
+                            UpdateRadiusCircle(myTag, compareTag, true);
                         }
                     }
-                    else if (combiWithMovedTag != null)
+                    else if (combiWithMyTag != null)
                     {
                         Log("combiWithMovedTag != null > update center ");
-                        UpdateCenter(combiWithMovedTag);
+                        UpdateCenter(combiWithMyTag);
                     }
                     else if (combiWithCompareTag != null)
                     {
@@ -173,31 +193,42 @@ namespace Ctms.Applications.Workers
                     }
                 }
                 // distance is bigger than radius for combination
-                else if (combiWithMovedTag != null)
+                else if (combiWithMyTag != null)
                 {   // tag is in a combi -> remove from combi
                     Log("combiWithMovedTag != null > update center ");
 
-                    if (combiWithMovedTag.Tags.Count <= 2)
+                    if (combiWithMyTag.Tags.Count < 2)
                     {
-                        Log("combiWithMovedTag.Tags.Count <= 2 > update center ");
+                        Log("combiWithMovedTag.Tags.Count < 2 > update center ");
                         // remove combi from repository
-                        _repository.RemoveTagCombination(combiWithMovedTag);
+                        _repository.RemoveTagCombination(combiWithMyTag);
 
-                        //!! just for testing
-                        //compareTag.ConfirmCircleOpacity = 0.0F;
-                        //movedTag.ConfirmCircleOpacity = 0.0F;
+                        UpdateRadiusCircle(myTag, compareTag, false);
+
+                        // update calculation of center
+                        UpdateCenter(combiWithMyTag);
                     }
-                    else
+                    else if (combiWithMyTag.Tags.Count >= 3)
                     {
-                        Log("combiWithMovedTag.Tags.Count > 2 > remove from combiWithMovedtag ");
-                        combiWithMovedTag.Tags.Remove(movedTag);
-                    }
+                        Log("combiWithMovedTag.Tags.Count >= 3 > remove from combiWithMovedtag ");
+                        combiWithMyTag.Tags.Remove(myTag);
 
-                    // update calculation of center
-                    UpdateCenter(combiWithMovedTag);
+                        UpdateRadiusCircle(myTag, null, false);
+
+                        CheckCombisForTag(combiWithMyTag.Tags.FirstOrDefault().Id);
+                    }
                 }
             }
         }
+
+        private static void UpdateRadiusCircle(TagDataModel myTag, TagDataModel compareTag, bool isHighlighted)
+        {
+            return;// removed behaviour
+            var opacity = isHighlighted == true ? 1.0F : 0.0F;
+            if (compareTag != null) compareTag.ConfirmCircleOpacity = opacity;
+            if (myTag != null) myTag.ConfirmCircleOpacity = opacity;
+        }
+
 
         private static void Log(string message)
         {
@@ -231,7 +262,7 @@ namespace Ctms.Applications.Workers
         /// <param name="movedCombi"></param>
         /// <param name="compareCombi"></param>
         /// <returns>Possible combination type (KeywordType)</returns>
-        public KeywordTypes GetPossibleCombiType(
+        public CombinationTypes GetPossibleCombiType(
             TagDataModel movedTagDm, 
             TagDataModel compareTagDm, 
             TagCombinationDataModel movedCombi, 
@@ -243,7 +274,7 @@ namespace Ctms.Applications.Workers
             var resultType1 = GetPossibleCombiTypeFromOneSide(movedCombi, movedTagType, compareTagType);
             var resultType2 = GetPossibleCombiTypeFromOneSide(compareCombi, compareTagType, movedTagType);
 
-            if (resultType1 == KeywordTypes.None)
+            if (resultType1 == CombinationTypes.None)
             {
                 return resultType2;
             }
@@ -253,43 +284,43 @@ namespace Ctms.Applications.Workers
             }
         }
 
-        private static KeywordTypes GetPossibleCombiTypeFromOneSide(TagCombinationDataModel combi1, KeywordTypes combi1TagType, KeywordTypes tag2Type)
+        private static CombinationTypes GetPossibleCombiTypeFromOneSide(TagCombinationDataModel combi1, KeywordTypes combi1TagType, KeywordTypes tag2Type)
         {
             if (combi1 != null)
             {   // existing movedCombi
 
-                if (combi1.CombinationType == KeywordTypes.Genre
+                if (combi1.CombinationType == CombinationTypes.Genre
                     && (tag2Type == KeywordTypes.Genre || tag2Type == KeywordTypes.Attribute)
                     && combi1.Tags.Where(t => t.Tag.AssignedKeyword.KeywordType == KeywordTypes.Genre).Count() <= 5)
                 {   // existing genre combi can be combined with genre (if not more than 5) or attribute
                     // base type is genre
-                    return KeywordTypes.Genre;
+                    return CombinationTypes.Genre;
                 }
-                else if (combi1.CombinationType == KeywordTypes.Artist
+                else if (combi1.CombinationType == CombinationTypes.Artist
                     && tag2Type == KeywordTypes.Attribute)
                 {   // existing artist combi can be combined with attribute 
                     //(not artist because there's already an artist in a combi of the type artist)
-                    return KeywordTypes.Artist;
+                    return CombinationTypes.Artist;
                 }
                 else
                 {
-                    return KeywordTypes.None;
+                    return CombinationTypes.None;
                 }
             }
             // there's no combi right now
             else if ((combi1TagType == KeywordTypes.Genre && (tag2Type == KeywordTypes.Genre || tag2Type == KeywordTypes.Attribute))
                 || (combi1TagType == KeywordTypes.Attribute && (tag2Type == KeywordTypes.Genre)))
             {   // combine genre with genre or attribute
-                return KeywordTypes.Genre;
+                return CombinationTypes.Genre;
             }
             else if ((combi1TagType == KeywordTypes.Artist && tag2Type == KeywordTypes.Attribute)
                 || combi1TagType == KeywordTypes.Attribute && tag2Type == KeywordTypes.Artist)
             {
-                return KeywordTypes.Artist;
+                return CombinationTypes.Artist;
             }
             else
             {
-                return KeywordTypes.None;
+                return CombinationTypes.None;
             }
         }
 
@@ -305,7 +336,7 @@ namespace Ctms.Applications.Workers
             Log("distance: " + distance);
         }
 
-        private TagCombinationDataModel CreateTagCombi(TagDataModel movedTag, TagDataModel compareTag, KeywordTypes type)
+        private TagCombinationDataModel CreateTagCombi(TagDataModel movedTag, TagDataModel compareTag, CombinationTypes type)
         {
             var tagCombi = _tagFactory.CreateTagCombination(type);
 

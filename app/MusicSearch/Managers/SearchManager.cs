@@ -45,7 +45,7 @@ namespace MusicSearch.Managers
         /// <param name="list">list containing the searchobjects & their attributes 
         /// according to the specified class</param>
         /// <returns>returns a Response Container with the data fetched from echonest</returns>
-        public List<ResponseContainer.ResponseObj.combinedQuery> combinedSearchQuery(List<combinedSearchObject> list)
+        public List<ResponseContainer.ResponseObj.Song> combinedSearchQuery(List<combinedSearchObject> list)
         {
             foreach (combinedSearchObject cso in list)
             {
@@ -53,7 +53,7 @@ namespace MusicSearch.Managers
                 {
                     return combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
                 }
-                else if (!String.IsNullOrEmpty(cso.genre[0].ToString()))
+                else if (cso.genre != null && cso.genre.Any() && !String.IsNullOrEmpty(cso.genre[0].ToString()))
                 {
                     return combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
                 }
@@ -61,9 +61,9 @@ namespace MusicSearch.Managers
             return null;
         }
 
-        public List<ResponseContainer.ResponseObj.combinedQuery> combinedArtistQuery(List<int> IDs, String artist_id, List<ArtistParameter> ap)
+        public List<ResponseContainer.ResponseObj.Song> combinedArtistQuery(List<int> IDs, String artist_id, List<ArtistParameter> ap)
         {
-            List<ResponseContainer.ResponseObj.combinedQuery> combinedArtistRC = new List<ResponseContainer.ResponseObj.combinedQuery>();
+            List<ResponseContainer.ResponseObj.Song> combinedArtistRC = new List<ResponseContainer.ResponseObj.Song>();
 
             //basic URL
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&results=100&" + "artist_id=" + artist_id;
@@ -120,17 +120,17 @@ namespace MusicSearch.Managers
 
             //convert response (JSON) in RC-instance
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            for (int i = 0; i < temp.Response.combinedQueries.Count; i++)
+            for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
-                combinedArtistRC.Add(temp.Response.combinedQueries[i]);
+                combinedArtistRC.Add(temp.Response.Songs[i]);
             }
             return combinedArtistRC;
         }
 
 
-        public List<ResponseContainer.ResponseObj.combinedQuery> combinedGenreQuery(List<int> IDs, String[] genre, List<GenreParameter> gp)
+        public List<ResponseContainer.ResponseObj.Song> combinedGenreQuery(List<int> IDs, String[] genre, List<GenreParameter> gp)
         {
-            List<ResponseContainer.ResponseObj.combinedQuery> combinedGenreRC = new List<ResponseContainer.ResponseObj.combinedQuery>();
+            List<ResponseContainer.ResponseObj.Song> combinedGenreRC = new List<ResponseContainer.ResponseObj.Song>();
 
             //basic URL
             String request = _defaultURL + "playlist/static?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&results=100&type=genre-radio";
@@ -146,27 +146,34 @@ namespace MusicSearch.Managers
                 genre[i] = genre[i].ToLower();
                 request += "&genre=" + genre[i].ToString();
             }
-
-            //get & add attributes to combined-search-URL by using reflection
-            var properties = gp[0].GetType().GetProperties();
-            foreach (var prop in properties)
+            //check for parameter
+            if (gp != null && gp.Any())
             {
-                string name = prop.Name;
-                var propValue = prop.GetValue(gp[0], null);
-                if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
+                //get & add attributes to combined-search-URL by using reflection
+                var properties = gp[0].GetType().GetProperties();
+                foreach (var prop in properties)
                 {
-                    //check if values are correctly formated, if not fix them
-                    if (propValue.ToString().Contains(","))
+                    string name = prop.Name;
+                    var propValue = prop.GetValue(gp[0], null);
+                    if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
                     {
-                        propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
-                    }
-                    if (propValue.ToString() == DateTime.Now.Year.ToString())
-                    {
-                        propValue = "present";
-                    }
-                    request += "&" + name + "=" + propValue.ToString();
+                        //check if values are correctly formated, if not fix them
+                        if (propValue.ToString().Contains(","))
+                        {
+                            propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
+                        }
+                        if (propValue.ToString() == DateTime.Now.Year.ToString())
+                        {
+                            propValue = "present";
+                        }
+                        request += "&" + name + "=" + propValue.ToString();
 
+                    }
                 }
+            }
+            else
+            {
+
             }
 
             //JSON response delivered as string
@@ -176,9 +183,16 @@ namespace MusicSearch.Managers
                 return null;
             }
             //Apostrophes are replaced by HTML unicode
+
+
+
+            response = response.Replace("'", "&#39;");
+
+
+
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
-            var newText = StringHelper.replacePartialString(cleared, "songs", "CombinedGenres", 1);
+            var responseString = StringHelper.replacePartialString(cleared, "songs", "Songs", 1);
             //Add Origin-IDs to each result
             String OriginIDS = "\'originIDs\': [";
 
@@ -195,13 +209,13 @@ namespace MusicSearch.Managers
 
             }
             OriginIDS += "], ";
-            newText = StringHelper.replacePartialString(newText, "\'title\'", OriginIDS + "\'title\'", 1000);
+            responseString = StringHelper.replacePartialString(responseString, "\'title\'", OriginIDS + "\'title\'", 1000);
 
             //convert response (JSON) in RC-instance
-            var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            for (int i = 0; i < temp.Response.combinedQueries.Count; i++)
+            var temp = JsonConvert.DeserializeObject<ResponseContainer>(responseString);
+            for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
-                combinedGenreRC.Add(temp.Response.combinedQueries[i]);
+                combinedGenreRC.Add(temp.Response.Songs[i]);
             }
 
             return combinedGenreRC;
@@ -402,6 +416,8 @@ namespace MusicSearch.Managers
 
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
+            temp.Response.ArtistInfos[0].reviews = temp.Response.ArtistInfos[0].reviews.GroupBy(p => p.name).Select(g => g.First()).ToList();
+            temp.Response.ArtistInfos[0].news = temp.Response.ArtistInfos[0].news.GroupBy(p => p.name).Select(g => g.First()).ToList();
             
             /*List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
           .GroupBy(p => p.title)
@@ -428,21 +444,25 @@ namespace MusicSearch.Managers
             var newText3 = StringHelper.replacePartialString(newText2, "id", "title_id", 100);
             var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(newText3);
 
-            //remove duplicate list-entries
-            List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
-          .GroupBy(p => p.title)
-          .Select(g => g.First())
-          .ToList();
-
-            //Initialise inner list of RC
-            ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
-            //add further artist-info-results to inner list of RC
-            for (int i = 0; i < filtertedList.Count; i++)
+            if (temp2.Response.ArtistInfos != null && temp2.Response.ArtistInfos.Any())
             {
-                ArtistInfosRC[0].ArtistSongs.Add(filtertedList[i]);
+                //remove duplicate list-entries
+                List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
+              .GroupBy(p => p.title)
+              .Select(g => g.First())
+              .ToList();
+
+                //Initialise inner list of RC
+                ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
+                //add further artist-info-results to inner list of RC
+                for (int i = 0; i < filtertedList.Count; i++)
+                {
+                    ArtistInfosRC[0].ArtistSongs.Add(filtertedList[i]);
+                }
+                ArtistInfosRC[0].ArtistSongs = ArtistInfosRC[0].ArtistSongs.OrderBy(a => a.title).ToList();
             }
 
-            ArtistInfosRC[0].ArtistSongs = ArtistInfosRC[0].ArtistSongs.OrderBy(a => a.title).ToList();
+            
 
             //build 3rd query (similiar artists)
             String request3 = _defaultURL + "artist/similar?" + "api_key=" + GetAPIKey() + "&format=json&bucket=familiarity&min_familiarity=0.7&name=" + artist;
@@ -461,13 +481,17 @@ namespace MusicSearch.Managers
             var temp3 = JsonConvert.DeserializeObject<ResponseContainer>(newText5);
             //Initialise inner list of RC
             ArtistInfosRC[0].SimilarArtists = new List<ResponseContainer.ResponseObj.ArtistInfo.SimilarArtist>();
-            //add remaining artist-info-results to second inner list of RC
-            for (int i = 0; i < temp3.Response.ArtistInfos[0].SimilarArtists.Count; i++)
+
+            if (temp3.Response.ArtistInfos != null && temp3.Response.ArtistInfos.Any())
             {
-                ArtistInfosRC[0].SimilarArtists.Add(temp3.Response.ArtistInfos[0].SimilarArtists[i]);
+                //add remaining artist-info-results to second inner list of RC
+                for (int i = 0; i < temp3.Response.ArtistInfos[0].SimilarArtists.Count; i++)
+                {
+                    ArtistInfosRC[0].SimilarArtists.Add(temp3.Response.ArtistInfos[0].SimilarArtists[i]);
+                }
+                //order results of second inner list descending by familiarity
+                ArtistInfosRC[0].SimilarArtists = ArtistInfosRC[0].SimilarArtists.OrderByDescending(a => a.familiarity).ToList();
             }
-            //order results of second inner list descending by familiarity
-            ArtistInfosRC[0].SimilarArtists = ArtistInfosRC[0].SimilarArtists.OrderByDescending(a => a.familiarity).ToList();
 
             //build 4th query (urls)
             String request4 = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&results=1&name=" + artist + "&bucket=urls&sort=hotttnesss-desc";
@@ -492,10 +516,14 @@ namespace MusicSearch.Managers
             //Initialise inner list of RC
             ArtistInfosRC[0].Urls = new List<ResponseContainer.ResponseObj.ArtistInfo.Url>();
             //add remaining artist-info-results to second inner list of RC
-            for (int i = 0; i < temp4.Response.ArtistInfos[0].Urls.Count; i++)
+            if (temp4.Response.ArtistInfos != null && temp4.Response.ArtistInfos.Any())
             {
-                ArtistInfosRC[0].Urls.Add(temp4.Response.ArtistInfos[0].Urls[i]);
+                for (int i = 0; i < temp4.Response.ArtistInfos[0].Urls.Count; i++)
+                {
+                    ArtistInfosRC[0].Urls.Add(temp4.Response.ArtistInfos[0].Urls[i]);
+                }
             }
+            
 
             //build 5th request (artist location)
             String request5 = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&results=1&name=" + artist + "&bucket=artist_location&sort=hotttnesss-desc";
@@ -518,10 +546,14 @@ namespace MusicSearch.Managers
 
             //Initialise inner list of RC
             ArtistInfosRC[0].artist_location = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistLocation>();
-            //add remaining artist-info-results to second inner list of RC
-            for (int i = 0; i < temp5.Response.ArtistInfos[0].artist_location.Count; i++)
+
+            if (temp5.Response.ArtistInfos != null && temp5.Response.ArtistInfos.Any())
             {
-                ArtistInfosRC[0].artist_location.Add(temp5.Response.ArtistInfos[0].artist_location[i]);
+                //add remaining artist-info-results to second inner list of RC
+                for (int i = 0; i < temp5.Response.ArtistInfos[0].artist_location.Count; i++)
+                {
+                    ArtistInfosRC[0].artist_location.Add(temp5.Response.ArtistInfos[0].artist_location[i]);
+                }
             }
 
             //reutrn gathered results

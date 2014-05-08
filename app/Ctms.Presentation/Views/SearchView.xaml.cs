@@ -27,6 +27,7 @@ using Ctms.Presentation.Converters;
 using System.Windows.Media.Animation;
 using Helpers;
 using WPFKeyboard.Keyboard;
+using Ctms.Applications.DevHelper;
 
 namespace Ctms.Presentation.Views
 {
@@ -413,8 +414,7 @@ namespace Ctms.Presentation.Views
 
             tagDM.ExistenceState = TagDataModel.ExistenceStates.Removed;
 
-            // remove tag from possible combinations
-            _viewModel.RemoveTagFromCombi.Execute(tagId);
+            _viewModel.OnVisualizationRemoved(tagDM);
         }
 
         private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
@@ -426,9 +426,9 @@ namespace Ctms.Presentation.Views
             /* Don't delete, may will be needed later
             var t = (TouchEventArgs)e;
 
-            Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown");
-            Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
-            Debug.WriteLine("SV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
+            DevLogger.Log("SV: MyTagVisualization_PreviewTouchDown");
+            DevLogger.Log("SV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
+            DevLogger.Log("SV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
             */
 
             var t = (TouchEventArgs)e;
@@ -547,6 +547,16 @@ namespace Ctms.Presentation.Views
                 }
             }
             storyboard.Begin(ellipse, true);
+        }
+
+        private void SurfaceButton_TouchDown(object sender, TouchEventArgs e)
+        {
+            if (!e.TouchDevice.GetIsFingerRecognized() && !e.TouchDevice.GetIsTagRecognized())
+            {
+                DevLogger.Log("HandledEventArgs!");
+                //e.Handled = true;
+            }
+
         }
         /*
         private void initKeyboard()

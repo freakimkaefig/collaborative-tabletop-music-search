@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Ctms.Applications.DataModels;
 using WPFKeyboard.Keyboard;
+using Ctms.Applications.DevHelper;
 
 namespace Ctms.Presentation.Views
 {
@@ -83,41 +84,39 @@ namespace Ctms.Presentation.Views
         {
             //_viewModel.Id = e.TagVisualization.VisualizedTag.Value;
             //Tag = e.TagVisualization.VisualizedTag;
-            //Debug.WriteLine("STV: SimpleVisualization_Loaded");
+            //DevLogger.Log("STV: SimpleVisualization_Loaded");
         }
 
         private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
         {
             // Called when finger touch and tangible click on main pie menu item. 
             // Not when mouse click
-
             var t = (TouchEventArgs)e;
 
-            //Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown");
-            //Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
-            //Debug.WriteLine("STV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
+            DevLogger.Log("STV: MyTagVisualization_PreviewTouchDown");
+            DevLogger.Log("STV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
+            DevLogger.Log("STV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
             
             if (!t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
             {   //!! Funktioniert! Taginput wird abgefangen
-                //MessageBox.Show("SV: PieMenuItem_Click if");
-                //Debug.WriteLine("STV: No finger, no Tag");
+                DevLogger.Log("STV: No finger, no Tag");
                 t.Handled = true;
             }
             else if (t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
             {
-                //Debug.WriteLine("STV: Finger, no Tag");
+                DevLogger.Log("STV: Finger, no Tag");
                 //t.Handled = true;
             }
             else if (!t.TouchDevice.GetIsFingerRecognized() && t.TouchDevice.GetIsTagRecognized())
             {
-                //Debug.WriteLine("STV: No Finger, but Tag");
+                DevLogger.Log("STV: No Finger, but Tag");
                 //t.Handled = true;
                 //t.TouchDevice.
                 //var searchTagView = (SearchTagView)e.TagVisualization;
             }
             else
             {
-                //Debug.WriteLine("STV: No Finger, no Tag");
+                DevLogger.Log("STV: No Finger, no Tag");
 
             }
         }
@@ -125,6 +124,20 @@ namespace Ctms.Presentation.Views
         public void LogScrollToEnd()
         {
             //SearchTagViewLog.ScrollToEnd();
+        }
+
+        private void MyTagVisualization_TouchDown(object sender, TouchEventArgs e)
+        {
+            /*
+            if (!e.TouchDevice.GetIsFingerRecognized() && !e.TouchDevice.GetIsTagRecognized())
+            {
+                e.Handled = true;
+            }*/
+        }
+
+        private void MyTagVisualization_TouchUp(object sender, TouchEventArgs e)
+        {
+
         }
         
     }

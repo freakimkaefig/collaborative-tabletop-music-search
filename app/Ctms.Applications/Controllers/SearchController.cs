@@ -116,7 +116,7 @@ namespace Ctms.Applications.Controllers
                 (tagOptionId) => _searchOptionWorker.SelectKeywordType((int)tagOptionId, KeywordTypes.Title));
 
             _goBreadcrumbCmd            = new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId)); new DelegateCommand((tagOptionId) => _searchOptionWorker.GoBreadcrumb((int)tagOptionId));
-            _checkTagPositionsCmd       = new DelegateCommand((tagId) => _tagCombinationWorker.CheckMovedTagCombi((int)tagId));
+            _checkTagPositionsCmd       = new DelegateCommand((tagId) => _tagCombinationWorker.CheckCombisForTag((int)tagId));
             _removeTagFromCombi         = new DelegateCommand((tagId) => _tagCombinationWorker.RemoveTagFromCombi((int)tagId));
             _confirmInputCmd            = new DelegateCommand((tagId) => _searchOptionWorker.ConfirmInput((int)tagId));
             _lowerInputCmd              = new DelegateCommand((tagId) => _searchOptionWorker.EditInput((int)tagId, "Lower"));

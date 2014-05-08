@@ -11,6 +11,7 @@ using MusicSearch.Objects;
 using Ctms.Domain;
 using Ctms.Applications.DataModels;
 using Ctms.Applications.Data;
+using Ctms.Domain.Objects;
 
 namespace Ctms.Applications.Workers
 {
@@ -46,7 +47,7 @@ namespace Ctms.Applications.Workers
 
         public void StartSearch()
         {
-            var loadingInfoId = _infoWorker.ShowCommonInfo("Loading results...", "Please wait a moment", "Ok", true);
+            var loadingInfoId = _infoWorker.ShowCommonInfo("Loading results...", "Please wait a moment", "Ok", "Cancel", true);
 
             var backgrWorker = new BackgroundWorkHelper();
             backgrWorker.DoInBackground(StartSearch, StartSearchCompleted, loadingInfoId);
@@ -63,13 +64,14 @@ namespace Ctms.Applications.Workers
         //Background worker methods
         public void StartSearch(object sender, DoWorkEventArgs e)
         {
-            var combinedResults = DoCombinedSearch();
+            var combinedResults = DoCombinedSearch(e);
 
             //!! todo: get and parse combined results and create results
-            var uncombinedSongs = DoUncombinedSearch();
+            var uncombinedSongs = DoUncombinedSearch(e);
 
-            //!! todo: add uncombinedSongs
+            //!! todo: add combinedSong results (tracks)
             var allSongs = uncombinedSongs;
+
             /*for (var i = 0; i < allSongs.Count; i++) {
                 DevHelper.DevLogger.Log("SearchWorker:74 - " + allSongs[i].ToString());
             }*/
@@ -78,29 +80,142 @@ namespace Ctms.Applications.Workers
             e.Result = new List<object>() { allSongs, infoId };
         }
 
-        private List<ResponseContainer.ResponseObj.combinedQuery> DoCombinedSearch()
+        /// <summary>
+        /// Do search for tag combinations
+        /// </summary>
+        /// <returns></returns>
+        private List<ResponseContainer.ResponseObj.Song> DoCombinedSearch(DoWorkEventArgs e)
         {
             var combinedSearchObjects = new List<combinedSearchObject>();
 
-            // do search for uncombined tags
-            foreach (var tag in _repository.GetUncombinedTags())
+            foreach(var combi in _repository.GetTagCombinations())
             {
-                //!!
+                var combinedSearchObject = new combinedSearchObject();
+
+                // collect tagIds to state the origin of combined search query
+                combinedSearchObject.originIds = combi.Tags.Select(t => t.Tag.Id).ToList();
+
+                // add all origin ids
+                //if (combinedSearchObject.originIds != null)
+                //    combinedSearchObject.originIds.AddRange(combi.Tags.Select(t => t.Id));
+
+                //var filteredList = combinedSearchObject.originIds.Distinct().ToList();
+                                     /* .GroupBy(p => p.)
+                                      .Select(g => g.First())
+                                      .ToList();*/
+
+                // get combi and copy relevant values to search object
+                ParseCombi(combi, combinedSearchObject, combi.CombinationType);
+
+                // add to list
+                combinedSearchObjects.Add(combinedSearchObject);
             }
 
-            var songs = _searchManager.combinedSearchQuery(combinedSearchObjects);
-
-            return songs;
+            try
+            {
+                var songs = _searchManager.combinedSearchQuery(combinedSearchObjects);
+                return songs;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        private List<ResponseContainer.ResponseObj.Song> DoUncombinedSearch()
+
+        /// <summary>
+        /// Read values of combi and set concerning properties of combinedSearchObject, depending form combiType
+        /// </summary>
+        /// <param name="combi">The combination to read data from</param>
+        /// <param name="combinedSearchObject">The object whose data has to be set</param>
+        /// <param name="combiType">The type of combination</param>
+        private void ParseCombi(TagCombinationDataModel combi, combinedSearchObject combinedSearchObject, CombinationTypes combiType)
+        {
+            // check type
+            KeywordTypes keywordType;
+            if(combiType == CombinationTypes.Genre)
+                keywordType = KeywordTypes.Genre;
+            else
+                keywordType = KeywordTypes.Artist;
+
+            if (keywordType == KeywordTypes.Genre)
+            {
+                var genreAttributes = new List<GenreParameter>();
+
+                // get tags which are assigned with a keyword of type genre  (can only be up to five)
+                var genreTags   = combi.Tags.Where(t => t.Tag.AssignedKeyword.KeywordType == KeywordTypes.Genre).ToList();
+
+                // collect genres
+                combinedSearchObject.genre = new String[genreTags.Count];                
+                for (var i = 0; i < genreTags.Count; i++)
+                {
+                    combinedSearchObject.genre[i] = genreTags[i].Tag.AssignedKeyword.Key;
+                }
+
+                // collect genre attributes
+                foreach (var attrTag in combi.Tags.Where(ct => ct.Tag.AssignedKeyword.KeywordType == KeywordTypes.Attribute))
+                {
+                    var genreParam = new GenreParameter();
+
+                    SetAttributeProperty(attrTag, genreParam);
+
+                    genreAttributes.Add(genreParam);
+                }
+                // copy genre parameters
+                combinedSearchObject.GenreParameter = genreAttributes;                
+            }
+            else if (keywordType == KeywordTypes.Attribute)
+            {
+                var keywordAttributes = new List<ArtistParameter>();
+
+                // get tag of type artist (can only be one)
+                var artistTag = combi.Tags.FirstOrDefault(ct => ct.Tag.AssignedKeyword.KeywordType == KeywordTypes.Artist);
+
+                // copy artist id
+                if (artistTag != null) combinedSearchObject.artist_id = artistTag.Tag.AssignedKeyword.Key;
+
+                // collect artist attributes
+                foreach (var attributeTag in combi.Tags.Where(ct => ct.Tag.AssignedKeyword.KeywordType == KeywordTypes.Attribute))
+                {
+                    var artistParam = new ArtistParameter();
+
+                    SetAttributeProperty(attributeTag, artistParam);
+
+                    keywordAttributes.Add(artistParam);
+                }
+                combinedSearchObject.ArtistParameter = keywordAttributes;                
+            }
+        }
+
+        /// <summary>
+        /// Set value of a property of an artist or genre attribute
+        /// </summary>
+        /// <param name="attributeTag">The tag containing attribute's value</param>
+        /// <param name="searchObjectParameter">The artistParameter or genreParameter</param>
+        private void SetAttributeProperty(TagDataModel attributeTag, object searchObjectParameter)
+        {
+            // get property
+            var genreProperties     = searchObjectParameter.GetType().GetProperties();
+            var genreName           = attributeTag.Tag.AssignedKeyword.AttributeType.ToString();
+            var concerningProperty  = genreProperties.FirstOrDefault(a => a.Name == genreName);
+
+            // set value of property
+            concerningProperty.SetValue(
+                searchObjectParameter,
+                Convert.ChangeType(attributeTag.Tag.AssignedKeyword.Value, concerningProperty.PropertyType),
+                null);
+        }
+
+        private List<ResponseContainer.ResponseObj.Song> DoUncombinedSearch(DoWorkEventArgs e)
         {
             var searchObjects = new List<searchObject>();
 
-            //!!used tags außer combined tags! sonst doppelte anfrage
-            var usedTags = _repository.GetAssignedTagDMs();
+            // get tags are not in combinations and are assigned and added (not removed or in edit mode)
+            var tags = _repository.GetUncombinedTags()
+                .Where(t => t.AssignState == TagDataModel.AssignStates.Assigned)
+                .Where(t => t.ExistenceState == TagDataModel.ExistenceStates.Added);
 
-            foreach (var tag in usedTags)
+            foreach (var tag in tags)
             {
                 var searchObject = new searchObject();
                 searchObject.originId = tag.Id;
@@ -119,10 +234,6 @@ namespace Ctms.Applications.Workers
                 {
                     searchObject.genre = keyword.DisplayName;
                 }
-                else if (keyword.KeywordType == KeywordTypes.Attribute)
-                {
-                    //searchObject.
-                }
 
                 searchObjects.Add(searchObject);
             }
@@ -134,6 +245,9 @@ namespace Ctms.Applications.Workers
 
         private void StartSearchCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            var loadingInfoId   = (int)((List<object>)e.Result)[1];
+            _infoWorker.ConfirmCommonInfo(loadingInfoId);
+
             if (e.Cancelled)
             {
                 _infoWorker.ShowCommonInfo("Cancelled search by user", "", "Ok");
@@ -145,10 +259,8 @@ namespace Ctms.Applications.Workers
             else
             {
                 var resultSongs     = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
-                var loadingInfoId   = (int)((List<object>)e.Result)[1];
 
                 _resultWorker.RefreshResults(resultSongs);
-                _infoWorker.ConfirmCommonInfo(loadingInfoId);
             }
         }
 
