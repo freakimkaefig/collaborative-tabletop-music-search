@@ -56,7 +56,7 @@ namespace Ctms.Applications.Workers
             }
             else
             {
-                _infoWorker.ShowCommonInfo("No keywords defined", "", "Ok");
+                _infoWorker.ShowCommonInfo("No keywords defined", "Please place a tag on the table and select a keyword", "Ok");
             }
         }
 
@@ -189,9 +189,9 @@ namespace Ctms.Applications.Workers
         private void SetAttributeProperty(TagDataModel attributeTag, object searchObjectParameter)
         {
             // get property
-            var genreProperties     = searchObjectParameter.GetType().GetProperties();
-            var genreName           = attributeTag.Tag.AssignedKeyword.AttributeType.ToString();
-            var concerningProperty  = genreProperties.FirstOrDefault(a => a.Name == genreName);
+            var searchObjectProperties  = searchObjectParameter.GetType().GetProperties();
+            var searchObjectName        = attributeTag.Tag.AssignedKeyword.Key.ToString();
+            var concerningProperty      = searchObjectProperties.FirstOrDefault(a => a.Name == searchObjectName);
 
             // set value of property
             concerningProperty.SetValue(

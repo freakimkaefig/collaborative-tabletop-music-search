@@ -173,7 +173,7 @@ namespace Ctms.Applications.Workers
                         var possibleCombiType = GetPossibleCombiType(myTag, compareTag, combiWithMyTag, combiWithCompareTag);
                         if (possibleCombiType != CombinationTypes.None)
                         {   // movedTag and compareTag can be combined
-                            combiWithMyTag.Tags.Add(myTag);
+                            combiWithMyTag.Tags.Add(myTag);//!!StackOverflowException tritt hier ab und zu auf (z.b. 5 genres + bewegung)
                             Log("possibleCombiType != KeywordTypes.None > add ");
 
                             // update calculation of center
@@ -269,11 +269,13 @@ namespace Ctms.Applications.Workers
             TagCombinationDataModel movedCombi, 
             TagCombinationDataModel compareCombi)
         {
-            var movedTagType   = movedTagDm.Tag.AssignedKeyword.KeywordType;
-            var compareTagType = compareTagDm.Tag.AssignedKeyword.KeywordType;
+            var movedTagType        = movedTagDm.Tag.AssignedKeyword.KeywordType;
+            var compareTagType      = compareTagDm.Tag.AssignedKeyword.KeywordType;
+            var movedAttributeType  = movedTagDm.Tag.AssignedKeyword.AttributeType;
+            var compareAttributeType = compareTagDm.Tag.AssignedKeyword.AttributeType;
 
-            var resultType1 = GetPossibleCombiTypeFromOneSide(movedCombi, movedTagType, compareTagType);
-            var resultType2 = GetPossibleCombiTypeFromOneSide(compareCombi, compareTagType, movedTagType);
+            var resultType1 = GetPossibleCombiTypeFromOneSide(movedCombi, movedTagType, movedAttributeType, compareTagType, compareAttributeType);
+            var resultType2 = GetPossibleCombiTypeFromOneSide(compareCombi, compareTagType, compareAttributeType, movedTagType, movedAttributeType);
 
             if (resultType1 == CombinationTypes.None)
             {
@@ -285,20 +287,22 @@ namespace Ctms.Applications.Workers
             }
         }
 
-        private static CombinationTypes GetPossibleCombiTypeFromOneSide(TagCombinationDataModel combi1, KeywordTypes combi1TagType, KeywordTypes tag2Type)
+        //private static CombinationTypes GetPossibleCombiTypeFromOneSide(TagCombinationDataModel combi, KeywordTypes combiTagType, KeywordTypes singleTagType)
+        private static CombinationTypes GetPossibleCombiTypeFromOneSide(
+            TagCombinationDataModel combi, KeywordTypes combiTagType, AttributeTypes combiAttributeType, KeywordTypes singleTagType, AttributeTypes singleAttributeType)
         {
-            if (combi1 != null)
+            if (combi != null)
             {   // existing movedCombi
 
-                if (combi1.CombinationType == CombinationTypes.Genre
-                    && (tag2Type == KeywordTypes.Genre || tag2Type == KeywordTypes.Attribute)
-                    && combi1.Tags.Where(t => t.Tag.AssignedKeyword.KeywordType == KeywordTypes.Genre).Count() <= 5)
+                if (combi.CombinationType == CombinationTypes.Genre
+                    && (singleTagType == KeywordTypes.Genre || (singleTagType == KeywordTypes.Attribute && singleAttributeType == AttributeTypes.Genre))
+                    && combi.Tags.Where(t => t.Tag.AssignedKeyword.KeywordType == KeywordTypes.Genre).Count() <= 5)
                 {   // existing genre combi can be combined with genre (if not more than 5) or attribute
                     // base type is genre
                     return CombinationTypes.Genre;
                 }
-                else if (combi1.CombinationType == CombinationTypes.Artist
-                    && tag2Type == KeywordTypes.Attribute)
+                else if (combi.CombinationType == CombinationTypes.Artist
+                    && singleTagType == KeywordTypes.Attribute && singleAttributeType == AttributeTypes.Artist)
                 {   // existing artist combi can be combined with attribute 
                     //(not artist because there's already an artist in a combi of the type artist)
                     return CombinationTypes.Artist;
@@ -309,13 +313,16 @@ namespace Ctms.Applications.Workers
                 }
             }
             // there's no combi right now
-            else if ((combi1TagType == KeywordTypes.Genre && (tag2Type == KeywordTypes.Genre || tag2Type == KeywordTypes.Attribute))
-                || (combi1TagType == KeywordTypes.Attribute && (tag2Type == KeywordTypes.Genre)))
-            {   // combine genre with genre or attribute
+            else if (   combiTagType == KeywordTypes.Genre 
+                            && (singleTagType == KeywordTypes.Genre 
+                                || (singleTagType == KeywordTypes.Attribute && singleAttributeType == AttributeTypes.Genre))
+                        || ((combiTagType == KeywordTypes.Attribute && combiAttributeType == AttributeTypes.Genre) && (singleTagType == KeywordTypes.Genre)))
+            {   // combine genre+genre or genre+attribute(of type genre)
                 return CombinationTypes.Genre;
             }
-            else if ((combi1TagType == KeywordTypes.Artist && tag2Type == KeywordTypes.Attribute)
-                || combi1TagType == KeywordTypes.Attribute && tag2Type == KeywordTypes.Artist)
+            else if ((combiTagType == KeywordTypes.Artist 
+                    && (singleTagType == KeywordTypes.Attribute && singleAttributeType == AttributeTypes.Artist))
+                    || (combiTagType == KeywordTypes.Attribute && combiAttributeType == AttributeTypes.Artist) && singleTagType == KeywordTypes.Artist)
             {
                 return CombinationTypes.Artist;
             }
