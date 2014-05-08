@@ -16,23 +16,11 @@ using Ctms.Applications.Views;
 
 namespace Ctms.Presentation.Resources
 {
-    public partial class ResultStyleResources : ResourceDictionary, IResultStyleResources
+    public partial class ResultStyleResources : ResourceDictionary
     {
-        private Action<String> _prelistenAction;
-        private Action<String> _addToPlaylistAction;
-
         public ResultStyleResources()
         {
             InitializeComponent();
-        }
-
-        public Action<String> PrelistenAction
-        {
-            get { return _prelistenAction; }
-            set
-            {
-                //_prelistenAction
-            }
         }
 
         private void TabItem_TouchDown(object sender, TouchEventArgs e)

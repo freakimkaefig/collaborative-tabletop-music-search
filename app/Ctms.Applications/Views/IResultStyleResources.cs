@@ -8,7 +8,5 @@ namespace Ctms.Applications.Views
 {
     public interface IResultStyleResources : IView
     {
-        Action<String> PrelistenAction { get; set; }
-        Action<String> AddToPlaylistAction { get; set; }
     }
 }
