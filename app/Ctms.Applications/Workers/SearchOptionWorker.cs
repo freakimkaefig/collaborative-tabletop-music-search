@@ -384,6 +384,7 @@ namespace Ctms.Applications.Workers
                 keyword.AttributeType = tagDm.Tag.AssignedKeyword.AttributeType;
                 keyword.DisplayDescription = terms;
                 keyword.Key = tagDm.Tag.AssignedKeyword.Key;
+                keyword.Value = tagDm.Tag.AssignedKeyword.Value;
 
                 // creat tagOption for this keyword
                 tagOption = _tagFactory.CreateTagOption(keyword, tagDm.Tag.CurrentLayerNr);
