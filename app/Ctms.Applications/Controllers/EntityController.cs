@@ -16,6 +16,7 @@ using System.Data.Common;
 using Ctms.Applications.Common;
 using Ctms.Applications.Data;
 using Ctms.Applications.DevHelper;
+using Ctms.Applications.Workers;
 
 namespace Ctms.Applications.Controllers
 {
@@ -34,11 +35,12 @@ namespace Ctms.Applications.Controllers
         private readonly Repository _repository;
         private readonly DelegateCommand _saveCommand;
         private CtmsEntities _entities;
+        private InfoWorker _infoWorker;
 
 
         [ImportingConstructor]
         public EntityController(EntityService entityService, IMessageService messageService, IShellService shellService,
-            ShellViewModel shellViewModel, Repository repository)
+            ShellViewModel shellViewModel, Repository repository, InfoWorker infoWorker)
         {
             Configurator.Init();
             DevDataProvider.Initialize(_repository);
@@ -51,6 +53,7 @@ namespace Ctms.Applications.Controllers
             _saveCommand = new DelegateCommand(() => Save(), CanSave);
 
             _repository = repository;
+            _infoWorker = infoWorker;
         }
 
         
@@ -92,6 +95,28 @@ namespace Ctms.Applications.Controllers
             _shellViewModel.SaveCommand = _saveCommand;
             //!!shellViewModel.DatabasePath = dataSourcePath;
 
+            //check internet-connection
+            if (!CheckForInternetConnection())
+            {
+                _infoWorker.ShowCommonInfo("__________________________\nNo Internet Connection.", "", "OK");
+            }
+
+        }
+
+        public bool CheckForInternetConnection()
+        {
+            try
+            {
+                using (var client = new System.Net.WebClient())
+                using (var stream = client.OpenRead("http://www.google.com"))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public void Shutdown()
