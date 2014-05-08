@@ -564,35 +564,38 @@ namespace Ctms.Applications.Workers
                 _infoWorker.ShowCommonInfo("An error occurred while searching for artist suggestions",
                        e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
             }
-            else
+            else if(e.Result != null)
             {
                 var artists = (List<ResponseContainer.ResponseObj.ArtistSuggestion>) e.Result;
 
-                var firstSuggestion = artists.FirstOrDefault();
+                tagDM = _repository.GetTagDMById(artists.FirstOrDefault().originId);
 
-                if (artists == null || !artists.Any() || !String.IsNullOrEmpty(artists.FirstOrDefault().name))
+                if (artists.Any())
+                {
+                    var firstSuggestion = artists.FirstOrDefault();
+
+                    for (var i = 0; i < artists.Count; i++)
+                    {   // check if name is set. if not this artist instance is just used for determining tag id
+                        if(!String.IsNullOrEmpty(artists[i].name))
+                        {
+                            // create keyword out of this suggestion
+                            var keyword = _tagFactory.CreateKeyword(artists[i].name, tagDM.Tag.AssignedKeyword.KeywordType);
+                            keyword.Key = artists[i].id;
+
+                            // create option with this keyword
+                            var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
+
+                            _repository.AddTagOption(tagDM, tagOption);
+                        }
+                    }
+                    SetIsInputVisible(tagDM, false);
+
+                    _searchVM.UpdateVisuals(tagDM);
+                }
+                else
                 {   // no suggestions retrieved
                     _infoWorker.ShowTagInfo("No artists found", "Please adjust your terms", tagDM.Id, "Ok");
                 }
-                else 
-                {
-                    tagDM = _repository.GetTagDMById(artists.FirstOrDefault().originId);
-                }
-
-                for (var i = 0; i < artists.Count; i++)
-                {
-                    // create keyword out of this suggestion
-                    var keyword = _tagFactory.CreateKeyword(artists[i].name, tagDM.Tag.AssignedKeyword.KeywordType);
-                    keyword.Key = artists[i].id;
-
-                    // create option with this keyword
-                    var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
-
-                    _repository.AddTagOption(tagDM, tagOption);
-                }
-                SetIsInputVisible(tagDM, false);
-
-                _searchVM.UpdateVisuals(tagDM);
             }
             SetIsLoadingInfoVisible(tagDM, false);
         }
@@ -628,31 +631,34 @@ namespace Ctms.Applications.Workers
             {
                 var titles = (List<ResponseContainer.ResponseObj.TitleSuggestion>)e.Result;
 
-                var firstSuggestion = titles.FirstOrDefault();
+                tagDM = _repository.GetTagDMById(titles.FirstOrDefault().originId);
 
-                if (titles == null || !titles.Any() || !String.IsNullOrEmpty(titles.FirstOrDefault().title))
-                {   // no suggestions retrieved
-                    _infoWorker.ShowTagInfo("No titles found", "Please adjust your terms", tagDM.Id, "Ok");
-                }
-                else
+                if (titles.Any())
                 {
-                    tagDM = _repository.GetTagDMById(titles.FirstOrDefault().originId);
-                    
+                    var firstSuggestion = titles.FirstOrDefault();
+
                     for (var i = 0; i < titles.Count; i++)
-                    {
-                        // create keyword out of this suggestion
-                        var keyword = _tagFactory.CreateKeyword(titles[i].title, tagDM.Tag.AssignedKeyword.KeywordType);
-                        keyword.Key = titles[i].id;
-                        keyword.DisplayDescription = titles[i].artist_name;
+                    {   // check if name is set. if not this artist instance is just used for determining tag id
+                        if (!String.IsNullOrEmpty(titles[i].title))
+                        {
+                            // create keyword out of this suggestion
+                            var keyword = _tagFactory.CreateKeyword(titles[i].title, tagDM.Tag.AssignedKeyword.KeywordType);
+                            keyword.Key = titles[i].id;
+                            keyword.DisplayDescription = titles[i].artist_name;
 
-                        // create option with this keyword
-                        var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
+                            // create option with this keyword
+                            var tagOption = _tagFactory.CreateTagOption(keyword, tagDM.Tag.CurrentLayerNr);
 
-                        _repository.AddTagOption(tagDM, tagOption);
+                            _repository.AddTagOption(tagDM, tagOption);
+                        }
                     }
                     SetIsInputVisible(tagDM, false);
 
                     _searchVM.UpdateVisuals(tagDM);
+                }
+                else
+                {   // no suggestions retrieved
+                    _infoWorker.ShowTagInfo("No titles found", "Please adjust your terms", tagDM.Id, "Ok");
                 }
             }
             SetIsLoadingInfoVisible(tagDM, false);

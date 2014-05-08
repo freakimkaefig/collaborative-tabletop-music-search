@@ -96,7 +96,8 @@
             </DoubleAnimation>
         </Storyboard>
 
-    </UserControl.Resources>
+    </UserControl.Resources> 
+    
     
     <s:TagVisualizer x:Name="SearchTagVisualizer" Width="1920" Height="1080" VisualizationAdded="OnVisualizationAdded"                      
                      VisualizationRemoved="OnVisualizationRemoved" 
