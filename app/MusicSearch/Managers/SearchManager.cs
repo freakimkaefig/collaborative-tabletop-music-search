@@ -53,7 +53,7 @@ namespace MusicSearch.Managers
                 {
                     return combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
                 }
-                else if (cso.genre != null && !cso.genre.Any() && !String.IsNullOrEmpty(cso.genre[0].ToString()))
+                else if (cso.genre != null && cso.genre.Any() && !String.IsNullOrEmpty(cso.genre[0].ToString()))
                 {
                     return combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
                 }
@@ -147,7 +147,7 @@ namespace MusicSearch.Managers
                 request += "&genre=" + genre[i].ToString();
             }
             //check for parameter
-            if (gp != null && !gp.Any())
+            if (gp != null && gp.Any())
             {
                 //get & add attributes to combined-search-URL by using reflection
                 var properties = gp[0].GetType().GetProperties();
@@ -411,7 +411,7 @@ namespace MusicSearch.Managers
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
 
-            if (temp.Response.ArtistInfos != null && !temp.Response.ArtistInfos.Any())
+            if (temp.Response.ArtistInfos != null && temp.Response.ArtistInfos.Any())
             {
                 temp.Response.ArtistInfos[0].reviews = temp.Response.ArtistInfos[0].reviews.GroupBy(p => p.name).Select(g => g.First()).ToList();
                 temp.Response.ArtistInfos[0].news = temp.Response.ArtistInfos[0].news.GroupBy(p => p.name).Select(g => g.First()).ToList();
@@ -442,7 +442,7 @@ namespace MusicSearch.Managers
             var newText3 = StringHelper.replacePartialString(newText2, "id", "title_id", 100);
             var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(newText3);
 
-            if (temp2.Response.ArtistInfos != null && !temp2.Response.ArtistInfos.Any())
+            if (temp2.Response.ArtistInfos != null && temp2.Response.ArtistInfos.Any())
             {
                 //remove duplicate list-entries
                 List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
@@ -480,7 +480,7 @@ namespace MusicSearch.Managers
             //Initialise inner list of RC
             ArtistInfosRC[0].SimilarArtists = new List<ResponseContainer.ResponseObj.ArtistInfo.SimilarArtist>();
 
-            if (temp3.Response.ArtistInfos != null && !temp3.Response.ArtistInfos.Any())
+            if (temp3.Response.ArtistInfos != null && temp3.Response.ArtistInfos.Any())
             {
                 //add remaining artist-info-results to second inner list of RC
                 for (int i = 0; i < temp3.Response.ArtistInfos[0].SimilarArtists.Count; i++)
@@ -514,7 +514,7 @@ namespace MusicSearch.Managers
             //Initialise inner list of RC
             ArtistInfosRC[0].Urls = new List<ResponseContainer.ResponseObj.ArtistInfo.Url>();
             //add remaining artist-info-results to second inner list of RC
-            if (temp4.Response.ArtistInfos != null && !temp4.Response.ArtistInfos.Any())
+            if (temp4.Response.ArtistInfos != null && temp4.Response.ArtistInfos.Any())
             {
                 for (int i = 0; i < temp4.Response.ArtistInfos[0].Urls.Count; i++)
                 {
@@ -545,7 +545,7 @@ namespace MusicSearch.Managers
             //Initialise inner list of RC
             ArtistInfosRC[0].artist_location = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistLocation>();
 
-            if (temp5.Response.ArtistInfos != null && !temp5.Response.ArtistInfos.Any())
+            if (temp5.Response.ArtistInfos != null && temp5.Response.ArtistInfos.Any())
             {
                 //add remaining artist-info-results to second inner list of RC
                 for (int i = 0; i < temp5.Response.ArtistInfos[0].artist_location.Count; i++)
@@ -601,7 +601,7 @@ namespace MusicSearch.Managers
                 TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
             }
 
-            if (TitleSuggestionsRC != null && !TitleSuggestionsRC.Any())
+            if (TitleSuggestionsRC != null && TitleSuggestionsRC.Any())
             {
                 var emptyResponse = new ResponseContainer.ResponseObj.TitleSuggestion();
                 emptyResponse.originId = ID;
@@ -655,7 +655,7 @@ namespace MusicSearch.Managers
                 ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
             }
 
-            if (ArtistSuggestionsRC != null && !ArtistSuggestionsRC.Any())
+            if (ArtistSuggestionsRC != null && ArtistSuggestionsRC.Any())
             {
                 var emptyResponse = new ResponseContainer.ResponseObj.ArtistSuggestion();
                 emptyResponse.originId = ID;
@@ -678,7 +678,7 @@ namespace MusicSearch.Managers
         {
             List<ResponseContainer.ResponseObj.Song> SearchRC = new List<ResponseContainer.ResponseObj.Song>();
 
-            if (searchList != null && !searchList.Any())
+            if (searchList != null && searchList.Any())
             {
                 //traverse list and call respective methods
                 for (int i = 0; i < searchList.Count; i++)
