@@ -81,7 +81,7 @@ namespace Ctms.Applications.Workers
                                     result.OriginColors = new ObservableCollection<string>();
                                     result.Result.Song.ArtistId = song.Artist_Id;
                                     result.Result.Response = song;
-                                    foreach (var originId in response[i].originIDs)
+                                    foreach (var originId in song.originIDs)
                                     {
                                         result.OriginColors.Add(CommonVal.TagColors[originId]);
                                     }
