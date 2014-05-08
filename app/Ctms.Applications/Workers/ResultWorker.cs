@@ -13,6 +13,7 @@ using MusicStream;
 using System.Collections.ObjectModel;
 using Helpers;
 using Ctms.Applications.DevHelper;
+using Ctms.Applications.Common;
 
 namespace Ctms.Applications.Workers
 {
@@ -64,7 +65,7 @@ namespace Ctms.Applications.Workers
                     foreach (var song in songs)
                     {
                         //DevLogger.Log("ResultWorker:63 - " + response[i].ToString());
-                        if (_resultViewModel.Results.Count < 20)
+                        if (_resultViewModel.Results.Count < CommonVal.Results_MaxNumber)
                         {
                             foreach (var track in song.tracks)
                             {

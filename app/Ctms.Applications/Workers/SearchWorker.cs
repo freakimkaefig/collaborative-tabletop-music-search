@@ -258,9 +258,18 @@ namespace Ctms.Applications.Workers
             }
             else
             {
-                var resultSongs     = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
+                var resultSongs = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
 
-                _resultWorker.RefreshResults(resultSongs);
+                if (resultSongs == null || !resultSongs.Any())
+                {
+                    _infoWorker.ShowCommonInfo("No results", 
+                        "Your search query didn't return any results. Your keywords may be too distinct. Change them and try again.",
+                        "Ok");
+                }
+                else
+                {
+                    _resultWorker.RefreshResults(resultSongs);
+                }
             }
         }
 
