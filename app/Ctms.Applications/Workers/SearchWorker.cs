@@ -47,10 +47,17 @@ namespace Ctms.Applications.Workers
 
         public void StartSearch()
         {
-            var loadingInfoId = _infoWorker.ShowCommonInfo("Loading results...", "Please wait a moment", "Ok", "Cancel", true);
+            if(_repository.GetAddedAndAssignedTagDMs().Count() > 0)
+            {
+                var loadingInfoId = _infoWorker.ShowCommonInfo("Loading results...", "Please wait a moment", "Ok", "Cancel", true);
 
-            var backgrWorker = new BackgroundWorkHelper();
-            backgrWorker.DoInBackground(StartSearch, StartSearchCompleted, loadingInfoId);
+                var backgrWorker = new BackgroundWorkHelper();
+                backgrWorker.DoInBackground(StartSearch, StartSearchCompleted, loadingInfoId);
+            }
+            else
+            {
+                _infoWorker.ShowCommonInfo("No keywords defined", "", "Ok");
+            }
         }
 
         public void LoadDetails(ResultDataModel result)
@@ -71,8 +78,8 @@ namespace Ctms.Applications.Workers
 
             // add combinedSong results (tracks)
             var allSongs = new List<ResponseContainer.ResponseObj.Song>();
-            allSongs.AddRange(combinedSongs);
-            allSongs.AddRange(uncombinedSongs);
+            if(combinedSongs != null) allSongs.AddRange(combinedSongs);
+            if (uncombinedSongs != null) allSongs.AddRange(uncombinedSongs);
 
             /*for (var i = 0; i < allSongs.Count; i++) {
                 DevHelper.DevLogger.Log("SearchWorker:74 - " + allSongs[i].ToString());
@@ -151,9 +158,9 @@ namespace Ctms.Applications.Workers
                 // copy genre parameters
                 combinedSearchObject.GenreParameter = genreAttributes;                
             }
-            else if (keywordType == KeywordTypes.Attribute)
+            else if (keywordType == KeywordTypes.Artist)
             {
-                var keywordAttributes = new List<ArtistParameter>();
+                var artistAttributes = new List<ArtistParameter>();
 
                 // get tag of type artist (can only be one)
                 var artistTag = combi.Tags.FirstOrDefault(ct => ct.Tag.AssignedKeyword.KeywordType == KeywordTypes.Artist);
@@ -162,15 +169,15 @@ namespace Ctms.Applications.Workers
                 if (artistTag != null) combinedSearchObject.artist_id = artistTag.Tag.AssignedKeyword.Key;
 
                 // collect artist attributes
-                foreach (var attributeTag in combi.Tags.Where(ct => ct.Tag.AssignedKeyword.KeywordType == KeywordTypes.Attribute))
+                foreach (var attrTag in combi.Tags.Where(ct => ct.Tag.AssignedKeyword.KeywordType == KeywordTypes.Attribute))
                 {
                     var artistParam = new ArtistParameter();
 
-                    SetAttributeProperty(attributeTag, artistParam);
+                    SetAttributeProperty(attrTag, artistParam);
 
-                    keywordAttributes.Add(artistParam);
+                    artistAttributes.Add(artistParam);
                 }
-                combinedSearchObject.ArtistParameter = keywordAttributes;                
+                combinedSearchObject.ArtistParameter = artistAttributes;                
             }
         }
 
@@ -193,6 +200,12 @@ namespace Ctms.Applications.Workers
                 null);
         }
 
+
+        /// <summary>
+        /// Do search for all tags that are not in a combination
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         private List<ResponseContainer.ResponseObj.Song> DoUncombinedSearch(DoWorkEventArgs e)
         {
             var searchObjects = new List<searchObject>();
