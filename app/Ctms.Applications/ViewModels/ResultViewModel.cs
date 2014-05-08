@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using SpotifySharp;
 using Ctms.Applications.DataModels;
 using Microsoft.Surface.Presentation.Controls;
+using Ctms.Applications.Workers;
+using System;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -15,7 +17,6 @@ namespace Ctms.Applications.ViewModels
     {
         private bool isValid = true;
         private Result result;
-        private string title;
 
         private SurfaceButton _dropTargetLeft;
         private SurfaceButton _dropTargetRight;
@@ -30,6 +31,10 @@ namespace Ctms.Applications.ViewModels
         private ICommand _addTrackCommand;
         private ICommand _loadDetailsCommand;
         private ObservableCollection<ResultDataModel> _results;
+
+        private IResultStyleResources _resultStyleResources;
+        private Action<String> _prelistenAction;
+        private Action<String> _addToPlaylistAction;
 
 
         [ImportingConstructor]
@@ -53,6 +58,34 @@ namespace Ctms.Applications.ViewModels
                 {
                     isValid = value;
                     RaisePropertyChanged("IsValid");
+                }
+            }
+        }
+
+        public Action<String> PrelistenAction
+        {
+            get { return _prelistenAction; }
+            set
+            {
+                if (_prelistenAction != value)
+                {
+                    _prelistenAction = value;
+                    //_resultStyleResources.PrelistenAction = _prelistenAction;
+                    RaisePropertyChanged("PrelistenAction");
+                }
+            }
+        }
+
+        public Action<String> AddToPlaylistAction
+        {
+            get { return _addToPlaylistAction; }
+            set
+            {
+                if (_addToPlaylistAction != value)
+                {
+                    _addToPlaylistAction = value;
+                    //_resultStyleResources.AddToPlaylistAction = _addToPlaylistAction;
+                    RaisePropertyChanged("AddToPlaylistAction");
                 }
             }
         }

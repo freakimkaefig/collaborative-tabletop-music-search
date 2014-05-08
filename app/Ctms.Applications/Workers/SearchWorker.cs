@@ -68,6 +68,11 @@ namespace Ctms.Applications.Workers
             }
         }
 
+        public void PrelistenTrackFromDetailView(String trackId)
+        {
+            _backgroundWorker.DoInBackground(PrelistenTrackFromDetailViewWorker, PrelistenTrackFromDetailViewCompleted, trackId);
+        }
+
         //Background worker methods
         public void StartSearch(object sender, DoWorkEventArgs e)
         {
@@ -297,6 +302,15 @@ namespace Ctms.Applications.Workers
                 ResultDataModel result = (ResultDataModel)(((List<object>)e.Result)[1]);
                 _resultWorker.RefreshDetails(resultDetails, result);
             }
+        }
+
+        private void PrelistenTrackFromDetailViewWorker(object sender, DoWorkEventArgs e)
+        {
+            e.Result = _searchManager.getSpotifyId((String)e.Argument);
+        }
+        private void PrelistenTrackFromDetailViewCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            _resultWorker.PrelistenFromDetailView((String)e.Result);
         }
     }
 }

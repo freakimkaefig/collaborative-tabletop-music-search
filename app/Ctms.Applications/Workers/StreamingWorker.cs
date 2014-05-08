@@ -23,9 +23,10 @@ namespace Ctms.Applications.Workers
         private ResultViewModel _resultViewModel;
         private MusicStreamAccountWorker _accountWorker;
         private MusicStreamSessionManager _sessionManager;
+        private InfoWorker _infoWorker;
 
         [ImportingConstructor]
-        public StreamingWorker(PlaylistViewModel playlistViewModel, ResultViewModel resultViewModel, MusicStreamAccountWorker musicStreamAccountWorker)
+        public StreamingWorker(PlaylistViewModel playlistViewModel, ResultViewModel resultViewModel, MusicStreamAccountWorker musicStreamAccountWorker, InfoWorker infoWorker)
         {
             this._playlistViewModel = playlistViewModel;
             this._resultViewModel = resultViewModel;
@@ -38,6 +39,8 @@ namespace Ctms.Applications.Workers
             _resultViewModel.PlusImageRight = _playlistViewModel.GetPlusImageRight();
 
             _accountWorker.StreamingSessionManagerCreated = StreamingSessionManagerCreated;
+
+            _infoWorker = infoWorker;
         }
 
         //SETTER & GETTER
@@ -58,18 +61,25 @@ namespace Ctms.Applications.Workers
 
         private void PrelistenStarted(Track track)
         {
-            _playlistViewModel.Prelistening = true;
-            foreach (ResultDataModel result in _resultViewModel.Results)
+            if (track == null)
             {
-                //Vergleiche Tracks ??? keine ahnung wie!
-                if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
+                _infoWorker.ShowCommonInfo("Error playing track", "Sorry, an error occured, please try again", "Ok");
+            }
+            else
+            {
+                _playlistViewModel.Prelistening = true;
+                foreach (ResultDataModel result in _resultViewModel.Results)
                 {
-                    result.IsLoading = true;
-                }
-                else
-                {
-                    result.IsLoading = false;
-                    result.IsPlaying = false;
+                    //Vergleiche Tracks ??? keine ahnung wie!
+                    if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
+                    {
+                        result.IsLoading = true;
+                    }
+                    else
+                    {
+                        result.IsLoading = false;
+                        result.IsPlaying = false;
+                    }
                 }
             }
         }

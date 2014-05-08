@@ -16,11 +16,31 @@ using Ctms.Applications.Views;
 
 namespace Ctms.Presentation.Resources
 {
-    public partial class ResultStyleResources : ResourceDictionary
+    public partial class ResultStyleResources : ResourceDictionary, IResultStyleResources
     {
+        public Action<String> _prelistenAction;
+        public Action<String> _addToPlaylistAction;
+
         public ResultStyleResources()
         {
             InitializeComponent();
+        }
+
+        public Action<String> PrelistenAction
+        {
+            get { return _prelistenAction; }
+            set
+            {
+                _prelistenAction = value;
+            }
+        }
+        public Action<String> AddToPlaylistAction
+        {
+            get { return _addToPlaylistAction; }
+            set
+            {
+                _addToPlaylistAction = value;
+            }
         }
 
         private void TabItem_TouchDown(object sender, TouchEventArgs e)
@@ -35,6 +55,8 @@ namespace Ctms.Presentation.Resources
         {
             SurfaceButton sButton = e.Source as SurfaceButton;
             ArtistSong song = sButton.DataContext as ArtistSong;
+            //_prelistenAction.Invoke(song.TrackId);
+            //_prelistenAction(song.TrackId);
         }
 
         private void SongList_AddToPlaylist_Click(object sender, RoutedEventArgs e)
