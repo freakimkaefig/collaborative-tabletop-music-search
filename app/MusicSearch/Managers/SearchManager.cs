@@ -416,6 +416,8 @@ namespace MusicSearch.Managers
 
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
+            temp.Response.ArtistInfos[0].reviews = temp.Response.ArtistInfos[0].reviews.GroupBy(p => p.name).Select(g => g.First()).ToList();
+            temp.Response.ArtistInfos[0].news = temp.Response.ArtistInfos[0].news.GroupBy(p => p.name).Select(g => g.First()).ToList();
             
             /*List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
           .GroupBy(p => p.title)
@@ -442,21 +444,25 @@ namespace MusicSearch.Managers
             var newText3 = StringHelper.replacePartialString(newText2, "id", "title_id", 100);
             var temp2 = JsonConvert.DeserializeObject<ResponseContainer>(newText3);
 
-            //remove duplicate list-entries
-            List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
-          .GroupBy(p => p.title)
-          .Select(g => g.First())
-          .ToList();
-
-            //Initialise inner list of RC
-            ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
-            //add further artist-info-results to inner list of RC
-            for (int i = 0; i < filtertedList.Count; i++)
+            if (temp2.Response.ArtistInfos != null && temp2.Response.ArtistInfos.Any())
             {
-                ArtistInfosRC[0].ArtistSongs.Add(filtertedList[i]);
+                //remove duplicate list-entries
+                List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
+              .GroupBy(p => p.title)
+              .Select(g => g.First())
+              .ToList();
+
+                //Initialise inner list of RC
+                ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
+                //add further artist-info-results to inner list of RC
+                for (int i = 0; i < filtertedList.Count; i++)
+                {
+                    ArtistInfosRC[0].ArtistSongs.Add(filtertedList[i]);
+                }
+                ArtistInfosRC[0].ArtistSongs = ArtistInfosRC[0].ArtistSongs.OrderBy(a => a.title).ToList();
             }
 
-            ArtistInfosRC[0].ArtistSongs = ArtistInfosRC[0].ArtistSongs.OrderBy(a => a.title).ToList();
+            
 
             //build 3rd query (similiar artists)
             String request3 = _defaultURL + "artist/similar?" + "api_key=" + GetAPIKey() + "&format=json&bucket=familiarity&min_familiarity=0.7&name=" + artist;
@@ -475,13 +481,17 @@ namespace MusicSearch.Managers
             var temp3 = JsonConvert.DeserializeObject<ResponseContainer>(newText5);
             //Initialise inner list of RC
             ArtistInfosRC[0].SimilarArtists = new List<ResponseContainer.ResponseObj.ArtistInfo.SimilarArtist>();
-            //add remaining artist-info-results to second inner list of RC
-            for (int i = 0; i < temp3.Response.ArtistInfos[0].SimilarArtists.Count; i++)
+
+            if (temp3.Response.ArtistInfos != null && temp3.Response.ArtistInfos.Any())
             {
-                ArtistInfosRC[0].SimilarArtists.Add(temp3.Response.ArtistInfos[0].SimilarArtists[i]);
+                //add remaining artist-info-results to second inner list of RC
+                for (int i = 0; i < temp3.Response.ArtistInfos[0].SimilarArtists.Count; i++)
+                {
+                    ArtistInfosRC[0].SimilarArtists.Add(temp3.Response.ArtistInfos[0].SimilarArtists[i]);
+                }
+                //order results of second inner list descending by familiarity
+                ArtistInfosRC[0].SimilarArtists = ArtistInfosRC[0].SimilarArtists.OrderByDescending(a => a.familiarity).ToList();
             }
-            //order results of second inner list descending by familiarity
-            ArtistInfosRC[0].SimilarArtists = ArtistInfosRC[0].SimilarArtists.OrderByDescending(a => a.familiarity).ToList();
 
             //build 4th query (urls)
             String request4 = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&results=1&name=" + artist + "&bucket=urls&sort=hotttnesss-desc";
@@ -506,10 +516,14 @@ namespace MusicSearch.Managers
             //Initialise inner list of RC
             ArtistInfosRC[0].Urls = new List<ResponseContainer.ResponseObj.ArtistInfo.Url>();
             //add remaining artist-info-results to second inner list of RC
-            for (int i = 0; i < temp4.Response.ArtistInfos[0].Urls.Count; i++)
+            if (temp4.Response.ArtistInfos != null && temp4.Response.ArtistInfos.Any())
             {
-                ArtistInfosRC[0].Urls.Add(temp4.Response.ArtistInfos[0].Urls[i]);
+                for (int i = 0; i < temp4.Response.ArtistInfos[0].Urls.Count; i++)
+                {
+                    ArtistInfosRC[0].Urls.Add(temp4.Response.ArtistInfos[0].Urls[i]);
+                }
             }
+            
 
             //build 5th request (artist location)
             String request5 = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&results=1&name=" + artist + "&bucket=artist_location&sort=hotttnesss-desc";
@@ -532,10 +546,14 @@ namespace MusicSearch.Managers
 
             //Initialise inner list of RC
             ArtistInfosRC[0].artist_location = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistLocation>();
-            //add remaining artist-info-results to second inner list of RC
-            for (int i = 0; i < temp5.Response.ArtistInfos[0].artist_location.Count; i++)
+
+            if (temp5.Response.ArtistInfos != null && temp5.Response.ArtistInfos.Any())
             {
-                ArtistInfosRC[0].artist_location.Add(temp5.Response.ArtistInfos[0].artist_location[i]);
+                //add remaining artist-info-results to second inner list of RC
+                for (int i = 0; i < temp5.Response.ArtistInfos[0].artist_location.Count; i++)
+                {
+                    ArtistInfosRC[0].artist_location.Add(temp5.Response.ArtistInfos[0].artist_location[i]);
+                }
             }
 
             //reutrn gathered results
