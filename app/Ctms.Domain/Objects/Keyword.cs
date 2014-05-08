@@ -15,6 +15,10 @@ namespace Ctms.Domain
         private string _displayNameSecond;
         private object _displayDescription;
         private object _value;
+        private int _referenceAngleTopFirst;
+        private int _referenceAngleTopSecond;
+        private int _referenceAngleBottomFirst;
+        private int _referenceAngleBottomSecond;
 
         public Keyword(int id, string displayName, KeywordTypes type)
         {
@@ -93,6 +97,58 @@ namespace Ctms.Domain
                 {
                     _displayNameSecond = value;
                     RaisePropertyChanged("DisplayNameSecond");
+                }
+            }
+        }
+
+        public int ReferenceAngleTopFirst
+        {
+            get { return _referenceAngleTopFirst; }
+            set
+            {
+                if (_referenceAngleTopFirst != value)
+                {
+                    _referenceAngleTopFirst = value;
+                    RaisePropertyChanged("ReferenceAngleTopFirst");
+                }
+            }
+        }
+
+        public int ReferenceAngleTopSecond
+        {
+            get { return _referenceAngleTopSecond; }
+            set
+            {
+                if (_referenceAngleTopSecond != value)
+                {
+                    _referenceAngleTopSecond = value;
+                    RaisePropertyChanged("ReferenceAngleTopSecond");
+                }
+            }
+        }
+
+        public int ReferenceAngleBottomFirst
+        {
+            get { return _referenceAngleBottomFirst; }
+            set
+            {
+                if (_referenceAngleBottomFirst != value)
+                {
+                    _referenceAngleBottomFirst = value;
+                    RaisePropertyChanged("ReferenceAngleBottomFirst");
+                }
+            }
+        }
+
+        public int ReferenceAngleBottomSecond
+        {
+            get { return _referenceAngleBottomSecond; }
+            set
+            {
+                if (_referenceAngleBottomSecond != value)
+                {
+                    _referenceAngleBottomSecond = value;
+                    RaisePropertyChanged("ReferenceAngleBottomSecond");
                 }
             }
         }

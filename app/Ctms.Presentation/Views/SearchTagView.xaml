@@ -17,8 +17,7 @@
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
     Loaded="SimpleVisualization_Loaded"
     PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
-    Moved="TagVisualization_Moved"
-                    >
+    Moved="TagVisualization_Moved">
     
     <s:TagVisualization.Resources>
         <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
@@ -312,13 +311,12 @@
         	</ItemsControl>
                 <!--Rotated assigned keyword-->
         	<Grid   Grid.ColumnSpan="3" Grid.Row="1"
-        		VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                               >
+        		VerticalAlignment="Top" HorizontalAlignment="Stretch">
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto" />
         			<RowDefinition Height="Auto"/>
         		</Grid.RowDefinitions>
-                <nui:CircleText Radius="100" ReferenceAngle="90" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
+                <!--<nui:CircleText Radius="100" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleBottomFirst}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
 				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
 				    HorizontalContentAlignment="Center"
 				    VerticalContentAlignment="Center"
@@ -326,15 +324,15 @@
 				    Height="340" Width="340"
         	        Text="{Binding Tag.AssignedKeyword.DisplayNameFirst, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                     Grid.RowSpan="2"/>
-                <nui:CircleText Radius="120" ReferenceAngle="90" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
+                <nui:CircleText Radius="120" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleBottomSecond}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
 				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
 				    HorizontalContentAlignment="Center"
 				    VerticalContentAlignment="Center"
                     Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-				    Height="380" Width="380"
+				    Height="340" Width="340"
         	        Text="{Binding Tag.AssignedKeyword.DisplayNameSecond, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"/>
-        		<!--<TextBlock Grid.Row="0"
+                    Grid.RowSpan="2"/>-->
+        		<TextBlock Grid.Row="0"
                                 HorizontalAlignment="Center"
                                 DataContext="{DynamicResource TagDM}"
                                 Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
@@ -342,16 +340,16 @@
                                 TextWrapping="Wrap"
                                 Style="{StaticResource AssignedKeyword}"
                                 Width="Auto">
-                        </TextBlock>-->
+                        </TextBlock>
         	</Grid>
                 <!--Not rotated assigned keyword-->
         	<Grid Grid.ColumnSpan="3" Grid.Row="1"
-        		VerticalAlignment="Center" HorizontalAlignment="Stretch" >
+        		VerticalAlignment="Bottom" HorizontalAlignment="Stretch" >
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
         		</Grid.RowDefinitions>
-                <nui:CircleText Radius="100" ReferenceAngle="270" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
+                <!--<nui:CircleText Radius="100" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleTopFirst}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
 				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
 				    HorizontalContentAlignment="Center"
 				    VerticalContentAlignment="Center"
@@ -359,16 +357,16 @@
 				    Height="340" Width="340"
         	        Text="{Binding Tag.AssignedKeyword.DisplayNameFirst, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                     Grid.RowSpan="2"/>
-                <nui:CircleText Radius="120" ReferenceAngle="270" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
+                <nui:CircleText Radius="120" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleTopSecond}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
 				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
 				    HorizontalContentAlignment="Center"
 				    VerticalContentAlignment="Center"
                     Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-				    Height="380" Width="380"
+				    Height="340" Width="340"
         	        Text="{Binding Tag.AssignedKeyword.DisplayNameSecond, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"/>
+                    Grid.RowSpan="2"/>-->
 
-        		<!--<TextBlock  Grid.Row="0"
+                <TextBlock  Grid.Row="0"
         			HorizontalAlignment="Center"
         			DataContext="{DynamicResource TagDM}"
         			Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
@@ -380,9 +378,9 @@
         			<TextBlock.RenderTransform>
         				<RotateTransform Angle="180" />
         			</TextBlock.RenderTransform>
-        		</TextBlock>-->
+                </TextBlock>
 
-        		<!--<TextBlock  Grid.Row="1"
+                <TextBlock  Grid.Row="1"
                                     HorizontalAlignment="Center"
                                     DataContext="{DynamicResource TagDM}"
                                     Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
@@ -390,7 +388,7 @@
                                     TextWrapping="Wrap"
                                     Style="{StaticResource AssignedKeyword}"
                                     Width="Auto"
-                                />-->
+                                />
         	</Grid>
 
         </Grid>
