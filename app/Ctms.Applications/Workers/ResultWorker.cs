@@ -13,6 +13,7 @@ using MusicStream;
 using System.Collections.ObjectModel;
 using Helpers;
 using Ctms.Applications.DevHelper;
+using Ctms.Applications.Common;
 
 namespace Ctms.Applications.Workers
 {
@@ -59,9 +60,7 @@ namespace Ctms.Applications.Workers
                 {
                     _resultViewModel.Results.Clear();
                     for (int i = 0; i < response.Count; i++)
-                    {
-                        //DevLogger.Log("ResultWorker:63 - " + response[i].ToString());
-                        
+                    {                        
                         if (_resultViewModel.Results.Count < 20)
                         {
                             for (int j = 0; j < response[i].tracks.Count; j++)
@@ -75,6 +74,12 @@ namespace Ctms.Applications.Workers
                                     _resultViewModel.Results.Add(new ResultDataModel(title, name, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id)));
                                     ResultDataModel result = _resultViewModel.Results.Last();
                                     result.OriginIds = response[i].originIDs;
+
+                                    result.OriginColors = new ObservableCollection<string>();
+                                    foreach (var originId in response[i].originIDs)
+                                    {
+                                        result.OriginColors.Add(CommonVal.TagColors[originId]);
+                                    }
                                     result.Result.Song.ArtistId = response[i].Artist_Id;
                                     result.Result.Response = response[i];
 
@@ -102,87 +107,101 @@ namespace Ctms.Applications.Workers
 
         public void RefreshDetails(List<ResponseContainer.ResponseObj.ArtistInfo> response, ResultDataModel result)
         {
-            var r = response[0];
-            Detail d = new Detail();
-
-            //About
-            d.Name = r.name;
-
-            for (var i = 0; i < r.biographies.Count; i++)
+            if (response != null)
             {
-                if (r.biographies[i].text.Length > 500)
+                if (response.Count > 0)
                 {
-                    d.Biography = StringHelper.cleanText(r.biographies[i].text);
-                    break;
+                    var r = response[0];
+                    Detail d = new Detail();
+
+                    //About
+                    d.Name = r.name;
+
+                    foreach (var biography in r.biographies)
+                    {
+                        if (biography.text.Length > 500)
+                        {
+                            d.Biography = StringHelper.cleanText(biography.text);
+                            break;
+                        }
+                    }
+
+                    d.City = r.artist_location[0].location;
+
+                    d.Image = new ArtistImage();
+                    d.Image.ImageUrl = r.images[0].url;
+
+                    if (r.terms != null)
+                    {
+                        d.Genres = new List<String>();
+                        for (var i = 0; i < r.terms.Count; i++)
+                        {
+                            d.Genres.Add(r.terms[i].name);
+                            if (i == 3) break;
+                        }
+                    }
+
+                    //News
+                    d.News = new ObservableCollection<ArtistNews>();
+                    foreach (var news in r.news)
+                    {
+                        ArtistNews newsEntry = new ArtistNews();
+                        newsEntry.Title = StringHelper.cleanText(news.name);
+                        newsEntry.Summary = StringHelper.cleanText(news.summary);
+                        newsEntry.Url = news.url;
+                        d.News.Add(newsEntry);
+                    }
+
+                    //Media
+                    d.Images = new ObservableCollection<ArtistImage>();
+                    foreach (var images in r.images)
+                    {
+                        ArtistImage image = new ArtistImage();
+                        image.ImageUrl = images.url;
+                        d.Images.Add(image);
+                    }
+                    d.Videos = new ObservableCollection<ArtistVideo>();
+                    foreach (var videos in r.video)
+                    {
+                        ArtistVideo video = new ArtistVideo();
+                        video.Title = StringHelper.cleanText(videos.title);
+                        video.VideoUrl = videos.url;
+                        video.PreviewUrl = videos.image_url;
+                        d.Videos.Add(video);
+                    }
+
+                    //Reviews
+                    d.Reviews = new ObservableCollection<ArtistReview>();
+                    foreach (var reviews in r.reviews)
+                    {
+                        ArtistReview review = new ArtistReview();
+                        review.Name = StringHelper.cleanText(reviews.name);
+                        review.Release = StringHelper.cleanText(reviews.release);
+                        review.Summary = StringHelper.cleanText(reviews.summary);
+                        review.Url = reviews.url;
+                        d.Reviews.Add(review);
+                    }
+
+                    //Songs
+                    d.Songs = new ObservableCollection<ArtistSong>();
+                    foreach (var songs in r.ArtistSongs)
+                    {
+                        ArtistSong song = new ArtistSong();
+                        song.Title = StringHelper.cleanText(songs.title);
+                        song.TrackId = songs.title_id;
+                        d.Songs.Add(song);
+                    }
+
+                    result.Detail = d;
+                    result.IsDetailLoading = false;
+                    result.IsDetailLoaded = true;
                 }
             }
-            
-            d.City = r.artist_location[0].location;
+        }
 
-            d.Image = new ArtistImage();
-            d.Image.ImageUrl = r.images[0].url;
-
-            d.Genres = new List<String>();
-            for (var i = 0; i < r.terms.Count; i++)
-            {
-                d.Genres.Add(r.terms[i].name);
-                if (i == 3) break;
-            }
-
-            //News
-            d.News = new ObservableCollection<ArtistNews>();
-            for (var i = 0; i < r.news.Count; i++)
-            {
-                ArtistNews news = new ArtistNews();
-                news.Title = StringHelper.cleanText(r.news[i].name);
-                news.Summary = StringHelper.cleanText(r.news[i].summary);
-                news.Url = r.news[i].url;
-                d.News.Add(news);
-            }
-
-            //Media
-            d.Images = new ObservableCollection<ArtistImage>();
-            for (var i = 0; i < r.images.Count; i++)
-            {
-                ArtistImage image = new ArtistImage();
-                image.ImageUrl = r.images[i].url;
-                d.Images.Add(image);
-            }
-            d.Videos = new ObservableCollection<ArtistVideo>();
-            for (var i = 0; i < r.video.Count; i++)
-            {
-                ArtistVideo video = new ArtistVideo();
-                video.Title = StringHelper.cleanText(r.video[i].title);
-                video.VideoUrl = r.video[i].url;
-                video.PreviewUrl = r.video[i].image_url;
-                d.Videos.Add(video);
-            }
-
-            //Reviews
-            d.Reviews = new ObservableCollection<ArtistReview>();
-            for (var i = 0; i < r.reviews.Count; i++)
-            {
-                ArtistReview review = new ArtistReview();
-                review.Name = StringHelper.cleanText(r.reviews[i].name);
-                review.Release = StringHelper.cleanText(r.reviews[i].release);
-                review.Summary = StringHelper.cleanText(r.reviews[i].summary);
-                review.Url = r.reviews[i].url;
-                d.Reviews.Add(review);
-            }
-
-            //Songs
-            d.Songs = new ObservableCollection<ArtistSong>();
-            for (var i = 0; i < r.ArtistSongs.Count; i++)
-            {
-                ArtistSong song = new ArtistSong();
-                song.Title = StringHelper.cleanText(r.ArtistSongs[i].title);
-                song.TrackId = r.ArtistSongs[i].title_id;
-                d.Songs.Add(song);
-            }
-
-            result.Detail = d;
-            result.IsDetailLoading = false;
-            result.IsDetailLoaded = true;
+        public void PrelistenFromDetailView(String spotifyTrackId)
+        {
+             
         }
     }
 }

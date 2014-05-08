@@ -17,6 +17,7 @@ namespace Ctms.Applications.Services
         private bool isReportingEnabled;
         private Lazy<object> lazyReportingView;
         private object searchTagView;
+        private object _resultStyleResources;
 
 
         public object ShellView
@@ -119,6 +120,19 @@ namespace Ctms.Applications.Services
                 {
                     infoView = value;
                     RaisePropertyChanged("InfoView");
+                }
+            }
+        }
+
+        public object ResultStyleResources
+        {
+            get { return _resultStyleResources; }
+            set
+            {
+                if (_resultStyleResources != value)
+                {
+                    _resultStyleResources = value;
+                    RaisePropertyChanged("ResultStyleResources");
                 }
             }
         }

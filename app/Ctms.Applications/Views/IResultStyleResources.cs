@@ -6,7 +6,9 @@ using System.Waf.Applications;
 
 namespace Ctms.Applications.Views
 {
-    public interface IResultStyleResources : IView
+    public interface IResultStyleResources
     {
+        Action<String> PrelistenAction { get; set; }
+        Action<String> AddToPlaylistAction { get; set; }
     }
 }
