@@ -22,17 +22,20 @@ namespace Ctms.Applications.Workers
         private ResultViewModel _resultViewModel;
         private MenuViewModel _menuViewModel;
         private MusicStreamAccountWorker _accountWorker;
+        private InfoWorker _infoWorker;
         private MusicStreamSessionManager _sessionManager;
         private MusicStreamVisualizationManager _visualizationManager;
         //private FftWorker _fftWorker;
 
         [ImportingConstructor]
-        public ResultWorker(ResultViewModel resultViewModel, MenuViewModel menuViewModel, MusicStreamAccountWorker accountWorker)
+        public ResultWorker(ResultViewModel resultViewModel, MenuViewModel menuViewModel, MusicStreamAccountWorker accountWorker,
+            InfoWorker infoWorker)
         {
 
             _resultViewModel = resultViewModel;
             _menuViewModel = menuViewModel;
             _accountWorker = accountWorker;
+            _infoWorker = infoWorker;
             //_fftWorker = fftWorker;
             _accountWorker.ResultSessionManagerCreated = ResultSessionManagerCreated;
             //_fftWorker.VisualizationManagerCreated = VisualizationManagerCreated;
@@ -51,34 +54,31 @@ namespace Ctms.Applications.Workers
 
         public bool CanRefreshResults() { return _resultViewModel.IsValid; }
 
-        public void RefreshResults(List<ResponseContainer.ResponseObj.Song> response)
+        public void RefreshResults(List<ResponseContainer.ResponseObj.Song> songs)
         {
-            if (response != null)
+            if (songs != null)
             {
                 if (_menuViewModel.IsLoggedIn)
                 {
                     _resultViewModel.Results.Clear();
-                    for (int i = 0; i < response.Count; i++)
+                    foreach (var song in songs)
                     {
                         //DevLogger.Log("ResultWorker:63 - " + response[i].ToString());
-                        
                         if (_resultViewModel.Results.Count < 20)
                         {
-                            for (int j = 0; j < response[i].tracks.Count; j++)
+                            foreach (var track in song.tracks)
                             {
-                                if (_sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id) != null)
+                                if (_sessionManager.CheckTrackAvailability(track.foreign_id) != null)
                                 {
                                     //remove unwanted chars/expressions
-                                    String name = StringHelper.cleanText(response[i].Artist_Name);
-                                    String title = StringHelper.cleanText(response[i].Title);
+                                    String name = StringHelper.cleanText(song.Artist_Name);
+                                    String title = StringHelper.cleanText(song.Title);
 
-                                    _resultViewModel.Results.Add(new ResultDataModel(title, name, _sessionManager.CheckTrackAvailability(response[i].tracks[j].foreign_id)));
+                                    _resultViewModel.Results.Add(new ResultDataModel(title, name, _sessionManager.CheckTrackAvailability(track.foreign_id)));
                                     ResultDataModel result = _resultViewModel.Results.Last();
-                                    result.OriginIds = response[i].originIDs;
-                                    result.Result.Song.ArtistId = response[i].Artist_Id;
-                                    result.Result.Response = response[i];
-
-                                    j = response[i].tracks.Count;
+                                    result.OriginIds = song.originIDs;
+                                    result.Result.Song.ArtistId = song.Artist_Id;
+                                    result.Result.Response = song;
                                 }
                             }
                         }
@@ -91,11 +91,13 @@ namespace Ctms.Applications.Workers
                     if (_resultViewModel.Results.Count < 5)
                     {
                         //search again
+                        //!!ToDo
                     }
                 }
                 else
                 {
                     _menuViewModel.DisplayLoginDialog(true);
+                    //_infoWorker
                 }
             }
         }
