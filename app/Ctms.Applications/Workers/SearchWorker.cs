@@ -64,13 +64,15 @@ namespace Ctms.Applications.Workers
         //Background worker methods
         public void StartSearch(object sender, DoWorkEventArgs e)
         {
-            var combinedResults = DoCombinedSearch(e);
+            var combinedSongs = DoCombinedSearch(e);
 
-            //!! todo: get and parse combined results and create results
+            // get and parse combined results and create results
             var uncombinedSongs = DoUncombinedSearch(e);
 
-            //!! todo: add combinedSong results (tracks)
-            var allSongs = uncombinedSongs;
+            // add combinedSong results (tracks)
+            var allSongs = new List<ResponseContainer.ResponseObj.Song>();
+            allSongs.AddRange(combinedSongs);
+            allSongs.AddRange(uncombinedSongs);
 
             /*for (var i = 0; i < allSongs.Count; i++) {
                 DevHelper.DevLogger.Log("SearchWorker:74 - " + allSongs[i].ToString());
