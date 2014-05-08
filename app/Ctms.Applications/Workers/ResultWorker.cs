@@ -26,6 +26,7 @@ namespace Ctms.Applications.Workers
         private InfoWorker _infoWorker;
         private MusicStreamSessionManager _sessionManager;
         private MusicStreamVisualizationManager _visualizationManager;
+        private int _refreshTrialsCounter;
         //private FftWorker _fftWorker;
 
         [ImportingConstructor]
@@ -57,6 +58,7 @@ namespace Ctms.Applications.Workers
 
         public void RefreshResults(List<ResponseContainer.ResponseObj.Song> songs)
         {
+            _refreshTrialsCounter++;
             if (songs != null)
             {
                 if (_menuViewModel.IsLoggedIn)
@@ -81,7 +83,7 @@ namespace Ctms.Applications.Workers
                                     result.OriginColors = new ObservableCollection<string>();
                                     result.Result.Song.ArtistId = song.Artist_Id;
                                     result.Result.Response = song;
-                                    foreach (var originId in response[i].originIDs)
+                                    foreach (var originId in song.originIDs)
                                     {
                                         result.OriginColors.Add(CommonVal.TagColors[originId]);
                                     }
@@ -93,8 +95,8 @@ namespace Ctms.Applications.Workers
                             return;
                         }
                     }
-
-                    if (_resultViewModel.Results.Count < 5)
+                    // redo if there are too few results and searching again hasn't been repeated too often
+                    if (_resultViewModel.Results.Count < 5 && _refreshTrialsCounter < 3)
                     {
                         //search again
                         //!!ToDo
