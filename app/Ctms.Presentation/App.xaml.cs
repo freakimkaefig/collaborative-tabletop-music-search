@@ -90,7 +90,7 @@ namespace Ctms.Presentation
 
             Trace.TraceError(e.ToString());
 
-            if (!isTerminating)
+            if (!isTerminating && myModuleController != null)
             {
                 myModuleController.HandleException(e);
             }

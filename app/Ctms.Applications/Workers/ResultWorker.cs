@@ -24,6 +24,7 @@ namespace Ctms.Applications.Workers
         private MenuViewModel _menuViewModel;
         private MusicStreamAccountWorker _accountWorker;
         private InfoWorker _infoWorker;
+        private SearchWorker _searchWorker;
         private MusicStreamSessionManager _sessionManager;
         private MusicStreamVisualizationManager _visualizationManager;
         private int _refreshTrialsCounter;
@@ -31,7 +32,7 @@ namespace Ctms.Applications.Workers
 
         [ImportingConstructor]
         public ResultWorker(ResultViewModel resultViewModel, MenuViewModel menuViewModel, MusicStreamAccountWorker accountWorker,
-            InfoWorker infoWorker)
+            InfoWorker infoWorker)//, SearchWorker searchWorker)
         {
 
             _resultViewModel = resultViewModel;
@@ -41,6 +42,11 @@ namespace Ctms.Applications.Workers
             //_fftWorker = fftWorker;
             _accountWorker.ResultSessionManagerCreated = ResultSessionManagerCreated;
             //_fftWorker.VisualizationManagerCreated = VisualizationManagerCreated;
+        }
+
+        public void Initialize(SearchWorker searchWorker)
+        {
+            _searchWorker = searchWorker;
         }
 
         private void ResultSessionManagerCreated(MusicStreamSessionManager sessionManager)
@@ -56,14 +62,17 @@ namespace Ctms.Applications.Workers
 
         public bool CanRefreshResults() { return _resultViewModel.IsValid; }
 
+        /// <summary>
+        /// Check songs and display them as results
+        /// </summary>
+        /// <param name="songs"></param>
         public void RefreshResults(List<ResponseContainer.ResponseObj.Song> songs)
         {
-            _refreshTrialsCounter++;
             if (songs != null)
             {
                 if (_menuViewModel.IsLoggedIn)
                 {
-                    _resultViewModel.Results.Clear();
+                    if (_refreshTrialsCounter == 0) RemoveResults();
                     foreach (var song in songs)
                     {                        
                         if (_resultViewModel.Results.Count < CommonVal.Results_MaxNumber)
@@ -76,16 +85,21 @@ namespace Ctms.Applications.Workers
                                     String name = StringHelper.cleanText(song.Artist_Name);
                                     String title = StringHelper.cleanText(song.Title);
 
-                                    _resultViewModel.Results.Add(new ResultDataModel(title, name, _sessionManager.CheckTrackAvailability(track.foreign_id)));
-                                    ResultDataModel result = _resultViewModel.Results.Last();
-                                    result.OriginIds = song.originIDs;
+                                    var identicalSong = _resultViewModel.Results.FirstOrDefault(r => r.Result.Song.ArtistName == name && r.Result.Song.Title == title);
 
-                                    result.OriginColors = new ObservableCollection<string>();
-                                    result.Result.Song.ArtistId = song.Artist_Id;
-                                    result.Result.Response = song;
-                                    foreach (var originId in song.originIDs)
+                                    if (identicalSong == null)
                                     {
-                                        result.OriginColors.Add(CommonVal.TagColors[originId]);
+                                        _resultViewModel.Results.Add(new ResultDataModel(title, name, _sessionManager.CheckTrackAvailability(track.foreign_id)));
+                                        ResultDataModel result = _resultViewModel.Results.Last();
+                                        result.OriginIds = song.originIDs;
+
+                                        result.OriginColors = new ObservableCollection<string>();
+                                        result.Result.Song.ArtistId = song.Artist_Id;
+                                        result.Result.Response = song;
+                                        foreach (var originId in song.originIDs)
+                                        {
+                                            result.OriginColors.Add(CommonVal.TagColors[originId]);
+                                        }
                                     }
                                 }
                             }
@@ -95,19 +109,40 @@ namespace Ctms.Applications.Workers
                             return;
                         }
                     }
-                    // redo if there are too few results and searching again hasn't been repeated too often
-                    if (_resultViewModel.Results.Count < 5 && _refreshTrialsCounter < 3)
-                    {
-                        //search again
-                        //!!ToDo
-                    }
+                }
+                else // not logged in
+                {
+                    _menuViewModel.DisplayLoginDialog(true);
+                }
+            }
+
+            if (songs == null || !songs.Any() || _resultViewModel.Results.Count < 1)
+            {   // redo if there are too few results and searching again hasn't been repeated too often
+                if (_refreshTrialsCounter < 3)
+                {
+                    _refreshTrialsCounter++;
+
+                    //search again
+                    _searchWorker.StartSearch();
                 }
                 else
                 {
-                    _menuViewModel.DisplayLoginDialog(true);
-                    //_infoWorker
-                }
+                    _refreshTrialsCounter = 0;
+
+                    _infoWorker.ShowCommonInfo("No results found",
+                        "Your search query didn't return any results. \nTry changing your keywords.",
+                        "Ok");
+                }                
             }
+            else if(_resultViewModel.Results.Count >= 1)
+	        {   // reset trials counter
+                 _refreshTrialsCounter = 0;
+	        }
+        }
+
+        public void RemoveResults()
+        {
+            _resultViewModel.Results.Clear();
         }
 
         public void RefreshDetails(List<ResponseContainer.ResponseObj.ArtistInfo> response, ResultDataModel result)

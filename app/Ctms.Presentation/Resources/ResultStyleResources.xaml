@@ -43,8 +43,9 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
+                                <!--<TextBlock Text="AAAAAHHHHHH" Foreground="#f00"/>-->
                                 <Viewbox Stretch="UniformToFill">
-                                    <Rectangle Fill="{Binding}" MinHeight="15"></Rectangle>
+                                    <Rectangle Fill="#f00" Width="30" MinHeight="15"></Rectangle>
                                 </Viewbox>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
