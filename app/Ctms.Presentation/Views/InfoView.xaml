@@ -26,10 +26,12 @@
         
         <ItemsControl ItemsSource="{Binding CommonInfos}" Background="Black"
                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                 >
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="300" Background="Transparent">
+                    <Grid Width="300" Background="{x:Null}" Grid.Column="0" Grid.Row="0" 
+                          VerticalAlignment="Top" HorizontalAlignment="Center">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -52,7 +54,7 @@
                             </Grid.RowDefinitions>
                             <s:SurfaceScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="3" HorizontalAlignment="Center"
                                         VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled"
-                                        Margin="45,10,0,10" MaxHeight="400">
+                                        Margin="45,10,0,10" MaxHeight="300">
                                 <WrapPanel Orientation="Vertical" HorizontalAlignment="Center">
                                     <TextBlock 
                                                Text="{Binding Info.MainText}" FontWeight="Bold" 
@@ -109,7 +111,7 @@
                             </Grid.RowDefinitions>
                             <s:SurfaceScrollViewer Grid.RowSpan="2" Grid.ColumnSpan="3"  HorizontalAlignment="Center"
                                         VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled"
-                                        Margin="45,10,0,10" MaxHeight="400">
+                                        Margin="45,10,0,10" MaxHeight="300">
                                 <WrapPanel Orientation="Vertical" HorizontalAlignment="Center">
                                     <TextBlock  
                                        Text="{Binding Info.MainText}" FontWeight="Bold"

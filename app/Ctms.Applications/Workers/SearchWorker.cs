@@ -72,7 +72,6 @@ namespace Ctms.Applications.Workers
             //!! todo: add combinedSong results (tracks)
             var allSongs = uncombinedSongs;
 
-
             /*for (var i = 0; i < allSongs.Count; i++) {
                 DevHelper.DevLogger.Log("SearchWorker:74 - " + allSongs[i].ToString());
             }*/
@@ -97,8 +96,13 @@ namespace Ctms.Applications.Workers
                 combinedSearchObject.originIds = combi.Tags.Select(t => t.Tag.Id).ToList();
 
                 // add all origin ids
-                if (combinedSearchObject.originIds != null)
-                    combinedSearchObject.originIds.AddRange(combi.Tags.Select(t => t.Id));
+                //if (combinedSearchObject.originIds != null)
+                //    combinedSearchObject.originIds.AddRange(combi.Tags.Select(t => t.Id));
+
+                //var filteredList = combinedSearchObject.originIds.Distinct().ToList();
+                                     /* .GroupBy(p => p.)
+                                      .Select(g => g.First())
+                                      .ToList();*/
 
                 // get combi and copy relevant values to search object
                 ParseCombi(combi, combinedSearchObject, combi.CombinationType);

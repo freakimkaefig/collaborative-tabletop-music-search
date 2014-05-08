@@ -78,8 +78,22 @@ namespace Ctms.Applications.Workers
             var myTag    = _repository.GetTagDMById(myTagId);
 
             // break method if tag state is not assigend
-            if (myTag.AssignState != TagDataModel.AssignStates.Assigned
-                && myTag.ExistenceState != TagDataModel.ExistenceStates.Added) return;
+            if (myTag.AssignState == TagDataModel.AssignStates.Editing || myTag.ExistenceState == TagDataModel.ExistenceStates.Removed)
+            {
+                var combi = _repository.GetTagCombiWithTag(myTag);
+                if (combi != null && combi.Tags.Count >= 3)
+                {
+                    combi.Tags.Remove(myTag);
+                    CheckCombisForTag(combi.Tags.FirstOrDefault().Id);
+                    return;
+                }
+                else if (combi != null && combi.Tags.Count == 2)
+                {
+                    _repository.RemoveTagCombination(combi);
+                    return;
+                }
+            }
+
 
             var tagCombis   = _repository.GetTagCombinations();
             var compareTags = _repository.GetAddedAndAssignedTagDMs().Where(t => t.Id != myTag.Id);
@@ -122,6 +136,8 @@ namespace Ctms.Applications.Workers
 
                                 _repository.AddTagCombination(combiWithMyTag);
 
+                                UpdateRadiusCircle(myTag, compareTag, true);
+
                                 //Log("count of combis: " + _searchViewModel.TagCombinations.Count);
                                 //Log("count of tags in combis: " 
                                 //    + _searchViewModel.TagCombinations.SelectMany(t => t.Tags).Count());
@@ -145,9 +161,10 @@ namespace Ctms.Applications.Workers
 
                                 // update calculation of center
                                 UpdateCenter(combiWithCompareTag);
+
+                                UpdateRadiusCircle(myTag, compareTag, true);
                             }
                         }
-
                     }
                     else if (combiWithCompareTag == null)
                     {   // movedTag is combined, but compareTag not -> add compareTag to movedTag combie
@@ -160,6 +177,8 @@ namespace Ctms.Applications.Workers
 
                             // update calculation of center
                             UpdateCenter(combiWithMyTag);
+
+                            UpdateRadiusCircle(myTag, compareTag, true);
                         }
                     }
                     else if (combiWithMyTag != null)
@@ -178,27 +197,38 @@ namespace Ctms.Applications.Workers
                 {   // tag is in a combi -> remove from combi
                     Log("combiWithMovedTag != null > update center ");
 
-                    if (combiWithMyTag.Tags.Count <= 2)
+                    if (combiWithMyTag.Tags.Count < 2)
                     {
-                        Log("combiWithMovedTag.Tags.Count <= 2 > update center ");
+                        Log("combiWithMovedTag.Tags.Count < 2 > update center ");
                         // remove combi from repository
                         _repository.RemoveTagCombination(combiWithMyTag);
 
-                        //!! just for testing
-                        //compareTag.ConfirmCircleOpacity = 0.0F;
-                        //movedTag.ConfirmCircleOpacity = 0.0F;
-                    }
-                    else
-                    {
-                        Log("combiWithMovedTag.Tags.Count > 2 > remove from combiWithMovedtag ");
-                        combiWithMyTag.Tags.Remove(myTag);
-                    }
+                        UpdateRadiusCircle(myTag, compareTag, false);
 
-                    // update calculation of center
-                    UpdateCenter(combiWithMyTag);
+                        // update calculation of center
+                        UpdateCenter(combiWithMyTag);
+                    }
+                    else if (combiWithMyTag.Tags.Count >= 3)
+                    {
+                        Log("combiWithMovedTag.Tags.Count >= 3 > remove from combiWithMovedtag ");
+                        combiWithMyTag.Tags.Remove(myTag);
+
+                        UpdateRadiusCircle(myTag, null, false);
+
+                        CheckCombisForTag(combiWithMyTag.Tags.FirstOrDefault().Id);
+                    }
                 }
             }
         }
+
+        private static void UpdateRadiusCircle(TagDataModel myTag, TagDataModel compareTag, bool isHighlighted)
+        {
+            return;// removed behaviour
+            var opacity = isHighlighted == true ? 1.0F : 0.0F;
+            if (compareTag != null) compareTag.ConfirmCircleOpacity = opacity;
+            if (myTag != null) myTag.ConfirmCircleOpacity = opacity;
+        }
+
 
         private static void Log(string message)
         {
