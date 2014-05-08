@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace Ctms.Presentation.Converters
 {
-    class BoolToStateConverter : IValueConverter
+    public class BoolToStateConverter : IValueConverter
     {
         private static readonly BoolToStateConverter defaultInstance = new BoolToStateConverter();
 

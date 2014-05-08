@@ -11,7 +11,6 @@ namespace Ctms.Presentation.Converters
 
         public static BoolToVisibilityConverter Default { get { return defaultInstance; } }
 
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return (bool)value ? Visibility.Visible : Visibility.Collapsed;

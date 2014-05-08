@@ -65,9 +65,18 @@
     <Style x:Key="LoadingCircle" TargetType="Image">
         <Setter Property="gif:ImageBehavior.AnimatedSource" Value="../Resources/Images/Common/loadingCircle.gif" />
     </Style>
+
+    <Style x:Key="LoadingCircleResultDetailView" TargetType="Image">
+        <Setter Property="gif:ImageBehavior.AnimatedSource" Value="../Resources/Images/Common/loadingCircle.gif" />
+    </Style>
+
+    <Style x:Key="LoadingCirclePlaylistDetailView" TargetType="Image">
+        <Setter Property="gif:ImageBehavior.AnimatedSource" Value="../Resources/Images/Common/loadingCircle.gif" />
+    </Style>
     
     <Style x:Key="LoadingCircleInverted" TargetType="Image">
         <Setter Property="gif:ImageBehavior.AnimatedSource" Value="../Resources/Images/Common/loadingCircleInverted.gif" />
+        <Setter Property="gif:ImageBehavior.AnimateInDesignMode" Value="True" />
     </Style>
 
     <!--Key styles-->

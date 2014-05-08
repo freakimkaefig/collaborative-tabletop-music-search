@@ -111,11 +111,22 @@
                               s:SurfaceDragDrop.Drop="Playlist_Drop"/>
             <s:SurfaceButton Command="{Binding PlayPauseCommand}" Content="{Binding PlayPauseText}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Margin="211.5,24,0,0"/>
             <s:SurfaceButton Command="{Binding StopCommand}" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Margin="323.5,24,0,0"/>
-            <s:SurfaceButton Command="{Binding ShuffleCommand}" Content="{Binding IsShuffle}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="64" Margin="0,24,268.5,0"/>
-            <s:SurfaceButton Command="{Binding RepeatCommand}" Content="{Binding IsRepeat}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="64" Height="64" Margin="0,24,188.5,0"/>
+            <s:SurfaceButton Command="{Binding ShuffleCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="612,24,0,0"
+                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Border BorderBrush="{Binding IsShuffle, Converter={x:Static c:BoolToStateConverter.Default}}" BorderThickness="3">
+                    <Grid Margin="6" Background="{StaticResource ResourceKey=shuffle}"/>
+                </Border>
+            </s:SurfaceButton>
+            <s:SurfaceButton Command="{Binding RepeatCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="80" Margin="0,24,182,0"
+                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Border BorderBrush="{Binding IsRepeat, Converter={x:Static c:BoolToStateConverter.Default}}" BorderThickness="3">
+                    <Grid Margin="6" Background="{StaticResource ResourceKey=repeat}"/>
+                </Border>
+            </s:SurfaceButton>
             <Grid Grid.Column="1" Name="PlaylistDetailView" Margin="2,2,100,2">
                 <Grid Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Background="#00222222" Margin="2">
-                    <!--<Image Style="{StaticResource LoadingCircle}" MaxWidth="100" MaxHeight="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                    <!--<Image Style="{StaticResource LoadingCirclePlaylistDetailView}" MaxWidth="100" MaxHeight="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                    <TextBlock MaxWidth="100" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Grid>
                 <Grid Width="850" Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}">
                     <TabControl Margin="20">
