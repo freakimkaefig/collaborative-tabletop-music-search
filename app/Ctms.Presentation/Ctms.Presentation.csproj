@@ -73,7 +73,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Resources\Images\Detail\" />
     <Folder Include="Resources\Images\Menu\" />
-    <Folder Include="Resources\Images\Result\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -480,6 +479,7 @@
     <Resource Include="Resources\Images\Common\loadingCircle.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\Result\cassette_tape_red.png" />
     <Content Include="Resources\Images\tweed.png" />
   </ItemGroup>
   <ItemGroup>
