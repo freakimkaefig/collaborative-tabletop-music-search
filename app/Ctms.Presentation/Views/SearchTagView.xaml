@@ -18,7 +18,7 @@
     Loaded="SimpleVisualization_Loaded"
     PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
     TouchDown="MyTagVisualization_TouchDown"
-    TouchUp="MyTagVisualization_TouchUp"
+    TouchUp="MyTagVisualization_TouchUp">
     
     <s:TagVisualization.Resources>
         <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
