@@ -19,7 +19,7 @@
     <UserControl.Resources>
         
         <Storyboard x:Key="TagCombiStoryboard"  Duration="0:0:1" Name="TagCombiStoryboard"
-                     x:Shared="False"
+                     x:Shared="True"
                     >
             <!--RepeatBehavior="1"-->
             <DoubleAnimation

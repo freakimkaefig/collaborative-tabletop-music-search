@@ -72,7 +72,6 @@ namespace Ctms.Applications.Workers
             //!! todo: add combinedSong results (tracks)
             var allSongs = uncombinedSongs;
 
-
             /*for (var i = 0; i < allSongs.Count; i++) {
                 DevHelper.DevLogger.Log("SearchWorker:74 - " + allSongs[i].ToString());
             }*/
