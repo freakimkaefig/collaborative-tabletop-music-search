@@ -519,9 +519,12 @@ namespace Ctms.Presentation.Views
             var storyboard  = parameters.Item1;
             var ellipse     = parameters.Item2;
             var combi       = parameters.Item3;
-
-            storyboard.Stop(ellipse);
-            storyboard.Seek(ellipse, TimeSpan.FromSeconds(0), TimeSeekOrigin.BeginTime);
+            
+            //if (storyboard.Is == ClockState.Stopped)
+            {
+                storyboard.Stop(ellipse);
+                storyboard.Seek(ellipse, TimeSpan.FromSeconds(0), TimeSeekOrigin.BeginTime);
+            }
 
             // loop through animation elements of storyboard
             var animationElements = storyboard.Children;

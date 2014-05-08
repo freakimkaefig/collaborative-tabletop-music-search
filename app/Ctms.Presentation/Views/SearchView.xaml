@@ -336,7 +336,11 @@
                             <ItemsControl x:Name="TagCombinationTagsControl"
                                 ItemsSource="{Binding Tags}" 
                                 Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" >
-                                
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Grid />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Loaded="combiTag_Loaded" Unloaded="combiTag_Unloaded">
