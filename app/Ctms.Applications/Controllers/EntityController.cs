@@ -17,6 +17,7 @@ using Ctms.Applications.Common;
 using Ctms.Applications.Data;
 using Ctms.Applications.DevHelper;
 using Ctms.Applications.Workers;
+using Helpers;
 
 namespace Ctms.Applications.Controllers
 {
@@ -96,26 +97,31 @@ namespace Ctms.Applications.Controllers
             //!!shellViewModel.DatabasePath = dataSourcePath;
 
             //check internet-connection
-            if (!CheckForInternetConnection())
-            {
-                _infoWorker.ShowCommonInfo("__________________________\nNo Internet Connection.", "", "OK");
-            }
-
+            var backgroundWorker = new BackgroundWorkHelper();
+            backgroundWorker.DoInBackground(CheckInternetConnection, CheckInternetConnectionCompleted, null);           
         }
 
-        public bool CheckForInternetConnection()
+        public void CheckInternetConnection(object sender, DoWorkEventArgs e)
         {
             try
             {
                 using (var client = new System.Net.WebClient())
                 using (var stream = client.OpenRead("http://www.google.com"))
                 {
-                    return true;
+                    e.Result = "Success";
                 }
             }
             catch
             {
-                return false;
+                e.Cancel = true;
+            }
+        }
+
+        private void CheckInternetConnectionCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled || e.Error != null)
+            {
+                _infoWorker.ShowCommonInfo("Warning!No Internet Connection. Application won't work properly.", "Application won't work properly.", "Ok");
             }
         }
 

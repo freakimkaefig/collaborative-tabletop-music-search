@@ -24,13 +24,16 @@ namespace Ctms.Applications.Workers
         private ResultWorker _resultWorker;
         private InfoWorker _infoWorker;
         private SearchViewModel _searchViewModel;
+        private ResultViewModel _resultVm;
 
         [ImportingConstructor]
-        public SearchWorker(Repository repository, SearchViewModel searchViewModel, ResultWorker resultWorker, InfoWorker infoWorker)
+        public SearchWorker(Repository repository, SearchViewModel searchViewModel, ResultWorker resultWorker, InfoWorker infoWorker,
+                 ResultViewModel resultVm)
         {
             _repository = repository;
             //ViewModels
             _searchViewModel = searchViewModel;
+            _resultVm = resultVm;
             //Workers
             _resultWorker = resultWorker;
             _infoWorker = infoWorker;
@@ -49,10 +52,14 @@ namespace Ctms.Applications.Workers
         {
             if(_repository.GetAddedAndAssignedTagDMs().Count() > 0)
             {
-                var loadingInfoId = _infoWorker.ShowCommonInfo("Loading results...", "Please wait a moment", "Ok", "Cancel", true);
-
+                var loadingInfoId = _infoWorker.ShowCommonInfo("Searching for songs...", "Please wait a moment", null, "Cancel", true, null, null);
+                
                 var backgrWorker = new BackgroundWorkHelper();
-                backgrWorker.DoInBackground(StartSearch, StartSearchCompleted, loadingInfoId);
+                backgrWorker.DoInBackground(StartSearchInBackground, StartSearchCompleted, loadingInfoId);
+            }
+            else if(_resultVm.Results != null && _resultVm.Results.Any())
+            {
+                _resultWorker.RemoveResults();
             }
             else
             {
@@ -74,7 +81,7 @@ namespace Ctms.Applications.Workers
         }
 
         //Background worker methods
-        public void StartSearch(object sender, DoWorkEventArgs e)
+        public void StartSearchInBackground(object sender, DoWorkEventArgs e)
         {
             var combinedSongs = DoCombinedSearch(e);
 
@@ -263,7 +270,7 @@ namespace Ctms.Applications.Workers
             }
             else
             {
-                var resultSongs     = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
+                var resultSongs = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
 
                 _resultWorker.RefreshResults(resultSongs);
             }
@@ -277,6 +284,7 @@ namespace Ctms.Applications.Workers
             String artistId = result.Result.Song.ArtistId;
             e.Result = new List<object>() { _searchManager.getDetailInfo(artistName, artistId), result };
         }
+
         private void LoadDetailsCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled)

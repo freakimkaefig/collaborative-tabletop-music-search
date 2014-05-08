@@ -40,6 +40,7 @@ namespace Ctms.Applications.Controllers
         private StreamingWorker _streamingWorker;
         private PlaylistWorker _playlistWorker;
         private SearchWorker _searchWorker;
+        private ResultWorker _resultWorker;
         
         //Commands
         //private readonly DelegateCommand selectOptionCommand;
@@ -51,7 +52,8 @@ namespace Ctms.Applications.Controllers
 
         [ImportingConstructor]
         public ResultController(CompositionContainer container, IShellService shellService, EntityService entityService,
-            ResultViewModel resultViewModel, StreamingWorker streamingWorker, PlaylistWorker playlistWorker, SearchWorker searchWorker)
+            ResultViewModel resultViewModel, StreamingWorker streamingWorker, PlaylistWorker playlistWorker, SearchWorker searchWorker,
+            ResultWorker resultWorker)
         {
             this.container = container;
             //Services
@@ -63,6 +65,7 @@ namespace Ctms.Applications.Controllers
             this._streamingWorker = streamingWorker;
             this._playlistWorker = playlistWorker;
             this._searchWorker = searchWorker;
+            _resultWorker = resultWorker;
             //Commands
             this._prelistenCommand = new DelegateCommand((result) => _streamingWorker.Prelisten((ResultDataModel)result));
             this._addTrackCommand = new DelegateCommand((data) => _playlistWorker.AddTrackToPlaylist((object[])data));
@@ -83,6 +86,8 @@ namespace Ctms.Applications.Controllers
             AddWeakEventListener(_resultViewModel, ResultViewModelPropertyChanged);
 
             _resultViewModel.PrelistenAction = _searchWorker.PrelistenTrackFromDetailView;
+
+            _resultWorker.Initialize(_searchWorker);
         }
 
         private void UpdateCommands()
@@ -96,10 +101,13 @@ namespace Ctms.Applications.Controllers
             {
                 
             }
-
-            if (e.PropertyName == "AddToPlaylistAction")
+            else if (e.PropertyName == "AddToPlaylistAction")
             {
                 //
+            }
+            else if (e.PropertyName == "")
+            {
+
             }
             UpdateCommands();
         }

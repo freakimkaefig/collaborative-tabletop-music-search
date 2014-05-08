@@ -313,7 +313,7 @@
         	</ItemsControl>
                 <!--Rotated assigned keyword-->
         	<Grid   Grid.ColumnSpan="3" Grid.Row="1"
-        		VerticalAlignment="Top" HorizontalAlignment="Stretch">
+        		VerticalAlignment="Bottom" Margin="0,0,0,55" HorizontalAlignment="Stretch">
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto" />
         			<RowDefinition Height="Auto"/>
@@ -346,7 +346,7 @@
         	</Grid>
                 <!--Not rotated assigned keyword-->
         	<Grid Grid.ColumnSpan="3" Grid.Row="1"
-        		VerticalAlignment="Bottom" HorizontalAlignment="Stretch" >
+        		VerticalAlignment="Top" Margin="0,55,0,0" HorizontalAlignment="Stretch" >
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
