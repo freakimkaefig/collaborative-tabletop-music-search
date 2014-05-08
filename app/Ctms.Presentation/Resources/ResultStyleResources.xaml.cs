@@ -26,10 +26,5 @@ namespace Ctms.Presentation.Resources
             control.SelectedItem = tab;
             e.Handled = true;
         }
-
-        private void SurfaceButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
