@@ -26,7 +26,8 @@
         <ResourceDictionary Source="Images/Common/icons/minus.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/pause.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/play.xaml"/>
-        <ResourceDictionary Source="Images/Common/icons/playlist.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/playlistLeft.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/playlistRight.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/plus.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/repeat.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/rotate.xaml"/>
