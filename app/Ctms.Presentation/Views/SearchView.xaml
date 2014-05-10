@@ -35,25 +35,32 @@
                 Storyboard.TargetName="combiEll"
                 Storyboard.TargetProperty="Opacity"
                 From="1.0"
-                To="0.5"
+                To="0.2"
                 BeginTime="0:0:0.8"
                 Duration="0:0:0.2"/>
 
-                <!--<DoubleAnimation
+               <DoubleAnimation
                 Storyboard.TargetName="combiEll"
                 Storyboard.TargetProperty="(Ellipse.Height)"
-                BeginTime="0:0:0.8"
-                Duration="0:0:0.2"
-                By="50" />
-
+                
+                Duration="0:0:1"
+                From="15"
+                To="50"
+                />
+                <!--By="50"
+                BeginTime="0:0:0.8"-->
                 <DoubleAnimation
                 Storyboard.TargetName="combiEll"
                 Storyboard.TargetProperty="(Ellipse.Width)"
-                BeginTime="0:0:0.8"
-                Duration="0:0:0.2"
-                By="50" />-->
+                
+                Duration="0:0:1"
+                From="15"
+                To="50"
+                />
+                <!--By="50"
+                BeginTime="0:0:0.8"-->
 
-                <!--<DoubleAnimation
+            <!--<DoubleAnimation
                 Storyboard.TargetName="ScaleTransform"
                 Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
                 To="10.0" BeginTime="0:0:8" Duration="0:0:2"

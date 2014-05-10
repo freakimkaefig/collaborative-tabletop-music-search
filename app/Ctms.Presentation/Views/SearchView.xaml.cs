@@ -548,7 +548,10 @@ namespace Ctms.Presentation.Views
 
                     yTransform.To = combi.CenterY;
                 }
+                
+                 
             }
+          
             storyboard.Begin(ellipse, true);
         }
 
