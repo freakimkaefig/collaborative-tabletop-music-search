@@ -52,8 +52,8 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _rotateMenuCommand;
 
         private readonly DelegateCommand _displayLoginDialog;
-        private readonly DelegateCommand _displayNewPlaylist;
-        private readonly DelegateCommand _displayOpenPlaylist;
+        private readonly DelegateCommand _displayNewPlaylistCommand;
+        private readonly DelegateCommand _displayOpenPlaylistCommand;
         //Further vars
         
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
@@ -81,8 +81,8 @@ namespace Ctms.Applications.Controllers
             this._rotateMenuCommand = new DelegateCommand(_menuViewModel.RotateMenu);
 
             _displayLoginDialog = new DelegateCommand(_menuViewModel.ToggleLoginDialog);
-            _newPlaylistCommand = new DelegateCommand(_menuViewModel.ToggleNewPlaylist);
-            _openPlaylistCommand = new DelegateCommand(_menuViewModel.ToggleOpenPlaylist);
+            _displayNewPlaylistCommand = new DelegateCommand(_menuViewModel.ToggleNewPlaylist);
+            _displayOpenPlaylistCommand = new DelegateCommand(_menuViewModel.ToggleOpenPlaylist);
         }
 
         public void Initialize()
@@ -98,8 +98,8 @@ namespace Ctms.Applications.Controllers
             _menuViewModel.RotateMenuCommand = _rotateMenuCommand;
 
             _menuViewModel.DisplayLoginDialog = _displayLoginDialog;
-            _menuViewModel.DisplayNewPlaylist = _newPlaylistCommand;
-            _menuViewModel.DisplayOpenPlaylist = _openPlaylistCommand;
+            _menuViewModel.DisplayNewPlaylist = _displayNewPlaylistCommand;
+            _menuViewModel.DisplayOpenPlaylist = _displayOpenPlaylistCommand;
 
             AddWeakEventListener(_menuViewModel, MenuViewModelPropertyChanged);
 
@@ -110,7 +110,7 @@ namespace Ctms.Applications.Controllers
         {
             _loginCommand.RaiseCanExecuteChanged();
             _logoutCommand.RaiseCanExecuteChanged();
-            _openPlaylistCommand.RaiseCanExecuteChanged();
+            _displayOpenPlaylistCommand.RaiseCanExecuteChanged();
         }
 
         private void ExitApp()
