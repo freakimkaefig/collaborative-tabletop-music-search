@@ -46,12 +46,14 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _exitAppCommand;
         private readonly DelegateCommand _loginCommand;
         private readonly DelegateCommand _cancelLoginCommand;
-        private readonly DelegateCommand _rotateLoginDialogCommand;
         private readonly DelegateCommand _logoutCommand;
         private readonly DelegateCommand _openPlaylistCommand;
-        private readonly DelegateCommand _rotateOpenPlaylistCommand;
-        private readonly DelegateCommand _rotateCreatePlaylistCommand;
         private readonly DelegateCommand _newPlaylistCommand;
+        private readonly DelegateCommand _rotateMenuCommand;
+
+        private readonly DelegateCommand _displayLoginDialog;
+        private readonly DelegateCommand _displayNewPlaylist;
+        private readonly DelegateCommand _displayOpenPlaylist;
         //Further vars
         
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
@@ -73,12 +75,14 @@ namespace Ctms.Applications.Controllers
             this._exitAppCommand = new DelegateCommand(ExitApp, CanExitApp);
             this._loginCommand = new DelegateCommand((password) => _musicStreamAccountWorker.Login((SurfacePasswordBox)password));
             this._cancelLoginCommand = new DelegateCommand(_musicStreamAccountWorker.CancelLogin);
-            this._rotateLoginDialogCommand = new DelegateCommand(_menuViewModel.RotateLoginDialog);
             this._logoutCommand = new DelegateCommand(_musicStreamAccountWorker.Logout);
             this._openPlaylistCommand = new DelegateCommand((playlist) => _musicStreamAccountWorker.OpenPlaylist((SpotifyPlaylist)playlist));
-            this._rotateOpenPlaylistCommand = new DelegateCommand(_menuViewModel.RotateOpenPlaylistDialog);
-            this._rotateCreatePlaylistCommand = new DelegateCommand(_menuViewModel.RotateCreatePlaylistDialog);
             this._newPlaylistCommand = new DelegateCommand((name) => _musicStreamAccountWorker.CreateNewPlaylist((SurfaceTextBox)name));
+            this._rotateMenuCommand = new DelegateCommand(_menuViewModel.RotateMenu);
+
+            _displayLoginDialog = new DelegateCommand(_menuViewModel.ToggleLoginDialog);
+            _newPlaylistCommand = new DelegateCommand(_menuViewModel.ToggleNewPlaylist);
+            _openPlaylistCommand = new DelegateCommand(_menuViewModel.ToggleOpenPlaylist);
         }
 
         public void Initialize()
@@ -88,12 +92,14 @@ namespace Ctms.Applications.Controllers
             _menuViewModel.ExitAppCommand = _exitAppCommand;
             _menuViewModel.LoginCommand = _loginCommand;
             _menuViewModel.CancelLoginCommand = _cancelLoginCommand;
-            _menuViewModel.RotateLoginDialogCommand = _rotateLoginDialogCommand;
             _menuViewModel.LogoutCommand = _logoutCommand;
             _menuViewModel.OpenPlaylistCommand = _openPlaylistCommand;
-            _menuViewModel.RotateOpenPlaylistCommand = _rotateOpenPlaylistCommand;
-            _menuViewModel.RotateCreatePlaylistCommand = _rotateCreatePlaylistCommand;
             _menuViewModel.NewPlaylistCommand = _newPlaylistCommand;
+            _menuViewModel.RotateMenuCommand = _rotateMenuCommand;
+
+            _menuViewModel.DisplayLoginDialog = _displayLoginDialog;
+            _menuViewModel.DisplayNewPlaylist = _newPlaylistCommand;
+            _menuViewModel.DisplayOpenPlaylist = _openPlaylistCommand;
 
             AddWeakEventListener(_menuViewModel, MenuViewModelPropertyChanged);
 

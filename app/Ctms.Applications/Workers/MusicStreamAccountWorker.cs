@@ -171,7 +171,7 @@ namespace Ctms.Applications.Workers
 
         private void ReadyForPlayback(ObservableCollection<Playlist> playlists)
         {
-            _menuViewModel.DisplayLoginDialog(false);
+            _menuViewModel.ShowLoginDialog(false);
             _menuViewModel.IsLoggingIn = false;
             _menuViewModel.IsLoggedIn = true;
             _playlistViewModel.ReadyForPlayback = true;

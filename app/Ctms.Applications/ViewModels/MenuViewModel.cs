@@ -24,12 +24,15 @@ namespace Ctms.Applications.ViewModels
         private ICommand _exitAppCommand;
         private ICommand _loginCommand;
         private ICommand _cancelLoginCommand;
-        private ICommand _rotateLoginDialogCommand;
         private ICommand _logoutCommand;
         private ICommand _openPlaylistCommand;
-        private ICommand _rotateOpenPlaylistCommand;
         private ICommand _newPlaylistCommand;
-        private ICommand _rotateNewPlaylistCommand;
+        private ICommand _rotateMenuCommand;
+
+        private ICommand _displayLoginDialog;
+        private ICommand _displayNewPlaylist;
+        private ICommand _displayOpenPlaylist;
+
         //
         private string _spotifyUsernameInput = "mybleton";
         private string _loginLogMessage;
@@ -38,89 +41,146 @@ namespace Ctms.Applications.ViewModels
         private bool _isLoggingIn = false;
         private bool _isLoggedIn = false;
         private bool _menuIsVisible = false;
-        private bool _loginDialogIsRotate = false;
-        private bool _openPlaylistDialogIsRotate = false;
-        private bool _createPlaylistDialogIsRotate = false;
+        private bool _menuIsRotate = false;
+        private bool _loginDialogVisible = false;
+        private bool _newPlaylistVisible = false;
+        private bool _openPlaylistVisible = false;
         private ObservableCollection<SpotifyPlaylist> _playlists;
 
 
         [ImportingConstructor]
-        public MenuViewModel(IMenuView view)
-            : base(view)
+        public MenuViewModel(IMenuView view) : base(view)
         {
             _playlists = new ObservableCollection<SpotifyPlaylist>();
             _view = view;
-            DisplayLoginDialog(true);
+            ShowLoginDialog(true);
         }
 
         #region Public Methods
 
-        public void DisplayLoginDialog(bool state)
+        public void ShowLoginDialog(bool state)
         {
             if (state == true)
             {
-                VisualState temp = _view.VisualStateLoginDialogVisible;
-                VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+                VisualState temp1 = _view.VisualStateMenuVisible;
+                VisualStateManager.GoToState((FrameworkElement)_view, temp1.Name, true);
+                VisualState temp2 = _view.VisualStateLoginDialogVisible;
+                VisualStateManager.GoToState((FrameworkElement)_view, temp2.Name, true);
+                LoginDialogVisible = true;
             }
             else
+            {
+                VisualState temp2 = _view.VisualStateLoginDialogInvisible;
+                VisualStateManager.GoToState((FrameworkElement)_view, temp2.Name, true);
+                LoginDialogVisible = false;
+            }
+        }
+
+        public void RotateMenu()
+        {
+            VisualState temp;
+            if (MenuIsRotate)
+            {
+                temp = _view.VisualStateMenuRotate0;
+                MenuIsRotate = false;
+            }
+            else
+            {
+                temp = _view.VisualStateMenuRotate180;
+                MenuIsRotate = true;
+            }
+
+            VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+        }
+
+        public void ToggleLoginDialog()
+        {
+            if (NewPlaylistVisible)
+            {
+                VisualState temp = _view.VisualStateNewPlaylistInvisible;
+                VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+                NewPlaylistVisible = false;
+            }
+            if (OpenPlaylistVisible)
+            {
+                VisualState temp = _view.VisualStateOpenPlaylistInvisible;
+                VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+                OpenPlaylistVisible = false;
+            }
+
+            VisualState loginDialog;
+            if (LoginDialogVisible)
+            {
+                loginDialog = _view.VisualStateLoginDialogInvisible;
+                LoginDialogVisible = false;
+            }
+            else
+            {
+                loginDialog = _view.VisualStateLoginDialogVisible;
+                LoginDialogVisible = true;
+            }
+            VisualStateManager.GoToState((FrameworkElement)_view, loginDialog.Name, true);
+        }
+
+        public void ToggleNewPlaylist()
+        {
+            if (LoginDialogVisible)
             {
                 VisualState temp = _view.VisualStateLoginDialogInvisible;
                 VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+                LoginDialogVisible = false;
             }
+            if (OpenPlaylistVisible)
+            {
+                VisualState temp = _view.VisualStateOpenPlaylistInvisible;
+                VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+                OpenPlaylistVisible = false;
+            }
+
+            VisualState newPlaylist;
+            if (NewPlaylistVisible)
+            {
+                newPlaylist = _view.VisualStateNewPlaylistInvisible;
+                NewPlaylistVisible = false;
+            }
+            else
+            {
+                newPlaylist = _view.VisualStateNewPlaylistVisible;
+                NewPlaylistVisible = true;
+            }
+            VisualStateManager.GoToState((FrameworkElement)_view, newPlaylist.Name, true);
+        }
+
+        public void ToggleOpenPlaylist()
+        {
+            if (LoginDialogVisible)
+            {
+                VisualState temp = _view.VisualStateLoginDialogInvisible;
+                VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+                LoginDialogVisible = false;
+            }
+            if (NewPlaylistVisible)
+            {
+                VisualState temp = _view.VisualStateNewPlaylistInvisible;
+                VisualStateManager.GoToState((FrameworkElement)_view, temp.Name, true);
+                NewPlaylistVisible = false;
+            }
+
+            VisualState openPlaylist;
+            if (OpenPlaylistVisible)
+            {
+                openPlaylist = _view.VisualStateOpenPlaylistInvisible;
+                OpenPlaylistVisible = false;
+            }
+            else
+            {
+                openPlaylist = _view.VisualStateOpenPlaylistVisible;
+                OpenPlaylistVisible = true;
+            }
+            VisualStateManager.GoToState((FrameworkElement)_view, openPlaylist.Name, true);
         }
 
         public bool IsEnabled { get { return true; } }//!! Has to be adjusted
-
-        public void RotateLoginDialog()
-        {
-            VisualState visualState;
-            if (LoginDialogIsRotate == false)
-            {
-                visualState = _view.VisualStateRotate180_LoginDialog;
-                LoginDialogIsRotate = true;
-            }
-            else
-            {
-                visualState = _view.VisualStateRotate0_LoginDialog;
-                LoginDialogIsRotate = false;
-            }
-
-            VisualStateManager.GoToState((FrameworkElement)_view, visualState.Name, true);
-        }
-
-        public void RotateOpenPlaylistDialog()
-        {
-            VisualState visualState;
-            if (OpenPlaylistDialogIsRotate == false)
-            {
-                visualState = _view.VisualStateRotate180_OpenPlaylistDialog;
-                OpenPlaylistDialogIsRotate = true;
-            }
-            else
-            {
-                visualState = _view.VisualStateRotate0_OpenPlaylistDialog;
-                OpenPlaylistDialogIsRotate = false;
-            }
-
-            VisualStateManager.GoToState((FrameworkElement)_view, visualState.Name, true);
-        }
-
-        public void RotateCreatePlaylistDialog()
-        {
-            VisualState visualState;
-            if (CreatePlaylistDialogIsRotate == false)
-            {
-                visualState = _view.VisualStateRotate180_CreatePlaylistDialog;
-                CreatePlaylistDialogIsRotate = true;
-            }
-            else
-            {
-                visualState = _view.VisualStateRotate0_CreatePlaylistDialog;
-                CreatePlaylistDialogIsRotate = false;
-            }
-
-            VisualStateManager.GoToState((FrameworkElement)_view, visualState.Name, true);
-        }
 
         #endregion Public Methods
 
@@ -256,41 +316,54 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public bool LoginDialogIsRotate
+        public bool MenuIsRotate
         {
-            get { return _loginDialogIsRotate; }
+            get { return _menuIsRotate; }
             set
             {
-                if (_loginDialogIsRotate != value)
+                if (_menuIsRotate != value)
                 {
-                    _loginDialogIsRotate = value;
-                    RaisePropertyChanged("LoginDialogIsRotate");
+                    _menuIsRotate = value;
+                    RaisePropertyChanged("MenuIsRotate");
                 }
             }
         }
 
-        public bool OpenPlaylistDialogIsRotate
+        public bool LoginDialogVisible
         {
-            get { return _openPlaylistDialogIsRotate; }
+            get { return _loginDialogVisible; }
             set
             {
-                if (_openPlaylistDialogIsRotate != value)
+                if (_loginDialogVisible != value)
                 {
-                    _openPlaylistDialogIsRotate = value;
-                    RaisePropertyChanged("OpenPlaylistDialogIsRotate");
+                    _loginDialogVisible = value;
+                    RaisePropertyChanged("LoginDialogVisible");
                 }
             }
         }
 
-        public bool CreatePlaylistDialogIsRotate
+        public bool NewPlaylistVisible
         {
-            get { return _createPlaylistDialogIsRotate; }
+            get { return _newPlaylistVisible; }
             set
             {
-                if (_createPlaylistDialogIsRotate != value)
+                if (_newPlaylistVisible != value)
                 {
-                    _createPlaylistDialogIsRotate = value;
-                    RaisePropertyChanged("CreatePlaylistDialogIsRotate");
+                    _newPlaylistVisible = value;
+                    RaisePropertyChanged("NewPlaylistVisible");
+                }
+            }
+        }
+
+        public bool OpenPlaylistVisible
+        {
+            get { return _openPlaylistVisible; }
+            set
+            {
+                if (_openPlaylistVisible != value)
+                {
+                    _openPlaylistVisible = value;
+                    RaisePropertyChanged("OpenPlaylistVisible");
                 }
             }
         }
@@ -351,15 +424,15 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ICommand RotateLoginDialogCommand
+        public ICommand RotateMenuCommand
         {
-            get { return _rotateLoginDialogCommand; }
+            get { return _rotateMenuCommand; }
             set
             {
-                if (_rotateLoginDialogCommand != value)
+                if (_rotateMenuCommand != value)
                 {
-                    _rotateLoginDialogCommand = value;
-                    RaisePropertyChanged("RotateLoginDialogCommand");
+                    _rotateMenuCommand = value;
+                    RaisePropertyChanged("RotateMenuCommand");
                 }
             }
         }
@@ -390,32 +463,6 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public ICommand RotateOpenPlaylistCommand
-        {
-            get { return _rotateOpenPlaylistCommand; }
-            set
-            {
-                if (_rotateOpenPlaylistCommand != value)
-                {
-                    _rotateOpenPlaylistCommand = value;
-                    RaisePropertyChanged("RotateOpenPlaylistCommand");
-                }
-            }
-        }
-
-        public ICommand RotateCreatePlaylistCommand
-        {
-            get { return _rotateNewPlaylistCommand; }
-            set
-            {
-                if (_rotateNewPlaylistCommand != value)
-                {
-                    _rotateNewPlaylistCommand = value;
-                    RaisePropertyChanged("RotateCreatePlaylistCommand");
-                }
-            }
-        }
-
         public ICommand NewPlaylistCommand
         {
             get { return _newPlaylistCommand; }
@@ -425,6 +472,45 @@ namespace Ctms.Applications.ViewModels
                 {
                     _newPlaylistCommand = value;
                     RaisePropertyChanged("NewPlaylistCommand");
+                }
+            }
+        }
+
+        public ICommand DisplayLoginDialog
+        {
+            get { return _displayLoginDialog; }
+            set
+            {
+                if (_displayLoginDialog != value)
+                {
+                    _displayLoginDialog = value;
+                    RaisePropertyChanged("DisplayLoginDialog");
+                }
+            }
+        }
+
+        public ICommand DisplayNewPlaylist
+        {
+            get { return _displayNewPlaylist; }
+            set
+            {
+                if (_displayNewPlaylist != value)
+                {
+                    _displayNewPlaylist = value;
+                    RaisePropertyChanged("DisplayNewPlaylist");
+                }
+            }
+        }
+
+        public ICommand DisplayOpenPlaylist
+        {
+            get { return _displayOpenPlaylist; }
+            set
+            {
+                if (_displayOpenPlaylist != value)
+                {
+                    _displayOpenPlaylist = value;
+                    RaisePropertyChanged("DisplayOpenPlaylist");
                 }
             }
         }

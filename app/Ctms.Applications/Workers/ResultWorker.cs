@@ -112,7 +112,7 @@ namespace Ctms.Applications.Workers
                 }
                 else // not logged in
                 {
-                    _menuViewModel.DisplayLoginDialog(true);
+                    _menuViewModel.ShowLoginDialog(true);
                 }
             }
 
