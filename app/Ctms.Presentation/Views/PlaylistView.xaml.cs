@@ -74,7 +74,10 @@ namespace Ctms.Presentation.Views
 
         private void surfaceListBox_DoubleTapGesture(object sender, GestureEventArgs e)
         {
-            _viewModel.JumpToTrackCommand.Execute(surfaceListBox.SelectedIndex);
+            if (surfaceListBox.SelectedIndex != -1)
+            {
+                _viewModel.JumpToTrackCommand.Execute(surfaceListBox.SelectedIndex);
+            }
         }
 
 

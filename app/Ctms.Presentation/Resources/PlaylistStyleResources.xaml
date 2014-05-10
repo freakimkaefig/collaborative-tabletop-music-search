@@ -25,8 +25,8 @@
             <TextBlock Text="{Binding Result.Song.ArtistName}" Grid.Column="0" Grid.Row="0" TextWrapping="Wrap"/>
             <TextBlock Text="{Binding Result.Song.Title}" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap"/>
             <TextBlock Text="{Binding Duration}" Grid.Column="1" Grid.Row="0"/>
-            <TextBlock Text="Loading" Visibility="{Binding IsLoading, Converter={StaticResource visibilityConverter}}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"/>
-            <TextBlock Text="Playing" Visibility="{Binding IsPlaying, Converter={StaticResource visibilityConverter}}" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"/>
+            <Grid Width="40" Height="40" Visibility="{Binding IsPlaying, Converter={StaticResource visibilityConverter}}" Grid.Column="1" Grid.Row="1" Background="{DynamicResource ResourceKey=volume}"/>
+            <Grid Width="40" Height="40" Visibility="{Binding IsLoading, Converter={StaticResource visibilityConverter}}" Grid.Column="1" Grid.Row="1" Background="{DynamicResource ResourceKey=hourglass}"/>
             <!--<Label Content="{Binding Duration}"/>-->
         </Grid>
     </DataTemplate>

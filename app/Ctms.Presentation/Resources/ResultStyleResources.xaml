@@ -61,8 +61,8 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <Label Content="Loading" Visibility="{Binding IsLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Row="3" Grid.Column="0" />
-                    <Label Content="Playing" Visibility="{Binding IsPlaying, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.Row="3" Grid.Column="1"/>
+                    <Grid Width="40" Height="40" Visibility="{Binding IsPlaying, Converter={x:Static c:BoolToVisibilityConverter.Default}}" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource ResourceKey=volume}"/>
+                    <Grid Width="40" Height="40" Visibility="{Binding IsLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource ResourceKey=hourglass}"/>
                     <TextBlock FontSize="12" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0" Background="{x:Null}" TextAlignment="Center" Grid.Row="3" Foreground="White" RenderTransformOrigin="0.5, 0.5" Text="{Binding Result.Song.ArtistName}" TextTrimming="CharacterEllipsis"></TextBlock>
                     <TextBlock FontSize="14" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0" Background="{x:Null}" TextAlignment="Center" RenderTransformOrigin="0.5, 0.5" Grid.Row="4" Foreground="White" Text="{Binding Result.Song.Title}" TextTrimming="CharacterEllipsis"></TextBlock>
                 </Grid>
