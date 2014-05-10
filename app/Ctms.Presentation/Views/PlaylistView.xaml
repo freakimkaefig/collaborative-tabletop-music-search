@@ -82,6 +82,32 @@
     
 		<!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
+		<s:SurfaceButton x:Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="120" Background="{StaticResource ResourceKey=playlistRight}">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Click">
+					<ei:GoToStateAction StateName="PlaylistViewVisible"/>
+				</i:EventTrigger>
+				<i:EventTrigger EventName="PreviewTouchDown">
+					<ei:GoToStateAction StateName="PlaylistViewVisible"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</s:SurfaceButton>
+        <Image x:Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="0" Margin="0,0,110,0"/>
+        <s:SurfaceButton x:Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="120" Background="{StaticResource ResourceKey=playlistLeft}">
+            <i:Interaction.Triggers>
+            	<i:EventTrigger EventName="Click">
+            		<ei:GoToStateAction StateName="PlaylistViewVisible"/>
+            	</i:EventTrigger>
+            	<i:EventTrigger EventName="PreviewTouchDown">
+            		<ei:GoToStateAction StateName="PlaylistViewVisible"/>
+            	</i:EventTrigger>
+            </i:Interaction.Triggers>
+        </s:SurfaceButton>
+        <Image x:Name="PlusImageLeft" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Left" VerticalAlignment="Center" Panel.ZIndex="0" Margin="110,0,0,0"/>
+    
+    
+		<!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
+    waf:ValidationHelper.IsEnabled="true" -->
 		<Grid x:Name="grid" Margin="0,0,0,0" Background="Black" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
 			<Grid.RenderTransform>
 				<TransformGroup>
@@ -123,7 +149,7 @@
                     <Grid Margin="6" Background="{StaticResource ResourceKey=repeat}"/>
                 </Border>
             </s:SurfaceButton>
-            <Grid Grid.Column="1" Name="PlaylistDetailView" Margin="2,2,100,2">
+            <Grid Grid.Column="1" x:Name="PlaylistDetailView" Margin="2,2,100,2">
                 <Grid Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Background="#00222222" Margin="2">
                     <!--<Image Style="{StaticResource LoadingCirclePlaylistDetailView}" MaxWidth="100" MaxHeight="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                     <TextBlock MaxWidth="100" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -167,8 +193,8 @@
                                             <RowDefinition Height="1*"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        <Image MaxHeight="900" MaxWidth="800" x:Name="ImageContainer" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Uniform" Source="{Binding ElementName=ImagePager, Path=SelectedItem.ImageUrl}"/>
-                                        <s:SurfaceListBox Name="ImagePager" Margin="0" Background="Transparent"
+                                        <Image MaxHeight="900" MaxWidth="800" x:Name="ImageContainer" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Uniform" Source="{Binding SelectedItem.ImageUrl, ElementName=ImagePager}"/>
+                                        <s:SurfaceListBox x:Name="ImagePager" Margin="0" Background="Transparent"
                                                  ItemsPanel="{DynamicResource ImagesItemsPanel}"
                                                  ItemContainerStyle="{DynamicResource ImagesItemContainerStyle}"
                                                  ItemsSource="{Binding CurrentTrack.Detail.Images}"
@@ -193,7 +219,7 @@
             </Grid>
             <!--<TextBox x:Name="textBox" Width="300" Height="500" Grid.Column="1"/>-->
             <s:SurfaceButton HorizontalAlignment="Right" Margin="0,24,8,0" VerticalAlignment="Top" Width="64" Height="64" Command="{Binding RotateCommand}" Background="{StaticResource ResourceKey=rotate}" />
-            <s:SurfaceButton Name="TrashBin" VerticalAlignment="Bottom" Height="50" Visibility="{Binding TrashVisible, Converter={x:Static c:BoolToVisibilityConverter.Default}}"
+            <s:SurfaceButton x:Name="TrashBin" VerticalAlignment="Bottom" Height="50" Visibility="{Binding TrashVisible, Converter={x:Static c:BoolToVisibilityConverter.Default}}"
                              AllowDrop="True"
                              s:SurfaceDragDrop.DragEnter="PlaylistRemoveDropTarget_DragEnter"
         	                 s:SurfaceDragDrop.DragLeave="PlaylistRemoveDropTarget_DragLeave"
@@ -210,27 +236,5 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
-        <s:SurfaceButton Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="120" Background="{StaticResource ResourceKey=playlistRight}">
-			<i:Interaction.Triggers>
-				<i:EventTrigger EventName="Click">
-					<ei:GoToStateAction StateName="PlaylistViewVisible"/>
-				</i:EventTrigger>
-                <i:EventTrigger EventName="PreviewTouchDown">
-                    <ei:GoToStateAction StateName="PlaylistViewVisible"/>
-                </i:EventTrigger>
-			</i:Interaction.Triggers>
-		</s:SurfaceButton>
-        <Image Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="0" Margin="0,0,110,0"/>
-        <s:SurfaceButton Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="120" Background="{StaticResource ResourceKey=playlistLeft}">
-            <i:Interaction.Triggers>
-        		<i:EventTrigger EventName="Click">
-        			<ei:GoToStateAction StateName="PlaylistViewVisible"/>
-        		</i:EventTrigger>
-                <i:EventTrigger EventName="PreviewTouchDown">
-                    <ei:GoToStateAction StateName="PlaylistViewVisible"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </s:SurfaceButton>
-        <Image Name="PlusImageLeft" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Left" VerticalAlignment="Center" Panel.ZIndex="0" Margin="110,0,0,0"/>
     </Grid>
 </UserControl>

@@ -71,7 +71,7 @@ namespace Ctms.Applications.Workers
         {
             if (!_menuViewModel.IsLoggedIn)
             {
-                _menuViewModel.DisplayLoginDialog(true);
+                _menuViewModel.ShowLoginDialog(true);
                 return;
             }
 
