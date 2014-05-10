@@ -110,7 +110,7 @@
                               s:SurfaceDragDrop.DragLeave="Playlist_DragLeave"
                               s:SurfaceDragDrop.Drop="Playlist_Drop"/>
             <s:SurfaceButton Command="{Binding PlayPauseCommand}" Content="{Binding PlayPauseText}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Margin="211.5,24,0,0"/>
-            <s:SurfaceButton Command="{Binding StopCommand}" Content="STOP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Margin="323.5,24,0,0"/>
+            <s:SurfaceButton Command="{Binding StopCommand}" Background="{StaticResource ResourceKey=stop}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Margin="323.5,24,0,0"/>
             <s:SurfaceButton Command="{Binding ShuffleCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="612,24,0,0"
                              VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <Border BorderBrush="{Binding IsShuffle, Converter={x:Static c:BoolToStateConverter.Default}}" BorderThickness="3">

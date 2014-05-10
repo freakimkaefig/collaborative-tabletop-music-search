@@ -17,317 +17,321 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
-        <Grid Margin="0,0,0,0">
+	
+        <Grid x:Name="grid1" Height="1080" Margin="0" Width="1920" RenderTransformOrigin="0.5,0.5">
+        	<Grid.RenderTransform>
+        		<TransformGroup>
+        			<ScaleTransform/>
+        			<SkewTransform/>
+        			<RotateTransform/>
+        			<TranslateTransform/>
+        		</TransformGroup>
+        	</Grid.RenderTransform>
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="HideShowMenu">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:0.5"/>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="MenuInvisible">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+						</ObjectAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+				<VisualState x:Name="MenuVisible">
+					<Storyboard>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+						</ObjectAnimationUsingKeyFrames>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid">
+							<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+						</DoubleAnimationUsingKeyFrames>
+						<Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="grid">
+							<EasingInt32KeyFrame KeyTime="0" Value="99999"/>
+						</Int32AnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+			<VisualStateGroup x:Name="HideShowLogin">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:0.5"/>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="LoginDialogInvisible">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="LoginDialog">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+				<VisualState x:Name="LoginDialogVisible">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="LoginDialog">
+							<EasingDoubleKeyFrame KeyTime="0" Value="340"/>
+						</DoubleAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+			<VisualStateGroup x:Name="HideShowOpenPlaylist">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:0.5"/>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="OpenPlaylistDialogInvisible">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="OpenPlaylistDialog">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+				<VisualState x:Name="OpenPlaylistDialogVisible">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="OpenPlaylistDialog">
+							<EasingDoubleKeyFrame KeyTime="0" Value="700"/>
+						</DoubleAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+			<VisualStateGroup x:Name="HideShowNewPlaylist">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:0.5"/>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="NewPlaylistDialogInvisible">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="NewPlaylistDialog">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+				<VisualState x:Name="NewPlaylistDialogVisible">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="NewPlaylistDialog">
+							<EasingDoubleKeyFrame KeyTime="0" Value="240"/>
+						</DoubleAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+			<VisualStateGroup x:Name="MenuRotation">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:0.4"/>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="Rotate0"/>
+				<VisualState x:Name="Rotate180">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="grid">
+							<EasingDoubleKeyFrame KeyTime="0" Value="180"/>
+						</DoubleAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+	
+		<!--<TextBox Text="{Binding LoginLogMessage}" Width="300" VerticalScrollBarVisibility="Auto" Foreground="Black" TextWrapping="Wrap" IsReadOnly="True" Margin="1566,46,0,0" Grid.Column="0" Height="474" VerticalAlignment="Top" />-->
+	
+		<!--<TextBox Text="{Binding LoginLogMessage}" Width="300" VerticalScrollBarVisibility="Auto" Foreground="Black" TextWrapping="Wrap" IsReadOnly="True" Margin="1566,46,0,0" Grid.Column="0" Height="474" VerticalAlignment="Top" />-->
+	
+		<s:SurfaceButton x:Name="MenuButton_Show" Content="MENU" HorizontalAlignment="Left" Margin="0" Width="80" Height="80" VerticalAlignment="Bottom" Grid.Column="0">
+        		<i:Interaction.Triggers>
+        			<i:EventTrigger EventName="PreviewTouchDown">
+        				<ei:GoToStateAction StateName="MenuVisible"/>
+        			</i:EventTrigger>
+        			<i:EventTrigger EventName="Click">
+        				<ei:GoToStateAction StateName="MenuVisible"/>
+        			</i:EventTrigger>
+        		</i:Interaction.Triggers>
+        	</s:SurfaceButton>
+	<!--<TextBox Text="{Binding LoginLogMessage}" Width="300" VerticalScrollBarVisibility="Auto" Foreground="Black" TextWrapping="Wrap" IsReadOnly="True" Margin="1566,46,0,0" Grid.Column="0" Height="474" VerticalAlignment="Top" />-->
+	
+		<Grid x:Name="grid" Margin="-3,0,3,0" Background="#88DDDDDD" RenderTransformOrigin="0.5,0.5" Opacity="0" Visibility="Hidden">
+			<!--<Label Content="MenuView" Grid.Column="0" Grid.Row="0"/>-->
+			<Grid.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Grid.RenderTransform>
+		
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*"/>
+				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="2*"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="1*"/>
+				<RowDefinition Height="2*"/>
+			</Grid.RowDefinitions>
         
-    	<VisualStateManager.VisualStateGroups>
-    		<VisualStateGroup x:Name="HideShowMenu">
-    			<VisualStateGroup.Transitions>
-    				<VisualTransition GeneratedDuration="0:0:0.3"/>
-    			</VisualStateGroup.Transitions>
-    			<VisualState x:Name="MenuInvisible">
-    				<Storyboard>
-    					<Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="MenuButton_Hide">
-    						<DiscreteInt32KeyFrame KeyTime="0" Value="0"/>
-    					</Int32AnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    			<VisualState x:Name="MenuVisible">
-    				<Storyboard>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="MenuButton_Hide">
-    						<EasingDoubleKeyFrame KeyTime="0" Value="142"/>
-    					</DoubleAnimationUsingKeyFrames>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="MenuPanel">
-    						<EasingDoubleKeyFrame KeyTime="0" Value="151">
-    							<EasingDoubleKeyFrame.EasingFunction>
-    								<QuadraticEase EasingMode="EaseInOut"/>
-    							</EasingDoubleKeyFrame.EasingFunction>
-    						</EasingDoubleKeyFrame>
-    					</DoubleAnimationUsingKeyFrames>
-    					<Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" Storyboard.TargetName="MenuButton_Hide">
-    						<DiscreteInt32KeyFrame KeyTime="0" Value="1"/>
-    					</Int32AnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-    		<VisualStateGroup x:Name="HideShowLogin">
-    			<VisualStateGroup.Transitions>
-    				<VisualTransition GeneratedDuration="0:0:0.5"/>
-    			</VisualStateGroup.Transitions>
-    			<VisualState x:Name="LoginDialogInvisible"/>
-    			<VisualState x:Name="LoginDialogVisible">
-    				<Storyboard>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="LoginDialog">
-    						<EasingDoubleKeyFrame KeyTime="0" Value="1320"/>
-    					</DoubleAnimationUsingKeyFrames>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="LoginDialog">
-    						<EasingDoubleKeyFrame KeyTime="0" Value="-124.833"/>
-    					</DoubleAnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-    		<VisualStateGroup x:Name="HideShowOpenPlaylist">
-    			<VisualStateGroup.Transitions>
-    				<VisualTransition GeneratedDuration="0:0:0.5"/>
-    			</VisualStateGroup.Transitions>
-    			<VisualState x:Name="OpenPlaylistDialogInvisible"/>
-    			<VisualState x:Name="OpenPlaylistDialogVisible">
-    				<Storyboard>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="OpenPlaylistDialog">
-    						<EasingDoubleKeyFrame KeyTime="0" Value="1436"/>
-    					</DoubleAnimationUsingKeyFrames>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="OpenPlaylistDialog">
-    						<EasingDoubleKeyFrame KeyTime="0" Value="200"/>
-    					</DoubleAnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-    		<VisualStateGroup x:Name="HideShowNewPlaylist">
-    			<VisualStateGroup.Transitions>
-    				<VisualTransition GeneratedDuration="0:0:0.5"/>
-    			</VisualStateGroup.Transitions>
-    			<VisualState x:Name="NewPlaylistDialogInvisible"/>
-    			<VisualState x:Name="NewPlaylistDialogVisible">
-    				<Storyboard>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="NewPlaylistDialog">
-    						<EasingDoubleKeyFrame KeyTime="0" Value="1368"/>
-    					</DoubleAnimationUsingKeyFrames>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="NewPlaylistDialog">
-    						<EasingDoubleKeyFrame KeyTime="0" Value="528"/>
-    					</DoubleAnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-            <VisualStateGroup x:Name="LoginRotation">
-                <VisualStateGroup.Transitions>
-                    <VisualTransition GeneratedDuration="0:0:0.5"/>
-                </VisualStateGroup.Transitions>
-                <VisualState x:Name="Rotate0_LoginDialog"/>
-                <VisualState x:Name="Rotate180_LoginDialog">
-                    <Storyboard>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="LoginDialog">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="180"/>
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-            <VisualStateGroup x:Name="OpenPlaylistRotation">
-                <VisualStateGroup.Transitions>
-                    <VisualTransition GeneratedDuration="0:0:0.5"/>
-                </VisualStateGroup.Transitions>
-                <VisualState x:Name="Rotate0_OpenPlaylistDialog"/>
-                <VisualState x:Name="Rotate180_OpenPlaylistDialog">
-                    <Storyboard>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="OpenPlaylistDialog">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="180"/>
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-            <VisualStateGroup x:Name="CreatePlaylistRotation">
-                <VisualStateGroup.Transitions>
-                    <VisualTransition GeneratedDuration="0:0:0.5"/>
-                </VisualStateGroup.Transitions>
-                <VisualState x:Name="Rotate0_CreatePlaylistDialog"/>
-                <VisualState x:Name="Rotate180_CreatePlaylistDialog">
-                    <Storyboard>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="NewPlaylistDialog">
-                            <EasingDoubleKeyFrame KeyTime="0" Value="180"/>
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <Grid.ColumnDefinitions>
-        	<ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        
-        <!--<Label Content="MenuView" Grid.Column="0" Grid.Row="0"/>-->
-        <!--<s:SurfaceButton Content="Exit" Grid.Column="0" Width="100" Height="40" Command="{Binding ExitAppCommand}" Margin="1820,0,0,1040" />
+			<!--<s:SurfaceButton Content="Exit" Grid.Column="0" Width="100" Height="40" Command="{Binding ExitAppCommand}" Margin="1820,0,0,1040" />
         <s:SurfaceButton Content="Login" Grid.Column="0" Width="100" Height="40" Command="{Binding LoginCommand}" Margin="1714,0,106,1040" />-->
-        <!--<TextBox Text="{Binding LoginLogMessage}" Width="300" VerticalScrollBarVisibility="Auto" Foreground="Black" TextWrapping="Wrap" IsReadOnly="True" Margin="1566,46,0,0" Grid.Column="0" Height="474" VerticalAlignment="Top" />-->
-        <s:SurfaceButton x:Name="MenuButton_Hide" Content="MENU" HorizontalAlignment="Left" Margin="0" Width="80" Height="80" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom">
-        	<i:Interaction.Triggers>
-                <i:EventTrigger EventName="PreviewTouchDown">
-        			<ei:GoToStateAction StateName="MenuInvisible"/>
-        		</i:EventTrigger>
-                <i:EventTrigger EventName="Click">
-                    <ei:GoToStateAction StateName="MenuInvisible"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        	<s:SurfaceButton.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform/>
-        			<SkewTransform/>
-        			<RotateTransform/>
-        			<TranslateTransform/>
-        		</TransformGroup>
-        	</s:SurfaceButton.RenderTransform>
-        </s:SurfaceButton>
-        <s:SurfaceButton x:Name="MenuButton_Show" Content="MENU" HorizontalAlignment="Left" Margin="0" Width="80" Height="80" VerticalAlignment="Bottom" >
-        	<i:Interaction.Triggers>
-        		<i:EventTrigger EventName="PreviewTouchDown">
-        			<ei:GoToStateAction StateName="MenuVisible"/>
-        		</i:EventTrigger>
-                <i:EventTrigger EventName="Click">
-                    <ei:GoToStateAction StateName="MenuVisible"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </s:SurfaceButton>
-        <StackPanel x:Name="MenuPanel" HorizontalAlignment="Left" Margin="-140.5,0,0,0" Width="140" Height="250" RenderTransformOrigin="0.5,0.5" Background="Black" VerticalAlignment="Bottom">
-        	<StackPanel.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform/>
-        			<SkewTransform/>
-        			<RotateTransform/>
-        			<TranslateTransform/>
-        		</TransformGroup>
-        	</StackPanel.RenderTransform>
-        	<s:SurfaceButton Content="New Playlist" Margin="0" VerticalAlignment="Bottom" IsEnabled="{Binding IsLoggedIn}">
-        		<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewTouchDown">
-                        <ei:GoToStateAction StateName="NewPlaylistDialogVisible"/>
-                        <ei:GoToStateAction StateName="MenuInvisible"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-        				<ei:GoToStateAction StateName="NewPlaylistDialogVisible"/>
-                        <ei:GoToStateAction StateName="MenuInvisible"/>
-        			</i:EventTrigger>
-        		</i:Interaction.Triggers>
-        	</s:SurfaceButton>
-        	<s:SurfaceButton Content="Open Playlist" Margin="0,10,0,0" VerticalAlignment="Bottom" IsEnabled="{Binding IsLoggedIn}">
-        		<i:Interaction.Triggers>
-        			<i:EventTrigger EventName="PreviewTouchDown">
-        				<ei:GoToStateAction StateName="OpenPlaylistDialogVisible"/>
-                        <ei:GoToStateAction StateName="MenuInvisible"/>
-        			</i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-                        <ei:GoToStateAction StateName="OpenPlaylistDialogVisible"/>
-                        <ei:GoToStateAction StateName="MenuInvisible"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-        	</s:SurfaceButton>
-            <s:SurfaceButton Content="{Binding LoginButtonContent}" Visibility="{Binding CanLogin, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Margin="0,10,0,0" VerticalAlignment="Bottom">
-        		<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewTouchDown">
-                        <ei:GoToStateAction StateName="LoginDialogVisible"/>
-                        <ei:GoToStateAction StateName="MenuInvisible"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-        				<ei:GoToStateAction StateName="LoginDialogVisible"/>
-        				<ei:GoToStateAction StateName="MenuInvisible"/>
-        			</i:EventTrigger>
-        		</i:Interaction.Triggers>
-        	</s:SurfaceButton>
-            <s:SurfaceButton Visibility="{Binding IsLoggedIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Command="{Binding LogoutCommand}" Content="{Binding LoginButtonContent}" Margin="0,10,0,0" VerticalAlignment="Bottom"></s:SurfaceButton>
-            <s:SurfaceButton Content="Exit" Margin="0,20,0,0" VerticalAlignment="Bottom" Command="{Binding ExitAppCommand}"/>
-        </StackPanel>
-        <Grid x:Name="LoginDialog" HorizontalAlignment="Left" Margin="-976,0,0,36" Width="312" Background="Black" Height="380" VerticalAlignment="Bottom" RenderTransformOrigin="0.5,0.5">
-        	<Grid.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform/>
-        			<SkewTransform/>
-        			<RotateTransform/>
-        			<TranslateTransform/>
-        		</TransformGroup>
-        	</Grid.RenderTransform>
-            <s:SurfaceButton HorizontalAlignment="Right" Margin="0,14,14,0" VerticalAlignment="Top" Command="{Binding RotateLoginDialogCommand}" Height="60" Width="60" Background="{StaticResource ResourceKey=rotate}"/>
-        	<TextBlock Margin="74.58,30,106.58,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"><Run Language="de-de" Text="Login to Spotify"/></TextBlock>
-        	<TextBlock HorizontalAlignment="Left" Margin="20,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="de-de" Text="Username"/></TextBlock>
-        	<TextBlock HorizontalAlignment="Left" Margin="20,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="de-de" Text="Password"/></TextBlock>
-        	<s:SurfaceTextBox x:Name="SpotifyUsernameInput" Margin="20,91.96,24,0" TextWrapping="Wrap" Text="{Binding SpotifyUsernameInput}" VerticalAlignment="Top" IsEnabled="{Binding LoginDialogEnabled}"/>
-        	<s:SurfacePasswordBox x:Name="SpotifyPasswordInput" VerticalAlignment="Top" Margin="20,176,24,162" IsEnabled="{Binding LoginDialogEnabled}"/>
-        	<s:SurfaceButton Content="Cancel" Margin="24,310,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Command="{Binding CancelLoginCommand}">
-        		<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewTouchDown">
-                        <ei:GoToStateAction StateName="LoginDialogInvisible"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-        				<ei:GoToStateAction StateName="LoginDialogInvisible"/>
-        			</i:EventTrigger>
-        		</i:Interaction.Triggers>
-        	</s:SurfaceButton>
-        	<s:SurfaceButton Content="Login" Margin="0,310,24,0" VerticalAlignment="Top" IsEnabled="{Binding LoginDialogEnabled}" HorizontalAlignment="Right" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=SpotifyPasswordInput}" Width="76">
-        		<!--<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewTouchDown">
-                        <ei:GoToStateAction StateName="LoginDialogInvisible"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-        				<ei:GoToStateAction StateName="LoginDialogInvisible"/>
-        			</i:EventTrigger>
-        		</i:Interaction.Triggers>-->
-        	</s:SurfaceButton>
-            <!--<Image Height="60" Margin="124,0,124,80" VerticalAlignment="Bottom" Width="60" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}"/>-->
-            <!--<Image Height="60" Width="60" VerticalAlignment="Center" Style="{StaticResource LoadingCircle}" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" />-->
-            <Label Content="Logging in... Please wait...." VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,260,0,0" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" />
-        </Grid>
-        <Grid x:Name="OpenPlaylistDialog" HorizontalAlignment="Left" Margin="-568,80,0,488" Width="308" RenderTransformOrigin="0.5,0.5" Height="Auto" VerticalAlignment="Stretch" Background="Black">
-        	<Grid.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform/>
-        			<SkewTransform/>
-        			<RotateTransform/>
-        			<TranslateTransform/>
-        		</TransformGroup>
-        	</Grid.RenderTransform>
-            <s:SurfaceButton HorizontalAlignment="Left" Margin="237,14,0,0" VerticalAlignment="Top" Command="{Binding RotateOpenPlaylistCommand}" Width="60" Height="60" Background="{StaticResource ResourceKey=rotate}"/>
-            <TextBlock Margin="77.21,30,107.21,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"><Run Language="de-de" Text="Choose Playlist"/></TextBlock>
-            <s:SurfaceListBox ItemsSource="{Binding Playlists}" Margin="0,80,0,0" Height="368" VerticalAlignment="Top" Width="308">
-                <s:SurfaceListBox.ItemTemplate>
-                    <DataTemplate>
-                        <s:SurfaceButton VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding DataContext.OpenPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Width="232">
-                            <TextBlock TextWrapping="Wrap" Text="{Binding Name}"/>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="TouchDown">
-                                    <ei:GoToStateAction StateName="OpenPlaylistDialogInvisible" TargetObject="{Binding ElementName=MenuViewUserControl}"/>
-                                </i:EventTrigger>
-                                <i:EventTrigger EventName="Click">
-                                    <ei:GoToStateAction StateName="OpenPlaylistDialogInvisible" TargetObject="{Binding ElementName=MenuViewUserControl}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </s:SurfaceButton>
-                    </DataTemplate>
-                </s:SurfaceListBox.ItemTemplate>
-            </s:SurfaceListBox>
-            <s:SurfaceButton Content="Cancel" Height="24.834" Margin="23,0,0,23" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-            	<i:Interaction.Triggers>
-            		<i:EventTrigger EventName="Click">
-            			<ei:GoToStateAction StateName="OpenPlaylistDialogInvisible"/>
-            		</i:EventTrigger>
-            	</i:Interaction.Triggers>
-            </s:SurfaceButton>
-        </Grid>
-        <Grid x:Name="NewPlaylistDialog" HorizontalAlignment="Left" Height="224" Margin="-976,-272,0,0" VerticalAlignment="Top" Width="456" Background="Black" RenderTransformOrigin="0.5,0.5">
-        	<Grid.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform/>
-        			<SkewTransform/>
-        			<RotateTransform Angle="0"/>
-        			<TranslateTransform/>
-        		</TransformGroup>
-        	</Grid.RenderTransform>
-            <s:SurfaceButton HorizontalAlignment="Left" Margin="382,14,0,0" VerticalAlignment="Top" Command="{Binding RotateCreatePlaylistCommand}" Width="60" Height="60" Background="{StaticResource ResourceKey=rotate}"/>
-            <s:SurfaceTextBox x:Name="PlaylistNameInput" Margin="24,92,24,94" TextWrapping="Wrap" Text=""/>
-        	<TextBlock Height="24" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Center"><Run Language="de-de" Text="Give it a name"/></TextBlock>
-        	<s:SurfaceButton Content="Cancel" Height="24.834" Margin="24,0,0,24" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-        		<i:Interaction.Triggers>
-        			<i:EventTrigger EventName="PreviewTouchDown">
-        				<ei:GoToStateAction StateName="NewPlaylistDialogInvisible"/>
-        			</i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-                        <ei:GoToStateAction StateName="NewPlaylistDialogInvisible"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-        	</s:SurfaceButton>
-            <s:SurfaceButton Command="{Binding NewPlaylistCommand}" CommandParameter="{Binding ElementName=PlaylistNameInput}" Content="Create" Height="24.834" Margin="0,0,24,24" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-        		<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewTouchDown">
-                        <ei:GoToStateAction StateName="NewPlaylistDialogInvisible"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="Click">
-        				<ei:GoToStateAction StateName="NewPlaylistDialogInvisible"/>
-        			</i:EventTrigger>
-        		</i:Interaction.Triggers>
-        	</s:SurfaceButton>
-        </Grid>
-    </Grid>
+			<Grid Margin="0" Width="1920" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="2*"/>
+					<ColumnDefinition Width="2*"/>
+					<ColumnDefinition Width="2*"/>
+					<ColumnDefinition Width="2*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="1*"/>
+				</Grid.RowDefinitions>
+				<s:SurfaceButton Visibility="{Binding IsLoggedIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Command="{Binding LogoutCommand}" Margin="46,0" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="0" Height="120" Width="200">
+					<TextBlock Text="{Binding LoginButtonContent}" TextWrapping="Wrap" FontSize="29.333" TextAlignment="Center" LineHeight="30" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans"/>     	
+                </s:SurfaceButton>
+                <s:SurfaceButton Visibility="{Binding CanLogin, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Margin="0" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Width="200" Height="120" HorizontalAlignment="Center" Command="{Binding DisplayLoginDialog}">
+                    <i:Interaction.Triggers>
+                    	<i:EventTrigger EventName="TouchDown">
+                    		<ei:GoToStateAction StateName="LoginDialogVisible"/>
+                    	</i:EventTrigger>
+                    	<i:EventTrigger EventName="Click">
+                    		<ei:GoToStateAction StateName="LoginDialogVisible"/>
+                    	</i:EventTrigger>
+                    </i:Interaction.Triggers>
+                	<TextBlock Text="{Binding LoginButtonContent}" TextWrapping="Wrap" FontSize="29.333" TextAlignment="Center" LineHeight="30" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans"/>
+                </s:SurfaceButton>
+                <s:SurfaceButton Margin="0" VerticalAlignment="Bottom" IsEnabled="{Binding IsLoggedIn}" Width="200" Height="120" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" Command="{Binding DisplayNewPlaylist}">
+					<TextBlock Text="New Playlist" TextWrapping="Wrap" FontSize="29.333" TextAlignment="Center" LineHeight="30" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans"/>
+                </s:SurfaceButton>
+                <s:SurfaceButton Margin="0" VerticalAlignment="Bottom" IsEnabled="{Binding IsLoggedIn}" Grid.Column="3" Grid.Row="0" Width="200" Height="120" HorizontalAlignment="Center" Command="{Binding DisplayOpenPlaylist}">
+					<TextBlock Text="Open Playlist" TextWrapping="Wrap" FontSize="29.333" TextAlignment="Center" LineHeight="30" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans"/>
+                </s:SurfaceButton>
+				<s:SurfaceButton Margin="0" VerticalAlignment="Bottom" Command="{Binding ExitAppCommand}" Grid.Column="4" Grid.Row="1" Height="120" Width="200" HorizontalAlignment="Center">
+					<TextBlock Text="Exit App" TextWrapping="Wrap" FontSize="29.333" TextAlignment="Center" LineHeight="30" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans"/>     	
+				</s:SurfaceButton>
+				<s:SurfaceButton x:Name="MenuButton_Hide" FontSize="32" Content="X" HorizontalAlignment="Right" Margin="0" Width="80" Height="80" VerticalAlignment="Top" Grid.Column="5" Grid.Row="0" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="TouchDown">
+							<ei:GoToStateAction StateName="MenuInvisible"/>
+						</i:EventTrigger>
+						<i:EventTrigger EventName="Click">
+							<ei:GoToStateAction StateName="MenuInvisible"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</s:SurfaceButton>
+				<s:SurfaceButton x:Name="RotateMenu" FontSize="32" HorizontalAlignment="Center" Margin="0" Width="80" Height="80" VerticalAlignment="Top" Grid.Row="0" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans" Grid.ColumnSpan="6"
+								Command="{Binding RotateMenuCommand}" Background="{StaticResource ResourceKey=rotate}">
+				</s:SurfaceButton>
+			</Grid>
+			<Grid x:Name="LoginDialog" Margin="0" Background="Black" VerticalAlignment="Top" Grid.Row="1" HorizontalAlignment="Center" Height="0" Grid.Column="1">
+				<!--<Image Height="60" Width="60" VerticalAlignment="Center" Style="{StaticResource LoadingCircle}" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" />-->
+	<!--<Image Height="60" Margin="124,0,124,80" VerticalAlignment="Bottom" Width="60" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}"/>-->
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<Grid.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform/>
+						<SkewTransform/>
+						<RotateTransform/>
+						<TranslateTransform/>
+					</TransformGroup>
+				</Grid.RenderTransform>
+				<TextBlock Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18.667" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="10,2"><Run Language="de-de" Text="Login to Spotify"/></TextBlock>
+				<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="10,20,10,0" TextWrapping="Wrap" VerticalAlignment="Center" Grid.ColumnSpan="2"><Run Language="de-de" Text="Username"/></TextBlock>
+				<s:SurfaceTextBox Grid.Column="0" Grid.Row="2" x:Name="SpotifyUsernameInput" Margin="10,5,10,0" TextWrapping="Wrap" Text="{Binding SpotifyUsernameInput}" VerticalAlignment="Top" IsEnabled="{Binding LoginDialogEnabled}" Grid.ColumnSpan="2"/>
+				<TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Margin="10,20,10,0" TextWrapping="Wrap" VerticalAlignment="Center" Grid.ColumnSpan="2"><Run Language="de-de" Text="Password"/></TextBlock>
+				<s:SurfacePasswordBox Grid.Column="0" Grid.Row="4" x:Name="SpotifyPasswordInput" VerticalAlignment="Top" Margin="10,5,10,0" IsEnabled="{Binding LoginDialogEnabled}" Grid.ColumnSpan="2"/>
+				<Label Grid.Column="0" Grid.Row="5" Content="Logging in... Please wait...." VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,20,10,40" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.ColumnSpan="2" />
+				<s:SurfaceButton Grid.Column="0" Grid.Row="6" Content="Cancel" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="80" Command="{Binding CancelLoginCommand}">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="TouchDown">
+							<ei:GoToStateAction StateName="LoginDialogInvisible"/>
+						</i:EventTrigger>
+						<i:EventTrigger EventName="Click">
+							<ei:GoToStateAction StateName="LoginDialogInvisible"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</s:SurfaceButton>
+				<s:SurfaceButton Grid.Column="1" Grid.Row="6" Content="Login" Margin="10" VerticalAlignment="Bottom" IsEnabled="{Binding LoginDialogEnabled}" HorizontalAlignment="Right" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=SpotifyPasswordInput}" Width="76">
+				</s:SurfaceButton>
+			</Grid>
+			<Grid x:Name="NewPlaylistDialog" HorizontalAlignment="Center" Height="0" Margin="0" VerticalAlignment="Top" Background="Black" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="2" Width="400">
+				<Grid.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform/>
+						<SkewTransform/>
+						<RotateTransform Angle="0"/>
+						<TranslateTransform/>
+					</TransformGroup>
+				</Grid.RenderTransform>
+				<s:SurfaceTextBox x:Name="PlaylistNameInput" Margin="24,92,24,94" TextWrapping="Wrap" Text=""/>
+				<TextBlock Height="24" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Center"><Run Language="de-de" Text="Give it a name"/></TextBlock>
+				<s:SurfaceButton Content="Cancel" Height="24.834" Margin="24,0,0,24" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="TouchDown">
+							<ei:GoToStateAction StateName="NewPlaylistDialogInvisible"/>
+						</i:EventTrigger>
+						<i:EventTrigger EventName="Click">
+							<ei:GoToStateAction StateName="NewPlaylistDialogInvisible"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</s:SurfaceButton>
+				<s:SurfaceButton Command="{Binding NewPlaylistCommand}" CommandParameter="{Binding ElementName=PlaylistNameInput}" Content="Create" Height="24.834" Margin="0,0,24,24" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="TouchDown">
+							<ei:GoToStateAction StateName="NewPlaylistDialogInvisible"/>
+						</i:EventTrigger>
+						<i:EventTrigger EventName="Click">
+							<ei:GoToStateAction StateName="NewPlaylistDialogInvisible"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</s:SurfaceButton>
+			</Grid>
+			<Grid x:Name="OpenPlaylistDialog" HorizontalAlignment="Center" Margin="0" Width="400" RenderTransformOrigin="0.5,0.5" Height="0" VerticalAlignment="Top" Background="Black" Grid.Row="1" Grid.Column="3">
+				<Grid.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform/>
+						<SkewTransform/>
+						<RotateTransform/>
+						<TranslateTransform/>
+					</TransformGroup>
+				</Grid.RenderTransform>
+				<TextBlock Margin="77.21,30,107.21,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667"><Run Language="de-de" Text="Choose Playlist"/></TextBlock>
+				<s:SurfaceListBox ItemsSource="{Binding Playlists}" Margin="0,80,0,100">
+					<s:SurfaceListBox.ItemTemplate>
+						<DataTemplate>
+							<s:SurfaceButton VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding DataContext.OpenPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}">
+								<i:Interaction.Triggers>
+									<i:EventTrigger EventName="TouchDown">
+										<ei:GoToStateAction StateName="OpenPlaylistDialogInvisible" TargetObject="{Binding ElementName=MenuViewUserControl}"/>
+									</i:EventTrigger>
+									<i:EventTrigger EventName="Click">
+										<ei:GoToStateAction StateName="OpenPlaylistDialogInvisible" TargetObject="{Binding ElementName=MenuViewUserControl}"/>
+									</i:EventTrigger>
+								</i:Interaction.Triggers>
+								<TextBlock TextWrapping="Wrap" Text="{Binding Name}"/>
+							</s:SurfaceButton>
+						</DataTemplate>
+					</s:SurfaceListBox.ItemTemplate>
+				</s:SurfaceListBox>
+				<s:SurfaceButton Content="Cancel" Height="24.834" Margin="23,0,0,23" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="Click">
+							<ei:GoToStateAction StateName="OpenPlaylistDialogInvisible"/>
+						</i:EventTrigger>
+						<i:EventTrigger EventName="TouchDown">
+							<ei:GoToStateAction StateName="OpenPlaylistDialogInvisible"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</s:SurfaceButton>
+			</Grid>
+		</Grid>
+	</Grid>
 </UserControl>
