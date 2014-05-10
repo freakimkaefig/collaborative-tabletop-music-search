@@ -688,22 +688,25 @@ namespace MusicSearch.Managers
                 {
                     if (!String.IsNullOrEmpty(searchList[i].artist_id))
                     {
-                        return SongsByArtistIDQuery(searchList[i].artist_id, searchList[i].originId, SearchRC);
+                        //return 
+                        SongsByArtistIDQuery(searchList[i].artist_id, searchList[i].originId, SearchRC);
 
                     }
                     else if (!String.IsNullOrEmpty(searchList[i].title_id))
                     {
-                       return SongsByTitleIDQuery(searchList[i].title_id, searchList[i].originId, SearchRC);
+                        //return 
+                        SongsByTitleIDQuery(searchList[i].title_id, searchList[i].originId, SearchRC);
 
                     }
                     else if (!String.IsNullOrEmpty(searchList[i].genre))
                     {
-                        return SongsByGenreQuery(searchList[i].genre, searchList[i].originId, SearchRC);
-
+                        //return 
+                        SongsByGenreQuery(searchList[i].genre, searchList[i].originId, SearchRC);
                     }
                 }
             }
-            return null;
+            //return null;
+            return SearchRC;
         }
 
 

@@ -12,6 +12,8 @@ using Ctms.Domain;
 using Ctms.Applications.DataModels;
 using Ctms.Applications.Data;
 using Ctms.Domain.Objects;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Ctms.Applications.Workers
 {
@@ -59,7 +61,7 @@ namespace Ctms.Applications.Workers
             }
             else if(_resultVm.Results != null && _resultVm.Results.Any())
             {
-                _resultWorker.RemoveResults();
+                _resultWorker.InitResults();
             }
             else
             {
@@ -257,8 +259,6 @@ namespace Ctms.Applications.Workers
 
         private void StartSearchCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            var loadingInfoId   = (int)((List<object>)e.Result)[1];
-            _infoWorker.ConfirmCommonInfo(loadingInfoId);
 
             if (e.Cancelled)
             {
@@ -270,9 +270,15 @@ namespace Ctms.Applications.Workers
             }
             else
             {
+                var loadingInfoId = (int)((List<object>)e.Result)[1];
+                _infoWorker.ConfirmCommonInfo(loadingInfoId);
+
                 var resultSongs = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
 
-                _resultWorker.RefreshResults(resultSongs);
+                _resultWorker.RefreshResults(resultSongs);  
+
+                //string json = JsonConvert.SerializeObject(resultSongs, Formatting.Indented);
+                //File.WriteAllText("../../../Ctms.Applications/DevHelper/resultSongs.json", json);
             }
         }
 

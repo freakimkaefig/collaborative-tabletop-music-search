@@ -84,7 +84,7 @@ namespace Ctms.Presentation.Views
         {
             //_viewModel.Id = e.TagVisualization.VisualizedTag.Value;
             //Tag = e.TagVisualization.VisualizedTag;
-            //DevLogger.Log("STV: SimpleVisualization_Loaded");
+            //Log("STV: SimpleVisualization_Loaded");
         }
 
         private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
@@ -93,32 +93,37 @@ namespace Ctms.Presentation.Views
             // Not when mouse click
             var t = (TouchEventArgs)e;
 
-            DevLogger.Log("STV: MyTagVisualization_PreviewTouchDown");
-            DevLogger.Log("STV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
-            DevLogger.Log("STV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
+            Log("STV: MyTagVisualization_PreviewTouchDown");
+            Log("STV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
+            Log("STV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
             
             if (!t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
             {   //!! Funktioniert! Taginput wird abgefangen
-                DevLogger.Log("STV: No finger, no Tag");
+                Log("STV: No finger, no Tag");
                 t.Handled = true;
             }
             else if (t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
             {
-                DevLogger.Log("STV: Finger, no Tag");
+                Log("STV: Finger, no Tag");
                 //t.Handled = true;
             }
             else if (!t.TouchDevice.GetIsFingerRecognized() && t.TouchDevice.GetIsTagRecognized())
             {
-                DevLogger.Log("STV: No Finger, but Tag");
+                Log("STV: No Finger, but Tag");
                 //t.Handled = true;
                 //t.TouchDevice.
                 //var searchTagView = (SearchTagView)e.TagVisualization;
             }
             else
             {
-                DevLogger.Log("STV: No Finger, no Tag");
+                Log("STV: No Finger, no Tag");
 
             }
+        }
+
+        private void Log(string message)
+        {
+            //DevLogger.Log(message);
         }
 
         public void LogScrollToEnd()

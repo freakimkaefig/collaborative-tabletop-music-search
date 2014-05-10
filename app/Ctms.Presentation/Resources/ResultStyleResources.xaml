@@ -57,7 +57,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Rectangle Fill="{Binding}" Height="2"></Rectangle>
+                                <Rectangle Fill="{Binding}" Height="3" Opacity="0.5"></Rectangle>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

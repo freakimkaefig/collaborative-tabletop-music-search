@@ -95,7 +95,6 @@ namespace Ctms.Applications.Workers
                 }
             }
 
-
             var tagCombis   = _repository.GetTagCombinations();
             var compareTags = _repository.GetAddedAndAssignedTagDMs().Where(t => t.Id != myTag.Id);
 
