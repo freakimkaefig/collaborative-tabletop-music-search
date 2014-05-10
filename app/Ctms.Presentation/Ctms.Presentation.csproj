@@ -166,6 +166,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Images\Common\icons\hourglass.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Images\Common\icons\info.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -94,7 +94,7 @@
         		Visibility="{DynamicResource IsCircleMenuVisible}" 
         		Height="{StaticResource PieMenuDiameter}" 
         		Width="{StaticResource PieMenuDiameter}"
-        		DataContext="{DynamicResource TagDM}" RenderTransformOrigin="0.5, 0.5">
+        		DataContext="{DynamicResource TagDM}">
         		<Grid.RenderTransform>
         			<RotateTransform Angle="{Binding Tag.Animation}"  />
         		</Grid.RenderTransform>
@@ -112,9 +112,9 @@
         			<ColumnDefinition/>
         		</Grid.ColumnDefinitions>
 
-        		<Image Source="{Binding BackgrImageSource}" Opacity="1.0"  
-        			Height="{StaticResource PieMenuDiameter}" 
-        			Width="{StaticResource PieMenuDiameter}"/>
+        		<Image Source="{Binding BackgrImageSource}" Opacity="1.0" Stretch="Fill"
+        			Height="233" 
+        			Width="233"/>
 
                 <!--Start PieMenu with tag options-->
         		<ps:PieMenu 
