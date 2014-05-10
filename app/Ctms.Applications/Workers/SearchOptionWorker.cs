@@ -542,12 +542,17 @@ namespace Ctms.Applications.Workers
         {
             var tagDM = (TagDataModel) e.Argument;
 
-            // set result to tagDM if backgr work cancelles/throws an error
+            SetIsLoadingInfoVisible(tagDM, true);
+
+            // set result to tagDM if there are no results
             e.Result = tagDM;
 
-            SetIsLoadingInfoVisible(tagDM, true);            
-
-            e.Result = _searchManager.getArtistSuggestions(tagDM.Id, tagDM.InputTerms);
+            // get suggestions
+            var artists = _searchManager.getArtistSuggestions(tagDM.Id, tagDM.InputTerms);
+            if (artists != null && artists.Any())
+            {
+                e.Result = artists;
+            }
         }
 
         private void GetArtistsSuggestionsCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -565,7 +570,7 @@ namespace Ctms.Applications.Workers
                 _infoWorker.ShowCommonInfo("An error occurred while searching for artist suggestions",
                        e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
             }
-            else if(e.Result != null)
+            else if(e.Result != null && !(e.Result is TagDataModel))
             {
                 var artists = (List<ResponseContainer.ResponseObj.ArtistSuggestion>) e.Result;
 
@@ -598,6 +603,10 @@ namespace Ctms.Applications.Workers
                     _infoWorker.ShowTagInfo("No artists found", "Please adjust your terms", tagDM.Id, "Ok");
                 }
             }
+            else
+            {   // no suggestions retrieved
+                _infoWorker.ShowTagInfo("No artists found", "Please adjust your terms", tagDM.Id, "Ok");
+            }
             SetIsLoadingInfoVisible(tagDM, false);
         }
 
@@ -605,12 +614,17 @@ namespace Ctms.Applications.Workers
         {
             var tagDM = (TagDataModel)e.Argument;
 
-            // set result to tagDM if backgr work cancelles/throws an error
-            e.Result = tagDM;
-
             SetIsLoadingInfoVisible(tagDM, true);   
 
-            e.Result = _searchManager.getTitleSuggestions(tagDM.Id, tagDM.InputTerms);
+            // set result to tagDM if there are no results
+            e.Result = tagDM;
+
+            // get suggestions
+            var titles = _searchManager.getTitleSuggestions(tagDM.Id, tagDM.InputTerms);
+            if (titles != null && titles.Any())
+            {
+                e.Result = titles;
+            }
         }
 
         private void GetTitleSuggestionsCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -628,7 +642,7 @@ namespace Ctms.Applications.Workers
                 _infoWorker.ShowCommonInfo("An error occurred while searching for title suggestions", 
                     e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
             }
-            else
+            else if (e.Result != null && !(e.Result is TagDataModel))
             {
                 var titles = (List<ResponseContainer.ResponseObj.TitleSuggestion>)e.Result;
 
@@ -661,6 +675,10 @@ namespace Ctms.Applications.Workers
                 {   // no suggestions retrieved
                     _infoWorker.ShowTagInfo("No titles found", "Please adjust your terms", tagDM.Id, "Ok");
                 }
+            }
+            else
+            {   // no suggestions retrieved
+                _infoWorker.ShowTagInfo("No titles found", "Please adjust your terms", tagDM.Id, "Ok");
             }
             SetIsLoadingInfoVisible(tagDM, false);
         }
