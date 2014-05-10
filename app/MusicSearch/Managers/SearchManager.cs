@@ -96,6 +96,7 @@ namespace MusicSearch.Managers
                 return null;
             }
             //Apostrophes are replaced by HTML unicode
+            response = response.Replace("'", "&#39;");
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
             var newText = StringHelper.replacePartialString(cleared, "songs", "CombinedArtists", 1);
@@ -165,7 +166,19 @@ namespace MusicSearch.Managers
                         {
                             propValue = "present";
                         }
-                        request += "&" + name + "=" + propValue.ToString();
+
+
+                        if (propValue.ToString() == "1" || propValue.ToString() == "2" || propValue.ToString() == "3" || propValue.ToString() == "4" || propValue.ToString() == "5" || propValue.ToString() == "6" || propValue.ToString() == "7" || propValue.ToString() == "8" || propValue.ToString() == "9" || propValue.ToString() == "10")
+                        {
+                            propValue = (double)propValue / 10;
+                        }
+                        
+                        String value = propValue.ToString();
+                        if (value.Contains(","))
+                        {
+                            value = StringHelper.replacePartialString(value, ",", ".", 1);
+                        }
+                        request += "&" + name + "=" + value;
 
                     }
                 }
@@ -181,9 +194,9 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            //Apostrophes are replaced by HTML unicode
-            response = response.Replace("'", "&#39;");
-            var cleared = @"" + response.Replace("\"", "'");
+                //Apostrophes are replaced by HTML unicode
+                response = response.Replace("'", "&#39;");
+                var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
             var responseString = StringHelper.replacePartialString(cleared, "songs", "Songs", 1);
             //Add Origin-IDs to each result
