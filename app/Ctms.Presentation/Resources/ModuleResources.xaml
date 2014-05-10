@@ -22,6 +22,7 @@
         <ResourceDictionary Source="Images/Common/icons/genre.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/genre2.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/home.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/hourglass.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/info.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/minus.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/pause.xaml"/>
