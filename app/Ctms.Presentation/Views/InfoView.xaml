@@ -190,7 +190,7 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </DataTemplate.Triggers>
-                    <Grid HorizontalAlignment="Center">
+                    <Grid HorizontalAlignment="Stretch" Background="#9000">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />

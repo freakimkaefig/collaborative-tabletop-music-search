@@ -210,7 +210,7 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
-        <s:SurfaceButton Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="120" Background="{StaticResource ResourceKey=playlist}">
+        <s:SurfaceButton Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="120" Background="{StaticResource ResourceKey=playlistRight}">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<ei:GoToStateAction StateName="PlaylistViewVisible"/>
@@ -221,7 +221,7 @@
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
         <Image Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="0" Margin="0,0,110,0"/>
-        <s:SurfaceButton Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="120" Background="{StaticResource ResourceKey=playlist}">
+        <s:SurfaceButton Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="120" Background="{StaticResource ResourceKey=playlistLeft}">
             <i:Interaction.Triggers>
         		<i:EventTrigger EventName="Click">
         			<ei:GoToStateAction StateName="PlaylistViewVisible"/>

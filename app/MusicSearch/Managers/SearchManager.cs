@@ -47,18 +47,27 @@ namespace MusicSearch.Managers
         /// <returns>returns a Response Container with the data fetched from echonest</returns>
         public List<ResponseContainer.ResponseObj.Song> combinedSearchQuery(List<combinedSearchObject> list)
         {
+            var songs = new List<ResponseContainer.ResponseObj.Song>();
             foreach (combinedSearchObject cso in list)
             {
+                var results = new List<ResponseContainer.ResponseObj.Song>();
                 if (!String.IsNullOrEmpty(cso.artist_id))
                 {
-                    return combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
+                    //return combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
+                    results = combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
+                    if(results != null && results.Any())
+                        songs.AddRange(results);
                 }
                 else if (cso.genre != null && cso.genre.Any() && !String.IsNullOrEmpty(cso.genre[0].ToString()))
                 {
-                    return combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                    //return combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                    results = combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                    if (results != null && results.Any())
+                        songs.AddRange(results);
                 }
             }
-            return null;
+            //return null;
+            return songs;
         }
 
         public List<ResponseContainer.ResponseObj.Song> combinedArtistQuery(List<int> IDs, String artist_id, List<ArtistParameter> ap)
@@ -96,6 +105,7 @@ namespace MusicSearch.Managers
                 return null;
             }
             //Apostrophes are replaced by HTML unicode
+            response = response.Replace("'", "&#39;");
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
             var newText = StringHelper.replacePartialString(cleared, "songs", "CombinedArtists", 1);
@@ -149,30 +159,46 @@ namespace MusicSearch.Managers
             if (gp != null && gp.Any())
             {
                 //get & add attributes to combined-search-URL by using reflection
-                var properties = gp[0].GetType().GetProperties();
-                foreach (var prop in properties)
+                foreach (var g in gp)
                 {
-                    string name = prop.Name;
-                    var propValue = prop.GetValue(gp[0], null);
-                    if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
+                    var properties = g.GetType().GetProperties();
+                    foreach (var prop in properties)
                     {
-                        //check if values are correctly formated, if not fix them
-                        if (propValue.ToString().Contains(","))
+                        string name = prop.Name;
+                        var propValue = prop.GetValue(gp[0], null);
+                        if (!request.Contains(name) && propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
                         {
-                            propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
-                        }
-                        if (propValue.ToString() == DateTime.Now.Year.ToString())
-                        {
-                            propValue = "present";
-                        }
-                        request += "&" + name + "=" + propValue.ToString();
+                            //check if values are correctly formated, if not fix them
+                            if (propValue.ToString().Contains(","))
+                            {
+                                propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
+                            }
+                            if (propValue.ToString() == DateTime.Now.Year.ToString())
+                            {
+                                propValue = "present";
+                            }
 
+
+                            if (propValue.ToString() == "1" || propValue.ToString() == "2" || propValue.ToString() == "3" || propValue.ToString() == "4" || propValue.ToString() == "5" || propValue.ToString() == "6" || propValue.ToString() == "7" || propValue.ToString() == "8" || propValue.ToString() == "9" || propValue.ToString() == "10")
+                            {
+                                propValue = (double)propValue / 10;
+                            }
+
+                            String value = propValue.ToString();
+                            if (value.Contains(","))
+                            {
+                                value = StringHelper.replacePartialString(value, ",", ".", 1);
+                            }
+                            //add parameter & value to request
+                            request += "&" + name + "=" + value;
+
+                        }
                     }
                 }
             }
             else
             {
-
+                //couldn't find any parameters (msg auslösen!)
             }
 
             //JSON response delivered as string
@@ -181,9 +207,9 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-            //Apostrophes are replaced by HTML unicode
-            response = response.Replace("'", "&#39;");
-            var cleared = @"" + response.Replace("\"", "'");
+                //Apostrophes are replaced by HTML unicode
+                response = response.Replace("'", "&#39;");
+                var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
             var responseString = StringHelper.replacePartialString(cleared, "songs", "Songs", 1);
             //Add Origin-IDs to each result
@@ -305,7 +331,7 @@ namespace MusicSearch.Managers
                 }
                 else if (prop.Name == GenreParameterTypes.adventurousness.ToString())
                 {
-                    combinedSearchGenreAttributes.Add(GenreParameterTypes.adventurousness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Adventurousness: known/unknown music" });
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.adventurousness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Adventurousness" });
                 }
             }
             #endregion
@@ -688,22 +714,25 @@ namespace MusicSearch.Managers
                 {
                     if (!String.IsNullOrEmpty(searchList[i].artist_id))
                     {
-                        return SongsByArtistIDQuery(searchList[i].artist_id, searchList[i].originId, SearchRC);
+                        //return 
+                        SongsByArtistIDQuery(searchList[i].artist_id, searchList[i].originId, SearchRC);
 
                     }
                     else if (!String.IsNullOrEmpty(searchList[i].title_id))
                     {
-                       return SongsByTitleIDQuery(searchList[i].title_id, searchList[i].originId, SearchRC);
+                        //return 
+                        SongsByTitleIDQuery(searchList[i].title_id, searchList[i].originId, SearchRC);
 
                     }
                     else if (!String.IsNullOrEmpty(searchList[i].genre))
                     {
-                        return SongsByGenreQuery(searchList[i].genre, searchList[i].originId, SearchRC);
-
+                        //return 
+                        SongsByGenreQuery(searchList[i].genre, searchList[i].originId, SearchRC);
                     }
                 }
             }
-            return null;
+            //return null;
+            return SearchRC;
         }
 
 
