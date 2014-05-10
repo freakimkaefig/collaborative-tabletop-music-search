@@ -98,16 +98,25 @@ namespace Ctms.Applications.Workers
         {
             foreach (ResultDataModel result in _resultViewModel.Results)
             {
-                //Vergleiche Tracks ??? keine ahnung wie!
-                if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
-                {
-                    result.IsLoading = false;
-                    result.IsPlaying = true;
+                try {
+                    if (result.SpotifyTrack.Artist(0) != null)
+                    {
+                        //Vergleiche Tracks ??? keine ahnung wie!
+                        if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
+                        {
+                            result.IsLoading = false;
+                            result.IsPlaying = true;
+                        }
+                        else
+                        {
+                            result.IsLoading = false;
+                            result.IsPlaying = false;
+                        }
+                    }
                 }
-                else
+                catch (NullReferenceException e)
                 {
-                    result.IsLoading = false;
-                    result.IsPlaying = false;
+                    _infoWorker.ShowCommonInfo("Streaming error", "Please try again.", "Ok");
                 }
             }
         }

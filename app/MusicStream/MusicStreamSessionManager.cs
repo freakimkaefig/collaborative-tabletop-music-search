@@ -42,7 +42,9 @@ namespace MusicStream
         public Action PlaybackEndOfTrack;
         public Action<int> PlaylistTrackRemoved;
         public Action<Track> PrelistenLoadingReady;
+        private bool _firstPrelistenLoadingReady;
         public Action<Track> PlaybackLoadingReady;
+        private bool _firstPlaybackLoadingReady;
 
         private string _credentialsBlob = null;
         private object _userdata = null;
@@ -315,6 +317,7 @@ namespace MusicStream
                 _waveOutDevice.Play();
                 PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                 _playlistPlaying = true;
+                _firstPlaybackLoadingReady = true;
             }
             catch (SpotifyException spotifyException)
             {
@@ -565,13 +568,15 @@ namespace MusicStream
                 }
             }
 
-            if (_playlistPlaying)
+            if (_playlistPlaying && _firstPlaybackLoadingReady)
             {
                 PlaybackLoadingReady(_currentPlaylist.Track(_currentPlaylistTrackIndex));
+                _firstPlaybackLoadingReady = false;
             }
-            if (_prelistPlaying)
+            if (_prelistPlaying && _firstPrelistenLoadingReady)
             {
                 PrelistenLoadingReady(_currentPrelistenTrack);
+                _firstPrelistenLoadingReady = false;
             }
         }
 
@@ -653,6 +658,7 @@ namespace MusicStream
             //PlaybackStarted();
             CurrentPrelistenTrack = (Track)e.Result;
             PrelistenStarted(_currentPrelistenTrack);
+            _firstPrelistenLoadingReady = true;
         }
 
         private void PrelistenStopWorker(object sender, DoWorkEventArgs e)
