@@ -159,42 +159,46 @@ namespace MusicSearch.Managers
             if (gp != null && gp.Any())
             {
                 //get & add attributes to combined-search-URL by using reflection
-                var properties = gp[0].GetType().GetProperties();
-                foreach (var prop in properties)
+                foreach (var g in gp)
                 {
-                    string name = prop.Name;
-                    var propValue = prop.GetValue(gp[0], null);
-                    if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
+                    var properties = g.GetType().GetProperties();
+                    foreach (var prop in properties)
                     {
-                        //check if values are correctly formated, if not fix them
-                        if (propValue.ToString().Contains(","))
+                        string name = prop.Name;
+                        var propValue = prop.GetValue(gp[0], null);
+                        if (!request.Contains(name) && propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
                         {
-                            propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
-                        }
-                        if (propValue.ToString() == DateTime.Now.Year.ToString())
-                        {
-                            propValue = "present";
-                        }
+                            //check if values are correctly formated, if not fix them
+                            if (propValue.ToString().Contains(","))
+                            {
+                                propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
+                            }
+                            if (propValue.ToString() == DateTime.Now.Year.ToString())
+                            {
+                                propValue = "present";
+                            }
 
 
-                        if (propValue.ToString() == "1" || propValue.ToString() == "2" || propValue.ToString() == "3" || propValue.ToString() == "4" || propValue.ToString() == "5" || propValue.ToString() == "6" || propValue.ToString() == "7" || propValue.ToString() == "8" || propValue.ToString() == "9" || propValue.ToString() == "10")
-                        {
-                            propValue = (double)propValue / 10;
-                        }
-                        
-                        String value = propValue.ToString();
-                        if (value.Contains(","))
-                        {
-                            value = StringHelper.replacePartialString(value, ",", ".", 1);
-                        }
-                        request += "&" + name + "=" + value;
+                            if (propValue.ToString() == "1" || propValue.ToString() == "2" || propValue.ToString() == "3" || propValue.ToString() == "4" || propValue.ToString() == "5" || propValue.ToString() == "6" || propValue.ToString() == "7" || propValue.ToString() == "8" || propValue.ToString() == "9" || propValue.ToString() == "10")
+                            {
+                                propValue = (double)propValue / 10;
+                            }
 
+                            String value = propValue.ToString();
+                            if (value.Contains(","))
+                            {
+                                value = StringHelper.replacePartialString(value, ",", ".", 1);
+                            }
+                            //add parameter & value to request
+                            request += "&" + name + "=" + value;
+
+                        }
                     }
                 }
             }
             else
             {
-
+                //couldn't find any parameters (msg auslösen!)
             }
 
             //JSON response delivered as string
@@ -327,7 +331,7 @@ namespace MusicSearch.Managers
                 }
                 else if (prop.Name == GenreParameterTypes.adventurousness.ToString())
                 {
-                    combinedSearchGenreAttributes.Add(GenreParameterTypes.adventurousness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Adventurousness: known/unknown music" });
+                    combinedSearchGenreAttributes.Add(GenreParameterTypes.adventurousness.ToString(), new AttributeObj() { max = 1, min = 0, description = "Adventurousness" });
                 }
             }
             #endregion

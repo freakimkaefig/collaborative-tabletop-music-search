@@ -37,6 +37,7 @@
         <ResourceDictionary Source="Images/Common/icons/searchButton.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/shuffle.xaml"/>
         <ResourceDictionary Source="Images/Common/icons/stop.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/volume.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
