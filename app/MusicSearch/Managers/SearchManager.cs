@@ -47,18 +47,27 @@ namespace MusicSearch.Managers
         /// <returns>returns a Response Container with the data fetched from echonest</returns>
         public List<ResponseContainer.ResponseObj.Song> combinedSearchQuery(List<combinedSearchObject> list)
         {
+            var songs = new List<ResponseContainer.ResponseObj.Song>();
             foreach (combinedSearchObject cso in list)
             {
+                var results = new List<ResponseContainer.ResponseObj.Song>();
                 if (!String.IsNullOrEmpty(cso.artist_id))
                 {
-                    return combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
+                    //return combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
+                    results = combinedArtistQuery(cso.originIds, cso.artist_id, cso.ArtistParameter);
+                    if(results != null && results.Any())
+                        songs.AddRange(results);
                 }
                 else if (cso.genre != null && cso.genre.Any() && !String.IsNullOrEmpty(cso.genre[0].ToString()))
                 {
-                    return combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                    //return combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                    results = combinedGenreQuery(cso.originIds, cso.genre, cso.GenreParameter);
+                    if (results != null && results.Any())
+                        songs.AddRange(results);
                 }
             }
-            return null;
+            //return null;
+            return songs;
         }
 
         public List<ResponseContainer.ResponseObj.Song> combinedArtistQuery(List<int> IDs, String artist_id, List<ArtistParameter> ap)
