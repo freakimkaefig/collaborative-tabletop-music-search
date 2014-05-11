@@ -139,12 +139,16 @@ namespace Ctms.Presentation.Views
             {
                 e.Handled = true;
             }*/
-            KeyboardHelper.ShowKeyboard();
         }
 
         private void MyTagVisualization_TouchUp(object sender, TouchEventArgs e)
         {
 
+        }
+
+        private void InputField_GotFocus(object sender, RoutedEventArgs e)
+        {
+            KeyboardHelper.ShowKeyboard();
         }
         
     }
