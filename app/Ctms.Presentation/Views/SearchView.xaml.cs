@@ -214,15 +214,12 @@ namespace Ctms.Presentation.Views
         public void UpdateMenuItems(int tagId)
         {
             var pieMenu = SearchTagViews[tagId].PieMenu;
-            //var pieMenuMain = SearchTagViews[tagId].PieMenuMain;
             var tagDM = _viewModel.Tags[tagId];
 
             var pieMenuItems    = (ItemCollection)pieMenu.Items;
-            //var pieMenuMainItem = (ItemCollection)pieMenuMain.Items;
 
             // remove inserted items (when initializing this is the placeholder item)
             pieMenuItems.Clear();
-            //pieMenuMainItem.Clear();
 
             var options = tagDM.VisibleOptions;
 

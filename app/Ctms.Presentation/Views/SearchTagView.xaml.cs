@@ -51,16 +51,15 @@ namespace Ctms.Presentation.Views
 
         private void TagVisualization_Moved(object sender, TagVisualizerEventArgs e)
         {
-            //e.TagVisualization.Center; //passing center of tag to update animation between tangibles
-
-            var searchTagView   = (SearchTagView)e.TagVisualization;
-            var tagId           = (int)searchTagView.VisualizedTag.Value;
+            var searchTagView   = (SearchTagView) e.TagVisualization;
+            var tagId           = (int) searchTagView.VisualizedTag.Value;
 
             var screenPosition = searchTagView.Center;
 
             // set angle and position of this tag
             var tag         = SearchVm.Tags[tagId];
-                var trackedTouch = e.TagVisualization.TrackedTouch;
+
+            var trackedTouch = e.TagVisualization.TrackedTouch;
             if (trackedTouch != null)
             {
                 tag.Tag.Angle = (short)trackedTouch.GetOrientation(this);
@@ -70,7 +69,7 @@ namespace Ctms.Presentation.Views
             tag.Tag.PositionY   = (short) (screenPosition.Y);
 
             // orientate tag to the nearest side of the two long sides
-            tag.Tag.Orientation = tag.Tag.PositionY > (windowHeight / 2) - (tag.Height / 2) ? (short) 0 : (short) 180;
+            tag.Tag.Orientation = tag.Tag.PositionY > (windowHeight / 2) ? (short) 0 : (short) 180;
 
             if (tag.AssignState == TagDataModel.AssignStates.Assigned && tag.ExistenceState == TagDataModel.ExistenceStates.Added)
             {

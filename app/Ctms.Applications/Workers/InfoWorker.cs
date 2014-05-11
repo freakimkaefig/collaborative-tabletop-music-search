@@ -40,11 +40,6 @@ namespace Ctms.Applications.Workers
 
         public void Initialize()
         {
-            /*
-            ShowCommonInfo("AAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAhAAAh",
-                "ooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohooohoooh", 
-                "Confirm", "Cancel", true);
-            //*/
         }
 
         public void ConfirmCommonInfo(int commonInfoId)
@@ -129,17 +124,39 @@ namespace Ctms.Applications.Workers
             var tagPosY = tagDm.Tag.PositionY;
             var tagPosX = tagDm.Tag.PositionX;
 
-            var infoHeight = 80.0F;
-            info.Info.PositionX = tagPosX - tagDm.Width / 2.0F;
 
-            if (_shellVm.WindowHeight < tagPosY + tagDm.Height / 2.0 + infoHeight)
-            {   // place the info below the tag because there's space
-                info.Info.PositionY = tagPosY - infoHeight / 2.0F - infoHeight;
-            }
+            var infoHeight = 80.0F;
+
+            if (tagDm.Tag.Orientation >= 180)
+            {
+                var infoPadding = 40.0F;
+                info.Info.PositionX = tagPosX + tagDm.Width / 2.0F;
+
+                if (0 < tagPosY - tagDm.Height / 2.0 - infoHeight + infoPadding)
+                {
+                    // place the info above the tag because below there's no space
+                    info.Info.PositionY = tagPosY - tagDm.Height / 2.0F + infoHeight - 15.0F;
+                }
+                else
+                {
+                    // place the info below the tag because there's space
+                    info.Info.PositionY = tagPosY + tagDm.Height / 2.0F + infoPadding - 15.0F;
+                }
+            } 
             else
-            {   // place the info above the tag because below there's no space
-                info.Info.PositionY = tagPosY + tagDm.Height / 2.0F;
-	        }
+            {
+                var infoMargin = -40.0F;
+                info.Info.PositionX = tagPosX - tagDm.Width / 2.0F;
+
+                if (_shellVm.WindowHeight > tagPosY + tagDm.Height / 2.0 + infoHeight + infoMargin)
+                {   // place the info below the tag because there's space
+                    info.Info.PositionY = tagPosY + tagDm.Height / 2.0F + infoMargin;
+                }
+                else
+                {   // place the info above the tag because below there's no space
+                    info.Info.PositionY = tagPosY - tagDm.Height / 2.0F - infoHeight - infoMargin;
+                }
+            }
             RemoveTagInfo(tagId);
             _infoVm.TagInfos.Add(info);
         }

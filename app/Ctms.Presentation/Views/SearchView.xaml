@@ -336,18 +336,20 @@
                     >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <ItemsControl x:Name="TagCombinationTagsControl"
                                 ItemsSource="{Binding Tags}" 
                                 Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" >
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <Grid />
+                                        <Grid
+                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Loaded="combiTag_Loaded" Unloaded="combiTag_Unloaded">
+                                        <Grid Loaded="combiTag_Loaded" Unloaded="combiTag_Unloaded" 
+                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                             
                                             <TextBlock 
                                                 x:Name="HiddenTagCombiId"
@@ -359,7 +361,10 @@
                                                 Width="15"
                                                 Opacity="0.7"
                                                 Fill="#afff"
-                                                RenderTransformOrigin="0.5,0.5">
+                                                RenderTransformOrigin="0.5,0.5"
+                                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                     
+                                                     >
                                                 <Ellipse.RenderTransform>
                                                     <TranslateTransform x:Name="TTransform" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}" />
                                                 </Ellipse.RenderTransform>
