@@ -170,7 +170,7 @@
         			Command="{Binding SelectAttributeCmd}" 
         			CommandParameter="{DynamicResource TagId}"
         			Style="{StaticResource SearchViewBtn}"
-        			Background="{StaticResource ResourceKey=gear2}" Margin="3,3,-2,-2"
+        			Background="{StaticResource ResourceKey=gear2}" Margin="1,-1,0,0"
                                 />
                 
         		<s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -179,7 +179,7 @@
         			Command="{Binding SelectGenreCmd}" 
         			CommandParameter="{DynamicResource TagId}"
         			Style="{StaticResource SearchViewBtn}"
-        			Background="{StaticResource ResourceKey=genre2}" Margin="3,3,-2,-2"
+        			Background="{StaticResource ResourceKey=genre2}" Margin="1,-1,0,0"
                                  />
                 
         		<s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -188,7 +188,7 @@
         			Command="{Binding SelectTitleCmd}" 
         			CommandParameter="{DynamicResource TagId}"
         			Style="{StaticResource SearchViewBtn}"
-        			Background="{StaticResource ResourceKey=title2}" Margin="3,3,-2,-2"
+        			Background="{StaticResource ResourceKey=title2}" Margin="1,-1,0,0"
                                  />
                 
         		<s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -197,7 +197,7 @@
         			Command="{Binding SelectArtistCmd}" 
         			CommandParameter="{DynamicResource TagId}"
         			Style="{StaticResource SearchViewBtn}"
-        			Background="{StaticResource ResourceKey=artist2}" Margin="3,3,-2,-2"
+        			Background="{StaticResource ResourceKey=artist2}" Margin="1,-1,0,0"
                                  />
         	</Grid>
             <!--Input and hint-->
