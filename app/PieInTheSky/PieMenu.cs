@@ -9,6 +9,7 @@ using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
 using System.Collections;
 using Ctms.Domain.Objects;
+using System.Text;
 //using Ctms.Domain.Objects;
 
 namespace PieInTheSky
@@ -646,7 +647,8 @@ namespace PieInTheSky
                 var subHeader = ((String)menu_item.SubHeader);
 
                 header      = header == null ? "" : header;
-                subHeader   = subHeader == null ? "" : subHeader;
+                //subHeader = subHeader == null ? "" : subHeader;
+                subHeader = "";
 
                 FormattedText headerText = new FormattedText(header,
                                 CultureInfo.CurrentCulture,
@@ -672,34 +674,53 @@ namespace PieInTheSky
                 }
                 else if (count == 2)
                 {
-                    boxLength = 100.0F;
+                    boxLength = 120.0F;
                 }
-                else //count is 1
+                else
                 {
-                    boxLength = Radius - InnerRadius - 15.0F;
+                    boxLength = Radius - InnerRadius - 16.0F;
                 }
-
+                
                 if (menu_item.CenterTextVertically == true)
                 {
-                    bottomMargin = 10.0;
+                    bottomMargin = 20.0;
+                }
+                
+                float textDistance = 37.0F;
+
+                if (count == 2)
+                {
+                    if (i == count - 1)
+                        headerText.MaxTextHeight = 100;
+                    else
+                        headerText.MaxTextHeight = 50;
+                    headerText.MaxTextWidth = 70;
+                    headerText.TextAlignment = TextAlignment.Center;
+                }
+                else if (i == count - 1 || count == 3)
+                {
+                    // calculate maximum width for text and cut too long texts with "..."
+                    headerText.MaxTextWidth = 160;
+                    headerText.MaxTextHeight = 50;
+                    headerText.TextAlignment = TextAlignment.Center;
+                    headerText.Trimming = TextTrimming.CharacterEllipsis;
+                    textDistance = 15.0F;
+                }
+                else
+                {
+                    // calculate maximum width for text and cut too long texts with "..."
+                    headerText.MaxTextWidth = boxLength;
+                    headerText.MaxTextHeight = menu_item.FontSize + textMargin;
+                    headerText.Trimming = TextTrimming.CharacterEllipsis;
                 }
 
-                // calculate maximum width for text and cut too long texts with "..."
-                headerText.MaxTextWidth = boxLength;
-                headerText.MaxTextHeight = menu_item.FontSize + textMargin;
-                headerText.Trimming = TextTrimming.CharacterEllipsis;
-
-                subHeaderText.MaxTextWidth = boxLength;
-                subHeaderText.MaxTextHeight = menu_item.FontSize + textMargin;
-                subHeaderText.Trimming = TextTrimming.CharacterEllipsis;
-
-                var innerMargin  = 0.0;
+                var innerMargin  = -5.0F;
                 var headerTextPosX = 0.0;
                 var subTextPosX = 0.0;
 
                 if (menu_item.CenterTextHorizontal == true)
                 {   // center text horizontally
-                    headerTextPosX  = center.X - headerText.Width / 2.0;
+                    headerTextPosX  = center.X - headerText.MaxTextWidth / 2.0;
                     subTextPosX     = center.X - subHeaderText.Width / 2.0;
                 }
                 else
@@ -708,28 +729,24 @@ namespace PieInTheSky
                     subTextPosX = center.X - (Radius / 2.0) + InnerRadius + innerMargin;
                 }
 
-                var textDistance = 18.0;
-
                 // Calculate placement of text in  center
-                Point headerTextPoint = new Point(headerTextPosX, center.Y - headerText.Height / 2.0 + textDistance / 2.0 - bottomMargin);
-                Point subTextPoint = new Point(subTextPosX, center.Y - subHeaderText.Height / 2.0 - textDistance / 2.0 - bottomMargin);
+                Point headerTextPoint   = new Point(headerTextPosX, center.Y - headerText.Height / 2.0 + textDistance / 2.0 - bottomMargin);
+                Point subTextPoint      = new Point(subTextPosX, center.Y - subHeaderText.Height / 2.0 - textDistance / 2.0 - bottomMargin);
 
                 // Draw the text as name of menu item
                 // Added rotation angle adjustment of text
-                //var defaultTextRotation = 90.0;
-                //if (this.RotateTextAngle != 90.0) defaultTextRotation = this.RotateTextAngle;
                 if (i == count - 1 || count == 3) 
                     textRotation = mainTextRotation;
 
                 if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + textRotation, center.X, center.Y));
-                drawingContext.DrawText(headerText, headerTextPoint);
+                    drawingContext.DrawText(headerText, headerTextPoint);
 
                 if (i == count - 1 || count == 3)// draw description only if this is the main part (enough space)
                     drawingContext.DrawText(subHeaderText, subTextPoint);
 
                 if (this.RotateText) drawingContext.Pop();
             }
-        }        
+        }
 
         private Point CalculatePoint(double centerX, double centerY, double angle, double radius)
         {

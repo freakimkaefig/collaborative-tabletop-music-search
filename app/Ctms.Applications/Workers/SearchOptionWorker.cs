@@ -333,6 +333,12 @@ namespace Ctms.Applications.Workers
             // remove previously shown infos
             _infoWorker.RemoveTagInfo(tagDm.Id);
 
+            if (String.IsNullOrEmpty(terms))
+            {
+                _infoWorker.ShowTagInfo("Input required", "Please insert your search terms", tagId);
+                return;
+            }
+
             Keyword keyword;
             TagOption tagOption;
 

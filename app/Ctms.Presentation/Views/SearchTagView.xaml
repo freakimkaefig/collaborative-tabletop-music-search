@@ -143,12 +143,6 @@
         			<ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
         				Command="" Background="#0000" />
         		</ps:PieMenu>
-
-        		<Image        
-        			Style="{StaticResource LoadingCircleInverted}"
-        			Visibility="{Binding IsLoadingInfoVisible, Converter={StaticResource visibilityConverter}}"
-        			Height="80" Width="80"
-        			HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 
         	</Grid>
             <!--Grid for keyword type selection-->
@@ -369,7 +363,7 @@
                 <!--Not rotated assigned keyword-->
         	<Grid Grid.ColumnSpan="3" Grid.Row="1"
         			Background="{x:Null}"
-        		VerticalAlignment="Top" Margin="0,42,0,0" HorizontalAlignment="Stretch" >
+        		VerticalAlignment="Top" Margin="0,55,0,0" HorizontalAlignment="Stretch" >
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
@@ -438,7 +432,20 @@
                 <BlurEffect Radius="5"/>
             </Ellipse.Effect>
         </Ellipse>
-        
+
+        <Image        
+        	Style="{StaticResource LoadingCircleInverted}"
+            DataContext="{DynamicResource TagDM}"
+        	Visibility="{Binding IsLoadingInfoVisible, Converter={StaticResource visibilityConverter}}"
+        	Height="85" Width="85"
+            Margin="0,0,0,5"
+        	HorizontalAlignment="Center" VerticalAlignment="Center"
+            Opacity="0.9" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <RotateTransform Angle="180" />
+            </Image.RenderTransform>
+        </Image>
+
         <!--<Rectangle
             Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
             Fill="#6fff"

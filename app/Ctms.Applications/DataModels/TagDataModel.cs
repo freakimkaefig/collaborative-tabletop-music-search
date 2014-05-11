@@ -65,6 +65,8 @@ namespace Ctms.Applications.DataModels
         {
             var difference = lastHandledAngle - Tag.Angle;
 
+            Console.WriteLine("difference: " + difference);
+
             // check if tag has been rotated over the switching part of 360° and 0°
             // e.g. 355 - 5 = 350 change to: 355 - 365 = -10
             if (difference > 180) difference = difference - 360;
