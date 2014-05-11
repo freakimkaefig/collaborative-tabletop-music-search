@@ -234,22 +234,7 @@ namespace Ctms.Presentation.Views
                 option              = options[i];
                 var backgroundHex   = "";
                 var textHex         = "";
-                /*
-                if ((tagDM.CurrentOptionsIndex + i) % 3 == 0) 
-                {
-                    backgroundHex = "#5000";
-                    textHex = "#ffff";
-                }
-                else if ((tagDM.CurrentOptionsIndex + i) % 3 == 1)
-                {
-                    backgroundHex = "#5444";
-                    textHex = "#ffff";
-                }
-                else if ((tagDM.CurrentOptionsIndex + i) % 3 == 2)
-                {
-                    backgroundHex = "#5888";
-                    textHex = "#ffff";
-                }*/
+
                 backgroundHex = "#0000";
                 textHex = "#fff";
 

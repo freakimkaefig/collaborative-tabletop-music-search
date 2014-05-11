@@ -42,6 +42,7 @@ namespace Ctms.Applications.DataModels
         private AssignStates _assignState;
         private bool _isLoadingInfoVisible;
         private string _tagColor;
+        private float _rotationAngle;
 
         public TagDataModel(Tag tag)
         {
@@ -76,11 +77,22 @@ namespace Ctms.Applications.DataModels
             if (Math.Abs(difference) > CommonVal.Tag_OptionsStepAngle)
             {   // absolute difference is big enough to scroll to next options
 
+                RotationAngle = Tag.Angle;
+
                 if (difference < 0)
                 {   // turned tag clockwise
                     if (activeOptionsIndex + CommonVal.Tag_VisibleOptionsCount < ActiveLayerOptions.Count())
                     {   // index can be raised without getting over the top
                         activeOptionsIndex++;
+
+                        lastHandledAngle = Tag.Angle;
+
+                        // raise changed event so controller can react
+                        RaisePropertyChanged("VisibleOptions");
+                    }
+                    else
+                    {
+                        activeOptionsIndex = 0;
 
                         lastHandledAngle = Tag.Angle;
 
@@ -359,6 +371,22 @@ namespace Ctms.Applications.DataModels
                 {
                     _width = value;
                     RaisePropertyChanged("Width");
+                }
+            }
+        }
+
+        public float RotationAngle
+        {
+            get
+            {
+                return _rotationAngle;
+            }
+            set
+            {
+                if (_rotationAngle != value)
+                {
+                    _rotationAngle = value;
+                    RaisePropertyChanged("RotationAngle");
                 }
             }
         }
