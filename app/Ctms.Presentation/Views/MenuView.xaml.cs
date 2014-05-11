@@ -8,6 +8,7 @@ using Ctms.Applications.ViewModels;
 using System.Waf.Applications;
 using Microsoft.Surface;
 using Microsoft.Surface.Presentation.Input;
+using Helpers;
 
 namespace Ctms.Presentation.Views
 {
@@ -67,5 +68,10 @@ namespace Ctms.Presentation.Views
 
         // Provides this view's viewmodel
         private MenuViewModel _viewModel { get { return _lazyVm.Value; } }
+
+        private void InputField_GotFocus(object sender, RoutedEventArgs e)
+        {
+            KeyboardHelper.ShowKeyboard();
+        }
     }
 }
