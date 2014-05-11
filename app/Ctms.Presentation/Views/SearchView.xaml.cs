@@ -262,7 +262,7 @@ namespace Ctms.Presentation.Views
                 var pieMenuItem = new PieMenuItem()
                 {
                     Id = option.Id,
-                    BorderThickness = new Thickness(1),
+                    BorderThickness = new Thickness(0),
                     BorderBrush = (Brush)(new BrushConverter().ConvertFrom("#171815")),
                     Foreground = textColor,
                     Background = backgroundColor,
