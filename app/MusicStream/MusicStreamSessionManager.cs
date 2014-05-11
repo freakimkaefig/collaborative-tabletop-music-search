@@ -45,6 +45,8 @@ namespace MusicStream
         private bool _firstPrelistenLoadingReady;
         public Action<Track> PlaybackLoadingReady;
         private bool _firstPlaybackLoadingReady;
+        public Action<String> ShowError;
+        public Action<String> Log;
 
         private string _credentialsBlob = null;
         private object _userdata = null;
@@ -648,9 +650,16 @@ namespace MusicStream
                 _waveOutDevice.Play();
                 e.Result = e.Argument;
             }
-            catch (SpotifyException spotifyException)
+            catch (SpotifyException exception)
             {
-                logMessages.Enqueue("SpotifyException: " + spotifyException.Message);
+                //logMessages.Enqueue("SpotifyException: " + spotifyException.Message);
+                ShowError(exception.Message);
+                Log("DATA: " + exception.Data + " | SOURCE: " + exception.Source + " | STACKTRACE: " + exception.StackTrace + " | INNEREXCEPTION: " + exception.InnerException);
+            }
+            catch (AccessViolationException exception)
+            {
+                ShowError(exception.Message);
+                Log("DATA: " + exception.Data + " | SOURCE: " + exception.Source + " | STACKTRACE: " + exception.StackTrace + " | INNEREXCEPTION: " + exception.InnerException);
             }
         }
         private void PrelistenPlayCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -663,10 +672,18 @@ namespace MusicStream
 
         private void PrelistenStopWorker(object sender, DoWorkEventArgs e)
         {
-            _session.PlayerPlay(false);
-            _session.PlayerUnload();
-            _waveOutDevice.Stop();
-            _bufferedWaveProvider.ClearBuffer();
+            try
+            {
+                _session.PlayerPlay(false);
+                _session.PlayerUnload();
+                _waveOutDevice.Stop();
+                _bufferedWaveProvider.ClearBuffer();
+            }
+            catch (AccessViolationException exception)
+            {
+                ShowError(exception.Message);
+                Log("DATA: " + exception.Data + " | SOURCE: " + exception.Source + " | STACKTRACE: " + exception.StackTrace + " | INNEREXCEPTION: " + exception.InnerException);
+            }
         }
         private void PrelistenStopCompleted(object sender, RunWorkerCompletedEventArgs e)
         {

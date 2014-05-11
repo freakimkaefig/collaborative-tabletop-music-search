@@ -19,7 +19,7 @@
     PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
     TouchDown="MyTagVisualization_TouchDown"
     TouchUp="MyTagVisualization_TouchUp"
-    Moved="TagVisualization_Moved">
+    Moved="TagVisualization_Moved" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans Condensed Light">
     
     <s:TagVisualization.Resources>
         <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
@@ -37,9 +37,9 @@
                 <s:SurfaceButton Content="{Binding Keyword.DisplayName}" 
                                  Command="{Binding DataContext.GoBreadcrumbCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                  CommandParameter="{Binding Id}" 
+                                 Background="#5000"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center"
-        						 Background="{x:Null}" 
                                  Visibility="{DynamicResource IsMenuVisible}"  
                                  Style="{StaticResource BreadcrumbBtn}" Grid.Column="1">
                     <s:SurfaceButton.RenderTransform>
@@ -115,11 +115,7 @@
         			<ColumnDefinition/>
         		</Grid.ColumnDefinitions>
 
-<<<<<<< HEAD
         		<Image RenderTransformOrigin="0.5, 0.5" Margin="-4,-2,0,0"
-=======
-        		<Image RenderTransformOrigin="0.5, 0.5" Margin="-4,-4,0,0"
->>>>>>> f9d42ec5558efdf2b13cfe62f657041b6f8e4b32
 				Source="{Binding BackgrImageSource}" Opacity="1.0" Stretch="Fill"
         			Height="265" 
         			Width="265"/>
@@ -147,12 +143,15 @@
         			<ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
         				Command="" Background="#0000" />
         		</ps:PieMenu>
+<<<<<<< HEAD
+=======
 
         		<Image        
         			Style="{StaticResource LoadingCircleInverted}"
         			Visibility="{Binding IsLoadingInfoVisible, Converter={StaticResource visibilityConverter}}"
-        			Height="80" Width="80"
+        			Height="100" Width="100"
         			HorizontalAlignment="Center" VerticalAlignment="Center"/>
+>>>>>>> 99f11ec09aaa35aac8dcf258e627fb5a1b19b7b5
                 
         	</Grid>
             <!--Grid for keyword type selection-->
@@ -210,7 +209,7 @@
         			Background="{x:Null}" Grid.Row="1" Grid.ColumnSpan="3" DataContext="{DynamicResource TagDM}"
         		Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}">
         		<Grid.RowDefinitions>
-        			<RowDefinition Height="190"/>
+        			<RowDefinition Height="180"/>
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
         		</Grid.RowDefinitions>
@@ -315,7 +314,7 @@
             
         	<ItemsControl ItemTemplate="{DynamicResource BreadcrumbTemplate}"  
         		ItemsSource="{DynamicResource BreadcrumbOptions}"
-        		Grid.Row="0" 
+        		Grid.Row="0"
         		Grid.Column="1"
         		Background="{x:Null}"
         		Grid.ColumnSpan="2">
@@ -373,7 +372,7 @@
                 <!--Not rotated assigned keyword-->
         	<Grid Grid.ColumnSpan="3" Grid.Row="1"
         			Background="{x:Null}"
-        		VerticalAlignment="Top" Margin="0,42,0,0" HorizontalAlignment="Stretch" >
+        		VerticalAlignment="Top" Margin="0,55,0,0" HorizontalAlignment="Stretch" >
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
@@ -434,14 +433,32 @@
         <!--Tag color circle-->
         <Ellipse Name="TagColor"
                  DataContext="{DynamicResource TagDM}"
-                 Width="70" Height="70" 
+                 Width="75" Height="75" 
                  Stroke="{Binding TagColor}"
-                 StrokeThickness="5" 
+                 StrokeThickness="10" 
                  Fill="{x:Null}">
             <Ellipse.Effect>
                 <BlurEffect Radius="5"/>
             </Ellipse.Effect>
         </Ellipse>
+
+        <Image        
+        	Style="{StaticResource LoadingCircleInverted}"
+            DataContext="{DynamicResource TagDM}"
+        	Visibility="{Binding IsLoadingInfoVisible, Converter={StaticResource visibilityConverter}}"
+        	Height="85" Width="85"
+            Margin="0,0,0,5"
+        	HorizontalAlignment="Center" VerticalAlignment="Center"
+            Opacity="0.9" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <RotateTransform Angle="180" />
+            </Image.RenderTransform>
+        </Image>
+
+        <!--<Rectangle
+            Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            Fill="#6fff"
+            />-->
 
         <!--<Ellipse
                  Width="240" Height="240" 

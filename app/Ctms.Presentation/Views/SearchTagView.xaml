@@ -19,7 +19,7 @@
     PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
     TouchDown="MyTagVisualization_TouchDown"
     TouchUp="MyTagVisualization_TouchUp"
-    Moved="TagVisualization_Moved">
+    Moved="TagVisualization_Moved" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans Condensed Light">
     
     <s:TagVisualization.Resources>
         <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
@@ -305,7 +305,7 @@
             
         	<ItemsControl ItemTemplate="{DynamicResource BreadcrumbTemplate}"  
         		ItemsSource="{DynamicResource BreadcrumbOptions}"
-        		Grid.Row="0" 
+        		Grid.Row="0"
         		Grid.Column="1"
         		Background="{x:Null}"
         		Grid.ColumnSpan="2">
@@ -424,9 +424,9 @@
         <!--Tag color circle-->
         <Ellipse Name="TagColor"
                  DataContext="{DynamicResource TagDM}"
-                 Width="70" Height="70" 
+                 Width="75" Height="75" 
                  Stroke="{Binding TagColor}"
-                 StrokeThickness="5" 
+                 StrokeThickness="10" 
                  Fill="{x:Null}">
             <Ellipse.Effect>
                 <BlurEffect Radius="5"/>
