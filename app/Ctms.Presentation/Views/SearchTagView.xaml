@@ -37,9 +37,9 @@
                 <s:SurfaceButton Content="{Binding Keyword.DisplayName}" 
                                  Command="{Binding DataContext.GoBreadcrumbCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                  CommandParameter="{Binding Id}" 
+                                 Background="#5000"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center"
-        						 Background="{x:Null}" 
                                  Visibility="{DynamicResource IsMenuVisible}"  
                                  Style="{StaticResource BreadcrumbBtn}" Grid.Column="1">
                     <s:SurfaceButton.RenderTransform>
@@ -115,7 +115,7 @@
         			<ColumnDefinition/>
         		</Grid.ColumnDefinitions>
 
-        		<Image RenderTransformOrigin="0.5, 0.5" Margin="-4,-4,0,0"
+        		<Image RenderTransformOrigin="0.5, 0.5" Margin="-4,-2,0,0"
 				Source="{Binding BackgrImageSource}" Opacity="1.0" Stretch="Fill"
         			Height="265" 
         			Width="265"/>
@@ -147,7 +147,7 @@
         		<Image        
         			Style="{StaticResource LoadingCircleInverted}"
         			Visibility="{Binding IsLoadingInfoVisible, Converter={StaticResource visibilityConverter}}"
-        			Height="80" Width="80"
+        			Height="100" Width="100"
         			HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 
         	</Grid>
@@ -206,7 +206,7 @@
         			Background="{x:Null}" Grid.Row="1" Grid.ColumnSpan="3" DataContext="{DynamicResource TagDM}"
         		Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}">
         		<Grid.RowDefinitions>
-        			<RowDefinition Height="155"/>
+        			<RowDefinition Height="180"/>
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
         		</Grid.RowDefinitions>
@@ -430,14 +430,19 @@
         <!--Tag color circle-->
         <Ellipse Name="TagColor"
                  DataContext="{DynamicResource TagDM}"
-                 Width="70" Height="70" 
+                 Width="75" Height="75" 
                  Stroke="{Binding TagColor}"
-                 StrokeThickness="5" 
+                 StrokeThickness="10" 
                  Fill="{x:Null}">
             <Ellipse.Effect>
                 <BlurEffect Radius="5"/>
             </Ellipse.Effect>
         </Ellipse>
+        
+        <!--<Rectangle
+            Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            Fill="#6fff"
+            />-->
 
         <!--<Ellipse
                  Width="240" Height="240" 

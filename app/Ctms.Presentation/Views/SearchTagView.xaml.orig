@@ -48,7 +48,7 @@
                 </s:SurfaceButton>
             </Grid>
         </DataTemplate>
-        <sys:Double x:Key="PieMenuDiameter">240</sys:Double>
+        <sys:Double x:Key="PieMenuDiameter">275</sys:Double>
         <sys:Double x:Key="OuterLength">50</sys:Double>
         <sys:Double x:Key="InputLength">180</sys:Double>
     </s:TagVisualization.Resources>
@@ -115,9 +115,14 @@
         			<ColumnDefinition/>
         		</Grid.ColumnDefinitions>
 
-        		<Image Source="{Binding BackgrImageSource}" Opacity="1.0" Stretch="Fill"
-        			Height="233" 
-        			Width="233"/>
+<<<<<<< HEAD
+        		<Image RenderTransformOrigin="0.5, 0.5" Margin="-4,-2,0,0"
+=======
+        		<Image RenderTransformOrigin="0.5, 0.5" Margin="-4,-4,0,0"
+>>>>>>> f9d42ec5558efdf2b13cfe62f657041b6f8e4b32
+				Source="{Binding BackgrImageSource}" Opacity="1.0" Stretch="Fill"
+        			Height="265" 
+        			Width="265"/>
 
                 <!--Start PieMenu with tag options-->
         		<ps:PieMenu 
@@ -128,7 +133,7 @@
         			Foreground="White"
         			SectorGap="0"
         			Gap="0"
-        			Radius="120"
+        			Radius="135"
         			InnerRadius="33"
         			RotateText="True"
         			RotateTextAngle="0"
@@ -170,7 +175,7 @@
         			Command="{Binding SelectAttributeCmd}" 
         			CommandParameter="{DynamicResource TagId}"
         			Style="{StaticResource SearchViewBtn}"
-        			Background="{StaticResource ResourceKey=gear2}" Margin="3,3,-2,-2"
+        			Background="{StaticResource ResourceKey=gear2}" Margin="1,-1,0,0"
                                 />
                 
         		<s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -179,7 +184,7 @@
         			Command="{Binding SelectGenreCmd}" 
         			CommandParameter="{DynamicResource TagId}"
         			Style="{StaticResource SearchViewBtn}"
-        			Background="{StaticResource ResourceKey=genre2}" Margin="3,3,-2,-2"
+        			Background="{StaticResource ResourceKey=genre2}" Margin="1,-1,0,0"
                                  />
                 
         		<s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -188,7 +193,7 @@
         			Command="{Binding SelectTitleCmd}" 
         			CommandParameter="{DynamicResource TagId}"
         			Style="{StaticResource SearchViewBtn}"
-        			Background="{StaticResource ResourceKey=title2}" Margin="3,3,-2,-2"
+        			Background="{StaticResource ResourceKey=title2}" Margin="1,-1,0,0"
                                  />
                 
         		<s:SurfaceButton DataContext="{DynamicResource SearchVM}"
@@ -197,7 +202,7 @@
         			Command="{Binding SelectArtistCmd}" 
         			CommandParameter="{DynamicResource TagId}"
         			Style="{StaticResource SearchViewBtn}"
-        			Background="{StaticResource ResourceKey=artist2}" Margin="3,3,-2,-2"
+        			Background="{StaticResource ResourceKey=artist2}" Margin="1,-1,0,0"
                                  />
         	</Grid>
             <!--Input and hint-->
@@ -205,7 +210,7 @@
         			Background="{x:Null}" Grid.Row="1" Grid.ColumnSpan="3" DataContext="{DynamicResource TagDM}"
         		Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}">
         		<Grid.RowDefinitions>
-        			<RowDefinition Height="155"/>
+        			<RowDefinition Height="190"/>
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
         		</Grid.RowDefinitions>
@@ -255,6 +260,7 @@
                         />
 
         			<s:SurfaceTextBox x:Name="InputTextBox"
+                        GotFocus="InputField_GotFocus"
         				DataContext="{DynamicResource TagDM}"
         				Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
         				Width="{StaticResource InputLength}" 
@@ -320,14 +326,9 @@
         		</ItemsControl.ItemsPanel>
         	</ItemsControl>
                 <!--Rotated assigned keyword-->
-<<<<<<< HEAD
         	<Grid   Grid.ColumnSpan="3" Grid.Row="1"
-        		VerticalAlignment="Bottom" Margin="0,0,0,42" HorizontalAlignment="Stretch">
-=======
-        	<Grid   Grid.ColumnSpan="3" 
-        			Background="{x:Null}" Grid.Row="1" IsHitTestVisible="True"
+        			Background="{x:Null}" IsHitTestVisible="True"
         			VerticalAlignment="Bottom" Margin="0,0,0,55" HorizontalAlignment="Stretch">
->>>>>>> cfe760bf5a7dda40dd2f8f2f1046962d1dfd5d6f
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto" />
         			<RowDefinition Height="Auto"/>
@@ -371,12 +372,8 @@
             </Grid>
                 <!--Not rotated assigned keyword-->
         	<Grid Grid.ColumnSpan="3" Grid.Row="1"
-<<<<<<< HEAD
-        		VerticalAlignment="Top" Margin="0,42,0,0" HorizontalAlignment="Stretch" >
-=======
         			Background="{x:Null}"
-        		VerticalAlignment="Top" Margin="0,55,0,0" HorizontalAlignment="Stretch" >
->>>>>>> cfe760bf5a7dda40dd2f8f2f1046962d1dfd5d6f
+        		VerticalAlignment="Top" Margin="0,42,0,0" HorizontalAlignment="Stretch" >
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
@@ -398,12 +395,8 @@
         	        Text="{Binding Tag.AssignedKeyword.DisplayNameSecond, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                     Grid.RowSpan="2"/>-->
 
-<<<<<<< HEAD
                 <TextBlock  Grid.Row="1"
-=======
-                <TextBlock  Grid.Row="0" 
         			Background="{x:Null}"
->>>>>>> cfe760bf5a7dda40dd2f8f2f1046962d1dfd5d6f
         			HorizontalAlignment="Center"
         			DataContext="{DynamicResource TagDM}"
         			Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
@@ -417,12 +410,8 @@
         			</TextBlock.RenderTransform>
                 </TextBlock>
 
-<<<<<<< HEAD
                 <TextBlock  Grid.Row="0"
-=======
-                <TextBlock  Grid.Row="1" 
         			Background="{x:Null}"
->>>>>>> cfe760bf5a7dda40dd2f8f2f1046962d1dfd5d6f
                     HorizontalAlignment="Center"
                     DataContext="{DynamicResource TagDM}"
                     Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
