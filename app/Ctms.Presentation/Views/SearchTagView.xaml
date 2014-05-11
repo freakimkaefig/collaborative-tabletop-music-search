@@ -37,9 +37,9 @@
                 <s:SurfaceButton Content="{Binding Keyword.DisplayName}" 
                                  Command="{Binding DataContext.GoBreadcrumbCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                  CommandParameter="{Binding Id}" 
+                                 Background="#5000"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center"
-        						 Background="{x:Null}" 
                                  Visibility="{DynamicResource IsMenuVisible}"  
                                  Style="{StaticResource BreadcrumbBtn}" Grid.Column="1">
                     <s:SurfaceButton.RenderTransform>
@@ -438,6 +438,11 @@
                 <BlurEffect Radius="5"/>
             </Ellipse.Effect>
         </Ellipse>
+        
+        <!--<Rectangle
+            Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            Fill="#6fff"
+            />-->
 
         <!--<Ellipse
                  Width="240" Height="240" 
