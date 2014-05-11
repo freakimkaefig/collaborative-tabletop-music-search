@@ -61,7 +61,7 @@
         <Grid.RenderTransform>
             <RotateTransform Angle="{Binding Tag.Orientation}"  />
         </Grid.RenderTransform>
-        <Ellipse Width="{Binding CombineCircleDiameter}" Height="{Binding CombineCircleDiameter}" 
+        <!--<Ellipse Width="{Binding CombineCircleDiameter}" Height="{Binding CombineCircleDiameter}" 
                  Stroke="{x:Null}" 
                  StrokeThickness="0" 
                  Fill="#5fff" 
@@ -69,7 +69,7 @@
             <Ellipse.Effect>
                 <BlurEffect Radius="5"/>
             </Ellipse.Effect>
-        </Ellipse>
+        </Ellipse>-->
         <Grid Background="{x:Null}" >
             <Grid.RowDefinitions>
                 <!--Reference static resoure as binding so that DoubleToString-converter will be found-->

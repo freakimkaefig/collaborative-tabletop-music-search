@@ -519,7 +519,7 @@ namespace Ctms.Presentation.Views
             
             //if (storyboard.Is == ClockState.Stopped)
             {
-                storyboard.Stop(ellipse);
+                storyboard.Begin(ellipse, true);
                 storyboard.Seek(ellipse, TimeSpan.FromSeconds(0), TimeSeekOrigin.BeginTime);
             }
 

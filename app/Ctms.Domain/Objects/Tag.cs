@@ -73,7 +73,7 @@ namespace Ctms.Domain.Objects
             get { return _positionY; }
             set
             {   // optimize performance by limiting update rate
-                if (Math.Abs(_positionY - value) > 15)
+                if (Math.Abs(_positionY - value) > 0)
                 {
                     _positionY = value;
                     RaisePropertyChanged("PositionY");
@@ -86,10 +86,11 @@ namespace Ctms.Domain.Objects
             get { return _positionX; }
             set
             {   // optimize performance by limiting update rate
-                if (Math.Abs(_positionX - value) > 15)
+                if (Math.Abs(_positionX - value) > 0)
                 {
                     _positionX = value;
                     RaisePropertyChanged("PositionX");
+                    Console.WriteLine("PositionX: " + PositionX);
                 }
             }
         }
@@ -104,6 +105,7 @@ namespace Ctms.Domain.Objects
                 {
                     _assignedKeyword = value;
                     RaisePropertyChanged("AssignedKeyword");
+                    Console.WriteLine("PositionY: " + PositionY);
                 }
             }
         }

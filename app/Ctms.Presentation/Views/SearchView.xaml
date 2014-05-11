@@ -39,7 +39,7 @@
                 BeginTime="0:0:0.8"
                 Duration="0:0:0.2"/>
 
-            <DoubleAnimation
+            <!--<DoubleAnimation
                 Storyboard.TargetName="combiEll"
                 Storyboard.TargetProperty="(Ellipse.Height)"
                 Duration="0:0:1"
@@ -47,14 +47,13 @@
                 To="50"
                 
                 />
-                <!--RenderOptions.BitmapScalingMode="Linear"-->
                 <DoubleAnimation
                 Storyboard.TargetName="combiEll"
                 Storyboard.TargetProperty="(Ellipse.Width)"
                 Duration="0:0:1"
                 From="15"
                 To="50"
-                />
+                />-->
             
                 <!--<DoubleAnimation
                 Storyboard.TargetName="ScaleTransform"
@@ -336,25 +335,26 @@
                     >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                             <ItemsControl x:Name="TagCombinationTagsControl"
                                 ItemsSource="{Binding Tags}" 
-                                Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" >
+                                Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <Grid
-                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Loaded="combiTag_Loaded" Unloaded="combiTag_Unloaded" 
-                                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Margin="-16,-16,0,0">
                                             
                                             <TextBlock 
                                                 x:Name="HiddenTagCombiId"
                                                 Text="{Binding DataContext.Id, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                                Visibility="Hidden"
+                                                Visibility="Collapsed"
                                                 />
                                             <Ellipse x:Name="combiEll"
                                                 Height="15"
@@ -363,7 +363,6 @@
                                                 Fill="#afff"
                                                 RenderTransformOrigin="0.5,0.5"
                                                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                     
                                                      >
                                                 <Ellipse.RenderTransform>
                                                     <TranslateTransform x:Name="TTransform" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}" />
