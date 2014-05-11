@@ -254,9 +254,9 @@
 				</Grid.RenderTransform>
 				<TextBlock Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18.667" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="10,2"><Run Language="de-de" Text="Login to Spotify"/></TextBlock>
 				<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="10,20,10,0" TextWrapping="Wrap" VerticalAlignment="Center" Grid.ColumnSpan="2"><Run Language="de-de" Text="Username"/></TextBlock>
-				<s:SurfaceTextBox Grid.Column="0" Grid.Row="2" x:Name="SpotifyUsernameInput" Margin="10,5,10,0" TextWrapping="Wrap" Text="{Binding SpotifyUsernameInput}" VerticalAlignment="Top" IsEnabled="{Binding LoginDialogEnabled}" Grid.ColumnSpan="2"/>
+				<s:SurfaceTextBox GotFocus="InputField_GotFocus" Grid.Column="0" Grid.Row="2" x:Name="SpotifyUsernameInput" Margin="10,5,10,0" TextWrapping="Wrap" Text="{Binding SpotifyUsernameInput}" VerticalAlignment="Top" IsEnabled="{Binding LoginDialogEnabled}" Grid.ColumnSpan="2"/>
 				<TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Margin="10,20,10,0" TextWrapping="Wrap" VerticalAlignment="Center" Grid.ColumnSpan="2"><Run Language="de-de" Text="Password"/></TextBlock>
-				<s:SurfacePasswordBox Grid.Column="0" Grid.Row="4" x:Name="SpotifyPasswordInput" VerticalAlignment="Top" Margin="10,5,10,0" IsEnabled="{Binding LoginDialogEnabled}" Grid.ColumnSpan="2"/>
+                <s:SurfacePasswordBox GotFocus="InputField_GotFocus" Grid.Column="0" Grid.Row="4" x:Name="SpotifyPasswordInput" VerticalAlignment="Top" Margin="10,5,10,0" IsEnabled="{Binding LoginDialogEnabled}" Grid.ColumnSpan="2"/>
 				<Label Grid.Column="0" Grid.Row="5" Content="Logging in... Please wait...." VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,20,10,40" Visibility="{Binding IsLoggingIn, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Grid.ColumnSpan="2" />
 				<s:SurfaceButton Grid.Column="0" Grid.Row="6" Content="Cancel" Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="80" Command="{Binding CancelLoginCommand}">
 					<i:Interaction.Triggers>
@@ -280,7 +280,7 @@
 						<TranslateTransform/>
 					</TransformGroup>
 				</Grid.RenderTransform>
-				<s:SurfaceTextBox x:Name="PlaylistNameInput" Margin="24,92,24,94" TextWrapping="Wrap" Text=""/>
+                <s:SurfaceTextBox GotFocus="InputField_GotFocus" x:Name="PlaylistNameInput" Margin="24,92,24,94" TextWrapping="Wrap" Text=""/>
 				<TextBlock Height="24" Margin="0,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18.667" HorizontalAlignment="Center"><Run Language="de-de" Text="Give it a name"/></TextBlock>
 				<s:SurfaceButton Content="Cancel" Height="24.834" Margin="24,0,0,24" VerticalAlignment="Bottom" HorizontalAlignment="Left">
 					<i:Interaction.Triggers>
