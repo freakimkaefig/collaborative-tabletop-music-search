@@ -25,7 +25,7 @@ namespace Ctms.Applications.Common
         public const int Tag_MaxNumber              = 6;
         public const int Tag_VisibleOptionsCount    = 10;
         public const int Tag_OptionsStepAngle       = 10;
-        public const int Tag_CombineCircleDiameter  = 350;
+        public const int Tag_CombineCircleDiameter  = 280;
         public const int Results_MaxNumber          = 20;
         public const int Results_MaxCollectNumber   = 100;
 

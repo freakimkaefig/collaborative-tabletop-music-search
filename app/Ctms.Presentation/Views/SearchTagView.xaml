@@ -383,13 +383,13 @@
                 </TextBlock>
 
                 <TextBlock  Grid.Row="1"
-                                    HorizontalAlignment="Center"
-                                    DataContext="{DynamicResource TagDM}"
-                                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                                    Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                                    TextWrapping="Wrap"
-                                    Style="{StaticResource AssignedKeyword}"
-                                    Width="Auto"
+                            HorizontalAlignment="Center"
+                            DataContext="{DynamicResource TagDM}"
+                            Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                            Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                            TextWrapping="Wrap"
+                            Style="{StaticResource AssignedKeyword}"
+                            Width="Auto"
                                 />
         	</Grid>
 
