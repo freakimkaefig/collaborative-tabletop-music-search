@@ -206,7 +206,7 @@
         			Background="{x:Null}" Grid.Row="1" Grid.ColumnSpan="3" DataContext="{DynamicResource TagDM}"
         		Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}">
         		<Grid.RowDefinitions>
-        			<RowDefinition Height="190"/>
+        			<RowDefinition Height="180"/>
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
         		</Grid.RowDefinitions>
