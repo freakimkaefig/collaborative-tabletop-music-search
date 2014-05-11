@@ -71,15 +71,24 @@ namespace Ctms.Applications.Workers
         {
             var info = _repository.GetCommonInfoById(commonInfoId);
 
-            if (info != null && info.CancelAction != null && info.CancelParameters != null) 
+            if (info != null && info.CancelAction != null) 
                 info.CancelAction.Invoke(info.CancelParameters);
 
             _repository.RemoveCommonInfoById(commonInfoId);
         }
 
+        public void CancelTutorialInfo(int commonInfoId)
+        {
+            var info = _repository.GetTutorialInfoById(commonInfoId);
+
+            if (info != null && info.CancelAction != null && info.CancelParameters != null)
+                info.CancelAction.Invoke(info.CancelParameters);
+
+            _repository.RemoveTutorialInfoById(commonInfoId);
+        }
 
         public int ShowCommonInfo(string mainText, string subText, string confirmText = null, string cancelText = null, bool isLoading = false,
-            Action<List<object>> confirmAction = null, Action<List<object>> cancelAction = null)
+            Action<object> confirmAction = null, Action<object> cancelAction = null)
         {
             var info = _infoFactory.CreateCommonInfo(mainText, subText);
 

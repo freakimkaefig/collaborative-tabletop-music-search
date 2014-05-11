@@ -64,6 +64,8 @@ namespace Helpers
             // Decide which method shall be executed when work is completed
             bgWorker.RunWorkerCompleted += completedHandler;
 
+            bgWorker.WorkerSupportsCancellation = true;
+
             // Run the Background Worker
             if (arguments != null)
             {
@@ -75,9 +77,11 @@ namespace Helpers
             }
         }
 
-        public void Stop()
+        public void Stop(object obj)
         {
+            bgWorker.WorkerSupportsCancellation = true;
             bgWorker.CancelAsync();
+            bgWorker.Dispose();
         }
 
     }

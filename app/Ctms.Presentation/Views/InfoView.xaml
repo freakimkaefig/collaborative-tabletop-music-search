@@ -30,7 +30,7 @@
                  >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid />
+                    <Grid Background="Black" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -155,7 +155,7 @@
                                                   />
                                 <s:SurfaceButton Content="{Binding CancelText}" 
                                                  HorizontalAlignment="Center"
-                                                 Command="{Binding DataContext.ConfirmCommonInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                                 Command="{Binding DataContext.CancelCommonInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                                  CommandParameter="{Binding Info.Id}"              
                                                  Visibility="{Binding IsCancellable, Converter={StaticResource visibilityConverter}}"
                                                  Width="Auto"

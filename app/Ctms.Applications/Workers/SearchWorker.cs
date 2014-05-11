@@ -28,6 +28,7 @@ namespace Ctms.Applications.Workers
         private InfoWorker _infoWorker;
         private SearchViewModel _searchViewModel;
         private ResultViewModel _resultVm;
+        private bool _stopSearch = false;
 
         [ImportingConstructor]
         public SearchWorker(Repository repository, SearchViewModel searchViewModel, ResultWorker resultWorker, InfoWorker infoWorker,
@@ -53,11 +54,17 @@ namespace Ctms.Applications.Workers
 
         public void StartSearch()
         {
+            _stopSearch = false;
+
             if(_repository.GetAddedAndAssignedTagDMs().Count() > 0)
             {
-                var loadingInfoId = _infoWorker.ShowCommonInfo("Searching for songs...", "Please wait a moment", null, "Cancel", true, null, null);
-                
                 var backgrWorker = new BackgroundWorkHelper();
+
+                var stopAction = new Action<object>((b) => StopSearch(backgrWorker));
+
+                var loadingInfoId = _infoWorker.ShowCommonInfo(
+                    "Searching for songs...", "Please wait a moment", null, "Cancel", true, null, stopAction);
+                
                 backgrWorker.DoInBackground(StartSearchInBackground, StartSearchCompleted, loadingInfoId);
             }
             else if(_resultVm.Results != null && _resultVm.Results.Any())
@@ -68,6 +75,12 @@ namespace Ctms.Applications.Workers
             {
                 _infoWorker.ShowCommonInfo("No keywords defined", "Please place a tag on the table and select a keyword", "Ok");
             }
+        }
+
+        public void StopSearch(BackgroundWorkHelper backgrWorker)
+        {
+            backgrWorker.Stop(null);
+            _stopSearch = true;
         }
 
         public void LoadDetails(ResultDataModel result)
@@ -86,21 +99,27 @@ namespace Ctms.Applications.Workers
         //Background worker methods
         public void StartSearchInBackground(object sender, DoWorkEventArgs e)
         {
+            var infoId = (int)e.Argument;
+            e.Result = new List<object>() { null, infoId };
+
+            // check if search shall be stopped
+            if (_stopSearch == true) return;
+
             var combinedSongs = DoCombinedSearch(e);
+
+            if (_stopSearch == true) return;
 
             // get and parse combined results and create results
             var uncombinedSongs = DoUncombinedSearch(e);
+
+            if (_stopSearch == true) return;
 
             // add combinedSong results (tracks)
             var allSongs = new List<ResponseContainer.ResponseObj.Song>();
             if(combinedSongs != null) allSongs.AddRange(combinedSongs);
             if (uncombinedSongs != null) allSongs.AddRange(uncombinedSongs);
 
-            /*for (var i = 0; i < allSongs.Count; i++) {
-                DevHelper.DevLogger.Log("SearchWorker:74 - " + allSongs[i].ToString());
-            }*/
-
-            var infoId = (int)e.Argument;
+            // search hasn't been cancelled till now, so insert the songs as result
             e.Result = new List<object>() { allSongs, infoId };
         }
 
@@ -276,9 +295,12 @@ namespace Ctms.Applications.Workers
                 var loadingInfoId = (int)((List<object>)e.Result)[1];
                 _infoWorker.ConfirmCommonInfo(loadingInfoId);
 
-                var resultSongs = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
+                if (_stopSearch == false && e.Result != null)
+                {
+                    var resultSongs = (List<ResponseContainer.ResponseObj.Song>)(((List<object>)e.Result)[0]);
 
-                _resultWorker.RefreshResults(resultSongs);  
+                    _resultWorker.RefreshResults(resultSongs);
+                }
 
                 //string json = JsonConvert.SerializeObject(resultSongs, Formatting.Indented);
                 //File.WriteAllText("../../../Ctms.Applications/DevHelper/resultSongs.json", json);
@@ -316,6 +338,7 @@ namespace Ctms.Applications.Workers
         {
             e.Result = _searchManager.getSpotifyId((String)e.Argument);
         }
+
         private void PrelistenTrackFromDetailViewCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             _resultWorker.PrelistenFromDetailView((String)e.Result);
