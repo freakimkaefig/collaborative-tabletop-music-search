@@ -46,9 +46,9 @@ namespace Ctms.Applications.DataModels
 
             Opacity = 1.0;
 
-            _stdWidth = 150.0;
+            _stdWidth = 180.0;
             _width = _stdWidth;
-            _stdHeight = 100.0;
+            _stdHeight = 120.0;
             _height = _stdHeight;
         }
 

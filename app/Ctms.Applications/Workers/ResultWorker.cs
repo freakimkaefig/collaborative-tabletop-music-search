@@ -255,7 +255,7 @@ namespace Ctms.Applications.Workers
                     {
                         if (biography.text.Length > 500)
                         {
-                            d.Biography = StringHelper.cleanText(biography.text);
+                            d.Biography = "\r\n\r\nBIOGRAPHY:\r\n\r\n" + StringHelper.cleanText(biography.text);
                             break;
                         }
                     }
