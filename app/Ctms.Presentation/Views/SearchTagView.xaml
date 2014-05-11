@@ -320,8 +320,8 @@
         		</ItemsControl.ItemsPanel>
         	</ItemsControl>
                 <!--Rotated assigned keyword-->
-        	<Grid   Grid.ColumnSpan="3" 
-        			Background="{x:Null}" Grid.Row="1" IsHitTestVisible="True"
+        	<Grid   Grid.ColumnSpan="3" Grid.Row="1"
+        			Background="{x:Null}" IsHitTestVisible="True"
         			VerticalAlignment="Bottom" Margin="0,0,0,55" HorizontalAlignment="Stretch">
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto" />
@@ -353,11 +353,21 @@
                                 Style="{StaticResource AssignedKeyword}"
                                 Width="Auto">
                         </TextBlock>
-        	</Grid>
+
+                <TextBlock  Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    DataContext="{DynamicResource TagDM}"
+                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
+                    Text="{Binding Tag.AssignedKeyword.Value, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap"
+                    Style="{StaticResource AssignedKeyword}"
+                    Width="Auto">
+                </TextBlock>
+            </Grid>
                 <!--Not rotated assigned keyword-->
         	<Grid Grid.ColumnSpan="3" Grid.Row="1"
         			Background="{x:Null}"
-        		VerticalAlignment="Top" Margin="0,55,0,0" HorizontalAlignment="Stretch" >
+        		VerticalAlignment="Top" Margin="0,42,0,0" HorizontalAlignment="Stretch" >
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
@@ -379,7 +389,7 @@
         	        Text="{Binding Tag.AssignedKeyword.DisplayNameSecond, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                     Grid.RowSpan="2"/>-->
 
-                <TextBlock  Grid.Row="0" 
+                <TextBlock  Grid.Row="1"
         			Background="{x:Null}"
         			HorizontalAlignment="Center"
         			DataContext="{DynamicResource TagDM}"
@@ -394,16 +404,20 @@
         			</TextBlock.RenderTransform>
                 </TextBlock>
 
-                <TextBlock  Grid.Row="1" 
+                <TextBlock  Grid.Row="0"
         			Background="{x:Null}"
                     HorizontalAlignment="Center"
                     DataContext="{DynamicResource TagDM}"
                     Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-                    Text="{Binding Tag.AssignedKeyword.AttributeValue, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                    Text="{Binding Tag.AssignedKeyword.Value, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap"
+        			RenderTransformOrigin="0.5, 0.5"
                     Style="{StaticResource AssignedKeyword}"
-                    Width="Auto"
-                        />
+                    Width="Auto">
+        			<TextBlock.RenderTransform>
+        				<RotateTransform Angle="180" />
+        			</TextBlock.RenderTransform>
+                </TextBlock>
         	</Grid>
 
         </Grid>
@@ -422,6 +436,13 @@
                 <BlurEffect Radius="5"/>
             </Ellipse.Effect>
         </Ellipse>
+
+        <!--<Ellipse
+                 Width="240" Height="240" 
+                 Stroke="#fff"
+                 StrokeThickness="5" 
+                 Fill="#9fff">
+        </Ellipse>-->
         <!--//Tag color circle-->
     </Grid>
     <!--End Surrounding Tag grid-->

@@ -41,6 +41,8 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _confirmCommonInfoCmd;
         private readonly DelegateCommand _confirmTagInfoCmd;
         private readonly DelegateCommand _confirmTutorialInfoCmd;
+        private readonly DelegateCommand _cancelCommonInfoCmd;
+        private readonly DelegateCommand _cancelTutorialInfoCmd;
         //Further vars
         private Repository _repository;
         private InfoWorker _infoWorker;
@@ -62,6 +64,8 @@ namespace Ctms.Applications.Controllers
             _confirmCommonInfoCmd   = new DelegateCommand((infoId) => _infoWorker.ConfirmCommonInfo((int)infoId));
             _confirmTagInfoCmd      = new DelegateCommand((tagId) => _infoWorker.ConfirmTagInfo((int)tagId));
             _confirmTutorialInfoCmd = new DelegateCommand((infoId) => _infoWorker.ConfirmTutorialInfo((int)infoId));
+            _cancelCommonInfoCmd = new DelegateCommand((infoId) => _infoWorker.CancelCommonInfo((int)infoId));
+            _cancelTutorialInfoCmd = new DelegateCommand((infoId) => _infoWorker.CancelTutorialInfo((int)infoId));
             //Further vars
             _repository = repository;
         }
@@ -75,6 +79,8 @@ namespace Ctms.Applications.Controllers
             _infoVm.ConfirmCommonInfoCmd    = _confirmCommonInfoCmd;
             _infoVm.ConfirmTagInfoCmd       = _confirmTagInfoCmd;
             _infoVm.ConfirmTutorialInfoCmd  = _confirmTutorialInfoCmd;
+            _infoVm.CancelCommonInfoCmd     = _cancelCommonInfoCmd;
+            _infoVm.CancelTutorialInfoCmd   = _cancelTutorialInfoCmd;
 
             _infoWorker.Initialize();
 
