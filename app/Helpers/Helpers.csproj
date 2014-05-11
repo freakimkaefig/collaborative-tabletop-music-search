@@ -59,6 +59,9 @@
     <Compile Include="EntitiesHelper.cs" />
     <Compile Include="HttpRequester.cs" />
     <Compile Include="ImageAsyncHelper.cs" />
+    <Compile Include="KeyboardHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="NumberHelper.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="TimingHelper.cs" />

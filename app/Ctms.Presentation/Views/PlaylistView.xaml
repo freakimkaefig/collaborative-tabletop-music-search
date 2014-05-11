@@ -135,13 +135,14 @@
                               s:SurfaceDragDrop.DragEnter="Playlist_DragEnter"
                               s:SurfaceDragDrop.DragLeave="Playlist_DragLeave"
                               s:SurfaceDragDrop.Drop="Playlist_Drop"/>
+            <TextBlock Visibility="{Binding PlaylistPresent, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}" Height="124" FontSize="24" Margin="300,250,300,112" Text="Please open or create a playlist in the menu." TextWrapping="Wrap" VerticalAlignment="Bottom"/>
             <s:SurfaceButton Command="{Binding PlayPauseCommand}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="211.5,24,0,0"
                              VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                <Grid Background="{Binding PlayPauseIcon}"></Grid>
+                <Grid Background="{Binding PlayPauseIcon}"/>
             </s:SurfaceButton>
             <s:SurfaceButton Command="{Binding StopCommand}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="323.5,24,0,0"
                              VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                <Grid Background="{StaticResource ResourceKey=stop}"></Grid>
+                <Grid Background="{StaticResource ResourceKey=stop}"/>
             </s:SurfaceButton>
             <s:SurfaceButton Command="{Binding ShuffleCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="612,24,0,0"
                              VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">

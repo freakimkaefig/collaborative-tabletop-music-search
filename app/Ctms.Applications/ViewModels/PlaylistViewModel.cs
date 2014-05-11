@@ -49,6 +49,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _repeatCommand;
         private ICommand _loadDetailsCommand;
         //
+        private bool _playlistPresent;
         private Playlist _currentPlaylist = null;
         private ObservableCollection<ResultDataModel> _playlistResults;
 
@@ -273,6 +274,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _currentTrack = value;
                     RaisePropertyChanged("CurrentTrack");
+                }
+            }
+        }
+
+        public bool PlaylistPresent
+        {
+            get { return _playlistPresent; }
+            set
+            {
+                if (_playlistPresent != value)
+                {
+                    _playlistPresent = value;
+                    RaisePropertyChanged("PlaylistPresent");
                 }
             }
         }
