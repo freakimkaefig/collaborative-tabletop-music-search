@@ -32,7 +32,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="2*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
@@ -46,13 +46,14 @@
                             <RotateTransform Angle="180"/>
                         </TextBlock.RenderTransform>
                     </TextBlock>
+                    <Grid Grid.Row="2" Width="20" Height="20" Visibility="{Binding IsPlaying, Converter={x:Static c:BoolToVisibilityConverter.Default}}" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource ResourceKey=volume}"/>
+                    <Grid Grid.Row="2" Width="20" Height="20" Visibility="{Binding IsLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource ResourceKey=hourglass}"/>
                     <ItemsControl ItemsSource="{Binding OriginColors}" Grid.Row="2" >
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Grid.Row="2" Rows="1" 
                                              Columns="{Binding DataContext.OriginColorsCount, 
-                                                        RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"
-                                             ></UniformGrid>
+                                                        RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}"></UniformGrid>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
@@ -61,8 +62,6 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <Grid Width="40" Height="40" Visibility="{Binding IsPlaying, Converter={x:Static c:BoolToVisibilityConverter.Default}}" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource ResourceKey=volume}"/>
-                    <Grid Width="40" Height="40" Visibility="{Binding IsLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{DynamicResource ResourceKey=hourglass}"/>
                     <TextBlock FontSize="12" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0" Background="{x:Null}" TextAlignment="Center" Grid.Row="3" Foreground="White" RenderTransformOrigin="0.5, 0.5" Text="{Binding Result.Song.ArtistName}" TextTrimming="CharacterEllipsis"></TextBlock>
                     <TextBlock FontSize="14" Padding="10,2,10,2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,0" Background="{x:Null}" TextAlignment="Center" RenderTransformOrigin="0.5, 0.5" Grid.Row="4" Foreground="White" Text="{Binding Result.Song.Title}" TextTrimming="CharacterEllipsis"></TextBlock>
                 </Grid>
@@ -72,7 +71,7 @@
                         <TextBlock MaxWidth="100" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Grid>
                     <Grid Visibility="{Binding IsDetailLoading, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}">
-                        <TabControl Margin="20">
+                        <TabControl Margin="30">
                             <TabItem Header="About" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
                                 <s:SurfaceScrollViewer Background="#222" Foreground="#ddd" HorizontalScrollBarVisibility="Disabled">
                                     <Grid>
@@ -93,7 +92,6 @@
                                         <TextBlock Text="{Binding Detail.Name}" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"/>
                                         <TextBlock Text="{Binding Detail.City}" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap"/>
                                         <TextBlock Text="{Binding Detail.Genres, Converter={x:Static c:ListToStringConverter.Default}}" Grid.Row="2" Grid.Column="1"/>
-                                        <TextBlock Text="Biography" FontWeight="Bold" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"/>
                                         <TextBlock Width="Auto" Text="{Binding Detail.Biography}" TextWrapping="Wrap" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
                                     </Grid>
                                 </s:SurfaceScrollViewer>
@@ -186,8 +184,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Text="{Binding Title}" FontSize="14" TextWrapping="Wrap" Grid.Row="0" Grid.Column="0" Padding="10"/>
-            <s:SurfaceButton Content="Prelisten" Grid.Row="0" Grid.Column="1" Click="SongList_Prelisten_Click"/>
-            <s:SurfaceButton Content="Add to playlist" Grid.Row="0" Grid.Column="2" Click="SongList_AddToPlaylist_Click"/>
+            <!--<s:SurfaceButton Content="Prelisten" Grid.Row="0" Grid.Column="1" Click="SongList_Prelisten_Click"/>
+            <s:SurfaceButton Content="Add to playlist" Grid.Row="0" Grid.Column="2" Click="SongList_AddToPlaylist_Click"/>-->
         </Grid>
     </DataTemplate>
 
