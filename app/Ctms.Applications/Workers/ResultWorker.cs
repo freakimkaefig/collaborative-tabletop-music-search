@@ -260,9 +260,12 @@ namespace Ctms.Applications.Workers
                         }
                     }
 
-                    d.City = r.artist_location[0].location;
+                    if (r.artist_location != null && r.artist_location.Any())
+                        d.City = r.artist_location[0].location;
+                    else d.City = "";
 
                     d.Image = new ArtistImage();
+                    if(r.images != null && r.images.Any())
                     d.Image.ImageUrl = r.images[0].url;
 
                     if (r.terms != null)
