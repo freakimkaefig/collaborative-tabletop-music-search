@@ -22,6 +22,8 @@ namespace Ctms.Applications.ViewModels
         private ICommand _confirmCommonInfoCmd;
         private ICommand _confirmTagInfoCmd;
         private ICommand _confirmTutorialInfoCmd;
+        private ICommand _cancelCommonInfoCmd;
+        private ICommand _cancelTutorialInfoCmd;
         
         [ImportingConstructor]
         public InfoViewModel(IInfoView view)
@@ -89,6 +91,32 @@ namespace Ctms.Applications.ViewModels
                 {
                     _confirmTutorialInfoCmd = value;
                     RaisePropertyChanged("ConfirmTutorialInfoCmd");
+                }
+            }
+        }
+
+        public ICommand CancelCommonInfoCmd
+        {
+            get { return _cancelCommonInfoCmd; }
+            set
+            {
+                if (_cancelCommonInfoCmd != value)
+                {
+                    _cancelCommonInfoCmd = value;
+                    RaisePropertyChanged("CancelCommonInfoCmd");
+                }
+            }
+        }
+
+        public ICommand CancelTutorialInfoCmd
+        {
+            get { return _cancelTutorialInfoCmd; }
+            set
+            {
+                if (_cancelTutorialInfoCmd != value)
+                {
+                    _cancelTutorialInfoCmd = value;
+                    RaisePropertyChanged("CancelTutorialInfoCmd");
                 }
             }
         }

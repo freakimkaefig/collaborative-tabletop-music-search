@@ -202,7 +202,7 @@ namespace Ctms.Applications.Workers
 
             foreach (var combi in _repository.GetTagCombinations())
             {
-                if (combi.Tags.Count >= 2)
+                if(combi.Tags.Count >= 2)
                 {
                     UpdateCenter(combi);
                 }
@@ -220,7 +220,7 @@ namespace Ctms.Applications.Workers
 
         private static void Log(string message)
         {
-            //DevLogger.Log(message);
+            DevLogger.Log(message);
         }
 
         public Point UpdateCenter(TagCombinationDataModel combi)
@@ -410,7 +410,7 @@ namespace Ctms.Applications.Workers
                 var xSum = tags[0].Tag.PositionX + tags[1].Tag.PositionX;
                 var ySum = tags[0].Tag.PositionY + tags[1].Tag.PositionY;
 
-                return new Point(xSum / (float) tags.Count, ySum / (float) tags.Count);
+                return new Point(xSum / 2.0F, ySum / 2.0F);
             }
             else
             {   // 0 or 1 tag in combi. Not valid for this method.

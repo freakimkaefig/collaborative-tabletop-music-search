@@ -77,29 +77,38 @@ namespace MusicSearch.Managers
             //basic URL
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&results=100&" + "artist_id=" + artist_id;
 
-            //get & add attributes to combined-search-URL
-            var properties = ap[0].GetType().GetProperties();
-            foreach (var prop in properties)
+            if (ap != null && ap.Any())
             {
-                string name = prop.Name;
-                var propValue = prop.GetValue(ap[0], null);
-                if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
+                int counter = 0;
+                //get & add attributes to combined-search-URL by using reflection
+                foreach (var a in ap)
                 {
-                    if (propValue.ToString().Contains(","))
+                    var properties = a.GetType().GetProperties();
+                    foreach (var prop in properties)
                     {
-                        propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
-                    }
-                    if (propValue.ToString() == DateTime.Now.Year.ToString())
-                    {
-                        propValue = "present";
-                    }
-                    request += "&" + name + "=" + propValue.ToString();
+                        string name = prop.Name;
+                        var propValue = prop.GetValue(ap[counter], null);
+                        if (propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
+                        {
+                            if (propValue.ToString().Contains(","))
+                            {
+                                propValue = StringHelper.replacePartialString(propValue.ToString(), ",", ".", 1);
+                            }
+                            if (propValue.ToString() == DateTime.Now.Year.ToString())
+                            {
+                                propValue = "present";
+                            }
+                            request += "&" + name + "=" + propValue.ToString();
 
+                        }
+                    }
+                    counter++;
                 }
             }
 
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
+            response = StringHelper.fixUmlauts(response);
             if (String.IsNullOrEmpty(response))
             {
                 return null;
@@ -108,7 +117,7 @@ namespace MusicSearch.Managers
             response = response.Replace("'", "&#39;");
             var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
-            var newText = StringHelper.replacePartialString(cleared, "songs", "CombinedArtists", 1);
+            var newText = StringHelper.replacePartialString(cleared, "songs", "Songs", 1);
             //Add Origin-IDs to each result
             String OriginIDS = "\'originIDs\': [";
 
@@ -203,6 +212,7 @@ namespace MusicSearch.Managers
 
             //JSON response delivered as string
             String response = HttpRequester.StartRequest(request);
+            response = StringHelper.fixUmlauts(response);
             if (String.IsNullOrEmpty(response))
             {
                 return null;
@@ -382,8 +392,9 @@ namespace MusicSearch.Managers
             {
                 //get name of the artist by id
                 String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&artist_id=" + artist_id + "&results=1";
-                
+
                 String response = HttpRequester.StartRequest(request);
+                response = StringHelper.fixUmlauts(response);
                 //split response into array
                 String[] splitted = response.Split(new Char[] { '\"' });
                 //name of artist is at fixed position in array
@@ -426,6 +437,7 @@ namespace MusicSearch.Managers
             artist = StringHelper.replacePartialString(artist, "&", "", 100);
             String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=terms&bucket=id:facebook&bucket=biographies&bucket=years_active&bucket=video&bucket=blogs&bucket=reviews&bucket=images&bucket=news&sort=hotttnesss-desc&results=1&name=" + artist;
             String response = HttpRequester.StartRequest(request);
+            response = StringHelper.fixUmlauts(response);
             if (String.IsNullOrEmpty(response))
             {
                 return null;
@@ -459,6 +471,7 @@ namespace MusicSearch.Managers
             artist = StringHelper.replacePartialString(artist, "&", "", 100);
             String request2 = _defaultURL + "artist/songs?" + "api_key=" + GetAPIKey() + "&format=json&results=100&name=" + artist;
             String response2 = HttpRequester.StartRequest(request2);
+            response2 = StringHelper.fixUmlauts(response2);
             if (String.IsNullOrEmpty(response2))
             {
                 return null;
@@ -505,6 +518,7 @@ namespace MusicSearch.Managers
             artist = StringHelper.replacePartialString(artist, "&", "", 100);
             String request3 = _defaultURL + "artist/similar?" + "api_key=" + GetAPIKey() + "&format=json&bucket=familiarity&min_familiarity=0.7&name=" + artist;
             String response3 = HttpRequester.StartRequest(request3);
+            response3 = StringHelper.fixUmlauts(response3);
             if (String.IsNullOrEmpty(response3))
             {
                 return null;
@@ -545,6 +559,7 @@ namespace MusicSearch.Managers
             artist = StringHelper.replacePartialString(artist, "&", "", 100);
             String request4 = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&results=1&name=" + artist + "&bucket=urls&sort=hotttnesss-desc";
             String response4 = HttpRequester.StartRequest(request4);
+            response4 = StringHelper.fixUmlauts(response4);
             if (String.IsNullOrEmpty(response4))
             {
                 return null;
@@ -579,6 +594,7 @@ namespace MusicSearch.Managers
             artist = StringHelper.replacePartialString(artist, "&", "", 100);
             String request5 = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&results=1&name=" + artist + "&bucket=artist_location&sort=hotttnesss-desc";
             String response5 = HttpRequester.StartRequest(request5);
+            response5 = StringHelper.fixUmlauts(response5);
             if (String.IsNullOrEmpty(response5))
             {
                 return null;
@@ -634,8 +650,9 @@ namespace MusicSearch.Managers
             //build query
             term = StringHelper.replacePartialString(term, "&", "", 100);
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=" + term;
-            
+
             String response = HttpRequester.StartRequest(request);
+            response = StringHelper.fixUmlauts(response);
             if (String.IsNullOrEmpty(response))
             {
                 return null;
@@ -693,8 +710,9 @@ namespace MusicSearch.Managers
 
             term = StringHelper.replacePartialString(term, "&", "", 100);
             String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=" + term;
-            
+
             String response = HttpRequester.StartRequest(request);
+            response = StringHelper.fixUmlauts(response);
             if (String.IsNullOrEmpty(response))
             {
                 return null;
@@ -809,6 +827,7 @@ namespace MusicSearch.Managers
         public List<ResponseContainer.ResponseObj.Song> LoadOnlineResponse(String request, int ID, List<ResponseContainer.ResponseObj.Song> SearchRC)
         {
             String response = HttpRequester.StartRequest(request);
+            response = StringHelper.fixUmlauts(response);
 
             if (String.IsNullOrEmpty(response))
             {
@@ -857,6 +876,7 @@ namespace MusicSearch.Managers
         {
             String request = _defaultURL + "song/profile?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&bucket=tracks&id=" + str;
             String response = HttpRequester.StartRequest(request);
+            response = StringHelper.fixUmlauts(response);
             response = response.Replace("'", "&#39;");
 
             string sub = response.Substring(response.IndexOf("spotify-WW:track:") + 17);
