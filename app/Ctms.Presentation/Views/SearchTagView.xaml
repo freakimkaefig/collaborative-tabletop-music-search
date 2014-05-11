@@ -255,6 +255,7 @@
                         />
 
         			<s:SurfaceTextBox x:Name="InputTextBox"
+                        GotFocus="InputField_GotFocus"
         				DataContext="{DynamicResource TagDM}"
         				Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
         				Width="{StaticResource InputLength}" 
