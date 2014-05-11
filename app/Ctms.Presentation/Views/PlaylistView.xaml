@@ -135,8 +135,14 @@
                               s:SurfaceDragDrop.DragEnter="Playlist_DragEnter"
                               s:SurfaceDragDrop.DragLeave="Playlist_DragLeave"
                               s:SurfaceDragDrop.Drop="Playlist_Drop"/>
-            <s:SurfaceButton Command="{Binding PlayPauseCommand}" Content="{Binding PlayPauseText}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Margin="211.5,24,0,0"/>
-            <s:SurfaceButton Command="{Binding StopCommand}" Background="{StaticResource ResourceKey=stop}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="64" Height="64" Margin="323.5,24,0,0"/>
+            <s:SurfaceButton Command="{Binding PlayPauseCommand}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="211.5,24,0,0"
+                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Grid Background="{Binding PlayPauseIcon}"></Grid>
+            </s:SurfaceButton>
+            <s:SurfaceButton Command="{Binding StopCommand}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="323.5,24,0,0"
+                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Grid Background="{StaticResource ResourceKey=stop}"></Grid>
+            </s:SurfaceButton>
             <s:SurfaceButton Command="{Binding ShuffleCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="612,24,0,0"
                              VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <Border BorderBrush="{Binding IsShuffle, Converter={x:Static c:BoolToStateConverter.Default}}" BorderThickness="3">
@@ -175,7 +181,7 @@
                                     <TextBlock Text="{Binding CurrentTrack.Detail.Name}" FontSize="20" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"/>
                                     <TextBlock Text="{Binding CurrentTrack.Detail.City}" FontSize="16" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap"/>
                                     <TextBlock Text="{Binding CurrentTrack.Detail.Genres, Converter={x:Static c:ListToStringConverter.Default}}" FontSize="16" Grid.Row="2" Grid.Column="1"/>
-                                    <TextBlock Text="Biography" FontSize="18" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                    <TextBlock Visibility="{Binding CurrentTrack.IsDetailLoaded, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}" Text="Select a track to get details." FontSize="18" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
                                     <TextBlock Width="Auto" Text="{Binding CurrentTrack.Detail.Biography}" TextWrapping="Wrap" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
                                 </Grid>
                             </s:SurfaceScrollViewer>

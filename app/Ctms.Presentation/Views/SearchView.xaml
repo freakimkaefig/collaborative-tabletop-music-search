@@ -39,28 +39,24 @@
                 BeginTime="0:0:0.8"
                 Duration="0:0:0.2"/>
 
-               <DoubleAnimation
+            <DoubleAnimation
                 Storyboard.TargetName="combiEll"
                 Storyboard.TargetProperty="(Ellipse.Height)"
-                
                 Duration="0:0:1"
                 From="15"
                 To="50"
+                
                 />
-                <!--By="50"
-                BeginTime="0:0:0.8"-->
+                <!--RenderOptions.BitmapScalingMode="Linear"-->
                 <DoubleAnimation
                 Storyboard.TargetName="combiEll"
                 Storyboard.TargetProperty="(Ellipse.Width)"
-                
                 Duration="0:0:1"
                 From="15"
                 To="50"
                 />
-                <!--By="50"
-                BeginTime="0:0:0.8"-->
-
-            <!--<DoubleAnimation
+            
+                <!--<DoubleAnimation
                 Storyboard.TargetName="ScaleTransform"
                 Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
                 To="10.0" BeginTime="0:0:8" Duration="0:0:2"
@@ -362,10 +358,12 @@
                                                 Height="15"
                                                 Width="15"
                                                 Opacity="0.7"
-                                                Fill="#afff">
+                                                Fill="#afff"
+                                                RenderTransformOrigin="0.5,0.5">
                                                 <Ellipse.RenderTransform>
                                                     <TranslateTransform x:Name="TTransform" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}" />
                                                 </Ellipse.RenderTransform>
+                                                
                                                     <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
                                                 <Ellipse.Effect>
                                                     <BlurEffect Radius="5"/>

@@ -138,6 +138,7 @@ namespace Ctms.Presentation.Views
             {
                 e.Handled = true;
             }*/
+          Process.Start("C:/Program Files/Common Files/Microsoft Shared/ink/tabtip.exe");
         }
 
         private void MyTagVisualization_TouchUp(object sender, TouchEventArgs e)

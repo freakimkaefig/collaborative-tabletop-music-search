@@ -234,10 +234,12 @@ namespace Ctms.Presentation.Views
         private void Playlist_DragEnter(object sender, SurfaceDragDropEventArgs e)
         {
             ResultDataModel data = e.Cursor.Data as ResultDataModel;
-
-            if (!data.CanDrop)
+            if (data != null)
             {
-                e.Effects = DragDropEffects.None;
+                if (!data.CanDrop)
+                {
+                    e.Effects = DragDropEffects.None;
+                }
             }
         }
 
@@ -310,6 +312,7 @@ namespace Ctms.Presentation.Views
             //Remove dragged track from playlist
             ResultDataModel droppedItem = e.Cursor.Data as ResultDataModel;
             int removeIndex = _viewModel.ResultsForPlaylist.IndexOf(droppedItem);
+            _viewModel.ResultsForPlaylist.Remove(null);
 
             _viewModel.RemoveTrackCommand.Execute(removeIndex);
         }
