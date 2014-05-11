@@ -12,6 +12,7 @@ using SpotifySharp;
 using Ctms.Applications.DataModels;
 using System.Windows;
 using Microsoft.Surface.Presentation.Controls;
+using System.Windows.Media;
 
 namespace Ctms.Applications.ViewModels
 {
@@ -27,7 +28,7 @@ namespace Ctms.Applications.ViewModels
         private bool _isShuffle = false;
         private bool _isRepeat = false;
         private bool _canPlay = false;
-        private string _playPauseText = "Play";
+        private DrawingBrush _playPauseIcon;
         private bool _trashVisible = false;
 
         private SurfaceButton _dropTargetLeft;
@@ -211,15 +212,15 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
-        public string PlayPauseText
+        public DrawingBrush PlayPauseIcon
         {
-            get { return _playPauseText; }
+            get { return _playPauseIcon; }
             set
             {
-                if (_playPauseText != value)
+                if (_playPauseIcon != value)
                 {
-                    _playPauseText = value;
-                    RaisePropertyChanged("PlayPauseText");
+                    _playPauseIcon = value;
+                    RaisePropertyChanged("PlayPauseIcon");
                 }
             }
         }

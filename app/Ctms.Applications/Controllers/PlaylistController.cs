@@ -20,6 +20,7 @@ using Ctms.Domain.Objects;
 using Ctms.Applications.Workers;
 using Ctms.Domain.Objects;
 using Ctms.Applications.DataModels;
+using System.Windows;
 
 
 namespace Ctms.Applications.Controllers
@@ -99,6 +100,8 @@ namespace Ctms.Applications.Controllers
             AddWeakEventListener(_playlistViewModel, PlaylistViewModelPropertyChanged);
 
             shellService.PlaylistView = _playlistViewModel.View;
+
+            _playlistViewModel.PlayPauseIcon = (System.Windows.Media.DrawingBrush)Application.Current.Resources["play"];
         }
 
         private void UpdateCommands()
@@ -143,11 +146,15 @@ namespace Ctms.Applications.Controllers
             {
                 if (!_playlistViewModel.Playing)
                 {
-                    _playlistViewModel.PlayPauseText = "Play";
+                    _playlistViewModel.PlayPauseIcon = (System.Windows.Media.DrawingBrush)Application.Current.Resources["play"];
                 }
                 else
                 {
-                    _playlistViewModel.PlayPauseText = "Pause";
+                    foreach (var result in _playlistViewModel.ResultsForPlaylist)
+                    {
+                        result.IsPlaying = false;
+                    }
+                    _playlistViewModel.PlayPauseIcon = (System.Windows.Media.DrawingBrush)Application.Current.Resources["pause"];
                 }
                 UpdateCommands();
             }
