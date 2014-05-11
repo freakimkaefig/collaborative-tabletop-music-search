@@ -70,6 +70,7 @@ namespace Ctms.Applications.Workers
             _playlistViewModel.CanPlay = true;
             _resultViewModel.PlaylistOpened = true;
             _playlistViewModel.PlaylistPresent = true;
+            if (_playlistViewModel.CurrentPlaylist.NumTracks() == 0) _playlistViewModel.PlaylistEmpty = true;
 
             int info = _infoWorker.ShowCommonInfo("Playlist opened", "You successfully opened the playlist '" + playlist.Name() + "'", "Ok");
         }
@@ -156,12 +157,8 @@ namespace Ctms.Applications.Workers
                         if (_playlistViewModel.CurrentPlaylist.Track(i).Artist(0).Name().Equals(result.SpotifyTrack.Artist(0).Name()) && _playlistViewModel.CurrentPlaylist.Track(i).Name().Equals(result.SpotifyTrack.Name()))
                         {
                             //track already in playlist
-                            _sessionManager.logMessages.Enqueue("Track already in playlist");
+                            //_sessionManager.logMessages.Enqueue("Track already in playlist");
                             return;
-                        }
-                        else
-                        {
-                            
                         }
                     }
                     Storyboard.SetTarget(fadeIn, imageElement);
@@ -174,6 +171,7 @@ namespace Ctms.Applications.Workers
                     sb.Begin();
                     _playlistViewModel.ResultsForPlaylist.Add(result);
                     _sessionManager.AddTrackToPlaylist(_playlistViewModel.CurrentPlaylist, result.SpotifyTrack);
+                    _playlistViewModel.PlaylistEmpty = false;
                 }
                 else
                 {

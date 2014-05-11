@@ -50,6 +50,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _loadDetailsCommand;
         //
         private bool _playlistPresent;
+        private bool _playlistEmpty = false;
         private Playlist _currentPlaylist = null;
         private ObservableCollection<ResultDataModel> _playlistResults;
 
@@ -287,6 +288,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _playlistPresent = value;
                     RaisePropertyChanged("PlaylistPresent");
+                }
+            }
+        }
+
+        public bool PlaylistEmpty
+        {
+            get { return _playlistEmpty; }
+            set
+            {
+                if (_playlistEmpty != value)
+                {
+                    _playlistEmpty = value;
+                    RaisePropertyChanged("PlaylistEmpty");
                 }
             }
         }
