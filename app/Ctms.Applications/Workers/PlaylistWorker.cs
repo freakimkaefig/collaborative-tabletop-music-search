@@ -69,6 +69,7 @@ namespace Ctms.Applications.Workers
 
             _playlistViewModel.CanPlay = true;
             _resultViewModel.PlaylistOpened = true;
+            _playlistViewModel.PlaylistPresent = true;
 
             int info = _infoWorker.ShowCommonInfo("Playlist opened", "You successfully opened the playlist '" + playlist.Name() + "'", "Ok");
         }
