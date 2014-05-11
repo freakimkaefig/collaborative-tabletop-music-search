@@ -147,7 +147,7 @@
         		<Image        
         			Style="{StaticResource LoadingCircleInverted}"
         			Visibility="{Binding IsLoadingInfoVisible, Converter={StaticResource visibilityConverter}}"
-        			Height="80" Width="80"
+        			Height="100" Width="100"
         			HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 
         	</Grid>
@@ -430,9 +430,9 @@
         <!--Tag color circle-->
         <Ellipse Name="TagColor"
                  DataContext="{DynamicResource TagDM}"
-                 Width="70" Height="70" 
+                 Width="75" Height="75" 
                  Stroke="{Binding TagColor}"
-                 StrokeThickness="5" 
+                 StrokeThickness="10" 
                  Fill="{x:Null}">
             <Ellipse.Effect>
                 <BlurEffect Radius="5"/>
