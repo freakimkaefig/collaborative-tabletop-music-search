@@ -159,14 +159,16 @@ namespace MusicSearch.Managers
             //check for parameter
             if (gp != null && gp.Any())
             {
+                int counter = 0;
                 //get & add attributes to combined-search-URL by using reflection
                 foreach (var g in gp)
                 {
                     var properties = g.GetType().GetProperties();
                     foreach (var prop in properties)
+                    
                     {
                         string name = prop.Name;
-                        var propValue = prop.GetValue(gp[0], null);
+                        var propValue = prop.GetValue(gp[counter], null);
                         if (!request.Contains(name) && propValue != null && propValue.ToString() != "0.0" && propValue.ToString() != "0")
                         {
                             //check if values are correctly formated, if not fix them
@@ -189,6 +191,7 @@ namespace MusicSearch.Managers
 
                         }
                     }
+                    counter++;
                 }
             }
             else
