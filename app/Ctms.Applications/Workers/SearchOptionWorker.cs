@@ -260,6 +260,7 @@ namespace Ctms.Applications.Workers
 
                         // set default value
                         if (attribute.option1 != null) tagDm.InputTerms = attribute.option1;
+                        else if (tagDm.Tag.AssignedKeyword.DisplayName == "Max. Tempo(BPM)" || tagDm.Tag.AssignedKeyword.DisplayName == "Min. Tempo(BPM)") tagDm.InputTerms = "120";
                         else tagDm.InputTerms = attribute.min.ToString();
 
 

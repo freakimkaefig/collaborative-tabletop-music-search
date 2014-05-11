@@ -198,7 +198,9 @@ namespace MusicSearch.Managers
             }
             else
             {
-                //couldn't find any parameters (msg auslösen!)
+                /*_infoWorker.ShowCommonInfo("No Parameter found",
+                    "To combine Tangibles, place them close to another.\nYou can combine multiple genres with genre-parameters or a single artist with up to three artist-parameters.",
+                    "Ok");*/
             }
 
             //JSON response delivered as string
@@ -207,9 +209,9 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-                //Apostrophes are replaced by HTML unicode
-                response = response.Replace("'", "&#39;");
-                var cleared = @"" + response.Replace("\"", "'");
+            //Apostrophes are replaced by HTML unicode
+            response = response.Replace("'", "&#39;");
+            var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
             var responseString = StringHelper.replacePartialString(cleared, "songs", "Songs", 1);
             //Add Origin-IDs to each result
@@ -232,6 +234,11 @@ namespace MusicSearch.Managers
 
             //convert response (JSON) in RC-instance
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(responseString);
+            if (temp.Response.Songs != null && temp.Response.Songs.Any())
+            {
+                temp.Response.Songs = temp.Response.Songs.GroupBy(a => a.Title).Select(b => b.First()).ToList();
+            }
+            
             for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
                 combinedGenreRC.Add(temp.Response.Songs[i]);
@@ -383,12 +390,16 @@ namespace MusicSearch.Managers
                 //name of artist is at fixed position in array
                 String name = splitted[27].ToString();
 
+                name = StringHelper.replacePartialString(name, "&", "", 100);
+
                 //do a query by that artist-name
                 return getArtistInfo(name);
             }
             else if (!String.IsNullOrEmpty(artist_name))
             {
                 //directly do a query by artist_name
+
+                artist_name = StringHelper.replacePartialString(artist_name, "&", "", 100);
                 return getArtistInfo(artist_name);
             }
             return null;
@@ -404,10 +415,6 @@ namespace MusicSearch.Managers
         {
             List<ResponseContainer.ResponseObj.ArtistInfo> ArtistInfosRC = new List<ResponseContainer.ResponseObj.ArtistInfo>();
 
-            /* 
-             * FB-Seite:
-             * gibt "facebook:artist:6979332244" zurück, seite lautet dann http://www.facebook.com/profile.php?id=6979332244
-             */
             //fix spacing and upper-case letters
             if (artist.Contains(" "))
             {
@@ -416,6 +423,8 @@ namespace MusicSearch.Managers
             artist = artist.ToLower();
 
             //build first query (basic information about the artist)
+
+            artist = StringHelper.replacePartialString(artist, "&", "", 100);
             String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=terms&bucket=id:facebook&bucket=biographies&bucket=years_active&bucket=video&bucket=blogs&bucket=reviews&bucket=images&bucket=news&sort=hotttnesss-desc&results=1&name=" + artist;
             String response = HttpRequester.StartRequest(request);
             if (String.IsNullOrEmpty(response))
@@ -439,13 +448,16 @@ namespace MusicSearch.Managers
             if (temp.Response.ArtistInfos != null && temp.Response.ArtistInfos.Any())
             {
                 temp.Response.ArtistInfos[0].reviews = temp.Response.ArtistInfos[0].reviews.GroupBy(p => p.name).Select(g => g.First()).ToList();
+                temp.Response.ArtistInfos[0].reviews = temp.Response.ArtistInfos[0].reviews.GroupBy(p => p.summary).Select(g => g.First()).ToList();
                 temp.Response.ArtistInfos[0].news = temp.Response.ArtistInfos[0].news.GroupBy(p => p.name).Select(g => g.First()).ToList();
+                temp.Response.ArtistInfos[0].news = temp.Response.ArtistInfos[0].news.GroupBy(p => p.summary).Select(g => g.First()).ToList();
             }
 
             //add first artist-info-results to RC
             ArtistInfosRC.Add(temp.Response.ArtistInfos[0]);
 
             //build 2nd query (songs of the artist)
+            artist = StringHelper.replacePartialString(artist, "&", "", 100);
             String request2 = _defaultURL + "artist/songs?" + "api_key=" + GetAPIKey() + "&format=json&results=100&name=" + artist;
             String response2 = HttpRequester.StartRequest(request2);
             if (String.IsNullOrEmpty(response2))
@@ -474,6 +486,10 @@ namespace MusicSearch.Managers
                   .Select(g => g.First())
                   .ToList();
 
+                    filtertedList = filtertedList.GroupBy(p => p.title_id)
+                  .Select(g => g.First())
+                  .ToList();
+
                     //Initialise inner list of RC
                     ArtistInfosRC[0].ArtistSongs = new List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong>();
                     //add further artist-info-results to inner list of RC
@@ -484,9 +500,10 @@ namespace MusicSearch.Managers
                     ArtistInfosRC[0].ArtistSongs = ArtistInfosRC[0].ArtistSongs.OrderBy(a => a.title).ToList();
                 }
             }
-            
+
 
             //build 3rd query (similiar artists)
+            artist = StringHelper.replacePartialString(artist, "&", "", 100);
             String request3 = _defaultURL + "artist/similar?" + "api_key=" + GetAPIKey() + "&format=json&bucket=familiarity&min_familiarity=0.7&name=" + artist;
             String response3 = HttpRequester.StartRequest(request3);
             if (String.IsNullOrEmpty(response3))
@@ -509,6 +526,11 @@ namespace MusicSearch.Managers
 
                 if (temp3.Response.ArtistInfos != null && temp3.Response.ArtistInfos.Any())
                 {
+                    if (temp3.Response.ArtistInfos[0].SimilarArtists != null && temp3.Response.ArtistInfos[0].SimilarArtists.Any())
+                    {
+                        temp3.Response.ArtistInfos[0].SimilarArtists = temp3.Response.ArtistInfos[0].SimilarArtists.GroupBy(a => a.artist_id).Select(b => b.First()).ToList();
+                        temp3.Response.ArtistInfos[0].SimilarArtists = temp3.Response.ArtistInfos[0].SimilarArtists.GroupBy(a => a.name).Select(b => b.First()).ToList();
+                    }
                     //add remaining artist-info-results to second inner list of RC
                     for (int i = 0; i < temp3.Response.ArtistInfos[0].SimilarArtists.Count; i++)
                     {
@@ -521,6 +543,7 @@ namespace MusicSearch.Managers
 
 
             //build 4th query (urls)
+            artist = StringHelper.replacePartialString(artist, "&", "", 100);
             String request4 = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&results=1&name=" + artist + "&bucket=urls&sort=hotttnesss-desc";
             String response4 = HttpRequester.StartRequest(request4);
             if (String.IsNullOrEmpty(response4))
@@ -551,9 +574,10 @@ namespace MusicSearch.Managers
                     ArtistInfosRC[0].Urls.Add(temp4.Response.ArtistInfos[0].Urls[i]);
                 }
             }
-            
+
 
             //build 5th request (artist location)
+            artist = StringHelper.replacePartialString(artist, "&", "", 100);
             String request5 = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&results=1&name=" + artist + "&bucket=artist_location&sort=hotttnesss-desc";
             String response5 = HttpRequester.StartRequest(request5);
             if (String.IsNullOrEmpty(response5))
@@ -609,6 +633,7 @@ namespace MusicSearch.Managers
             term = term.ToLower();
 
             //build query
+            term = StringHelper.replacePartialString(term, "&", "", 100);
             String request = _defaultURL + "song/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&sort=song_hotttnesss-desc&title=" + term;
             
             String response = HttpRequester.StartRequest(request);
@@ -623,14 +648,20 @@ namespace MusicSearch.Managers
             //manipulate response to receive correct results in RC
             var newText = StringHelper.replacePartialString(cleared, "songs", "TitleSuggestions", 1);
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            //Add Origin-ID and add results to RC
-            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
-            for (int i = 0; i < temp.Response.TitleSuggestions.Count; i++)
-            {
-                JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
-                TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
-            }
 
+            if (temp.Response.TitleSuggestions != null && temp.Response.TitleSuggestions.Any())
+            {
+                temp.Response.TitleSuggestions = temp.Response.TitleSuggestions.GroupBy(a => a.artist_name).Select(b => b.First()).ToList();
+            
+
+                //Add Origin-ID and add results to RC
+                String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
+                for (int i = 0; i < temp.Response.TitleSuggestions.Count; i++)
+                {
+                    JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
+                    TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
+                }
+            }
             if (TitleSuggestionsRC != null && TitleSuggestionsRC.Any())
             {
                 var emptyResponse = new ResponseContainer.ResponseObj.TitleSuggestion();
@@ -661,6 +692,7 @@ namespace MusicSearch.Managers
             }
             term = term.ToLower();
 
+            term = StringHelper.replacePartialString(term, "&", "", 100);
             String request = _defaultURL + "artist/search?" + "api_key=" + GetAPIKey() + "&format=json&bucket=id:spotify-WW&limit=true&sort=hotttnesss-desc&name=" + term;
             
             String response = HttpRequester.StartRequest(request);
@@ -676,12 +708,18 @@ namespace MusicSearch.Managers
             //manipulate response to receive correct results in RC
             var newText = StringHelper.replacePartialString(cleared, "artists", "ArtistSuggestions", 1);
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            //Add Origin-ID and results to RC
-            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
-            for (int i = 0; i < temp.Response.ArtistSuggestions.Count; i++)
+
+            if (temp.Response.ArtistSuggestions != null && temp.Response.ArtistSuggestions.Any())
             {
-                JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistSuggestions[i]);
-                ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
+                temp.Response.ArtistSuggestions = temp.Response.ArtistSuggestions.GroupBy(a => a.name).Select(b => b.First()).ToList();
+
+                //Add Origin-ID and results to RC
+                String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
+                for (int i = 0; i < temp.Response.ArtistSuggestions.Count; i++)
+                {
+                    JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistSuggestions[i]);
+                    ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
+                }
             }
 
             if (ArtistSuggestionsRC != null && ArtistSuggestionsRC.Any())
@@ -795,6 +833,11 @@ namespace MusicSearch.Managers
             newText4 = StringHelper.replacePartialString(newText4, "\'title\'", JSONOriginId + "\'title\'", 1000);
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
+
+            if (temp.Response.Songs != null && temp.Response.Songs.Any())
+            {
+                temp.Response.Songs = temp.Response.Songs.GroupBy(a => a.Title).Select(b => b.First()).ToList();
+            }
 
             for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
