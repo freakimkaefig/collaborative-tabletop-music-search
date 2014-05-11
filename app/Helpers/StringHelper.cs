@@ -22,6 +22,18 @@ namespace Helpers
             return sb.ToString();
         }
 
+        public static String fixUmlauts(string s)
+        {
+            s = replacePartialString(s, "Ã–", "Oe", 100000);
+            s = replacePartialString(s, "Ãœ", "Ue", 100000);
+            s = replacePartialString(s, "Ã„", "Ae", 100000);
+            s = replacePartialString(s, "Ã¶", "oe", 100000);
+            s = replacePartialString(s, "Ã¼", "ue", 100000);
+            s = replacePartialString(s, "Ã¤", "ae", 100000);
+            s = replacePartialString(s, "ß", "ss", 100000);
+            return s;
+        }
+
         public static String replacePartialString(String term, String replaceable, String substitute, int thisOften)
         {
             var newTerm = "";

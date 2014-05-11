@@ -93,8 +93,8 @@ namespace Ctms.Applications.Workers
 
             // add combinedSong results (tracks)
             var allSongs = new List<ResponseContainer.ResponseObj.Song>();
-            if(combinedSongs != null) allSongs.AddRange(combinedSongs);
-            if (uncombinedSongs != null) allSongs.AddRange(uncombinedSongs);
+            if(combinedSongs != null && combinedSongs.Any()) allSongs.AddRange(combinedSongs);
+            if (uncombinedSongs != null && uncombinedSongs.Any()) allSongs.AddRange(uncombinedSongs);
 
             /*for (var i = 0; i < allSongs.Count; i++) {
                 DevHelper.DevLogger.Log("SearchWorker:74 - " + allSongs[i].ToString());

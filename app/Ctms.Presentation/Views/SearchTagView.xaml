@@ -39,6 +39,7 @@
                                  CommandParameter="{Binding Id}" 
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center"
+        						 Background="{x:Null}" 
                                  Visibility="{DynamicResource IsMenuVisible}"  
                                  Style="{StaticResource BreadcrumbBtn}" Grid.Column="1">
                     <s:SurfaceButton.RenderTransform>
@@ -54,6 +55,7 @@
     
     <!--Surrounding Tag Grid-->
     <Grid Name="TagGrid" 
+        			Background="{x:Null}" 
           DataContext="{DynamicResource TagDM}" RenderTransformOrigin="0.5, 0.5">
 
         <Grid.RenderTransform>
@@ -68,7 +70,7 @@
                 <BlurEffect Radius="5"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Grid>
+        <Grid Background="{x:Null}" >
             <Grid.RowDefinitions>
                 <!--Reference static resoure as binding so that DoubleToString-converter will be found-->
             	<RowDefinition Height="{Binding Source={StaticResource OuterLength}}"/>
@@ -92,7 +94,8 @@
         <!--Grid for PieMenu-->
         	<Grid Grid.Row="1" Grid.Column="1"
         		Visibility="{DynamicResource IsCircleMenuVisible}" 
-        		Height="{StaticResource PieMenuDiameter}" 
+        		Height="{StaticResource PieMenuDiameter}"
+        		Background="{x:Null}" 
         		Width="{StaticResource PieMenuDiameter}"
         		DataContext="{DynamicResource TagDM}">
         		<Grid.RenderTransform>
@@ -131,7 +134,7 @@
         			RotateTextAngle="0"
         			Rotation="120"
         			MainAngle="120"
-        			Background="Transparent"
+        			Background="{x:Null}"
         			Grid.Row="0"
         			Grid.Column="0"
         			Visibility="{DynamicResource IsCircleMenuVisible}">
@@ -148,7 +151,8 @@
                 
         	</Grid>
             <!--Grid for keyword type selection-->
-        	<Grid Grid.Row="1" Grid.Column="1" DataContext="{DynamicResource TagDM}"
+        	<Grid Grid.Row="1" 
+        			Background="{x:Null}" Grid.Column="1" DataContext="{DynamicResource TagDM}"
         		Visibility="{Binding IsKeywordTypesVisible, Converter={StaticResource visibilityConverter}}">
         		<Grid.RowDefinitions>
         			<RowDefinition/>
@@ -197,7 +201,8 @@
                                  />
         	</Grid>
             <!--Input and hint-->
-        	<Grid x:Name="InputGrid" Grid.Row="1" Grid.ColumnSpan="3" DataContext="{DynamicResource TagDM}"
+        	<Grid x:Name="InputGrid" 
+        			Background="{x:Null}" Grid.Row="1" Grid.ColumnSpan="3" DataContext="{DynamicResource TagDM}"
         		Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}">
         		<Grid.RowDefinitions>
         			<RowDefinition Height="155"/>
@@ -213,6 +218,7 @@
 
         		<Grid Grid.Row="1" Grid.ColumnSpan="3" Background="#5000" >                    
         			<TextBlock  
+        				Background="{x:Null}"
         				DataContext="{DynamicResource TagDM}" 
         				x:Name="InputType" Text="{Binding InputTypeHint}" 
         				Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}"
@@ -230,6 +236,7 @@
         			Visibility="{Binding IsInputVisible, Converter={StaticResource visibilityConverter}}"
         			HorizontalAlignment="Center"
         			VerticalAlignment="Top"
+        			Background="{x:Null}"
         			Grid.Row="2"
         			Grid.ColumnSpan="3">
         			<Grid.ColumnDefinitions>
@@ -304,6 +311,7 @@
         		ItemsSource="{DynamicResource BreadcrumbOptions}"
         		Grid.Row="0" 
         		Grid.Column="1"
+        		Background="{x:Null}"
         		Grid.ColumnSpan="2">
         		<ItemsControl.ItemsPanel>
         			<ItemsPanelTemplate>
@@ -312,8 +320,9 @@
         		</ItemsControl.ItemsPanel>
         	</ItemsControl>
                 <!--Rotated assigned keyword-->
-        	<Grid   Grid.ColumnSpan="3" Grid.Row="1"
-        		VerticalAlignment="Bottom" Margin="0,0,0,55" HorizontalAlignment="Stretch">
+        	<Grid   Grid.ColumnSpan="3" 
+        			Background="{x:Null}" Grid.Row="1" IsHitTestVisible="True"
+        			VerticalAlignment="Bottom" Margin="0,0,0,55" HorizontalAlignment="Stretch">
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto" />
         			<RowDefinition Height="Auto"/>
@@ -336,6 +345,7 @@
                     Grid.RowSpan="2"/>-->
         		<TextBlock Grid.Row="0"
                                 HorizontalAlignment="Center"
+        						Background="{x:Null}"
                                 DataContext="{DynamicResource TagDM}"
                                 Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
                                 Text="{Binding Tag.AssignedKeyword.DisplayName, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
@@ -346,6 +356,7 @@
         	</Grid>
                 <!--Not rotated assigned keyword-->
         	<Grid Grid.ColumnSpan="3" Grid.Row="1"
+        			Background="{x:Null}"
         		VerticalAlignment="Top" Margin="0,55,0,0" HorizontalAlignment="Stretch" >
         		<Grid.RowDefinitions>
         			<RowDefinition Height="Auto"/>
@@ -368,7 +379,8 @@
         	        Text="{Binding Tag.AssignedKeyword.DisplayNameSecond, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                     Grid.RowSpan="2"/>-->
 
-                <TextBlock  Grid.Row="0"
+                <TextBlock  Grid.Row="0" 
+        			Background="{x:Null}"
         			HorizontalAlignment="Center"
         			DataContext="{DynamicResource TagDM}"
         			Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
@@ -382,7 +394,8 @@
         			</TextBlock.RenderTransform>
                 </TextBlock>
 
-                <TextBlock  Grid.Row="1"
+                <TextBlock  Grid.Row="1" 
+        			Background="{x:Null}"
                     HorizontalAlignment="Center"
                     DataContext="{DynamicResource TagDM}"
                     Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
