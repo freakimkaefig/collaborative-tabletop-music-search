@@ -127,6 +127,7 @@ namespace MusicSearch.Managers
             OriginIDS += "], ";
             newText = StringHelper.replacePartialString(newText, "\'title\'", OriginIDS + "\'title\'", 1000);
 
+            newText = StringHelper.replacePartialString(newText, "spotify-WW:track", "spotify:track", 10000);
             //convert response (JSON) in RC-instance
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
             for (int i = 0; i < temp.Response.Songs.Count; i++)
@@ -178,12 +179,6 @@ namespace MusicSearch.Managers
                                 propValue = "present";
                             }
 
-
-                            if (propValue.ToString() == "1" || propValue.ToString() == "2" || propValue.ToString() == "3" || propValue.ToString() == "4" || propValue.ToString() == "5" || propValue.ToString() == "6" || propValue.ToString() == "7" || propValue.ToString() == "8" || propValue.ToString() == "9" || propValue.ToString() == "10")
-                            {
-                                propValue = (double)propValue / 10;
-                            }
-
                             String value = propValue.ToString();
                             if (value.Contains(","))
                             {
@@ -231,6 +226,7 @@ namespace MusicSearch.Managers
             }
             OriginIDS += "], ";
             responseString = StringHelper.replacePartialString(responseString, "\'title\'", OriginIDS + "\'title\'", 1000);
+            responseString = StringHelper.replacePartialString(responseString, "spotify-WW:track", "spotify:track", 10000);
 
             //convert response (JSON) in RC-instance
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(responseString);
