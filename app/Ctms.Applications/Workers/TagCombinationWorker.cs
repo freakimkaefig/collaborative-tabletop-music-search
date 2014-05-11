@@ -202,7 +202,10 @@ namespace Ctms.Applications.Workers
 
             foreach (var combi in _repository.GetTagCombinations())
             {
-                UpdateCenter(combi);
+                if (combi.Tags.Count >= 2)
+                {
+                    UpdateCenter(combi);
+                }
             }
         }
 

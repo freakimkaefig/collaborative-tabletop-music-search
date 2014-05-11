@@ -14,6 +14,7 @@ using Ctms.Applications.Data;
 using Ctms.Domain.Objects;
 using Newtonsoft.Json;
 using System.IO;
+using System.Globalization;
 
 namespace Ctms.Applications.Workers
 {
@@ -207,10 +208,12 @@ namespace Ctms.Applications.Workers
             var searchObjectName        = attributeTag.Tag.AssignedKeyword.Key.ToString();
             var concerningProperty      = searchObjectProperties.FirstOrDefault(a => a.Name == searchObjectName);
 
+            var c = new CultureInfo("en-US");
+
             // set value of property
             concerningProperty.SetValue(
                 searchObjectParameter,
-                Convert.ChangeType(attributeTag.Tag.AssignedKeyword.Value, concerningProperty.PropertyType),
+                Convert.ChangeType(attributeTag.Tag.AssignedKeyword.Value, concerningProperty.PropertyType, c),
                 null);
         }
 
