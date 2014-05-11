@@ -48,7 +48,7 @@
                 </s:SurfaceButton>
             </Grid>
         </DataTemplate>
-        <sys:Double x:Key="PieMenuDiameter">240</sys:Double>
+        <sys:Double x:Key="PieMenuDiameter">275</sys:Double>
         <sys:Double x:Key="OuterLength">50</sys:Double>
         <sys:Double x:Key="InputLength">180</sys:Double>
     </s:TagVisualization.Resources>
@@ -115,9 +115,10 @@
         			<ColumnDefinition/>
         		</Grid.ColumnDefinitions>
 
-        		<Image Source="{Binding BackgrImageSource}" Opacity="1.0" Stretch="Fill"
-        			Height="233" 
-        			Width="233"/>
+        		<Image RenderTransformOrigin="0.5, 0.5" Margin="-4,-4,0,0"
+				Source="{Binding BackgrImageSource}" Opacity="1.0" Stretch="Fill"
+        			Height="265" 
+        			Width="265"/>
 
                 <!--Start PieMenu with tag options-->
         		<ps:PieMenu 
@@ -128,7 +129,7 @@
         			Foreground="White"
         			SectorGap="0"
         			Gap="0"
-        			Radius="120"
+        			Radius="135"
         			InnerRadius="33"
         			RotateText="True"
         			RotateTextAngle="0"
