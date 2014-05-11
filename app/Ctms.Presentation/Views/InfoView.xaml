@@ -24,7 +24,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         
-        <ItemsControl ItemsSource="{Binding CommonInfos}" Background="Black"
+        <ItemsControl ItemsSource="{Binding CommonInfos}"
                  HorizontalAlignment="Center" VerticalAlignment="Center"
                  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                  >

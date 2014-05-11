@@ -49,10 +49,13 @@
     					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
     						<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
     					</ObjectAnimationUsingKeyFrames>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="surfaceButton2">
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="searchButton1">
     						<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
     					</ObjectAnimationUsingKeyFrames>
-    				</Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="searchButton2">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
     			</VisualState>
     		</VisualStateGroup>
     		<VisualStateGroup x:Name="PlaylistRotation">
@@ -121,7 +124,7 @@
 				<ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
 			</Grid.ColumnDefinitions>
-            <s:SurfaceListBox x:Name="surfaceListBox" Margin="0,120,0,80" Background="#000"
+            <s:SurfaceListBox x:Name="surfaceListBox" Margin="130,120,0,80" Background="#000"
                               ItemTemplate="{StaticResource SurfaceListBoxItemDataTemplate}" ItemsSource="{Binding ResultsForPlaylist}"
                               AllowDrop="True"
                               HorizontalContentAlignment="Left"
@@ -237,12 +240,19 @@
                 </s:SurfaceButton.Background>
             </s:SurfaceButton>
         </Grid>
-		<s:SurfaceButton x:Name="surfaceButton2" Margin="0" VerticalAlignment="Center" Height="90" Width="120" HorizontalAlignment="Right" Visibility="Hidden" Background="{StaticResource ResourceKey=search}">
+		<s:SurfaceButton x:Name="searchButton1" Margin="0" VerticalAlignment="Center" Height="90" Width="120" HorizontalAlignment="Right" Visibility="Hidden" Background="{StaticResource ResourceKey=search}">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="Click">
 					<ei:GoToStateAction StateName="PlaylistViewInvisible"/>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</s:SurfaceButton>
+        <s:SurfaceButton x:Name="searchButton2" Margin="0" VerticalAlignment="Center" Height="90" Width="120" HorizontalAlignment="Left" Visibility="Hidden" Background="{StaticResource ResourceKey=search}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <ei:GoToStateAction StateName="PlaylistViewInvisible"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </s:SurfaceButton>
     </Grid>
 </UserControl>
