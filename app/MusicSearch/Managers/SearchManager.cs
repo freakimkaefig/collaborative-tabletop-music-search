@@ -198,7 +198,9 @@ namespace MusicSearch.Managers
             }
             else
             {
-                //couldn't find any parameters (msg auslösen!)
+                /*_infoWorker.ShowCommonInfo("No Parameter found",
+                    "To combine Tangibles, place them close to another.\nYou can combine multiple genres with genre-parameters or a single artist with up to three artist-parameters.",
+                    "Ok");*/
             }
 
             //JSON response delivered as string
@@ -207,9 +209,9 @@ namespace MusicSearch.Managers
             {
                 return null;
             }
-                //Apostrophes are replaced by HTML unicode
-                response = response.Replace("'", "&#39;");
-                var cleared = @"" + response.Replace("\"", "'");
+            //Apostrophes are replaced by HTML unicode
+            response = response.Replace("'", "&#39;");
+            var cleared = @"" + response.Replace("\"", "'");
             //manipulate response to receive results in RC
             var responseString = StringHelper.replacePartialString(cleared, "songs", "Songs", 1);
             //Add Origin-IDs to each result
@@ -232,6 +234,11 @@ namespace MusicSearch.Managers
 
             //convert response (JSON) in RC-instance
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(responseString);
+            if (temp.Response.Songs != null && temp.Response.Songs.Any())
+            {
+                temp.Response.Songs = temp.Response.Songs.GroupBy(a => a.Title).Select(b => b.First()).ToList();
+            }
+            
             for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
                 combinedGenreRC.Add(temp.Response.Songs[i]);
@@ -441,7 +448,9 @@ namespace MusicSearch.Managers
             if (temp.Response.ArtistInfos != null && temp.Response.ArtistInfos.Any())
             {
                 temp.Response.ArtistInfos[0].reviews = temp.Response.ArtistInfos[0].reviews.GroupBy(p => p.name).Select(g => g.First()).ToList();
+                temp.Response.ArtistInfos[0].reviews = temp.Response.ArtistInfos[0].reviews.GroupBy(p => p.summary).Select(g => g.First()).ToList();
                 temp.Response.ArtistInfos[0].news = temp.Response.ArtistInfos[0].news.GroupBy(p => p.name).Select(g => g.First()).ToList();
+                temp.Response.ArtistInfos[0].news = temp.Response.ArtistInfos[0].news.GroupBy(p => p.summary).Select(g => g.First()).ToList();
             }
 
             //add first artist-info-results to RC
@@ -474,6 +483,10 @@ namespace MusicSearch.Managers
                     //remove duplicate list-entries
                     List<ResponseContainer.ResponseObj.ArtistInfo.ArtistSong> filtertedList = temp2.Response.ArtistInfos[0].ArtistSongs
                   .GroupBy(p => p.title)
+                  .Select(g => g.First())
+                  .ToList();
+
+                    filtertedList = filtertedList.GroupBy(p => p.title_id)
                   .Select(g => g.First())
                   .ToList();
 
@@ -513,6 +526,11 @@ namespace MusicSearch.Managers
 
                 if (temp3.Response.ArtistInfos != null && temp3.Response.ArtistInfos.Any())
                 {
+                    if (temp3.Response.ArtistInfos[0].SimilarArtists != null && temp3.Response.ArtistInfos[0].SimilarArtists.Any())
+                    {
+                        temp3.Response.ArtistInfos[0].SimilarArtists = temp3.Response.ArtistInfos[0].SimilarArtists.GroupBy(a => a.artist_id).Select(b => b.First()).ToList();
+                        temp3.Response.ArtistInfos[0].SimilarArtists = temp3.Response.ArtistInfos[0].SimilarArtists.GroupBy(a => a.name).Select(b => b.First()).ToList();
+                    }
                     //add remaining artist-info-results to second inner list of RC
                     for (int i = 0; i < temp3.Response.ArtistInfos[0].SimilarArtists.Count; i++)
                     {
@@ -630,14 +648,20 @@ namespace MusicSearch.Managers
             //manipulate response to receive correct results in RC
             var newText = StringHelper.replacePartialString(cleared, "songs", "TitleSuggestions", 1);
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            //Add Origin-ID and add results to RC
-            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
-            for (int i = 0; i < temp.Response.TitleSuggestions.Count; i++)
-            {
-                JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
-                TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
-            }
 
+            if (temp.Response.TitleSuggestions != null && temp.Response.TitleSuggestions.Any())
+            {
+                temp.Response.TitleSuggestions = temp.Response.TitleSuggestions.GroupBy(a => a.artist_name).Select(b => b.First()).ToList();
+            
+
+                //Add Origin-ID and add results to RC
+                String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
+                for (int i = 0; i < temp.Response.TitleSuggestions.Count; i++)
+                {
+                    JsonConvert.PopulateObject(JSONOriginId, temp.Response.TitleSuggestions[i]);
+                    TitleSuggestionsRC.Add(temp.Response.TitleSuggestions[i]);
+                }
+            }
             if (TitleSuggestionsRC != null && TitleSuggestionsRC.Any())
             {
                 var emptyResponse = new ResponseContainer.ResponseObj.TitleSuggestion();
@@ -684,12 +708,18 @@ namespace MusicSearch.Managers
             //manipulate response to receive correct results in RC
             var newText = StringHelper.replacePartialString(cleared, "artists", "ArtistSuggestions", 1);
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText);
-            //Add Origin-ID and results to RC
-            String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
-            for (int i = 0; i < temp.Response.ArtistSuggestions.Count; i++)
+
+            if (temp.Response.ArtistSuggestions != null && temp.Response.ArtistSuggestions.Any())
             {
-                JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistSuggestions[i]);
-                ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
+                temp.Response.ArtistSuggestions = temp.Response.ArtistSuggestions.GroupBy(a => a.name).Select(b => b.First()).ToList();
+
+                //Add Origin-ID and results to RC
+                String JSONOriginId = "{\"originId\": \"" + ID + "\"}";
+                for (int i = 0; i < temp.Response.ArtistSuggestions.Count; i++)
+                {
+                    JsonConvert.PopulateObject(JSONOriginId, temp.Response.ArtistSuggestions[i]);
+                    ArtistSuggestionsRC.Add(temp.Response.ArtistSuggestions[i]);
+                }
             }
 
             if (ArtistSuggestionsRC != null && ArtistSuggestionsRC.Any())
@@ -803,6 +833,11 @@ namespace MusicSearch.Managers
             newText4 = StringHelper.replacePartialString(newText4, "\'title\'", JSONOriginId + "\'title\'", 1000);
 
             var temp = JsonConvert.DeserializeObject<ResponseContainer>(newText4);
+
+            if (temp.Response.Songs != null && temp.Response.Songs.Any())
+            {
+                temp.Response.Songs = temp.Response.Songs.GroupBy(a => a.Title).Select(b => b.First()).ToList();
+            }
 
             for (int i = 0; i < temp.Response.Songs.Count; i++)
             {
