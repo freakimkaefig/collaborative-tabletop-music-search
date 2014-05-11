@@ -90,15 +90,15 @@ namespace Ctms.Applications.DataModels
                         // raise changed event so controller can react
                         RaisePropertyChanged("VisibleOptions");
                     }
-                    else
-                    {
-                        activeOptionsIndex = 0;
+                    //else
+                    //{
+                    //    activeOptionsIndex = 0;
 
-                        lastHandledAngle = Tag.Angle;
+                    //    lastHandledAngle = Tag.Angle;
 
-                        // raise changed event so controller can react
-                        RaisePropertyChanged("VisibleOptions");
-                    }
+                    //    // raise changed event so controller can react
+                    //    RaisePropertyChanged("VisibleOptions");
+                    //}
                 }
                 else if (difference > 0)
                 {   // turned tag anti-clockwise

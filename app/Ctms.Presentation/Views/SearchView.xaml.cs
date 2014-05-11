@@ -56,7 +56,10 @@ namespace Ctms.Presentation.Views
 
         public Dictionary<int, SearchTagView> SearchTagViews;
 
-        private bool added = false;
+        private bool _added = false;
+
+        private string _backgroundHex = "#0000";
+        private string _textHex = "#fff";
 
         //private TextBox focusedElement;
         //private KeyboardController keyboard;
@@ -232,14 +235,9 @@ namespace Ctms.Presentation.Views
             for (i = options.Count - 1; i >= 0; i--)
             {
                 option              = options[i];
-                var backgroundHex   = "";
-                var textHex         = "";
 
-                backgroundHex = "#0000";
-                textHex = "#fff";
-
-                var backgroundColor = (Brush)(new BrushConverter().ConvertFrom(backgroundHex));
-                var textColor = (Brush)(new BrushConverter().ConvertFrom(textHex));
+                var backgroundColor = (Brush)(new BrushConverter().ConvertFrom(_backgroundHex));
+                var textColor = (Brush)(new BrushConverter().ConvertFrom(_textHex));
 
                 var pieMenuItem = new PieMenuItem()
                 {
@@ -251,22 +249,12 @@ namespace Ctms.Presentation.Views
                     CenterTextVertically = true
                 };
 
-                if (options.Count == 1)
+                if (options.Count == 1 || options.Count == 2 || options.Count == 3)
                 {
                     pieMenuItem.FontSize = 14;
                     pieMenuItem.CenterTextHorizontal = true;
                 }
-                else if (options.Count == 2)
-                {
-                    pieMenuItem.FontSize = 14;
-                    pieMenuItem.CenterTextHorizontal = true;
-                }
-                else if (options.Count == 3)
-                {
-                    pieMenuItem.FontSize = 14;
-                    pieMenuItem.CenterTextHorizontal = true;
-                }
-                else if (options.Count >= 3)
+                else if (options.Count >= 4)
                 {
                     if (i == 0)
                     {
@@ -295,11 +283,11 @@ namespace Ctms.Presentation.Views
                 pieMenuItem.SetBinding(PieMenuItem.HeaderProperty, headerBinding);
 
                 // SubHeader binding
-                Binding subHeaderBinding = new Binding("Keyword.DisplayDescription");
-                subHeaderBinding.Source = option;
-                subHeaderBinding.NotifyOnSourceUpdated = true;
-                subHeaderBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                pieMenuItem.SetBinding(PieMenuItem.SubHeaderProperty, subHeaderBinding);
+                //Binding subHeaderBinding = new Binding("Keyword.DisplayDescription");
+                //subHeaderBinding.Source = option;
+                //subHeaderBinding.NotifyOnSourceUpdated = true;
+                //subHeaderBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                //pieMenuItem.SetBinding(PieMenuItem.SubHeaderProperty, subHeaderBinding);
 
                 // Command binding
                 Binding commandBinding = new Binding("SelectOptionCmd");
@@ -308,23 +296,10 @@ namespace Ctms.Presentation.Views
                 commandBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 pieMenuItem.SetBinding(PieMenuItem.CommandProperty, commandBinding);
 
-                //if (i == 0)
-                {   // Add item to main pie menu with one big option
-                    //pieMenuMain.Items.Add(pieMenuItem);
-                }
-                //else
-                {   // add item to pie menu with multiple small options
-                    pieMenu.Items.Add(pieMenuItem);
-                }
+                pieMenu.Items.Add(pieMenuItem);
             }
 
             pieMenu.InvalidateVisual();
-            //pieMenuMain.InvalidateVisual();
-        }
-
-        public void CreateEllipse()
-        {
-
         }
 
         public void UpdateStoryboard(int combiId)
