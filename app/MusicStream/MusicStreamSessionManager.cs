@@ -654,10 +654,6 @@ namespace MusicStream
                 //logMessages.Enqueue("SpotifyException: " + spotifyException.Message);
                 //ShowError(exception.Message);
             }
-            catch (AccessViolationException exception)
-            {
-                //ShowError(exception.Message);
-            }
         }
         private void PrelistenPlayCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -669,17 +665,10 @@ namespace MusicStream
 
         private void PrelistenStopWorker(object sender, DoWorkEventArgs e)
         {
-            try
-            {
-                _session.PlayerPlay(false);
-                _session.PlayerUnload();
-                _waveOutDevice.Stop();
-                _bufferedWaveProvider.ClearBuffer();
-            }
-            catch (AccessViolationException exception)
-            {
-                //ShowError(exception.Message);
-            }
+            _session.PlayerPlay(false);
+            _session.PlayerUnload();
+            _waveOutDevice.Stop();
+            _bufferedWaveProvider.ClearBuffer();
         }
         private void PrelistenStopCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
