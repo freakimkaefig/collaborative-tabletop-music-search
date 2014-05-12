@@ -104,14 +104,11 @@ namespace Ctms.Applications.Workers
                 TryRedoSearch();
                 return;
             }
-            else if (_collectedResults.Count < CommonVal.Results_MaxNumber)
+            else if (_collectedResults.Count < CommonVal.Results_MaxNumber && _refreshTrialsCounter < 3)
             {
-                if (_refreshTrialsCounter < 3)
-                {
-                    TryRedoSearch();
-                }
+                TryRedoSearch();
             }
-            else
+            else if (_collectedResults.Count > 0)
             {
                 SpreadResults();
 
@@ -120,7 +117,11 @@ namespace Ctms.Applications.Workers
                 _collectedResults.Clear();
 
                 _refreshTrialsCounter = 0;
-            }           
+            }
+            else
+            {
+                TryRedoSearch();
+            }
         }
 
         /// <summary>
@@ -140,7 +141,7 @@ namespace Ctms.Applications.Workers
 
             // collect results horizontally, which means taking a result of tag1, than tag2, tag3... tag1, tag2, tag3...
             // until there have beent collected enough results
-            while (horizontallyCollectedResults.Count < CommonVal.Results_MaxNumber)
+            while (horizontallyCollectedResults.Count < CommonVal.Results_MaxNumber && _collectedResults.Count > 0)
             {
                 var originId = originIds.ElementAt(originNr);
 

@@ -15,7 +15,7 @@
     
     <UserControl.Resources>
         
-        <Storyboard x:Key="TagCombiStoryboard"  Duration="0:0:1" Name="TagCombiStoryboard"
+        <Storyboard x:Key="TagCombiStoryboard"  Duration="0:0:0.4" Name="TagCombiStoryboard"
                      x:Shared="True"
                     >
             <!--RepeatBehavior="1"-->
@@ -25,7 +25,7 @@
                 Storyboard.TargetProperty="Opacity"
                 From="1.0"
                 To="1.0"
-                Duration="0:0:0.8"/>
+                Duration="0:0:0.3"/>
 
             <DoubleAnimation
                 Name="OpacityFade"
@@ -33,8 +33,8 @@
                 Storyboard.TargetProperty="Opacity"
                 From="1.0"
                 To="0.2"
-                BeginTime="0:0:0.8"
-                Duration="0:0:0.2"/>
+                BeginTime="0:0:0.3"
+                Duration="0:0:0.1"/>
 
             <!--<DoubleAnimation
                 Storyboard.TargetName="combiEll"
@@ -81,7 +81,7 @@
                 Name="XTransform"                
                 Storyboard.TargetName="TTransform"
                 Storyboard.TargetProperty="X"
-                Duration="0:0:1" 
+                Duration="0:0:0.4" 
                              />
                 <!--To="{Binding DataContext.CenterX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>-->
                
@@ -91,7 +91,7 @@
                 Name="YTransform"   
                 Storyboard.TargetName="TTransform"
                 Storyboard.TargetProperty="Y"
-                Duration="0:0:1">
+                Duration="0:0:0.4">
             </DoubleAnimation>
         </Storyboard>
 
@@ -366,7 +366,7 @@
                                                 
                                                     <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
                                                 <Ellipse.Effect>
-                                                    <BlurEffect Radius="5"/>
+                                                    <BlurEffect Radius="2"/>
                                                 </Ellipse.Effect>
                                             </Ellipse>
                                         </Grid>
