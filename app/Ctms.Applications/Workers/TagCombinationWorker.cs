@@ -212,9 +212,9 @@ namespace Ctms.Applications.Workers
         private static void UpdateRadiusCircle(TagDataModel myTag, TagDataModel compareTag, bool isHighlighted)
         {
             return;//!! removed behaviour
-            var opacity = isHighlighted == true ? 1.0F : 0.0F;
+            /*var opacity = isHighlighted == true ? 1.0F : 0.0F;
             if (compareTag != null) compareTag.ConfirmCircleOpacity = opacity;
-            if (myTag != null) myTag.ConfirmCircleOpacity = opacity;
+            if (myTag != null) myTag.ConfirmCircleOpacity = opacity;*/
         }
 
 

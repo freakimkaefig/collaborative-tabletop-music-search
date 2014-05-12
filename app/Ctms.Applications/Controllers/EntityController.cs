@@ -35,7 +35,6 @@ namespace Ctms.Applications.Controllers
         private readonly ShellViewModel _shellViewModel;
         private readonly Repository _repository;
         private readonly DelegateCommand _saveCommand;
-        private CtmsEntities _entities;
         private InfoWorker _infoWorker;
 
 

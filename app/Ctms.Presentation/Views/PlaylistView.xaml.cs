@@ -232,6 +232,7 @@ namespace Ctms.Presentation.Views
                 }
                 catch (ArgumentOutOfRangeException exception)
                 {
+                    Console.WriteLine(exception);
                     //textBox.Text += exception.Message + "\n";
                     //textBox.ScrollToEnd();
                 }

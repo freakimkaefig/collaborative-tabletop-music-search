@@ -18,7 +18,6 @@ using Ctms.Applications.Views;
 using MusicStream;
 using Ctms.Domain.Objects;
 using Ctms.Applications.Workers;
-using Ctms.Domain.Objects;
 using Ctms.Applications.DataModels;
 using System.Windows;
 
@@ -37,7 +36,6 @@ namespace Ctms.Applications.Controllers
         //Services
         private readonly IShellService shellService;
         private readonly EntityService entityService;
-        private readonly IMessageService _messageService;
         //ViewModels
         private PlaylistViewModel _playlistViewModel;
         //Worker

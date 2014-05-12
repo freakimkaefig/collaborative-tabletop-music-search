@@ -39,7 +39,6 @@ namespace Ctms.Applications.Controllers
     {
         //Services
         private readonly IShellService _shellService;
-        private readonly EntityService _entityService;
         private readonly SearchTagVisualizationService _tagVisualizationService;
         //ViewModels
         private SearchViewModel _searchVm;
@@ -59,7 +58,6 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _selectArtistCmd;
         private readonly DelegateCommand _selectTitleCmd;
         private readonly DelegateCommand _goBreadcrumbCmd;
-        private readonly DelegateCommand _confirmBreadcrumbCmd;
         private readonly DelegateCommand _confirmInputCmd;
         private readonly DelegateCommand _lowerInputCmd;
         private readonly DelegateCommand _raiseInputCmd;
@@ -67,8 +65,6 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _goHomeCmd;
         //Further vars
         private SearchManager _searchManager;
-        private DelegateCommand _selectCircleOptionCmd;
-        private IMessageService _messageService;
         private Repository _repository;
         private DelegateCommand _checkTagPositionsCmd;
         private DelegateCommand _removeTagFromCombi;

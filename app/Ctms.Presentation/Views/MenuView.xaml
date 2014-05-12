@@ -9,7 +9,6 @@
     xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
     xmlns:c="clr-namespace:Ctms.Presentation.Converters"
     xmlns:s="http://schemas.microsoft.com/surface/2008"
-    xmlns:ckeyboard="clr-namespace:WPFKeyboard.Keyboard;assembly=WPFKeyboard"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="Ctms.Presentation.Views.MenuView"
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">

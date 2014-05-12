@@ -1,33 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
+using System.Waf.Applications;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.ComponentModel.Composition;
-using Ctms.Applications.Views;
-using Microsoft.Surface.Presentation.Controls;
-using Ctms.Applications.ViewModels;
-using System.Waf.Applications;
-using PieInTheSky;
-using Ctms.Domain.Objects;
-using Microsoft.Surface.Presentation.Input;
-using System.Diagnostics;
-using Ctms.Applications.DataModels;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using Ctms.Presentation.Converters;
 using System.Windows.Media.Animation;
-using Helpers;
-using WPFKeyboard.Keyboard;
+using System.Windows.Shapes;
+using Ctms.Applications.DataModels;
 using Ctms.Applications.DevHelper;
+using Ctms.Applications.ViewModels;
+using Ctms.Applications.Views;
+using Ctms.Domain.Objects;
+using Ctms.Presentation.Converters;
+using Microsoft.Surface.Presentation.Controls;
+using Microsoft.Surface.Presentation.Input;
+using PieInTheSky;
 
 namespace Ctms.Presentation.Views
 {
@@ -55,8 +47,6 @@ namespace Ctms.Presentation.Views
         private Rectangle _fft15;
 
         public Dictionary<int, SearchTagView> SearchTagViews;
-
-        private bool _added = false;
 
         private string _backgroundHex = "#0000";
         private string _textHex = "#fff";
@@ -161,14 +151,6 @@ namespace Ctms.Presentation.Views
             tagDM.Tag.PositionY = (short)(screenPosition.Y);
 
             tagDM.ExistenceState = TagDataModel.ExistenceStates.Added;
-        }
-
-        private void Rotate()
-        {
-            throw new NotImplementedException();
-            _viewModel.Tags[0].Tag.Orientation += 2;
-
-            TimingHelper.SetTimeout(10, Rotate);
         }
 
         private void UpdateResources(SearchTagView searchTagView, int tagId, TagDataModel tagDM)

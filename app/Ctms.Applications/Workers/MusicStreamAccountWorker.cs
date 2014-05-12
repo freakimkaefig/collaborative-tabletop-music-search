@@ -19,7 +19,6 @@ namespace Ctms.Applications.Workers
     [Export]
     public class MusicStreamAccountWorker
     {
-        private ObservableCollection<Playlist> _playlists;
 
         private MusicStreamSessionManager _sessionManager;
         private MenuViewModel _menuViewModel;

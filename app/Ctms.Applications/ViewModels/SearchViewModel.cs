@@ -25,17 +25,12 @@ namespace Ctms.Applications.ViewModels
         private ICommand    _startSearchCmd;
         private ICommand    _selectOptionCmd;
         private ICommand    _confirmInputCmd;
-        private string      _item1Header;
-        private string      _item2Header;
-        private int         _mainItemId;
-        private List<TagVisualization> _tagVisualizations;
         private ISearchView _searchView;
         private Keyword _assignedKeyword;
         private ObservableCollection<TagDataModel> _tags;
         private ICommand _goHomeCmd;
         private ICommand    _goBreadcrumbCmd;
         private bool        _addedVisualization;
-        private ICommand _addVisualizationCmd;
         private ICommand _editCmd;
         private ICommand _fftData;
         private List<searchObject> _searchObjectsList;
@@ -63,8 +58,6 @@ namespace Ctms.Applications.ViewModels
         private ICommand _selectArtistCmd;
         private ICommand _selectSongCmd;
         private ICommand _selectGenreCmd;
-        private ICommand _selectCurrentBreadcrumb;
-        private ICommand _confirmBreadcrumbCmd;
         private string _searchViewLog;
 
         private int _logCount;

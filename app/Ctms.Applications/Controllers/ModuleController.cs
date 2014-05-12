@@ -41,8 +41,6 @@ namespace Ctms.Applications.Controllers
         private readonly ShellViewModel     shellViewModel;
         //Commands
         private readonly DelegateCommand    exitCommand;
-        //Furthers vars
-        private SearchTagVisualizationService _tagVisualitationService;
         //Workers
         private InfoWorker infoWorker;
 

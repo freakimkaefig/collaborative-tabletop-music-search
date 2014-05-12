@@ -11,7 +11,6 @@ namespace MusicStream
     public class MusicStreamVisualizationManager
     {
         private MusicStreamSessionManager _sessionManager;
-        private int _counter = 0;
         private Lomont.LomontFFT _lomontFFT;
         public Action<double[]> FftDataReceived;
 

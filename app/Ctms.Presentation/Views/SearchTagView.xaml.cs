@@ -1,21 +1,14 @@
-﻿using System.Windows;
-using System.Diagnostics;
-using System.Windows.Controls;
-using Ctms.Applications.Views;
+﻿using System;
 using System.ComponentModel.Composition;
-using Ctms.Applications.ViewModels;
 using System.Waf.Applications;
-using System;
-using Microsoft.Surface.Presentation.Input;
+using System.Windows;
 using System.Windows.Input;
-using System.Windows.Data;
-using Microsoft.Surface.Presentation.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Ctms.Applications.DataModels;
-using WPFKeyboard.Keyboard;
-using Ctms.Applications.DevHelper;
+using Ctms.Applications.ViewModels;
+using Ctms.Applications.Views;
 using Helpers;
+using Microsoft.Surface.Presentation.Controls;
+using Microsoft.Surface.Presentation.Input;
 
 namespace Ctms.Presentation.Views
 {
@@ -31,9 +24,6 @@ namespace Ctms.Presentation.Views
         private int count = 0;
 
         private short windowHeight;
-
-        private TextBox focusedElement;
-        private KeyboardController keyboard;
 
         public SearchTagView()
         {

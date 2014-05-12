@@ -24,12 +24,9 @@ namespace Ctms.Applications.DataModels
         private bool _isVisible = false;
         private bool _isConfirmable;
         private string _confirmText;
-        private int _tagId;
         private bool _isLoadingVisible;
         private TagDataModel _tag;
         private bool _isCancellable;
-        private Action<List<object>> _confirmAction;
-        private Action<List<object>> _cancellableAction;
         private string _cancelText;
 
         public InfoDataModel(Info info)

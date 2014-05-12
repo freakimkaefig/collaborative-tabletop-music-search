@@ -46,7 +46,6 @@ namespace Ctms.Applications.Controllers
         //Further vars
         private Repository _repository;
         private InfoWorker _infoWorker;
-        private InfoFactory _infoFactory;
 
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
 

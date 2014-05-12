@@ -32,7 +32,6 @@ namespace Ctms.Applications.ViewModels
         private ICommand _loadDetailsCommand;
         private ObservableCollection<ResultDataModel> _results;
 
-        private IResultStyleResources _resultStyleResources;
         private Action<String> _prelistenAction;
         private Action<String> _addToPlaylistAction;
 

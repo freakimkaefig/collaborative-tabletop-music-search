@@ -18,7 +18,6 @@ namespace Ctms.Applications.Workers
     [Export]
     class StreamingWorker
     {
-        private BackgroundWorkHelper _backgroundWorkHelper;
         private PlaylistViewModel _playlistViewModel;
         private ResultViewModel _resultViewModel;
         private MusicStreamAccountWorker _accountWorker;
@@ -116,7 +115,7 @@ namespace Ctms.Applications.Workers
                 }
                 catch (Exception e)
                 {
-                    _infoWorker.ShowCommonInfo("Streaming error", "Please try again.", "Ok");
+                    _infoWorker.ShowCommonInfo("Streaming error", "Please try again. " + e.Message, "Ok");
                 }
             }
         }
@@ -152,9 +151,16 @@ namespace Ctms.Applications.Workers
                 {
                     if (result.SpotifyTrack == _sessionManager.CurrentPrelistenTrack)
                     {
-                        //_sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
-                        _sessionManager.StopPrelisteningTrack();
-                        _sessionManager.StopTrack();
+                        try
+                        {
+                            //_sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
+                            _sessionManager.StopPrelisteningTrack();
+                            _sessionManager.StopTrack();
+                        }
+                        catch (AccessViolationException e)
+                        {
+                            _infoWorker.ShowCommonInfo("Spotify Error", e.Message, "Ok");
+                        }
                     }
                     else
                     {
@@ -162,18 +168,32 @@ namespace Ctms.Applications.Workers
                         _sessionManager.StopPrelisteningTrack();
                         _sessionManager.StopTrack();
                         //_sessionManager.logMessages.Enqueue("PRELISTEN START!");
-                        _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
+                        try
+                        {
+                            _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
+                        }
+                        catch (AccessViolationException e)
+                        {
+                            _infoWorker.ShowCommonInfo("Spotify Error", e.Message, "Ok");
+                        }
                     }
                 }
                 else
                 {
                     //_sessionManager.logMessages.Enqueue("PRELISTEN START!");
-                    _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
+                    try
+                    {
+                        _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
+                    }
+                    catch (AccessViolationException e)
+                    {
+                        _infoWorker.ShowCommonInfo("Spotify Error", e.Message, "Ok");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                _infoWorker.ShowCommonInfo("Sorry, this didn't work", "Prelistening has thrown an error. Please retry.", "Ok");
+                _infoWorker.ShowCommonInfo("Sorry, this didn't work", "Prelistening has thrown an error. Please retry. " + ex.Message, "Ok");
             }
         }
     }

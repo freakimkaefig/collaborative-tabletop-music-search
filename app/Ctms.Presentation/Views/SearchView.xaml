@@ -11,10 +11,7 @@
     xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" 
     x:Class="Ctms.Presentation.Views.SearchView"
     IsEnabled="{Binding IsEnabled}"
-    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
-    
-    xmlns:ckeyboard="clr-namespace:WPFKeyboard.Keyboard;assembly=WPFKeyboard"
-    >
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
     
     <UserControl.Resources>
         

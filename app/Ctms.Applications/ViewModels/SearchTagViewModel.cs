@@ -18,13 +18,8 @@ namespace Ctms.Applications.ViewModels
     public class SearchTagViewModel : ViewModel<ISearchTagView>
     {
         private bool _isValid = true;
-        private Detail _detail;
-        private ICommand _selectOptionCmd;
-        private string _item1Header;
         private int _id;
-        private string _keyword;
         private ISearchTagView _searchTagView;
-        private double _angle;
         private Point _position;
         
         [ImportingConstructor]
