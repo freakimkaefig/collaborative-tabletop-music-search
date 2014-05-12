@@ -30,7 +30,13 @@ namespace Helpers
             s = replacePartialString(s, "Ã¶", "oe", 100000);
             s = replacePartialString(s, "Ã¼", "ue", 100000);
             s = replacePartialString(s, "Ã¤", "ae", 100000);
-            s = replacePartialString(s, "ß", "ss", 100000);
+            s = replacePartialString(s, "ÃŸ", "ß", 100000);
+            s = replacePartialString(s, "Âµ", "µ", 100000);
+            s = replacePartialString(s, "Ã‰", "É", 100000);
+            s = replacePartialString(s, "Ã©", "é", 100000);
+            s = replacePartialString(s, "Ã?", "Á", 100000);
+            s = replacePartialString(s, "Ã¡", "á", 100000);
+            s = replacePartialString(s, "Ã¡", "á", 100000);
             return s;
         }
 

@@ -146,27 +146,34 @@ namespace Ctms.Applications.Workers
         //PUBLIC METHODS
         public void Prelisten(ResultDataModel result)
         {
-            if (_playlistViewModel.Prelistening || _playlistViewModel.Playing)
+            try
             {
-                if (result.SpotifyTrack == _sessionManager.CurrentPrelistenTrack)
+                if (_playlistViewModel.Prelistening || _playlistViewModel.Playing)
                 {
-                    //_sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
-                    _sessionManager.StopPrelisteningTrack();
-                    _sessionManager.StopTrack();
+                    if (result.SpotifyTrack == _sessionManager.CurrentPrelistenTrack)
+                    {
+                        //_sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
+                        _sessionManager.StopPrelisteningTrack();
+                        _sessionManager.StopTrack();
+                    }
+                    else
+                    {
+                        //_sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
+                        _sessionManager.StopPrelisteningTrack();
+                        _sessionManager.StopTrack();
+                        //_sessionManager.logMessages.Enqueue("PRELISTEN START!");
+                        _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
+                    }
                 }
                 else
                 {
-                    //_sessionManager.logMessages.Enqueue("PRELISTEN STOP!");
-                    _sessionManager.StopPrelisteningTrack();
-                    _sessionManager.StopTrack();
                     //_sessionManager.logMessages.Enqueue("PRELISTEN START!");
                     _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                //_sessionManager.logMessages.Enqueue("PRELISTEN START!");
-                _sessionManager.StartPrelisteningTrack(result.SpotifyTrack);
+                _infoWorker.ShowCommonInfo("Sorry, this didn't work", "Prelistening has thrown an error. Please retry.", "Ok");
             }
         }
     }

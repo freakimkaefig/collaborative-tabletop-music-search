@@ -22,6 +22,7 @@ using Microsoft.Surface.Presentation;
 using Blake.NUI.WPF.Gestures;
 using System.Windows.Media.Animation;
 using System.Numerics;
+using Ctms.Applications.DevHelper;
 
 namespace Ctms.Presentation.Views
 {
@@ -339,6 +340,11 @@ namespace Ctms.Presentation.Views
             TabControl control = tab.Parent as TabControl;
             control.SelectedItem = tab;
             e.Handled = true;
+        }
+
+        private void DropTargetLeft_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            DevLogger.Log("___Playlist: DropTargetLeft PreviewTouchDown");
         }
     }
 }
