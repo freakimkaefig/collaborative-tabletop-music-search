@@ -114,7 +114,7 @@ namespace Ctms.Applications.Workers
                         }
                     }
                 }
-                catch (NullReferenceException e)
+                catch (Exception e)
                 {
                     _infoWorker.ShowCommonInfo("Streaming error", "Please try again.", "Ok");
                 }
