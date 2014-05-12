@@ -10,6 +10,7 @@ using System.Windows.Media;
 using Ctms.Domain.Objects;
 using System.Windows.Media.Imaging;
 using Microsoft.Surface.Presentation.Controls;
+using Microsoft.Surface.Presentation.Input;
 using Ctms.Applications.Workers;
 using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
@@ -62,6 +63,14 @@ namespace Ctms.Presentation.Resources
         private void SongList_AddToPlaylist_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ContentControl_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            if (!e.TouchDevice.GetIsFingerRecognized() && !e.TouchDevice.GetIsTagRecognized())
+            {
+                e.Handled = true;
+            }
         }
     }
 }
