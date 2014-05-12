@@ -90,7 +90,7 @@ namespace Ctms.Domain.Objects
                 {
                     _positionX = value;
                     RaisePropertyChanged("PositionX");
-                    Console.WriteLine("PositionX: " + PositionX);
+                    Console.WriteLine("Tag" + Id + " PositionX: " + PositionX);
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace Ctms.Domain.Objects
                 {
                     _assignedKeyword = value;
                     RaisePropertyChanged("AssignedKeyword");
-                    Console.WriteLine("PositionY: " + PositionY);
+                    Console.WriteLine("Tag" + Id + " PositionY: " + PositionY);
                 }
             }
         }
