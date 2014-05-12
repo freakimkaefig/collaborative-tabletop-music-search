@@ -21,9 +21,6 @@ namespace Ctms.Applications.Test
     public class TagTests : BasicTests
     {
         private static ObservableCollection<TagDataModel> DataModels;
-        private static ObservableCollection<Tag> Tags;
-        private static ObservableCollection<TagOption> TagOptions;
-        private static ObservableCollection<Keyword> Keywords;
         private static ObservableCollection<TagCombinationDataModel> TagCombinations;
 
         [ClassInitialize]

@@ -9,8 +9,6 @@ namespace PieInTheSky
 {
     public class PieMenuItem : HeaderedItemsControl, INotifyPropertyChanged
     {
-        public event RoutedEventHandler Click;
-
         double _size;
 
         // Dependency properties.  Are set in xaml pie menu element.
