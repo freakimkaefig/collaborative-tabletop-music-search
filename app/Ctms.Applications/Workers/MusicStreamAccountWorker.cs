@@ -186,5 +186,10 @@ namespace Ctms.Applications.Workers
                 _menuViewModel.Playlists.Add(spotifyPlaylist);
             }
         }
+
+        private void InfoShowError(String msg)
+        {
+            _infoWorker.ShowCommonInfo("Spotify error", msg, "Ok");
+        }
     }
 }

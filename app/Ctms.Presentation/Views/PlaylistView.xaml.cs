@@ -34,6 +34,8 @@ namespace Ctms.Presentation.Views
         //VisualStates
         private VisualState _rotate180;
         private VisualState _rotate0;
+        private VisualState _playlistVisible;
+        private VisualState _playlistInvisible;
 
         private SurfaceButton _dropTargetLeft;
         private SurfaceButton _dropTargetRight;
@@ -50,6 +52,8 @@ namespace Ctms.Presentation.Views
 
             _rotate0 = Rotate0;
             _rotate180 = Rotate180;
+            _playlistVisible = PlaylistViewVisible;
+            _playlistInvisible = PlaylistViewInvisible;
 
             Events.RegisterGestureEventSupport(this);
 
@@ -64,6 +68,9 @@ namespace Ctms.Presentation.Views
 
         public VisualState VisualStateRotate0 { get { return _rotate0; } set { } }
         public VisualState VisualStateRotate180 { get { return _rotate180; } set { } }
+
+        public VisualState VisualStatePlaylistVisible { get { return _playlistVisible; } set { } }
+        public VisualState VisualStatePlaylistInvisible { get { return _playlistInvisible; } set { } }
 
         public SurfaceButton GetDropTargetLeft { get { return _dropTargetLeft; } set { } }
         public SurfaceButton GetDropTargetRight { get { return _dropTargetRight; } set { } }

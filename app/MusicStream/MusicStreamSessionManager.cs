@@ -46,7 +46,6 @@ namespace MusicStream
         public Action<Track> PlaybackLoadingReady;
         private bool _firstPlaybackLoadingReady;
         public Action<String> ShowError;
-        public Action<String> Log;
 
         private string _credentialsBlob = null;
         private object _userdata = null;
@@ -653,13 +652,11 @@ namespace MusicStream
             catch (SpotifyException exception)
             {
                 //logMessages.Enqueue("SpotifyException: " + spotifyException.Message);
-                ShowError(exception.Message);
-                Log("DATA: " + exception.Data + " | SOURCE: " + exception.Source + " | STACKTRACE: " + exception.StackTrace + " | INNEREXCEPTION: " + exception.InnerException);
+                //ShowError(exception.Message);
             }
             catch (AccessViolationException exception)
             {
-                ShowError(exception.Message);
-                Log("DATA: " + exception.Data + " | SOURCE: " + exception.Source + " | STACKTRACE: " + exception.StackTrace + " | INNEREXCEPTION: " + exception.InnerException);
+                //ShowError(exception.Message);
             }
         }
         private void PrelistenPlayCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -681,8 +678,7 @@ namespace MusicStream
             }
             catch (AccessViolationException exception)
             {
-                ShowError(exception.Message);
-                Log("DATA: " + exception.Data + " | SOURCE: " + exception.Source + " | STACKTRACE: " + exception.StackTrace + " | INNEREXCEPTION: " + exception.InnerException);
+                //ShowError(exception.Message);
             }
         }
         private void PrelistenStopCompleted(object sender, RunWorkerCompletedEventArgs e)

@@ -85,28 +85,12 @@
     
 		<!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
     waf:ValidationHelper.IsEnabled="true" -->
-		<s:SurfaceButton x:Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="280" Panel.ZIndex="2" HorizontalAlignment="Right" Width="120" Background="{StaticResource ResourceKey=playlistRight}"
-                         PreviewTouchDown="DropTargetLeft_PreviewTouchDown">
-			<i:Interaction.Triggers>
-				<!--<i:EventTrigger EventName="Click">
-					<ei:GoToStateAction StateName="PlaylistViewVisible"/>
-				</i:EventTrigger>-->
-				<i:EventTrigger EventName="PreviewTouchDown">
-					<ei:GoToStateAction StateName="PlaylistViewVisible"/>
-				</i:EventTrigger>
-			</i:Interaction.Triggers>
+		<s:SurfaceButton x:Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="120" Background="{StaticResource ResourceKey=playlistRight}"
+                         Command="{Binding ShowPlaylistCommand}">
 		</s:SurfaceButton>
         <Image x:Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="-2" Margin="0,0,110,0"/>
-        <s:SurfaceButton x:Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="280" Panel.ZIndex="2" HorizontalAlignment="Left" Width="120" Background="{StaticResource ResourceKey=playlistLeft}"
-                         PreviewTouchDown="DropTargetLeft_PreviewTouchDown">
-            <i:Interaction.Triggers>
-            	<!--<i:EventTrigger EventName="Click">
-            		<ei:GoToStateAction StateName="PlaylistViewVisible"/>
-            	</i:EventTrigger>-->
-            	<i:EventTrigger EventName="PreviewTouchDown">
-            		<ei:GoToStateAction StateName="PlaylistViewVisible"/>
-            	</i:EventTrigger>
-            </i:Interaction.Triggers>
+        <s:SurfaceButton x:Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="120" Background="{StaticResource ResourceKey=playlistLeft}"
+                         Command="{Binding ShowPlaylistCommand}">
         </s:SurfaceButton>
         <Image x:Name="PlusImageLeft" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Left" VerticalAlignment="Center" Panel.ZIndex="-2" Margin="110,0,0,0"/>
     
