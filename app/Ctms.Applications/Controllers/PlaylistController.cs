@@ -54,6 +54,7 @@ namespace Ctms.Applications.Controllers
         private readonly DelegateCommand _shuffleCommand;
         private readonly DelegateCommand _repeatCommand;
         private readonly DelegateCommand _loadDetailsCommand;
+        private readonly DelegateCommand _showPlaylistCommand;
 
         //Further vars
         //private SynchronizingCollection<BookDataModel, Book> bookDataModels;
@@ -82,6 +83,7 @@ namespace Ctms.Applications.Controllers
             this._shuffleCommand = new DelegateCommand(_playlistWorker.ToggleShuffle, _streamingWorker.CanStream);
             this._repeatCommand = new DelegateCommand(_playlistWorker.ToggleRepeat, _streamingWorker.CanStream);
             this._loadDetailsCommand = new DelegateCommand((result) => _searchWorker.LoadDetails((ResultDataModel)result));
+            this._showPlaylistCommand = new DelegateCommand(_playlistViewModel.ShowPlaylist);
         }
 
         public void Initialize()
@@ -97,6 +99,7 @@ namespace Ctms.Applications.Controllers
             _playlistViewModel.ShuffleCommand = _shuffleCommand;
             _playlistViewModel.RepeatCommand = _repeatCommand;
             _playlistViewModel.LoadDetailsCommand = _loadDetailsCommand;
+            _playlistViewModel.ShowPlaylistCommand = _showPlaylistCommand;
             AddWeakEventListener(_playlistViewModel, PlaylistViewModelPropertyChanged);
 
             shellService.PlaylistView = _playlistViewModel.View;

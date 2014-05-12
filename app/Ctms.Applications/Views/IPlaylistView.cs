@@ -14,6 +14,9 @@ namespace Ctms.Applications.Views
         VisualState VisualStateRotate0 { get; set; }
         VisualState VisualStateRotate180 { get; set; }
 
+        VisualState VisualStatePlaylistVisible { get; set; }
+        VisualState VisualStatePlaylistInvisible { get; set; }
+
         SurfaceButton GetDropTargetLeft { get; set; }
         SurfaceButton GetDropTargetRight { get; set; }
 

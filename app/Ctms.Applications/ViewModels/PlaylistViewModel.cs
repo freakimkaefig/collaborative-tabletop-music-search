@@ -27,6 +27,7 @@ namespace Ctms.Applications.ViewModels
         private bool _isRotate = false;
         private bool _isShuffle = false;
         private bool _isRepeat = false;
+        private bool _isVisible = false;
         private bool _canPlay = false;
         private DrawingBrush _playPauseIcon;
         private bool _trashVisible = false;
@@ -48,6 +49,7 @@ namespace Ctms.Applications.ViewModels
         private ICommand _shuffleCommand;
         private ICommand _repeatCommand;
         private ICommand _loadDetailsCommand;
+        private ICommand _showPlaylistCommand;
         //
         private bool _playlistPresent;
         private bool _playlistEmpty = false;
@@ -84,6 +86,12 @@ namespace Ctms.Applications.ViewModels
             }
             
             VisualStateManager.GoToState((FrameworkElement)_view, visualState.Name, true);
+        }
+
+        public void ShowPlaylist()
+        {
+            VisualState state = _view.VisualStatePlaylistVisible;
+            VisualStateManager.GoToState((FrameworkElement)_view, state.Name, false);
         }
 
         public SurfaceButton GetDropTargetLeft()
@@ -171,6 +179,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _isRotate = value;
                     RaisePropertyChanged("IsRotate");
+                }
+            }
+        }
+
+        public bool IsVisible
+        {
+            get { return _isVisible; }
+            set
+            {
+                if (_isVisible != value)
+                {
+                    _isVisible = value;
+                    RaisePropertyChanged("IsVisible");
                 }
             }
         }
@@ -422,6 +443,19 @@ namespace Ctms.Applications.ViewModels
                 {
                     _loadDetailsCommand = value;
                     RaisePropertyChanged("LoadDetailsCommand");
+                }
+            }
+        }
+
+        public ICommand ShowPlaylistCommand
+        {
+            get { return _showPlaylistCommand; }
+            set
+            {
+                if (_showPlaylistCommand != value)
+                {
+                    _showPlaylistCommand = value;
+                    RaisePropertyChanged("ShowPlaylistCommand");
                 }
             }
         }
