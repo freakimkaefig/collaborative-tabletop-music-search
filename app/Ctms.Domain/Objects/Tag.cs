@@ -47,7 +47,7 @@ namespace Ctms.Domain.Objects
             get { return _angle; }
             set
             {
-                if (_angle != value)
+                if (Math.Abs(_angle - value) > 5)
                 {
                     _angle = value;
                     RaisePropertyChanged("Angle");
@@ -73,7 +73,7 @@ namespace Ctms.Domain.Objects
             get { return _positionY; }
             set
             {   // optimize performance by limiting update rate
-                if (Math.Abs(_positionY - value) > 0)
+                if (Math.Abs(_positionY - value) > 10)
                 {
                     _positionY = value;
                     RaisePropertyChanged("PositionY");
@@ -86,11 +86,10 @@ namespace Ctms.Domain.Objects
             get { return _positionX; }
             set
             {   // optimize performance by limiting update rate
-                if (Math.Abs(_positionX - value) > 0)
+                if (Math.Abs(_positionX - value) > 10)
                 {
                     _positionX = value;
                     RaisePropertyChanged("PositionX");
-                    Console.WriteLine("Tag" + Id + " PositionX: " + PositionX);
                 }
             }
         }
@@ -105,7 +104,6 @@ namespace Ctms.Domain.Objects
                 {
                     _assignedKeyword = value;
                     RaisePropertyChanged("AssignedKeyword");
-                    Console.WriteLine("Tag" + Id + " PositionY: " + PositionY);
                 }
             }
         }

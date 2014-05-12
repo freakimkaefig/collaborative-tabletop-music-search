@@ -16,6 +16,7 @@ using Ctms.Applications.DataModels;
 using WPFKeyboard.Keyboard;
 using Ctms.Applications.DevHelper;
 using Helpers;
+using Ctms.Applications.Common;
 
 namespace Ctms.Presentation.Views
 {
@@ -30,8 +31,6 @@ namespace Ctms.Presentation.Views
 
         private int count = 0;
 
-        private short windowHeight;
-
         private TextBox focusedElement;
         private KeyboardController keyboard;
 
@@ -42,7 +41,7 @@ namespace Ctms.Presentation.Views
 
             count++;
 
-            windowHeight = (short)Application.Current.MainWindow.ActualHeight;
+            CommonVal.WindowHeight = (short)Application.Current.MainWindow.ActualHeight;
         }
 
         public SearchViewModel SearchVm { get; set; }
@@ -68,16 +67,6 @@ namespace Ctms.Presentation.Views
 
             tag.Tag.PositionX   = (short) (screenPosition.X);
             tag.Tag.PositionY   = (short) (screenPosition.Y);
-
-            // orientate tag to the nearest side of the two long sides
-            tag.Tag.Orientation = tag.Tag.PositionY > (windowHeight / 2) ? (short) 0 : (short) 180;
-
-            if (tag.AssignState == TagDataModel.AssignStates.Assigned && tag.ExistenceState == TagDataModel.ExistenceStates.Added)
-            {
-                SearchVm.CheckTagPositionsCmd.Execute(tag.Id);
-            }
-
-            tag.UpdateVisibleOptions();
         }
 
         public void SimpleVisualization_Loaded(object sender, RoutedEventArgs e)
@@ -92,32 +81,31 @@ namespace Ctms.Presentation.Views
             // Called when finger touch and tangible click on main pie menu item. 
             // Not when mouse click
             var t = (TouchEventArgs)e;
-
+            /*
             Log("STV: MyTagVisualization_PreviewTouchDown");
             Log("STV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
             Log("STV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
-            
+            */
             if (!t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
             {   //!! Funktioniert! Taginput wird abgefangen
-                Log("STV: No finger, no Tag");
+                //Log("STV: No finger, no Tag");
                 t.Handled = true;
             }
             else if (t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
             {
-                Log("STV: Finger, no Tag");
+                //Log("STV: Finger, no Tag");
                 //t.Handled = true;
             }
             else if (!t.TouchDevice.GetIsFingerRecognized() && t.TouchDevice.GetIsTagRecognized())
             {
-                Log("STV: No Finger, but Tag");
+                //Log("STV: No Finger, but Tag");
                 //t.Handled = true;
                 //t.TouchDevice.
                 //var searchTagView = (SearchTagView)e.TagVisualization;
             }
             else
             {
-                Log("STV: No Finger, no Tag");
-
+                //Log("STV: No Finger, no Tag");
             }
         }
 
@@ -147,7 +135,7 @@ namespace Ctms.Presentation.Views
 
         private void InputField_GotFocus(object sender, RoutedEventArgs e)
         {
-            KeyboardHelper.ShowKeyboard();
+            //KeyboardHelper.ShowKeyboard();
         }
         
     }

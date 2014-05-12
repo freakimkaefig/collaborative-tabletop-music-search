@@ -83,29 +83,13 @@
             	<ColumnDefinition Width="{Binding Source={StaticResource OuterLength}}"/>
             </Grid.ColumnDefinitions>
 
-            <!--//Grid for PieMenu-->
-        <!--//Grid for keyword type selection-->
-        <!--//Input and hint-->
-        <!--//Breadcrumb-->
-        <!--Assigned keyword-->
-        <!--//Rotated assigned keyword-->
-        <!--//Not rotated assigned keyword-->
-        <!--//Assigned keyword-->
-        <!--Grid for PieMenu-->
+            <!--Grid for circle penu-->
         	<Grid Grid.Row="1" Grid.Column="1"
         		Visibility="{DynamicResource IsCircleMenuVisible}" 
         		Height="{StaticResource PieMenuDiameter}"
         		Background="{x:Null}" 
         		Width="{StaticResource PieMenuDiameter}"
         		DataContext="{DynamicResource TagDM}">
-        		<Grid.RenderTransform>
-        			<RotateTransform Angle="{Binding Tag.Animation}"  />
-        		</Grid.RenderTransform>
-
-        		<!--Grid.Row="0" Grid.Column="0"-->
-        <!--<Grid.Background>
-                    <ImageBrush ImageSource="{Binding BackgrImageSource}" Opacity="1.0"/>
-                </Grid.Background>-->
 
         		<Grid.RowDefinitions>
         			<RowDefinition/>
