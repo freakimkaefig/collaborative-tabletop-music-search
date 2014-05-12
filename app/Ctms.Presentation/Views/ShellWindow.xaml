@@ -9,7 +9,8 @@
     xmlns:c="clr-namespace:Ctms.Presentation.Converters"
     xmlns:gif="http://wpfanimatedgif.codeplex.com"
     mc:Ignorable="d"
-    WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"> <!--Topmost="True">-->
+    WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"
+    PreviewTouchDown="SurfaceWindow_PreviewTouchDown"> <!--Topmost="True">-->
 
     <Window.Background>
         <!--<RadialGradientBrush

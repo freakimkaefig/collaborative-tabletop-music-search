@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.ComponentModel.Composition;
 using Ctms.Applications.Views;
 using Microsoft.Surface.Presentation.Controls;
+using Microsoft.Surface.Presentation.Input;
 using Microsoft.Surface;
 using System.Diagnostics;
 using System.Waf.Applications;
@@ -84,6 +85,14 @@ namespace Ctms.Presentation.Views
         private void OnWindowUnavailable(object sender, EventArgs e)
         {
 
+        }
+
+        private void SurfaceWindow_PreviewTouchDown(object sender, TouchEventArgs e)
+        {
+            if (!e.TouchDevice.GetIsFingerRecognized() && !e.TouchDevice.GetIsTagRecognized())
+            {
+                e.Handled = true;
+            }
         }
     }
 }
