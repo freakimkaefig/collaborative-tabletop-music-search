@@ -319,8 +319,7 @@
         			</RadialGradientBrush>
         		</Ellipse.Fill>
         	</Ellipse>
-            <s:SurfaceButton Command="{Binding StartSearchCmd}" 
-                TouchDown="SurfaceButton_TouchDown"
+            <s:SurfaceButton Command="{Binding StartSearchCmd}"
                 HorizontalAlignment="Center" Height="100" Width="100"
                 VerticalAlignment="Center" Margin="-6,6,0,0" Background="{StaticResource ResourceKey=searchButton}"/>
 

@@ -7,9 +7,12 @@ using Ctms.Applications.DataModels;
 using Ctms.Applications.ViewModels;
 using Ctms.Applications.Views;
 using Helpers;
+<<<<<<< HEAD
 using Microsoft.Surface.Presentation.Controls;
-using Ctms.Applications.Common;
 using Microsoft.Surface.Presentation.Input;
+=======
+using Ctms.Applications.Common;
+>>>>>>> origin/fullscreen
 
 namespace Ctms.Presentation.Views
 {
@@ -24,6 +27,12 @@ namespace Ctms.Presentation.Views
 
         private int count = 0;
 
+<<<<<<< HEAD
+        private short windowHeight;
+=======
+        private TextBox focusedElement;
+        private KeyboardController keyboard;
+>>>>>>> origin/fullscreen
 
         public SearchTagView()
         {

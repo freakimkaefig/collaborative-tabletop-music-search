@@ -55,5 +55,7 @@ namespace Ctms.Applications.Common
             { 5, "#f0f" }
         };
 
+        public static short WindowHeight { get; set; }
+
     }
 }

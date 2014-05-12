@@ -162,6 +162,7 @@ namespace Ctms.Applications.Controllers
             foreach (var tag in _searchVm.Tags)
             {   // add listener to each tag
                 AddWeakEventListener(tag, TagDMChanged);
+                AddWeakEventListener(tag.Tag, TagDMChanged);
             }
 
             //!!remove
@@ -240,7 +241,39 @@ namespace Ctms.Applications.Controllers
             {   // when visible options changed the tag visualization has to be updated
                 _searchVm.UpdateVisuals((TagDataModel)sender);
             }
+            else if (e.PropertyName == "PositionX" || e.PropertyName == "PositionY")
+            {
+                var tagDm = _repository.GetTagDMById(((Tag)sender).Id);
+                tagDm.UpdateMoveHandling(tagDm, _searchVm);
+            }
+            else if (e.PropertyName == "Angle")
+            {
+                var tagDm = _repository.GetTagDMById(((Tag)sender).Id);
+                tagDm.UpdateRotationHandling(tagDm);
+            }
             
+        }
+
+        /// <summary>
+        /// Called when a property of TagDataModel has changed
+        /// </summary>
+        /// <param name="sender">Object which contains the changed property</param>
+        /// <param name="e">PropertyChangedEventArgs</param>
+        private void TagChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "VisibleOptions")
+            {   // when visible options changed the tag visualization has to be updated
+                _searchVm.UpdateVisuals((TagDataModel)sender);
+            }
+            else if (e.PropertyName == "PositionX" || e.PropertyName == "PositionY")
+            {
+                ((TagDataModel)sender).UpdateMoveHandling((TagDataModel)sender, _searchVm);
+            }
+            else if (e.PropertyName == "Angle")
+            {
+                ((TagDataModel)sender).UpdateRotationHandling((TagDataModel)sender);
+            }
+
         }
 
         /// <summary>

@@ -220,7 +220,7 @@ namespace Ctms.Applications.Workers
 
         private static void Log(string message)
         {
-            DevLogger.Log(message);
+            //DevLogger.Log(message);
         }
 
         public Point UpdateCenter(TagCombinationDataModel combi)

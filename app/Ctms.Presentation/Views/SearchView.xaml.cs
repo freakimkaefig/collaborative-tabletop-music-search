@@ -50,6 +50,9 @@ namespace Ctms.Presentation.Views
 
         private string _backgroundHex = "#0000";
         private string _textHex = "#fff";
+        private Storyboard storyboardResource;
+        private Brush backgroundColor;
+        private Brush textColor;
 
         //private TextBox focusedElement;
         //private KeyboardController keyboard;
@@ -78,7 +81,16 @@ namespace Ctms.Presentation.Views
 
             //focusedElement = this.KeyboardInput;
             //initKeyboard(); 
+            InitPieMenu();
+        }
 
+        private void InitPieMenu()
+        {
+            // get storyboard resource
+            storyboardResource = this.Resources["TagCombiStoryboard"] as Storyboard;
+
+            backgroundColor = (Brush)(new BrushConverter().ConvertFrom(_backgroundHex));
+            textColor = (Brush)(new BrushConverter().ConvertFrom(_textHex));
         }
 
         public Rectangle GetFft1 { get { return _fft1; } set { } }
@@ -122,6 +134,7 @@ namespace Ctms.Presentation.Views
             rectangles.Add(Fft15);
 
             _viewModel.FftRectangle = rectangles;
+
         }
 
         private void OnVisualizationAdded(object sender, TagVisualizerEventArgs e)
@@ -200,26 +213,19 @@ namespace Ctms.Presentation.Views
         {
             var pieMenu = SearchTagViews[tagId].PieMenu;
             var tagDM = _viewModel.Tags[tagId];
-
             var pieMenuItems    = (ItemCollection)pieMenu.Items;
+            var options = tagDM.VisibleOptions;
+            var count = options.Count;
+            var i = 0;
+            TagOption option;
 
             // remove inserted items (when initializing this is the placeholder item)
             pieMenuItems.Clear();
-
-            var options = tagDM.VisibleOptions;
-
-            var count = options.Count;
-
-            var i = 0;
-            TagOption option;
 
             // loop backwards so that first element of options is last in pieMenu
             for (i = options.Count - 1; i >= 0; i--)
             {
                 option              = options[i];
-
-                var backgroundColor = (Brush)(new BrushConverter().ConvertFrom(_backgroundHex));
-                var textColor = (Brush)(new BrushConverter().ConvertFrom(_textHex));
 
                 var pieMenuItem = new PieMenuItem()
                 {
@@ -443,9 +449,6 @@ namespace Ctms.Presentation.Views
             var combiId = Int32.Parse(((TextBlock)grid.FindName("HiddenTagCombiId")).Text);
             var combi = _viewModel.TagCombinations.FirstOrDefault(tc => tc.Id == combiId);
 
-            // get storyboard resource
-            Storyboard storyboardResource = this.Resources["TagCombiStoryboard"] as Storyboard;
-
             var parameters = new Tuple<Storyboard, Ellipse, TagCombinationDataModel>(storyboardResource, ellipse, combi);
 
             storyboardResource.Completed += (p, s) => PlayCombiAnimation(parameters);
@@ -458,12 +461,6 @@ namespace Ctms.Presentation.Views
             var storyboard  = parameters.Item1;
             var ellipse     = parameters.Item2;
             var combi       = parameters.Item3;
-            
-            //if (storyboard.Is == ClockState.Stopped)
-            {
-                storyboard.Begin(ellipse, true);
-                storyboard.Seek(ellipse, TimeSpan.FromSeconds(0), TimeSeekOrigin.BeginTime);
-            }
 
             // loop through animation elements of storyboard
             var animationElements = storyboard.Children;
@@ -487,86 +484,9 @@ namespace Ctms.Presentation.Views
 
                     yTransform.To = combi.CenterY;
                 }
-                
-                 
             }
           
             storyboard.Begin(ellipse, true);
         }
-
-        private void SurfaceButton_TouchDown(object sender, TouchEventArgs e)
-        {
-            if (!e.TouchDevice.GetIsFingerRecognized() && !e.TouchDevice.GetIsTagRecognized())
-            {
-                DevLogger.Log("HandledEventArgs!");
-                //e.Handled = true;
-            }
-
-        }
-        /*
-        private void initKeyboard()
-        {
-            keyboard = this.CustomKeyboard;
-            keyboard.setFocusedElement(focusedElement);
-
-            //OPTIONAL
-            //keyboard.setCustomKeyboardListener(this);
-        }
-
-        /// <summary>
-        /// only for demonstration
-        /// </summary>
-        /// <returns></returns>
-        public TextBox getFocusedElement()
-        {
-            return focusedElement;
-        }
-
-        /// <summary>
-        /// an element with no caret needed is focused
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NotFocusableElement_TouchDown(object sender, TouchEventArgs e)
-        {
-            focusedElement = null;
-            keyboard.setFocusedElement(focusedElement);
-        }
-
-        private void TextBox_TouchUp(object sender, TouchEventArgs e)
-        {
-            focusedElement = sender as TextBox;
-            keyboard.setFocusedElement(focusedElement);
-        }
-        */
-        /*
-         * COMPLETELY OPTIONAL -> only if you want to knwo which key was pressed
-         */
-        /*
-        /// <summary>
-        /// normal key/ new line/ space was pressed
-        /// </summary>
-        /// <param name="key">key (can be parsed in char) or "\n" or " "</param>
-        public void typedKey(string key)
-        {
-
-        }
-
-        /// <summary>
-        /// backspace was typed
-        /// </summary>
-        public void typedBackSpace()
-        {
-
-        }
-
-        /// <summary>
-        /// one of the arrows was typed
-        /// </summary>
-        /// <param name="arrowIndex"> -1 for left-arrow; 1 for right arrow</param>
-        public void typedArrow(int arrowIndex)
-        {
-
-        }*/
     }
 }

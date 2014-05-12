@@ -566,6 +566,11 @@ namespace Ctms.Applications.Workers
         {
             TagDataModel tagDM = null;
 
+            if (e.Result == null)
+            {
+                _infoWorker.ShowCommonInfo("No artists found", "An error occurred while searching for artist suggestions", "Ok");
+            }
+
             // if result has been cancelled or thrown an error result is just the tagDM
             if(e.Result is TagDataModel) tagDM = (TagDataModel) e.Result;
 
@@ -638,6 +643,10 @@ namespace Ctms.Applications.Workers
         {
             TagDataModel tagDM = null;
 
+            if (e.Result == null)
+            {
+                _infoWorker.ShowCommonInfo("No titles found", "An error occurred while searching for title suggestions", "Ok");
+            }
             // if result has been cancelled or thrown an error result is just the tagDM
             if (e.Result is TagDataModel) tagDM = (TagDataModel)e.Result;
 
@@ -748,6 +757,7 @@ namespace Ctms.Applications.Workers
 
                 SetIsInputVisible(tagDM, false);
                 SetIsInputControlVisible(tagDM, false);
+                SetIsLoadingInfoVisible(tagDM, false);
 
                 //_searchVM.UpdateVisuals(tag);
                 SelectOption(breadcrumbOption.Id);

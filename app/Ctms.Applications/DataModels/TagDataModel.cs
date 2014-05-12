@@ -13,6 +13,7 @@ using Helpers;
 using System.Diagnostics;
 using Ctms.Domain;
 using MusicSearch.Objects;
+using Ctms.Applications.ViewModels;
 
 namespace Ctms.Applications.DataModels
 {
@@ -77,13 +78,13 @@ namespace Ctms.Applications.DataModels
             if (Math.Abs(difference) > CommonVal.Tag_OptionsStepAngle)
             {   // absolute difference is big enough to scroll to next options
 
-                RotationAngle = Tag.Angle;
-
                 if (difference < 0)
                 {   // turned tag clockwise
                     if (activeOptionsIndex + CommonVal.Tag_VisibleOptionsCount < ActiveLayerOptions.Count())
                     {   // index can be raised without getting over the top
                         activeOptionsIndex++;
+
+                        RotateBackgr();
 
                         lastHandledAngle = Tag.Angle;
 
@@ -103,8 +104,16 @@ namespace Ctms.Applications.DataModels
                 else if (difference > 0)
                 {   // turned tag anti-clockwise
 
-                    // index must be at least 0
-                    activeOptionsIndex = activeOptionsIndex > 1 ? activeOptionsIndex - 1 : 0;
+                    if(activeOptionsIndex > 1)
+                    {
+                        activeOptionsIndex--; ;
+                        RotateBackgr();
+                    }
+                    else
+                    {
+                        // index must be at least 0
+                        activeOptionsIndex = 0;
+	                }
 
                     lastHandledAngle = Tag.Angle;
 
@@ -112,6 +121,27 @@ namespace Ctms.Applications.DataModels
                     RaisePropertyChanged("VisibleOptions");
                 }
             }
+        }
+
+        private void RotateBackgr()
+        {
+            RotationAngle = Tag.Angle;
+        }
+
+        public void UpdateMoveHandling(TagDataModel tag, SearchViewModel searchVm)
+        {
+            // orientate tag to the nearest side of the two long sides
+            tag.Tag.Orientation = tag.Tag.PositionY > (CommonVal.WindowHeight / 2) ? (short)0 : (short)180;
+
+            if (tag.AssignState == TagDataModel.AssignStates.Assigned && tag.ExistenceState == TagDataModel.ExistenceStates.Added)
+            {
+                searchVm.CheckTagPositionsCmd.Execute(tag.Id);
+            }
+        }
+
+        public void UpdateRotationHandling(TagDataModel tag)
+        {
+            tag.UpdateVisibleOptions();
         }
 
         private IEnumerable<TagOption> ActiveLayerOptions
