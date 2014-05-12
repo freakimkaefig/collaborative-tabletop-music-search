@@ -245,7 +245,7 @@
 		<s:SurfaceButton x:Name="searchButton1" Margin="0" VerticalAlignment="Center" Height="90" Width="120" HorizontalAlignment="Right" Visibility="Hidden" Background="{StaticResource ResourceKey=search}"
                          Panel.ZIndex="4">
 			<i:Interaction.Triggers>
-				<i:EventTrigger EventName="Click">
+                <i:EventTrigger EventName="PreviewTouchDown">
 					<ei:GoToStateAction StateName="PlaylistViewInvisible"/>
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
@@ -253,7 +253,7 @@
         <s:SurfaceButton x:Name="searchButton2" Margin="0" VerticalAlignment="Center" Height="90" Width="120" HorizontalAlignment="Left" Visibility="Hidden" Background="{StaticResource ResourceKey=search}"
                          Panel.ZIndex="4">
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
+                <i:EventTrigger EventName="PreviewTouchDown">
                     <ei:GoToStateAction StateName="PlaylistViewInvisible"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
