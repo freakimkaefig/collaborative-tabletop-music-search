@@ -110,7 +110,8 @@
 				<ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
 			</Grid.ColumnDefinitions>
-            <s:SurfaceListBox x:Name="surfaceListBox" Margin="130,120,0,80" Background="#000"
+            <TextBlock Height="44" FontSize="30" Margin="110,15,158,0" Text="{Binding CurrentPlaylistName}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" VerticalAlignment="Top"/>
+            <s:SurfaceListBox x:Name="surfaceListBox" Margin="130,180,0,80" Background="#000"
                               ItemTemplate="{StaticResource SurfaceListBoxItemDataTemplate}" ItemsSource="{Binding ResultsForPlaylist}"
                               AllowDrop="True"
                               HorizontalContentAlignment="Left"
@@ -124,23 +125,23 @@
                               s:SurfaceDragDrop.DragEnter="Playlist_DragEnter"
                               s:SurfaceDragDrop.DragLeave="Playlist_DragLeave"
                               s:SurfaceDragDrop.Drop="Playlist_Drop"/>
-            <TextBlock Visibility="{Binding PlaylistPresent, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}" Height="124" FontSize="24" Margin="200,150,200,112" Text="Please open or create a playlist in the menu." TextWrapping="Wrap" VerticalAlignment="Center"/>
-            <TextBlock Visibility="{Binding PlaylistEmpty, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Height="124" FontSize="24" Margin="200,150,200,112" Text="Your playlist is currently empty. Drag result from search on the playlist icons on the left and right side." TextWrapping="Wrap" VerticalAlignment="Center" />
-            <s:SurfaceButton Command="{Binding PlayPauseCommand}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="211.5,24,0,0"
+            <TextBlock Visibility="{Binding PlaylistPresent, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}" Height="124" FontSize="24" Margin="200,200,200,112" Text="Please open or create a playlist in the menu." TextWrapping="Wrap" VerticalAlignment="Center"/>
+            <TextBlock Visibility="{Binding PlaylistEmpty, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Height="124" FontSize="24" Margin="200,200,200,112" Text="Your playlist is currently empty. Drag result from search on the playlist icons on the left and right side." TextWrapping="Wrap" VerticalAlignment="Center" />
+            <s:SurfaceButton Command="{Binding PlayPauseCommand}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="211.5,64,0,0"
                              VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <Grid Background="{Binding PlayPauseIcon}"/>
             </s:SurfaceButton>
-            <s:SurfaceButton Command="{Binding StopCommand}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="323.5,24,0,0"
+            <s:SurfaceButton Command="{Binding StopCommand}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="323.5,65,0,0"
                              VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <Grid Background="{StaticResource ResourceKey=stop}"/>
             </s:SurfaceButton>
-            <s:SurfaceButton Command="{Binding ShuffleCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="612,24,0,0"
+            <s:SurfaceButton Command="{Binding ShuffleCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="612,65,0,0"
                              VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <Border BorderBrush="{Binding IsShuffle, Converter={x:Static c:BoolToStateConverter.Default}}" BorderThickness="3">
                     <Grid Margin="6" Background="{StaticResource ResourceKey=shuffle}"/>
                 </Border>
             </s:SurfaceButton>
-            <s:SurfaceButton Command="{Binding RepeatCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="80" Margin="0,24,182,0"
+            <s:SurfaceButton Command="{Binding RepeatCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="80" Margin="0,65,182,0"
                              VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <Border BorderBrush="{Binding IsRepeat, Converter={x:Static c:BoolToStateConverter.Default}}" BorderThickness="3">
                     <Grid Margin="6" Background="{StaticResource ResourceKey=repeat}"/>
