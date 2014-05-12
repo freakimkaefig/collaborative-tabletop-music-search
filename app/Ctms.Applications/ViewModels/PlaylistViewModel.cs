@@ -54,6 +54,7 @@ namespace Ctms.Applications.ViewModels
         private bool _playlistPresent;
         private bool _playlistEmpty = false;
         private Playlist _currentPlaylist = null;
+        private String _currentPlaylistName;
         private ObservableCollection<ResultDataModel> _playlistResults;
 
         [ImportingConstructor]
@@ -261,6 +262,19 @@ namespace Ctms.Applications.ViewModels
             }
         }
 
+        public String CurrentPlaylistName
+        {
+            get { return _currentPlaylistName; }
+            set
+            {
+                if (_currentPlaylistName != value)
+                {
+                    _currentPlaylistName = value;
+                    RaisePropertyChanged("CurrentPlaylistName");
+                }
+            }
+        }
+
         public Playlist CurrentPlaylist
         {
             get { return _currentPlaylist; }
@@ -269,6 +283,7 @@ namespace Ctms.Applications.ViewModels
                 if (_currentPlaylist != value)
                 {
                     _currentPlaylist = value;
+                    CurrentPlaylistName = _currentPlaylist.Name();
                     RaisePropertyChanged("CurrentPlaylist");
                 }
             }
