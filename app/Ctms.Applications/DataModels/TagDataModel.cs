@@ -151,17 +151,23 @@ namespace Ctms.Applications.DataModels
         {
             get 
             {
+                var optionsList = new List<TagOption>();
                 // select as many options as are displayable, corresponding to current options index
                 // select some options by their index in the list
-
-                var optionsList = new ObservableCollection<TagOption>();
-                if (ActiveLayerOptions.Count() > 0)
+                if (ActiveLayerOptions.Count() == 2)
                 {
-                    for (var i = 0; i < CommonVal.Tag_VisibleOptionsCount; i++)
+                    optionsList = ActiveLayerOptions.Skip(activeOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
+                }
+                else
+                {
+                    if (ActiveLayerOptions.Count() > 0)
                     {
-                        var option = ActiveLayerOptions.ElementAt((activeOptionsIndex + i) % (ActiveLayerOptions.Count() - 1));
+                        for (var i = 0; i < CommonVal.Tag_VisibleOptionsCount; i++)
+                        {
+                            var option = ActiveLayerOptions.ElementAt((activeOptionsIndex + i) % (ActiveLayerOptions.Count() - 1));
                         
-                        optionsList.Add(option);
+                            optionsList.Add(option);
+                        }
                     }
                 }
                 return EntitiesHelper.ToObservableCollection<TagOption>(optionsList);
