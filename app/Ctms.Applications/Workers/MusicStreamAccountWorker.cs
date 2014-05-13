@@ -123,7 +123,7 @@ namespace Ctms.Applications.Workers
             else
             {
                 //Notify user to login to spotify
-                _infoWorker.ShowCommonInfo("Spotify Login", "You have to login to Spotify", "Ok");
+                _infoWorker.ShowCommonInfo("Not logged in to Spotify", "You have to login to Spotify", "Ok");
             }
         }
 
@@ -136,7 +136,7 @@ namespace Ctms.Applications.Workers
             else
             {
                 //Notify user to login to spotify
-                _infoWorker.ShowCommonInfo("Spotify Login", "You have to login to Spotify", "Ok");
+                _infoWorker.ShowCommonInfo("Not logged in to Spotify", "You have to login to Spotify", "Ok");
             }
         }
 
@@ -152,7 +152,7 @@ namespace Ctms.Applications.Workers
         {
             if (spotifyError != SpotifySharp.SpotifyError.Ok)
             {
-                _infoWorker.ShowCommonInfo("SpotifyError", spotifyError.ToString(), "Ok");
+                _infoWorker.ShowCommonInfo("Spotify error", "Spotify encountered an error. Please try again" , "Ok");
             }
         }
 
@@ -188,7 +188,7 @@ namespace Ctms.Applications.Workers
 
         private void InfoShowError(String msg)
         {
-            _infoWorker.ShowCommonInfo("Spotify error", msg, "Ok");
+            _infoWorker.ShowCommonInfo("Spotify error", "Spotify encountered an error. Please try again", "Ok");
         }
     }
 }

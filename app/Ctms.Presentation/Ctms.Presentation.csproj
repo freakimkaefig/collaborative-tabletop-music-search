@@ -16,7 +16,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <Utf8Output>true</Utf8Output>
     <ExpressionBlendVersion>4.0.20621.0</ExpressionBlendVersion>
-    <PublishUrl>C:\Users\Michael\Desktop\CTMSRelease\</PublishUrl>
+    <PublishUrl>C:\Users\Lukas\Desktop 3\Release\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -26,7 +26,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -478,6 +478,10 @@
     <Resource Include="Resources\Images\Common\icons\subwoofer_background4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Ctms.Presentation.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resources\icon.png" />
     <Content Include="Resources\Images\Common\icons\subwoofer_background4.gif" />
     <Resource Include="Resources\Images\Common\icons\vinylTangible3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

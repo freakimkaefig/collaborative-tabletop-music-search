@@ -288,7 +288,7 @@ namespace Ctms.Applications.Workers
             }
             else if (e.Error != null)
             {
-                _infoWorker.ShowCommonInfo("Search has failed", e.Error.Message, "Ok");
+                _infoWorker.ShowCommonInfo("Error", "Search has failed. Please try again", "Ok");
             }
             else
             {
@@ -320,11 +320,11 @@ namespace Ctms.Applications.Workers
         {
             if (e.Cancelled)
             {
-                _infoWorker.ShowCommonInfo("Cancelled lookup for by user", "", "Ok");
+                _infoWorker.ShowCommonInfo("Canceled loading", "Cancelled lookup by user", "", "Ok");
             }
             if (e.Error != null)
             {
-                _infoWorker.ShowCommonInfo("Lookup for detail has failed", e.Error.Message, "Ok");
+                _infoWorker.ShowCommonInfo("Error", "Lookup for detail has failed", "Ok");
             }
             else
             {

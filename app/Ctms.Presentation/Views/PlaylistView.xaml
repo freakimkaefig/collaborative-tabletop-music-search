@@ -150,7 +150,7 @@
             <Grid Grid.Column="1" x:Name="PlaylistDetailView" Margin="2,2,100,2">
                 <Grid Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Background="#00222222" Margin="2">
                     <!--<Image Style="{StaticResource LoadingCirclePlaylistDetailView}" MaxWidth="100" MaxHeight="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
-                    <TextBlock MaxWidth="100" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Width="100" Height="100" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{StaticResource ResourceKey=hourglass}" />
                 </Grid>
                 <Grid Width="850" Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}">
                     <TabControl Margin="20">

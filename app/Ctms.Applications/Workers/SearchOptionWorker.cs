@@ -579,8 +579,8 @@ namespace Ctms.Applications.Workers
             }
             else if (e.Error != null)
             {
-                _infoWorker.ShowCommonInfo("An error occurred while searching for artist suggestions",
-                       e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
+                _infoWorker.ShowCommonInfo("Error", "An error occurred while searching for artist suggestions");
+                       //e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
             }
             else if(e.Result != null && !(e.Result is TagDataModel))
             {
@@ -655,8 +655,8 @@ namespace Ctms.Applications.Workers
             }
             else if (e.Error != null)
             {
-                _infoWorker.ShowCommonInfo("An error occurred while searching for title suggestions", 
-                    e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
+                _infoWorker.ShowCommonInfo("Error", "An error occurred while searching for title suggestions"); 
+                    //e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
             }
             else if (e.Result != null && !(e.Result is TagDataModel))
             {

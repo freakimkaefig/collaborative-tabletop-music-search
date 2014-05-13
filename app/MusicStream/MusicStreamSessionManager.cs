@@ -34,16 +34,16 @@ namespace MusicStream
         public Action SpotifyLoggedOut;
         public Action<ObservableCollection<Playlist>> ReadyForPlayback;
         public Action<Playlist> PlaylistOpened;
-        public Action<Track> PrelistenStarted;
+        public Action<String> PrelistenStarted;
         public Action PrelistenStopped;
-        public Action<Track> PlaybackStarted;
+        public Action<String> PlaybackStarted;
         public Action PlaybackPaused;
         public Action PlaybackStopped;
         public Action PlaybackEndOfTrack;
         public Action<int> PlaylistTrackRemoved;
-        public Action<Track> PrelistenLoadingReady;
+        public Action<String> PrelistenLoadingReady;
         private bool _firstPrelistenLoadingReady;
-        public Action<Track> PlaybackLoadingReady;
+        public Action<String> PlaybackLoadingReady;
         private bool _firstPlaybackLoadingReady;
         public Action<String> ShowError;
 
@@ -67,7 +67,7 @@ namespace MusicStream
         private double _currentPlaylistTrackPlayedDuration = 0.0;
         private bool _playlistPlaying = false;
         private bool _prelistPlaying = false;
-        private Track _currentPrelistenTrack;
+        private String _currentPrelistenTrack;
 
         private bool _isShuffle = false;
         private bool _isRepeat = false;
@@ -148,7 +148,7 @@ namespace MusicStream
             return _audioBufferStats;
         }
 
-        public Track CurrentPrelistenTrack
+        public String CurrentPrelistenTrack
         {
             set { _currentPrelistenTrack = value; }
             get { return _currentPrelistenTrack; }
@@ -208,7 +208,7 @@ namespace MusicStream
         /// </summary>
         /// <param name="spotifyTrackId"></param>
         /// <returns></returns>
-        public Track CheckTrackAvailability(string spotifyTrackId)
+        public String CheckTrackAvailability(string spotifyTrackId)
         {
             Link link = Link.CreateFromString(spotifyTrackId);
             if (link != null)
@@ -219,7 +219,7 @@ namespace MusicStream
                 {
                     if (Track.GetAvailability(_session, track) == TrackAvailability.Available || Track.GetPlayable(_session, track) != null)
                     {
-                        return Track.GetPlayable(_session, track);
+                        return spotifyTrackId;
                     }
                     else
                     {
@@ -244,7 +244,7 @@ namespace MusicStream
         /// Starts streaming passed track from middle (prelistening)
         /// </summary>
         /// <param name="track"></param>
-        public void StartPrelisteningTrack(Track track)
+        public void StartPrelisteningTrack(String track)
         {
             _prelistPlaying = true;
             _backgroundWorkHelper.DoInBackground(PrelistenPlayWorker, PrelistenPlayCompleted, track);
@@ -283,7 +283,7 @@ namespace MusicStream
         /// </summary>
         /// <param name="playlist"></param>
         /// <param name="spotifyTrack"></param>
-        public void AddTrackToPlaylist(Playlist playlist, Track spotifyTrack)
+        public void AddTrackToPlaylist(Playlist playlist, String spotifyTrack)
         {
             object[] data = new object[2] { playlist, spotifyTrack };
             _backgroundWorkHelper.DoInBackground(AddTrackToPlaylistWorker, AddTrackToPlaylistCompleted, data);
@@ -316,7 +316,7 @@ namespace MusicStream
                 _session.PlayerLoad(playlist.Track(index));
                 _session.PlayerPlay(true);
                 _waveOutDevice.Play();
-                PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
+                PlaybackStarted(Link.CreateFromTrack(_currentPlaylist.Track(_currentPlaylistTrackIndex), 0).AsString());
                 _playlistPlaying = true;
                 _firstPlaybackLoadingReady = true;
             }
@@ -366,7 +366,7 @@ namespace MusicStream
             else
             {
                 //if no playlist is selected
-                throw new NullReferenceException("No Playlist selected! Cannot play!");
+                //throw new NullReferenceException("No Playlist selected! Cannot play!");
             }
         }
 
@@ -420,7 +420,7 @@ namespace MusicStream
                     _session.PlayerLoad(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                     _session.PlayerPlay(true);
                     _waveOutDevice.Play();
-                    PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
+                    PlaybackStarted(Link.CreateFromTrack(_currentPlaylist.Track(_currentPlaylistTrackIndex), 0).AsString());
                 }
                 else
                 {
@@ -438,7 +438,7 @@ namespace MusicStream
                 _session.PlayerLoad(_currentPlaylist.Track(_currentPlaylistTrackIndex));
                 _session.PlayerPlay(true);
                 _waveOutDevice.Play();
-                PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
+                PlaybackStarted(Link.CreateFromTrack(_currentPlaylist.Track(_currentPlaylistTrackIndex), 0).AsString());
             }
 
             _currentPlaylistTrackPlayedDuration = 0;
@@ -452,7 +452,7 @@ namespace MusicStream
             _session.PlayerSeek((int)_currentPlaylistTrackPlayedDuration);
             _session.PlayerPlay(true);
             _waveOutDevice.Play();
-            PlaybackStarted(_currentPlaylist.Track(_currentPlaylistTrackIndex));
+            PlaybackStarted(Link.CreateFromTrack(_currentPlaylist.Track(_currentPlaylistTrackIndex), 0).AsString());
         }
 
         /// <summary>
@@ -464,7 +464,14 @@ namespace MusicStream
         public void ReorderTrack(Playlist playlist, int oldIndex, int newIndex)
         {
             int[] tracks = new int[] { oldIndex };
-            playlist.ReorderTracks(tracks, newIndex);
+            try
+            {
+                playlist.ReorderTracks(tracks, newIndex);
+            }
+            catch (AccessViolationException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
 
@@ -539,7 +546,7 @@ namespace MusicStream
             }
             else
             {
-                int duration = _currentPrelistenTrack.Duration();
+                int duration = Link.CreateFromString(_currentPrelistenTrack).AsTrack().Duration();
                 var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
                 howMuchSecs = (((double)num_frames * 2.0 * 2.0) / (double)bytesPerSec) * 1000.0;
                 //_currentPrelistenTrackDuration += (int)howMuchSecs;
@@ -571,7 +578,7 @@ namespace MusicStream
 
             if (_playlistPlaying && _firstPlaybackLoadingReady)
             {
-                PlaybackLoadingReady(_currentPlaylist.Track(_currentPlaylistTrackIndex));
+                PlaybackLoadingReady(Link.CreateFromTrack(_currentPlaylist.Track(_currentPlaylistTrackIndex), 0).AsString());
                 _firstPlaybackLoadingReady = false;
             }
             if (_prelistPlaying && _firstPrelistenLoadingReady)
@@ -642,9 +649,11 @@ namespace MusicStream
         {
             try
             {
-                _session.PlayerLoad((Track)e.Argument);
-                _session.PlayerPrefetch((Track)e.Argument);
-                _session.PlayerSeek((((Track)e.Argument).Duration()) / 2);    //Seek to half of the song for prelistening
+                String trackId = (String)e.Argument;
+                Track track = Link.CreateFromString(trackId).AsTrack();
+                _session.PlayerLoad(track);
+                _session.PlayerPrefetch(track);
+                _session.PlayerSeek(track.Duration() / 2);    //Seek to half of the song for prelistening
                 _session.PlayerPlay(true);
                 _waveOutDevice.Play();
                 e.Result = e.Argument;
@@ -654,21 +663,32 @@ namespace MusicStream
                 //logMessages.Enqueue("SpotifyException: " + spotifyException.Message);
                 //ShowError(exception.Message);
             }
+            catch (AccessViolationException exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
         private void PrelistenPlayCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //PlaybackStarted();
-            CurrentPrelistenTrack = (Track)e.Result;
+            CurrentPrelistenTrack = (String)e.Result;
             PrelistenStarted(_currentPrelistenTrack);
             _firstPrelistenLoadingReady = true;
         }
 
         private void PrelistenStopWorker(object sender, DoWorkEventArgs e)
         {
-            _session.PlayerPlay(false);
-            _session.PlayerUnload();
-            _waveOutDevice.Stop();
-            _bufferedWaveProvider.ClearBuffer();
+            try
+            {
+                _session.PlayerPlay(false);
+                _session.PlayerUnload();
+                _waveOutDevice.Stop();
+                _bufferedWaveProvider.ClearBuffer();
+            }
+            catch (AccessViolationException exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
         }
         private void PrelistenStopCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -687,7 +707,9 @@ namespace MusicStream
 
         private void AddTrackToPlaylistWorker(object sender, DoWorkEventArgs e)
         {
-            ((Playlist)((object[])e.Argument)[0]).AddTracks(new Track[1] { (Track)((object[])e.Argument)[1] }, ((Playlist)((object[])e.Argument)[0]).NumTracks(), _session);
+            String trackId = (String)((object[])e.Argument)[1];
+            Track track = Link.CreateFromString(trackId).AsTrack();
+            ((Playlist)((object[])e.Argument)[0]).AddTracks(new Track[1] { track }, ((Playlist)((object[])e.Argument)[0]).NumTracks(), _session);
             e.Result = e.Argument;
         }
         private void AddTrackToPlaylistCompleted(object sender, RunWorkerCompletedEventArgs e)

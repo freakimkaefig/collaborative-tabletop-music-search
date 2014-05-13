@@ -64,7 +64,7 @@ namespace Ctms.Applications.Workers
             _playlistViewModel.ResultsForPlaylist.Clear();
             for (int i = 0; i < playlist.NumTracks(); i++)
             {
-               _playlistViewModel.ResultsForPlaylist.Add(new ResultDataModel(playlist.Track(i).Name(), playlist.Track(i).Artist(0).Name(), playlist.Track(i)));
+               _playlistViewModel.ResultsForPlaylist.Add(new ResultDataModel(playlist.Track(i).Name(), playlist.Track(i).Artist(0).Name(), Link.CreateFromTrack(playlist.Track(i), 0).AsString()));
             }
 
             _playlistViewModel.CanPlay = true;
@@ -75,12 +75,12 @@ namespace Ctms.Applications.Workers
             int info = _infoWorker.ShowCommonInfo("Playlist opened", "You successfully opened the playlist '" + playlist.Name() + "'", "Ok");
         }
 
-        private void PlaybackLoadingReady(Track track)
+        private void PlaybackLoadingReady(String track)
         {
             foreach (ResultDataModel result in _playlistViewModel.ResultsForPlaylist)
             {
                 //Vergleiche Tracks ??? keine ahnung wie!
-                if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
+                if (Link.CreateFromString(result.SpotifyTrack).AsTrack().Artist(0).Name() == Link.CreateFromString(track).AsTrack().Artist(0).Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Name() == Link.CreateFromString(track).AsTrack().Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Duration() == Link.CreateFromString(track).AsTrack().Duration())
                 {
                     result.IsLoading = false;
                     result.IsPlaying = true;
@@ -93,7 +93,7 @@ namespace Ctms.Applications.Workers
             }
         }
 
-        private void PlaybackStarted(Track track)
+        private void PlaybackStarted(String track)
         {
             _playlistViewModel.Playing = true;
             foreach (ResultDataModel result in _playlistViewModel.ResultsForPlaylist)
@@ -101,7 +101,7 @@ namespace Ctms.Applications.Workers
                 try
                 {
                     //Vergleiche Tracks ??? keine ahnung wie!
-                    if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name())
+                    if (Link.CreateFromString(result.SpotifyTrack).AsTrack().Artist(0).Name() == Link.CreateFromString(track).AsTrack().Artist(0).Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Name() == Link.CreateFromString(track).AsTrack().Name())
                     {
                         result.IsLoading = true;
                     }
@@ -113,7 +113,7 @@ namespace Ctms.Applications.Workers
                 }
                 catch (Exception e)
                 {
-                    _infoWorker.ShowCommonInfo("Spotify Error", e.Message, "Ok");
+                    _infoWorker.ShowCommonInfo("Spotify Error", "Spotify encountered an error. Please try again", "Ok");
                 }
             }
         }
@@ -161,7 +161,7 @@ namespace Ctms.Applications.Workers
                 {
                     for (var i = 0; i < _playlistViewModel.CurrentPlaylist.NumTracks(); i++)
                     {
-                        if (_playlistViewModel.CurrentPlaylist.Track(i).Artist(0).Name().Equals(result.SpotifyTrack.Artist(0).Name()) && _playlistViewModel.CurrentPlaylist.Track(i).Name().Equals(result.SpotifyTrack.Name()))
+                        if (_playlistViewModel.CurrentPlaylist.Track(i).Artist(0).Name().Equals(Link.CreateFromString(result.SpotifyTrack).AsTrack().Artist(0).Name()) && _playlistViewModel.CurrentPlaylist.Track(i).Name().Equals(Link.CreateFromString(result.SpotifyTrack).AsTrack().Name()))
                         {
                             //track already in playlist
                             //_sessionManager.logMessages.Enqueue("Track already in playlist");

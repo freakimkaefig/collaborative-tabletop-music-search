@@ -58,11 +58,11 @@ namespace Ctms.Applications.Workers
             _sessionManager.PrelistenLoadingReady = PrelistenLoadingReady;
         }
 
-        private void PrelistenStarted(Track track)
+        private void PrelistenStarted(String track)
         {
             if (track == null)
             {
-                _infoWorker.ShowCommonInfo("Error playing track", "Sorry, an error occured, please try again", "Ok");
+                _infoWorker.ShowCommonInfo("Spotify Error", "The selected track is unavailable in your region", "Ok");
             }
             else
             {
@@ -70,7 +70,7 @@ namespace Ctms.Applications.Workers
                 foreach (ResultDataModel result in _resultViewModel.Results)
                 {
                     //Vergleiche Tracks ??? keine ahnung wie!
-                    if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
+                    if (Link.CreateFromString(result.SpotifyTrack).AsTrack().Artist(0).Name() == Link.CreateFromString(track).AsTrack().Artist(0).Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Name() == Link.CreateFromString(track).AsTrack().Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Duration() == Link.CreateFromString(track).AsTrack().Duration())
                     {
                         result.IsLoading = true;
                     }
@@ -93,15 +93,15 @@ namespace Ctms.Applications.Workers
             }
         }
 
-        private void PrelistenLoadingReady(Track track)
+        private void PrelistenLoadingReady(String track)
         {
             foreach (ResultDataModel result in _resultViewModel.Results)
             {
                 try {
-                    if (result.SpotifyTrack.Artist(0) != null)
+                    if (Link.CreateFromString(result.SpotifyTrack).AsTrack().Artist(0) != null)
                     {
                         //Vergleiche Tracks ??? keine ahnung wie!
-                        if (result.SpotifyTrack.Artist(0).Name() == track.Artist(0).Name() && result.SpotifyTrack.Name() == track.Name() && result.SpotifyTrack.Duration() == track.Duration())
+                        if (Link.CreateFromString(result.SpotifyTrack).AsTrack().Artist(0).Name() == Link.CreateFromString(track).AsTrack().Artist(0).Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Name() == Link.CreateFromString(track).AsTrack().Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Duration() == Link.CreateFromString(track).AsTrack().Duration())
                         {
                             result.IsLoading = false;
                             result.IsPlaying = true;
@@ -115,7 +115,10 @@ namespace Ctms.Applications.Workers
                 }
                 catch (Exception e)
                 {
+#if (DEBUG)
                     _infoWorker.ShowCommonInfo("Streaming error", "Please try again. " + e.Message, "Ok");
+#endif
+                    _infoWorker.ShowCommonInfo("Spotify Error", "The selected track is unavailable in your region", "Ok");
                 }
             }
         }
@@ -159,7 +162,10 @@ namespace Ctms.Applications.Workers
                         }
                         catch (AccessViolationException e)
                         {
+#if (DEBUG)
                             _infoWorker.ShowCommonInfo("Spotify Error", e.Message, "Ok");
+#endif
+                            _infoWorker.ShowCommonInfo("Spotify Error", "The selected track is unavailable in your region", "Ok");
                         }
                     }
                     else
@@ -174,7 +180,10 @@ namespace Ctms.Applications.Workers
                         }
                         catch (AccessViolationException e)
                         {
+#if (DEBUG)
                             _infoWorker.ShowCommonInfo("Spotify Error", e.Message, "Ok");
+#endif
+                            _infoWorker.ShowCommonInfo("Spotify Error", "The selected track is unavailable in your region", "Ok");
                         }
                     }
                 }
@@ -187,13 +196,19 @@ namespace Ctms.Applications.Workers
                     }
                     catch (AccessViolationException e)
                     {
+#if (DEBUG)
                         _infoWorker.ShowCommonInfo("Spotify Error", e.Message, "Ok");
+#endif
+                        _infoWorker.ShowCommonInfo("Spotify Error", "The selected track is unavailable in your region", "Ok");
                     }
                 }
             }
             catch (Exception ex)
             {
+#if (DEBUG)
                 _infoWorker.ShowCommonInfo("Sorry, this didn't work", "Prelistening has thrown an error. Please retry. " + ex.Message, "Ok");
+#endif
+                _infoWorker.ShowCommonInfo("Spotify Error", "The selected track is unavailable in your region", "Ok");
             }
         }
     }
