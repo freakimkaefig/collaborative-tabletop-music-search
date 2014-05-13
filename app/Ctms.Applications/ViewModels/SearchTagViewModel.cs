@@ -93,7 +93,6 @@ namespace Ctms.Applications.ViewModels
         {
             _logCount++;
             SearchTagViewLog += _logCount + logMessage + Environment.NewLine;
-            ((ISearchView)View).LogScrollToEnd();
         }
     }
 }

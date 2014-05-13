@@ -80,7 +80,7 @@ namespace Ctms.Applications.DataModels
 
                 if (difference < 0)
                 {   // turned tag clockwise
-                    if (activeOptionsIndex + CommonVal.Tag_VisibleOptionsCount < ActiveLayerOptions.Count())
+                    //if (activeOptionsIndex + CommonVal.Tag_VisibleOptionsCount < ActiveLayerOptions.Count())
                     {   // index can be raised without getting over the top
                         activeOptionsIndex++;
 
@@ -104,15 +104,15 @@ namespace Ctms.Applications.DataModels
                 else if (difference > 0)
                 {   // turned tag anti-clockwise
 
-                    if(activeOptionsIndex > 1)
+                    //if(activeOptionsIndex > 1)
                     {
                         activeOptionsIndex--; ;
                         RotateBackgr();
                     }
-                    else
+                    //else
                     {
                         // index must be at least 0
-                        activeOptionsIndex = 0;
+                        //activeOptionsIndex = 0;
 	                }
 
                     lastHandledAngle = Tag.Angle;
@@ -170,8 +170,36 @@ namespace Ctms.Applications.DataModels
             {
                 // select only some options of this layer, corresponding to current options index
                 // select some options by their index in the list
-                var optionsList = ActiveLayerOptions.Skip(activeOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
+                //var optionsList = ActiveLayerOptions.Skip(activeOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
+                //var optionsList = new ObservableCollection<TagOption>();
+                //for(var i = 0; i < ActiveLayerOptions.
 
+                //var optionsList = ActiveLayerOptions.Skip(activeOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
+
+                //if (optionsList.Count < CommonVal.Tag_VisibleOptionsCount)
+                //{
+                //    foreach(
+                //}
+
+                var optionsList = new ObservableCollection<TagOption>();
+                if (ActiveLayerOptions.Count() > 0)
+                {
+                    var counter = 0;
+                    for (var i = 0; i < CommonVal.Tag_VisibleOptionsCount; i++)
+                    {
+                        TagOption option;
+                        //if (i + activeOptionsIndex < ActiveLayerOptions.Count())
+                        {
+                            option = ActiveLayerOptions.ElementAt((activeOptionsIndex + i) % (ActiveLayerOptions.Count() - 1));
+                        }
+                        //else
+                        {
+                            // counter++;
+                            //option = ActiveLayerOptions.ElementAt(i - ActiveLayerOptions.Count() * counter);
+                        }
+                        optionsList.Add(option);
+                    }
+                }
                 return EntitiesHelper.ToObservableCollection<TagOption>(optionsList);
             }
         }

@@ -270,13 +270,6 @@ namespace Ctms.Presentation.Views
                 headerBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 pieMenuItem.SetBinding(PieMenuItem.HeaderProperty, headerBinding);
 
-                // SubHeader binding
-                //Binding subHeaderBinding = new Binding("Keyword.DisplayDescription");
-                //subHeaderBinding.Source = option;
-                //subHeaderBinding.NotifyOnSourceUpdated = true;
-                //subHeaderBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                //pieMenuItem.SetBinding(PieMenuItem.SubHeaderProperty, subHeaderBinding);
-
                 // Command binding
                 Binding commandBinding = new Binding("SelectOptionCmd");
                 commandBinding.Source = _viewModel;
@@ -288,27 +281,6 @@ namespace Ctms.Presentation.Views
             }
 
             pieMenu.InvalidateVisual();
-        }
-
-        public void UpdateStoryboard(int combiId)
-        {
-            /*
-            var itemControls = FindVisualChildren<ItemsControl>(this);
-            var storyboards = FindVisualChildren<Storyboard>(this);
-            var beginStoryboards = FindVisualChildren<BeginStoryboard>(this);
-            var doubleAnimations = FindVisualChildren<DoubleAnimation>(this);
-
-            Storyboard storyboardResource = this.Resources["TagCombiStoryboard"] as Storyboard;
-
-            //var ellipse = this.Resources["EllipseAnimation"] as Ellipse;
-            //storyboardResource.Begin(combiEll);
-
-            var tagCombinationItems = TagCombinationsControl.Items;
-            //var childControls = FindVisualChildren<Grid>(this);
-            //var childControls3 = FindVisualChildren<Ellipse>(this);
-
-            storyboardResource.Begin(el1);
-            */
         }
 
         private childItem FindVisualChild<childItem>(DependencyObject obj)
@@ -360,76 +332,6 @@ namespace Ctms.Presentation.Views
             tagDM.ExistenceState = TagDataModel.ExistenceStates.Removed;
 
             _viewModel.OnVisualizationRemoved(tagDM);
-        }
-
-        private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
-        {
-            // problem is that options of the pie menu can be pressed with the tag. this can't 
-            // be avoided, because the framework doesn't recognize early enough that the tag isn't recognized anymore
-            // and thinks that the tag is a finger. So the combination of fingerrecognized and tagrecognized doesn't help
-            // with identifying finger touches unambiguously
-            /* Don't delete, may will be needed later
-            var t = (TouchEventArgs)e;
-
-            DevLogger.Log("SV: MyTagVisualization_PreviewTouchDown");
-            DevLogger.Log("SV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
-            DevLogger.Log("SV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
-            */
-
-            var t = (TouchEventArgs)e;
-            //_viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown");
-            //_viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown Finger" + t.TouchDevice.GetIsFingerRecognized());
-            //_viewModel.AddLog("SV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
-        }
-
-        #region UnusedEvents
-
-        private void SearchTagVisualizer_GotTouchCapture(object sender, TouchEventArgs e)
-        {
-            //When tag is placed
-            _viewModel.AddLog("SV: SearchTagVisualizer_GotTouchCapture");
-        }
-
-        private void SearchTagVisualizer_GotFocus(object sender, RoutedEventArgs e)
-        {
-            _viewModel.AddLog("SV: SearchTagVisualizer_GotFocus");
-
-        }
-
-        private void SearchTagVisualizer_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-            _viewModel.AddLog("SV: SearchTagVisualizer_SourceUpdated");
-
-        }
-
-        private void SearchTagVisualizer_TouchEnter(object sender, TouchEventArgs e)
-        {
-            //When tag is placed
-            _viewModel.AddLog("SV: SearchTagVisualizer_TouchEnter");
-
-        }
-
-        private void SearchTagVisualizer_TouchDown(object sender, TouchEventArgs e)
-        {
-            _viewModel.AddLog("SV: SearchTagVisualizer_TouchDown");
-
-        }
-
-        #endregion UnusedEvents
-
-        private void SearchTagVisualizer_LostTouchCapture(object sender, TouchEventArgs e)
-        {
-            //_viewModel.AddLog("SV: SearchTagVisualizer_LostTouchCapture");
-        }
-
-        private void SearchTagVisualizer_LostFocus(object sender, RoutedEventArgs e)
-        {
-            //_viewModel.AddLog("SV: SearchTagVisualizer_LostFocus");
-        }
-
-        public void LogScrollToEnd()
-        {
-            //SearchViewLog.ScrollToEnd();
         }
 
         private void combiTag_Unloaded(object sender, RoutedEventArgs e)
@@ -487,6 +389,16 @@ namespace Ctms.Presentation.Views
             }
           
             storyboard.Begin(ellipse, true);
+        }
+
+        private void SearchTagVisualizer_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchTagVisualizer_GotTouchCapture(object sender, TouchEventArgs e)
+        {
+
         }
     }
 }

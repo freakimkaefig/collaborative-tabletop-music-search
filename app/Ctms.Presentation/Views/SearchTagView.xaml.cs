@@ -105,11 +105,6 @@ namespace Ctms.Presentation.Views
             //DevLogger.Log(message);
         }
 
-        public void LogScrollToEnd()
-        {
-            //SearchTagViewLog.ScrollToEnd();
-        }
-
         private void MyTagVisualization_TouchDown(object sender, TouchEventArgs e)
         {
             /*

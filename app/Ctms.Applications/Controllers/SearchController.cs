@@ -167,7 +167,6 @@ namespace Ctms.Applications.Controllers
 
             //!!remove
             //InitExampleTagCombinations();
-            //_searchVm.UpdateStoryboard(0);
         }
 
         private void InitExampleTagCombinations()

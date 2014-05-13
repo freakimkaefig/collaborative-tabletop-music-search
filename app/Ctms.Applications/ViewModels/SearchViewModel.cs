@@ -394,7 +394,6 @@ namespace Ctms.Applications.ViewModels
         {
             _logCount++;
             SearchViewLog += _logCount + logMessage + Environment.NewLine;
-            ((ISearchView)View).LogScrollToEnd();
         }
 
 
@@ -612,11 +611,6 @@ namespace Ctms.Applications.ViewModels
         public void UpdateVisuals(TagDataModel tagDM)
         {
             _searchView.UpdateVisual(tagDM.Id);
-        }
-
-        public void UpdateStoryboard(int combiId)
-        {
-            _searchView.UpdateStoryboard(combiId);
         }
 
         public void OnVisualizationRemoved(TagDataModel tagDm)

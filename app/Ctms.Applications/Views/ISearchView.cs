@@ -31,7 +31,5 @@ namespace Ctms.Applications.Views
 
         void UpdateVisual(int tagId);
         void InitializeRectangles();
-        void LogScrollToEnd();
-        void UpdateStoryboard(int combiId);
     }
 }

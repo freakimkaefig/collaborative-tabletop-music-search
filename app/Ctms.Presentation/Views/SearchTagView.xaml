@@ -16,9 +16,6 @@
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
     Loaded="SimpleVisualization_Loaded"
-    PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
-    TouchDown="MyTagVisualization_TouchDown"
-    TouchUp="MyTagVisualization_TouchUp"
     Moved="TagVisualization_Moved" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans Condensed Light">
     
     <s:TagVisualization.Resources>
@@ -61,15 +58,7 @@
         <Grid.RenderTransform>
             <RotateTransform Angle="{Binding Tag.Orientation}"  />
         </Grid.RenderTransform>
-        <!--<Ellipse Width="{Binding CombineCircleDiameter}" Height="{Binding CombineCircleDiameter}" 
-                 Stroke="{x:Null}" 
-                 StrokeThickness="0" 
-                 Fill="#5fff" 
-                 Opacity="{Binding ConfirmCircleOpacity}">
-            <Ellipse.Effect>
-                <BlurEffect Radius="5"/>
-            </Ellipse.Effect>
-        </Ellipse>-->
+
         <Grid Background="{x:Null}" >
             <Grid.RowDefinitions>
                 <!--Reference static resoure as binding so that DoubleToString-converter will be found-->
@@ -238,7 +227,6 @@
                         />
 
         			<s:SurfaceTextBox x:Name="InputTextBox"
-                        GotFocus="InputField_GotFocus"
         				DataContext="{DynamicResource TagDM}"
         				Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
         				Width="{StaticResource InputLength}" 
