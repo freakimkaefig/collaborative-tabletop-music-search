@@ -203,6 +203,7 @@ namespace Ctms.Applications.Workers
                 String artistName = StringHelper.cleanText(song.Artist_Name);
                 String songTitle = StringHelper.cleanText(song.Title);
 
+                // add result to collection
                 _collectedResults.Add(new ResultDataModel(songTitle, artistName, _sessionManager.CheckTrackAvailability(track.foreign_id)));
 
                 ResultDataModel result = _collectedResults.Last();

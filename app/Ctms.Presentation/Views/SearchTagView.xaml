@@ -16,9 +16,6 @@
     IsEnabled="{Binding IsEnabled}"
     waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"                    
     Loaded="SimpleVisualization_Loaded"
-    PreviewTouchDown="MyTagVisualization_PreviewTouchDown" 
-    TouchDown="MyTagVisualization_TouchDown"
-    TouchUp="MyTagVisualization_TouchUp"
     Moved="TagVisualization_Moved" FontFamily="/Ctms;component/Resources/Fonts/#Open Sans Condensed Light">
     
     <s:TagVisualization.Resources>
@@ -61,15 +58,7 @@
         <Grid.RenderTransform>
             <RotateTransform Angle="{Binding Tag.Orientation}"  />
         </Grid.RenderTransform>
-        <!--<Ellipse Width="{Binding CombineCircleDiameter}" Height="{Binding CombineCircleDiameter}" 
-                 Stroke="{x:Null}" 
-                 StrokeThickness="0" 
-                 Fill="#5fff" 
-                 Opacity="{Binding ConfirmCircleOpacity}">
-            <Ellipse.Effect>
-                <BlurEffect Radius="5"/>
-            </Ellipse.Effect>
-        </Ellipse>-->
+
         <Grid Background="{x:Null}" >
             <Grid.RowDefinitions>
                 <!--Reference static resoure as binding so that DoubleToString-converter will be found-->
@@ -108,6 +97,12 @@
                     </Image.RenderTransform>
                 </Image>
 
+                <Image Margin="-150, 70,0,0"
+				    Source="../Resources/Images/Common/icons/spiral_edge.png"
+        			Height="63" 
+        			Width="207"
+                    />
+
                 <!--Start PieMenu with tag options-->
         		<ps:PieMenu 
         			x:Name="PieMenu"
@@ -130,9 +125,9 @@
                     <!-- placeholder item for correct calculation of PieMenuItem size -->
         			<ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
         				Command="" Background="#0000" />
-        		</ps:PieMenu>
-                
-        	</Grid>
+                </ps:PieMenu>
+
+            </Grid>
             <!--Grid for keyword type selection-->
         	<Grid Grid.Row="1" 
         			Background="{x:Null}" Grid.Column="1" DataContext="{DynamicResource TagDM}"
@@ -238,7 +233,6 @@
                         />
 
         			<s:SurfaceTextBox x:Name="InputTextBox"
-                        GotFocus="InputField_GotFocus"
         				DataContext="{DynamicResource TagDM}"
         				Text="{Binding InputTerms, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
         				Width="{StaticResource InputLength}" 
@@ -311,22 +305,6 @@
         			<RowDefinition Height="Auto" />
         			<RowDefinition Height="Auto"/>
         		</Grid.RowDefinitions>
-                <!--<nui:CircleText Radius="100" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleBottomFirst}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
-				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
-				    HorizontalContentAlignment="Center"
-				    VerticalContentAlignment="Center"
-                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-				    Height="340" Width="340"
-        	        Text="{Binding Tag.AssignedKeyword.DisplayNameFirst, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"/>
-                <nui:CircleText Radius="120" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleBottomSecond}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
-				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
-				    HorizontalContentAlignment="Center"
-				    VerticalContentAlignment="Center"
-                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-				    Height="340" Width="340"
-        	        Text="{Binding Tag.AssignedKeyword.DisplayNameSecond, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"/>-->
         		<TextBlock Grid.Row="0"
                                 HorizontalAlignment="Center"
         						Background="{x:Null}"
@@ -356,22 +334,6 @@
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
         		</Grid.RowDefinitions>
-                <!--<nui:CircleText Radius="100" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleTopFirst}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
-				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
-				    HorizontalContentAlignment="Center"
-				    VerticalContentAlignment="Center"
-                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-				    Height="340" Width="340"
-        	        Text="{Binding Tag.AssignedKeyword.DisplayNameFirst, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"/>
-                <nui:CircleText Radius="120" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleTopSecond}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
-				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
-				    HorizontalContentAlignment="Center"
-				    VerticalContentAlignment="Center"
-                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-				    Height="340" Width="340"
-        	        Text="{Binding Tag.AssignedKeyword.DisplayNameSecond, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"/>-->
 
                 <TextBlock  Grid.Row="1"
         			Background="{x:Null}"
@@ -434,17 +396,6 @@
             </Image.RenderTransform>
         </Image>
 
-        <!--<Rectangle
-            Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-            Fill="#6fff"
-            />-->
-
-        <!--<Ellipse
-                 Width="240" Height="240" 
-                 Stroke="#fff"
-                 StrokeThickness="5" 
-                 Fill="#9fff">
-        </Ellipse>-->
         <!--//Tag color circle-->
     </Grid>
     <!--End Surrounding Tag grid-->

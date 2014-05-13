@@ -80,7 +80,7 @@ namespace Ctms.Applications.DataModels
 
                 if (difference < 0)
                 {   // turned tag clockwise
-                    if (activeOptionsIndex + CommonVal.Tag_VisibleOptionsCount < ActiveLayerOptions.Count())
+                    //if (activeOptionsIndex + CommonVal.Tag_VisibleOptionsCount < ActiveLayerOptions.Count())
                     {   // index can be raised without getting over the top
                         activeOptionsIndex++;
 
@@ -91,29 +91,12 @@ namespace Ctms.Applications.DataModels
                         // raise changed event so controller can react
                         RaisePropertyChanged("VisibleOptions");
                     }
-                    //else
-                    //{
-                    //    activeOptionsIndex = 0;
-
-                    //    lastHandledAngle = Tag.Angle;
-
-                    //    // raise changed event so controller can react
-                    //    RaisePropertyChanged("VisibleOptions");
-                    //}
                 }
                 else if (difference > 0)
                 {   // turned tag anti-clockwise
 
-                    if(activeOptionsIndex > 1)
-                    {
-                        activeOptionsIndex--; ;
-                        RotateBackgr();
-                    }
-                    else
-                    {
-                        // index must be at least 0
-                        activeOptionsIndex = 0;
-	                }
+                    activeOptionsIndex--; ;
+                    RotateBackgr();
 
                     lastHandledAngle = Tag.Angle;
 
@@ -168,10 +151,25 @@ namespace Ctms.Applications.DataModels
         {
             get 
             {
-                // select only some options of this layer, corresponding to current options index
+                var optionsList = new List<TagOption>();
+                // select as many options as are displayable, corresponding to current options index
                 // select some options by their index in the list
-                var optionsList = ActiveLayerOptions.Skip(activeOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
-
+                if (ActiveLayerOptions.Count() == 2)
+                {
+                    optionsList = ActiveLayerOptions.Skip(activeOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
+                }
+                else
+                {
+                    if (ActiveLayerOptions.Count() > 0)
+                    {
+                        for (var i = 0; i < CommonVal.Tag_VisibleOptionsCount; i++)
+                        {
+                            var option = ActiveLayerOptions.ElementAt((activeOptionsIndex + i) % (ActiveLayerOptions.Count() - 1));
+                        
+                            optionsList.Add(option);
+                        }
+                    }
+                }
                 return EntitiesHelper.ToObservableCollection<TagOption>(optionsList);
             }
         }

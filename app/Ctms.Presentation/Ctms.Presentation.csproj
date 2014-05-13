@@ -79,7 +79,6 @@
       <SubType>Designer</SubType>
     </None>
     <DesignTimeOnly Include="DataStore\DataStore\DataStore.xsd" />
-    <None Include="Ctms.Presentation_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -476,6 +475,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\Common\icons\subwoofer_background4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Common\icons\spiral_edge.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="Ctms.Presentation.xml">
