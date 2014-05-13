@@ -97,6 +97,12 @@
                     </Image.RenderTransform>
                 </Image>
 
+                <Image Margin="-150, 70,0,0"
+				    Source="../Resources/Images/Common/icons/spiral_edge.png"
+        			Height="63" 
+        			Width="207"
+                    />
+
                 <!--Start PieMenu with tag options-->
         		<ps:PieMenu 
         			x:Name="PieMenu"
@@ -120,12 +126,6 @@
         			<ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
         				Command="" Background="#0000" />
                 </ps:PieMenu>
-                
-                <Image Margin="-4,-2,0,0"
-				    Source="../Resources/Images/Common/icons/spiral_edge.png" Stretch="Fill"
-        			Height="265" 
-        			Width="265"
-                    />
 
             </Grid>
             <!--Grid for keyword type selection-->
