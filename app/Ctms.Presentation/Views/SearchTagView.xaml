@@ -119,9 +119,15 @@
                     <!-- placeholder item for correct calculation of PieMenuItem size -->
         			<ps:PieMenuItem Header="" SubHeader="" BorderThickness="0" 
         				Command="" Background="#0000" />
-        		</ps:PieMenu>
+                </ps:PieMenu>
                 
-        	</Grid>
+                <Image Margin="-4,-2,0,0"
+				    Source="../Resources/Images/Common/icons/spiral_edge.png" Stretch="Fill"
+        			Height="265" 
+        			Width="265"
+                    />
+
+            </Grid>
             <!--Grid for keyword type selection-->
         	<Grid Grid.Row="1" 
         			Background="{x:Null}" Grid.Column="1" DataContext="{DynamicResource TagDM}"
@@ -299,22 +305,6 @@
         			<RowDefinition Height="Auto" />
         			<RowDefinition Height="Auto"/>
         		</Grid.RowDefinitions>
-                <!--<nui:CircleText Radius="100" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleBottomFirst}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
-				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
-				    HorizontalContentAlignment="Center"
-				    VerticalContentAlignment="Center"
-                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-				    Height="340" Width="340"
-        	        Text="{Binding Tag.AssignedKeyword.DisplayNameFirst, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"/>
-                <nui:CircleText Radius="120" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleBottomSecond}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
-				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
-				    HorizontalContentAlignment="Center"
-				    VerticalContentAlignment="Center"
-                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-				    Height="340" Width="340"
-        	        Text="{Binding Tag.AssignedKeyword.DisplayNameSecond, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"/>-->
         		<TextBlock Grid.Row="0"
                                 HorizontalAlignment="Center"
         						Background="{x:Null}"
@@ -344,22 +334,6 @@
         			<RowDefinition Height="Auto"/>
         			<RowDefinition Height="Auto"/>
         		</Grid.RowDefinitions>
-                <!--<nui:CircleText Radius="100" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleTopFirst}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
-				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
-				    HorizontalContentAlignment="Center"
-				    VerticalContentAlignment="Center"
-                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-				    Height="340" Width="340"
-        	        Text="{Binding Tag.AssignedKeyword.DisplayNameFirst, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"/>
-                <nui:CircleText Radius="120" ReferenceAngle="{Binding Tag.AssignedKeyword.ReferenceAngleTopSecond}" Foreground="#fff" Style="{StaticResource OpenSansCondensed}" FontSize="16"
-				    HorizontalAlignment="Center" VerticalAlignment="Top" DataContext="{DynamicResource TagDM}"
-				    HorizontalContentAlignment="Center"
-				    VerticalContentAlignment="Center"
-                    Visibility="{Binding IsAssignedKeywordVisible, Converter={StaticResource visibilityConverter}}"
-				    Height="340" Width="340"
-        	        Text="{Binding Tag.AssignedKeyword.DisplayNameSecond, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
-                    Grid.RowSpan="2"/>-->
 
                 <TextBlock  Grid.Row="1"
         			Background="{x:Null}"
@@ -422,17 +396,6 @@
             </Image.RenderTransform>
         </Image>
 
-        <!--<Rectangle
-            Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-            Fill="#6fff"
-            />-->
-
-        <!--<Ellipse
-                 Width="240" Height="240" 
-                 Stroke="#fff"
-                 StrokeThickness="5" 
-                 Fill="#9fff">
-        </Ellipse>-->
         <!--//Tag color circle-->
     </Grid>
     <!--End Surrounding Tag grid-->

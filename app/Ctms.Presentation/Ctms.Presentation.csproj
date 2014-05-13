@@ -477,6 +477,9 @@
     <Resource Include="Resources\Images\Common\icons\subwoofer_background4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\Common\icons\spiral_edge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\Images\Common\icons\subwoofer_background4.gif" />
     <Resource Include="Resources\Images\Common\icons\vinylTangible3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
