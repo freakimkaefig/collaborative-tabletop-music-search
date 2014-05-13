@@ -36,9 +36,7 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="DataFiles\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Helpers\Helpers.csproj">
       <Project>{D529C6B5-B1B8-4837-918E-FBF777B36F11}</Project>
@@ -73,7 +71,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CtmsEntities.cs" />
     <Compile Include="Objects\ArtistImage.cs" />
     <Compile Include="Objects\ArtistNews.cs" />
     <Compile Include="Objects\ArtistReview.cs" />
