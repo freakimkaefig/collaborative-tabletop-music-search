@@ -51,7 +51,6 @@ namespace MusicStream
         private object _userdata = null;
         private ObservableCollection<Playlist> _playlists;
 
-        public ConcurrentQueue<string> logMessages;
         SynchronizationContext syncContext;
         System.Threading.Timer timer;
         private Random _random;
@@ -81,7 +80,6 @@ namespace MusicStream
             _backgroundWorkHelper = new BackgroundWorkHelper();
 
             syncContext = SynchronizationContext.Current;
-            logMessages = new ConcurrentQueue<string>();
             _random = new Random();
 
             //configuration for SpotifySession
@@ -337,6 +335,9 @@ namespace MusicStream
             PlaybackStarted();
         }*/
 
+        /// <summary>
+        /// Start playlist
+        /// </summary>
         public void PlaylistPlay()
         {
             if (_currentPlaylist != null)
@@ -370,12 +371,18 @@ namespace MusicStream
             }
         }
 
+        /// <summary>
+        /// pause playlist
+        /// </summary>
         public void PlaylistPause()
         {
             _waveOutDevice.Pause();
             _session.PlayerPlay(false);
         }
 
+        /// <summary>
+        /// stop playlist
+        /// </summary>
         public void PlaylistStop()
         {
             _waveOutDevice.Stop();
@@ -395,6 +402,9 @@ namespace MusicStream
             _bufferedWaveProvider.ClearBuffer();
         }
 
+        /// <summary>
+        /// Method to continue with playlist after end of track callback
+        /// </summary>
         public void ProceedPlayingPlaylist()
         {
             if (IsShuffle)
@@ -444,6 +454,9 @@ namespace MusicStream
             _currentPlaylistTrackPlayedDuration = 0;
         }
 
+        /// <summary>
+        /// return to playlist, when prelistening is finished
+        /// </summary>
         public void ProceedPlayingPlaylistAfterPrelisten()
         {
             
@@ -478,7 +491,6 @@ namespace MusicStream
         /* ---------- CALLBACKS ---------- */
         public void LoggedInCallback()
         {
-            //logMessages.Enqueue("MusicStreamSessionManager.LoggedInCallback");
             /* Callback, when successfully logged in to Spotify
              * creating new PlaylistContainer for streaming or playlist operations
              */
@@ -501,6 +513,9 @@ namespace MusicStream
             SpotifyLoggedOut();
         }
 
+        /// <summary>
+        /// Callback for PlaylistContainer. If ready, spotify is ready for action
+        /// </summary>
         public void PlaylistContainerLoadedCallback()
         {
             //Retrieving available user playlists
@@ -508,19 +523,16 @@ namespace MusicStream
             for (int i = 0; i < _playlistContainer.NumPlaylists(); i++)
             {
                 _playlists.Add(_playlistContainer.Playlist(i));
-                //logMessages.Enqueue("Found Playlist: (" + i + ")" + _playlistContainer.Playlist(i).Name());
             }
 
             //Create Buffer, Stats & AudioDevice
             _bufferedWaveProvider = new BufferedWaveProvider(new WaveFormat()); //Create new Buffer
             _bufferedWaveProvider.BufferDuration = TimeSpan.FromSeconds(240);
-            //_copiedFrames = new byte[5000];
             _audioBufferStats = new AudioBufferStats(); //Create stats for Spotify
             _waveOutDevice = new WaveOut(); //Create new AudioDevice
             _waveOutDevice.Init(_bufferedWaveProvider);
 
-            //Notify PlaylistWorker that Playback is ready to start!!!
-            logMessages.Enqueue("SPOTIFY IS READY");
+            //Notify PlaylistWorker that Playback is ready to start!!!;
             ReadyForPlayback(_playlists);
         }
 
@@ -529,6 +541,13 @@ namespace MusicStream
 
         }
 
+        /// <summary>
+        /// Callback when music data is delivered by spotify
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="format"></param>
+        /// <param name="frames"></param>
+        /// <param name="num_frames"></param>
         public void MusicDeliveryCallback(SpotifySession session, AudioFormat format, IntPtr frames, int num_frames)
         {
             //handle received music data from spotify for streaming
@@ -539,20 +558,22 @@ namespace MusicStream
             double howMuchSecs = 0.0;
             if (_currentPlaylist != null)
             {
-                int duration = _currentPlaylist.Track(_currentPlaylistTrackIndex).Duration();
-                var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
-                howMuchSecs = (((double)num_frames * 2.0 * 2.0) / (double)bytesPerSec) * 1000.0;
-                _currentPlaylistTrackPlayedDuration += (int)howMuchSecs;
+                Track track = _currentPlaylist.Track(_currentPlaylistTrackIndex);
+                if (track != null)
+                {
+                    //Calculate how much seconds of the current track is already played
+                    int duration = track.Duration();
+                    var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
+                    howMuchSecs = (((double)num_frames * 2.0 * 2.0) / (double)bytesPerSec) * 1000.0;
+                    _currentPlaylistTrackPlayedDuration += (int)howMuchSecs;
+                }
             }
             else
             {
                 int duration = Link.CreateFromString(_currentPrelistenTrack).AsTrack().Duration();
                 var bytesPerSec = (format.sample_rate * 16 * format.channels) / 8;
                 howMuchSecs = (((double)num_frames * 2.0 * 2.0) / (double)bytesPerSec) * 1000.0;
-                //_currentPrelistenTrackDuration += (int)howMuchSecs;
             }
-            //_currentPlaylistTrackPlayedDuration += _bufferedWaveProvider.BufferedDuration.TotalSeconds;
-            //logMessages.Enqueue("Received: " + _currentPlaylistTrackPlayedDuration + " / " + duration);
 
             var size = num_frames * format.channels * 2;
             if (size != 0)
@@ -572,7 +593,6 @@ namespace MusicStream
                     byte[] temp = new byte[newSize];
                     Array.Copy(_copiedFrames, 0, temp, 0, newSize);
                     _visualizationManager.MusicDeliveryCallback(format, temp, newNumFrames, howMuchSecs);
-                    //http://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2
                 }
             }
 
@@ -660,17 +680,17 @@ namespace MusicStream
             }
             catch (SpotifyException exception)
             {
-                //logMessages.Enqueue("SpotifyException: " + spotifyException.Message);
-                //ShowError(exception.Message);
+                // Exception get caught in StreamingWorker
             }
             catch (AccessViolationException exception)
             {
+                // write exception to console.
+                // no further interaction
                 Console.WriteLine(exception.Message);
             }
         }
         private void PrelistenPlayCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //PlaybackStarted();
             CurrentPrelistenTrack = (String)e.Result;
             PrelistenStarted(_currentPrelistenTrack);
             _firstPrelistenLoadingReady = true;
@@ -724,15 +744,11 @@ namespace MusicStream
         {
             syncContext.Post(obj => ProcessEvents(session), null);
         }
+        // notifying main thread
         void ProcessEvents(SpotifySession session)
         {
             this._session = session;
             int timeout = 0;
-            string message;
-            while (logMessages.TryDequeue(out message))
-            {
-                ReceiveLogMessage(message);
-            }
             while (timeout == 0)
             {
                 session.ProcessEvents(ref timeout);

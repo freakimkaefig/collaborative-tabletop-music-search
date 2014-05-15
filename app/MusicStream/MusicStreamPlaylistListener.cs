@@ -6,6 +6,9 @@ using SpotifySharp;
 
 namespace MusicStream
 {
+    /// <summary>
+    /// Listener for SpotifyPlaylists
+    /// </summary>
     public class MusicStreamPlaylistListener: PlaylistListener
     {
         private MusicStreamSessionManager _sessionManager;
@@ -38,13 +41,11 @@ namespace MusicStream
         public override void TracksAdded(Playlist pl, Track[] tracks, int position, object userdata)
         {
             base.TracksAdded(pl, tracks, position, userdata);
-            //_sessionManager.logMessages.Enqueue("Spotify: TRACKS ADDED");
         }
 
         public override void PlaylistUpdateInProgress(Playlist pl, bool done, object userdata)
         {
             base.PlaylistUpdateInProgress(pl, done, userdata);
-            //_sessionManager.logMessages.Enqueue("Spotify: PLAYLIST UPDATE IN PROGRESS - Done? " + done);
         }
     }
 }

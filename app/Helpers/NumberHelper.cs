@@ -22,6 +22,7 @@ namespace Helpers
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
+        /// <see cref="http://stackoverflow.com/questions/600293/how-to-check-if-a-number-is-a-power-of-2"/>
         public static bool IsPowerOfTwo(int x)
         {
             return (((x & (~x + 1)) == x) && (x > 0));
