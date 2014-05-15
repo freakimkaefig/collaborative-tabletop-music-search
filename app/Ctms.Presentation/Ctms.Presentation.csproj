@@ -363,6 +363,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Blake.NUI\Blake.NUI.WPF.SurfaceToolkit.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Expression.Effects" />
     <Reference Include="Microsoft.Expression.Interactions" />
     <Reference Include="Microsoft.Surface, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -482,6 +483,7 @@
     </Resource>
     <Content Include="Ctms.Presentation.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\icon.png" />
     <Content Include="Resources\Images\Common\icons\subwoofer_background4.gif" />

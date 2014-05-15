@@ -184,14 +184,14 @@ namespace Ctms.Applications.Workers
                 {
                     //no playlist available
                     //Notify user to open or create playlist
-                    _sessionManager.logMessages.Enqueue("No Playlist opened");
+                    _infoWorker.ShowCommonInfo("No playlist", "Please open a playlist", "Ok");
                 }
             }
             else
             {
                 //user not logged in
                 //Notify user to login to spotify
-                _sessionManager.logMessages.Enqueue("User not logged in");
+                _infoWorker.ShowCommonInfo("Not logged in", "Please log in to spotify", "Ok");
             }
         }
 

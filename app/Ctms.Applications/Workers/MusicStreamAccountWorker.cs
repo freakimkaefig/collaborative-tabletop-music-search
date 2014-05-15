@@ -119,6 +119,11 @@ namespace Ctms.Applications.Workers
             if (_menuViewModel.IsLoggedIn)
             {
                 _sessionManager.OpenPlaylists(spotifyPlaylist.Playlist);
+                _playlistViewModel.PlaylistPresent = true;
+                if (spotifyPlaylist.Playlist.NumTracks() > 0)
+                {
+                    _playlistViewModel.PlaylistEmpty = false;
+                }
             }
             else
             {
