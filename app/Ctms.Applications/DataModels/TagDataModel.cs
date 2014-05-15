@@ -94,8 +94,15 @@ namespace Ctms.Applications.DataModels
                 }
                 else if (difference > 0)
                 {   // turned tag anti-clockwise
+                    if (activeOptionsIndex != 0)
+                    {
+                        activeOptionsIndex--;
+                    }
+                    else
+                    {
+                        activeOptionsIndex = ActiveLayerOptions.Count() - 1;
+                    }
 
-                    activeOptionsIndex--; ;
                     RotateBackgr();
 
                     lastHandledAngle = Tag.Angle;
@@ -164,9 +171,18 @@ namespace Ctms.Applications.DataModels
                     {
                         for (var i = 0; i < CommonVal.Tag_VisibleOptionsCount; i++)
                         {
-                            var option = ActiveLayerOptions.ElementAt((activeOptionsIndex + i) % (ActiveLayerOptions.Count() - 1));
-                        
-                            optionsList.Add(option);
+                            try
+                            {
+                                var option = ActiveLayerOptions.ElementAt((activeOptionsIndex + i) % (ActiveLayerOptions.Count() - 1));
+
+                                optionsList.Add(option);
+                            }
+                            catch (Exception)
+                            {
+                                
+                                throw;
+                            }
+                            
                         }
                     }
                 }
