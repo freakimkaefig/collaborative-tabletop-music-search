@@ -1,0 +1,36 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <BitmapSource x:Key="WriterImageSource">Images/Writer.ico</BitmapSource>
+    
+    <Image x:Key="NewImage" x:Shared="False" Source="Images/New.png" Height="16" Width="16"/>
+    <Image x:Key="OpenImage" x:Shared="False" Source="Images/Open.png" Height="16" Width="16"/>
+    <Image x:Key="SaveImage" x:Shared="False" Source="Images/Save.png" Height="16" Width="16"/>
+    <Image x:Key="PrintImage" x:Shared="False" Source="Images/Print.png" Height="16" Width="16"/>
+    <Image x:Key="PrintPreviewImage" x:Shared="False" Source="Images/PrintPreview.png" Height="16" Width="16"/>
+
+    <Image x:Key="UndoImage" x:Shared="False" Source="Images/Undo.png" Height="16" Width="16"/>
+    <Image x:Key="RedoImage" x:Shared="False" Source="Images/Redo.png" Height="16" Width="16"/>
+    <Image x:Key="CutImage" x:Shared="False" Source="Images/Cut.png" Height="16" Width="16"/>
+    <Image x:Key="CopyImage" x:Shared="False" Source="Images/Copy.png" Height="16" Width="16"/>
+    <Image x:Key="PasteImage" x:Shared="False" Source="Images/Paste.png" Height="16" Width="16"/>
+    <Image x:Key="DeleteImage" x:Shared="False" Source="Images/Delete.png" Height="16" Width="16"/>
+
+    <Image x:Key="BoldImage" x:Shared="False" Source="Images/Bold.png" Height="16" Width="16"/>
+    <Image x:Key="ItalicImage" x:Shared="False" Source="Images/Italic.png" Height="16" Width="16"/>
+    <Image x:Key="UnderlineImage" x:Shared="False" Source="Images/Underline.png" Height="16" Width="16"/>
+    <Image x:Key="NumberingImage" x:Shared="False" Source="Images/Numbering.png" Height="16" Width="16"/>
+    <Image x:Key="BulletsImage" x:Shared="False" Source="Images/Bullets.png" Height="16" Width="16"/>
+    <Image x:Key="DecreaseIndentationImage" x:Shared="False" Source="Images/DecreaseIndentation.png" Height="16" Width="16"/>
+    <Image x:Key="IncreaseIndentationImage" x:Shared="False" Source="Images/IncreaseIndentation.png" Height="16" Width="16"/>
+    <Image x:Key="CheckSpellingImage" x:Shared="False" Source="Images/CheckSpelling.png" Height="16" Width="16"/>
+
+    <Image x:Key="CloseSmallImage" x:Shared="False" Source="Images/CloseSmall.png" Height="10" Width="11"/>
+    <Image x:Key="ClosePreviewImage" x:Shared="False" Source="Images/ClosePreview.png" Height="16" Width="16"/>
+    <Image x:Key="PinImage" x:Shared="False" Source="Images/Pin.png" Height="16" Width="16"/>
+    <Image x:Key="PinnedImage" x:Shared="False" Source="Images/Pinned.png" Height="16" Width="16"/>
+    
+    <Image x:Key="FlagEnImage" x:Shared="False" Source="Images/FlagEn.png" Height="11" Width="16"/>
+    <Image x:Key="FlagDeImage" x:Shared="False" Source="Images/FlagDe.png" Height="11" Width="16"/>
+</ResourceDictionary>

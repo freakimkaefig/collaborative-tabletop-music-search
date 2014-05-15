@@ -1,0 +1,445 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:p="clr-namespace:Ctms.Presentation.Properties"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:waf="http://waf.codeplex.com/schemas"
+    xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
+    xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" 
+    x:Class="Ctms.Presentation.Views.SearchView"
+    IsEnabled="{Binding IsEnabled}"
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
+    
+    <UserControl.Resources>
+        
+        <Storyboard x:Key="TagCombiStoryboard"  Duration="0:0:1" Name="TagCombiStoryboard"
+                     x:Shared="False"
+                    >
+            <!--RepeatBehavior="1"-->
+            <DoubleAnimation
+                Name="OpacityHold"
+                Storyboard.TargetName="combiEll"
+                Storyboard.TargetProperty="Opacity"
+                From="1.0"
+                To="1.0"
+                Duration="0:0:0.8"/>
+
+            <DoubleAnimation
+                Name="OpacityFade"
+                Storyboard.TargetName="combiEll"
+                Storyboard.TargetProperty="Opacity"
+                From="1.0"
+                To="0.5"
+                BeginTime="0:0:0.8"
+                Duration="0:0:0.2"/>
+
+                <!--<DoubleAnimation
+                Storyboard.TargetName="combiEll"
+                Storyboard.TargetProperty="(Ellipse.Height)"
+                BeginTime="0:0:0.8"
+                Duration="0:0:0.2"
+                By="50" />
+
+                <DoubleAnimation
+                Storyboard.TargetName="combiEll"
+                Storyboard.TargetProperty="(Ellipse.Width)"
+                BeginTime="0:0:0.8"
+                Duration="0:0:0.2"
+                By="50" />-->
+
+                <!--<DoubleAnimation
+                Storyboard.TargetName="ScaleTransform"
+                Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
+                To="10.0" BeginTime="0:0:8" Duration="0:0:2"
+                    />
+                <DoubleAnimation
+                Storyboard.TargetName="ScaleTransform"
+                Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
+                To="10.0" BeginTime="0:0:8" Duration="0:0:2"
+                    />-->
+
+                <!--<DoubleAnimation
+                Storyboard.TargetName="TTransform"
+                Storyboard.TargetProperty="X"
+                To="((Ellipse.Width))"
+                BeginTime="0:0:0.8"
+                Duration="0:0:0.2" />
+
+                <DoubleAnimation
+                Storyboard.TargetName="TTransform"
+                Storyboard.TargetProperty="Y"
+                To="((Ellipse.Height))"
+                BeginTime="0:0:0.8"
+                Duration="0:0:0.2" />-->
+
+            <DoubleAnimation 
+                Name="XTransform"                
+                Storyboard.TargetName="TTransform"
+                Storyboard.TargetProperty="X"
+                Duration="0:0:1" 
+                             />
+                <!--To="{Binding DataContext.CenterX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>-->
+               
+
+                <!--By Property mit Binding an Tangibles binden-->
+            <DoubleAnimation 
+                Name="YTransform"   
+                Storyboard.TargetName="TTransform"
+                Storyboard.TargetProperty="Y"
+                Duration="0:0:1">
+            </DoubleAnimation>
+        </Storyboard>
+
+    </UserControl.Resources>
+    
+   
+
+    <s:TagVisualizer x:Name="SearchTagVisualizer" Width="1920" Height="1080" VisualizationAdded="OnVisualizationAdded"                      
+                     VisualizationRemoved="OnVisualizationRemoved" 
+                     GotTouchCapture="SearchTagVisualizer_GotTouchCapture"
+                     GotFocus="SearchTagVisualizer_GotFocus"
+                     SourceUpdated="SearchTagVisualizer_SourceUpdated"
+                     TouchEnter="SearchTagVisualizer_TouchEnter"
+                     TouchDown="SearchTagVisualizer_TouchDown"
+                     >
+  
+            <!--<ScrollViewer Name="SearchViewLog" Content="{Binding SearchViewLog}" Height="400" Width="400" ></ScrollViewer>-->
+        <Grid Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+<<<<<<< HEAD
+            <s:SurfaceButton Content="Search" Command="{Binding StartSearchCmd}" 
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" Margin="0,0,0,0" />
+            <Rectangle x:Name="Fft1" HorizontalAlignment="Center" Margin="395,0,1235,0" 
+                       Width="47" Height="{Binding Fft1Value}" VerticalAlignment="Center" 
+                       Fill="DeepSkyBlue" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft2"  HorizontalAlignment="Center" Margin="455,0,1175,0" Width="47" Height="{Binding Fft2Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft3" HorizontalAlignment="Center" Margin="515,0,1115,0" Width="47" Height="{Binding Fft3Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft4" HorizontalAlignment="Center" Margin="575,0,1055,0" Width="47" Height="{Binding Fft4Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft5" HorizontalAlignment="Center" Margin="635,0,995,0" Width="47" Height="{Binding Fft5Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft6" HorizontalAlignment="Center" Margin="695,0,935,0" Width="47" Height="{Binding Fft6Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft7" Margin="755,0,875,0" Height="{Binding Fft7Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" HorizontalAlignment="Center" Width="47" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft8" Margin="815.25,0" Height="{Binding Fft8Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Width="47" HorizontalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft9" Margin="875,0,755,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft9Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft10" Margin="935,0,695,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft10Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft11" Margin="995,0,635,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft11Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft12" Margin="1055,0,575,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft12Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft13" Margin="1115,0,515,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft13Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft14" Margin="1175,0,455,0" HorizontalAlignment="Center" Width="47" Height="{Binding Fft14Value}" Fill="DeepSkyBlue" VerticalAlignment="Center" Opacity="0.75">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+=======
+
+            <s:SurfaceButton Command="{Binding StartSearchCmd}" 
+                HorizontalAlignment="Center" Height="100" Width="100"
+                VerticalAlignment="Center" Margin="-6,6,0,0" Background="{StaticResource ResourceKey=searchButton}"/>
+            <Ellipse x:Name="Hilfskreis" Fill="#FFB596B6" Margin="671,249,671,253" Visibility="Hidden"/>
+            <Rectangle x:Name="Fft1" Margin="761.167,321.333,0,0" 
+                       Width="120" Height="10" 
+                       Fill="#72010018" RenderTransformOrigin="0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-82.122"/>
+            			<TranslateTransform X="-95.372" Y="239.351"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft2" Margin="866.499,255.666,0,0" Height="10" Fill="#7200032B" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-58.148"/>
+            			<TranslateTransform X="-184.487" Y="184.45"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft3" Margin="0,241.672,815.162,0" Height="10" Fill="#72000743" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-34.869"/>
+            			<TranslateTransform X="-244.039" Y="94.232"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft4" Margin="0,280.335,699.499,0" Height="10" Fill="#59000B5A" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-10.384"/>
+            			<TranslateTransform X="-259.562" Y="-14.265"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft5" Margin="0,361.667,607.166,0" Height="10" Fill="#5900148D" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="14.478"/>
+            			<TranslateTransform X="-228.034" Y="-118.303"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft6" Margin="0,468.333,547.833,0" Height="10" Fill="#59001FC6" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="36.932"/>
+            			<TranslateTransform X="-166.641" Y="-192.387"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft7" Margin="0,594.666,547.168,0" Fill="#590029E9" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" Height="10" VerticalAlignment="Top">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="60.796"/>
+            			<TranslateTransform X="-72.98" Y="-243.027"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft8" Margin="0,715.33,583.162,0" Height="10" Fill="#59003FFF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="82.913"/>
+            			<TranslateTransform X="18.23" Y="-257.915"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft9" Margin="0,809.999,663.751,0" Height="10" Fill="#59004BF3" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-251.234"/>
+            			<TranslateTransform X="112.046" Y="-231.583"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft10" Margin="0,865.084,792.25,0" Height="10" Fill="#59005AFF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-227.991"/>
+            			<TranslateTransform X="195.972" Y="-173.101"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft11" Margin="872.5,844,0,0" Height="10" Fill="#590069FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-202.437"/>
+            			<TranslateTransform X="252.701" Y="-63.212"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft12" Margin="761.501,771.332,0,0" Height="10" Fill="#590078FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="120" HorizontalAlignment="Left">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-179.264"/>
+            			<TranslateTransform X="252.52" Y="57.092"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft13" Margin="694.498,660.003,0,0" Height="10" Fill="#590087FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-155.254"/>
+            			<TranslateTransform X="197.992" Y="164.952"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft14" Margin="667.498,542.001,0,0" Height="10" Fill="#590096FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-131.334"/>
+            			<TranslateTransform X="114.145" Y="229.963"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+            	<Rectangle.Effect>
+            		<BlurEffect Radius="15"/>
+            	</Rectangle.Effect>
+>>>>>>> 425ac9d55139eec15163960cb678527c3df02ea8
+            </Rectangle>
+            <Rectangle x:Name="Fft15" Margin="697.831,419.998,0,0" Height="10" Fill="#5900A5FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-107.561"/>
+            			<TranslateTransform X="5.096" Y="258.382"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="15"/>
+                </Rectangle.Effect>
+            </Rectangle>
+
+            <ItemsControl 
+                Name="TagCombinationsControl"
+                ItemsSource="{Binding TagCombinations}" 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                    >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <ItemsControl Name="TagCombinationTagsControl"
+                                ItemsSource="{Binding Tags}" 
+                                Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" >
+                                
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Loaded="combiTag_Loaded" Unloaded="combiTag_Unloaded">
+                                            
+                                            <TextBlock 
+                                                Name="HiddenTagCombiId"
+                                                Text="{Binding DataContext.Id, 
+                                                RelativeSource={RelativeSource  AncestorType={x:Type ItemsControl}}}"
+                                                Visibility="Hidden"
+                                                />
+                                            <Ellipse Name="combiEll"
+                                                Height="15"
+                                                Width="15"
+                                                Opacity="0.7"
+                                                Fill="#afff">
+                                                <Ellipse.RenderTransform>
+                                                    <TranslateTransform x:Name="TTransform" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}" />
+                                                </Ellipse.RenderTransform>
+                                                    <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
+                                                <Ellipse.Effect>
+                                                    <BlurEffect Radius="5"/>
+                                                </Ellipse.Effect>
+                                            </Ellipse>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        
+    </s:TagVisualizer>
+    
+    
+</UserControl>

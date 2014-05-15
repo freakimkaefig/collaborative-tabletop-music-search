@@ -1,0 +1,414 @@
+﻿/* ---------- Search Spotify ---------- */
+public void SpotifySearch()
+{
+	search = Search.Create(session, "artist:Katy Perry", 0, 0, 0, 250, 0, 0, 0, 0, SearchType.Standard, SessionListener.SearchComplete, null);
+}
+
+	public void SearchComplete(Search result, object nativeUserdata)
+        {
+            var album = result.Album(0);
+            var albumName = album.Name();
+            
+            var artist = album.Artist().Name();
+
+            var numTracks = result.NumTracks();
+
+            var query = result.Query();
+
+            //_musicStreamManager.logMessages.Enqueue("\tQUERY: " + query);
+            //_musicStreamManager.logMessages.Enqueue("\tINTERPRET: " + artist);
+            //_musicStreamManager.logMessages.Enqueue("\tALBUM: " + albumName);
+        }
+
+
+/* ---------- Get Track by ID ---------- */
+Track track = Track.GetPlayable(_session, Link.CreateFromString("spotify:track:4lCv7b86sLynZbXhfScfm2").AsTrack());
+
+
+/* ---------- Adding Songs to Playlist ---------- */
+_playlistManager = new MusicStreamPlaylistManager(this, playlist);    //Creating new PlaylistManager
+Track track = Track.GetPlayable(_session, Link.CreateFromString("spotify:track:4lCv7b86sLynZbXhfScfm2").AsTrack());
+Track[] tracks = new Track[1];
+tracks[0] = track
+_playlistManager.AddTracksToPlaylist(session, playlist, GetTestTracks()); //Adding Tracks to playlist
+
+
+/* ---------- Writing Bytes into File ---------- */
+ByteArrayToFile("test.pcm", _copiedFrames);
+
+public bool ByteArrayToFile(string _FileName, byte[] _ByteArray)
+{
+	try
+    {
+		// Open file for reading
+        System.IO.FileStream _FileStream = new System.IO.FileStream(_FileName, System.IO.FileMode.Create, System.IO.FileAccess.Write);
+        
+		// Writes a block of bytes to this stream using data from a byte array.
+        _FileStream.Write(_ByteArray, 0, _ByteArray.Length);
+		
+		// close file stream
+        _FileStream.Close();
+		
+		return true;
+	}
+    catch (Exception _Exception)
+    {
+		// Error
+        Console.WriteLine("Exception caught in process: {0}", _Exception.ToString());
+    }
+	
+	// error occured, return false
+    return false;
+}
+
+/* --------- GetTrackInfo -------- */
+var test1 = playlist.Name();	//Getting Name of Playlist
+var test2 = playlist.Track(0);	//Getting first Track of Playlist
+var test3 = test2.Artist(0);	//Getting first Artist of Track
+var test4 = test3.Name();		//Getting Name of Artist
+
+
+/* ---------- PlaylistManager ---------- */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using SpotifySharp;
+
+namespace MusicStream
+{
+    class MusicStreamPlaylistManager
+    {
+        private MusicStreamSessionManager _sessionManager;
+        private MusicStreamPlaylistListener _playlistListener;
+
+        public MusicStreamPlaylistManager(MusicStreamSessionManager sessionManager, Playlist playlist)
+        {
+            // TODO: Complete member initialization
+            this._sessionManager = sessionManager;
+
+            _playlistListener = new MusicStreamPlaylistListener(_sessionManager);
+            playlist.AddCallbacks(_playlistListener, null);
+        }
+
+        public void AddTracksToPlaylist(SpotifySession session, Playlist playlist, Track[] tracks)
+        {
+            playlist.AddTracks(tracks, playlist.NumTracks(), session);
+        }
+
+        public void RemoveTracksFromPlaylist(Playlist playlist, int[] tracks)
+        {
+            playlist.RemoveTracks(tracks);
+        }
+
+        public String GetPlaylistMetadata(Playlist playlist)
+        {
+            //Metadata in String packen und zurückgeben
+            String name = playlist.Name();
+            int numTracks = playlist.NumTracks();
+            String description = playlist.GetDescription();
+
+            return "Name: " + name + " | Description: " + description + " | Tracks: " + numTracks;
+        }
+    }
+}
+
+/* ---------------- Open Playlist -------------*/
+public void OpenPlaylist(Playlist playlist)
+        {
+            logMessages.Enqueue("Opening Playlist: '" + playlist.Name() + "'.");
+            _currentPlaylist = playlist;
+            _playlistListener = new MusicStreamPlaylistListener(this);
+            _currentPlaylist.AddCallbacks(_playlistListener, _userdata);
+
+            //LoadTrack(playlist.Track(0));
+            _currentTrackIndex = 0;
+        }
+
+
+<!--<DataGrid ItemsSource="{Binding Playlists}" AutoGenerateColumns="False" Margin="0,25.83,0,0" >
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="" Width="Auto" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <s:SurfaceButton Content="{Binding Name}" Command="{Binding DataContext.OpenPlaylistCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewTouchDown">
+                                            <ei:GoToStateAction StateName="OpenPlaylistDialogInvisible"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Click">
+                                            <ei:GoToStateAction StateName="OpenPlaylistDialogInvisible"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </s:SurfaceButton>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>-->
+
+
+
+//Results HoldGesture Handler
+private void Results_HoldGesture(object sender, GestureEventArgs e)
+{
+	FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+    ScatterViewItem draggedElement = null;
+
+    // Find the ScatterViewItem object that is being touched.
+    while (draggedElement == null && findSource != null)
+    {
+		if ((draggedElement = findSource as ScatterViewItem) == null)
+        {
+			findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+        }
+    }
+
+    if (draggedElement == null)
+    {
+		return;
+    }
+
+    ResultDataModel data = draggedElement.Content as ResultDataModel;
+
+    // Set the dragged element. This is needed in case the drag operation is canceled.
+    data.DraggedElement = draggedElement;
+
+    // Create the cursor visual.
+    ContentControl cursorVisual = new ContentControl()
+    {
+		Content = draggedElement.DataContext,
+        Style = FindResource("ResultCursorStyle") as Style
+    };
+
+    // Create a list of input devices, 
+    // and add the device passed to this event handler.
+    List<InputDevice> devices = new List<InputDevice>();
+    devices.Add(e.TouchDevice);
+
+    // If there are touch devices captured within the element,
+    // add them to the list of input devices.
+    foreach (InputDevice device in draggedElement.TouchesCapturedWithin)
+    {
+		if (device != e.TouchDevice)
+        {
+			devices.Add(device);
+        }
+    }
+
+    // Get the drag source object.
+    ItemsControl dragSource = ItemsControl.ItemsControlFromItemContainer(draggedElement);
+
+    // Start the drag-and-drop operation.
+    SurfaceDragCursor cursor =
+    SurfaceDragDrop.BeginDragDrop(
+		// The ScatterView object that the cursor is dragged out from.
+        dragSource,
+        // The ScatterViewItem object that is dragged from the drag source.
+        draggedElement,
+        // The visual element of the cursor.
+        cursorVisual,
+        // The data attached with the cursor.
+        draggedElement.DataContext,
+        // The input devices that start dragging the cursor.
+        devices,
+        // The allowed drag-and-drop effects of the operation.
+        DragDropEffects.Copy);
+
+    // If the cursor was created, the drag-and-drop operation was successfully started.
+    if (cursor != null)
+    {
+		// Hide the ScatterViewItem.
+        //draggedElement.Visibility = Visibility.Hidden;
+
+        // This event has been handled.
+        e.Handled = true;
+    }
+
+    e.Handled = (cursor != null);
+}
+
+
+//Results MouseDoubleClick
+private void Results_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+            ScatterViewItem clickedElement = null;
+
+            // Find the ScatterViewItem object that is being touched.
+            while (clickedElement == null && findSource != null)
+            {
+                if ((clickedElement = findSource as ScatterViewItem) == null)
+                {
+                    findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                }
+            }
+
+            if (clickedElement == null)
+            {
+                return;
+            }
+
+            ResultDataModel data = clickedElement.Content as ResultDataModel;
+
+            _viewModel.PrelistenCommand.Execute((object)data);
+        }
+
+
+
+
+
+private void Results_ContainerDeactivated(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement dropTargetLeft = _viewModel.DropTargetLeft as FrameworkElement;
+            FrameworkElement dropTargetRight = _viewModel.DropTargetRight as FrameworkElement;
+
+            FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+            ScatterViewItem draggedElement = null;
+
+            // Find the ScatterViewItem object that is being touched.
+            while (draggedElement == null && findSource != null)
+            {
+                if ((draggedElement = findSource as ScatterViewItem) == null)
+                {
+                    findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                }
+            }
+
+            if (draggedElement == null)
+            {
+                return;
+            }
+
+            ResultDataModel data = draggedElement.Content as ResultDataModel;
+
+            Rect dropLeftRect = new Rect(dropTargetLeft.Margin.Top, dropTargetLeft.Margin.Left, dropTargetLeft.ActualWidth, dropTargetLeft.ActualHeight);
+            Rect dropRightRect = new Rect(dropTargetRight.Margin.Top, dropTargetRight.Margin.Left, dropTargetRight.ActualWidth, dropTargetRight.ActualHeight);
+
+            Point dragCenter = draggedElement.ActualCenter;
+            double x = dragCenter.X - (draggedElement.ActualWidth / 2);
+            double y = dragCenter.Y - (draggedElement.ActualHeight / 2);
+            Point dragTopLeft = new Point(x, y);
+            Size dragSize = new Size(draggedElement.ActualWidth, draggedElement.ActualHeight);
+            Rect dragRect = new Rect(dragTopLeft, dragSize);
+
+            bool left = GetRectOfObject(dropTargetLeft).IntersectsWith(GetRectOfObject(draggedElement));
+            bool right = GetRectOfObject(dropTargetRight).IntersectsWith(GetRectOfObject(draggedElement));
+        }
+
+        private Rect GetRectOfObject(FrameworkElement element)
+        {
+            Rect rectangleBounds = new Rect();
+            rectangleBounds = element.RenderTransform.TransformBounds(new Rect(element.Margin.Left, element.Margin.Top, element.Width, element.Height));
+            return rectangleBounds;
+        }
+
+
+
+
+/* Results Drag&Drop alt */
+//Drag & Drop from ResultView(ScatterView) to PlaylistView(SurfaceButton)
+        private void PlaylistAddDropTarget_DragEnter(object sender, SurfaceDragDropEventArgs e)
+        {
+            e.Cursor.Visual.Tag = "DragEnter";
+        }
+
+        private void PlaylistAddDropTarget_DragLeave(object sender, SurfaceDragDropEventArgs e)
+        {
+            e.Cursor.Visual.Tag = null;
+        }
+
+        private void PlaylistAddDropTarget_Drop(object sender, SurfaceDragDropEventArgs e)
+        {
+            FrameworkElement frameworkElement = sender as FrameworkElement;
+            
+            Image animatedImage = null;
+
+            if (frameworkElement.Name == "DropTargetLeft")
+            {
+                animatedImage = PlusImageLeft;
+            }
+            else if (frameworkElement.Name == "DropTargetRight")
+            {
+                animatedImage = PlusImageRight;
+            }
+
+            object[] data = new object[]
+            {
+                e.Cursor.Data as ResultDataModel,
+                animatedImage as Image,
+            };
+            _viewModel.AddTrackCommand.Execute(data);
+        }
+
+
+
+
+
+
+
+		private void Results_ContainerDeactivated(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.PlaylistOpened == true)
+            {
+                FrameworkElement dropTargetLeft = _viewModel.DropTargetLeft as FrameworkElement;
+                FrameworkElement dropTargetRight = _viewModel.DropTargetRight as FrameworkElement;
+
+                ScatterView scatterView = e.Source as ScatterView;
+
+                FrameworkElement findSource = e.OriginalSource as FrameworkElement;
+                ScatterViewItem draggedElement = null;
+
+                // Find the ScatterViewItem object that is being touched.
+                while (draggedElement == null && findSource != null)
+                {
+                    if ((draggedElement = findSource as ScatterViewItem) == null)
+                    {
+                        findSource = VisualTreeHelper.GetParent(findSource) as FrameworkElement;
+                    }
+                }
+
+                if (draggedElement == null)
+                {
+                    return;
+                }
+
+                Rect dropLeftBounds = VisualTreeHelper.GetDescendantBounds(dropTargetLeft);
+                Rect dropRightBounds = VisualTreeHelper.GetDescendantBounds(dropTargetRight);
+                Rect dragRect = VisualTreeHelper.GetDescendantBounds(draggedElement);
+
+                GeneralTransform transformLeft = scatterView.TransformToVisual(dropTargetLeft);
+                GeneralTransform transformRight = scatterView.TransformToVisual(dropTargetRight);
+
+                bool leftC = dropLeftBounds.Contains(transformLeft.Transform(draggedElement.ActualCenter));
+                bool rightC = dropRightBounds.Contains(transformRight.Transform(draggedElement.ActualCenter));
+
+                if (dropLeftBounds.Contains(transformLeft.Transform(draggedElement.ActualCenter)))
+                {
+                    ResultDataModel result = draggedElement.Content as ResultDataModel;
+
+                    object[] data = new object[]
+                    {
+                        draggedElement.Content as ResultDataModel,
+                        _viewModel.PlusImageLeft as Image,
+                    };
+
+                    _viewModel.AddTrackCommand.Execute(data);
+                    draggedElement.Visibility = System.Windows.Visibility.Collapsed;
+                }
+
+                if (dropRightBounds.Contains(transformRight.Transform(draggedElement.ActualCenter)))
+                {
+                    ResultDataModel result = draggedElement.Content as ResultDataModel;
+
+                    object[] data = new object[]
+                    {
+                        draggedElement.Content as ResultDataModel,
+                        _viewModel.PlusImageRight as Image,
+                    };
+
+                    _viewModel.AddTrackCommand.Execute(data);
+                    draggedElement.Visibility = System.Windows.Visibility.Collapsed;
+                }
+            }
+        }

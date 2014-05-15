@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ImageResources.xaml"/>
+        <ResourceDictionary Source="CommonStyleResources.xaml"/>
+        <ResourceDictionary Source="DetailStyleResources.xaml"/>
+        <ResourceDictionary Source="MenuStyleResources.xaml"/>
+        <ResourceDictionary Source="PlaylistStyleResources.xaml"/>
+        <ResourceDictionary Source="ResultStyleResources.xaml"/>
+        <ResourceDictionary Source="SearchStyleResources.xaml"/>
+        <ResourceDictionary Source="InfoStyleResources.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/addToPlaylist.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/arrowRight.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/artist.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/artist2.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/checkmark.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/edit.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/error.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/gear.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/gear2.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/genre.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/genre2.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/home.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/hourglass.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/info.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/minus.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/pause.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/play.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/playlistLeft.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/playlistRight.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/plus.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/repeat.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/rotate.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/titel.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/title2.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/search.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/searchButton.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/shuffle.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/stop.xaml"/>
+        <ResourceDictionary Source="Images/Common/icons/volume.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>
