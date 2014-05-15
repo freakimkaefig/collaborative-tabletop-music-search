@@ -48,7 +48,7 @@ namespace Ctms.Applications.DataModels
                 if (Math.Abs(_centerX - value) > 15)
                 {
                     _centerX = value;
-                    //Console.WriteLine("set CenterX: " + _centerX + ", id: " + _id + ", count tags: " + _tags.Count);
+                    //Console.WriteLine("set CenterX: " + _centerX + ", id: " + _id + ", activeOptionsCount tags: " + _tags.Count);
                     RaisePropertyChanged("CenterX");
                 }
             }
@@ -63,7 +63,7 @@ namespace Ctms.Applications.DataModels
                 if (Math.Abs(_centerY - value) > 15)
                 {
                     _centerY = value;
-                    //Console.WriteLine("set CenterY: " + _centerY + ", id: " + _id + ", count tags: " + _tags.Count);
+                    //Console.WriteLine("set CenterY: " + _centerY + ", id: " + _id + ", activeOptionsCount tags: " + _tags.Count);
                     RaisePropertyChanged("CenterY");
                 }
             }

@@ -318,7 +318,7 @@ namespace Ctms.Applications.Workers
             // if given input is invalid mark info as warning
             var mainText = isInputValid == false ? "Invalid input" : "";
 
-            _infoWorker.ShowTagInfo(mainText, "Choose a value " + range, tagId);         
+            _infoWorker.ShowTagInfo(mainText, "Choose a value " + range + " (tap +/- or type)", tagId);         
         }
 
         /// <summary>
@@ -513,23 +513,35 @@ namespace Ctms.Applications.Workers
                             if (attribute.max == 1.0 && IsAttributeInputValid(tagDM, attribute, (termsNr - 0.1)))
                             {   // range is 0.0 till 1.0 -> small steps
                                 termsNr -= 0.1;
+
+                                // remove previously shown infos
+                                _infoWorker.RemoveTagInfo(tagId);
                             }
                             else if (IsAttributeInputValid(tagDM, attribute, (termsNr - 1)))
+                            {
                                 termsNr--; // large steps
 
-                            // remove previously shown infos
-                            _infoWorker.RemoveTagInfo(tagId);
+                                // remove previously shown infos
+                                _infoWorker.RemoveTagInfo(tagId);
+                            }
                         }
                         else if (editType == "Raise")
                         {   // raise is valid
                             if (attribute.max == 1.0 && IsAttributeInputValid(tagDM, attribute, (termsNr + 0.1)))
+                            {
                                 // range is 0.0 till 1.0 -> small steps
                                 termsNr += 0.1;
+
+                                // remove previously shown infos
+                                _infoWorker.RemoveTagInfo(tagId);
+                            }
                             else if (IsAttributeInputValid(tagDM, attribute, (termsNr + 1)))
+                            {
                                 termsNr++; // large steps
 
-                            // remove previously shown infos
-                            _infoWorker.RemoveTagInfo(tagId);
+                                // remove previously shown infos
+                                _infoWorker.RemoveTagInfo(tagId);
+                            }
                         }
                         else
                         {   // lower and raise aren't valid. show warning.
@@ -579,8 +591,10 @@ namespace Ctms.Applications.Workers
             }
             else if (e.Error != null)
             {
+                if (tagDM != null)
+                    SetIsLoadingInfoVisible(tagDM, false);
+
                 _infoWorker.ShowCommonInfo("Error", "An error occurred while searching for artist suggestions");
-                       //e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
             }
             else if(e.Result != null && !(e.Result is TagDataModel))
             {
@@ -655,8 +669,10 @@ namespace Ctms.Applications.Workers
             }
             else if (e.Error != null)
             {
-                _infoWorker.ShowCommonInfo("Error", "An error occurred while searching for title suggestions"); 
-                    //e.Error.Message + e.Error.StackTrace + e.Error.InnerException);
+                if (tagDM != null)
+                    SetIsLoadingInfoVisible(tagDM, false);
+
+                _infoWorker.ShowCommonInfo("Error", "An error occurred while searching for title suggestions");
             }
             else if (e.Result != null && !(e.Result is TagDataModel))
             {
@@ -774,6 +790,7 @@ namespace Ctms.Applications.Workers
 
             LoadKeywordTypes(tagId);
 
+            SetIsLoadingInfoVisible(tagDM, false);
             SetKeywordTypesIsVisible(tagDM, true);
             SetIsKeywordVisible(tagDM, false);
             SetIsInputVisible(tagDM, false);
@@ -825,51 +842,6 @@ namespace Ctms.Applications.Workers
         {
             // assign keyword to tag
             tagDm.Tag.AssignedKeyword = tagOption.Keyword;
-
-            //Cutting Keyword in two pieces for displaying in circle
-            /*int offsetBottomFirst = -10;
-            int offsetBottomSecond = -50;
-            int offsetTopFirst = 180;
-            int offsetTopSecond = 120;
-            int factor = 10;
-            
-            //tagDm.Tag.AssignedKeyword.DisplayName = "12345678901234567890";
-            if (tagDm.Tag.AssignedKeyword.DisplayName.Count() > 14)
-            {
-                tagDm.Tag.AssignedKeyword.DisplayNameFirst = tagDm.Tag.AssignedKeyword.DisplayName.Substring(0, 14);
-                //tagDm.Tag.AssignedKeyword.ReferenceAngleFirst = 130;
-                if (tagDm.Tag.AssignedKeyword.DisplayName.Count() > 28)
-                {
-                    tagDm.Tag.AssignedKeyword.DisplayNameSecond = tagDm.Tag.AssignedKeyword.DisplayName.Substring(14, 14) + "...";
-                    offsetBottomFirst = -10;
-                    offsetBottomSecond = -50;
-                    offsetTopFirst = 180;
-                    offsetTopSecond = 120;
-                }
-                else
-                {
-                    tagDm.Tag.AssignedKeyword.DisplayNameSecond = tagDm.Tag.AssignedKeyword.DisplayName.Substring(14, tagDm.Tag.AssignedKeyword.DisplayName.Count() - 14);
-                    offsetBottomFirst = -10;
-                    offsetBottomSecond = -20;
-                    offsetTopFirst = 180;
-                    offsetTopSecond = 170;
-                }
-            }
-            else
-            {
-                tagDm.Tag.AssignedKeyword.DisplayNameFirst = tagDm.Tag.AssignedKeyword.DisplayName;
-                tagDm.Tag.AssignedKeyword.DisplayNameSecond = "";
-                offsetBottomFirst = -10;
-                offsetBottomSecond = -50;
-                offsetTopFirst = 180;
-                offsetTopSecond = 120;
-            }
-
-            tagDm.Tag.AssignedKeyword.ReferenceAngleBottomFirst = (tagDm.Tag.AssignedKeyword.DisplayNameFirst.Count() * factor) + offsetBottomFirst;
-            tagDm.Tag.AssignedKeyword.ReferenceAngleBottomSecond = (tagDm.Tag.AssignedKeyword.DisplayNameSecond.Count() * factor) + offsetBottomSecond;
-            tagDm.Tag.AssignedKeyword.ReferenceAngleTopFirst = (tagDm.Tag.AssignedKeyword.DisplayNameFirst.Count() * factor) + offsetTopFirst;
-            tagDm.Tag.AssignedKeyword.ReferenceAngleTopSecond = (tagDm.Tag.AssignedKeyword.DisplayNameSecond.Count() * factor) + offsetTopSecond;
-            */
 
             // remove previously shown infos
             _infoWorker.RemoveTagInfo(tagDm.Id);

@@ -124,13 +124,12 @@ namespace Ctms.Applications.Workers
             var tagPosY = tagDm.Tag.PositionY;
             var tagPosX = tagDm.Tag.PositionX;
 
-
-            var infoHeight = 80.0F;
+            var infoHeight = 40.0F;
 
             if (tagDm.Tag.Orientation >= 180)
             {
-                var infoPadding = 40.0F;
-                info.Info.PositionX = tagPosX + tagDm.Width / 2.0F;
+                var infoPadding = 30.0F;
+                info.Info.PositionX = tagPosX - tagDm.Width / 2.0F;
 
                 if (0 < tagPosY - tagDm.Height / 2.0 - infoHeight + infoPadding)
                 {
@@ -145,16 +144,15 @@ namespace Ctms.Applications.Workers
             } 
             else
             {
-                var infoMargin = -40.0F;
                 info.Info.PositionX = tagPosX - tagDm.Width / 2.0F;
 
-                if (_shellVm.WindowHeight > tagPosY + tagDm.Height / 2.0 + infoHeight + infoMargin)
+                if (_shellVm.WindowHeight > tagPosY + tagDm.Height / 2.0 + infoHeight - 60.0F)
                 {   // place the info below the tag because there's space
-                    info.Info.PositionY = tagPosY + tagDm.Height / 2.0F + infoMargin;
+                    info.Info.PositionY = tagPosY + tagDm.Height / 2.0F - 60.0F;
                 }
                 else
                 {   // place the info above the tag because below there's no space
-                    info.Info.PositionY = tagPosY - tagDm.Height / 2.0F - infoHeight - infoMargin;
+                    info.Info.PositionY = tagPosY - tagDm.Height / 2.0F - 30.0F;
                 }
             }
             RemoveTagInfo(tagId);

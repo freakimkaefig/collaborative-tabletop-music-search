@@ -64,9 +64,6 @@
                                     <TextBlock 
                                                Text="{Binding Info.MainText}" FontWeight="Bold" 
                                                TextWrapping="Wrap" FontSize="16" HorizontalAlignment="Stretch"/>
-                                    <!--<TextBlock 
-                                               Text="{Binding Info.SubText}" FontWeight="Bold" HorizontalAlignment="Stretch"
-                                               TextWrapping="Wrap" />-->
 
                                     <TextBox Background="Transparent" FontWeight="Bold" 
                                          BorderThickness="0"
@@ -133,10 +130,6 @@
                                     <TextBlock  
                                        Text="{Binding Info.MainText}" FontWeight="Bold"
                                        TextWrapping="Wrap" FontSize="16"/>
-                                    <!--<TextBlock 
-                                       Text="{Binding Info.SubText}" FontWeight="Bold"  
-                                       TextWrapping="Wrap" />-->
-
                                     <TextBox Background="Transparent" FontWeight="Bold" 
                                          BorderThickness="0"
                                          Text="{Binding Info.SubText, Mode=OneWay}"
@@ -177,7 +170,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <DataTemplate.Triggers>
+                    <!--<DataTemplate.Triggers>
                         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
@@ -189,35 +182,58 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                    </DataTemplate.Triggers>
-                    <Grid HorizontalAlignment="Stretch" Background="#5000">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        
-                        <Grid.RenderTransform>
+                    </DataTemplate.Triggers>-->
+                    <Border BorderBrush="#fff" CornerRadius="10" BorderThickness="1" 
+                            VerticalAlignment="Top" Width="375" Height="Auto" RenderTransformOrigin="0.5,0.5">
+
+                        <Border.RenderTransform>
                             <RotateTransform Angle="{Binding Tag.Tag.Orientation}"/>
-                        </Grid.RenderTransform>
-                        
-                        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" 
-                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                   TextWrapping="Wrap"/>
-                        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" 
-                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                   TextWrapping="Wrap"/>
-                        <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Center"
-                                         Command="{Binding DataContext.ConfirmTagInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                                         CommandParameter="{Binding TagId}"
-                                         Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"
-                                         />
-                    </Grid>
+                        </Border.RenderTransform>
+                        <Grid VerticalAlignment="Top" Background="#9014" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Info.MainText}" FontWeight="Bold" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       TextWrapping="Wrap" Height="Auto"
+                                       >
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Info.SubText}" FontWeight="Bold" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       TextWrapping="Wrap" Height="Auto" MinHeight="18">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <Trigger Property="Text" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <s:SurfaceButton Grid.Row="2" Grid.ColumnSpan="3" Content="{Binding ConfirmText}" HorizontalAlignment="Center" Height="Auto"
+                                             Command="{Binding DataContext.ConfirmTagInfoCmd, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                             CommandParameter="{Binding TagId}"
+                                             Visibility="{Binding IsConfirmable, Converter={StaticResource visibilityConverter}}"
+                                             />
+                        </Grid>
+                    </Border>
                 </DataTemplate>
                 
             </ItemsControl.ItemTemplate>

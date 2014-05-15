@@ -61,11 +61,12 @@ namespace Ctms.Applications.DataModels
         public int CurrentOptionsIndex { get { return (int)activeOptionsIndex; } }
 
         /// <summary>
-        /// Compute which options shall be visible, regarding tag angle and count of option placeholders
+        /// Compute which options shall be visible, regarding tag angle and activeOptionsCount of option placeholders
         /// </summary>
         public void UpdateVisibleOptions()
         {
             var difference = lastHandledAngle - Tag.Angle;
+            var optionsCount = ActiveLayerOptions.Count();
 
             //Console.WriteLine("difference: " + difference);
 
@@ -75,7 +76,7 @@ namespace Ctms.Applications.DataModels
             // e.g. 5 - 355 = -350 change to: 365 - 355 = 10
             if (difference < -180) difference = difference + 360;
 
-            if (Math.Abs(difference) > CommonVal.Tag_OptionsStepAngle)
+            if (Math.Abs(difference) > CommonVal.Tag_OptionsStepAngle && optionsCount > 1)
             {   // absolute difference is big enough to scroll to next options
 
                 if (difference < 0)
@@ -167,23 +168,22 @@ namespace Ctms.Applications.DataModels
                 }
                 else
                 {
-                    if (ActiveLayerOptions.Count() > 0)
+                    var activeOptionsCount = ActiveLayerOptions.Count();
+
+                    if (activeOptionsCount > 1)
                     {
                         for (var i = 0; i < CommonVal.Tag_VisibleOptionsCount; i++)
                         {
-                            try
-                            {
-                                var option = ActiveLayerOptions.ElementAt((activeOptionsIndex + i) % (ActiveLayerOptions.Count() - 1));
+                            TagOption option;
+                            option = ActiveLayerOptions.ElementAt((activeOptionsIndex + i) % (activeOptionsCount - 1));
 
-                                optionsList.Add(option);
-                            }
-                            catch (Exception)
-                            {
-                                
-                                throw;
-                            }
+                            optionsList.Add(option);
                             
                         }
+                    }
+                    else if(activeOptionsCount == 1)
+                    {
+                        optionsList.Add(ActiveLayerOptions.ElementAt(0));
                     }
                 }
                 return EntitiesHelper.ToObservableCollection<TagOption>(optionsList);

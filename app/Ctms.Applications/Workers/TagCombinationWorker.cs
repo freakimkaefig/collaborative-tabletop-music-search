@@ -75,6 +75,8 @@ namespace Ctms.Applications.Workers
         /// <param name="myTagId"></param>
         public void CheckCombisForTag(int myTagId)
         {
+            Log("CheckCombisForTag: " + myTagId);
+
             // get moved tag and calculate position
             var myTag    = _repository.GetTagDMById(myTagId);
 
@@ -84,12 +86,14 @@ namespace Ctms.Applications.Workers
                 var combi = _repository.GetTagCombiWithTag(myTag);
                 if (combi != null && combi.Tags.Count >= 3)
                 {
+                    Log("Start: combi != null && combi.Tags.Count >= 3: " + myTagId);
                     combi.Tags.Remove(myTag);
                     CheckCombisForTag(combi.Tags.FirstOrDefault().Id);
                     return;
                 }
                 else if (combi != null && combi.Tags.Count == 2)
                 {
+                    Log("Start: combi != null && combi.Tags.Count >= 3: " + myTagId);
                     _repository.RemoveTagCombination(combi);
                     return;
                 }
@@ -114,18 +118,18 @@ namespace Ctms.Applications.Workers
 
                 if (distance < CommonVal.Tag_CombineCircleDiameter)
                 {   // distance is inside combi radius
-                    //Log("distance < CommonVal.Tag_CombineCircleDiameter ");
+                    Log("distance < CommonVal.Tag_CombineCircleDiameter ");
                     if (combiWithMyTag == null)
                     {   // movedTag not combined with any tags right now
-                        //Log("combiWithMovedTag == null");
+                        Log("combiWithMovedTag == null");
                         var possibleCombiType = GetPossibleCombiType(myTag, compareTag, combiWithMyTag, combiWithCompareTag);
 
                         if (possibleCombiType != CombinationTypes.None)
                         {   // movedTag and compareTag can be combined
-                            //Log("possibleCombiType != KeywordTypes.None ");
+                            Log("possibleCombiType != KeywordTypes.None ");
                             if (combiWithCompareTag == null)
                             {   // no combi of movedTag or compareTag with any other tags right now -> create new 
-                                //Log("combiWithCompareTag == null > create new ");
+                                Log("combiWithCompareTag == null > create new ");
 
                                 combiWithMyTag = CreateTagCombi(myTag, compareTag, possibleCombiType);
 
@@ -141,7 +145,7 @@ namespace Ctms.Applications.Workers
                     // distance < CommonVal.Tag_CombineCircleDiameter
                     else if (combiWithCompareTag == null)
                     {   // movedTag is combined, but compareTag not -> add compareTag to movedTag combie
-                        //Log("combiWithCompareTag == null ");
+                        Log("combiWithCompareTag == null ");
                         var possibleCombiType = GetPossibleCombiType(myTag, compareTag, combiWithMyTag, combiWithCompareTag);
                         if (possibleCombiType != CombinationTypes.None)
                         {   // movedTag and compareTag can be combined
@@ -168,19 +172,19 @@ namespace Ctms.Applications.Workers
                     }
                 }
                 // distance is bigger than radius for combination
-                else if (combiWithMyTag != null)
+                else if (combiWithMyTag != null && combiWithMyTag.Tags.Contains(compareTag))
                 {   // tag is in a combi -> remove from combi
                     Log("combiWithMovedTag != null");
 
                     if (combiWithMyTag.Tags.Count <= 2)
                     {
-                        //Log("combiWithMovedTag.Tags.Count <= 2 > remove combi ");
+                        Log("combiWithMovedTag.Tags.Count <= 2 > remove combi ");
                         // remove combi from repository
                         _repository.RemoveTagCombination(combiWithMyTag);
                     }
                     else if (combiWithMyTag.Tags.Count >= 3)
                     {
-                        //Log("combiWithMovedTag.Tags.Count >= 3 > remove from combiWithMovedtag ");
+                        Log("combiWithMovedTag.Tags.Count >= 3 > remove from combiWithMovedtag ");
                         combiWithMyTag.Tags.Remove(myTag);
                         
                         return;
@@ -199,7 +203,7 @@ namespace Ctms.Applications.Workers
 
         private static void Log(string message)
         {
-            //DevLogger.Log(message);
+            DevLogger.Log(message);
         }
 
 
