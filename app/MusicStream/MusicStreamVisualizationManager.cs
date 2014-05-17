@@ -31,15 +31,13 @@ namespace MusicStream
         /// <param param name="num_frames"></param>
         public void MusicDeliveryCallback(AudioFormat format, byte[] frames, int num_frames, double howmuchsec)
         {
-            int channels = format.channels;                 //Channels = 2
-            int sampleRate = format.sample_rate;            //SampleRate = 44100
-            SampleType sampleType = format.sample_type;     //SampleType = Int16NativeEndian
+            int channels = format.channels;                 
+            int sampleRate = format.sample_rate;           
+            SampleType sampleType = format.sample_type;     
 
             AudioBufferStats stats = _sessionManager.GetCurrentAudioBufferStats();
-            int samples = stats.samples; //Anzahl der abgespielten bzw. gebufferten Bytes
-            int stutter = stats.stutter; //"Hänger"
-
-            //Debug.WriteLine("DATA received:\nSamples: "+samples+"\nHänger: "+stutter+"\nFrames: "+frames);
+            int samples = stats.samples; 
+            int stutter = stats.stutter; 
 
             //BYTE[] to DOUBLE[]
             Double[] preparedFrames = new Double[frames.Length + 1];
@@ -55,9 +53,6 @@ namespace MusicStream
         }
 
       
-        //add normalization? before or after Fft calculation?
-        //see: http://forum.processing.org/two/discussion/1836/how-to-smooth-audio-fft-data/p1
-        //what about channels and sampleRate while preparing byte[] to double[] ?
         public Double[] prepareBytes(int channels, int sampleRate, byte[] frames)
         {
             Double[] data = new Double[frames.Length / 4];
