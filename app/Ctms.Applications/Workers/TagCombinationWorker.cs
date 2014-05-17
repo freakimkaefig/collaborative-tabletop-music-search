@@ -45,6 +45,7 @@ namespace Ctms.Applications.Workers
         public void Initialize()
         {
 
+
         }
 
         public bool CanStartSearch() { return _searchVm.IsValid; }
@@ -54,7 +55,7 @@ namespace Ctms.Applications.Workers
         /// No tag can be in more than one tag combi, so check combinations with others
         /// </summary>
         /// <param name="myTagId"></param>
-        public void CheckCombisForTag(int myTagId)
+        public void CheckCombisForTag_Old(int myTagId)
         {
             Log("CheckCombisForTag: " + myTagId);
 
@@ -178,6 +179,182 @@ namespace Ctms.Applications.Workers
                 if(combi.Tags.Count >= 2)
                     UpdateCenter(combi);
             }
+        }
+
+        /// <summary>
+        /// Check if tag is in radius for combination with tags.
+        /// If yes create a new combi or if the compare tag is already in another combi add myTag to that.
+        /// No tag can be in more than one tag combi, so check combinations with others.
+        /// The distance is calculated by
+        /// </summary>
+        /// <param name="myTagId"></param>
+        public void CheckCombisForTag(int myTagId)
+        {
+            Log("CheckCombisForTag: " + myTagId);
+
+            // get moved tag and calculate position
+            var myTag = _repository.GetTagDMById(myTagId);
+
+            // remove myTag from any combi if myTag is in edit or removed state
+            if (myTag.AssignState == TagDataModel.AssignStates.Editing || myTag.ExistenceState == TagDataModel.ExistenceStates.Removed)
+            {
+                var combi = _repository.GetTagCombiWithTag(myTag);
+                if (combi != null && combi.Tags.Count >= 3)
+                {
+                    // remove tag from combi because there are more than 1 tags left
+                    combi.Tags.Remove(myTag);
+                    // check if remaining tags may still be in a combi
+                    CheckCombisForTag(combi.Tags.FirstOrDefault().Id); 
+                    
+                    if (combi.Tags.Count >= 2)
+                        UpdateCenter(combi);
+                    return;
+                }
+                else if (combi != null && combi.Tags.Count == 2)
+                {
+                    // delete complete combi because there is just one tag left
+                    _repository.RemoveTagCombination(combi);
+
+                    return;
+                }
+            }
+
+            var compareTags = _repository.GetAddedAndAssignedTagsWithout(myTag.Id);
+            int xDistance;
+            int yDistance;
+            double distance;
+            TagCombinationDataModel combiWithMyTag;
+            TagCombinationDataModel combiWithCompareTag;
+            var tagCombis = _repository.GetTagCombinations();
+
+            // check combination
+            foreach (var compareTag in compareTags)
+            {
+                // get tag combination if there's one for this tag
+                combiWithMyTag = _repository.GetTagCombiWithTag(myTag);
+                combiWithCompareTag = _repository.GetTagCombiWithTag(compareTag);
+
+                if (combiWithMyTag == null && combiWithCompareTag == null)
+                {   // tags are not in a combi right now
+
+                    CalculateTagToTagDistance(myTag, compareTag, out xDistance, out yDistance, out distance);
+
+                    if (distance < CommonVal.Tag_CombineCircleDiameter)
+                    {   // tags are in combi radius
+                        
+                        // check if combi is possible
+                        var possibleCombiType = GetPossibleCombiType(myTag, compareTag, combiWithMyTag, combiWithCompareTag);
+
+                        if (possibleCombiType != CombinationTypes.None)
+                        {
+                            combiWithMyTag = CreateTagCombi(myTag, compareTag, possibleCombiType);
+
+                            _repository.AddTagCombination(combiWithMyTag);
+                            break;
+                        }
+                    }
+                }
+                else if (combiWithMyTag == null && combiWithCompareTag != null)
+                {   // check if myTag can be combined with compareCombi
+                    CalculateTagToCombiCenterDistance(myTag, combiWithCompareTag, out xDistance, out yDistance, out distance);
+
+                    if (distance < CommonVal.Tag_CombineCircleDiameter)
+                    {
+                        // check if combi is possible
+                        var possibleCombiType = GetPossibleCombiType(myTag, compareTag, combiWithMyTag, combiWithCompareTag);
+
+                        if (possibleCombiType != CombinationTypes.None)
+                        {
+                            combiWithCompareTag.Tags.Add(myTag);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        combiWithCompareTag.Tags.Remove(myTag);
+                        break;
+                    }
+                }
+                else if (combiWithMyTag != null && combiWithCompareTag == null)
+                {
+                    CalculateTagToCombiCenterDistance(compareTag, combiWithMyTag, out xDistance, out yDistance, out distance);
+
+                    if (distance < CommonVal.Tag_CombineCircleDiameter)
+                    {
+                        combiWithMyTag.Tags.Add(compareTag);
+                        break;
+                    }
+                    else
+                    {
+                        combiWithMyTag.Tags.Remove(myTag);
+                        break;
+                    }
+                }
+                else if (combiWithMyTag != null && combiWithMyTag == combiWithCompareTag)
+                {   // the tags are in the same combi
+                    
+                    // check if myTag is too far from its combi center
+                    if (combiWithMyTag.Tags.Count == 2)
+                    {   // just 2 tags, so calculate direct distance
+                        CalculateTagToTagDistance(myTag, compareTag, out xDistance, out yDistance, out distance);
+                    }
+                    else
+                    {   // more than 2 tags, so calculate distance to combi center
+                        CalculateTagToCombiCenterDistance(myTag, combiWithMyTag, out xDistance, out yDistance, out distance);
+                    }
+
+                    if (distance > CommonVal.Tag_CombineCircleDiameter)
+                    {
+                        if (combiWithMyTag.Tags.Count == 2)
+                        {   // only those 2 tags in this combi. delete it.
+                            _repository.RemoveTagCombination(combiWithMyTag);
+                            break;
+                        }
+                        else
+                        {   // more than 2 tags in this  combi. remove myTag.
+                            combiWithMyTag.Tags.Remove(myTag);
+                            break;
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    // if both tags are already in different combinations don't do anything. 
+                    // makes the algorithm much easier and is better usable
+                }
+            }
+
+            // update center of all tag combis
+            foreach (var combi in _repository.GetTagCombinations())
+            {
+                if (combi.Tags.Count >= 2)
+                    UpdateCenter(combi);
+            }
+        }
+
+        /// <summary>
+        /// Calculate distance between tags. Use primitive variables with out to improve performance
+        /// </summary>
+        private static void CalculateTagToTagDistance(TagDataModel myTag, TagDataModel compareTag, out int xDistance, out int yDistance, out double distance)
+        {
+            // calculate distance of tags by pythagoras formula (a² + b² = c²)
+            xDistance = myTag.Tag.PositionX - compareTag.Tag.PositionX;
+            yDistance = myTag.Tag.PositionY - compareTag.Tag.PositionY;
+            distance = Math.Sqrt(Math.Pow(xDistance, 2.0) + Math.Pow(yDistance, 2.0));
+        }
+
+
+
+        /// <summary>
+        /// Calculate distance between a tag and center of compareCombi. Use primitive variables with out to improve performance
+        /// </summary>
+        private static void CalculateTagToCombiCenterDistance(TagDataModel myTag, TagCombinationDataModel compareCombi, out int xDistance, out int yDistance, out double distance)
+        {
+            // calculate distance of tags by pythagoras formula (a² + b² = c²)
+            xDistance = (int) (myTag.Tag.PositionX - compareCombi.CenterX);
+            yDistance = (int) (myTag.Tag.PositionY - compareCombi.CenterY);
+            distance = Math.Sqrt(Math.Pow(xDistance, 2.0) + Math.Pow(yDistance, 2.0));
         }
 
         private static void Log(string message)

@@ -210,6 +210,15 @@ namespace Ctms.Applications.Data
         }
 
         /// <summary>
+        /// Get all added and assigned tags excluded the given tag
+        /// </summary>
+        public IEnumerable<TagDataModel> GetAddedAndAssignedTagsWithout(int tagId)
+        {
+            return _searchVm.Tags.Where(t => t.ExistenceState == TagDataModel.ExistenceStates.Added
+                && t.AssignState == TagDataModel.AssignStates.Assigned && t.Id != tagId);
+        }
+
+        /// <summary>
         /// Get all TagDataModels
         /// </summary>
         /// <returns></returns>
