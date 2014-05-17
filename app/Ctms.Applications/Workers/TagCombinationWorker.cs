@@ -49,6 +49,10 @@ namespace Ctms.Applications.Workers
 
         public bool CanStartSearch() { return _searchVm.IsValid; }
 
+        /// <summary>
+        /// Remove a tag from its combination
+        /// </summary>
+        /// <param name="removeTagId">Id of the tag to remove</param>
         public void RemoveTagFromCombi(int removeTagId)
         {
             // get moved tag and calculate position
@@ -58,13 +62,6 @@ namespace Ctms.Applications.Workers
             if (tagCombi != null)
             {
                 tagCombi.Tags.Remove(removeTag);
-                /*
-                var remainingTag = tagCombi.Tags.FirstOrDefault();
-                if (remainingTag != null)
-                {
-                    // calculate if remaining tags can still be combined
-                    CheckCombisForTag(remainingTag.Id);
-                }*/
             }
         }
 

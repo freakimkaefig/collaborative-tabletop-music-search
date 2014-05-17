@@ -20,6 +20,9 @@ using Ctms.Presentation.Converters;
 using Microsoft.Surface.Presentation.Controls;
 using Microsoft.Surface.Presentation.Input;
 using PieInTheSky;
+using System.Diagnostics;
+using System.Collections;
+using Helpers;
 
 namespace Ctms.Presentation.Views
 {
@@ -53,6 +56,9 @@ namespace Ctms.Presentation.Views
         private Storyboard storyboardResource;
         private Brush backgroundColor;
         private Brush textColor;
+        private Random rnd;
+        private Stopwatch timer;
+        private TimingHelper timingHelper;
 
         //private TextBox focusedElement;
         //private KeyboardController keyboard;
@@ -82,6 +88,9 @@ namespace Ctms.Presentation.Views
             //focusedElement = this.KeyboardInput;
             //initKeyboard(); 
             InitPieMenu();
+
+            timingHelper = new TimingHelper();
+            timingHelper.InitTimeMeasure();
         }
 
         private void InitPieMenu()
@@ -186,36 +195,52 @@ namespace Ctms.Presentation.Views
             // calculate visibility and create dynamic resource
             var converter = new BooleanToVisibilityConverter();
             var isVisible = converter.Convert(tagDM.IsMenuVisible, null, null, null);
+
             searchTagView.Resources["IsMenuVisible"] = isVisible;
         }
 
         public void UpdateVisual(int tagId)
         {
+            //timingHelper.StartMeasureTime();
             UpdateMenuItems(tagId);
+            //Console.WriteLine("UpdateMenuItems");
+            //timingHelper.StopMeasureTime();
+
+            //timingHelper.StartMeasureTime();
             UpdateResources(SearchTagViews[tagId], tagId, _viewModel.Tags[tagId]);
+            //Console.WriteLine("UpdateResources");
+            //timingHelper.StopMeasureTime();
+
+            //timingHelper.StartMeasureTime();
             CalcMenuVisibility(SearchTagViews[tagId], _viewModel.Tags[tagId]);
+            //Console.WriteLine("CalcMenuVisibility");
+            //timingHelper.StopMeasureTime();
 
+            //timingHelper.StartMeasureTime();
+            // update pie menu visually
             var pieMenu = SearchTagViews[tagId].PieMenu;
-
             foreach (PieMenuItem item in pieMenu.Items)
             {
                 item.InvalidateVisual();
-                item.InvalidateProperty(PieMenuItem.HeaderProperty);
-                item.InvalidateProperty(PieMenuItem.SubHeaderProperty);
             }
             pieMenu.InvalidateVisual();
+            //Console.WriteLine("InvalidateVisual");
+            //timingHelper.StopMeasureTime();
         }
 
         /// <summary>
-        /// Update items of pie menu
+        /// Update items of pie menu: clear old items and add new items. Set values by binding
         /// </summary>
         public void UpdateMenuItems(int tagId)
         {
-            var pieMenu = SearchTagViews[tagId].PieMenu;
-            var tagDM = _viewModel.Tags[tagId];
-            var pieMenuItems    = (ItemCollection)pieMenu.Items;
-            var options = tagDM.VisibleOptions;
-            var count = options.Count;
+            //Console.WriteLine("UpdateMenuItems");
+            //timingHelper.StartMeasureTime();
+
+            var pieMenu     = SearchTagViews[tagId].PieMenu;
+            var tagDM       = _viewModel.Tags[tagId];
+            var pieMenuItems= (ItemCollection)pieMenu.Items;
+            var options     = tagDM.VisibleOptions;
+            var count       = options.Count;
             var i = 0;
             TagOption option;
 
@@ -238,7 +263,7 @@ namespace Ctms.Presentation.Views
                 };
 
                 if (options.Count == 1 || options.Count == 2 || options.Count == 3)
-                {
+                {   // center text if there are 1-3 options and make it bigger
                     pieMenuItem.FontSize = 14;
                     pieMenuItem.CenterTextHorizontal = true;
                 }
@@ -246,102 +271,67 @@ namespace Ctms.Presentation.Views
                 {
                     if (i == 0)
                     {
+                        // this is a main item. center it and make it bigger
                         pieMenuItem.FontSize = 14;
                         pieMenuItem.CenterTextHorizontal = true;
                     }
                     else
-                    {
+                    {   // this is not a main item
                         pieMenuItem.FontSize = 12;
                         pieMenuItem.CenterTextHorizontal = false;
                     }
                 }
 
-                // Id binding
-                Binding idBinding = new Binding("Id");
-                idBinding.Source = option;
-                idBinding.NotifyOnSourceUpdated = true;
-                idBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                pieMenuItem.SetBinding(PieMenuItem.IdProperty, idBinding);
+                // set id and header
+                pieMenuItem.Id      = option.Id;
+                pieMenuItem.Header  = option.Keyword.DisplayName;
 
-                // Header binding
-                Binding headerBinding = new Binding("Keyword.DisplayName");
-                headerBinding.Source = option;
-                headerBinding.NotifyOnSourceUpdated = true;
-                headerBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-                pieMenuItem.SetBinding(PieMenuItem.HeaderProperty, headerBinding);
-
-                // Command binding
+                // bind command
                 Binding commandBinding = new Binding("SelectOptionCmd");
                 commandBinding.Source = _viewModel;
                 commandBinding.NotifyOnSourceUpdated = true;
                 commandBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 pieMenuItem.SetBinding(PieMenuItem.CommandProperty, commandBinding);
-
+                
                 pieMenu.Items.Add(pieMenuItem);
             }
 
             pieMenu.InvalidateVisual();
+
+            //timingHelper.StopMeasureTime();
         }
 
-        private childItem FindVisualChild<childItem>(DependencyObject obj)
-            where childItem : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is childItem)
-                    return (childItem)child;
-                else
-                {
-                    childItem childOfChild = FindVisualChild<childItem>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
-            return null;
-        }
-
-        public IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
-        {
-            if (depObj != null)
-            {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-                {
-                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-                    if (child != null && child is T)
-                    {
-                        yield return (T)child;
-                    }
-
-                    foreach (T childOfChild in FindVisualChildren<T>(child))
-                    {
-                        yield return childOfChild;
-                    }
-                }
-            }
-        }
-
+        /// <summary>
+        /// Tag has been removed from table, so update variables
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnVisualizationRemoved(object sender, TagVisualizerEventArgs e)
         {
-            _viewModel.AddLog("SV: OnVisualizationRemoved");
-
             var searchTagView = (SearchTagView)e.TagVisualization;
             var tagId = (int)searchTagView.VisualizedTag.Value;
             var tagDM = _viewModel.Tags[tagId];
 
-            tagDM.ExistenceState = TagDataModel.ExistenceStates.Removed;
-
             _viewModel.OnVisualizationRemoved(tagDM);
         }
 
+        /// <summary>
+        /// Stop animation loop when tag is removed from combintion
+        /// </summary>
         private void combiTag_Unloaded(object sender, RoutedEventArgs e)
         {
             Storyboard storyboardResource = this.Resources["TagCombiStoryboard"] as Storyboard;
             storyboardResource.Completed -= (p, s) => PlayCombiAnimation(null);
         }
 
+        /// <summary>
+        /// Start animation when tag is loaded
+        /// </summary>
+        /// <param name="sender">The grid which contains the ellipse</param>
+        /// <param name="e"></param>
         private void combiTag_Loaded(object sender, RoutedEventArgs e)
         {
+            // the grid which contains the ellipse
             var grid = sender as Grid;
 
             // get ellipse by name
@@ -353,43 +343,51 @@ namespace Ctms.Presentation.Views
 
             var parameters = new Tuple<Storyboard, Ellipse, TagCombinationDataModel>(storyboardResource, ellipse, combi);
 
+            // create loop of animation
             storyboardResource.Completed += (p, s) => PlayCombiAnimation(parameters);
 
+            // first start
             PlayCombiAnimation(parameters);
         }
 
+        /// <summary>
+        /// Play combination animation for a tag
+        /// </summary>
+        /// <param name="parameters">Tuple of storyboard, ellipse and tagCombinaton</param>
         private void PlayCombiAnimation(Tuple<Storyboard, Ellipse, TagCombinationDataModel> parameters)
         {
-            var storyboard  = parameters.Item1;
-            var ellipse     = parameters.Item2;
-            var combi       = parameters.Item3;
+            //timingHelper.StartMeasureTime();
 
             // loop through animation elements of storyboard
-            var animationElements = storyboard.Children;
-            foreach (var animationElement in animationElements)
+            foreach (var animationElement in parameters.Item1.Children)
             {
                 if (animationElement.Name == "XTransform")
-                {
-                    var xTransform = animationElement as DoubleAnimation;
+                {   //set animation's from and to for x coordinate
 
-                    if (ellipse.DataContext is TagDataModel)
-                        xTransform.From = ((TagDataModel)ellipse.DataContext).Tag.PositionX;
+                    // start from tag position
+                    if (parameters.Item2.DataContext is TagDataModel)
+                        (animationElement as DoubleAnimation).From = ((TagDataModel)parameters.Item2.DataContext).Tag.PositionX;
 
-                    xTransform.To = combi.CenterX;
+                    // end at combi center
+                    (animationElement as DoubleAnimation).To = parameters.Item3.CenterX;
                 }
                 else if (animationElement.Name == "YTransform")
-                {
-                    var yTransform = animationElement as DoubleAnimation;
+                {   //set animation's from and to for y coordinate
 
-                    if (ellipse.DataContext is TagDataModel)
-                        yTransform.From = ((TagDataModel)ellipse.DataContext).Tag.PositionY;
-
-                    yTransform.To = combi.CenterY;
+                    // start from tag position
+                    if (parameters.Item2.DataContext is TagDataModel)
+                        (animationElement as DoubleAnimation).From = ((TagDataModel)parameters.Item2.DataContext).Tag.PositionY;
+                    
+                    // end at combi center
+                    (animationElement as DoubleAnimation).To = parameters.Item3.CenterY;
                 }
             }
-          
-            storyboard.Begin(ellipse, true);
+            // start storyboard animation
+            parameters.Item1.Begin(parameters.Item2, true);
+
+            //timingHelper.StopMeasureTime();
         }
+
 
         private void SearchTagVisualizer_GotFocus(object sender, RoutedEventArgs e)
         {

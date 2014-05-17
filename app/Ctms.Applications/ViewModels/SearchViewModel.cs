@@ -613,8 +613,14 @@ namespace Ctms.Applications.ViewModels
             _searchView.UpdateVisual(tagDM.Id);
         }
 
+        /// <summary>
+        /// Tag has been removed from table. Remove from combi.
+        /// </summary>
         public void OnVisualizationRemoved(TagDataModel tagDm)
         {
+            // update state
+            tagDm.ExistenceState = TagDataModel.ExistenceStates.Removed;
+
             // remove tag from possible combinations
             RemoveTagFromCombi.Execute(tagDm.Id);            
         }

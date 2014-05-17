@@ -271,7 +271,7 @@
         		CommandParameter="{DynamicResource TagId}"
         		Visibility="{DynamicResource IsEditVisible}"
         		Style="{StaticResource SearchViewBtn}"
-        		Background="{StaticResource ResourceKey=edit}" Margin="29.999,96.333,0,95.667"/>
+        		Background="{StaticResource ResourceKey=edit}" Margin="50,96.333,0,95.667"/>
 
                 <!--Breadcrumb-->
         	<s:SurfaceButton DataContext="{DynamicResource SearchVM}"

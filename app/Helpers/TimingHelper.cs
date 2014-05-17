@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace Helpers
 {
-    public static class TimingHelper
+    public class TimingHelper
     {
         public static void SetTimeout(int milliseconds, Action func)
         {
@@ -40,6 +41,26 @@ namespace Helpers
             //}
 
             public Action Action { get; set; }
+        }
+
+        private double lastTime;
+        private Stopwatch timer;
+
+        public void InitTimeMeasure()
+        {
+            timer = new Stopwatch();
+            timer.Reset();
+            timer.Start();
+        }
+
+        public void StartMeasureTime()
+        {
+            lastTime = timer.ElapsedTicks;
+        }
+
+        public void StopMeasureTime()
+        {
+            Console.WriteLine(timer.ElapsedTicks - lastTime);
         }
     }
 }
