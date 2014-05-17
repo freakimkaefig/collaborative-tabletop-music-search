@@ -11,7 +11,7 @@ namespace Ctms.Applications.DevHelper
     public static class DevLogger
     {
         public static bool WriteFile = false;
-        public static bool WriteOuput = false;
+        public static bool WriteOuput = true;
 
         public static void Log(string message)
         {

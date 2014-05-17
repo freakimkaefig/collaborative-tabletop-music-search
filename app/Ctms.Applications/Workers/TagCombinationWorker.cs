@@ -50,22 +50,6 @@ namespace Ctms.Applications.Workers
         public bool CanStartSearch() { return _searchVm.IsValid; }
 
         /// <summary>
-        /// Remove a tag from its combination
-        /// </summary>
-        /// <param name="removeTagId">Id of the tag to remove</param>
-        public void RemoveTagFromCombi(int removeTagId)
-        {
-            // get moved tag and calculate position
-            var removeTag = _repository.GetTagDMById(removeTagId);
-            var tagCombi = _repository.GetTagCombiWithTag(removeTag);
-            
-            if (tagCombi != null)
-            {
-                tagCombi.Tags.Remove(removeTag);
-            }
-        }
-
-        /// <summary>
         /// Check if tag is in combi distance to others.
         /// No tag can be in more than one tag combi, so check combinations with others
         /// </summary>
@@ -192,15 +176,30 @@ namespace Ctms.Applications.Workers
             foreach (var combi in _repository.GetTagCombinations())
             {
                 if(combi.Tags.Count >= 2)
-                {
                     UpdateCenter(combi);
-                }
             }
         }
 
         private static void Log(string message)
         {
             DevLogger.Log(message);
+        }
+
+
+        /// <summary>
+        /// Remove a tag from its combination
+        /// </summary>
+        /// <param name="removeTagId">Id of the tag to remove</param>
+        public void RemoveTagFromCombi(int removeTagId)
+        {
+            // get moved tag and calculate position
+            var removeTag = _repository.GetTagDMById(removeTagId);
+            var tagCombi = _repository.GetTagCombiWithTag(removeTag);
+
+            if (tagCombi != null)
+            {
+                tagCombi.Tags.Remove(removeTag);
+            }
         }
 
 
@@ -332,10 +331,10 @@ namespace Ctms.Applications.Workers
         /// <param name="tags">All tags that form the polygon</param>
         /// <returns>The centroid as point</returns>
         
-        public Point GetCenterOfPolygon(TagCombinationDataModel combi){
-	        
-            var xSum = 0.0;
-            var ySum = 0.0;
+        public Point GetCenterOfPolygon(TagCombinationDataModel combi)
+        {
+            var xSum = 0;
+            var ySum = 0;
 
             foreach (var tag in combi.Tags)
             {
@@ -343,10 +342,7 @@ namespace Ctms.Applications.Workers
                 ySum += tag.Tag.PositionY;
             }
 
-            var x = xSum / combi.Tags.Count;
-            var y = ySum / combi.Tags.Count;
-
-            return new Point(x, y);
+            return new Point(xSum / combi.Tags.Count, ySum / combi.Tags.Count);
         }
 
         /// <summary>
