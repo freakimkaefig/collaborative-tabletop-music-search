@@ -6,7 +6,7 @@ using System.Text;
 namespace MusicSearch.Objects
 {
     /// <summary>
-    /// This class is used for 
+    /// This class is used for parsing echonest responses
     /// </summary>
     public class ResponseContainer
     {
