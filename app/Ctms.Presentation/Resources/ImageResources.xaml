@@ -1,0 +1,31 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <BitmapSource x:Key="BookLibraryImageSource">Images/ctms_icon.ico</BitmapSource>
+
+    <!--<BitmapSource x:Key="TitleImage" x:Shared="True" >Images/Search/tag-backgr_title.png</BitmapSource>
+    <BitmapSource x:Key="ArtistImage" x:Shared="True" >Images/Search/tag-backgr_artist.png</BitmapSource>
+    <BitmapSource x:Key="AttributeImage" x:Shared="True" >Images/Search/tag-backgr_attribute.png</BitmapSource>
+    <BitmapSource x:Key="GenreImage" x:Shared="True" >Images/Search/tag-backgr_genre.png</BitmapSource>-->
+
+    <!--<BitmapImage x:Key="TitleImage" x:Shared="True" UriSource="Images/Search/tag-backgr_title.png" ></BitmapImage>
+    <BitmapImage x:Key="ArtistImage" x:Shared="True" UriSource="Images/Search/tag-backgr_artist.png" ></BitmapImage>
+    <BitmapImage x:Key="AttributeImage" x:Shared="True" UriSource="Images/Search/tag-backgr_attribute.png" ></BitmapImage>
+    <BitmapImage x:Key="GenreImage" x:Shared="True" UriSource="Images/Search/tag-backgr_genre.png" ></BitmapImage>-->
+
+    <!--<BitmapSource x:Key="ArtistImage" x:Shared="True" Source="Images/Search/maske_dunkel.png" Height="240" Width="240"/>
+    <BitmapSource x:Key="AttributeImage" x:Shared="True" Source="Images/Search/record2.png" Height="240" Width="240"/>
+    <BitmapSource x:Key="GenreImage" rex:Shared="True" Source="Images/Search/record2.png" Height="240" Width="240"/>-->
+
+    <!--<Image x:Key="TitleImage" x:Shared="False" Source="Images/Search/tag-backgr_title.png" Height="240" Width="16"/>-->
+    <!--
+    <Image x:Key="RedoImage" x:Shared="False" Source="Images/Redo.png" Height="16" Width="16"/>
+    <Image x:Key="CutImage" x:Shared="False" Source="Images/Cut.png" Height="16" Width="16"/>
+    <Image x:Key="CopyImage" x:Shared="False" Source="Images/Copy.png" Height="16" Width="16"/>
+    <Image x:Key="PasteImage" x:Shared="False" Source="Images/Paste.png" Height="16" Width="16"/>
+    <Image x:Key="DeleteImage" x:Shared="False" Source="Images/Delete.png" Height="16" Width="16"/>
+    
+    <Image x:Key="EmailImage" x:Shared="False" Source="Images/Email.png" Height="16" Width="16"/>-->
+    
+</ResourceDictionary>

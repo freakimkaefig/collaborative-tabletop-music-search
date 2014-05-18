@@ -1,0 +1,346 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using MusicSearch.Objects;
+using Ctms.Applications.DataFactories;
+using Ctms.Domain.Objects;
+using Ctms.Applications.ViewModels;
+using System.ComponentModel.Composition;
+using Ctms.Applications.DataModels;
+using SpotifySharp;
+using MusicStream;
+using System.Collections.ObjectModel;
+using Helpers;
+using Ctms.Applications.DevHelper;
+using Ctms.Applications.Common;
+
+namespace Ctms.Applications.Workers
+{
+    [Export]
+    public class ResultWorker
+    {
+        private ResultViewModel _resultViewModel;
+        private MenuViewModel _menuViewModel;
+        private MusicStreamAccountWorker _accountWorker;
+        private InfoWorker _infoWorker;
+        private SearchWorker _searchWorker;
+        private MusicStreamSessionManager _sessionManager;
+        private MusicStreamVisualizationManager _visualizationManager;
+        private int _refreshTrialsCounter;
+        private List<ResultDataModel> _collectedResults;
+        //private FftWorker _fftWorker;
+
+        [ImportingConstructor]
+        public ResultWorker(ResultViewModel resultViewModel, MenuViewModel menuViewModel, MusicStreamAccountWorker accountWorker,
+            InfoWorker infoWorker)//, SearchWorker searchWorker)
+        {
+
+            _resultViewModel = resultViewModel;
+            _menuViewModel = menuViewModel;
+            _accountWorker = accountWorker;
+            _infoWorker = infoWorker;
+
+            _accountWorker.ResultSessionManagerCreated = ResultSessionManagerCreated;
+        }
+
+        public void Initialize(SearchWorker searchWorker)
+        {
+            _searchWorker = searchWorker;
+            InitResults();
+        }
+
+        private void ResultSessionManagerCreated(MusicStreamSessionManager sessionManager)
+        {
+            _sessionManager = sessionManager;
+        }
+
+        private void VisualizationManagerCreated(MusicStreamVisualizationManager visualizationManager)
+        {
+            _visualizationManager = visualizationManager;
+            _sessionManager.VisualizationManager = _visualizationManager;
+        }
+
+        public bool CanRefreshResults() { return _resultViewModel.IsValid; }
+
+        /// <summary>
+        /// Check songs and display them as results
+        /// </summary>
+        /// <param name="songs"></param>
+        public void RefreshResults(List<ResponseContainer.ResponseObj.Song> songs)
+        {
+            if (!_menuViewModel.IsLoggedIn)
+            {
+                _menuViewModel.ShowLoginDialog(true);
+                return;
+            }
+
+            if (songs != null && songs.Any())
+            {
+                // clear results if this is the first search trial
+                if (_refreshTrialsCounter == 0) InitResults();
+
+                foreach (var song in songs)
+                {
+                    foreach (var track in song.tracks)
+                    {   // add track only if it is playable
+                        CollectPlayableSongs(song, track);
+                    }
+                }
+            }
+            else if (songs == null || !songs.Any())
+            {   // redo if there are too few results and searching again hasn't been repeated too often
+                TryRedoSearch();
+                return;
+            }
+
+            DistinctResults();
+
+            // select all originIds (tagIds) of all results
+            var originIds = _collectedResults.SelectMany(fr => fr.OriginIds);
+
+            if (originIds == null || !originIds.Any())
+            {
+                TryRedoSearch();
+                return;
+            }
+            else if (_collectedResults.Count < CommonVal.Results_MaxNumber && _refreshTrialsCounter < 3)
+            {
+                TryRedoSearch();
+            }
+            else if (_collectedResults.Count > 0)
+            {
+                SpreadResults();
+
+                _resultViewModel.Results = EntitiesHelper.ToObservableCollection<ResultDataModel>(_collectedResults);
+
+                _collectedResults.Clear();
+
+                _refreshTrialsCounter = 0;
+            }
+            else
+            {
+                TryRedoSearch();
+            }
+        }
+
+        /// <summary>
+        /// Spread results on the different origins (tags)
+        /// </summary>
+        /// <param name="distinctResults">The results which have been distincted before</param>
+        /// <param name="originIds">The ids of all origins (tags)</param>
+        private void SpreadResults()
+        {
+            var originIds = _collectedResults.SelectMany(fr => fr.OriginIds);
+            var originNr = 0;
+
+            // get ids without duplicates
+            originIds = originIds.Distinct().ToList();
+
+            var horizontallyCollectedResults = new List<ResultDataModel>();
+
+            // collect results horizontally, which means taking a result of tag1, than tag2, tag3... tag1, tag2, tag3...
+            // until there have beent collected enough results
+            while (horizontallyCollectedResults.Count < CommonVal.Results_MaxNumber && _collectedResults.Count > 0)
+            {
+                var originId = originIds.ElementAt(originNr);
+
+                // select first result which has the currently iterating origin id (tagId)
+                var result = _collectedResults.FirstOrDefault(dr => dr.OriginIds.FirstOrDefault() == originId);
+
+                // if there is a result for this origin (tag) add it to collection
+                if (result != null)
+                {
+                    horizontallyCollectedResults.Add(result);
+
+                    // remove result so it can't be selected twice
+                    _collectedResults.Remove(result);
+                }
+
+                // continue with next origin
+                originNr++;
+
+                if (originNr == originIds.Count())
+                    // last origin in list. continue with first.
+                    originNr = 0;
+            }
+
+            _collectedResults = horizontallyCollectedResults;
+        }
+
+        /// <summary>
+        /// Check how often the search has been repeated for one search query and eventually redo
+        /// </summary>
+        private void TryRedoSearch()
+        {
+            if (_refreshTrialsCounter < 3)
+            {
+                _refreshTrialsCounter++;
+
+                //search again
+                _searchWorker.StartSearch();
+            }
+            else
+            {
+                _refreshTrialsCounter = 0;
+
+                _infoWorker.ShowCommonInfo("No results found",
+                    "Your search query didn't return any results. \nTry changing your keywords.",
+                    "Ok");
+            }
+        }
+
+        /// <summary>
+        /// Collect all songs that are playable with spotify
+        /// </summary>
+        /// <param name="song"></param>
+        /// <param name="track"></param>
+        private void CollectPlayableSongs(ResponseContainer.ResponseObj.Song song, ResponseContainer.ResponseObj.Tracks track)
+        {
+            if (_sessionManager.CheckTrackAvailability(track.foreign_id) != null)
+            {
+                //remove unwanted chars/expressions
+                String artistName = StringHelper.cleanText(song.Artist_Name);
+                String songTitle = StringHelper.cleanText(song.Title);
+
+                // add result to collection
+                _collectedResults.Add(new ResultDataModel(songTitle, artistName, _sessionManager.CheckTrackAvailability(track.foreign_id)));
+
+                ResultDataModel result = _collectedResults.Last();
+                result.OriginIds = song.originIDs;
+
+                result.OriginColors = new ObservableCollection<string>();
+                result.Result.Song.ArtistId = song.Artist_Id;
+                result.Result.Response = song;
+
+                foreach (var originId in song.originIDs)
+                {
+                    result.OriginColors.Add(CommonVal.TagColors[originId]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get results which are distinct to collected results by artistId and title
+        /// </summary>
+        private void DistinctResults()
+        {
+            // remove duplicates concerning title and artistName from collected results
+            _collectedResults = _collectedResults
+                    .GroupBy(cr => cr.Result.Song.ArtistName + cr.Result.Song.Title)
+                    .Select(r => r.First())
+                    .ToList();
+        }
+
+        /// <summary>
+        /// Reset results to init state
+        /// </summary>
+        public void InitResults()
+        {
+            _collectedResults = new List<ResultDataModel>();
+            _resultViewModel.Results.Clear();
+        }
+
+        public void RefreshDetails(List<ResponseContainer.ResponseObj.ArtistInfo> response, ResultDataModel result)
+        {
+            if (response != null)
+            {
+                if (response.Count > 0)
+                {
+                    var r = response[0];
+                    Detail d = new Detail();
+
+                    //About
+                    d.Name = r.name;
+
+                    foreach (var biography in r.biographies)
+                    {
+                        if (biography.text.Length > 500)
+                        {
+                            d.Biography = "\r\n\r\nBIOGRAPHY:\r\n\r\n" + StringHelper.cleanText(biography.text);
+                            break;
+                        }
+                    }
+
+                    if (r.artist_location != null && r.artist_location.Any())
+                        d.City = r.artist_location[0].location;
+                    else d.City = "";
+
+                    d.Image = new ArtistImage();
+                    if(r.images != null && r.images.Any())
+                    d.Image.ImageUrl = r.images[0].url;
+
+                    if (r.terms != null)
+                    {
+                        d.Genres = new List<String>();
+                        for (var i = 0; i < r.terms.Count; i++)
+                        {
+                            d.Genres.Add(r.terms[i].name);
+                            if (i == 3) break;
+                        }
+                    }
+
+                    //News
+                    d.News = new ObservableCollection<ArtistNews>();
+                    foreach (var news in r.news)
+                    {
+                        ArtistNews newsEntry = new ArtistNews();
+                        newsEntry.Title = StringHelper.cleanText(news.name);
+                        newsEntry.Summary = StringHelper.cleanText(news.summary);
+                        newsEntry.Url = news.url;
+                        d.News.Add(newsEntry);
+                    }
+
+                    //Media
+                    d.Images = new ObservableCollection<ArtistImage>();
+                    foreach (var images in r.images)
+                    {
+                        ArtistImage image = new ArtistImage();
+                        image.ImageUrl = images.url;
+                        d.Images.Add(image);
+                    }
+                    d.Videos = new ObservableCollection<ArtistVideo>();
+                    foreach (var videos in r.video)
+                    {
+                        ArtistVideo video = new ArtistVideo();
+                        video.Title = StringHelper.cleanText(videos.title);
+                        video.VideoUrl = videos.url;
+                        video.PreviewUrl = videos.image_url;
+                        d.Videos.Add(video);
+                    }
+
+                    //Reviews
+                    d.Reviews = new ObservableCollection<ArtistReview>();
+                    foreach (var reviews in r.reviews)
+                    {
+                        ArtistReview review = new ArtistReview();
+                        review.Name = StringHelper.cleanText(reviews.name);
+                        review.Release = StringHelper.cleanText(reviews.release);
+                        review.Summary = StringHelper.cleanText(reviews.summary);
+                        review.Url = reviews.url;
+                        d.Reviews.Add(review);
+                    }
+
+                    //Songs
+                    d.Songs = new ObservableCollection<ArtistSong>();
+                    foreach (var songs in r.ArtistSongs)
+                    {
+                        ArtistSong song = new ArtistSong();
+                        song.Title = StringHelper.cleanText(songs.title);
+                        song.TrackId = songs.title_id;
+                        d.Songs.Add(song);
+                    }
+
+                    result.Detail = d;
+                    result.IsDetailLoading = false;
+                    result.IsDetailLoaded = true;
+                }
+            }
+        }
+
+        public void PrelistenFromDetailView(String spotifyTrackId)
+        {
+             
+        }
+    }
+}

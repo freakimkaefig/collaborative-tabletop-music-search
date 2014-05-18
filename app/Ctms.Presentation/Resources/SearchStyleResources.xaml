@@ -1,0 +1,167 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"    
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:waf="http://waf.codeplex.com/schemas"
+    xmlns:c="clr-namespace:Ctms.Presentation.Converters">
+    
+    <!--
+        This document is used for specific style definitions for the search view.
+        Hints: 
+            TargetType: Type of the elemnt that shall be affected.
+            BasedOn: Optional attribute for deriving from other styles.
+            Setters: Multiple elements that define style properties.
+            StaticResource: Use of custom predefined common values like color.
+    -->
+
+    <!--Key styles-->
+    <Style x:Key="SearchViewBtn" TargetType="s:SurfaceButton">
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style x:Key="BreadcrumbBtn" TargetType="s:SurfaceButton">
+        <Setter Property="Height" Value="15" />
+        <Setter Property="Width" Value="60" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground" Value="#999" />
+        <Setter Property="Background" Value="#5555" />
+    </Style>
+
+    <Style x:Key="AssignedKeyword" TargetType="TextBlock">
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground" Value="#FFF" />
+        <Setter Property="Background" Value="#5029" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="30" />
+    </Style>
+
+    
+    <!-- <Storyboard x:Key="Tests">
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"                           Storyboard.TargetName="kugel1" RepeatBehavior="Forever">
+            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.95" Value="400"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+            
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"                           Storyboard.TargetName="kugel2" RepeatBehavior="Forever">
+            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.38" Value="250"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.76" Value="100"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.33" Value="-180"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+            
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"                           Storyboard.TargetName="kugel3" RepeatBehavior="Forever">
+            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.38" Value="120"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.76" Value="0"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.33" Value="-200"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+            
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"                           Storyboard.TargetName="kugel4" RepeatBehavior="Forever">
+            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:0.95" Value="-400"/>
+            <EasingDoubleKeyFrame KeyTime="0:0:1.9" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+         
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="kugel1" RepeatBehavior="Forever">
+            <EasingColorKeyFrame KeyTime="0" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.38" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.76" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.95" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.33" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.52" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.9" Value="Black"/>
+        </ColorAnimationUsingKeyFrames>
+            
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="kugel2" RepeatBehavior="Forever">
+            <EasingColorKeyFrame KeyTime="0" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.38" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.76" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.95" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.33" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.52" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.9" Value="Red"/>
+        </ColorAnimationUsingKeyFrames>
+            
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="kugel3" RepeatBehavior="Forever">
+            <EasingColorKeyFrame KeyTime="0" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.38" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.76" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.95" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.33" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.52" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.9" Value="Black"/>
+        </ColorAnimationUsingKeyFrames>
+            
+        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="kugel4" RepeatBehavior="Forever">
+            <EasingColorKeyFrame KeyTime="0" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.38" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.76" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:0.95" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.33" Value="Red"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.52" Value="Black"/>
+            <EasingColorKeyFrame KeyTime="0:0:1.9" Value="Red"/>
+        </ColorAnimationUsingKeyFrames> 
+    </Storyboard>-->
+    
+    <DataTemplate x:Key="RectangleAnimation">
+        
+        <Grid x:Name="LayoutRoot">
+
+          <!--  <Grid.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard x:Name="Tests_BeginStoryboard" Storyboard="{StaticResource Tests}"/>
+                </EventTrigger>
+            </Grid.Triggers>  -->
+
+
+                <!-- Rectangle animiert ohne Visualstategroups !-->
+                <Rectangle Name="rect1"
+                   Height="20"
+                   Width="20"
+                   Fill="White"
+                   Margin="0,0,0,200">
+                    <Rectangle.RenderTransform>
+                        <TranslateTransform x:Name="TTransform" X="0" Y="0"/>
+                    </Rectangle.RenderTransform>
+
+                    <Rectangle.Triggers>
+                        <EventTrigger RoutedEvent="MouseDown">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="TTransform"
+                                             Storyboard.TargetProperty="X"
+                                             To="150"
+                                             Duration="0:0:0.5"
+                                             AutoReverse="True"
+                                             RepeatBehavior="Forever"/>
+                                    <DoubleAnimation Storyboard.TargetName="TTransform"
+                                             Storyboard.TargetProperty="Y"
+                                             To="100"
+                                             Duration="0:0:0.5"
+                                             AutoReverse="True"
+                                             RepeatBehavior="Forever"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Rectangle.Triggers>
+                </Rectangle>
+
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

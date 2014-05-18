@@ -1,0 +1,247 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:p="clr-namespace:Ctms.Presentation.Properties"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:waf="http://waf.codeplex.com/schemas"
+    xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
+    xmlns:c="clr-namespace:Ctms.Presentation.Converters"
+    xmlns:gestures="clr-namespace:Blake.NUI.WPF.Gestures;assembly=Blake.NUI.WPF"
+    x:Class="Ctms.Presentation.Views.PlaylistView"         
+    IsEnabled="{Binding IsEnabled}"
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}"
+    Width="1920">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </UserControl.Resources>
+
+    <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
+    waf:ValidationHelper.IsEnabled="true" -->
+    <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
+    waf:ValidationHelper.IsEnabled="true" -->
+    <Grid x:Name="grid1" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5" Width="Auto">
+    	<Grid.RenderTransform>
+    		<TransformGroup>
+    			<ScaleTransform/>
+    			<SkewTransform/>
+    			<RotateTransform/>
+    			<TranslateTransform/>
+    		</TransformGroup>
+    	</Grid.RenderTransform>
+    	<VisualStateManager.VisualStateGroups>
+    		<VisualStateGroup x:Name="PlaylistViewVisibility">
+    			<VisualStateGroup.Transitions>
+    				<VisualTransition GeneratedDuration="0:0:0.5">
+    					<ei:ExtendedVisualStateManager.TransitionEffect>
+    						<ee:FadeTransitionEffect/>
+    					</ei:ExtendedVisualStateManager.TransitionEffect>
+    				</VisualTransition>
+    			</VisualStateGroup.Transitions>
+    			<VisualState x:Name="PlaylistViewInvisible"/>
+    			<VisualState x:Name="PlaylistViewVisible">
+    				<Storyboard>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+    						<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+    					</ObjectAnimationUsingKeyFrames>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="searchButton1">
+    						<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+    					</ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="searchButton2">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+    			</VisualState>
+    		</VisualStateGroup>
+    		<VisualStateGroup x:Name="PlaylistRotation">
+    			<VisualStateGroup.Transitions>
+    				<VisualTransition GeneratedDuration="0:0:0.5"/>
+    			</VisualStateGroup.Transitions>
+    			<VisualState x:Name="Rotate0"/>
+    			<VisualState x:Name="Rotate180">
+    				<Storyboard>
+    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="grid1">
+    						<EasingDoubleKeyFrame KeyTime="0" Value="180"/>
+    					</DoubleAnimationUsingKeyFrames>
+    				</Storyboard>
+    			</VisualState>
+    		</VisualStateGroup>
+    	</VisualStateManager.VisualStateGroups>
+    
+    
+    	<VisualStateManager.CustomVisualStateManager>
+    		<ei:ExtendedVisualStateManager/>
+    	</VisualStateManager.CustomVisualStateManager>
+    
+    
+		<!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
+    waf:ValidationHelper.IsEnabled="true" -->
+    
+    
+		<!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
+    waf:ValidationHelper.IsEnabled="true" -->
+		<s:SurfaceButton x:Name="DropTargetRight" Margin="0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Right" Width="120" Background="{StaticResource ResourceKey=playlistRight}"
+                         Command="{Binding ShowPlaylistCommand}">
+		</s:SurfaceButton>
+        <Image x:Name="PlusImageRight" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Right" VerticalAlignment="Center" Panel.ZIndex="-2" Margin="0,0,110,0"/>
+        <s:SurfaceButton x:Name="DropTargetLeft" Margin="0,0,0.146,0" VerticalAlignment="Center" Height="280" Panel.ZIndex="-1" HorizontalAlignment="Left" Width="120" Background="{StaticResource ResourceKey=playlistLeft}"
+                         Command="{Binding ShowPlaylistCommand}">
+        </s:SurfaceButton>
+        <Image x:Name="PlusImageLeft" Opacity="0" Width="60" Height="60" Source="../../Resources/Images/Playlist/plus.png" HorizontalAlignment="Left" VerticalAlignment="Center" Panel.ZIndex="-2" Margin="110,0,0,0"/>
+    
+    
+		<!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}"
+    waf:ValidationHelper.IsEnabled="true" -->
+		<Grid x:Name="grid" Margin="0,0,0,0" Background="Black" RenderTransformOrigin="0.5,0.5" Visibility="Hidden" Panel.ZIndex="3">
+			<Grid.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform Angle="0"/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Grid.RenderTransform>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+            <TextBlock Height="44" FontSize="30" Margin="110,15,158,0" Text="{Binding CurrentPlaylistName}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" VerticalAlignment="Top"/>
+            <s:SurfaceListBox x:Name="surfaceListBox" Margin="130,180,0,80" Background="#000"
+                              ItemTemplate="{StaticResource SurfaceListBoxItemDataTemplate}" ItemsSource="{Binding ResultsForPlaylist}"
+                              AllowDrop="True"
+                              HorizontalContentAlignment="Left"
+                              SelectionChanged="Playlist_SelectionChanged"
+                              gestures:Events.HoldGesture="Playlist_HoldGesture"
+                              gestures:Events.DoubleTapGesture="surfaceListBox_DoubleTapGesture"
+                              gestures:Events.TapGesture="Playlist_TapGesture"
+                              s:SurfaceDragDrop.DragCanceled="Playlist_OnDragCanceled"
+                              s:SurfaceDragDrop.DragCompleted="Playlist_OnDragCompleted"
+                              s:SurfaceDragDrop.DragOver="Playlist_OnDragOver"
+                              s:SurfaceDragDrop.DragEnter="Playlist_DragEnter"
+                              s:SurfaceDragDrop.DragLeave="Playlist_DragLeave"
+                              s:SurfaceDragDrop.Drop="Playlist_Drop"/>
+            <TextBlock Visibility="{Binding PlaylistPresent, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}" Height="124" FontSize="24" Margin="200,200,200,112" Text="Please open or create a playlist in the menu." TextWrapping="Wrap" VerticalAlignment="Center"/>
+            <TextBlock Visibility="{Binding PlaylistEmpty, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Height="124" FontSize="24" Margin="200,200,200,112" Text="Your playlist is currently empty. Drag result from search on the playlist icons on the left and right side." TextWrapping="Wrap" VerticalAlignment="Center" />
+            <s:SurfaceButton Command="{Binding PlayPauseCommand}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="211.5,64,0,0"
+                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Grid Background="{Binding PlayPauseIcon}"/>
+            </s:SurfaceButton>
+            <s:SurfaceButton Command="{Binding StopCommand}" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="323.5,65,0,0"
+                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Grid Background="{StaticResource ResourceKey=stop}"/>
+            </s:SurfaceButton>
+            <s:SurfaceButton Command="{Binding ShuffleCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="80" Margin="612,65,0,0"
+                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Border BorderBrush="{Binding IsShuffle, Converter={x:Static c:BoolToStateConverter.Default}}" BorderThickness="3">
+                    <Grid Margin="6" Background="{StaticResource ResourceKey=shuffle}"/>
+                </Border>
+            </s:SurfaceButton>
+            <s:SurfaceButton Command="{Binding RepeatCommand}" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="80" Height="80" Margin="0,65,182,0"
+                             VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <Border BorderBrush="{Binding IsRepeat, Converter={x:Static c:BoolToStateConverter.Default}}" BorderThickness="3">
+                    <Grid Margin="6" Background="{StaticResource ResourceKey=repeat}"/>
+                </Border>
+            </s:SurfaceButton>
+            <Grid Grid.Column="1" x:Name="PlaylistDetailView" Margin="2,2,100,2">
+                <Grid Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:BoolToVisibilityConverter.Default}}" Background="#00222222" Margin="2">
+                    <!--<Image Style="{StaticResource LoadingCirclePlaylistDetailView}" MaxWidth="100" MaxHeight="100" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                    <TextBlock Width="100" Height="100" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Background="{StaticResource ResourceKey=hourglass}" />
+                </Grid>
+                <Grid Width="850" Visibility="{Binding CurrentTrack.IsDetailLoading, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}">
+                    <TabControl Margin="20">
+                        <TabItem Header="About" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
+                            <s:SurfaceScrollViewer Background="#222" Foreground="#ddd" HorizontalScrollBarVisibility="Disabled">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="{Binding CurrentTrack.Detail.Image.ImageUrl}" Width="Auto" Height="Auto" Margin="10" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"/>
+                                    <TextBlock Text="{Binding CurrentTrack.Detail.Name}" FontSize="20" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding CurrentTrack.Detail.City}" FontSize="16" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding CurrentTrack.Detail.Genres, Converter={x:Static c:ListToStringConverter.Default}}" FontSize="16" Grid.Row="2" Grid.Column="1"/>
+                                    <TextBlock Visibility="{Binding CurrentTrack.IsDetailLoaded, Converter={x:Static c:InverseBoolToVisibilityConverter.Default}}" Text="Select a track to get details." FontSize="18" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+                                    <TextBlock Width="Auto" Text="{Binding CurrentTrack.Detail.Biography}" TextWrapping="Wrap" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
+                                </Grid>
+                            </s:SurfaceScrollViewer>
+                        </TabItem>
+                        <TabItem Header="News" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
+                            <s:SurfaceListBox ItemTemplate="{DynamicResource DetailViewArtistNews}" ItemsSource="{Binding CurrentTrack.Detail.News}"
+                                              Background="#222" HorizontalContentAlignment="Stretch"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                        </TabItem>
+                        <TabItem Header="Media" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
+                            <Grid Background="#222">
+                                <StackPanel Margin="0" Orientation="Horizontal" VerticalAlignment="Bottom">
+                                    <Grid x:Name="ImagePagerGrid">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Image MaxHeight="900" MaxWidth="800" x:Name="ImageContainer" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Uniform" Source="{Binding SelectedItem.ImageUrl, ElementName=ImagePager}"/>
+                                        <s:SurfaceListBox x:Name="ImagePager" Margin="0" Background="Transparent"
+                                                 ItemsPanel="{DynamicResource ImagesItemsPanel}"
+                                                 ItemContainerStyle="{DynamicResource ImagesItemContainerStyle}"
+                                                 ItemsSource="{Binding CurrentTrack.Detail.Images}"
+                                                 HorizontalAlignment="Stretch" Grid.Row="1"
+                                                 Width="800"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Reviews" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
+                            <s:SurfaceListBox ItemTemplate="{DynamicResource DetailViewArtistReviews}" ItemsSource="{Binding CurrentTrack.Detail.Reviews}"
+                                              Background="#222" HorizontalContentAlignment="Stretch"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                        </TabItem>
+                        <TabItem Header="Songs" Background="#222" Foreground="#ddd" FontSize="14" TouchDown="TabItem_TouchDown">
+                            <s:SurfaceListBox ItemTemplate="{DynamicResource DetailViewArtistSongs}" ItemsSource="{Binding CurrentTrack.Detail.Songs}"
+                                              Background="#222" HorizontalContentAlignment="Stretch"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Grid>
+            <!--<TextBox x:Name="textBox" Width="300" Height="500" Grid.Column="1"/>-->
+            <s:SurfaceButton HorizontalAlignment="Right" Margin="0,24,8,0" VerticalAlignment="Top" Width="64" Height="64" Command="{Binding RotateCommand}" Background="{StaticResource ResourceKey=rotate}" />
+            <s:SurfaceButton x:Name="TrashBin" VerticalAlignment="Bottom" Height="50" Visibility="{Binding TrashVisible, Converter={x:Static c:BoolToVisibilityConverter.Default}}"
+                             AllowDrop="True"
+                             s:SurfaceDragDrop.DragEnter="PlaylistRemoveDropTarget_DragEnter"
+        	                 s:SurfaceDragDrop.DragLeave="PlaylistRemoveDropTarget_DragLeave"
+        	                 s:SurfaceDragDrop.Drop="PlaylistRemoveDropTarget_Drop">
+                <s:SurfaceButton.Background>
+                    <ImageBrush ImageSource="../Resources/Images/Playlist/trash.png" Stretch="Uniform" Opacity="1.0"/>
+                </s:SurfaceButton.Background>
+            </s:SurfaceButton>
+        </Grid>
+		<s:SurfaceButton x:Name="searchButton1" Margin="0" VerticalAlignment="Center" Height="90" Width="120" HorizontalAlignment="Right" Visibility="Hidden" Background="{StaticResource ResourceKey=search}"
+                         Panel.ZIndex="4">
+			<i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewTouchDown">
+					<ei:GoToStateAction StateName="PlaylistViewInvisible"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</s:SurfaceButton>
+        <s:SurfaceButton x:Name="searchButton2" Margin="0" VerticalAlignment="Center" Height="90" Width="120" HorizontalAlignment="Left" Visibility="Hidden" Background="{StaticResource ResourceKey=search}"
+                         Panel.ZIndex="4">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewTouchDown">
+                    <ei:GoToStateAction StateName="PlaylistViewInvisible"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </s:SurfaceButton>
+    </Grid>
+</UserControl>

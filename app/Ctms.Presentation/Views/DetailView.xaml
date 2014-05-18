@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="Ctms.Presentation.Views.DetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:p="clr-namespace:Ctms.Presentation.Properties"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:waf="http://waf.codeplex.com/schemas"
+    xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
+    xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    IsEnabled="{Binding IsEnabled}"
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
+    <!--mc:Ignorable="d" d:DataContext="{d:DesignData Source=../DesignData/SamplePersonViewModel.xaml}" waf:ValidationHelper.IsEnabled="true" -->
+    
+
+</UserControl>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.IO;
+using System.Diagnostics;
 
 namespace Helpers
 {
@@ -26,11 +27,13 @@ namespace Helpers
                 try
                 {
                     // throws 404 or other exception?
+                    // fix special exception while searching for genre "r&b"
+                    address = StringHelper.replacePartialString(address, "r&b", "r%26b", 100);
                     response = client.DownloadString(address);
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    throw(ex);
                 }
             }
             return response;

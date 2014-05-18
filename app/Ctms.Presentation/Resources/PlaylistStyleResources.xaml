@@ -1,0 +1,72 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:waf="http://waf.codeplex.com/schemas"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"  
+    xmlns:c="clr-namespace:Ctms.Presentation.Converters">
+
+    <c:BoolToVisibilityConverter x:Key="visibilityConverter"/>
+
+    <Style TargetType="s:SurfaceListBoxItem">
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Background" Value="#222"/>
+    </Style>
+    
+    <DataTemplate x:Key="SurfaceListBoxItemDataTemplate">
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="{Binding Opacity}" Background="#222">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="660"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Result.Song.ArtistName}" Grid.Column="0" Grid.Row="0" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Result.Song.Title}" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Duration}" Grid.Column="1" Grid.Row="0"/>
+            <Grid Width="20" Height="20" Visibility="{Binding IsPlaying, Converter={StaticResource visibilityConverter}}" Grid.Column="1" Grid.Row="1" Background="{DynamicResource ResourceKey=volume}"/>
+            <Grid Width="20" Height="20" Visibility="{Binding IsLoading, Converter={StaticResource visibilityConverter}}" Grid.Column="1" Grid.Row="1" Background="{DynamicResource ResourceKey=hourglass}"/>
+            <!--<Label Content="{Binding Duration}"/>-->
+        </Grid>
+    </DataTemplate>
+
+    <!-- Style for playlist items when dragged -->
+    <Style x:Key="PlaylistItemCursorStyle" TargetType="{x:Type ContentControl}">
+        <Setter Property="ContentTemplate" Value="{StaticResource SurfaceListBoxItemDataTemplate}" />
+        <Setter Property="BorderThickness" Value="5"/>
+        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Opacity" Value="0.8"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter Margin="0" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Tag" Value="DragEnter">
+                <Setter Property="BorderBrush" Value="Red"/>
+                <Setter Property="Background" Value="Red"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!--
+        This document is used for specific style definitions for the playlist view.
+        Hints: 
+            TargetType: Type of the elemnt that shall be affected.
+            BasedOn: Optional attribute for deriving from other styles.
+            Setters: Multiple elements that define style properties.
+            StaticResource: Use of custom predefined common values like color.
+    -->
+
+    <!--Key styles-->
+    <!--<Style x:Key="SearchOptionsTextBlock" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#0fc" />
+    </Style>-->
+
+</ResourceDictionary>

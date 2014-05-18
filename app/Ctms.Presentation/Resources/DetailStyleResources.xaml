@@ -1,0 +1,22 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:waf="http://waf.codeplex.com/schemas"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:c="clr-namespace:Ctms.Presentation.Converters">
+
+    <!--
+        This document is used for specific style definitions for the details view.
+        Hints: 
+            TargetType: Type of the elemnt that shall be affected.
+            BasedOn: Optional attribute for deriving from other styles.
+            Setters: Multiple elements that define style properties.
+            StaticResource: Use of custom predefined common values like color.
+    -->
+
+    <!--Key styles-->
+    <!--<Style x:Key="SearchOptionsTextBlock" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#0fc" />
+    </Style>-->
+
+</ResourceDictionary>

@@ -1,0 +1,44 @@
+﻿<s:SurfaceWindow x:Class="Ctms.Presentation.Views.ShellWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:waf="http://waf.codeplex.com/schemas"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:c="clr-namespace:Ctms.Presentation.Converters"
+    xmlns:gif="http://wpfanimatedgif.codeplex.com"
+    mc:Ignorable="d"
+    WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"
+    PreviewTouchDown="SurfaceWindow_PreviewTouchDown"> <!--Topmost="True">-->
+
+    <Window.Background>
+        <!--<RadialGradientBrush
+            GradientOrigin="0.5,0.5"
+            Center="0.5,0.5" 
+            RadiusX="0.5" RadiusY="0.5">
+            <RadialGradientBrush.GradientStops>
+                <GradientStop Color="#046" Offset="0" />
+                <GradientStop Color="#003" Offset="1.0" />
+            </RadialGradientBrush.GradientStops>
+        </RadialGradientBrush>-->
+        <ImageBrush ImageSource="../Resources/Images/Common/icons/subwoofer_background4.png"/>
+    </Window.Background>
+    
+    <Grid Margin="0,0,0,0" Name="ShellGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <!--<Image gif:ImageBehavior.AnimatedSource="../Resources/Images/Common/icons/subwoofer_background2.gif" 
+            Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top"
+               />-->
+
+        <ContentControl Content="{Binding ShellService.SearchView}" Grid.Column="0"/>
+        <ContentControl Content="{Binding ShellService.ResultView}" Grid.Column="0"/>
+        <ContentControl Content="{Binding ShellService.PlaylistView}" Grid.Column="0"/>
+        <ContentControl Content="{Binding ShellService.MenuView}" Grid.Column="0"/>
+        <ContentControl Content="{Binding ShellService.InfoView}" Grid.Column="0"/>
+
+    </Grid>  
+</s:SurfaceWindow>

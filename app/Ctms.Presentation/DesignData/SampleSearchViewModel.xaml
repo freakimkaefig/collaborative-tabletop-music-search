@@ -1,0 +1,9 @@
+﻿<vm:SearchViewModel 
+    xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
+    xmlns:bo="clr-namespace:Ctms.Domain;assembly=Ctms.Domain">
+    <!-- !Doesn't work right now-->
+    <!--<vm:SearchViewModel.KeywordType> 
+        <bo:KeywordType Firstname="Harry" Lastname="Potter" Email="harry.potter@hogwarts.edu"/>
+    </vm:SearchViewModel.KeywordType>-->
+    
+</vm:SearchViewModel>

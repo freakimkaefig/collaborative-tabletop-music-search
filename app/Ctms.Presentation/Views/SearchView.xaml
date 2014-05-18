@@ -1,0 +1,368 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:p="clr-namespace:Ctms.Presentation.Properties"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:waf="http://waf.codeplex.com/schemas"
+    xmlns:vm="clr-namespace:Ctms.Applications.ViewModels;assembly=Ctms.Applications"
+    xmlns:ps="clr-namespace:PieInTheSky;assembly=PieInTheSky"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" 
+    x:Class="Ctms.Presentation.Views.SearchView"
+    IsEnabled="{Binding IsEnabled}"
+    waf:ValidationHelper.IsValid="{Binding IsValid, Mode=OneWayToSource}">
+    
+    <UserControl.Resources>
+        
+        <Storyboard x:Key="TagCombiStoryboard"  Duration="0:0:0.7" 
+                    Name="TagCombiStoryboard"
+                    x:Shared="True" 
+                    Completed="TagCombiStoryboard_Completed"
+                    Storyboard.TargetName="combiEll"
+                    >
+            <!--RepeatBehavior="1"-->
+            <DoubleAnimation
+                Name="OpacityHold"
+                Storyboard.TargetName="combiEll"
+                Storyboard.TargetProperty="Opacity"
+                From="1.0"
+                To="1.0"
+                Duration="0:0:0.4"
+                />
+
+            <DoubleAnimation
+                Name="OpacityFade"
+                Storyboard.TargetName="combiEll"
+                Storyboard.TargetProperty="Opacity"
+                From="1.0"
+                To="0.2"
+                BeginTime="0:0:0.4"
+                Duration="0:0:0.3"
+                />
+
+            <DoubleAnimation 
+                Name="XTransform"                
+                Storyboard.TargetName="TTransform"
+                Storyboard.TargetProperty="X"
+                Duration="0:0:0.7"
+                             />
+               
+
+                <!--By Property mit Binding an Tangibles binden-->
+            <DoubleAnimation 
+                Name="YTransform"   
+                Storyboard.TargetName="TTransform"
+                Storyboard.TargetProperty="Y"
+                Duration="0:0:0.7"
+                >
+            </DoubleAnimation>
+        </Storyboard>
+
+    </UserControl.Resources> 
+    
+    
+    <s:TagVisualizer x:Name="SearchTagVisualizer" Width="1920" Height="1080" VisualizationAdded="OnVisualizationAdded"                      
+                     VisualizationRemoved="OnVisualizationRemoved" 
+                     GotTouchCapture="SearchTagVisualizer_GotTouchCapture"
+                     GotFocus="SearchTagVisualizer_GotFocus"
+                     >
+  
+            <!--<ScrollViewer Name="SearchViewLog" Content="{Binding SearchViewLog}" Height="400" Width="400" ></ScrollViewer>-->
+        <Grid Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle x:Name="Fft1" Margin="754.498,321.333,0,0" 
+                       Width="120" Height="0" 
+                       Fill="#FF010023" RenderTransformOrigin="0,0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeDashCap="Round" StrokeEndLineCap="Round"
+                       Opacity="1">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-82.122"/>
+            			<TranslateTransform X="-95.372" Y="239.351"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft2" Margin="860.163,250.331,0,0" Height="0" Fill="#FF00032B" VerticalAlignment="Top" 
+                       Opacity="1"
+                       RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-58.148"/>
+            			<TranslateTransform X="-184.487" Y="184.45"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft3" Margin="0,238.337,816.496,0" Height="0" Fill="#FF000743" VerticalAlignment="Top"
+                       Opacity="1" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-34.869"/>
+            			<TranslateTransform X="-244.039" Y="94.232"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft4" Margin="0,275.666,699.499,0" Height="0" Fill="#FF000B5A"
+                       Opacity="1" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-10.384"/>
+            			<TranslateTransform X="-259.562" Y="-14.265"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft5" Margin="0,360.332,610.167,0" Height="0" Fill="#FF00148D"
+                       Opacity="1" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="12.044"/>
+            			<TranslateTransform X="-228.034" Y="-118.303"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft6" Margin="0,463.663,547.832,0" Height="0" Fill="#FF001FC6"
+                       Opacity="1" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="36.932"/>
+            			<TranslateTransform X="-166.641" Y="-192.387"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft7" Margin="0,591.331,537.83,0" Fill="#FF0029E9" 
+                       Opacity="1" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" Height="0" VerticalAlignment="Top" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="60.796"/>
+            			<TranslateTransform X="-72.98" Y="-243.027"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft8" Margin="0,715.997,572.489,0" Height="0"
+                       Opacity="1" Fill="#FF003FFF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="85.56"/>
+            			<TranslateTransform X="18.23" Y="-257.915"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft9" Margin="0,811.333,656.414,0" Height="0"
+                       Opacity="1" Fill="#FF004BF3" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-250.067"/>
+            			<TranslateTransform X="112.046" Y="-231.583"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft10" Margin="0,869.753,784.246,0" Height="0"
+                       Opacity="1" Fill="#FF005AFF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Right" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-226.182"/>
+            			<TranslateTransform X="195.972" Y="-173.101"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft11" Margin="874.168,843.002,0,0" Height="0"
+                       Opacity="1" Fill="#FF0069FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-202.437"/>
+            			<TranslateTransform X="252.701" Y="-63.212"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft12" Margin="761.501,771,0,0" Height="0"
+                       Opacity="1" Fill="#FF0078FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" Width="120" HorizontalAlignment="Left" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-179.264"/>
+            			<TranslateTransform X="252.52" Y="57.092"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft13" Margin="691.83,664.005,0,0" Height="0"
+                       Opacity="1" Fill="#FF0087FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-155.254"/>
+            			<TranslateTransform X="197.992" Y="164.952"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft14" Margin="664.163,545.336,0,0" Height="0"
+                       Opacity="1" Fill="#FF0096FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-131.334"/>
+            			<TranslateTransform X="114.145" Y="229.963"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Rectangle x:Name="Fft15" Margin="691.828,419.998,0,0" Height="0"
+                       Opacity="1" Fill="#FF00A5FF" VerticalAlignment="Top" RenderTransformOrigin="0,0" HorizontalAlignment="Left" Width="120" StrokeDashCap="Round" StrokeEndLineCap="Round">
+            	<Rectangle.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform Angle="-107.561"/>
+            			<TranslateTransform X="5.096" Y="258.382"/>
+            		</TransformGroup>
+            	</Rectangle.RenderTransform>
+                <Rectangle.Effect>
+                    <BlurEffect Radius="10"/>
+                </Rectangle.Effect>
+            </Rectangle>
+        	<Ellipse x:Name="Hilfskreis" Margin="616,181.728,590.093,176.874" Visibility="Visible" Opacity="0.45">
+        		<Ellipse.Fill>
+        			<RadialGradientBrush>
+        				<GradientStop Color="Black" Offset="1"/>
+        				<GradientStop Color="White"/>
+        				<GradientStop Color="#FF636363" Offset="0.328"/>
+        				<GradientStop Color="#FF272727" Offset="0.603"/>
+        			</RadialGradientBrush>
+        		</Ellipse.Fill>
+        	</Ellipse>
+            <s:SurfaceButton Command="{Binding StartSearchCmd}"
+                HorizontalAlignment="Center" Height="100" Width="100"
+                VerticalAlignment="Center" Margin="-6,6,0,0" Background="{StaticResource ResourceKey=searchButton}"/>
+
+            <ItemsControl 
+                x:Name="TagCombinationsControl"
+                ItemsSource="{Binding TagCombinations}" 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                    >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ItemsControl x:Name="TagCombinationTagsControl"
+                                ItemsSource="{Binding Tags}" 
+                                Tag="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Loaded="combiTag_Loaded" Unloaded="combiTag_Unloaded" 
+                                              HorizontalAlignment="Center" VerticalAlignment="Center"
+                                              Margin="-16,-16,0,0">
+                                            
+                                            <TextBlock 
+                                                x:Name="HiddenTagCombiId"
+                                                Text="{Binding DataContext.Id, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                                Visibility="Collapsed"
+                                                />
+                                            <Ellipse x:Name="combiEll"
+                                                Height="15"
+                                                Width="15"
+                                                Opacity="0.7"
+                                                Fill="#afff"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                     >
+                                                <Ellipse.RenderTransform>
+                                                    <TranslateTransform x:Name="TTransform" X="{Binding Tag.PositionX}" Y="{Binding Tag.PositionY}" />
+                                                </Ellipse.RenderTransform>
+                                                
+                                                    <!--Startet trotzdem noch mit Versatz, richtet sich aber am Tangible aus-->
+                                                <Ellipse.Effect>
+                                                    <BlurEffect Radius="0"/>
+                                                </Ellipse.Effect>
+                                            </Ellipse>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+            <!--<s:SurfaceTextBox Name="KeyboardInput" Height="50" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
+
+            <!-- keyboard -->
+            <!--<ckeyboard:KeyboardController x:Name="CustomKeyboard"  Margin="0,150,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
+        </Grid>
+        
+    </s:TagVisualizer>
+    
+    
+</UserControl>
