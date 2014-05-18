@@ -98,8 +98,8 @@ namespace Ctms.Applications.Controllers
                 exception.Message, Environment.NewLine, 
                 exception.StackTrace, Environment.NewLine);
 
-            infoWorker.ShowCommonInfo("Error occurred", errorMessage, "Ok");
-            //infoWorker.ShowCommonInfo("Error occured", "Sorry, please try again.", "Ok");
+            //infoWorker.ShowCommonInfo("Error occurred", errorMessage, "Ok");
+            infoWorker.ShowCommonInfo("Error occured", "Sorry, please try again.", "Ok");
             //DevLogger.Log(errorMessage);
         }
 

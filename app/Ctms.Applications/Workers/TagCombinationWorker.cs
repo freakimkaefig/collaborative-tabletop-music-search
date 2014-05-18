@@ -349,7 +349,14 @@ namespace Ctms.Applications.Workers
 
             if (tagCombi != null)
             {
-                tagCombi.Tags.Remove(removeTag);
+                if (tagCombi.Tags.Count > 2)
+                {
+                    tagCombi.Tags.Remove(removeTag);
+                }
+                else
+                {
+                    _repository.RemoveTagCombination(tagCombi);
+                }
             }
         }
 
@@ -428,7 +435,7 @@ namespace Ctms.Applications.Workers
 
         private static void Log(string message)
         {
-            //DevLogger.Log(message);
+            DevLogger.Log(message);
         }
 
         private static void LogDistanceCalc(TagDataModel movedTag, TagDataModel compareTag, int xDistance, int yDistance, double distance)

@@ -622,7 +622,8 @@ namespace Ctms.Applications.ViewModels
             tagDm.ExistenceState = TagDataModel.ExistenceStates.Removed;
 
             // remove tag from possible combinations
-            RemoveTagFromCombi.Execute(tagDm.Id);            
+            RemoveTagFromCombi.Execute(tagDm.Id);
+            //CheckTagPositionsCmd.Execute(tagDm.Id);
         }
 
         /// <summary>
