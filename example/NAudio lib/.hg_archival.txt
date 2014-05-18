@@ -1,5 +1,0 @@
-repo: b321dca37ce2b5a578d0110edcae2605aafb9871
-node: 2c985107720e077eec5a0f1bfd599c8ffd78fc60
-branch: default
-latesttag: NAudio 1.7 Release
-latesttagdistance: 9
