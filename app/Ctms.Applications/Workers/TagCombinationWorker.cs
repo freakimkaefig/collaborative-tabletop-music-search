@@ -54,7 +54,6 @@ namespace Ctms.Applications.Workers
         /// Check if tag is in radius for combination with tags.
         /// If yes create a new combi or if the compare tag is already in another combi add myTag to that.
         /// No tag can be in more than one tag combi, so check combinations with others.
-        /// The distance is calculated by
         /// </summary>
         /// <param name="myTagId"></param>
         public void CheckCombisForTag(int myTagId)

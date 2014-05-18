@@ -7,7 +7,7 @@ namespace Ctms.Applications.Common
 {
     public class CommonStrings
     {
-        //Example
+        //Example..
         public static string AppName = "CTMS";
     }
 }

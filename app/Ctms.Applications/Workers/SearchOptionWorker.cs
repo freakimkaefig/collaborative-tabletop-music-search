@@ -89,6 +89,10 @@ namespace Ctms.Applications.Workers
 
         public bool CanSelectOption() { return _searchVM.IsValid; }
 
+        /// <summary>
+        /// Load and display all four keyword types fo this tag.
+        /// </summary>
+        /// <param name="tagId"></param>
         public void LoadKeywordTypes(int tagId)
         {
             var tagDm = _searchVM.Tags[tagId];
@@ -118,18 +122,32 @@ namespace Ctms.Applications.Workers
             SetIsCircleMenuVisible(tagDm, false);
         }
 
+        /// <summary>
+        /// Update active layer number and refresh
+        /// </summary>
+        /// <param name="tagDM"></param>
+        /// <param name="currentLayerNr"></param>
         public void UpdateActiveLayerNumber(TagDataModel tagDM, int currentLayerNr)
         {
             tagDM.Tag.CurrentLayerNr = currentLayerNr;
             tagDM.RefreshLayer();
         }
 
+        /// <summary>
+        /// Select one of the four keyword types
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <param name="keywordType"></param>
         public void SelectKeywordType(int tagId, KeywordTypes keywordType)
         {
             var tagOption = _repository.GetTagOption(tagId, keywordType);
             if (tagOption != null) SelectOption(tagOption.Id);
         }
 
+        /// <summary>
+        /// This method is called when one of the options of the tag's circle menu is selected.
+        /// </summary>
+        /// <param name="tagOptionId">The id of the option</param>
         public void SelectOption(int tagOptionId)
         {
             var tagDm               = _repository.GetTagDMByTagOption(tagOptionId);
@@ -188,7 +206,7 @@ namespace Ctms.Applications.Workers
                         SetIsCircleMenuVisible(tagDm, true);
                     }
                     else if (keywordType == KeywordTypes.Attribute)
-                    {   // load attributes
+                    {   // load attribute types
                         var artistTagOption = _tagFactory.CreateTagOption(AttributeTypes.Artist.ToString(), KeywordTypes.Attribute, tagDm.Tag.CurrentLayerNr);
                         tagDm.Tag.TagOptions.Add(artistTagOption);
 
@@ -244,7 +262,7 @@ namespace Ctms.Applications.Workers
                     break;
                 }
                 case 3: // ---layer 3---
-                {
+                {   // show attribute input field with hint
                     if (keywordType == KeywordTypes.Attribute)
                     {
                         tagDm.Tag.AssignedKeyword = selectedTagOption.Keyword;
@@ -280,6 +298,11 @@ namespace Ctms.Applications.Workers
             _searchVM.UpdateVisuals(tagDm);
         }
 
+        /// <summary>
+        /// Get attribute by its keyword 
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
         public AttributeObj GetAttributeObj(Keyword keyword)
         {
             var attributes      = _searchManager.getCombinedSearchAttributes(keyword.AttributeType);
@@ -342,6 +365,7 @@ namespace Ctms.Applications.Workers
             Keyword keyword;
             TagOption tagOption;
 
+            // add artist or title to repository and breadcrumb
             if(keywordType == KeywordTypes.Artist || keywordType == KeywordTypes.Title)
             {
                 keyword = _tagFactory.CreateKeyword(terms, keywordType);
@@ -409,6 +433,13 @@ namespace Ctms.Applications.Workers
             _searchVM.UpdateVisuals(tagDm);
         }
 
+        /// <summary>
+        /// Check if the given input is valid for this attribute
+        /// </summary>
+        /// <param name="tagDM"></param>
+        /// <param name="attribute"></param>
+        /// <param name="terms">The input terms</param>
+        /// <returns>Is valid</returns>
         private bool IsAttributeInputValid(TagDataModel tagDM, AttributeObj attribute, object terms)
         {
             if(attribute.option1 != null)
@@ -442,6 +473,10 @@ namespace Ctms.Applications.Workers
             return true;
         }
 
+        /// <summary>
+        /// Try to convert input to double
+        /// </summary>
+        /// <returns>return 0 if exception occurred</returns>
         private double ConvertInputToDouble(TagDataModel tagDM, AttributeObj attribute, string terms)
         {
             double termsNr;
@@ -457,6 +492,11 @@ namespace Ctms.Applications.Workers
             }
         }
 
+        /// <summary>
+        /// This method is called when input is raised or lowered.
+        /// </summary>
+        /// <param name="tagId"></param>
+        /// <param name="editType"></param>
         public void EditInput(int tagId, string editType)
         {
             // read values
@@ -574,6 +614,10 @@ namespace Ctms.Applications.Workers
             }
         }
 
+        /// <summary>
+        /// Artist suggestions query in backgroudn has been completed
+        /// </summary>
+        /// <param name="e">Contains result</param>
         private void GetArtistsSuggestionsCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             TagDataModel tagDM = null;
@@ -653,6 +697,10 @@ namespace Ctms.Applications.Workers
             }
         }
 
+        /// <summary>
+        /// Title suggestions query in backgroudn has been completed
+        /// </summary>
+        /// <param name="e">Contains result</param>
         private void GetTitleSuggestionsCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             TagDataModel tagDM = null;

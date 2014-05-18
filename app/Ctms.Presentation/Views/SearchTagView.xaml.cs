@@ -67,6 +67,12 @@ namespace Ctms.Presentation.Views
             //Log("STV: SimpleVisualization_Loaded");
         }
 
+        /// <summary>
+        /// This method is called when previewTouchDown event is fired.
+        /// Check input and handle wrong inputs like blobs and tangible clicks
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MyTagVisualization_PreviewTouchDown(object sender, TouchEventArgs e)
         {
             // Called when finger touch and tangible click on main pie menu item. 
@@ -78,7 +84,7 @@ namespace Ctms.Presentation.Views
             Log("STV: MyTagVisualization_PreviewTouchDown Tag" + t.TouchDevice.GetIsTagRecognized());
             */
             if (!t.TouchDevice.GetIsFingerRecognized() && !t.TouchDevice.GetIsTagRecognized())
-            {   //!! Funktioniert! Taginput wird abgefangen
+            {   // Funktioniert! Taginput wird abgefangen
                 //Log("STV: No finger, no Tag");
                 t.Handled = true;
             }
@@ -121,7 +127,6 @@ namespace Ctms.Presentation.Views
 
         private void InputField_GotFocus(object sender, RoutedEventArgs e)
         {
-            //KeyboardHelper.ShowKeyboard();
         }
         
     }

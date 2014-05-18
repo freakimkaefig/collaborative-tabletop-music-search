@@ -52,6 +52,9 @@ namespace Ctms.Applications.Workers
 
         public bool CanStartSearch() { return _searchViewModel.IsValid; }
 
+        /// <summary>
+        /// Start search for all assigned keywords/tags
+        /// </summary>
         public void StartSearch()
         {
             _stopSearch = false;
@@ -60,11 +63,13 @@ namespace Ctms.Applications.Workers
             {
                 var backgrWorker = new BackgroundWorkHelper();
 
+                // what to do when search has been canceled by user
                 var stopAction = new Action<object>((b) => StopSearch(backgrWorker));
 
                 var loadingInfoId = _infoWorker.ShowCommonInfo(
                     "Searching for songs...", "Please wait a moment", null, "Cancel", true, null, stopAction);
                 
+                // load results in background
                 backgrWorker.DoInBackground(StartSearchInBackground, StartSearchCompleted, loadingInfoId);
             }
             else if(_resultVm.Results != null && _resultVm.Results.Any())

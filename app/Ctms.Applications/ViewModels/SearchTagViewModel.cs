@@ -29,7 +29,7 @@ namespace Ctms.Applications.ViewModels
             _searchTagView = view;
         }
 
-        public bool IsEnabled { get { return true; } }//Detail != null;//!! Has to be adjusted
+        public bool IsEnabled { get { return true; } }
 
         public bool IsValid
         {

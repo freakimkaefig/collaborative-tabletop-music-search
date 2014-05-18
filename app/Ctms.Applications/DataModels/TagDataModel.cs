@@ -161,9 +161,9 @@ namespace Ctms.Applications.DataModels
             {
                 var optionsList = new List<TagOption>();
                 // select as many options as are displayable, corresponding to current options index
-                // select some options by their index in the list
+                
                 if (ActiveLayerOptions.Count() == 2)
-                {
+                {   // select some options by their index in the list
                     optionsList = ActiveLayerOptions.Skip(activeOptionsIndex).Take(CommonVal.Tag_VisibleOptionsCount).ToList();
                 }
                 else
@@ -171,10 +171,11 @@ namespace Ctms.Applications.DataModels
                     var activeOptionsCount = ActiveLayerOptions.Count();
 
                     if (activeOptionsCount > 1)
-                    {
+                    {   // go further in list
                         for (var i = 0; i < CommonVal.Tag_VisibleOptionsCount; i++)
                         {
                             TagOption option;
+                            // use modulo to limitate index to options count
                             option = ActiveLayerOptions.ElementAt((activeOptionsIndex + i) % (activeOptionsCount - 1));
 
                             optionsList.Add(option);
@@ -182,7 +183,7 @@ namespace Ctms.Applications.DataModels
                         }
                     }
                     else if(activeOptionsCount == 1)
-                    {
+                    {   // go back to index 1 if counter is at the end of list
                         optionsList.Add(ActiveLayerOptions.ElementAt(0));
                     }
                 }

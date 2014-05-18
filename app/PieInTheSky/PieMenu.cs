@@ -26,9 +26,16 @@ namespace PieInTheSky
         public static readonly DependencyProperty MenuSectorProperty;
         public static readonly DependencyProperty SelectedBackgroundProperty;
         public static readonly DependencyProperty RotationProperty;
+
+        // how big is the angle for the main element
         public static readonly DependencyProperty MainAngleProperty;
+
+        // shall the text be rotated with the angle
         public static readonly DependencyProperty RotateTextProperty;
+
+        // how much shall the text be rotated
         public static readonly DependencyProperty RotateTextAngleProperty;
+
         public static readonly DependencyProperty AdditionalTextProperty;
 
         // Variables providing dependency property values
@@ -320,7 +327,7 @@ namespace PieInTheSky
         {
             DrawingContext = drawingContext;
 
-            var maxRotation = 360.0;//!!auf 180.0?
+            var maxRotation = 360.0;
 
             // "normalize" rotation to avoid problems elsewhere
             double rotation = this.Rotation;
@@ -515,6 +522,11 @@ namespace PieInTheSky
 
         #region Display methods
 
+
+        /// <summary>
+        /// This method draws the circle, its containing texts, backgrounds and borders
+        /// </summary>
+        /// <param name="items_control">The pie menu items</param>
         private void DrawCircle(ItemsControl items_control, int level, double angle, double sector, DrawingContext drawingContext)
         {
             // Make sure sector is limited to available place
@@ -567,7 +579,7 @@ namespace PieInTheSky
                 textRotation = -180.0;
                 mainTextRotation = 0.0;                
             }
-            else //count is 1
+            else //count is 1. Take full angle (prevent 360.0 bug)
             {   
                 smallAngle = 359.9;
                 mainAngle = 359.9;
@@ -592,14 +604,6 @@ namespace PieInTheSky
                     end_outer_angle = start_outer_angle + mainAngle;
                     this.RotateTextAngle = -90.0;
                 }
-
-                /*
-                Console.WriteLine("angel: " + angle);
-                Console.WriteLine("full_sector: " + full_sector);
-                Console.WriteLine("start_inner_angle: " + start_inner_angle);
-                Console.WriteLine("end_inner_angle: " + end_inner_angle);
-                Console.WriteLine("start_outer_angle: " + start_outer_angle);
-                */
 
                 // remeber the boundaries (as sector angles) of the menu item
                 _sectors[level].Add(new Tuple<double, double>(start_outer_angle, end_outer_angle));
@@ -647,7 +651,6 @@ namespace PieInTheSky
                 var subHeader = ((String)menu_item.SubHeader);
 
                 header      = header == null ? "" : header;
-                //subHeader = subHeader == null ? "" : subHeader;
                 subHeader = "";
 
                 FormattedText headerText = new FormattedText(header,
@@ -738,6 +741,7 @@ namespace PieInTheSky
                 if (i == count - 1 || count == 3) 
                     textRotation = mainTextRotation;
 
+                // rotate text if this handling is activated
                 if (this.RotateText) drawingContext.PushTransform(new RotateTransform((start_inner_angle + end_inner_angle) / 2.0 + textRotation, center.X, center.Y));
                     drawingContext.DrawText(headerText, headerTextPoint);
 

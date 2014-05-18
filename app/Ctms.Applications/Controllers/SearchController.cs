@@ -29,8 +29,6 @@ using System.Collections.ObjectModel;
 
 namespace Ctms.Applications.Controllers
 {
-    //!!Note: The content of this class is just an example and has to be adjusted.
-
     /// <summary>
     /// Responsible for the search management.
     /// </summary>
@@ -165,7 +163,6 @@ namespace Ctms.Applications.Controllers
                 AddWeakEventListener(tag.Tag, TagDMChanged);
             }
 
-            //!!remove
             //InitExampleTagCombinations();
         }
 

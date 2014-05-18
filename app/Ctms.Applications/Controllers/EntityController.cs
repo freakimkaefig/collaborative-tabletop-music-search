@@ -59,7 +59,6 @@ namespace Ctms.Applications.Controllers
         
         public bool HasChanges
         {
-            //!!get { return entities != null && entities.HasChanges; }
             get { return false; }
         }
         
@@ -78,22 +77,8 @@ namespace Ctms.Applications.Controllers
             // Set |DataDirectory| macro to our own path. This macro is used within the connection string.
             AppDomain.CurrentDomain.SetData("DataDirectory", dataDirectory);
 
-            //entities = new CtmsEntities();
-            /*//!!
-            // Copy the template database file into the DataDirectory when it doesn't exists.
-            DbConnection connection = entities.Connection;
-            string dataSourcePath = connection.DataSource.Replace("|DataDirectory|", dataDirectory);
-            if (!File.Exists(dataSourcePath))
-            {
-                string dbFile = Path.GetFileName(dataSourcePath);
-                File.Copy(Path.Combine(ApplicationInfo.ApplicationPath, ResourcesDirectoryName, dbFile), dataSourcePath);
-            }
-
-            entityService.Entities = entities;
-            */
             AddWeakEventListener(_shellViewModel, ShellViewModelPropertyChanged);
             _shellViewModel.SaveCommand = _saveCommand;
-            //!!shellViewModel.DatabasePath = dataSourcePath;
 
             //check internet-connection
             var backgroundWorker = new BackgroundWorkHelper();
@@ -126,7 +111,6 @@ namespace Ctms.Applications.Controllers
 
         public void Shutdown()
         {
-            //!!entities.Dispose();
         }
 
         public bool CanSave() { return _shellViewModel.IsValid; }
@@ -140,7 +124,6 @@ namespace Ctms.Applications.Controllers
             }
             try
             {
-                //!!entities.SaveChanges();
                 saved = true;
             }
             catch (ValidationException e)

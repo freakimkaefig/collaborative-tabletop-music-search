@@ -117,7 +117,7 @@ namespace Ctms.Applications.ViewModels
 
         #region Properties
 
-        public bool IsEnabled { get { return true; } }//Playlist != null;//!! Has to be adjusted
+        public bool IsEnabled { get { return true; } }
 
         public bool IsValid
         {

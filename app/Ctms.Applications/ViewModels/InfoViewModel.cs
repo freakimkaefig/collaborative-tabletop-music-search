@@ -35,7 +35,7 @@ namespace Ctms.Applications.ViewModels
         }
 
 
-        public bool IsEnabled { get { return true; } }//Detail != null;//!! Has to be adjusted
+        public bool IsEnabled { get { return true; } }
 
         public bool IsValid
         {

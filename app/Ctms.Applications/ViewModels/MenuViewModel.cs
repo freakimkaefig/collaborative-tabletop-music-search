@@ -180,7 +180,7 @@ namespace Ctms.Applications.ViewModels
             VisualStateManager.GoToState((FrameworkElement)_view, openPlaylist.Name, true);
         }
 
-        public bool IsEnabled { get { return true; } }//!! Has to be adjusted
+        public bool IsEnabled { get { return true; } }
 
         #endregion Public Methods
 

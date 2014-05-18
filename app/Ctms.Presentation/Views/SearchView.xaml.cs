@@ -405,7 +405,6 @@ namespace Ctms.Presentation.Views
 
         }
 
-
         private void SearchTagVisualizer_GotFocus(object sender, RoutedEventArgs e)
         {
 

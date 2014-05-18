@@ -24,8 +24,6 @@ using Ctms.Applications.Workers;
 
 namespace Ctms.Applications.Controllers
 {
-    //!!Note: The content of this class is just an example and has to be adjusted.
-
     /// <summary>
     /// Responsible for the detail management.
     /// </summary>

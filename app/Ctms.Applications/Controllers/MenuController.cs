@@ -25,7 +25,6 @@ using Ctms.Domain.Objects;
 
 namespace Ctms.Applications.Controllers
 {
-    //!!Note: The content of this class is just an example and has to be adjusted.
 
     /// <summary>
     /// Responsible for the menu management.
@@ -115,7 +114,6 @@ namespace Ctms.Applications.Controllers
 
         private void ExitApp()
         {
-            //!!Best option?
             _menuViewModel.LogoutCommand.Execute(null);
             _shellViewModel.ExitCommand.Execute(null);
         }
