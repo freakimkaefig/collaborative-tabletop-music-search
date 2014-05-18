@@ -69,15 +69,21 @@ namespace Ctms.Applications.Workers
                 _playlistViewModel.Prelistening = true;
                 foreach (ResultDataModel result in _resultViewModel.Results)
                 {
-                    //Vergleiche Tracks ??? keine ahnung wie!
-                    if (Link.CreateFromString(result.SpotifyTrack).AsTrack().Artist(0).Name() == Link.CreateFromString(track).AsTrack().Artist(0).Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Name() == Link.CreateFromString(track).AsTrack().Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Duration() == Link.CreateFromString(track).AsTrack().Duration())
+                    try
                     {
-                        result.IsLoading = true;
+                        if (Link.CreateFromString(result.SpotifyTrack).AsTrack().Artist(0).Name() == Link.CreateFromString(track).AsTrack().Artist(0).Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Name() == Link.CreateFromString(track).AsTrack().Name() && Link.CreateFromString(result.SpotifyTrack).AsTrack().Duration() == Link.CreateFromString(track).AsTrack().Duration())
+                        {
+                            result.IsLoading = true;
+                        }
+                        else
+                        {
+                            result.IsLoading = false;
+                            result.IsPlaying = false;
+                        }
                     }
-                    else
+                    catch (NullReferenceException exception)
                     {
-                        result.IsLoading = false;
-                        result.IsPlaying = false;
+                        _infoWorker.ShowCommonInfo("Spotify error", "Spotify encountered an error", "Ok");
                     }
                 }
             }
