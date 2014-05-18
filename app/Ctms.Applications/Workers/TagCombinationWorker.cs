@@ -435,7 +435,8 @@ namespace Ctms.Applications.Workers
 
         private static void Log(string message)
         {
-            DevLogger.Log(message);
+            //following line is for debugging purposes
+            //DevLogger.Log(message);
         }
 
         private static void LogDistanceCalc(TagDataModel movedTag, TagDataModel compareTag, int xDistance, int yDistance, double distance)
