@@ -8,6 +8,6 @@ namespace Ctms.Applications.Workers
 {
     public class DetailWorker
     {
-        //test
+        // not used anymore
     }
 }

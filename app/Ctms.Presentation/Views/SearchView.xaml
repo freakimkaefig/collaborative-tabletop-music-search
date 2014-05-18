@@ -15,8 +15,11 @@
     
     <UserControl.Resources>
         
-        <Storyboard x:Key="TagCombiStoryboard"  Duration="0:0:0.7" Name="TagCombiStoryboard"
-                     x:Shared="True"
+        <Storyboard x:Key="TagCombiStoryboard"  Duration="0:0:0.7" 
+                    Name="TagCombiStoryboard"
+                    x:Shared="True" 
+                    Completed="TagCombiStoryboard_Completed"
+                    Storyboard.TargetName="combiEll"
                     >
             <!--RepeatBehavior="1"-->
             <DoubleAnimation
@@ -25,7 +28,8 @@
                 Storyboard.TargetProperty="Opacity"
                 From="1.0"
                 To="1.0"
-                Duration="0:0:0.4"/>
+                Duration="0:0:0.4"
+                />
 
             <DoubleAnimation
                 Name="OpacityFade"
@@ -34,56 +38,15 @@
                 From="1.0"
                 To="0.2"
                 BeginTime="0:0:0.4"
-                Duration="0:0:0.3"/>
-
-            <!--<DoubleAnimation
-                Storyboard.TargetName="combiEll"
-                Storyboard.TargetProperty="(Ellipse.Height)"
-                Duration="0:0:1"
-                From="15"
-                To="50"
-                
+                Duration="0:0:0.3"
                 />
-                <DoubleAnimation
-                Storyboard.TargetName="combiEll"
-                Storyboard.TargetProperty="(Ellipse.Width)"
-                Duration="0:0:1"
-                From="15"
-                To="50"
-                />-->
-            
-                <!--<DoubleAnimation
-                Storyboard.TargetName="ScaleTransform"
-                Storyboard.TargetProperty="(ScaleTransform.ScaleX)"
-                To="10.0" BeginTime="0:0:8" Duration="0:0:2"
-                    />
-                <DoubleAnimation
-                Storyboard.TargetName="ScaleTransform"
-                Storyboard.TargetProperty="(ScaleTransform.ScaleY)"
-                To="10.0" BeginTime="0:0:8" Duration="0:0:2"
-                    />-->
-
-                <!--<DoubleAnimation
-                Storyboard.TargetName="TTransform"
-                Storyboard.TargetProperty="X"
-                To="((Ellipse.Width))"
-                BeginTime="0:0:0.8"
-                Duration="0:0:0.2" />
-
-                <DoubleAnimation
-                Storyboard.TargetName="TTransform"
-                Storyboard.TargetProperty="Y"
-                To="((Ellipse.Height))"
-                BeginTime="0:0:0.8"
-                Duration="0:0:0.2" />-->
 
             <DoubleAnimation 
                 Name="XTransform"                
                 Storyboard.TargetName="TTransform"
                 Storyboard.TargetProperty="X"
-                Duration="0:0:0.7" 
+                Duration="0:0:0.7"
                              />
-                <!--To="{Binding DataContext.CenterX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"/>-->
                
 
                 <!--By Property mit Binding an Tangibles binden-->
@@ -91,7 +54,8 @@
                 Name="YTransform"   
                 Storyboard.TargetName="TTransform"
                 Storyboard.TargetProperty="Y"
-                Duration="0:0:0.7">
+                Duration="0:0:0.7"
+                >
             </DoubleAnimation>
         </Storyboard>
 

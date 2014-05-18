@@ -60,7 +60,9 @@ namespace Helpers
 
         public void StopMeasureTime()
         {
+            var dateTime = new DateTime();
             Console.WriteLine(timer.ElapsedTicks - lastTime);
+            Console.WriteLine(dateTime.Millisecond);
         }
     }
 }

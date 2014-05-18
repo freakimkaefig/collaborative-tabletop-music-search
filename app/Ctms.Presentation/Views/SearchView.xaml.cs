@@ -91,6 +91,8 @@ namespace Ctms.Presentation.Views
 
             timingHelper = new TimingHelper();
             timingHelper.InitTimeMeasure();
+
+            storyDict = new Dictionary<Storyboard, Tuple<Ellipse, TagCombinationDataModel>>();
         }
 
         private void InitPieMenu()
@@ -320,7 +322,7 @@ namespace Ctms.Presentation.Views
         /// </summary>
         private void combiTag_Unloaded(object sender, RoutedEventArgs e)
         {
-            Storyboard storyboardResource = this.Resources["TagCombiStoryboard"] as Storyboard;
+            //Storyboard storyboardResource = this.Resources["TagCombiStoryboard"] as Storyboard;
             storyboardResource.Completed -= (p, s) => PlayCombiAnimation(null);
         }
 
@@ -341,14 +343,22 @@ namespace Ctms.Presentation.Views
             var combiId = Int32.Parse(((TextBlock)grid.FindName("HiddenTagCombiId")).Text);
             var combi = _viewModel.TagCombinations.FirstOrDefault(tc => tc.Id == combiId);
 
+            //var parameters = new Tuple<Storyboard, Ellipse, TagCombinationDataModel>(storyboardResource, ellipse, combi);
             var parameters = new Tuple<Storyboard, Ellipse, TagCombinationDataModel>(storyboardResource, ellipse, combi);
 
             // create loop of animation
+            //storyboardResource.Completed -= (p, s) => PlayCombiAnimation(parameters);
             storyboardResource.Completed += (p, s) => PlayCombiAnimation(parameters);
 
             // first start
-            PlayCombiAnimation(parameters);
+            //PlayCombiAnimation(parameters);
+            storyboardResource.Begin(ellipse, true);
+            //storyboardResource.Begin(grid, true);
         }
+
+        private int counter = 0;
+
+        private Dictionary<Storyboard, Tuple<Ellipse, TagCombinationDataModel>> storyDict;
 
         /// <summary>
         /// Play combination animation for a tag
@@ -356,11 +366,13 @@ namespace Ctms.Presentation.Views
         /// <param name="parameters">Tuple of storyboard, ellipse and tagCombinaton</param>
         private void PlayCombiAnimation(Tuple<Storyboard, Ellipse, TagCombinationDataModel> parameters)
         {
+            //counter++;
             //timingHelper.StartMeasureTime();
-
+            //Console.WriteLine(counter + "PlayCombiAnimation for tag: " + ((TagDataModel)parameters.Item2.DataContext).Tag.Id);
             // loop through animation elements of storyboard
             foreach (var animationElement in parameters.Item1.Children)
             {
+                //timingHelper.StartMeasureTime();
                 if (animationElement.Name == "XTransform")
                 {   //set animation's from and to for x coordinate
 
@@ -381,11 +393,16 @@ namespace Ctms.Presentation.Views
                     // end at combi center
                     (animationElement as DoubleAnimation).To = parameters.Item3.CenterY;
                 }
+
+                //timingHelper.StopMeasureTime();
             }
+
+            //storyboardResource.Completed -= (p, s) => PlayCombiAnimation(parameters);
+            //timingHelper.StopMeasureTime();
             // start storyboard animation
+            //parameters.Item1.Begin(parameters.Item2, true);
             parameters.Item1.Begin(parameters.Item2, true);
 
-            //timingHelper.StopMeasureTime();
         }
 
 
@@ -397,6 +414,56 @@ namespace Ctms.Presentation.Views
         private void SearchTagVisualizer_GotTouchCapture(object sender, TouchEventArgs e)
         {
 
+        }
+
+
+        private int eventCounter;
+        private void TagCombiStoryboard_Completed(object sender, EventArgs e)
+        {
+            //eventCounter++;
+            //Console.WriteLine(eventCounter + "TagCombiStoryboard_Completed");
+            /*
+            var StoryBoardName = ((ClockGroup)sender).Timeline.Name;
+            var storyBoard2 = (Storyboard)((ClockGroup)sender).Timeline;
+
+            var animClock = sender as ClockGroup;
+            var timeline = animClock.Timeline as Storyboard;
+
+            var target = Storyboard.GetTarget(timeline);
+            storyDict[storyBoard2] = new Tuple<Ellipse, TagCombinationDataModel>(null, null);
+
+            */
+            //storyBoard2.
+            /*
+            var count = storyDict.Count;
+            // loop through animation elements of storyboard
+            foreach (var animationElement in parameters.Item1.Children)
+            {
+                //timingHelper.StartMeasureTime();
+                if (animationElement.Name == "XTransform")
+                {   //set animation's from and to for x coordinate
+
+                    // start from tag position
+                    if (parameters.Item2.DataContext is TagDataModel)
+                        (animationElement as DoubleAnimation).From = ((TagDataModel)parameters.Item2.DataContext).Tag.PositionX;
+
+                    // end at combi center
+                    (animationElement as DoubleAnimation).To = parameters.Item3.CenterX;
+                }
+                else if (animationElement.Name == "YTransform")
+                {   //set animation's from and to for y coordinate
+
+                    // start from tag position
+                    if (parameters.Item2.DataContext is TagDataModel)
+                        (animationElement as DoubleAnimation).From = ((TagDataModel)parameters.Item2.DataContext).Tag.PositionY;
+                    
+                    // end at combi center
+                    (animationElement as DoubleAnimation).To = parameters.Item3.CenterY;
+                }
+
+                //timingHelper.StopMeasureTime();
+            }
+            //*/
         }
     }
 }

@@ -48,29 +48,6 @@ namespace Ctms.Applications.Data
             _searchManager = searchManager;
         }
 
-        /// <summary>
-        /// Get all styles
-        /// </summary>
-        /// <returns></returns>
-        public List<Style> GetAllStyles()
-        {
-            //!! ToDo: _searchManager..getStyles
-            // read and set styles
-            var styles = XmlProvider.ReadStyles();
-            //Convert to Observable?
-            return styles.ToList();
-        }
-
-        /// <summary>
-        /// Get all sub styles of a style
-        /// </summary>
-        /// <param name="styleId">id of parent style</param>
-        /// <returns>sub styles</returns>
-        public List<Style> GetSubStyles(int styleId)
-        {
-            return GetAllStyles().FirstOrDefault(s => s.Id == styleId).SubStyles;
-        }
-
 
         #region Infos
 
